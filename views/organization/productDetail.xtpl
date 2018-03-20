@@ -1,8 +1,9 @@
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>产品管理</title>
-    {{include('./../inc/metaData')}}
+    {{include ("./../inc/metaData")}}
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/product/detail.css"/>
@@ -11,7 +12,7 @@
 <body>
 
 <!--header start-->
-{{include('./../inc/header')}}
+{{include ('./../inc/header')}}
 <!--header end-->
 
 <!--container start-->
@@ -19,7 +20,7 @@
 <div class="container minWidth">
     <div class="row section">
         <!--navLeft start-->
-        {{include('./../inc/sideNav')}}
+        {{include ('./../inc/sideNav')}}
         <!--navLeft end-->
 
         <input type="hidden" id="judge" value="${data_num}">
@@ -28,9 +29,9 @@
         <div class="listCon">
             <div class="inviteCon">
                 <ul>
-                    <li class="inline colorB"><a class="" href="{{markUri}}/organization/getList" style="cursor: pointer;">金融机构</a></li>
+                    <li class="inline colorB"><a class="" href="{{markUri}}/supplier/organization/system" style="cursor: pointer;">金融机构</a></li>
                     <li class="inline colorB before"><a class="TS" data-id="${vo.parent_id}" style="cursor: pointer;">产品管理</a></li>
-                    <li class="inline before"><a href="javascript:;">{{vo.name}}</a></li>
+                    <li class="inline before"><a href="javascript:;">${vo.name }</a></li>
                 </ul>
             </div>
             <!--form start-->
@@ -43,36 +44,36 @@
                         <div class="header_txt">
                             <div class="header_txt_top">{{vo.name}}</div>
                             <div class="header_txt_bottom">
-                            <c:if test="${fn:contains(vo.applyto_business,'0')}">
-                                <div class="header_txt_bottom1">新车</div>
-                            </c:if>
-                            <c:if test="${fn:contains(vo.applyto_business,'1')}">
-                                <div class="header_txt_bottom2">二手车</div>
-                            </c:if>
+                                <c:if test="${fn:contains(vo.applyto_business,'0')}">
+                                    <div class="header_txt_bottom1">新车</div>
+                                </c:if>
+                                <c:if test="${fn:contains(vo.applyto_business,'1')}">
+                                    <div class="header_txt_bottom2">二手车</div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
                     <c:if test="${data_num eq 0}">
-	                    <div class="header_right">
-	                        <div class="header_time">${vo.create_time }</div>
-	                        <div class="header_personal">
-	                           		 发布人：<span>${vo.create_name }</span>
-	                        </div>
-	                    </div>
+                        <div class="header_right">
+                            <div class="header_time">${vo.create_time }</div>
+                            <div class="header_personal">
+                                发布人：<span>${vo.create_name }</span>
+                            </div>
+                        </div>
                     </c:if>
                 </div>
                 <div class="product_detail_date_box">
                     <div class="product_detail_date" id="downpayment_rate_box">
                         <input type="hidden" id="downpayment_rate_str" value="${vo.downpayment_rate }">
                         <div class="date_title">
-                        	<c:if test="${vo.downpayment_type eq 1 || vo.downpayment_type eq -1 || empty vo.downpayment_type}">
-	                            <span>首付比例</span>
-                        	</c:if>
-                        	<c:if test="${vo.downpayment_type eq 2}">
-	                            <span>首付金额</span>
-                        	</c:if>
+                            <c:if test="${vo.downpayment_type eq 1 || vo.downpayment_type eq -1 || empty vo.downpayment_type}">
+                                <span>首付比例</span>
+                            </c:if>
+                            <c:if test="${vo.downpayment_type eq 2}">
+                                <span>首付金额</span>
+                            </c:if>
                             <c:if test="${downpayment_rate_size >1 }">
-                            	<img src="{{markUri}}/static/img/product/icon_shape_up.png" alt="" class="shape_img">
+                                <img src="{{markUri}}/static/img/product/icon_shape_up.png" alt="" class="shape_img">
                             </c:if>
                         </div>
                         <div class="date_num1">
@@ -80,42 +81,42 @@
                         </div>
                     </div>
                     <c:if test="${downpayment_rate_size >1 }">
-	                    <div class="date_num2_box downpayment_data">
-	                        <em>&#9670;</em>
-	                        <span class="shape">&#9670;</span>
-	                        <c:if test="${vo.downpayment_type eq 1 || vo.downpayment_type eq -1}">
-		                        <c:forEach items="${downpayment_rate}" var="bean">
-			                        <span class="date_num2">${bean }%</span>
-		                        </c:forEach>
-		                    </c:if>
-	                        <c:if test="${vo.downpayment_type eq 2}">
-		                        <c:forEach items="${downpayment_rate}" var="bean">
-			                        <span class="date_num2">${bean }元</span>
-		                        </c:forEach>
-		                    </c:if>
-	                    </div>
+                        <div class="date_num2_box downpayment_data">
+                            <em>&#9670;</em>
+                            <span class="shape">&#9670;</span>
+                            <c:if test="${vo.downpayment_type eq 1 || vo.downpayment_type eq -1}">
+                                <c:forEach items="${downpayment_rate}" var="bean">
+                                    <span class="date_num2">${bean }%</span>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${vo.downpayment_type eq 2}">
+                                <c:forEach items="${downpayment_rate}" var="bean">
+                                    <span class="date_num2">${bean }元</span>
+                                </c:forEach>
+                            </c:if>
+                        </div>
                     </c:if>
                     <div class="product_detail_date" id="interest_rate_box">
                         <input type="hidden" id="interest_rate_str" value="${vo.interest_rate }">
                         <div class="date_title">
                             <span>年利率</span>
                             <c:if test="${interest_rate_size >1 }">
-                           		 <img src="{{markUri}}/static/img/product/icon_shape_up.png" alt="" class="shape_img">
-                        	</c:if>
+                                <img src="{{markUri}}/static/img/product/icon_shape_up.png" alt="" class="shape_img">
+                            </c:if>
                         </div>
                         <div class="date_num1">
                             <span>${interest_rate_first }</span>
                         </div>
                     </div>
                     <c:if test="${interest_rate_size >1 }">
-	                    <div class="date_num2_box interest_data" style="margin-left:25%;">
-	                        <em>&#9670;</em>
-	                        <span class="shape">&#9670;</span>
-	                        <c:forEach items="${interest_rate}" var="bean">
-		                        <span class="date_num2">${bean }%</span>
-	                        </c:forEach>
-	                    </div>
-	                </c:if>
+                        <div class="date_num2_box interest_data" style="margin-left:25%;">
+                            <em>&#9670;</em>
+                            <span class="shape">&#9670;</span>
+                            <c:forEach items="${interest_rate}" var="bean">
+                                <span class="date_num2">${bean }%</span>
+                            </c:forEach>
+                        </div>
+                    </c:if>
                     <div class="product_detail_date">
                         <div class="date_title">
                             <span>申请人数</span>
@@ -137,36 +138,39 @@
                     <div class="detail_title">
                         <div class="detail_line"></div>
                         <div class="detail_title_txt">产品信息</div>
+                        <per:button code="1078">
+                            <a href="javascript:" class="use_template" id="useTemplate" data-id="${vo.id}" data-parent_id="${vo.parent_id}">以此模板发布新产品</a>
+                        </per:button>
                     </div>
                     <div class="detail_about">
-                            <c:if test="${vo.financeamount_start != null && vo.financeamount_end != null}">
-		                        <div class="detail_about_txt">
-		                            <div class="detail_about_label">融资金额：</div>
-		                            <div class="detail_about_date">
-		                            	${vo.financeamount_start }-${vo.financeamount_end }万
-		                            </div>
-		                        </div>
-                            </c:if>
-                         <c:if test="${vo.applyto_cityname != null  && vo.applyto_cityname != ''}">
-	                        <div class="detail_about_txt">
-	                            <div class="detail_about_label">适用城市：</div>
-	                            <div class="detail_about_date">${vo.applyto_cityname}</div>
-	                        </div>
-                         </c:if>
-                         <c:if test="${term != null }">
-	                        <div class="detail_about_txt">
-	                            <div class="detail_about_label">分期范围：</div>
-	                            <div class="detail_about_date">
-	                            	<c:forEach items="${term }" var="bean">
-	                            		${bean}&nbsp;
-	                            	</c:forEach>
-	                            </div>
-	                        </div>
+                        <c:if test="${vo.financeamount_start != null && vo.financeamount_end != null}">
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">融资金额：</div>
+                                <div class="detail_about_date">
+                                    ${vo.financeamount_start }-${vo.financeamount_end }万
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${vo.applyto_cityname != null  && vo.applyto_cityname != ''}">
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">适用城市：</div>
+                                <div class="detail_about_date">${vo.applyto_cityname}</div>
+                            </div>
+                        </c:if>
+                        <c:if test="${term != null }">
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">分期范围：</div>
+                                <div class="detail_about_date">
+                                    <c:forEach items="${term }" var="bean">
+                                        ${bean}&nbsp;
+                                    </c:forEach>
+                                </div>
+                            </div>
                         </c:if>
                         <c:if test="${vo.age_start !=null }">
-	                        <div class="detail_about_txt">
-	                            <div class="detail_about_label">年龄限制范围：</div>
-	                            <div class="detail_about_date">
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">年龄限制范围：</div>
+                                <div class="detail_about_date">
                                     <div style="float:left;">
                                         ${vo.age_start}-${vo.age_end }岁
                                     </div>
@@ -174,135 +178,135 @@
                                     <c:if test="${vo.age_remark != null && vo.age_remark != ''}">
                                         <div class="icon_remarks"></div>
                                     </c:if>
-	                            </div>
-	                        </div>
+                                </div>
+                            </div>
                         </c:if>
                         <c:if test="${addition_finance !=null }">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">可融项目：</div>
-                            <div class="detail_about_date">
-                            	<c:forEach items="${addition_finance }" var="bean">
-                            		${bean}&nbsp;
-                            	</c:forEach>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">可融项目：</div>
+                                <div class="detail_about_date">
+                                    <c:forEach items="${addition_finance }" var="bean">
+                                        ${bean}&nbsp;
+                                    </c:forEach>
+                                </div>
                             </div>
-                        </div>
                         </c:if>
                         <c:if test="${vo.material_list !=null }">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">所需材料：</div>
-                            <div class="detail_about_date">
-                            	<c:forEach items="${vo.material_list }" var="bean">
-                            		${bean.name}&nbsp;
-                            	</c:forEach>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">所需材料：</div>
+                                <div class="detail_about_date">
+                                    <c:forEach items="${vo.material_list }" var="bean">
+                                        ${bean.name}&nbsp;
+                                    </c:forEach>
+                                </div>
                             </div>
-                        </div>
                         </c:if>
                         <c:if test="${vo.approve_speed_value !=null && vo.approve_speed_value !='' }">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">审批速度：</div>
-                            <div class="detail_about_date">${vo.approve_speed_value }</div>
-                        </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">审批速度：</div>
+                                <div class="detail_about_date">${vo.approve_speed_value }</div>
+                            </div>
                         </c:if>
                         <c:if test="${vo.fitness_value !=null && vo.fitness_value !='' }">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">审核宽松度：</div>
-                            <div class="detail_about_date">${vo.fitness_value }</div>
-                        </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">审核宽松度：</div>
+                                <div class="detail_about_date">${vo.fitness_value }</div>
+                            </div>
                         </c:if>
                         <c:if test="${vo.borrower_credit !=null && vo.borrower_credit !=-1}">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">主贷人征信：</div>
-                            <div class="detail_about_date">
-                                <div style="float:left;">
-                                    <c:if test="${vo.borrower_credit eq 0 }">
-                                        不需要
-                                    </c:if>
-                                    <c:if test="${vo.borrower_credit eq 1 }">
-                                        需要
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">主贷人征信：</div>
+                                <div class="detail_about_date">
+                                    <div style="float:left;">
+                                        <c:if test="${vo.borrower_credit eq 0 }">
+                                            不需要
+                                        </c:if>
+                                        <c:if test="${vo.borrower_credit eq 1 }">
+                                            需要
+                                        </c:if>
+                                    </div>
+                                    <input type="hidden" value="${vo.borrower_credit_remark}">
+                                    <c:if test="${vo.borrower_credit_remark != null && vo.borrower_credit_remark != ''}">
+                                        <div class="icon_remarks"></div>
                                     </c:if>
                                 </div>
-                                <input type="hidden" value="${vo.borrower_credit_remark}">
-                                <c:if test="${vo.borrower_credit_remark != null && vo.borrower_credit_remark != ''}">
-	                                <div class="icon_remarks"></div>
-                                </c:if>
                             </div>
-                        </div>
                         </c:if>
                         <c:if test="${vo.spouse_credit !=null && vo.spouse_credit !=-1}">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">配偶征信：</div>
-                            <div class="detail_about_date">
-                                <div style="float:left;">
-                                    <c:if test="${vo.spouse_credit eq 0 }">
-                                        不需要
-                                    </c:if>
-                            	    <c:if test="${vo.spouse_credit eq 1 }">
-                                    需要
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">配偶征信：</div>
+                                <div class="detail_about_date">
+                                    <div style="float:left;">
+                                        <c:if test="${vo.spouse_credit eq 0 }">
+                                            不需要
+                                        </c:if>
+                                        <c:if test="${vo.spouse_credit eq 1 }">
+                                            需要
+                                        </c:if>
+                                    </div>
+                                    <input type="hidden" value="${vo.spouse_credit_remark}">
+                                    <c:if test="${vo.spouse_credit_remark != null && vo.spouse_credit_remark != ''}">
+                                        <div class="icon_remarks"></div>
                                     </c:if>
                                 </div>
-                                <input type="hidden" value="${vo.spouse_credit_remark}">
-                                <c:if test="${vo.spouse_credit_remark != null && vo.spouse_credit_remark != ''}">
-	                                <div class="icon_remarks"></div>
-                                </c:if>
-                            </div>
 
-                        </div>
+                            </div>
                         </c:if>
                         <c:if test="${vo.gps !=null && vo.gps != ''}">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">GPS费用：</div>
-                            <div class="detail_about_date">${vo.gps}</div>
-                        </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">GPS费用：</div>
+                                <div class="detail_about_date">${vo.gps}</div>
+                            </div>
                         </c:if>
                         <c:if test="${vo.bei_hu !=null && vo.bei_hu !=-1}">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">背户情况：</div>
-                            <div class="detail_about_date">
-                                <div style="float:left;">
-                                    <c:if test="${vo.bei_hu eq 0 }">
-                                        不可以
-                                    </c:if>
-                                    <c:if test="${vo.bei_hu eq 1 }">
-                                        可以
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">背户情况：</div>
+                                <div class="detail_about_date">
+                                    <div style="float:left;">
+                                        <c:if test="${vo.bei_hu eq 0 }">
+                                            不可以
+                                        </c:if>
+                                        <c:if test="${vo.bei_hu eq 1 }">
+                                            可以
+                                        </c:if>
+                                    </div>
+                                    <input type="hidden" value="${vo.bei_hu_remark }">
+                                    <c:if test="${vo.bei_hu_remark != null && vo.bei_hu_remark != ''}">
+                                        <div class="icon_remarks"></div>
                                     </c:if>
                                 </div>
-                                <input type="hidden" value="${vo.bei_hu_remark }">
-                                <c:if test="${vo.bei_hu_remark != null && vo.bei_hu_remark != ''}">
-	                                <div class="icon_remarks"></div>
-                                </c:if>
                             </div>
-                        </div>
                         </c:if>
                         <c:if test="${vo.special !=null && vo.special != ''}">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">产品特点：</div>
-                            <div class="detail_about_date">
-                            	<c:forEach items="${special }" var="bean">
-                            		${bean}&nbsp;
-                            	</c:forEach>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">产品特点：</div>
+                                <div class="detail_about_date">
+                                    <c:forEach items="${special }" var="bean">
+                                        ${bean}&nbsp;
+                                    </c:forEach>
+                                </div>
                             </div>
-                        </div>
                         </c:if>
 
-                       	<c:if test="${vo.carage_start != null && vo.carage_end != null}">
-                        <div class="detail_about_txt" id="carage_box">
-                            <div class="detail_about_label">车龄限制：</div>
-                            <div class="detail_about_date">
-                            	${vo.carage_start }-${vo.carage_end }年
+                        <c:if test="${vo.carage_start != null && vo.carage_end != null}">
+                            <div class="detail_about_txt" id="carage_box">
+                                <div class="detail_about_label">车龄限制：</div>
+                                <div class="detail_about_date">
+                                    ${vo.carage_start }-${vo.carage_end }年
+                                </div>
                             </div>
-                        </div>
                         </c:if>
                         <c:if test="${vo.assess_desc != null && vo.assess_desc != ''}">
-                        <div class="detail_about_txt" id="assess_desc_box">
-                            <div class="detail_about_label">评估描述：</div>
-                            <div class="detail_about_date">${vo.assess_desc }</div>
-                        </div>
+                            <div class="detail_about_txt" id="assess_desc_box">
+                                <div class="detail_about_label">评估描述：</div>
+                                <div class="detail_about_date">${vo.assess_desc }</div>
+                            </div>
                         </c:if>
                         <c:if test="${vo.product_explain != null && vo.product_explain != ''}">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">产品说明：</div>
-                            <div class="detail_about_date">${vo.product_explain }</div>
-                        </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">产品说明：</div>
+                                <div class="detail_about_date">${vo.product_explain }</div>
+                            </div>
                         </c:if>
                     </div>
                 </div>
@@ -325,9 +329,31 @@
     var length = $('.detail_about_txt').length;
     for(var i = 0;i < length;i++){
         var height = $('.detail_about_date').eq(i).height();
-            $('.detail_about_label').eq(i).css('height',height + 'px');
-            $('.detail_about_txt').eq(i).css('height',height + 'px');
+        $('.detail_about_label').eq(i).css('height',height + 'px');
+        $('.detail_about_txt').eq(i).css('height',height + 'px');
     }
     $('.detail_about_txt').eq(0).css('margin-top','38px');
+
+
+    // 以此模板发布新产品的跳转逻辑
+    function copyThisToCreate () {
+        var btn = $('#useTemplate');
+        btn.on('click', function () {
+            var _this = $(this);
+            var id = $.trim(_this.data('id'));
+            var parent_id = $.trim(_this.data('parent_id'));
+            locationTo({
+                action : contextPath + "/product/toEdit",
+                param : {
+                    id : id,
+                    parent_id : parent_id,
+                    type:2
+                }
+            })
+        });
+    }
+    $(function () {
+        copyThisToCreate();
+    });
 </script>
 </html>

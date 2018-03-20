@@ -1,9 +1,10 @@
 <!--产品列表-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {{include('./../inc/cssSources')}}
+    {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <title>快收单</title>
@@ -14,24 +15,24 @@
 <body>
 <div id="wrapper" class="wrapper">
     <!-------- Part of header Begin -------->
-    {{include('./../inc/header')}}
+    {{include ('./../inc/header')}}
     <!-------- Part of header End -------->
 
     <!-------- Part of main Begin -------->
     <div id="section" class="section normal_width">
         <!---- Part of slide nav Begin ---->
-        {{include('./../inc/sideNav')}}
-        <!---- Part of slide nav End ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/organization/list" class="crumbs_item">金融机构</a>
-                <a href="{{markUri}}/organization/list" class="crumbs_item">${parent_name}</a>
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">${parent_name}</a>
                 <a href="javascript:;" class="crumbs_item">产品列表</a>
             </div>
             <div class="filtrate">
-                <form action="/organization/product/publishList" method="post" id="form_search" role='form'>
+                <form action="{{markUri}}/product/publishList" method="post" id="form_search" role='form'>
                     <input type="hidden" id="parent_id" name="parent_id" value="${parent_id }">
                     <input type="hidden" id="parent_name" name="parent_name" value="${parent_name }">
                     <div class="filtrate_item date_conditions">
@@ -43,15 +44,17 @@
                                 <option value="1" <c:if test="${condition.applyto_business eq 1 }">selected</c:if> >二手车</option>
                             </select>
                         </div>
-                        <div class="inline_block">
-                            <div class="conditions_name inline_block filtrate_city">适用城市：</div>
-                            <select name="applyto_city" class="filtrate_select" id="filtrate_city">
-                                <option value="-1" <c:if test="${condition.applyto_city eq -1 ||  empty condition.applyto_city }">selected</c:if>>全部</option>
-                                <c:forEach items="${list_city }" var="bean">
-                                    <option value="{{this.id}}" <c:if test="${condition.applyto_city eq bean.id }">selected</c:if> >${bean.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                        <c:if test="${fn:length(list_city) > 1}">
+                            <div class="inline_block">
+                                <div class="conditions_name inline_block filtrate_city">适用城市：</div>
+                                <select name="applyto_city" class="filtrate_select" id="filtrate_city">
+                                    <option value="-1" <c:if test="${condition.applyto_city eq -1 ||  empty condition.applyto_city }">selected</c:if>>全部</option>
+                                    <c:forEach items="${list_city }" var="bean">
+                                        <option value="${bean.id }" <c:if test="${condition.applyto_city eq bean.id }">selected</c:if> >${bean.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </c:if>
                     </div>
                 </form>
             </div>
@@ -69,7 +72,7 @@
             </div>
             <!-- 产品操作按钮 End -->
             <c:if test="${count >0 }">
-                <form action="/product/material" method="post" id="toProductEdit">
+                <form action="{{markUri}}/product/material" method="post" id="toProductEdit">
                     <input type="hidden" name="product_id" value="" id="product_edit_input">
                     <table class="org_product_list">
                         <colgroup style="width: 100%;">
@@ -107,13 +110,13 @@
                                 <td>${bean.pass_rate }%</td>
                                 <td class="operate_btn">
                                     <per:button code="1079">
-                                        <a href="javascript:;" lang="{{this.id}}" data_num="0" title="查看" class="view view_detail"></a>
+                                        <a href="javascript:;" lang="${bean.id }" data_num="0" title="查看" class="view view_detail"></a>
                                     </per:button>
                                     <per:button code="1087">
-                                        <a href="javascript:;" lang="{{this.id}}" data_num="0" title="下架" class="unshelve unshelves"></a>
+                                        <a href="javascript:;" lang="${bean.id }" data_num="0" title="下架" class="unshelve unshelves"></a>
                                     </per:button>
                                     <per:button code="1193">
-                                        <a href="javascript:;" lang="{{this.id}}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
+                                        <a href="javascript:;" lang="${bean.id }" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
                                     </per:button>
                                 </td>
                             </tr>
@@ -123,11 +126,11 @@
                 </form>
             </c:if>
             <c:if test="${count eq 0 }">
-                {{include('./../inc/empty_data')}}
+                <jsp:include page="/WEB-INF/inc/empty_data.jsp"></jsp:include>
             </c:if>
-
+            <div class="page_box">
                 {{include('./../inc/pagination')}}
-
+            </div>
         </div>
         <!---- Part of Main info End ---->
     </div>
@@ -138,7 +141,7 @@
     <!-------- Part of footer End -------->
 </div>
 </body>
-{{include('./../inc/jsSources')}}
+{{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
@@ -151,7 +154,7 @@
                 var productId = $.trim(t.attr("lang"));
                 var parentId = $.trim(t.data("parent_id"));
                 locationTo({
-                    action : contextPath + "/organization/product/toAdd",
+                    action : contextPath + "/product/toAdd",
                     param : {
                         product_id : productId,
                         parent_id : parentId
@@ -168,7 +171,7 @@
                 var productId = $.trim(t.attr("lang"));
                 var parentId = $.trim(t.data("parent_id"));
                 locationTo({
-                    action : contextPath + "/organization/product/warehouseList",
+                    action : contextPath + "/product/warehouseList",
                     param : {
                         product_id : productId,
                         parent_id : parentId
@@ -184,7 +187,7 @@
                 var t = $(this);
                 var productId = $.trim(t.attr("lang"));
                 locationTo({
-                    action : contextPath + "/organization/product/material",
+                    action : contextPath + "/product/material",
                     param : {
                         product_id : productId
                     }
@@ -199,7 +202,7 @@
                 var productId = $.trim(t.attr("lang"));
                 var data_num = $.trim(t.attr("data_num"));
                 locationTo({
-                    action : contextPath + "/organization/product/detail",
+                    action : contextPath + "/product/detail",
                     param : {
                         id : productId,
                         data_num : data_num

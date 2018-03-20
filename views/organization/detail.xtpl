@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>机构详情</title>
-    {{include('./../inc/metaData')}}
+    {{include ("./../inc/metaData")}}
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/organization/detail.css"/>
@@ -20,7 +20,7 @@
 <body>
 
 <!--header start-->
-{{include('./../inc/header')}}
+{{include ('./../inc/header')}}
 <!--header end-->
 
 <!--container start-->
@@ -28,7 +28,7 @@
 <div class="container minWidth">
     <div class="row section">
         <!--navLeft start-->
-        {{include('./../inc/sideNav')}}
+        {{include ('./../inc/sideNav')}}
         <!--navLeft end-->
 
 
@@ -37,7 +37,7 @@
         <div class="listCon">
             <div class="inviteCon">
                 <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/organization/list">机构管理</a></li>
+                    <li class="inline colorB"><a class="TS" href="{{markUri}}/supplier/organization/system">机构管理</a></li>
                     <li class="inline before"><a href="javascript:;">{{vo.name}}</a></li>
                 </ul>
             </div>
@@ -46,32 +46,32 @@
                 <div class="product_detail_header">
                     <div class="header_left">
                         <div class="header_left_img">
-                            <img src="${vo.image_url}" alt="">
+                            <img src="{{vo.image_url}}" alt="">
                         </div>
                         <div class="header_txt">
                             <div class="header_txt_top">{{vo.name}}</div>
                             <div class="header_txt_bottom">
-                            <!--<c:if test="${fn:contains(vo.applyto_business,'0')}">-->
-                                <div class="header_txt_bottom1">新车</div>
-                            <!--</c:if>-->
-                            <!--<c:if test="${fn:contains(vo.applyto_business,'1')}">-->
-                                <div class="header_txt_bottom2">二手车</div>
-                            <!--</c:if>-->
+                                {{#if (vo.applyto_business.indexOf('0') !== -1) }}
+                                    <div class="header_txt_bottom1">新车</div>
+                                {{/if}}
+                                {{#if (vo.applyto_business.indexOf('1') !== -1) }}
+                                    <div class="header_txt_bottom2">二手车</div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
                     <div class="header_right org_create_info">
-                        <div class="header_time">${vo.create_time }</div>
+                        <div class="header_time">{{vo.create_time}}</div>
                         <div class="header_personal">
-                            创建人：<span>${vo.create_name}</span>
+                            创建人：<span>{{vo.create_name}}</span>
                         </div>
                     </div>
-                    <!--<per:button code="1070">-->
+                    {{#if (verifyCode(1070)) }}
                         <div class="inviteP cursor inline edit_org" id="editOrg" lang="{{vo.id}}">
                             <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/edit_white_icon.png" alt="">
                             <span>编辑机构</span>
                         </div>
-                    <!--</per:button>-->
+                    {{/if}}
                 </div>
                 <div class="product_detail_box">
                     <div class="detail_title">
@@ -79,64 +79,63 @@
                         <div class="detail_title_txt">机构信息</div>
                     </div>
                     <div class="detail_about">
-                    <!--<c:if test="${vo.type != null }">-->
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">机构类别：</div>
-                            <div class="detail_about_date">
-                                <!--<c:if test="${vo.type eq 1 }">融资租赁</c:if>-->
-                                <!--<c:if test="${vo.type eq 2 }">银行</c:if>-->
-                                <!--<c:if test="${vo.type eq 3 }">信托</c:if>-->
-                                <!--<c:if test="${vo.type eq 4 }">汽车金融</c:if>-->
-                                <!--<c:if test="${vo.type eq 5 }">担保公司</c:if>-->
+                        {{#if (vo.type !== null) }}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">机构类别：</div>
+                                <div class="detail_about_date">
+                                    {{#if (vo.type === 1) }}融资租赁{{/if}}
+                                    {{#if (vo.type === 2) }}银行{{/if}}
+                                    {{#if (vo.type === 3) }}信托{{/if}}
+                                    {{#if (vo.type === 4) }}汽车金融{{/if}}
+                                    {{#if (vo.type === 5) }}担保公司{{/if}}
+                                </div>
                             </div>
-                        </div>
-                    <!--</c:if>-->
+                        {{/if}}
                         <div class="detail_about_txt">
                             <div class="detail_about_label">产品数量：</div>
-                            <div class="detail_about_date">${vo.product_count }</div>
+                            <div class="detail_about_date">{{vo.product_count}}</div>
                         </div>
-                          <!--<c:choose>-->
-                              <!--<c:when test="${empty vo.system_url}">-->
-                              <!--</c:when>-->
-                              <!--<c:otherwise>-->
-                              <div class="detail_about_txt">
-                         <div class="detail_about_label">系统地址：</div>
-                         <div class="detail_about_date">
-                               <a href="${vo.system_url}" target="_blank" style="color:#72ACE3;">${vo.system_url}</a>
-                                 </div>
-                    	 </div>
-                              <!--</c:otherwise>-->
-                          <!--</c:choose>-->
-                          <!--<c:if test="${vo.mobile != null && vo.mobile != ''}">-->
-	                        <div class="detail_about_txt">
-	                            <div class="detail_about_label">官方电话：</div>
-	                            <div class="detail_about_date">
-	                                ${vo.mobile }
-	                            </div>
-	                        </div>
-                        <!--</c:if>-->
-                        <!--<c:if test="${vo.link_name != null && vo.link_name != ''}">-->
+
                         <div class="detail_about_txt">
-                            <div class="detail_about_label">联系人：</div>
+                            <div class="detail_about_label">系统地址：</div>
                             <div class="detail_about_date">
-                                ${vo.link_name }
+                                {{#if (!vo.system_url && vo.system_url !== 0) }}
+                                --
+                                {{else}}
+                                    <a href="{{vo.system_url}}" target="_blank" style="color:#72ACE3;">{{vo.system_url}}</a>
+                                {{/if}}
                             </div>
                         </div>
-                        <!--</c:if>-->
-                         <!--<c:if test="${vo.link_phone != null && vo.link_phone != ''}">-->
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">联系人手机：</div>
-                            <div class="detail_about_date">
-                                ${vo.link_phone }
+                        {{#if (vo.mobile !== null && vo.mobile !== '') }}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">官方电话：</div>
+                                <div class="detail_about_date">
+                                    {{vo.mobile }}
+                                </div>
                             </div>
-                        </div>
-                        <!--</c:if>-->
-                        <!--<c:if test="${vo.link_mobile != null && vo.link_mobile != ''}">-->
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">联系人座机：</div>
-                            <div class="detail_about_date">${vo.link_mobile }</div>
-                        </div>
-                        <!--</c:if>-->
+                        {{/if}}
+                        {{#if (vo.link_name !== null && vo.link_name !== '')}}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">联系人：</div>
+                                <div class="detail_about_date">
+                                    {{vo.link_name }}
+                                </div>
+                            </div>
+                        {{/if}}
+                        {{#if (vo.link_phone !== null && vo.link_phone !== '') }}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">联系人手机：</div>
+                                <div class="detail_about_date">
+                                    {{vo.link_phone }}
+                                </div>
+                            </div>
+                        {{/if}}
+                        {{#if (vo.link_mobile !== null && vo.link_mobile !== '') }}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label">联系人座机：</div>
+                                <div class="detail_about_date">{{vo.link_mobile }}</div>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -155,7 +154,7 @@
                 var t = $(this);
                 var orgId = $.trim(t.attr("lang"));
                 locationTo({
-                    action : contextPath + "/organization/toEdit",
+                    action : contextPath + markUri + "/supplier/organization/edit",
                     param : {
                         id : orgId
                     }

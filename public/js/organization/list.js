@@ -1,17 +1,17 @@
 $(function(){
 	
 	$('#toAdd').click(function(){
-		window.location.href=contextPath+"/organization/toAdd";
+		window.location.href=contextPath+ markUri + "/supplier/organization/create";
 	});
 	
 	$('.detail').click(function(){
 		var id = $(this).attr('lang');
-		window.location.href=contextPath+"/organization/detail?id="+id;
+		window.location.href=contextPath+markUri + "/supplier/organization/detail?id="+id;
 	});
 	
 	$('.toEdit').click(function(){
 		var id = $(this).attr('lang');
-		window.location.href=contextPath+"/organization/toEdit?id="+id;
+		window.location.href=contextPath + markUri + "/supplier/organization/edit?id="+id;
 		var toAdd_id = $('#toAdd_id').val(id);
 	});
 	

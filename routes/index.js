@@ -6,7 +6,7 @@ var proxy = require('express-http-proxy');
 // Require the controllers.
 var homeCtrl = require('../controller/viewsController/homeController');
 var customerCtrl = require('../controller/viewsController/customerController');
-var organizationCtrl = require('../controller/viewsController/organizationController');
+var supplierCtrl = require('../controller/viewsController/supplierController');
 var workflowCtrl = require('../controller/viewsController/workflowController');
 var questionCtrl = require('../controller/viewsController/questionController');
 var warehouseCtrl = require('../controller/viewsController/warehouseController');
@@ -212,40 +212,24 @@ router.post(markUri + '/merchants/edit', merchantsCtrl.VIEW_MERCHANTS_EDIT);
 router.all(markUri + '/records/manage', merchantsCtrl.VIEW_RECORDS_MANAGE);
 
 
+// 供应商部分-主导航跳转  1067
+router.get(markUri + '/supplier/system', supplierCtrl.VIEW_SUPPLIER_SYSTEM);
+// 供应商部分-金融机构-侧导航跳转  1067
+router.all(markUri + '/supplier/organization/system', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_SYSTEM);
+// 供应商部分-金融机构-机构列表页  1067
+router.all(markUri + '/supplier/organization/list', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_LIST);
+// 供应商部分-金融机构-创建机构跳转  1068
+router.post(markUri + '/supplier/organization/create', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_CREATE);
+// 供应商部分-金融机构-机构编辑页跳转  1070
+router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDIT);
+// 供应商部分-金融机构-机构详情页跳转  1071
+router.post(markUri + '/supplier/organization/detail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_DETAIL);
 
 
 
 
 
 
-
-
-
-
-
-
-// 机构管理访问路径
-router.get(markUri + '/organization', organizationCtrl.VIEW_ORGANIZATION_LIST);
-// 机构管理首页访问路径
-router.get(markUri + '/organization/list', organizationCtrl.VIEW_ORGANIZATION_LIST);
-// 机构管理-创建机构跳转
-router.post(markUri + '/organization/toAdd', organizationCtrl.VIEW_ORGANIZATION_TOADD);
-// 机构管理-查看详情跳转
-router.post(markUri + '/organization/detail', organizationCtrl.VIEW_ORGANIZATION_DETAIL);
-// 机构管理-查看详情跳转
-router.post(markUri + '/organization/toEdit', organizationCtrl.VIEW_ORGANIZATION_TOEDIT);
-// 机构管理-已发布产品列表跳转
-router.post(markUri + '/organization/product/publishList', organizationCtrl.VIEW_ORGANIZATION_PRODUCT_PUBLISHLIST);
-// 机构管理-产品新增跳转
-router.post(markUri + '/organization/product/toAdd', organizationCtrl.VIEW_ORGANIZATION_PRODUCT_TOADD);
-// 机构管理-仓库中产品列表跳转
-router.post(markUri + '/organization/product/warehouseList', organizationCtrl.VIEW_ORGANIZATION_PRODUCT_WAREHOUSELIST);
-// 机构管理-产品编辑页跳转
-router.post(markUri + '/organization/product/toEdit', organizationCtrl.VIEW_ORGANIZATION_PRODUCT_TOEDIT);
-// 机构管理-查看产品详情页跳转
-router.post(markUri + '/organization/product/detail', organizationCtrl.VIEW_ORGANIZATION_PRODUCT_DETAIL);
-// 机构管理-产品请款材料编辑跳转
-router.post(markUri + '/organization/product/material', organizationCtrl.VIEW_ORGANIZATION_PRODUCT_MATERIAL);
 
 
 // 业务管理-主导航节点跳转
@@ -429,7 +413,7 @@ router.all(markUri + '/404', function(req, res, next) {
     res.render('./errorpage/404', {title: '404'});
 });
 router.get('*', function(req, res, next) {
-    res.render('./errorpage/404', {title: '404'});
+    res.redirect('./errorpage/404', {title: '404'});
 });
 
 module.exports = router;
