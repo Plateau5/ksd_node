@@ -492,7 +492,7 @@ $(function(){
         if(val == '0'){
             //window.location.href = contextPath+"/product/warehouseList";
             locationTo({
-                action : contextPath+"/product/warehouseList",
+                action : contextPath+ markUri + "/supplier/organization/unpublishedProducts",
                 param : {
                     parent_id : PARENTID
                 }

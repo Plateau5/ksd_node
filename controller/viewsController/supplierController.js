@@ -69,10 +69,54 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
         page : './organization/detail'
     }, req, res, next);
 };
-
-
-
-
+// 供应商部分-金融机构-产品列表-已发布页  1075
+exports.VIEW_SUPPLIER_ORGANIZATION_PUBLISHEDPRODUCTS_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/publishList',
+        title : '供应商-已发布产品',
+        page : './organization/publishList'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-产品列表-未发布页  1076
+exports.VIEW_SUPPLIER_ORGANIZATION_UNPUBLISHEDPRODUCTS_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/warehouseList',
+        title : '供应商-仓库中的产品',
+        page : './organization/warehouseList'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-发布新产品页跳转  1077
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTCREATE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/toAdd',
+        title : '供应商-发布新产品',
+        page : './organization/productCreate'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-产品详情页跳转  1079
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAIL = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/detail',
+        title : '供应商-产品详情',
+        page : './organization/productDetail'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-产品详情页跳转  1078
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/toEdit',
+        title : '供应商-产品修改',
+        page : './organization/productEdit'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-产品材料库页跳转  1193
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTMATERIAL = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/material',
+        title : '供应商-编辑请款材料',
+        page : './organization/material'
+    }, req, res, next);
+};
 
 
 

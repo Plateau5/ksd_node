@@ -224,6 +224,23 @@ router.post(markUri + '/supplier/organization/create', supplierCtrl.VIEW_SUPPLIE
 router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDIT);
 // 供应商部分-金融机构-机构详情页跳转  1071
 router.post(markUri + '/supplier/organization/detail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_DETAIL);
+// 供应商部分-金融机构-产品列表-已发布页  1075
+router.post(markUri + '/supplier/organization/publishedProducts', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PUBLISHEDPRODUCTS_LIST);
+// 供应商部分-金融机构-产品列表-未发布页  1076
+router.post(markUri + '/supplier/organization/unpublishedProducts', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_UNPUBLISHEDPRODUCTS_LIST);
+// 供应商部分-金融机构-发布新产品页跳转  1077
+router.post(markUri + '/supplier/organization/productCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTCREATE);
+// 供应商部分-金融机构-产品详情页跳转  1079
+router.post(markUri + '/supplier/organization/productDetail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAIL);
+// 供应商部分-金融机构-产品详情页跳转  1078
+router.post(markUri + '/supplier/organization/productEdit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDIT);
+// 供应商部分-金融机构-产品材料库页跳转  1193
+router.post(markUri + '/supplier/organization/productMaterial', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTMATERIAL);
+
+
+
+
+
 
 
 

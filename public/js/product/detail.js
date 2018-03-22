@@ -9,7 +9,7 @@ $(function(){
             //window.location.href=contextPath+"/product/warehouseList";
             var parentId = $.trim($(this).data("id"));
             locationTo({
-                action : contextPath + "/product/warehouseList",
+                action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
                 param : {
                     parent_id : parentId
                 }
