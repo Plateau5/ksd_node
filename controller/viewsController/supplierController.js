@@ -117,6 +117,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTMATERIAL = function(req, res, next) {
         page : './organization/material'
     }, req, res, next);
 };
+// 供应商部分-金融机构-模板发布页跳转
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTCOPY = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/toEdit',
+        title : '供应商-模板发布',
+        page : './organization/copy'
+    }, req, res, next);
+};
 
 
 

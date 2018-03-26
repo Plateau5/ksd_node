@@ -236,7 +236,8 @@ router.post(markUri + '/supplier/organization/productDetail', supplierCtrl.VIEW_
 router.post(markUri + '/supplier/organization/productEdit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDIT);
 // 供应商部分-金融机构-产品材料库页跳转  1193
 router.post(markUri + '/supplier/organization/productMaterial', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTMATERIAL);
-
+// 供应商部分-金融机构-模板发布页跳转
+router.post(markUri + '/supplier/organization/productCopy', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTCOPY);
 
 
 
