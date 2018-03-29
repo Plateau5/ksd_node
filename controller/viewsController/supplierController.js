@@ -125,6 +125,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTCOPY = function(req, res, next) {
         page : './organization/copy'
     }, req, res, next);
 };
+// 供应商部分-金融机构-佣金政策列表页 1475
+exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/rebate/list',
+        title : '供应商-机构政策返点列表',
+        page : './organization/policiesList'
+    }, req, res, next);
+};
 
 
 

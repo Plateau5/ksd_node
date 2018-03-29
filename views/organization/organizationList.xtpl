@@ -54,15 +54,15 @@
                                 <span class="business_type">适用业务：{{this.applyto_business_value}}</span>
                                 <span class="products_count rf">产品数：{{this.product_count}}个</span>
                             </div>
-                            <div class="org_mask" alt="{{this.name }}" lang="{{this.id }}">
+                            <div class="org_mask" alt="{{this.name }}" lang="{{this.id }}"  data-business="{{this.applyto_business}}">
                                 {{#if (root.verifyCode(1071)) }}
                                     <a href="javascript:;" title="查看" alt="{{this.name}}" lang="{{this.id}}" class="view_org icon_btn inline_block"></a>
                                 {{/if}}
                                 {{#if (root.verifyCode(1075)) }}
                                     <a href="javascript:;" title="产品" alt="{{this.name}}" lang="{{this.id}}" class="view_products icon_btn inline_block"></a>
                                 {{/if}}
-                                {{#if (root.verifyCode(1073)) }}
-                                    <a href="javascript:;" title="删除" alt="{{this.name}}" lang="{{this.id}}" class="delete_org icon_btn inline_block"></a>
+                                {{#if (root.verifyCode(1475)) }} <!--1073-->
+                                    <a href="javascript:;" title="返佣政策" alt="{{this.name}}" lang="{{this.id}}" class="commission_policy icon_btn inline_block"></a>
                                 {{/if}}
                             </div>
                         </div>
@@ -190,12 +190,30 @@
 
         }
 
+        // 跳转佣金政策页
+        function toCommissionPolicyList () {
+            var btn = $(".org_mask .commission_policy");
+            btn.off("click").on("click", function () {
+                var _this = $(this);
+                var id = $.trim(_this.parents('.org_mask').attr("lang"));
+                var carType = _this.parents('.org_mask').data("business");
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/policies',
+                    param : {
+                        organization_id : id,
+                        car_type : (carType.indexOf('1') != -1) ? 1 : 2
+                    }
+                });
+            })
+        }
+
         $(function() {
             displacementAnimation();
             showOrgProducts();
             deleteOrg();
             goOrgDetail();
             createOrg();
+            toCommissionPolicyList();
         });
     })(jQuery,undefined);
 </script>
