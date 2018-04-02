@@ -653,8 +653,9 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
     }
 
     if(type == 'radio') {
-        target.each(function (i, obj) {
-            $(obj).off('click').on('click', function () {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+            $('body').on('click', selector, function () {
                 var t = $(this);
                 if (!t.hasClass("disabled")) {
                     if (tp == 'class') {
@@ -680,10 +681,11 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
                     return false;
                 }
             })
-        })
+        //})
     } else if (type == 'checkbox') {
-        target.each(function (i, obj) {
-            $(obj).off('click').on('click', function () {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+            $('body').on('click', selector, function () {
                 var t = $(this);
                 if (!t.hasClass("disabled")) {
                     if (tp == 'class') {
@@ -725,7 +727,7 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
                     return false;
                 }
             })
-        })
+        // })
     } else {
         return false;
     }

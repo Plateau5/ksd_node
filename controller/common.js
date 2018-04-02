@@ -311,6 +311,7 @@ exports.getPageData = function(options, req, res, next) {
                 data.markUri = markUri;
                 data.apiServerPath = apiServerPath;
                 data.domain = domain;
+                data.reqParams = body;
                 options.callback && options.callback(data);
                 res.render(options.page, data);
             } else {

@@ -54,7 +54,7 @@
                                 <span class="business_type">适用业务：{{this.applyto_business_value}}</span>
                                 <span class="products_count rf">产品数：{{this.product_count}}个</span>
                             </div>
-                            <div class="org_mask" alt="{{this.name }}" lang="{{this.id }}"  data-business="{{this.applyto_business}}">
+                            <div class="org_mask" alt="{{this.name }}" data-name="{{this.name}}" lang="{{this.id }}"  data-business="{{this.applyto_business}}">
                                 {{#if (root.verifyCode(1071)) }}
                                     <a href="javascript:;" title="查看" alt="{{this.name}}" lang="{{this.id}}" class="view_org icon_btn inline_block"></a>
                                 {{/if}}
@@ -196,12 +196,14 @@
             btn.off("click").on("click", function () {
                 var _this = $(this);
                 var id = $.trim(_this.parents('.org_mask').attr("lang"));
+                var name = _this.parents('.org_mask').data('name');
                 var carType = _this.parents('.org_mask').data("business");
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/policies',
                     param : {
                         organization_id : id,
-                        car_type : (carType.indexOf('1') != -1) ? 1 : 2
+                        car_type : (carType.indexOf('0') != -1) ? 0 : 1,
+                        orgName : name
                     }
                 });
             })

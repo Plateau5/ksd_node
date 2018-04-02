@@ -133,7 +133,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST = function(req, res, next) {
         page : './organization/policiesList'
     }, req, res, next);
 };
-
+// 供应商部分-金融机构-佣金政策创建编辑页 1476
+exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/addrebate/data',
+        title : '供应商-制订返佣政策',
+        page : './organization/policyEdit'
+    }, req, res, next);
+};
 
 
 

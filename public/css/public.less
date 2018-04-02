@@ -192,6 +192,9 @@ img {
 .inline_block{
     display: inline-block;
 }
+.inline{
+    display: inline;
+}
 .block{
     display: block;
 }
@@ -394,6 +397,10 @@ table.normal{
     }
     th {
         background: @th-bg-color;
+        vertical-align: middle;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
     td{
         padding: 0 2%;
@@ -1761,11 +1768,11 @@ input[type='checkbox'] + label.checked{
 .section .detail_title_btn:hover{
     color: @font-hover-color !important;
 }
-.detail_title_btn.create_btn,.detail_title_btn.edit_btn, .detail_title_btn.delete_btn,.detail_title_btn.send_btn{
+.detail_title_btn.create_btn,.detail_title_btn.edit_btn, .detail_title_btn.delete_btn,.detail_title_btn.send_btn,.detail_title_btn.history_btn{
     &:before{
         content: '';
         position: absolute;
-        top: 3px;
+        top: 2px;
         left: 10px;
         display: block;
         width: 15px;
@@ -1797,6 +1804,12 @@ input[type='checkbox'] + label.checked{
 }
 .detail_title_btn.send_btn:hover:before{
     background-position: -4px -536px;
+}
+.detail_title_btn.history_btn:before{
+    background-position: -65px -403px;
+}
+.detail_title_btn.history_btn:hover:before{
+    background-position: -65px -422px;
 }
 .download_btn{
     &:before{
@@ -2595,61 +2608,78 @@ textarea{
 }
 /***** 中等大小图片上传 End ******/
 /***** 无底色按钮-sm类 Begin ******/
-.section .add_sm_btn,.section  .delete_sm_btn,.section  .edit_sm_btn{
-    position: relative;
-    padding: 5px 8px 5px 22px;
-    color: @gray-font-color;
-    &:before{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 23px;
-        height: 23px;
-        margin-top: 1px;
-        background: url("../img/operation_small_icon.png") no-repeat;
-        vertical-align: middle;
-    }
-}
-.section .add_sm_btn{
-    color: @active-color;
-    &:before{
-        background-position: 0 -918px;
-    }
-    &:hover{
-        color: @font-hover-color;
+.section{
+    .add_sm_btn,.delete_sm_btn,.edit_sm_btn,.add_sm_btn_policies{
+        position: relative;
+        padding: 5px 8px 5px 22px;
+        color: @gray-font-color;
         &:before{
-            background-position: 0 -1005px;
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 23px;
+            height: 23px;
+            margin-top: 1px;
+            background: url("../img/operation_small_icon.png") no-repeat;
+            vertical-align: middle;
+        }
+    }
+    .add_sm_btn{
+        color: @active-color;
+        &:before{
+            background-position: 0 -918px;
+        }
+        &:hover{
+            color: @font-hover-color;
+            &:before{
+                background-position: 0 -1005px;
+            }
+        }
+    }
+    .edit_sm_btn{
+        height: 26px;
+        color: @active-color;
+        &:before{
+            left: -1px;
+            top: -3px;
+            background-position: 0 -1087px;
+        }
+        &:hover{
+            color: @font-hover-color;
+            &:before{
+                background-position: 0 -1109px;
+            }
+        }
+    }
+    .delete_sm_btn{
+        color: @gray-font-color;
+        &:before{
+            background-position: 0 -796px;
+        }
+        &:hover{
+            color: @normal-color;
+            &:before{
+                background-position: 0 -1024px;
+            }
+        }
+    }
+    .add_sm_btn_policies{
+        padding-left: 26px;
+        color: @active-color;
+        &:before{
+            margin-top: 0;
+            background-position: 0 -1237px;
+        }
+        &:hover{
+            color: @font-hover-color;
+            &:before{
+                background-position: 0 -1257px;
+            }
         }
     }
 }
-.section .edit_sm_btn{
-    height: 26px;
-    color: @active-color;
-    &:before{
-        left: -1px;
-        top: -3px;
-        background-position: 0 -1087px;
-    }
-    &:hover{
-        color: @font-hover-color;
-        &:before{
-            background-position: 0 -1109px;
-        }
-    }
-}
-.section .delete_sm_btn{
-    color: @gray-font-color;
-    &:before{
-        background-position: 0 -796px;
-    }
-    &:hover{
-        color: @normal-color;
-        &:before{
-            background-position: 0 -1024px;
-        }
-    }
-}
+
 /***** 无底色按钮-sm类 End ******/
 /***** toast提示 Start ******/
 .toast-container{

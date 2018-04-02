@@ -240,6 +240,8 @@ router.post(markUri + '/supplier/organization/productMaterial', supplierCtrl.VIE
 router.post(markUri + '/supplier/organization/productCopy', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTCOPY);
 // 供应商部分-金融机构-佣金政策列表页 1475
 router.post(markUri + '/supplier/organization/policies', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST);
+// 供应商部分-金融机构-佣金政策创建编辑页 1476
+router.post(markUri + '/supplier/organization/policies/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT);
 
 
 
@@ -432,7 +434,8 @@ router.all(markUri + '/404', function(req, res, next) {
     res.render('./errorpage/404', {title: '404'});
 });
 router.get('*', function(req, res, next) {
-    res.redirect('./errorpage/404', {title: '404'});
+    /*res.redirect('./errorpage/404', {title: '404'});*/
+    res.render('./errorpage/404');
 });
 
 module.exports = router;
