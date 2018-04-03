@@ -153,7 +153,6 @@
                 }
             }
         }
-
     }
     .create_box{
         display: block;
@@ -831,26 +830,31 @@
     .classify_title{
         position: relative;
     }
+    .classify_title.update,.classify_title.new{
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            top: 14px;
+            left: 64px;
+            width: 30px;
+            height: 12px;
+        }
+    }
+    .classify_title.update{
+        &:before{
+            background: url("../img/update_icon.png") no-repeat;
+
+        }
+    }
     .classify_title.new{
         &:before{
-            content: '新';
-            position: absolute;
-            top: 9px;
-            left: -22px;
-            display: block;
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-            text-align: center;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            border-radius: 50%;
-            background: @active-color;
-            color: #FFFFFF;
-            font-size: 12px;
+            background: url("../img/add_icon.png") no-repeat;
+
         }
     }
 }
+
 /***** 工商信息展示按钮 ******/
 .section .business_info_sm_btn{
     position: fixed;
