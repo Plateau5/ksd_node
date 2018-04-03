@@ -39,8 +39,9 @@
 
                     <div class="recipient">
                         <span class="item_key"><span class="need">*</span>车架号：</span>
-                        <span style="background: #f5f5f5;padding-left:10px;width: 300px;" class="item_val inline_block">
-                            <input type="text" name="" class="" placeholder="请输入车架号" onblur="checkNumOrEng()" >
+                        <span style="background: #f5f5f5;padding-left:10px;width: 350px;" class="item_val inline_block">
+                            <input type="text" name="" class="agree_vin" placeholder="请输入车架号" maxlength="17" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" onblur="checkNumOrEng()">
+                            <span class="agree_vin_tip" style="color: red"></span>
                         </span>
                     </div>
                    <!-- <div class="form-item" style="height:30px;">
@@ -94,10 +95,6 @@
             confirm : $(".send_compact"),
             loading : $('#loading')
         };
-        //校验输入车架号是否是数字或英文，17位
-        function checkNumOrEng () {
-
-        }
         // 校验是否有附件
         function  verify () {
             var elem = $('.file_box');
@@ -171,7 +168,6 @@
             }
         }
 
-
         $(function() {
             fileUpload({
                 maxCount : 5,
@@ -181,5 +177,22 @@
             sendEmail();
         });
     })(jQuery,undefined);
+
+    //校验输入车架号是否是数字或英文，17位
+    function checkNumOrEng () {
+        var reg = /^[0-9a-zA-Z]+$/;
+        var str = $(".agree_vin").val();
+        if(!reg.test(str)){
+            $('.agree_vin_tip').html('你输入的不是数字或者字母');
+            return;
+        }else{
+            $('.agree_vin_tip').html('');
+        }
+        if(str.length<17){
+            $('.agree_vin_tip').html('不足17位');
+        }else{
+            $('.agree_vin_tip').html('');
+        }
+    }
 </script>
 </html>
