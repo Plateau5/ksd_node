@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/organization/detail.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
 </head>
 <style>
     .org_create_info{
@@ -21,6 +22,7 @@
 
 <!--header start-->
 {{include ('./../inc/header')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <!--header end-->
 
 <!--container start-->
@@ -71,6 +73,13 @@
                             <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/edit_white_icon.png" alt="">
                             <span>编辑机构</span>
                         </div>
+                    {{/if}}
+
+                    {{#if (verifyCode(1073)) }}
+                    <div class="inviteP cursor inline delete_org delete_btn" id="delete_org" lang="{{vo.id}}">
+                        <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
+                        <span>删除机构</span>
+                    </div>
                     {{/if}}
                 </div>
                 <div class="product_detail_box">
@@ -163,6 +172,47 @@
         }
         $(function () {
             editOrg();
+        });
+
+        //删除机构按钮的点击事件
+        function deleteOrg () {
+            var delBtn = $(".delete_org");
+            delBtn.each(function () {
+                var t = $(this);
+                t.off("click").on("click", function () {
+                    var orgId = $.trim($(this).parents('.org_mask').attr("lang"));
+                    var data = {
+                        id : orgId
+                    };
+                    dialog('open', {
+                        title : '删除提醒',
+                        content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后此机构下的产品也将删除，删除后将不可恢复，</span><br><span>确认继续删除？</span></div>',
+                        onConfirm : function (d) {
+                            delConfirm(data, d);
+                        }
+                    })
+                });
+            });
+            //确定删除
+            function delConfirm (datas, d) {
+                var data = datas;
+                var url  = contextPath + "/api/organization/delete";;
+                $ajax('post',url, data, function (req) {
+                    var res = eval(req);
+                    if (res.error_code == 0) {
+                        d.close();
+                        $alert('删除成功', function () {
+                            window.location.reload();
+                        });
+                    }
+                }, function () {
+                    d.close();
+                    $alert('删除失败，请稍后重试');
+                });
+            }
+        }
+        $(function() {
+            deleteOrg();
         });
     })(window, undefined);
 </script>
