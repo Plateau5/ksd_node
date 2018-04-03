@@ -286,7 +286,15 @@ exports.getCustomerDetail = function(url, req, res, next) {
             res.redirect(markUri + '/404');
         }
         function thousandRate (data) {
-            return (data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods);
+            var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
+            if(thoudsanData.toString().indexOf(".")!=-1){
+                if(thoudsanData.toString().split(".")[1]<445){
+                    thoudsanData = thoudsanData.toString().split(".")[0];
+                }else{
+                    thoudsanData = Number(thoudsanData.toString().split(".")[0])+1;
+                }
+            }
+            return thoudsanData;
         }
     }, req, res, next);
 };
