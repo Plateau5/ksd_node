@@ -36,6 +36,22 @@
                         <span class="item_key">收件人：</span>
                         <span style="background: #f5f5f5;padding-left:10px;width: 300px;" class="item_val inline_block">{{vo.create_name }} 【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】 </span>
                     </div>
+
+                    <div class="recipient">
+                        <span class="item_key"><span class="need">*</span>车架号：</span>
+                        <span style="background: #f5f5f5;padding-left:10px;width: 300px;" class="item_val inline_block">
+                            <input type="text" name="" class="" placeholder="请输入车架号" onblur="checkNumOrEng()" >
+                        </span>
+                    </div>
+                   <!-- <div class="form-item" style="height:30px;">
+                        <label>
+                            <span class="need">*</span>车架号：</label>
+                        <div style="display: inline-block;padding-left: 14px;">
+                            <input type="text" name="real_loan_amount" class="real_loan_amount" placeholder="请输入车架号">
+                        </div>
+                    </div>-->
+
+
                     <div class="subject">
                         <span class="item_key">主题：</span>
                         <span class="item_val" style="background: none;">关于客户<span>{{vo.user_name}}</span>的贷款合同资料</span>
@@ -78,6 +94,10 @@
             confirm : $(".send_compact"),
             loading : $('#loading')
         };
+        //校验输入车架号是否是数字或英文，17位
+        function checkNumOrEng () {
+
+        }
         // 校验是否有附件
         function  verify () {
             var elem = $('.file_box');
