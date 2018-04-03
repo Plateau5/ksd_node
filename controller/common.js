@@ -259,6 +259,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 data.title = '客户-订单详情';
                 data.originUrl = localUrl;
                 data.markUri = markUri;
+                data.vo.thousandRate = thousandRate(data);
                 if (localUrl.indexOf( markUri + '/customer/loan') !== -1) {
                     res.render('./customer/imgDetail', data);
                 } else if (localUrl.indexOf( markUri + '/customer/compact') !== -1) {
@@ -283,6 +284,9 @@ exports.getCustomerDetail = function(url, req, res, next) {
 
         } else {
             res.redirect(markUri + '/404');
+        }
+        function thousandRate (data) {
+            return (data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods);
         }
     }, req, res, next);
 };
