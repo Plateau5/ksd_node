@@ -103,6 +103,40 @@
 				<div class="requestpayout_detail_txt">{{vo.create_name}}</div>
 			</div>
 		{{/if}}
+
+		<!--给基本资料新增列  begin-->
+		{{#if (vo.rate) }}
+            <div class="detail_remarks requestpayout_detail_remarks">
+                <div class="requestpayout_detail_label">费率：</div>
+                <div class="requestpayout_detail_txt">{{vo.rate}}%（{{vo.thousandRate}}）</div>
+            </div>
+        {{/if}}
+        {{#if (vo.insurance) }}
+            <div class="detail_remarks requestpayout_detail_remarks">
+                <div class="requestpayout_detail_label">保险费：</div>
+                <div class="requestpayout_detail_txt">{{vo.insurance}}元</div>
+            </div>
+        {{/if}}
+        {{#if (vo.purchase_tax) }}
+            <div class="detail_remarks requestpayout_detail_remarks">
+                <div class="requestpayout_detail_label">购置税：</div>
+                <div class="requestpayout_detail_txt">{{vo.purchase_tax}}元</div>
+            </div>
+        {{/if}}
+        {{#if (vo.service_charge) }}
+            <div class="detail_remarks requestpayout_detail_remarks">
+                <div class="requestpayout_detail_label">服务费：</div>
+                <div class="requestpayout_detail_txt">{{vo.service_charge}}万元</div>
+            </div>
+        {{/if}}
+        {{#if (vo.gps_charge) }}
+            <div class="detail_remarks requestpayout_detail_remarks">
+                <div class="requestpayout_detail_label">GPS费：</div>
+                <div class="requestpayout_detail_txt">{{vo.gps_charge}}元</div>
+            </div>
+        {{/if}}
+		<!--给基本资料新增列  end-->
+
 		{{#if (vo.car_type === 1 || vo.car_type === 0) }}
 			<div class="detail_remarks requestpayout_detail_remarks">
 				<div class="requestpayout_detail_label">业务类型：</div>
