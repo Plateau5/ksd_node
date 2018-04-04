@@ -39,7 +39,7 @@
             <div class="order_detail">
         {{/if}}
             {{#if (this.total_charge || this.total_charge === 0) }}
-                <div class="detail_remarks requestpayout_detail_remarks payment_info_item" style="display: block;width: 100%;">
+                <div class="detail_remarks requestpayout_detail_remarks payment_info_item">
                     <div class="requestpayout_detail_label">收款总额：</div>
                     <div class="requestpayout_detail_txt">{{this.total_charge}}&nbsp;元 ({{this.cn_totalCharge}})</div>
                 </div>
@@ -191,12 +191,12 @@
                     <div class="requestpayout_detail_txt">{{this.pay_account}}</div>
                 </div>
             {{/if}}
-            {{#if (this.supplier_name) }}
+           <!-- {{#if (this.supplier_name) }}
                 <div class="detail_remarks requestpayout_detail_remarks payment_info_item">
                     <div class="requestpayout_detail_label">商户名称：</div>
                     <div class="requestpayout_detail_txt">{{vo.supplier_name}}<span style="color: #ff0000;margin-left: 10px;">({{vo.flag_value}})</span></div>
                 </div>
-            {{/if}}
+            {{/if}}-->
             <!--商户图片-->
             {{#if (this.receipt_id === 1 && file_list3.length > 0) }}
                 <div class="imgDetail">
