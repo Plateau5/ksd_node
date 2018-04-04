@@ -180,7 +180,7 @@
             delBtn.each(function () {
                 var t = $(this);
                 t.off("click").on("click", function () {
-                    var orgId = $.trim($(this).parents('.org_mask').attr("lang"));
+                    var orgId = $.trim(t.attr("lang"));
                     var data = {
                         id : orgId
                     };
@@ -196,13 +196,19 @@
             //确定删除
             function delConfirm (datas, d) {
                 var data = datas;
-                var url  = contextPath + "/api/organization/delete";;
+                var url  = contextPath + "/api/organization/delete";
+                var orgId = $.trim($(this).attr("lang"));
                 $ajax('post',url, data, function (req) {
                     var res = eval(req);
                     if (res.error_code == 0) {
                         d.close();
                         $alert('删除成功', function () {
-                            window.location.reload();
+                            locationTo({
+                                action :contextPath + markUri + "/supplier/organization/list",
+                                param : {
+                                    orgId :orgId,
+                                }
+                            });
                         });
                     }
                 }, function () {
