@@ -138,7 +138,36 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
     common.getPageData({
         url : '/api/organization/addrebate/data',
         title : '供应商-制订返佣政策',
-        page : './organization/policyEdit'
+        page : './organization/policyEdit',
+        callback : function (data) {
+            var citys = data.cityList;
+            var cityList = [];
+            var provinceId = [];
+            for (var i = 0, len = citys.length; i < len; i++) {
+                var pId = citys[i].province_id;
+                var pName = citys[i].province_name;
+                if (provinceId.indexOf(pId) === -1) {
+                    provinceId.push(pId);
+                    var o = {
+                        id : pId,
+                        name : pName,
+                        city_list : []
+                    };
+                    for (var k = 0; k < citys.length; k++) {
+                        if (citys[k].province_id === pId) {
+                            var cObj = {
+                                id : citys[k].city_id,
+                                name : citys[k].city_name
+                            };
+                            o.city_list.push(cObj);
+                            // citys.remove(citys[k]);
+                        }
+                    }
+                    cityList.push(o);
+                }
+            }
+            data.cityList = JSON.stringify(cityList);
+        }
     }, req, res, next);
 };
 

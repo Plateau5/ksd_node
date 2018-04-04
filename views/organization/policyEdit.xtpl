@@ -7,6 +7,7 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/citySelect.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/company.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
     <title>快收单</title>
@@ -37,22 +38,23 @@
                 </div>
                 {{#if (rebatePolicy.length > 0) }}
                     {{#each (rebatePolicy) }}
-                        <div class="form_options" data-id="{{this.rebate_id}}">
-                            <div class="option_item">
-                                <div class="column_name">
-                                    <span class="options_name">政策名称：</span>
+                        <div class="form_options" data-id="{{this.rebate_id}}" data-edit_type="1">
+                            <form action="" method="post" class="policy_form">
+                                <div class="option_item">
+                                    <div class="column_name">
+                                        <span class="options_name">政策名称：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        <input type="text" class="" maxlength="30" data-tips="政策名称不能为空" name="carColor" value="{{this.rebate_name}}" placeholder="请输入政策名称。如：332返点政策" />
+                                        <!--<div class="tips_info">(*<span class="tips_text"></span>)</div>-->
+                                    </div>
                                 </div>
-                                <div class="column_val">
-                                    <input type="text" class="" maxlength="30" data-tips="政策名称不能为空" name="carColor" value="{{this.rebate_name}}" placeholder="请输入政策名称。如：332返点政策" />
-                                    <!--<div class="tips_info">(*<span class="tips_text"></span>)</div>-->
-                                </div>
-                            </div>
-                            <div class="option_item">
-                                <div class="column_name">
-                                    <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
-                                </div>
-                                <div class="column_val">
-                                    {{#each (root.rates.split(',')) }}
+                                <div class="option_item financing_period">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        {{#each (root.rates.split(',')) }}
                                         <div class="form_group">
                                             {{#if (../rates.indexOf(this) !== -1) }}
                                             <input type="checkbox" class="rates" checked="checked" name="" value="{{this}}" />
@@ -62,15 +64,15 @@
                                             <label class="">{{this}}</label>
                                             {{/if}}
                                         </div>
-                                    {{/each}}
+                                        {{/each}}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="option_item">
-                                <div class="column_name">
-                                    <span class="options_name"><span class="require_icon">*</span>费率：</span>
-                                </div>
-                                <div class="column_val">
-                                    {{#each (root.rebatePeriods.split(',')) }}
+                                <div class="option_item policy_rates">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>费率：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        {{#each (root.rebatePeriods.split(',')) }}
                                         <div class="form_group">
                                             {{#if (../rebatePeriods.indexOf(this) !== -1) }}
                                             <input type="checkbox" class="rates" checked="checked" name="" value="{{this}}" />
@@ -80,6 +82,120 @@
                                             <label class="">{{this}}</label>
                                             {{/if}}
                                         </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                <div class="option_item">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>返佣方式：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        <select name="" id="" style="width: 120px;">
+                                            <option value="">请选择</option>
+                                            {{#each (wayList) }}
+                                            {{#if (this.index === root.rebatePolicy.rebate_way) }}
+                                            <option value="{{this.index}}" selected="selected">{{this.name}}</option>
+                                            {{else}}
+                                            <option value="{{this.index}}">{{this.name}}</option>
+                                            {{/if}}
+                                            {{/each}}
+                                        </select>
+                                        <div class="inline_block fixed_amount">
+                                            <span>返</span>
+                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="请输入金额"  style="width: 90px;" />
+                                            <span>元</span>
+                                        </div>
+                                        <div class=" proportion">
+                                            <span>返超出金额的</span>
+                                            <input type="text" class="" maxlength="30" data-tips="比例值不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" />
+                                            <span>%</span>
+                                        </div>
+                                        <div class=" excess_amount">
+                                            <span>超出</span>
+                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="请输入金额"  style="width: 90px;" />
+                                            <span>元</span>
+                                            <span>返</span>
+                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="500"  style="width: 90px;" />
+                                            <span>元</span>
+                                        </div>
+                                        <div class=" excess_proportion">
+                                            <span>超出</span>
+                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="1000"  style="width: 90px;" />
+                                            <span>元</span>
+                                            <span>返超出金额的</span>
+                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" />
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="option_item">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>业务城市：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        <ul class="city_list">
+                                            {{#if (rebatePolicy.city_ids.length > 0) }}
+                                            {{#each (rebatePolicy.city_ids.split(',')) }}
+                                            <li class="city">{{rebatePolicy.city_ids.split(',')[xIndex]}}<em class="delete_btn" data-id="{{this}}"></em></li>
+                                            {{/each}}
+                                            {{/if}}
+                                        </ul>
+                                        <div class="choose_box">
+                                            <em class="add_city_btn"></em><span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="option_item">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>生效时间：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        <input type="text" class="filtrate_date datainp wicon" name="effective_time" value="effective_time" readonly="readonly"  placeholder="请选择日期" />
+                                        <span class="tips_info">(*请先生效时间)</span>
+                                    </div>
+                                </div>
+                                <div class="btn_box text_left pad_btm_50 clearfix">
+                                    <a href="javascript:" class="btn orange_btn confirm edit_confirm">编辑</a>
+                                    <a href="javascript:;" class="btn bg_btn edit_cancel">删除</a>
+                                </div>
+                            </form>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="form_options" data-edit_type="0">
+                        <form action="" method="post">
+                            <div class="option_item">
+                                <div class="column_name">
+                                    <span class="options_name">政策名称：</span>
+                                </div>
+                                <div class="column_val">
+                                    <input type="text" class="" maxlength="30" data-tips="政策名称不能为空" name="carColor" value="" placeholder="请输入政策名称。如：332返点政策" />
+                                    <!--<div class="tips_info">(*<span class="tips_text"></span>)</div>-->
+                                </div>
+                            </div>
+                            <div class="option_item financing_period">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
+                                </div>
+                                <div class="column_val">
+                                    {{#each (root.rates.split(',')) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="rates" name="" value="{{this}}" />
+                                            <label class="">{{this}}</label>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                            <div class="option_item policy_rates">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>费率：</span>
+                                </div>
+                                <div class="column_val">
+                                    {{#each (root.rebatePeriods.split(',')) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="rates" name="" value="{{this}}" />
+                                            <label class="">{{this}}</label>
+                                        </div>
                                     {{/each}}
                                 </div>
                             </div>
@@ -88,40 +204,36 @@
                                     <span class="options_name"><span class="require_icon">*</span>返佣方式：</span>
                                 </div>
                                 <div class="column_val">
-                                    <select name="" id="" style="width: 120px;">
+                                    <select name="" class="rebate_type" style="width: 120px;">
                                         <option value="">请选择</option>
                                         {{#each (wayList) }}
-                                            {{#if (this.index === root.rebatePolicy.rebate_way) }}
-                                                <option value="{{this.index}}" selected="selected">{{this.name}}</option>
-                                            {{else}}
-                                                <option value="{{this.index}}">{{this.name}}</option>
-                                            {{/if}}
+                                            <option value="{{this.index}}">{{this.name}}</option>
                                         {{/each}}
                                     </select>
-                                    <div class="inline_block fixed_amount">
+                                    <div class="inline_block fixed_amount" style="display: none;">
                                         <span>返</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="请输入金额"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="请输入金额"  style="width: 90px;" />
                                         <span>元</span>
                                     </div>
-                                    <div class=" proportion">
+                                    <div class="inline_block proportion" style="display: none;">
                                         <span>返超出金额的</span>
-                                        <input type="text" class="" maxlength="30" data-tips="比例值不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="30" data-tips="比例值不能为空" name="" value="" placeholder="10"  style="width: 90px;" />
                                         <span>%</span>
                                     </div>
-                                    <div class=" excess_amount">
+                                    <div class="inline_block excess_amount" style="display: none;">
                                         <span>超出</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="请输入金额"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="请输入金额"  style="width: 90px;" />
                                         <span>元</span>
                                         <span>返</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="500"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="500"  style="width: 90px;" />
                                         <span>元</span>
                                     </div>
-                                    <div class=" excess_proportion">
+                                    <div class="inline_block excess_proportion" style="display: none;">
                                         <span>超出</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="1000"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="1000"  style="width: 90px;" />
                                         <span>元</span>
                                         <span>返超出金额的</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="10"  style="width: 90px;" />
                                         <span>%</span>
                                     </div>
                                 </div>
@@ -131,13 +243,9 @@
                                     <span class="options_name"><span class="require_icon">*</span>业务城市：</span>
                                 </div>
                                 <div class="column_val">
-                                    {{#if (rebatePolicy.city_ids.length > 0) }}
                                     <ul class="city_list">
-                                        {{#each (rebatePolicy.city_ids.split(',')) }}
-                                            <li class="city">{{rebatePolicy.city_ids.split(',')[xIndex]}}<em class="delete_btn" data-id="{{this}}"></em></li>
-                                        {{/each}}
+
                                     </ul>
-                                    {{/if}}
                                     <div class="choose_box">
                                         <em class="add_city_btn"></em><span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>
                                     </div>
@@ -148,115 +256,15 @@
                                     <span class="options_name"><span class="require_icon">*</span>生效时间：</span>
                                 </div>
                                 <div class="column_val">
-                                    <input type="text" class="filtrate_date datainp wicon" name="effective_time" value="effective_time" readonly="readonly"  placeholder="请选择日期" />
+                                    <input type="text" class="datainp wicon" name="" value="" readonly="readonly"  placeholder="请选择日期" />
                                     <span class="tips_info">(*请先生效时间)</span>
                                 </div>
                             </div>
                             <div class="btn_box text_left pad_btm_50 clearfix">
-                                <a href="javascript:" class="btn orange_btn confirm edit_confirm">编辑</a>
-                                <a href="javascript:;" class="btn bg_btn edit_cancel">删除</a>
+                                <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存</a>
+                                <!--<a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>-->
                             </div>
-                        </div>
-                    {{/each}}
-                {{else}}
-                    <div class="form_options">
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name">政策名称：</span>
-                            </div>
-                            <div class="column_val">
-                                <input type="text" class="" maxlength="30" data-tips="政策名称不能为空" name="carColor" value="" placeholder="请输入政策名称。如：332返点政策" />
-                                <!--<div class="tips_info">(*<span class="tips_text"></span>)</div>-->
-                            </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
-                            </div>
-                            <div class="column_val">
-                                {{#each (root.rates.split(',')) }}
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="" value="{{this}}" />
-                                        <label class="">{{this}}</label>
-                                    </div>
-                                {{/each}}
-                            </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>费率：</span>
-                            </div>
-                            <div class="column_val">
-                                {{#each (root.rebatePeriods.split(',')) }}
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="" value="{{this}}" />
-                                        <label class="">{{this}}</label>
-                                    </div>
-                                {{/each}}
-                            </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>返佣方式：</span>
-                            </div>
-                            <div class="column_val">
-                                <select name="" id="" style="width: 120px;">
-                                    <option value="">请选择</option>
-                                    {{#each (wayList) }}
-                                        <option value="{{this.index}}">{{this.name}}</option>
-                                    {{/each}}
-                                </select>
-                                <div class="inline_block fixed_amount">
-                                    <span>返</span>
-                                    <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="请输入金额"  style="width: 90px;" />
-                                    <span>元</span>
-                                </div>
-                                <div class=" proportion">
-                                    <span>返超出金额的</span>
-                                    <input type="text" class="" maxlength="30" data-tips="比例值不能为空" name="" value="" placeholder="10"  style="width: 90px;" />
-                                    <span>%</span>
-                                </div>
-                                <div class=" excess_amount">
-                                    <span>超出</span>
-                                    <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="请输入金额"  style="width: 90px;" />
-                                    <span>元</span>
-                                    <span>返</span>
-                                    <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="500"  style="width: 90px;" />
-                                    <span>元</span>
-                                </div>
-                                <div class=" excess_proportion">
-                                    <span>超出</span>
-                                    <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="1000"  style="width: 90px;" />
-                                    <span>元</span>
-                                    <span>返超出金额的</span>
-                                    <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="" value="" placeholder="10"  style="width: 90px;" />
-                                    <span>%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>业务城市：</span>
-                            </div>
-                            <div class="column_val">
-                                <div class="choose_box">
-                                    <em class="add_city_btn"></em><span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>生效时间：</span>
-                            </div>
-                            <div class="column_val">
-                                <input type="text" class="datainp wicon" name="" value="" readonly="readonly"  placeholder="请选择日期" />
-                                <span class="tips_info">(*请先生效时间)</span>
-                            </div>
-                        </div>
-                        <div class="btn_box text_left pad_btm_50 clearfix">
-                            <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存</a>
-                            <!--<a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>-->
-                        </div>
+                        </form>
                     </div>
                 {{/if}}
 
@@ -279,19 +287,94 @@
     <!-------- Part of footer Begin -------->
     <!--<div id="footer" class="footer"></div>-->
     <!-------- Part of footer End -------->
+    <input type="hidden" class="area-danxuan single-choice" id="citySelect" value="" data-clear="true" data-value="" />
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script src="{{markUri}}/static/js/citySelect.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    var list = '{{cityList}}'; // 城市数据
+    list = JSON.parse(list.replace(/&quot;/ig, '"'));
+    var __LocalDataCities = formatCityData(list);
+</script>
 <script>
     (function ($) {
+        // 添加城市
+        function addCity () {
+            var btn = $('.add_city_btn');
+            btn.off('click').on('click', function (e) {
+                /*SelCity(this,e);*/
+                $('#citySelect').click();
+            });
+            $('.city_box').off('click').on('click', '.delete_btn', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var parent = _this.parents('.city');
+                var cityId = $.trim(parent.data('id'));
+                parent.remove();
+                cityArr.remove(cityId);
+                $('#cityTips').hide().find('.msg').text('');
+            });
+        }
+        // 向页面添加已选择城市数据
+        function addOwnData () {
+            var cityArr = [];   //  存储已经选择的城市数据
+            var newArr = [];    //  存储新创建的城市数据
+            var citySelectEle = $('#citySelect');
+            var cityIds, cityNames, provincesIds, provincesNames;
+            provincesIds = $.trim(citySelectEle.data('pid'));
+            provincesNames = $.trim(citySelectEle.data('pname'));
+            cityIds = $.trim(citySelectEle.data('value'));
+            cityNames = $.trim(citySelectEle.val());
+            if (cityIds == '' || cityNames == '' || provincesNames == '') {
+                $alert('您还未选择任何城市，请选择城市。');
+                return;
+            }
+            var box = $('.city_list');
+            box.show();
+            var thisCity = cityIds;
+            var cityName = cityNames;
+            if ($.inArray(thisCity, cityArr) != -1) {
+                $('#cityTips').show().find('.msg').text('该城市已经存在');
+            } else {
+                $('#cityTips').hide().find('.msg').text('');
+                var item = '<li class="city" data-pid="'+ provincesIds +'" data-pname="' + provincesNames + '" data-id="'+ thisCity +'" title="'+ provincesNames + '-' + cityName +'">'+ provincesNames + '-' + cityName +'<em class="delete_btn"></em></li>';
+                box.append(item);
+                cityArr.push(thisCity);
+                newArr.push(thisCity);
+            }
+        }
 
+        function changeRebateType () {
+            var s = $('.rebate_type');
+            s.off('change').on('change', function () {
+                var _this = $(this);
+                var selectedOpt = _this.find('option:selected').val().trim().number();
+                if (selectedOpt === 1) {
+                    _this.siblings('.fixed_amount').show().end().siblings('.proportion, .excess_amount, .excess_proportion').hide();
+                } else if (selectedOpt === 2) {
+                    _this.siblings('.excess_proportion').show().end().siblings('.proportion, .excess_amount, .fixed_amount').hide();
+                } else if (selectedOpt === 3) {
+                    _this.siblings('.excess_amount').show().end().siblings('.proportion, .fixed_amount, .excess_proportion').hide();
+                } else if (selectedOpt === 4) {
+                    _this.siblings('.proportion').show().end().siblings('.fixed_amount, .excess_amount, .excess_proportion').hide();
+                }
+            });
+        }
 
 
 
         $(function() {
+            citySelect({}, function () {
+                addOwnData();
+            });
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            addCity();
+            changeRebateType();
         });
     })(jQuery,undefined);
 </script>
