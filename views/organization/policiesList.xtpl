@@ -547,13 +547,15 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 var type = _this.parents('.module_list').data('index');
+                var rebateId = _this.parents('.module_list').data('id')
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/policies/edit',
                     param : {
                         organization_id : orgId,
                         car_type : carType,
                         orgName : orgName,
-                        rebate_type : type
+                        rebate_type : type,
+                        rebate_typeId : rebateId
                     }
                 })
 

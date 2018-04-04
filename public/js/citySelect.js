@@ -433,7 +433,7 @@ function citySelect (opt, callback) {
         $(dataCityinput).data("pname", pname);
 
         Close();
-        callback && callback();
+        callback && callback($(dataCityinput));
     }
 
     function Close() {
