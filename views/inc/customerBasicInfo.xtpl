@@ -3,7 +3,7 @@
 	<div class="title_line"></div>
 	<span>基本资料</span>
 </div>
-<div class="requestpayout_detail_container">
+<div class="requestpayout_detail_container" style="overflow-y:-webkit-paged-y;">
 	<div class="cars_info_box">
 		{{#if (vo.user_name) }}
 			<div class="requestpayout_detail_title">客户信息</div>
@@ -168,10 +168,70 @@
 			</div>
 		{{/if}}
 		{{#if (vo.supplier_name) }}
-			<div class="detail_remarks requestpayout_detail_remarks payment_info_item">
-				<div class="requestpayout_detail_label">所属商户：</div>
-				<div class="requestpayout_detail_txt">{{vo.supplier_name}}</div>
+		<div class="detail_remarks requestpayout_detail_remarks payment_info_item requestpayout_detail_title">
+			<div class="requestpayout_detail_label">所属商户：</div>
+			<div class="requestpayout_detail_txt">{{vo.supplier_name}}</div>
+			<em class="merchant_slidedown_arrow merchant_details_btn"></em>
+			<div class="merchant_slidedown_arrow_detail" style="display: none;">
+				<div class="merchant_slidedown_arrow_detail_title">{{supplierDetail.name}}</div>
+				<div class="merchant_remark">{{supplierDetail.flag_value}}</div>
+
+				<div class="merchant_slidedown_arrow_detail_shoptype">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">店面类型：</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{supplierDetail.type_value}}</div>
+				</div>
+				<div class="merchant_slidedown_arrow_detail_shoptype">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">商户状态：</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{supplierDetail.status_value}}</div>
+				</div>
+				{{#if (label_names) }}
+				<div class="merchant_slidedown_arrow_detail_shoptype">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">标签：</div>
+					{{#each (label_names) }}
+					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{this}}</div>
+					{{/each}}
+				</div>
+				{{/if}}
+				<div class="imgDetail">
+					{{#each (fileList) }}
+					<a href="{{this.url}}" target="_blank">
+						<div class="request-img-box inline" style="margin-top:0;" title="{{this.file_name}}">
+							<div class="requestImgBox cursor">
+								<img src="{{this.thumbnail}}" alt=""/>
+							</div>
+							<div class="imgText">{{this.file_name}}</div>
+						</div>
+					</a>
+					{{/each}}
+				</div>
+				<div class="merchant_remark">商户返佣政策（仅供参考）</div>
+
+				{{#if (rebate_car) }}
+				<div class="merchant_slidedown_arrow_detail_shoptype">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">车款返点：</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_car}}元</div>
+				</div>
+				{{/if}}
+				{{#if (rebate_service) }}
+				<div class="merchant_slidedown_arrow_detail_shoptype">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">服务费返点：</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_service}}元</div>
+				</div>
+				{{/if}}
+				{{#if (rebate_gps) }}
+				<div class="merchant_slidedown_arrow_detail_shoptype">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">GPS返点：</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_gps}}元</div>
+				</div>
+				{{/if}}
+				{{#if (rebate_insurance) }}
+				<div class="merchant_slidedown_arrow_detail_shoptype">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">保险返点：</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_insurance}}元</div>
+				</div>
+				{{/if}}
 			</div>
+		</div>
 		{{/if}}
 	</div>
 </div>
@@ -206,8 +266,24 @@
 			});
 		}
 
+        // 申请单的展开折叠效果
+        //含有子级权限的展开折叠效果
+        function slideDownList () {
+	        var btn = $('.merchant_details_btn');
+            btn.off('click').on("click", function () {
+                var t = $(this);
+                var childPrivilege = t.parents(".detail_remarks").find(">.merchant_slidedown_arrow_detail");
+                if (childPrivilege.is(":hidden")) {
+                    childPrivilege.slideDown(300).parents(".detail_remarks").find(".merchant_slidedown_arrow").addClass("merchant_slidedown_up_arrow");
+                } else {
+                    childPrivilege.slideUp(300).parents(".detail_remarks").find(".merchant_slidedown_arrow").removeClass("merchant_slidedown_up_arrow");
+                }
+			});
+        }
+
 		$(function () {
             toHistoryList();
+            slideDownList();
 		})
 	})(jQuery, window, undefined)
 </script>

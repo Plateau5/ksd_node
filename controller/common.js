@@ -260,6 +260,29 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 data.originUrl = localUrl;
                 data.markUri = markUri;
                 data.vo.thousandRate = thousandRate(data);
+                //所属商户弹出层的标签名
+                if(data.supplierDetail.label_name){
+                    if(data.supplierDetail.label_name.indexOf(",")!=-1){
+                        data.label_names = data.supplierDetail.label_name.split[","];
+                    }
+                }
+                //所属商户弹出层的商户返佣政策
+                for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
+                    switch (data.rebatePolicy[i].rebate_type){
+                        case 1:
+                            data.rebate_car = data.rebatePolicy[i].exceed_money*data.rebatePolicy[i].rebate_money;//车款返点
+                            break;
+                        case 2:
+                            data.rebate_gps = data.rebatePolicy[i].rebate_money;//gps返点
+                            break;
+                        case 3:
+                            data.rebate_service = data.vo.service_charge*data.rebatePolicy[i].exceed_money;//服务费返点
+                            break;
+                        case 4:
+                            data.rebate_insurance = data.vo.insurance*data.rebatePolicy[i].exceed_money;//保险费返点
+                            break;
+                    }
+                }
                 if (localUrl.indexOf( markUri + '/customer/loan') !== -1) {
                     res.render('./customer/imgDetail', data);
                 } else if (localUrl.indexOf( markUri + '/customer/compact') !== -1) {
@@ -285,6 +308,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
         } else {
             res.redirect(markUri + '/404');
         }
+        //计算百分率
         function thousandRate (data) {
             var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
             if(thoudsanData.toString().indexOf(".")!=-1){
