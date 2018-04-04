@@ -37,4 +37,5 @@ function validatePolicyEmpty (form) {
         $alert('请选择利率');
         return false;
     }
+
 };
