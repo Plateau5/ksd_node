@@ -1575,6 +1575,10 @@ function onConfirm () {
     searchBusinessList();
 }
 
+function onChooseFun () {
+    searchBusinessList();
+}
+
 
 /**
  * 需传递订单编号进行的页面跳转方法
@@ -1852,8 +1856,9 @@ function datePicker (target, options) {
         minDate : options.minDate || '',
         maxDate : options.maxDate || '',
         isClear : options.isClear ? true : false,
-        okfun : options.okfun || null,
-        choosefun : options.okfun || null
+        okfun : options.okfun || onConfirm,
+        choosefun : options.okfun || onChooseFun,
+        clearfun : options.clearfun || onClear,
     });
     $(target).addClass('datainp wicon');
 }
@@ -2191,6 +2196,29 @@ function verifyLicense (selector, callback) {
     });
 }
 
+
+// 分页切换
+function paginationSwitch () {
+    var btn = $('.page .page-item');
+    btn.off('click').on('click', function () {
+        var _this = $(this);
+        var form = $('form[role="form"]');
+        var currentPage = _this.data('currentpage');
+        var nextPage = null;
+        if (!_this.hasClass('disabled')) {
+            if (_this.hasClass('prev')) {
+                nextPage = currentPage - 1;
+            } else if (_this.hasClass('next')) {
+                nextPage = currentPage + 1;
+            } else {
+                nextPage = currentPage;
+            }
+            form.find('input[name="current_page"]').val(nextPage);
+            _this.data('currentpage', nextPage).siblings('.prev').data('currentpage', nextPage);
+            form.submit();
+        }
+    });
+}
 
 
 $(function () {

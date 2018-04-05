@@ -43,7 +43,7 @@
                 </div>
                 {{#if (rebateTypeList.length > 0) }}
                     {{#each (rebateTypeList) }}
-                        <div class="module_list" data-id="{{this.rebate_typeId}}" data-index="{{this.rebate_type}}">
+                        <div class="module_list" data-id="{{this.rebate_typeId}}" data-index="{{this.rebate_type}}" data-rebate_name="{{rebate_type_value}}">
                             <div class="title">
                                 <span class="module_name font14">{{rebate_type_value}}</span>
                                 <div class="rf">
@@ -103,13 +103,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div class="page">
-                                <a href="javascript:" class="page-item home" data-currentPage="1" data-limit="20"></a>
-                                <a href="javascript:" class="page-item prev" data-currentPage="{{current_page}}" data-limit="20"></a>
-                                <a href="javascript:" class="page-item next" data-currentPage="{{current_page}}" data-limit="20"></a>
-                                <a href="javascript:" class="page-item end" data-currentPage="{{total_page}}" data-limit="20"></a>
-                                <span class="total_page">共<span class="num">10000</span>条</span>
-                            </div>
+                            {{include('./../inc/paginations')}}
                         </div>
                     {{/each}}
                 {{else}}
@@ -547,7 +541,8 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 var type = _this.parents('.module_list').data('index');
-                var rebateId = _this.parents('.module_list').data('id')
+                var rebateId = _this.parents('.module_list').data('id');
+                var rebateName = _this.parents('.module_list').data('rebate_name');
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/policies/edit',
                     param : {
@@ -555,7 +550,8 @@
                         car_type : carType,
                         orgName : orgName,
                         rebate_type : type,
-                        rebate_typeId : rebateId
+                        rebate_typeId : rebateId,
+                        rebate_name : rebateName
                     }
                 })
 

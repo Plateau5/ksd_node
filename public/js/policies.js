@@ -3,6 +3,44 @@
  */
 
 /**
+ * 锁定或解锁输入状态
+ * @author Arley 2018年4月5日17:45:36
+ * @param policy {Object}
+ */
+function initDisabledOrReset (policy) {
+    var policiesList = policy || $('.form_options').not('.policies_temp');
+    policiesList.each(function () {
+        var _this = $(this);
+        var inputs = _this.find('input');
+        var select = _this.find('select');
+        inputs.each(function () {
+            var _that = $(this);
+            // 获取输入框的默认状态：1-默认展示 2-展示解锁 3-默认disabled
+            var _status = _that.data('status');
+            if (_status === 1 || !_status) {
+                _that.attr('disabled', 'disabled').data('status', 2);
+            } else if (_status === 2) {
+                _that.removeAttr('disabled').data('status', 1);
+            }
+        });
+
+        select.each(function () {
+            var t = $(this);
+            if (t.attr('disabled') == 'disabled') {
+                t.removeAttrs('disabled');
+            } else {
+                t.attr('disabled', 'disabled');
+            }
+        });
+    });
+}
+
+
+
+
+
+
+/**
  * 绑定政策编辑提交
  * @author Arley Joe 2018-4-3 16:52:01
  * @return {}
@@ -13,25 +51,49 @@ function bindPolicySubmit () {
         var _this = $(this);
         // 获取编辑状态：新建：0  编辑：1
         var editType = _this.parents('.form_options').data('edit_type');
+        var parentForm = _this.parents('.policies_item');
+        var verify = null;
         if (editType === 0) {
-            var parentForm = _this.parents('.policy_form');
-            var verify = validatePolicyEmpty(parentForm);
+            verify = validatePolicyEmpty(parentForm);
             if (verify) {
                 submitEvent(parentForm, btn);
             }
         } else if (editType === 1) {
-            _this.text('保存').siblings('.edit_cancel').show();
-        }
-        var parentForm = _this.parents('.policy_form');
-        var verify = validatePolicyEmpty(parentForm);       // 空值校验
-        var unrepeat = checkPoliciesRepeat(parentForm);     // 是否重复
-        if (verify && unrepeat) {
-            submitEvent(parentForm, _this);
+            // 获取编辑按钮的状态：0-编辑（锁定）  1-提交（更改后）
+            var editStatus = _this.data('status');
+            if (editStatus === 0) {
+                var editing = $('.edit_confirm.editing').not('.new');
+                if (editing.length > 0) {
+                    $alert('有其他政策正在编辑状态');
+                } else {
+                    _this.text('保存').addClass('editing').siblings('.edit_cancel').show();
+                    parentForm.find('.disabled_mask').hide();
+                    _this.data('status', 1);
+                }
+            } else {
+                verify = validatePolicyEmpty(parentForm);
+                var unrepeat = checkPoliciesRepeat(parentForm);     // 是否重复
+                if (verify && unrepeat) {
+                    submitEvent(parentForm, _this);
+                }
+            }
         }
     });
-
-
 }
+
+/**
+ * 取消政策的编辑
+ * @author Arley 2018年4月5日18:06:34
+ */
+function cancelEdit () {
+    var btn = $('.edit_cancel');
+    btn.off('click').on('click', function () {
+        var _this = $(this);
+        var form = _this.parents('.policy_form');
+        window.location.reload();
+    });
+}
+
 /**
  * 政策创建提交事件逻辑
  * @param form : 当前政策的提交form元素
@@ -273,3 +335,71 @@ function checkPoliciesRepeat (form) {
     return true;
 }
 
+// 创建新返点政策
+function createNewPolicy () {
+    var temp = $('.policies_temp');
+    var firstPolicy = $('.first_policy');
+
+    var createBtn = $('.create_policy_btn');
+    createBtn.off('click').on('click', function () {
+        firstPolicy.before(temp);
+        var newPolicy = $('.policies_temp').eq(0);
+        newPolicy.show();
+        newPolicy.find('.edit_delete').show();
+    });
+}
+
+
+/**
+ * 删除政策按钮绑定点击事件
+ * @author Arley 2018年4月5日17:09:07
+ * @param btn {Object} : 当前的删除按钮（jQuery对象）
+ */
+function deletePolicy () {
+    var btn = $('.edit_delete');
+    btn.off('click').on('click', function () {
+        var _this = $(this);
+        var btnBox = _this.parents('.btn_box');
+        // 按钮的状态类型  新建：0 编辑状态：1
+        var btnType = btnBox.data('btn_type');      // 按钮的状态类型
+        var policyE = _this.parents('.form_options');
+        if (btnType === 0) {
+            policyE.remove();
+        } else if (btnType === 1) {
+            deleteOldPolicies();    // 调用接口删除政策
+        }
+    });
+
+
+}
+
+
+/**
+ * 删除历史政策数据
+ * @author Arley 2018年4月5日17:29:51
+ * @param btn {Object} : 当前的删除按钮（jQuery对象）
+ */
+function deleteOldPolicies (btn) {
+    btn.off('click');
+    var policyE = btn.parents('.form_options');
+    var policyId = policyE.data('id');
+
+    redefineAjax({
+        url : contextPath + '',
+        data : {
+            rebate_id : policyId
+        },
+        success : function (res) {
+            if (res.error_code == 0) {
+                $alert('政策删除成功。');
+            } else {
+                $alert(res.error_msg);
+                deletePolicy();
+            }
+        },
+        error : function () {
+            $alert('政策删除失败，请重新提交！');
+            deletePolicy();
+        }
+    })
+}

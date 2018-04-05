@@ -242,7 +242,8 @@ router.post(markUri + '/supplier/organization/productCopy', supplierCtrl.VIEW_SU
 router.post(markUri + '/supplier/organization/policies', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST);
 // 供应商部分-金融机构-佣金政策创建编辑页 1476
 router.post(markUri + '/supplier/organization/policies/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT);
-
+// 供应商部分-金融机构-佣金政策创建编辑页 1478
+router.post(markUri + '/supplier/organization/policies/history', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST);
 
 
 

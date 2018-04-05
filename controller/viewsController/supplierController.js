@@ -173,6 +173,53 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
 };
 
 
+// 供应商部分-金融机构-佣金政策创建编辑页 1478
+exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/rebatepolicy/list ',
+        title : '供应商-机构政策返点列表',
+        page : './organization/policiesHistory',
+        callback : function (data) {
+            // 计算万元系数
+            var policiesList = data.data;
+            for (var i = 0, len = policiesList.length; i < len; i++) {
+                // -- 计算每个政策的万元系数
+                var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
+                var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
+                // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
+                var millionCoefficient = parseInt(((rate * 1000 * (periods / 12)) / periods) * 1000) / 1000;
+                if (millionCoefficient.toString().indexOf('.') !== -1) {
+                    if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
+                        millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;
+                    } else {
+                        millionCoefficient = Number(millionCoefficient.toString().split('.')[0]);
+                    }
+                }
+                policiesList[i].millionCoefficient = millionCoefficient;
+
+                // 格式化返点规则
+                var rule = '';
+                if (policiesList[i].rebate_way === 1) {     // 固定金额
+                    rule = '固定金额：' + policiesList[i].rebate_money + '元';
+                } else if (policiesList[i].rebate_way === 2) {      // 超额返比例
+                    rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
+                } else if (policiesList[i].rebate_way === 3) {      // 超额返金额
+                    rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
+                } else if (policiesList[i].rebate_way === 4) {      // 返比例
+                    rule = '固定比例：' + policiesList[i].rebate_money + '%';
+                }
+                policiesList[i].rule = rule;
+
+                // 转化城市名称
+                if (policiesList[i].city_name) {
+                    policiesList[i].city_names = policiesList[i].city_name.replace(/,/g, '、');
+                }
+            }
+            data.data = policiesList;
+        }
+    }, req, res, next);
+};
+
 
 
 

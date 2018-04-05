@@ -29,23 +29,26 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a href="{{markUri}}/supplier/organization/policies" class="crumbs_item">制定返佣政策({{reqParams.orgName}})</a>
-                <a href="javascript:" class="crumbs_item">编辑车款返点政策</a>
+                <a href="javascript:" class="crumbs_item">编辑{{reqParams.rebate_name}}</a>
             </div>
             <div class="policy_container">
+                <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
+                <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
+                <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
+                <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
+                <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebateTypeId">
+                <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebateName">
+                {{#if (rebatePolicy.length > 0) }}
                 <div class="btn_box title_btn">
-                    <a href="javascript:" class="detail_title_btn create_btn">添加返点类型</a>
+                    <a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加返点类型</a>
                     <a href="javascript:" class="detail_title_btn history_btn">历史政策</a>
                 </div>
+                {{/if}}
                 {{#if (rebatePolicy.length > 0) }}
                     {{#each (rebatePolicy) }}
-                        <div class="form_options" data-id="{{this.rebate_id}}" data-edit_type="1">
+                        <div class="form_options {{#if (xindex === 0) }}first_policy{{/if}} policies_item" data-id="{{this.rebate_id}}" data-edit_type="1">
                             <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form" data-policy_index="{{xindex}}">
-                                <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}">
-                                <input type="hidden" name="car_type" value="{{reqParams.car_type}}">
-                                <input type="hidden" name="organization_name" value="{{reqParams.orgName}}">
-                                <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}">
-                                <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}">
-                                <input type="hidden" name="rebate_id" value="{{this.rebate_id}}">
+                                <input type="hidden" name="rebate_id" value="{{this.rebate_id}}" class="rebateId">
                                 <input type="hidden" name="edit_type" value="2"  class="edit_type">
                                 <div class="option_item">
                                     <div class="column_name">
@@ -206,13 +209,16 @@
                                         <span class="tips_info">(*请先生效时间)</span>
                                     </div>
                                 </div>
-                                <div class="btn_box text_left pad_btm_50 clearfix">
-                                    <a href="javascript:" class="btn orange_btn confirm edit_confirm">编辑</a>
-                                    <a href="javascript:;" class="btn bg_btn edit_cancel">删除</a>
-                                </div>
+                            </div>
+                                <div class="disabled_mask"></div>
                             </form>
+                            <div class="btn_box text_left pad_btm_50 clearfix" data-btn_type="1">
+                                <a href="javascript:" class="btn orange_btn confirm edit_confirm" data-status="0">编辑</a>
+                                <a href="javascript:;" class="btn bg_btn edit_delete" style="margin-right: 30px;">删除</a>
+                                <a href="javascript:;" class="btn bg_btn edit_cancel" style="display: none;">取消</a>
+                            </div>
                         </div>
-                    </div>
+
                     {{/each}}
                 {{/if}}
 
@@ -328,9 +334,9 @@
                                     <span class="tips_info">(*请先生效时间)</span>
                                 </div>
                             </div>
-                            <div class="btn_box text_left pad_btm_50 clearfix">
-                                <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存</a>
-                                <!--<a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>-->
+                            <div class="btn_box text_left pad_btm_50 clearfix" data-btn_type='0'>
+                                <a href="javascript:" class="btn orange_btn confirm edit_confirm editing new">保存</a>
+                                <a href="javascript:;" class="btn bg_btn edit_delete" style="display: none;">删除</a>
                             </div>
                         </form>
                     </div>
@@ -375,6 +381,11 @@
 </script>
 <script>
     (function ($) {
+        var orgId = $('.orgId').val().trim().number();      // 机构Id
+        var orgName = $('.orgName').val().trim();      // 机构名称
+        var carType = $('.carType').val().trim().number();  //车辆类型
+        var rebateType = $('.rebateType').val().trim().number();    // 返点类型
+        var rebateName = $('.rebateName').val().trim();     // 返点类型名称
         // 添加城市
         function addCity () {
             var btn = $('.add_city_btn');
@@ -452,9 +463,34 @@
             });
         }
 
+        /**
+         * 跳转历史编辑页面
+         * @author Arley 2018年4月5日18:20:03
+         */
+        function toHistoryList () {
+            var btn = $('.history_btn');    // 跳转历史政策按钮
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/policies/history',
+                    param : {
+                        car_type : carType,
+                        organization_id : orgId,
+                        orgName : orgName,
+                        rebate_type : rebateType,
+                        list_origin : 2,
+                        limit : 20,
+                        current_page : 1,
+                        rebate_name : rebateName
+                    }
+                })
+            });
+        }
+
 
 
         $(function() {
+            // 注册时间插件
             datePicker('.effective_date', {
                 minDate : $.nowDate({DD:1})
             });
@@ -466,6 +502,10 @@
             addCity();      // 添加城市点击事件
             changeRebateType();     // 更改返佣类型视图切换
             bindPolicySubmit();     // 编辑/创建保存提交
+            createNewPolicy();      // 创建新政策
+            // initDisabledOrReset(false);      // 锁定或解锁输入状态
+            cancelEdit();       // 取消编辑按钮
+            toHistoryList();        // 跳转历史政策页面
         });
     })(jQuery,undefined);
 </script>
