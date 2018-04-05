@@ -63,7 +63,7 @@
                                     <div class="column_val">
                                         {{#each (root.rates.split(',')) }}
                                         <div class="form_group">
-                                            {{#if (../rates.indexOf(this) !== -1) }}
+                                            {{#if (../rebate_period.indexOf(this) !== -1) }}
                                             <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this}}" />
                                             <label class="checked">{{this}}</label>
                                             {{else}}
@@ -81,7 +81,7 @@
                                     <div class="column_val">
                                         {{#each (root.rebatePeriods.split(',')) }}
                                         <div class="form_group">
-                                            {{#if (../rebatePeriods.indexOf(this) !== -1) }}
+                                            {{#if (../rate.indexOf(this) !== -1) }}
                                             <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this}}" />
                                             <label class="checked">{{this}}</label>
                                             {{else}}
@@ -100,7 +100,7 @@
                                         <select name="rebate_way"  class="rebate_type" id="" style="width: 120px;">
                                             <option value="">请选择</option>
                                             {{#each (wayList) }}
-                                                {{#if (this.index === root.rebatePolicy.rebate_way) }}
+                                                {{#if (this.index === ../rebate_way) }}
                                                 <option value="{{this.index}}" selected="selected">{{this.name}}</option>
                                                 {{else}}
                                                 <option value="{{this.index}}">{{this.name}}</option>
@@ -141,9 +141,9 @@
                                     </div>
                                     <div class="column_val">
                                         <ul class="city_list">
-                                            {{#if (rebatePolicy.city_ids.length > 0) }}
-                                                {{#each (rebatePolicy.city_ids.split(',')) }}
-                                                    <li class="city">{{rebatePolicy.city_ids.split(',')[xIndex]}}<em class="delete_btn" data-id="{{this}}"></em></li>
+                                            {{#if (this.city_ids.length > 0) }}
+                                                {{#each (this.city_ids.split(',')) }}
+                                                    <li class="city" data-id="{{this}}" data-name="{{../city_name.split(',')[xindex]}}">{{../city_name.split(',')[xindex]}}<em class="delete_btn" data-id="{{this}}"></em></li>
                                                 {{/each}}
                                             {{/if}}
                                         </ul>
