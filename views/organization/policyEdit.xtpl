@@ -39,7 +39,7 @@
                 {{#if (rebatePolicy.length > 0) }}
                     {{#each (rebatePolicy) }}
                         <div class="form_options" data-id="{{this.rebate_id}}" data-edit_type="1">
-                            <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form">
+                            <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form" data-policy_index="{{xindex}}">
                                 <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}">
                                 <input type="hidden" name="car_type" value="{{reqParams.car_type}}">
                                 <input type="hidden" name="organization_name" value="{{reqParams.orgName}}">
@@ -60,8 +60,8 @@
                                     <div class="column_name">
                                         <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                                     </div>
-                                    <div class="column_val">
-                                        {{#each (root.rates.split(',')) }}
+                                    <div class="column_val policy_periods">
+                                        {{#each (root.rebatePeriods.split(',')) }}
                                         <div class="form_group">
                                             {{#if (../rebate_period.indexOf(this) !== -1) }}
                                             <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this}}" />
@@ -78,8 +78,8 @@
                                     <div class="column_name">
                                         <span class="options_name"><span class="require_icon">*</span>费率：</span>
                                     </div>
-                                    <div class="column_val">
-                                        {{#each (root.rebatePeriods.split(',')) }}
+                                    <div class="column_val policy_rates">
+                                        {{#each (root.rates.split(',')) }}
                                         <div class="form_group">
                                             {{#if (../rate.indexOf(this) !== -1) }}
                                             <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this}}" />
@@ -97,7 +97,7 @@
                                         <span class="options_name"><span class="require_icon">*</span>返佣方式：</span>
                                     </div>
                                     <div class="column_val">
-                                        <select name="rebate_way"  class="rebate_type" id="" style="width: 120px;">
+                                        <select name="rebate_way"  class="rebate_type" id="" style="width: 160px;">
                                             <option value="">请选择</option>
                                             {{#each (wayList) }}
                                                 {{#if (this.index === ../rebate_way) }}
@@ -107,30 +107,71 @@
                                                 {{/if}}
                                             {{/each}}
                                         </select>
+                                        {{#if (this.rebate_way !== 1) }}
+                                        <div class="inline_block fixed_amount rebate_detail_value" style="display: none;">
+                                        {{else}}
                                         <div class="inline_block fixed_amount rebate_detail_value">
+                                        {{/if}}
                                             <span>返</span>
-                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="请输入金额"  style="width: 90px;" />
+                                            {{#if (this.rebate_way !== 1) }}
+                                            <input type="text" class="" maxlength="7" data-tips="金额不能为空" name="rebate_money" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" disabled="disabled" placeholder="请输入金额"  style="width: 90px;" />
+                                            {{else}}
+                                            <input type="text" class="" maxlength="7" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{/if}}
                                             <span>元</span>
                                         </div>
-                                        <div class="rebate_detail_value proportion">
+                                        {{#if (this.rebate_way !== 4) }}
+                                        <div class="inline_block proportion rebate_detail_value" style="display: none;">
+                                        {{else}}
+                                        <div class="inline_block proportion rebate_detail_value">
+                                        {{/if}}
                                             <span>返超出金额的</span>
-                                            <input type="text" class="" maxlength="30" data-tips="比例值不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" />
+                                            {{#if (this.rebate_way !== 4) }}
+                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例值不能为空" name="rebate_money" disabled="disabled" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{else}}
+                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例值不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{/if}}
                                             <span>%</span>
                                         </div>
-                                        <div class="rebate_detail_value excess_amount">
+                                        {{#if (this.rebate_way !== 3) }}
+                                        <div class="inline_block excess_amount rebate_detail_value" style="display: none;">
+                                        {{else}}
+                                        <div class="inline_block excess_amount rebate_detail_value">
+                                        {{/if}}
                                             <span>超出</span>
-                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="请输入金额"  style="width: 90px;" />
+                                            {{#if (this.rebate_way !== 3) }}
+                                            <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" disabled="disabled" value="" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{else}}
+                                            <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{/if}}
                                             <span>元</span>
                                             <span>返</span>
-                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="500"  style="width: 90px;" />
+                                            {{#if (this.rebate_way !== 3) }}
+                                            <input type="text" class="return_amount" maxlength="10" data-tips="金额不能为空" name="rebate_money" disabled="disabled" value="" placeholder="500"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{else}}
+                                            <input type="text" class="return_amount" maxlength="10" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="500"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{/if}}
                                             <span>元</span>
                                         </div>
-                                        <div class="rebate_detail_value excess_proportion">
+                                        {{#if (this.rebate_way !== 2) }}
+                                        <div class="inline_block excess_proportion rebate_detail_value" style="display: none;">
+                                        {{else}}
+                                        <div class="inline_block excess_proportion rebate_detail_value">
+                                        {{/if}}
+                                        <div class="inline_block excess_proportion rebate_detail_value">
                                             <span>超出</span>
-                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="1000"  style="width: 90px;" />
+                                            {{#if (this.rebate_way !== 2) }}
+                                            <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="" disabled="disabled" placeholder="1000"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{else}}
+                                            <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="1000"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{/if}}
                                             <span>元</span>
                                             <span>返超出金额的</span>
-                                            <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" />
+                                            {{#if (this.rebate_way !== 2) }}
+                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="" disabled="disabled" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{else}}
+                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{/if}}
                                             <span>%</span>
                                         </div>
                                     </div>
@@ -171,9 +212,15 @@
                                 </div>
                             </form>
                         </div>
+                    </div>
                     {{/each}}
+                {{/if}}
+
+                {{#if (rebatePolicy.length <= 0) }}
+                    <div class="form_options policies_temp" data-edit_type="0">
                 {{else}}
-                    <div class="form_options" data-edit_type="0">
+                    <div class="form_options policies_temp none" data-edit_type="0">
+                {{/if}}
                         <form action="{{contextPath}}/api/organization/rebate/save" method="post"  class="policy_form">
                             <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}">
                             <input type="hidden" name="car_type" value="{{reqParams.car_type}}">
@@ -222,7 +269,7 @@
                                     <span class="options_name"><span class="require_icon">*</span>返佣方式：</span>
                                 </div>
                                 <div class="column_val">
-                                    <select name="rebate_way" class="rebate_type" style="width: 120px;">
+                                    <select name="rebate_way" class="rebate_type" style="width: 160px;">
                                         <option value="">请选择</option>
                                         {{#each (wayList) }}
                                             <option value="{{this.index}}">{{this.name}}</option>
@@ -230,28 +277,28 @@
                                     </select>
                                     <div class="inline_block fixed_amount rebate_detail_value" style="display: none;">
                                         <span>返</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="请输入金额"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="7" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                         <span>元</span>
                                     </div>
                                     <div class="inline_block proportion rebate_detail_value" style="display: none;">
                                         <span>返超出金额的</span>
-                                        <input type="text" class="" maxlength="30" data-tips="比例值不能为空" name="rebate_money" value="" placeholder="10"  style="width: 90px;" />
+                                        <input type="text" class="proportion_input" maxlength="3" data-tips="比例值不能为空" name="rebate_money" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                         <span>%</span>
                                     </div>
                                     <div class="inline_block excess_amount rebate_detail_value" style="display: none;">
                                         <span>超出</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="" placeholder="请输入金额"  style="width: 90px;" />
+                                        <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" />
                                         <span>元</span>
                                         <span>返</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="" placeholder="500"  style="width: 90px;" />
+                                        <input type="text" class="return_amount" maxlength="10" data-tips="金额不能为空" name="rebate_money" value="" placeholder="500"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" />
                                         <span>元</span>
                                     </div>
                                     <div class="inline_block excess_proportion rebate_detail_value" style="display: none;">
                                         <span>超出</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="exceed_money" value="" placeholder="1000"  style="width: 90px;" />
+                                        <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="" placeholder="1000"  style="width: 90px;"  onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
                                         <span>元</span>
                                         <span>返超出金额的</span>
-                                        <input type="text" class="" maxlength="30" data-tips="金额不能为空" name="rebate_money" value="" placeholder="10"  style="width: 90px;" />
+                                        <input type="text" class="" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                         <span>%</span>
                                     </div>
                                 </div>
@@ -287,7 +334,7 @@
                             </div>
                         </form>
                     </div>
-                {{/if}}
+
 
 
 
@@ -320,6 +367,11 @@
     var list = '{{cityList}}'; // 城市数据
     list = JSON.parse(list.replace(/&quot;/ig, '"'));
     var __LocalDataCities = formatCityData(list);
+
+    // 存储原始政策数据
+    var rebatePolicies = '{{rebatePolicies}}';        //
+    rebatePolicies = JSON.parse(rebatePolicies.replace(/&quot;/ig, '"'));
+    console.log(rebatePolicies);
 </script>
 <script>
     (function ($) {

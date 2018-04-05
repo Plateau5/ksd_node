@@ -143,6 +143,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
             var citys = data.cityList;
             var cityList = [];
             var provinceId = [];
+            data.rebatePolicies = JSON.stringify(data.rebatePolicy);
             for (var i = 0, len = citys.length; i < len; i++) {
                 var pId = citys[i].province_id;
                 var pName = citys[i].province_name;

@@ -14,18 +14,19 @@ function bindPolicySubmit () {
         // 获取编辑状态：新建：0  编辑：1
         var editType = _this.parents('.form_options').data('edit_type');
         if (editType === 0) {
-            /*var parentForm = _this.parents('.policy_form');
+            var parentForm = _this.parents('.policy_form');
             var verify = validatePolicyEmpty(parentForm);
             if (verify) {
                 submitEvent(parentForm, btn);
-            }*/
+            }
         } else if (editType === 1) {
             _this.text('保存').siblings('.edit_cancel').show();
         }
         var parentForm = _this.parents('.policy_form');
-        var verify = validatePolicyEmpty(parentForm);
-        if (verify) {
-            submitEvent(parentForm, btn);
+        var verify = validatePolicyEmpty(parentForm);       // 空值校验
+        var unrepeat = checkPoliciesRepeat(parentForm);     // 是否重复
+        if (verify && unrepeat) {
+            submitEvent(parentForm, _this);
         }
     });
 
@@ -117,13 +118,53 @@ function validatePolicyEmpty (form) {
             }
         });
         if (isDetailEmpty) {
-            $alert('返佣方式的金额或是比例不能为空');
+            $alert('返佣方式的金额或是比例不能为空。');
             return false;
         }
     }
 
+    // 验证比例不能超过100%
+    var proportionE = form.find('.proportion_input').not('[disabled="disabled"]');
+    if (proportionE.length > 0) {
+        var proportion = proportionE.val().number();
+        if (proportion) {
+            if (proportion > 100) {
+                $alert('比例不能超过100%。');
+                return false;
+            }
+        } else {
+            $alert('请先填写比例，比例不能为空。');
+            return false;
+        }
+    }
+
+
+    // 超出金额验证(7位整数或加两位小数)
+    var excessAmountE = form.find('.excess_amount_input').not('[disabled="disabled"]');
+    if (excessAmountE.length > 0) {
+        var excessAmount = excessAmountE.val().number();
+        if (excessAmount > 9999999.99) {
+            $alert('超出金额不能大于9999999.99。');
+            return false;
+        }
+    }
+
+    // 验证超出金额返固定金额的数值（7位整数或加两位小数 && 不能大于超出金额）
+    var returnAmountE = form.find('.return_amount').not('[disabled="disabled"]');
+    if (returnAmountE.length > 0) {
+        var returnAmount = returnAmountE.val().number();
+        if (returnAmount > excessAmount || returnAmount > 9999999.99) {
+            $alert('返还金额不能大于超出金额且不能大于超出金额。');
+            return false;
+        }
+    }
+
+
+
     // 业务城市校验
-    var citys = form.find('.citySelectInput').val().trim();
+    var _thisBtn = form.find('.add_city_btn');
+    getCheckedCitys(_thisBtn);
+    var citys = form.find('.city_ids').val();
     if (citys == '') {
         $alert('请选择至少一个城市');
         return false;
@@ -159,3 +200,76 @@ function getCheckedCitys (btn) {
     });
     return cityObj;
 }
+
+/**
+ * 获取创建政策的数据（费率、融资期限、城市）
+ * @param form {Object} : 当前编辑政策的form提交元素（jQuery对象）
+ * @return {Object} : 政策数据
+ */
+function getEditPolicyData (form) {
+    var policyData = {
+        rates : [],
+        rebatePeriods : [],
+        citys : []
+    };
+
+    var ratesEle = form.find('.policy_rates').find('input[type="checkbox"]:checked');   // 费率元素
+    var peridosEle = form.find('.policy_periods').find('input[type="checkbox"]:checked');       // 期限元素
+    ratesEle.each(function () {
+        var _this = $(this);
+        var value = _this.val().trim().number();
+        policyData.rates.push(value);
+    });
+    peridosEle.each(function () {
+        var _this = $(this);
+        var value = _this.val().trim().number();
+        policyData.rebatePeriods.push(value);
+    });
+    var _thisBtn = form.find('.add_city_btn');
+    policyData.citys = getCheckedCitys(_thisBtn);
+
+    return policyData;
+}
+
+/**
+ * 校验政策的重复性
+ * @author Arley 2018年4月5日13:05:08
+ * @param form {Object} : 当前编辑政策的form提交元素（jQuery对象）
+ * @return {Boolean}
+ */
+function checkPoliciesRepeat (form) {
+    var editPolicyData = getEditPolicyData(form);
+    var index = form.data('policy_index');      // 当前政策的下标（页面循环下标）
+    rebatePolicies.remove(rebatePolicies[index]);   // 除去老数据的当前政策
+    for (var i = 0, len = rebatePolicies.length; i < len; i++) {
+        var oldRates = rebatePolicies[i].rate.split(',');
+        var oldPeriods = rebatePolicies[i].rebate_period.split(',');
+        var oldCitys = rebatePolicies[i].city_ids.split(',');
+        for (var a = 0, l1 = oldRates.length; a < l1; a++) {
+            if (editPolicyData.rates.indexOf(oldRates[a]) !== -1) {
+                for (var b = 0, l2= oldPeriods.length; b < l2; b++) {
+                    if (editPolicyData.rebatePeriods.indexOf(oldPeriods[b]) !== -1) {
+                        for (var c = 0, l3 = oldCitys.length; c < l3; c++) {
+                            if (editPolicyData.citys.cityIds.indexOf(oldCitys[c]) !== -1) {
+                                // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
+                                var millionCoefficient = parseInt(((oldRates[a] * 1000 * (oldPeriods[b] / 12)) / oldPeriods[b]) * 1000) / 1000;
+                                if (millionCoefficient.toString().indexOf('.') !== -1) {
+                                    if (millionCoefficient.toString().split('.')[1].number() > 445) {
+                                        millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
+                                    } else {
+                                        millionCoefficient = millionCoefficient.toString().split('.')[0].number();
+                                    }
+                                }
+                                var cityName = editPolicyData.citys.cityName[c];        // 当前重复政策的城市名称
+                                $alert('当前政策下'+ cityName +'万元系数'+ millionCoefficient +'已存在！');
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
