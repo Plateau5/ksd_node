@@ -210,6 +210,18 @@ router.post(markUri + '/merchants/audit/disagree', merchantsCtrl.VIEW_MERCHANTS_
 router.post(markUri + '/merchants/edit', merchantsCtrl.VIEW_MERCHANTS_EDIT);
 // 商户-商户管理-备案管理 1368
 router.all(markUri + '/records/manage', merchantsCtrl.VIEW_RECORDS_MANAGE);
+// 商户-商户管理-跳转返佣政策列表页 1480
+router.all(markUri + '/merchants/policies/list', merchantsCtrl.VIEW_MERCHANTS_POLICIES_LIST);
+// 商户-商户管理-返佣政策编辑页 1481
+router.all(markUri + '/merchants/policies/edit', merchantsCtrl.VIEW_MERCHANTS_POLICIES_EDIT);
+// 商户-商户管理-返佣政策历史页 1478
+router.all(markUri + '/merchants/policies/history/list', merchantsCtrl.VIEW_MERCHANTS_POLICIES_HISTORY_LIST);
+
+
+
+
+
+
 
 
 // 供应商部分-主导航跳转  1067
@@ -242,7 +254,7 @@ router.post(markUri + '/supplier/organization/productCopy', supplierCtrl.VIEW_SU
 router.post(markUri + '/supplier/organization/policies', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST);
 // 供应商部分-金融机构-佣金政策创建编辑页 1476
 router.post(markUri + '/supplier/organization/policies/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT);
-// 供应商部分-金融机构-佣金政策创建编辑页 1478
+// 供应商部分-金融机构-佣金政策历史记录页 1478
 router.post(markUri + '/supplier/organization/policies/history', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST);
 
 

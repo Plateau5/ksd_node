@@ -1,0 +1,360 @@
+<!-- 商户列表页 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+    <title>商户管理-返佣政策列表</title>
+    <style>
+        .no_list_data{
+            margin: 20px 0;
+        }
+        .no_hover:hover{
+            background: #FFFFFF !important;
+            cursor: default !important;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item">制定返佣政策</a>
+                <a href="javascript:;" class="crumbs_item">编辑融资额返点政策({{reqParams.orgName}})</a>
+            </div>
+            <div class="policy_container">
+                <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
+                <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
+                <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
+                <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
+                <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebateTypeId">
+                <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebateName">
+                {{#if (data.length > 0) }}
+                <div class="btn_box title_btn">
+                    <!--<a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加返点类型</a>-->
+                    <a href="javascript:" class="detail_title_btn history_btn">历史政策</a>
+                </div>
+                {{/if}}
+                {{#if (data.length > 0) }}
+                {{#each (data) }}
+                <div class="form_options {{#if (xindex === 0) }}first_policy{{/if}} policies_item" data-id="{{this.rebate_id}}" data-edit_type="1">
+                    <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form" data-policy_index="{{xindex}}">
+                        <input type="hidden" name="rebate_id" value="{{this.rebate_id}}" class="rebateId">
+                        <input type="hidden" name="edit_type" value="2"  class="edit_type">
+                        {{#if (this.rebate_name) }}
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">政策名称：</span>
+                            </div>
+                            <div class="column_val">
+                                {{this.rebate_name}}
+                            </div>
+                        </div>
+                        {{/if}}
+                        <div class="option_item financing_period">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
+                            </div>
+                            <div class="column_val policy_periods">
+                                {{#each (this.rebate_period.split(',')) }}
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this}}" />
+                                    <label class="checked disabled">{{this}}</label>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="option_item policy_rates">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>费率：</span>
+                            </div>
+                            <div class="column_val policy_rates">
+                                {{#each (this.ratesList) }}
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this.rates}}" />
+                                    <label class="checked disabled">{{this.rates}}</label>
+                                    <div class="tips_box">
+                                        <em class="text_mark"></em>
+                                        <div class="mark_box">
+                                            <div class="mark_title text_center">万元系数</div>
+                                            <ul class="mark_desc">
+                                                {{#each (this.millionCoefficients) }}
+                                                <li class="desc_item">{{this.name}}：{{this.value}}</li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>返佣方式：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="rebate_way"  class="rebate_type" id="" style="width: 160px;">
+                                    <option value="">请选择</option>
+                                    {{#each (wayList) }}
+                                    {{#if (this.index === ../rebate_way) }}
+                                    <option value="{{this.index}}" selected="selected">{{this.name}}</option>
+                                    {{else}}
+                                    <option value="{{this.index}}">{{this.name}}</option>
+                                    {{/if}}
+                                    {{/each}}
+                                </select>
+                                {{#if (this.rebate_way !== 1) }}
+                                <div class="inline_block fixed_amount rebate_detail_value" style="display: none;">
+                                    {{else}}
+                                    <div class="inline_block fixed_amount rebate_detail_value">
+                                        {{/if}}
+                                        <span>返</span>
+                                        {{#if (this.rebate_way !== 1) }}
+                                        <input type="text" class="" maxlength="7" data-tips="金额不能为空" name="rebate_money" value="" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" disabled="disabled" placeholder="请输入金额"  style="width: 90px;" />
+                                        {{else}}
+                                        <input type="text" class="" maxlength="7" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                        {{/if}}
+                                        <span>元</span>
+                                    </div>
+                                    {{#if (this.rebate_way !== 4) }}
+                                    <div class="inline_block proportion rebate_detail_value" style="display: none;">
+                                        {{else}}
+                                        <div class="inline_block proportion rebate_detail_value">
+                                            {{/if}}
+                                            <span>返超出金额的</span>
+                                            {{#if (this.rebate_way !== 4) }}
+                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例值不能为空" name="rebate_money" disabled="disabled" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{else}}
+                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例值不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            {{/if}}
+                                            <span>%</span>
+                                        </div>
+                                        {{#if (this.rebate_way !== 3) }}
+                                        <div class="inline_block excess_amount rebate_detail_value" style="display: none;">
+                                            {{else}}
+                                            <div class="inline_block excess_amount rebate_detail_value">
+                                                {{/if}}
+                                                <span>超出</span>
+                                                {{#if (this.rebate_way !== 3) }}
+                                                <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" disabled="disabled" value="" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{else}}
+                                                <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="请输入金额"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{/if}}
+                                                <span>元</span>
+                                                <span>返</span>
+                                                {{#if (this.rebate_way !== 3) }}
+                                                <input type="text" class="return_amount" maxlength="10" data-tips="金额不能为空" name="rebate_money" disabled="disabled" value="" placeholder="500"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{else}}
+                                                <input type="text" class="return_amount" maxlength="10" data-tips="金额不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="500"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{/if}}
+                                                <span>元</span>
+                                            </div>
+                                            {{#if (this.rebate_way !== 2) }}
+                                            <div class="inline_block excess_proportion rebate_detail_value" style="display: none;">
+                                                {{else}}
+                                                <div class="inline_block excess_proportion rebate_detail_value">
+                                                    {{/if}}
+                                                    <div class="inline_block excess_proportion rebate_detail_value">
+                                                        <span>超出</span>
+                                                        {{#if (this.rebate_way !== 2) }}
+                                                        <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="" disabled="disabled" placeholder="1000"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                        {{else}}
+                                                        <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="1000"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                        {{/if}}
+                                                        <span>元</span>
+                                                        <span>返超出金额的</span>
+                                                        {{#if (this.rebate_way !== 2) }}
+                                                        <input type="text" class="proportion_input" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="" disabled="disabled" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                                        {{else}}
+                                                        <input type="text" class="proportion_input" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                                        {{/if}}
+                                                        <span>%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--<div class="option_item city_box">
+                                                <div class="column_name">
+                                                    <span class="options_name"><span class="require_icon">*</span>业务城市：</span>
+                                                </div>
+                                                <div class="column_val">
+                                                    <ul class="city_list">
+                                                        {{#if (this.city_ids.length > 0) }}
+                                                        {{#each (this.city_ids.split(',')) }}
+                                                        <li class="city" data-id="{{this}}" data-name="{{../city_name.split(',')[xindex]}}">{{../city_name.split(',')[xindex]}}<em class="delete_btn" data-id="{{this}}"></em></li>
+                                                        {{/each}}
+                                                        {{/if}}
+                                                    </ul>
+                                                    <div class="choose_box">
+                                                        <em class="add_city_btn"></em>&lt;!&ndash;<span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>&ndash;&gt;
+                                                        <input type="hidden" class="area-danxuan single-choice citySelectInput" name="cityNames" value="" data-clear="true" data-value="" />
+                                                        <input type="hidden" name="city_ids" value="" class="cityIds">
+                                                        <input type="hidden" name="city_name" value="" class="cityNames">
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <div class="option_item">
+                                                <div class="column_name">
+                                                    <span class="options_name"><span class="require_icon">*</span>生效时间：</span>
+                                                </div>
+                                                <div class="column_val">
+                                                    <input type="hidden" name="old_effective_time" value="{{this.effective_time}}">
+                                                    <input type="text" class="effective_date datainp wicon" name="effective_time" value="{{this.effective_time}}" readonly="readonly"  placeholder="请选择日期" />
+                                                    <span class="tips_info">(*请先生效时间)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="disabled_mask"></div>
+                    </form>
+                    <div class="btn_box text_left pad_btm_50 clearfix" data-btn_type="1">
+                        <a href="javascript:" class="btn orange_btn confirm edit_confirm" data-status="0">编辑</a>
+                        <!--<a href="javascript:;" class="btn bg_btn edit_delete" style="margin-right: 30px;">删除</a>-->
+                        <a href="javascript:;" class="btn bg_btn edit_cancel" style="display: none;">取消</a>
+                    </div>
+                </div>
+
+                {{/each}}
+                {{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<input type="hidden" id="orgId" value="{{organization_id}}">
+<input type="hidden" id="supplierId" value="{{reqParams.supplier_id}}">
+<input type="hidden" id="orgName" value="{{reqParams.supplier_name}}">
+<input type="hidden" id="carType" value="{{reqParams.car_type}}">
+<input type="hidden" name="list_origin" value="1" id="listOrigin">
+<input type="hidden" name="limit" value="10" id="limit">
+<input type="hidden" name="current_page" value="1" id="currentPage">
+<input type="hidden" name="rebate_type" value="" id="rebateType">
+    <input type="hidden" id="url" value="{{reqParams.url}}">
+    <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
+    <input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_car}}">
+<input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        var orgId = $('.orgId').val().trim().number();      // 机构Id
+        var supplierId = $('#supplierId').val().trim().number();      // 商户Id
+        var orgName = $('#orgName').val().trim();      // 机构名称
+        var carType = $('.carType').val().trim().number();  //车辆类型
+        var rebateType = $('.rebateType').val().trim().number();    // 返点类型
+        var rebateName = $('.rebateName').val().trim();     // 返点类型名称
+        var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+        var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+        var listUrl = $('#url').val().trim();       // 列表页的路由
+        var navigation = $('#navigation').val().trim();     // 列表页的节点
+
+
+        /**
+         * 更改返佣类型视图切换
+         * @author Arley 2018年4月4日14:53:21
+         */
+        function changeRebateType () {
+            var s = $('.rebate_type');
+            s.off('change').on('change', function () {
+                var _this = $(this);
+                var selectedOpt = _this.find('option:selected').val().trim().number();
+                if (selectedOpt === 1) {
+                    _this.siblings('.fixed_amount').show().find('input').removeAttr('disabled', 'disabled');
+                    _this.siblings('.proportion, .excess_amount, .excess_proportion').hide().find('input').attr('disabled', 'disabled');
+                } else if (selectedOpt === 2) {
+                    _this.siblings('.excess_proportion').show().find('input').removeAttr('disabled', 'disabled');
+                    _this.siblings('.proportion, .excess_amount, .fixed_amount').hide().find('input').attr('disabled', 'disabled');
+                } else if (selectedOpt === 3) {
+                    _this.siblings('.excess_amount').show().find('input').removeAttr('disabled', 'disabled');
+                    _this.siblings('.proportion, .fixed_amount, .excess_proportion').hide().find('input').attr('disabled', 'disabled');
+                } else if (selectedOpt === 4) {
+                    _this.siblings('.proportion').show().find('input').removeAttr('disabled', 'disabled');
+                    _this.siblings('.fixed_amount, .excess_amount, .excess_proportion').hide().find('input').attr('disabled', 'disabled');
+                }
+            });
+        }
+
+        /**
+         * 跳转历史编辑页面
+         * @author Arley 2018年4月5日18:20:03
+         */
+        function toHistoryList () {
+            var btn = $('.history_btn');    // 跳转历史政策按钮
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                locationTo({
+                    action : contextPath + markUri + '/merchants/policies/history/list',
+                    param : {
+                        car_type : carType,
+                        organization_id : orgId,
+                        orgName : orgName,
+                        rebate_type : rebateType,
+                        list_origin : 2,
+                        limit : 20,
+                        current_page : 1,
+                        rebate_name : rebateName,
+                        city_id : mCityId,
+                        applyto_car : mBusinessType,
+                        url : listUrl,
+                        navigation : navigation,
+                        supplier_name : orgName,
+                        supplier_id : supplierId
+                    }
+                })
+            });
+        }
+
+
+
+        $(function() {
+            // 注册时间插件
+            datePicker('.effective_date', {
+                isinitVal : true
+            });
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            changeRebateType();     // 更改返佣类型视图切换
+            bindPolicySubmit();     // 编辑/创建保存提交
+            createNewPolicy();      // 创建新政策
+            // initDisabledOrReset(false);      // 锁定或解锁输入状态
+            cancelEdit();       // 取消编辑按钮
+            toHistoryList();        // 跳转历史政策页面
+            deletePolicy();     // 删除政策
+        });
+    })(jQuery,undefined);
+</script>
+</html>

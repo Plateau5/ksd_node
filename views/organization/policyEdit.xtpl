@@ -82,23 +82,29 @@
                                         <span class="options_name"><span class="require_icon">*</span>费率：</span>
                                     </div>
                                     <div class="column_val policy_rates">
-                                        {{#each (root.ratesList) }}
+                                        {{#each (root.rates.split(',')) }}
                                         <div class="form_group">
-                                            {{#if (../rate.indexOf(this.rates) !== -1) }}
-                                            <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this.rates}}" />
-                                            <label class="checked">{{this.rates}}</label>
+                                            {{#if (../rate.indexOf(this) !== -1) }}
+                                            <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this}}" />
+                                            <label class="checked">{{this}}</label>
                                             {{else}}
-                                            <input type="checkbox" class="rates" name="rate" value="{{this.rates}}" />
-                                            <label class="">{{this.rates}}</label>
+                                            <input type="checkbox" class="rates" name="rate" value="{{this}}" />
+                                            <label class="">{{this}}</label>
                                             {{/if}}
                                             <div class="tips_box">
                                                 <em class="text_mark"></em>
                                                 <div class="mark_box">
                                                     <div class="mark_title text_center">万元系数</div>
                                                     <ul class="mark_desc">
-                                                        {{#each (this.millionCoefficients) }}
-                                                        <li class="desc_item">{{this.name}}：{{this.value}}</li>
+                                                        {{#each (minllionCoefficients[xindex]) }}
+                                                        <li class="desc_item">12期：322</li>
                                                         {{/each}}
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -260,7 +266,7 @@
                                     <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                                 </div>
                                 <div class="column_val">
-                                    {{#each (root.rebatePeriods.split(',')) }}
+                                    {{#each (root.rates.split(',')) }}
                                         <div class="form_group">
                                             <input type="checkbox" class="rebate_period" name="rebate_period" value="{{this}}" />
                                             <label class="">{{this}}</label>
@@ -273,18 +279,22 @@
                                     <span class="options_name"><span class="require_icon">*</span>费率：</span>
                                 </div>
                                 <div class="column_val">
-                                    {{#each (root.ratesList) }}
+                                    {{#each (root.rebatePeriods.split(',')) }}
                                         <div class="form_group">
-                                            <input type="checkbox" class="rates" name="rate" value="{{this.rates}}" />
-                                            <label class="">{{this.rates}}%</label>
+                                            <input type="checkbox" class="rates" name="rate" value="{{this}}" />
+                                            <label class="">{{this}}%</label>
                                             <div class="tips_box">
                                                 <em class="text_mark"></em>
                                                 <div class="mark_box">
                                                     <div class="mark_title text_center">万元系数</div>
                                                     <ul class="mark_desc">
-                                                        {{#each (this.millionCoefficients) }}
-                                                        <li class="desc_item">{{this.name}}：{{this.value}}</li>
-                                                        {{/each}}
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
+                                                        <li class="desc_item">12期：322</li>
                                                     </ul>
                                                 </div>
                                             </div>

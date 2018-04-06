@@ -20,6 +20,10 @@
 
         <input type="hidden" id="supplierId" value="{{detail.id}}" />
         <input type="hidden" id="supplierName" value="{{detail.name}}" />
+        <input type="hidden" id="merchantBusinessType" value="{{detail.car_type}}">
+        <input type="hidden" id="merchantCity" value="{{detail.city_id}}">
+        <input type="hidden" id="url" value="{{url}}">
+        <input type="hidden" id="navigation" value="{{navigation}}">
         <input type="hidden" name="type"/><!--标识：商户标签删除type=1,标签库删除标签type=2，新增公库及商户增加标签type=3，公库增加给商户type=4-->
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
@@ -101,6 +105,9 @@
                     <!-- 编辑删除操作 -->
                     {{#if (detail.flag === 3) }}
                         <div class="btn_box text_left setting_merchant">
+                                {{#if (verifyCode(1480)) }}
+                                <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                                {{/if}}
                                 {{#if (verifyCode(1385)) }}
                                     <a href="javascript:" class="edit_sm_btn">编辑</a>
                                 {{/if}}
@@ -548,6 +555,19 @@
         var credentialsNum = '{{detail.id_num}}';    // 证件号码
         var merchantId = $.trim($('#supplierId').val());    // 商户ID
         var merchantName = $.trim($('#supplierName').val());    // 商户NAME
+        var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+        var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+        var mCarType = null;
+        if (mBusinessType == 0 || mBusinessType == 2) {
+            mCarType = 0;
+        } else if (mBusinessType == 1) {
+            mCarType = 1;
+        }
+        var listUrl = $('#url').val().trim();       // 列表页的路由
+        var navigation = $('#navigation').val().trim();     // 列表页的节点
+
+
+
         // 加载工商数据信息
         function getBusinessInfo () {
             redefineAjax({
@@ -729,6 +749,29 @@
             })
         }
 
+        /**
+         * 跳转制定商户返佣政策列表页
+         * @author Arley 2018年4月6日17:32:29
+         */
+        function toPoliciesList () {
+            var btn = $('.add_sm_btn_policies');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                locationTo({
+                    action : contextPath + markUri + '/merchants/policies/list',
+                    param : {
+                        applyto_car : mBusinessType,
+                        city_id : mCityId,
+                        supplier_id : merchantId,
+                        supplier_name : merchantName,
+                        car_type : mCarType,
+                        url : listUrl,
+                        navigation : navigation
+                    }
+                })
+            });
+        }
+
 
 
         $(function() {
@@ -746,6 +789,7 @@
             });
             // 查看大图
             viewLargeImage('.img_list,.merchant_logo');
+            toPoliciesList();
         });
 
     })(jQuery,undefined);

@@ -1,0 +1,173 @@
+<!-- 商户列表页 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+    <title>商户管理-返佣政策列表</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item">制定返佣政策</a>
+                <a href="javascript:;" class="crumbs_item">历史政策</a>
+            </div>
+            <form action="{{markUri}}/supplier/organization/policies/history" id="policiesHistory" method="post" role="form">
+                <div class="history_container">
+                    <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
+                    <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
+                    <input type="hidden" name="orgName" value="{{reqParams.orgName}}" class="orgName">
+                    <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
+                    <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebateName">
+                    <input type="hidden" name="list_origin" value="{{reqParams.list_origin}}" class="listOrigin">
+                    <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
+                    <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
+                    {{#if (count > 0) }}
+                    <div class="filtrate">
+                        <div class="filtrate_item date_conditions inline_block">
+                            <div class="conditions_name inline_block">生效时间：</div>
+                            <input type="text" name="effective_time" readonly class="filtrate_date datainp wicon" value="{{effective_time}}" placeholder="请选择日期" />
+                        </div>
+                    </div>
+                    <div class="policies_list">
+                        <table class="normal">
+                            <colgroup>
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 20%;">
+                                <col style="width: 15%;">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>融资期限</th>
+                                <th>费率</th>
+                                <th>万元系数</th>
+                                <th>返点规则</th>
+                                <th>生效时间</th>
+                                <th>适用城市</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each (data) }}
+                            <tr>
+                                <td>{{this.rebate_period}}</td>
+                                <td>{{this.rate}}</td>
+                                <td>{{this.millionCoefficient}}</td>
+                                <td>{{this.rule}}</td>
+                                <td>{{this.effective_time}}</td>
+                                <td>
+                                    {{this.city_names}}
+                                </td>
+                            </tr>
+                            {{/each}}
+                            <!--<tr>
+                                <td>12</td>
+                                <td>2.3%</td>
+                                <td>322</td>
+                                <td>超出反近段时间弗拉水电费</td>
+                                <td>2018-01-02</td>
+                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>2.3%</td>
+                                <td>322</td>
+                                <td>超出反近段时间弗拉水电费</td>
+                                <td>2018-01-02</td>
+                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>2.3%</td>
+                                <td>322</td>
+                                <td>超出反近段时间弗拉水电费</td>
+                                <td>2018-01-02</td>
+                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td>2.3%</td>
+                                <td>322</td>
+                                <td>超出反近段时间弗拉水电费</td>
+                                <td>2018-01-02</td>
+                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                        {{include('./../inc/paginations')}}
+                    </div>
+                    {{else}}
+                    {{include('./../inc/empty_data')}}
+                    {{/if}}
+                </div>
+            </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<input type="hidden" id="orgId" value="{{organization_id}}">
+<input type="hidden" id="supplierId" value="{{reqParams.supplier_id}}">
+<input type="hidden" id="orgName" value="{{reqParams.supplier_name}}">
+<input type="hidden" id="carType" value="{{reqParams.car_type}}">
+<input type="hidden" name="list_origin" value="1" id="listOrigin">
+<input type="hidden" name="limit" value="10" id="limit">
+<input type="hidden" name="current_page" value="1" id="currentPage">
+<input type="hidden" name="rebate_type" value="" id="rebateType">
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+
+
+
+
+
+
+        $(function() {
+            datePicker('.filtrate_date', {});
+            paginationSwitch();     // 分页切换
+        });
+    })(jQuery,undefined);
+
+</script>
+</html>

@@ -7,7 +7,7 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
-    <title>快收单</title>
+    <title>供应商-机构政策列表</title>
     <style>
         .no_list_data{
             margin: 20px 0;
@@ -61,8 +61,12 @@
                                 <div class="title">
                                     <span class="module_name font14">{{rebate_type_value}}</span>
                                     <div class="rf">
+                                        {{#if (root.verifyCode(1476)) }}
                                         <a href="javascript:" class="detail_title_btn edit_btn edit_rebate_type">编辑/查看</a>
+                                        {{/if}}
+                                        {{#if (root.verifyCode(1479)) }}
                                         <a href="javascript:" class="detail_title_btn delete_btn delete_rebate_type">删除</a>
+                                        {{/if}}
                                     </div>
                                 </div>
                                 <table class="normal">
@@ -85,43 +89,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <td colspan="6">
+                                    <td colspan="6" class="no_hover">
                                         <div class="no_list_data">
                                             <div class="toast_img"></div>
                                                 <div class="toast_text">数据加载中……</div>
                                             </div>
                                         </td>
                                     </tr>
-                                    <!--<tr>
-                                        <td>12</td>
-                                        <td>2.3 2.7</td>
-                                        <td>322</td>
-                                        <td>
-                                            超过1000返超出金额的80%
-                                        </td>
-                                        <td>2017-02-01</td>
-                                        <td>北京天健</td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td>2.3 2.7</td>
-                                        <td>322</td>
-                                        <td>
-                                            超过1000返超出金额的80%
-                                        </td>
-                                        <td>2017-02-01</td>
-                                        <td>北京天健</td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td>2.3 2.7</td>
-                                        <td>322</td>
-                                        <td>
-                                            超过1000返超出金额的80%
-                                        </td>
-                                        <td>2017-02-01</td>
-                                        <td>北京天健北京天健北京天健北京天健北京天健北京天健北京天健</td>
-                                    </tr>-->
                                     </tbody>
                                 </table>
                                 <div class="page">
@@ -137,210 +111,6 @@
                 {{else}}
                     {{include('./../inc/empty_data')}}
                 {{/if}}
-                <!--<div class="module_list">
-                    <div class="title">
-                        <span class="module_name font14">车款返点</span>
-                        <div class="rf">
-                            <a href="javascript:" class="detail_title_btn edit_btn">编辑/查看</a>
-                            <a href="javascript:" class="detail_title_btn delete_btn">删除</a>
-                        </div>
-                    </div>
-                    <table class="normal">
-                        <colgroup>
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 20%;">
-                            <col style="width: 20%;">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>融资期限</th>
-                            <th>利率</th>
-                            <th>万元系数</th>
-                            <th>返点规则</th>
-                            <th>生效时间</th>
-                            <th>适用城市</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健北京天健北京天健北京天健北京天健北京天健北京天健</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="page">
-                        <a href="javascript:" class="page-item home" data-currentPage="1" data-limit="20"></a>
-                        <a href="javascript:" class="page-item prev" data-currentPage="{{current_page}}" data-limit="20"></a>
-                        <a href="javascript:" class="page-item next" data-currentPage="{{current_page}}" data-limit="20"></a>
-                        <a href="javascript:" class="page-item end" data-currentPage="{{total_page}}" data-limit="20"></a>
-                        <span class="total_page">共<span class="num">10000</span>条</span>
-                    </div>
-                </div>
-                <div class="module_list">
-                    <div class="title">
-                        <span class="module_name font14">车款返点</span>
-                        <div class="rf">
-                            <a href="javascript:" class="detail_title_btn edit_btn">编辑/查看</a>
-                            <a href="javascript:" class="detail_title_btn delete_btn">删除</a>
-                        </div>
-                    </div>
-                    <table class="normal">
-                        <colgroup>
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 20%;">
-                            <col style="width: 20%;">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>融资期限</th>
-                            <th>利率</th>
-                            <th>万元系数</th>
-                            <th>返点规则</th>
-                            <th>生效时间</th>
-                            <th>适用城市</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健北京天健北京天健北京天健北京天健北京天健北京天健</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="page">
-                        <a href="javascript:" class="page-item home" data-currentPage="1" data-limit="20"></a>
-                        <a href="javascript:" class="page-item prev" data-currentPage="{{current_page}}" data-limit="20"></a>
-                        <a href="javascript:" class="page-item next" data-currentPage="{{current_page}}" data-limit="20"></a>
-                        <a href="javascript:" class="page-item end" data-currentPage="{{total_page}}" data-limit="20"></a>
-                        <span class="total_page">共<span class="num">10000</span>条</span>
-                    </div>
-                </div>
-                <div class="module_list">
-                    <div class="title">
-                        <span class="module_name font14">车款返点</span>
-                        <div class="rf">
-                            <a href="javascript:" class="detail_title_btn edit_btn">编辑/查看</a>
-                            <a href="javascript:" class="detail_title_btn delete_btn">删除</a>
-                        </div>
-                    </div>
-                    <table class="normal">
-                        <colgroup>
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 15%;">
-                            <col style="width: 20%;">
-                            <col style="width: 20%;">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>融资期限</th>
-                            <th>利率</th>
-                            <th>万元系数</th>
-                            <th>返点规则</th>
-                            <th>生效时间</th>
-                            <th>适用城市</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td>2.3 2.7</td>
-                            <td>322</td>
-                            <td>
-                                超过1000返超出金额的80%
-                            </td>
-                            <td>2017-02-01</td>
-                            <td>北京天健北京天健北京天健北京天健北京天健北京天健北京天健</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="page">
-                        <a href="javascript:" class="page-item home" data-currentPage="1" data-limit="20"></a>
-                        <a href="javascript:" class="page-item prev" data-currentPage="{{current_page}}" data-limit="20"></a>
-                        <a href="javascript:" class="page-item next" data-currentPage="{{current_page}}" data-limit="20"></a>
-                        <a href="javascript:" class="page-item end" data-currentPage="{{total_page}}" data-limit="20"></a>
-                        <span class="total_page">共<span class="num">10000</span>条</span>
-                    </div>
-                </div>-->
                 <!--添加返点类型弹出层部分-->
                 <div class="rebate_container" id="rebateList">
                     <div class="content">
@@ -588,7 +358,10 @@
             });
         }
 
-
+        /**
+         * 绑定页面分页点击事件  2018年4月5日15:14:49
+         * @author Arley Joe 2018年4月2日15:00:23
+         */
         function bindRebateListPageEvent () {
             var btn = $('.page .page-item');
             var curPage = $('#currentPage');
@@ -615,6 +388,10 @@
             });
         }
 
+        /**
+         * 获取返点类型列表的数据  2018年4月5日15:14:49
+         * @author Arley Joe 2018年4月2日15:00:23
+         */
         function getRebateListData (moduleList) {
             var currentPage = $('#currentPage').val().trim().number();
             var rebateType = moduleList.data('index');
@@ -646,7 +423,10 @@
                 }
             });
 
-
+            /**
+             * 创建返点类型列表的视图  2018年4月5日15:14:49
+             * @author Arley Joe 2018年4月2日15:00:23
+             */
             function createListElem (data) {
                 // 处理分页数据
                 var totalPageE = moduleList.find('.total_page').find('.num');
@@ -729,6 +509,10 @@
             }
         }
 
+        /**
+         * 初始化返点类型列表的数据  2018年4月5日15:14:49
+         * @author Arley Joe 2018年4月2日15:00:23
+         */
         function initRebateList () {
             var moduleLists = $('.module_list');
             moduleLists.each(function () {
