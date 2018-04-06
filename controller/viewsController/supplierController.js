@@ -168,12 +168,42 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
                 }
             }
             data.cityList = JSON.stringify(cityList);
+
+
+            // 计算万元系数
+            var ratesArr = data.rates.split(',');     // 所有费率
+            var periods = data.rebatePeriods.split(',');
+            var ratesList = [];
+            for (var a = 0, l = ratesArr.length; a < l; a++) {
+                var _arr = [];       // 当前利率的对应期数万元系数
+                var _rateObj = {};      // 当前利率数据
+                _rateObj.rates = ratesArr[a];
+                for (var j = 0, c = periods.length; j < c; j++) {
+                    var _obj = {};
+                    // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
+                    var millionCoefficient = parseInt(((Number(ratesArr[a]) * 1000 * (Number(periods[j]) / 12) + 10000) / Number(periods[j])) * 1000) / 1000;
+                    // console.log(Number(ratesArr[a]) + '-' + Number(periods[j]));
+                    if (millionCoefficient.toString().indexOf('.') !== -1) {
+                        if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
+                            millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;
+                        } else {
+                            millionCoefficient = Number(millionCoefficient.toString().split('.')[0]);
+                        }
+                    }
+                    _obj.name = periods[j] + '期';
+                    _obj.value = millionCoefficient;
+                    _arr.push(_obj);
+                    _rateObj.millionCoefficients = _arr;
+                }
+                ratesList.push(_rateObj);
+            }
+            data.ratesList = ratesList;
         }
     }, req, res, next);
 };
 
 
-// 供应商部分-金融机构-佣金政策创建编辑页 1478
+// 供应商部分-金融机构-历史政策页 1478
 exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/rebatepolicy/list ',
@@ -187,7 +217,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST = function(req, res,
                 var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
                 var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
                 // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
-                var millionCoefficient = parseInt(((rate * 1000 * (periods / 12)) / periods) * 1000) / 1000;
+                var millionCoefficient = parseInt(((rate * 1000 * (periods / 12) + 10000) / periods) * 1000) / 1000;
                 if (millionCoefficient.toString().indexOf('.') !== -1) {
                     if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
                         millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;

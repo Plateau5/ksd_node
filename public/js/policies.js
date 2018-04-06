@@ -314,7 +314,7 @@ function checkPoliciesRepeat (form) {
                         for (var c = 0, l3 = oldCitys.length; c < l3; c++) {
                             if (editPolicyData.citys.cityIds.indexOf(oldCitys[c]) !== -1) {
                                 // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
-                                var millionCoefficient = parseInt(((oldRates[a] * 1000 * (oldPeriods[b] / 12)) / oldPeriods[b]) * 1000) / 1000;
+                                var millionCoefficient = parseInt(((oldRates[a] * 1000 * (oldPeriods[b] / 12) + 10000) / oldPeriods[b]) * 1000) / 1000;
                                 if (millionCoefficient.toString().indexOf('.') !== -1) {
                                     if (millionCoefficient.toString().split('.')[1].number() > 445) {
                                         millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
@@ -366,7 +366,7 @@ function deletePolicy () {
         if (btnType === 0) {
             policyE.remove();
         } else if (btnType === 1) {
-            deleteOldPolicies();    // 调用接口删除政策
+            deleteOldPolicies(_this);    // 调用接口删除政策
         }
     });
 
@@ -382,12 +382,16 @@ function deletePolicy () {
 function deleteOldPolicies (btn) {
     btn.off('click');
     var policyE = btn.parents('.form_options');
-    var policyId = policyE.data('id');
-
+    var policyId = policyE.data('id');      // 政策id
+    var effectiveTime = policyE.find('input[name="effective_time"]').val().trim();
+    var orgId = $('.orgId').val().trim().number();      // 机构Id
+    // todo 添加删除接口路径
     redefineAjax({
-        url : contextPath + '',
+        url : contextPath + '/api/organization/policy/delete',
         data : {
-            rebate_id : policyId
+            rebate_id : policyId,
+            organization_id : orgId,
+            effective_time : effectiveTime
         },
         success : function (res) {
             if (res.error_code == 0) {

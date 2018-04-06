@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
     <title>快收单</title>
+    <style>
+        .no_list_data{
+            margin: 20px 0;
+        }
+        .no_hover:hover{
+            background: #FFFFFF !important;
+            cursor: default !important;
+        }
+    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -31,6 +40,10 @@
                 <input type="hidden" id="orgId" value="{{reqParams.organization_id}}">
                 <input type="hidden" id="orgName" value="{{reqParams.orgName}}">
                 <input type="hidden" id="carType" value="{{reqParams.car_type}}">
+                <input type="hidden" name="list_origin" value="1" id="listOrigin">
+                <input type="hidden" name="limit" value="10" id="limit">
+                <input type="hidden" name="current_page" value="1" id="currentPage">
+                <input type="hidden" name="rebate_type" value="" id="rebateType">
                 <div class="title org_title">北京极致车网科技有限公司</div>
                 <div class="tab">
                     <ul class="tab_list inline_block">
@@ -43,67 +56,82 @@
                 </div>
                 {{#if (rebateTypeList.length > 0) }}
                     {{#each (rebateTypeList) }}
-                        <div class="module_list" data-id="{{this.rebate_typeId}}" data-index="{{this.rebate_type}}" data-rebate_name="{{rebate_type_value}}">
-                            <div class="title">
-                                <span class="module_name font14">{{rebate_type_value}}</span>
-                                <div class="rf">
-                                    <a href="javascript:" class="detail_title_btn edit_btn edit_rebate_type">编辑/查看</a>
-                                    <a href="javascript:" class="detail_title_btn delete_btn delete_rebate_type">删除</a>
+                        <div class="module_list rebate_num{{xindex + 1}}" data-num="{{xindex + 1}}" data-id="{{this.rebate_typeId}}" data-index="{{this.rebate_type}}" data-rebate_name="{{rebate_type_value}}">
+                            <form method="post" class="rebate_list_form">
+                                <div class="title">
+                                    <span class="module_name font14">{{rebate_type_value}}</span>
+                                    <div class="rf">
+                                        <a href="javascript:" class="detail_title_btn edit_btn edit_rebate_type">编辑/查看</a>
+                                        <a href="javascript:" class="detail_title_btn delete_btn delete_rebate_type">删除</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <table class="normal">
-                                <colgroup>
-                                    <col style="width: 15%;">
-                                    <col style="width: 15%;">
-                                    <col style="width: 15%;">
-                                    <col style="width: 15%;">
-                                    <col style="width: 20%;">
-                                    <col style="width: 20%;">
-                                </colgroup>
-                                <thead>
-                                <tr>
-                                    <th>融资期限</th>
-                                    <th>利率</th>
-                                    <th>万元系数</th>
-                                    <th>返点规则</th>
-                                    <th>生效时间</th>
-                                    <th>适用城市</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>12</td>
-                                    <td>2.3 2.7</td>
-                                    <td>322</td>
-                                    <td>
-                                        超过1000返超出金额的80%
-                                    </td>
-                                    <td>2017-02-01</td>
-                                    <td>北京天健</td>
-                                </tr>
-                                <tr>
-                                    <td>12</td>
-                                    <td>2.3 2.7</td>
-                                    <td>322</td>
-                                    <td>
-                                        超过1000返超出金额的80%
-                                    </td>
-                                    <td>2017-02-01</td>
-                                    <td>北京天健</td>
-                                </tr>
-                                <tr>
-                                    <td>12</td>
-                                    <td>2.3 2.7</td>
-                                    <td>322</td>
-                                    <td>
-                                        超过1000返超出金额的80%
-                                    </td>
-                                    <td>2017-02-01</td>
-                                    <td>北京天健北京天健北京天健北京天健北京天健北京天健北京天健</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            {{include('./../inc/paginations')}}
+                                <table class="normal">
+                                    <colgroup>
+                                        <col style="width: 15%;">
+                                        <col style="width: 15%;">
+                                        <col style="width: 15%;">
+                                        <col style="width: 15%;">
+                                        <col style="width: 20%;">
+                                        <col style="width: 20%;">
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>融资期限</th>
+                                        <th>利率</th>
+                                        <th>万元系数</th>
+                                        <th>返点规则</th>
+                                        <th>生效时间</th>
+                                        <th>适用城市</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <td colspan="6">
+                                        <div class="no_list_data">
+                                            <div class="toast_img"></div>
+                                                <div class="toast_text">数据加载中……</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--<tr>
+                                        <td>12</td>
+                                        <td>2.3 2.7</td>
+                                        <td>322</td>
+                                        <td>
+                                            超过1000返超出金额的80%
+                                        </td>
+                                        <td>2017-02-01</td>
+                                        <td>北京天健</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>2.3 2.7</td>
+                                        <td>322</td>
+                                        <td>
+                                            超过1000返超出金额的80%
+                                        </td>
+                                        <td>2017-02-01</td>
+                                        <td>北京天健</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>2.3 2.7</td>
+                                        <td>322</td>
+                                        <td>
+                                            超过1000返超出金额的80%
+                                        </td>
+                                        <td>2017-02-01</td>
+                                        <td>北京天健北京天健北京天健北京天健北京天健北京天健北京天健</td>
+                                    </tr>-->
+                                    </tbody>
+                                </table>
+                                <div class="page">
+                                    <a href="javascript:" class="page-item home disabled" data-currentPage="1" data-limit="20"></a>
+                                    <a href="javascript:" class="page-item prev disabled" data-currentPage="" data-limit="20"></a>
+                                    <a href="javascript:" class="page-item next" data-currentPage="" data-limit="20"></a>
+                                    <a href="javascript:" class="page-item end" data-currentPage="" data-limit="20"></a>
+                                    <span class="total_page">共<span class="num">0</span>条</span>
+                                </div>
+                            </form>
                         </div>
                     {{/each}}
                 {{else}}
@@ -371,6 +399,8 @@
         var orgId = $('#orgId').val().trim().number();      // 机构Id
         var orgName = $('#orgName').val().trim();      // 机构名称
         var carType = $('#carType').val().trim().number();  //车辆类型
+        var limit = $('#limit').val().trim().number();      // 列表加载条目数
+        var listOrigin = 1;     // 加载列表类型： 1-机构返点类型列表页  2-历史记录页
         var elem = {
             rebateCont : $('#rebateList')    // 添加返点类型的弹出层容器
         };
@@ -559,6 +589,155 @@
         }
 
 
+        function bindRebateListPageEvent () {
+            var btn = $('.page .page-item');
+            var curPage = $('#currentPage');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var currentPage = _this.data('currentpage');
+                var nextPage = null;
+                if (!_this.hasClass('disabled')) {
+                    if (_this.hasClass('prev')) {
+                        nextPage = currentPage - 1;
+                    } else if (_this.hasClass('next')) {
+                        nextPage = currentPage + 1;
+                    } else {
+                        nextPage = currentPage;
+                    }
+                    curPage.val(nextPage);
+                    _this.data('currentpage', nextPage).siblings('.prev').data('currentpage', nextPage);
+                }
+
+                // 获取列表
+                var moduleList = _this.parents('.module_list');     // 当前分页的列表
+                getRebateListData(moduleList);
+
+            });
+        }
+
+        function getRebateListData (moduleList) {
+            var currentPage = $('#currentPage').val().trim().number();
+            var rebateType = moduleList.data('index');
+            var table = moduleList.find('table tbody');     // 当前列表的主内容区
+
+            var rebateNum = moduleList.data('num');     // 当前返点列表在页面的顺序值
+            var reqData = {
+                car_type : carType,
+                organization_id : orgId,
+                organization_name : orgName,
+                limit : limit,
+                list_origin : listOrigin,
+                current_page : currentPage,
+                rebate_type : rebateType
+            };
+
+            var listData = null;
+
+            redefineAjax({
+                url : contextPath + '/api/organization/rebatepolicy/list',
+                data : reqData,
+                success : function (res) {
+                    if (res.error_code == 0) {
+                        listData = res;
+                        createListElem(listData);
+                    } else {
+                        console.log(res.error_msg);
+                    }
+                }
+            });
+
+
+            function createListElem (data) {
+                // 处理分页数据
+                var totalPageE = moduleList.find('.total_page').find('.num');
+                // totalPageE.text(data.total_count);
+                totalPageE.text(data.count);
+                moduleList.find('.next, .prev').data('currentpage', currentPage);
+                moduleList.find('.end').data('currentpage', data.total_page);
+                if (currentPage == 1) {
+                    moduleList.find('.prev, .home').addClass('disabled').end().find('.next, .end').removeClass('disabled');;
+                } else if (currentPage == data.total_page) {
+                    moduleList.find('.next, .end').addClass('disabled').end().find('.prev, .home').removeClass('disabled');
+                } else {
+                    moduleList.find('.next, .end, .prev, .home').removeClass('disabled');
+                }
+
+                if (data.total_count == 0) {
+                    moduleList.find('.page').hide();
+                } else {
+                    moduleList.find('.page').show();
+                }
+
+                // 格式化列表数据并创建页面元素
+                var policiesList = data.data;
+                var policiesStr = '';
+                if (policiesList.length > 0) {
+                    for (var i = 0, len = policiesList.length; i < len; i++) {
+                        // -- 计算每个政策的万元系数
+                        var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
+                        var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
+                        // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
+                        var millionCoefficient = parseInt(((rate * 1000 * (periods / 12) + 10000) / periods) * 1000) / 1000;
+                        if (millionCoefficient.toString().indexOf('.') !== -1) {
+                            if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
+                                millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;
+                            } else {
+                                millionCoefficient = Number(millionCoefficient.toString().split('.')[0]);
+                            }
+                        }
+                        policiesList[i].millionCoefficient = millionCoefficient;
+
+                        // 格式化返点规则
+                        var rule = '';
+                        if (policiesList[i].rebate_way === 1) {     // 固定金额
+                            rule = '固定金额：' + policiesList[i].rebate_money + '元';
+                        } else if (policiesList[i].rebate_way === 2) {      // 超额返比例
+                            rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
+                        } else if (policiesList[i].rebate_way === 3) {      // 超额返金额
+                            rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
+                        } else if (policiesList[i].rebate_way === 4) {      // 返比例
+                            rule = '固定比例：' + policiesList[i].rebate_money + '%';
+                        }
+                        policiesList[i].rule = rule;
+
+                        // 转化城市名称
+                        if (policiesList[i].city_name) {
+                            policiesList[i].city_names = policiesList[i].city_name.replace(/,/g, '、');
+                        }
+
+                        policiesStr += '<tr>\n' +
+                            '                                    <td>'+ policiesList[i].rebate_period +'</td>\n' +
+                            '                                    <td>'+ policiesList[i].rate +'</td>\n' +
+                            '                                    <td>'+ policiesList[i].millionCoefficient +'</td>\n' +
+                            '                                    <td>'+ policiesList[i].rule +'</td>\n' +
+                            '                                    <td>'+ policiesList[i].effective_time +'</td>\n' +
+                            '                                    <td>'+ policiesList[i].city_names +'</td>\n' +
+                            '                                </tr>';
+                    }
+                } else {
+                    policiesStr += '<tr class="no_hover">\n' +
+                        '                                        <td colspan="6">\n' +
+                        '                                            <div class="no_list_data">\n' +
+                        '                                                <div class="toast_img"></div>\n' +
+                        '                                                <div class="toast_text">抱歉，目前暂无数据……</div>\n' +
+                        '                                            </div>\n' +
+                        '                                        </td>\n' +
+                        '                                    </tr>';
+                }
+
+                table.html(policiesStr);
+
+            }
+        }
+
+        function initRebateList () {
+            var moduleLists = $('.module_list');
+            moduleLists.each(function () {
+                var _this = $(this);
+                getRebateListData(_this);
+            });
+        }
+
 
         $(function() {
             switchTab();        // tab标签切换
@@ -568,6 +747,8 @@
             bindChooseRebate();     // 添加返点政策按钮事件注册机添加逻辑
             deleteRetateType();     // 删除返点类型
             toPoliciesEdit();       // 跳转编辑页
+            initRebateList();       // 注册页面加载时间获取数据
+            bindRebateListPageEvent();      // 注册列表分页点击事件
         });
     })(jQuery,undefined);
 </script>
