@@ -32,22 +32,23 @@
                 <a href="javascript:" class="crumbs_item">编辑{{reqParams.rebate_name}}</a>
             </div>
             <div class="policy_container">
-                <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
-                <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
-                <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
-                <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
-                <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebateTypeId">
-                <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebateName">
+
                 {{#if (rebatePolicy.length > 0) }}
                 <div class="btn_box title_btn">
                     <a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加返点类型</a>
                     <a href="javascript:" class="detail_title_btn history_btn">历史政策</a>
                 </div>
                 {{/if}}
+                <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebateName">
                 {{#if (rebatePolicy.length > 0) }}
                     {{#each (rebatePolicy) }}
                         <div class="form_options {{#if (xindex === 0) }}first_policy{{/if}} policies_item" data-id="{{this.rebate_id}}" data-edit_type="1">
                             <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form" data-policy_index="{{xindex}}">
+                                <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
+                                <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
+                                <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
+                                <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
+                                <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebateTypeId">
                                 <input type="hidden" name="rebate_id" value="{{this.rebate_id}}" class="rebateId">
                                 <input type="hidden" name="edit_type" value="2"  class="edit_type">
                                 <div class="option_item">
@@ -99,12 +100,6 @@
                                                         {{#each (minllionCoefficients[xindex]) }}
                                                         <li class="desc_item">12期：322</li>
                                                         {{/each}}
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -240,9 +235,9 @@
                 {{/if}}
 
                 {{#if (rebatePolicy.length <= 0) }}
-                    <div class="form_options policies_temp" data-edit_type="0">
+                    <div class="form_options policies_temp policies_item" data-edit_type="0">
                 {{else}}
-                    <div class="form_options policies_temp none" data-edit_type="0">
+                    <div class="form_options policies_temp none policies_item" data-edit_type="0">
                 {{/if}}
                         <form action="{{contextPath}}/api/organization/rebate/save" method="post"  class="policy_form">
                             <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}">
@@ -266,7 +261,7 @@
                                     <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                                 </div>
                                 <div class="column_val">
-                                    {{#each (root.rates.split(',')) }}
+                                    {{#each (root.rebatePeriods.split(',')) }}
                                         <div class="form_group">
                                             <input type="checkbox" class="rebate_period" name="rebate_period" value="{{this}}" />
                                             <label class="">{{this}}</label>
@@ -279,26 +274,22 @@
                                     <span class="options_name"><span class="require_icon">*</span>费率：</span>
                                 </div>
                                 <div class="column_val">
-                                    {{#each (root.rebatePeriods.split(',')) }}
-                                        <div class="form_group">
-                                            <input type="checkbox" class="rates" name="rate" value="{{this}}" />
-                                            <label class="">{{this}}%</label>
-                                            <div class="tips_box">
-                                                <em class="text_mark"></em>
-                                                <div class="mark_box">
-                                                    <div class="mark_title text_center">万元系数</div>
-                                                    <ul class="mark_desc">
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                        <li class="desc_item">12期：322</li>
-                                                    </ul>
-                                                </div>
+                                    {{#each (root.ratesList) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="rate" value="{{this.rates}}" />
+                                        <label class="">{{this.rates}}%</label>
+                                        <div class="tips_box">
+                                            <em class="text_mark"></em>
+                                            <div class="mark_box">
+                                                <div class="mark_title text_center">万元系数</div>
+                                                <ul class="mark_desc">
+                                                    {{#each (this.millionCoefficients) }}
+                                                    <li class="desc_item">{{this.name}}：{{this.value}}</li>
+                                                    {{/each}}
+                                                </ul>
                                             </div>
                                         </div>
+                                    </div>
                                     {{/each}}
                                 </div>
                             </div>
@@ -336,7 +327,7 @@
                                         <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="" placeholder="1000"  style="width: 90px;"  onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
                                         <span>元</span>
                                         <span>返超出金额的</span>
-                                        <input type="text" class="" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                        <input type="text" class="proportion_input" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                         <span>%</span>
                                     </div>
                                 </div>
@@ -409,7 +400,8 @@
     // 存储原始政策数据
     var rebatePolicies = '{{rebatePolicies}}';        //
     rebatePolicies = JSON.parse(rebatePolicies.replace(/&quot;/ig, '"'));
-    console.log(rebatePolicies);
+    const EDITAPI = contextPath + '/api/organization/rebate/save';
+    const ISMERCHANT = false;
 </script>
 <script>
     (function ($) {

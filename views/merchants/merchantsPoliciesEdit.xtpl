@@ -58,6 +58,16 @@
                 <div class="form_options {{#if (xindex === 0) }}first_policy{{/if}} policies_item" data-id="{{this.rebate_id}}" data-edit_type="1">
                     <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form" data-policy_index="{{xindex}}">
                         <input type="hidden" name="rebate_id" value="{{this.rebate_id}}" class="rebateId">
+                        <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebate_type">
+                        <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebate_typeId">
+                        <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebate_name">
+                        <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="organization_id">
+                        <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" class="supplier_id">
+                        <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" class="supplier_name">
+                        <input type="hidden" name="rebateMer_id" value="{{this.rebateMer_id}}" class="rebateMer_id">
+                        <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
+                        <input type="hidden" name="city_ids" value="{{reqParams.city_id}}" class="city_id">
+                        <input type="hidden" name="city_name" value="{{reqParams.city_name}}" class="city_name">
                         <input type="hidden" name="edit_type" value="2"  class="edit_type">
                         {{#if (this.rebate_name) }}
                         <div class="option_item">
@@ -90,18 +100,20 @@
                                 {{#each (this.ratesList) }}
                                 <div class="form_group">
                                     <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this.rates}}" />
-                                    <label class="checked disabled">{{this.rates}}</label>
-                                    <div class="tips_box">
-                                        <em class="text_mark"></em>
-                                        <div class="mark_box">
-                                            <div class="mark_title text_center">万元系数</div>
-                                            <ul class="mark_desc">
-                                                {{#each (this.millionCoefficients) }}
-                                                <li class="desc_item">{{this.name}}：{{this.value}}</li>
-                                                {{/each}}
-                                            </ul>
+                                    <label class="checked disabled">
+                                        <span>{{this.rates}}</span>
+                                        <div class="tips_box">
+                                            <em class="text_mark"></em>
+                                            <div class="mark_box">
+                                                <div class="mark_title text_center">万元系数</div>
+                                                <ul class="mark_desc">
+                                                    {{#each (this.millionCoefficients) }}
+                                                    <li class="desc_item">{{this.name}}：{{this.value}}</li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </label>
                                 </div>
                                 {{/each}}
                             </div>
@@ -267,10 +279,13 @@
 <input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
 </body>
 {{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    const EDITAPI = contextPath + '/api/supplier/rebate/save';
+    const ISMERCHANT = true;
     (function ($) {
         var orgId = $('.orgId').val().trim().number();      // 机构Id
         var supplierId = $('#supplierId').val().trim().number();      // 商户Id

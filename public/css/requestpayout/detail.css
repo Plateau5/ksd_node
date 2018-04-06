@@ -1,4 +1,9 @@
 
+.clearfix::after{
+    content: '';
+    display: block;
+    clear: both;
+}
 /*img_detail*/
 .img_detail_title{
     width:100%;
@@ -21,13 +26,19 @@
     border:1px solid #e4e4e4;
     margin-top: 18px;
     margin-bottom:35px;
-    overflow: hidden;
+    /*overflow: hidden;*/
+}
+.requestpayout_detail_container::after{
+    content: '';
+    display: block;
+    clear: both;
 }
 .imgDetail{
     padding-left:36px;
     clear: both;
 }
 .requestpayout_detail_remarks{
+    position: relative;
     float: left;
     height:20px;
     width:50%;
@@ -404,17 +415,19 @@
 
 /*所属商户详情 begin*/
 .detail_remarks .merchant_slidedown_arrow{
-    position: absolute;
-    top:5px;
-    left: 42%;
+    display: inline-block;
+    margin-left: 8px;
+    vertical-align: middle;
     width:25px;
     height:15px;
 }
 .merchant_slidedown_arrow_detail{
+    z-index: 100;
     width:392px;
     height:430px;
     position: absolute;
     top:30px;
+    background: #ffffff;
     box-shadow: 0px 0px 4px 0px rgba(192,192,192,0.5)
 }
 .merchant_slidedown_arrow_detail_title{

@@ -51,7 +51,7 @@ function bindPolicySubmit () {
         var _this = $(this);
         // 获取编辑状态：新建：0  编辑：1
         var editType = _this.parents('.form_options').data('edit_type');
-        var parentForm = _this.parents('.policies_item');
+        var parentForm = _this.parents('.policies_item').find('.policy_form');
         var verify = null;
         if (editType === 0) {
             verify = validatePolicyEmpty(parentForm);
@@ -72,10 +72,17 @@ function bindPolicySubmit () {
                 }
             } else {
                 verify = validatePolicyEmpty(parentForm);
-                var unrepeat = checkPoliciesRepeat(parentForm);     // 是否重复
-                if (verify && unrepeat) {
-                    submitEvent(parentForm, _this);
+                if (ISMERCHANT) {
+                    if (verify) {
+                        submitEvent(parentForm, _this);
+                    }
+                } else {
+                    var unrepeat = checkPoliciesRepeat(parentForm);     // 是否重复
+                    if (verify && unrepeat) {
+                        submitEvent(parentForm, _this);
+                    }
                 }
+
             }
         }
     });
@@ -101,7 +108,7 @@ function cancelEdit () {
  * @param btn {Object} : 当前政策的提交按钮（jQuery对象）
  */
 function submitEvent (form, btn) {
-    var cityBtn = btn.parents('.policy_form').find('.add_city_btn');
+    var cityBtn = btn.parents('.policies_item').find('.add_city_btn');
     var checkedCity = getCheckedCitys(cityBtn);
     var submitIds = $('.cityIds');      // 提交的城市id隐藏数据
     var submitNames = $('.cityNames');     // 提交的城市名称隐藏数据
@@ -120,7 +127,7 @@ function submitEvent (form, btn) {
     var data = new FormData(form[0]);
     $.ajax({
         type : 'post',
-        url : contextPath + '/api/organization/rebate/save',
+        url : EDITAPI,
         data : data,
         timeout : 5000,
         contentType: false,

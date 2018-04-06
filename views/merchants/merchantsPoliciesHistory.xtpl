@@ -31,8 +31,10 @@
                 <a href="javascript:;" class="crumbs_item">制定返佣政策</a>
                 <a href="javascript:;" class="crumbs_item">历史政策</a>
             </div>
-            <form action="{{markUri}}/supplier/organization/policies/history" id="policiesHistory" method="post" role="form">
+            <form action="{{markUri}}/merchants/policies/history/list" id="policiesHistory" method="post" role="form">
                 <div class="history_container">
+                    <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" class="supplier_id">
+                    <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" class="supplier_name">
                     <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
                     <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
                     <input type="hidden" name="orgName" value="{{reqParams.orgName}}" class="orgName">
@@ -41,84 +43,86 @@
                     <input type="hidden" name="list_origin" value="{{reqParams.list_origin}}" class="listOrigin">
                     <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
                     <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
+                    <input type="hidden" id="url" name="url" value="{{reqParams.url}}">
+                    <input type="hidden" id="navigation" name="navigation" value="{{reqParams.navigation}}">
                     {{#if (count > 0) }}
-                    <div class="filtrate">
-                        <div class="filtrate_item date_conditions inline_block">
-                            <div class="conditions_name inline_block">生效时间：</div>
-                            <input type="text" name="effective_time" readonly class="filtrate_date datainp wicon" value="{{effective_time}}" placeholder="请选择日期" />
+                        <div class="filtrate">
+                            <div class="filtrate_item date_conditions inline_block">
+                                <div class="conditions_name inline_block">生效时间：</div>
+                                <input type="text" name="effective_time" readonly class="filtrate_date datainp wicon" value="{{effective_time}}" placeholder="请选择日期" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="policies_list">
-                        <table class="normal">
-                            <colgroup>
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
-                                <col style="width: 20%;">
-                                <col style="width: 15%;">
-                                <col>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th>融资期限</th>
-                                <th>费率</th>
-                                <th>万元系数</th>
-                                <th>返点规则</th>
-                                <th>生效时间</th>
-                                <th>适用城市</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {{#each (data) }}
-                            <tr>
-                                <td>{{this.rebate_period}}</td>
-                                <td>{{this.rate}}</td>
-                                <td>{{this.millionCoefficient}}</td>
-                                <td>{{this.rule}}</td>
-                                <td>{{this.effective_time}}</td>
-                                <td>
-                                    {{this.city_names}}
-                                </td>
-                            </tr>
-                            {{/each}}
-                            <!--<tr>
-                                <td>12</td>
-                                <td>2.3%</td>
-                                <td>322</td>
-                                <td>超出反近段时间弗拉水电费</td>
-                                <td>2018-01-02</td>
-                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>2.3%</td>
-                                <td>322</td>
-                                <td>超出反近段时间弗拉水电费</td>
-                                <td>2018-01-02</td>
-                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>2.3%</td>
-                                <td>322</td>
-                                <td>超出反近段时间弗拉水电费</td>
-                                <td>2018-01-02</td>
-                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>2.3%</td>
-                                <td>322</td>
-                                <td>超出反近段时间弗拉水电费</td>
-                                <td>2018-01-02</td>
-                                <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
-                            </tr>-->
-                            </tbody>
-                        </table>
-                        {{include('./../inc/paginations')}}
-                    </div>
+                        <div class="policies_list">
+                            <table class="normal">
+                                <colgroup>
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 20%;">
+                                    <col style="width: 15%;">
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>融资期限</th>
+                                    <th>费率</th>
+                                    <th>万元系数</th>
+                                    <th>返点规则</th>
+                                    <th>生效时间</th>
+                                    <th>适用城市</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{#each (data) }}
+                                <tr>
+                                    <td>{{this.rebate_period}}</td>
+                                    <td>{{this.rate}}</td>
+                                    <td>{{this.millionCoefficient}}</td>
+                                    <td>{{this.rule}}</td>
+                                    <td>{{this.effective_time}}</td>
+                                    <td>
+                                        {{this.city_names}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                                <!--<tr>
+                                    <td>12</td>
+                                    <td>2.3%</td>
+                                    <td>322</td>
+                                    <td>超出反近段时间弗拉水电费</td>
+                                    <td>2018-01-02</td>
+                                    <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td>2.3%</td>
+                                    <td>322</td>
+                                    <td>超出反近段时间弗拉水电费</td>
+                                    <td>2018-01-02</td>
+                                    <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td>2.3%</td>
+                                    <td>322</td>
+                                    <td>超出反近段时间弗拉水电费</td>
+                                    <td>2018-01-02</td>
+                                    <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td>2.3%</td>
+                                    <td>322</td>
+                                    <td>超出反近段时间弗拉水电费</td>
+                                    <td>2018-01-02</td>
+                                    <td>天津、北京、北京、北京、天津、北京、北京、北京</td>
+                                </tr>-->
+                                </tbody>
+                            </table>
+                            {{include('./../inc/paginations')}}
+                        </div>
                     {{else}}
-                    {{include('./../inc/empty_data')}}
+                        {{include('./../inc/empty_data')}}
                     {{/if}}
                 </div>
             </form>

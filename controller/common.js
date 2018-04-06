@@ -261,7 +261,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 data.markUri = markUri;
                 data.vo.thousandRate = thousandRate(data);
                 //所属商户弹出层的标签名
-                if(data.supplierDetail.label_name){
+                /*if(data.supplierDetail.label_name){
                     if(data.supplierDetail.label_name.indexOf(",")!=-1){
                         data.label_names = data.supplierDetail.label_name.split[","];
                     }
@@ -282,7 +282,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                             data.rebate_insurance = data.vo.insurance*data.rebatePolicy[i].exceed_money;//保险费返点
                             break;
                     }
-                }
+                }*/
                 if (localUrl.indexOf( markUri + '/customer/loan') !== -1) {
                     res.render('./customer/imgDetail', data);
                 } else if (localUrl.indexOf( markUri + '/customer/compact') !== -1) {

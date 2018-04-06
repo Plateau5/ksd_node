@@ -22,6 +22,7 @@
         <input type="hidden" id="supplierName" value="{{detail.name}}" />
         <input type="hidden" id="merchantBusinessType" value="{{detail.car_type}}">
         <input type="hidden" id="merchantCity" value="{{detail.city_id}}">
+        <input type="hidden" id="cityName" value="{{detail.city_name}}">
         <input type="hidden" id="url" value="{{url}}">
         <input type="hidden" id="navigation" value="{{navigation}}">
         <input type="hidden" name="type"/><!--标识：商户标签删除type=1,标签库删除标签type=2，新增公库及商户增加标签type=3，公库增加给商户type=4-->
@@ -557,6 +558,7 @@
         var merchantName = $.trim($('#supplierName').val());    // 商户NAME
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
         var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+        var cityName = $('#cityName').val().trim();         // 商户城市名称
         var mCarType = null;
         if (mBusinessType == 0 || mBusinessType == 2) {
             mCarType = 0;
@@ -762,6 +764,7 @@
                     param : {
                         applyto_car : mBusinessType,
                         city_id : mCityId,
+                        city_name : cityName,
                         supplier_id : merchantId,
                         supplier_name : merchantName,
                         car_type : mCarType,

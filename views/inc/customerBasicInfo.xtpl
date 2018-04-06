@@ -3,8 +3,8 @@
 	<div class="title_line"></div>
 	<span>基本资料</span>
 </div>
-<div class="requestpayout_detail_container" style="overflow-y:-webkit-paged-y;">
-	<div class="cars_info_box">
+<div class="requestpayout_detail_container" >
+	<div class="cars_info_box clearfix">
 		{{#if (vo.user_name) }}
 			<div class="requestpayout_detail_title">客户信息</div>
 			<div class="detail_remarks requestpayout_detail_remarks">
@@ -168,10 +168,9 @@
 			</div>
 		{{/if}}
 		{{#if (vo.supplier_name) }}
-		<div class="detail_remarks requestpayout_detail_remarks payment_info_item requestpayout_detail_title">
+		<div class="detail_remarks requestpayout_detail_remarks payment_info_item">
 			<div class="requestpayout_detail_label">所属商户：</div>
-			<div class="requestpayout_detail_txt">{{vo.supplier_name}}</div>
-			<em class="merchant_slidedown_arrow merchant_details_btn"></em>
+			<div class="requestpayout_detail_txt">{{vo.supplier_name}}<em class="merchant_slidedown_arrow merchant_details_btn"></em></div>
 			<div class="merchant_slidedown_arrow_detail" style="display: none;">
 				<div class="merchant_slidedown_arrow_detail_title">{{supplierDetail.name}}</div>
 				<div class="merchant_remark">{{supplierDetail.flag_value}}</div>
@@ -194,7 +193,7 @@
 				{{/if}}
 				<div class="imgDetail">
 					{{#each (fileList) }}
-					<a href="{{this.url}}" target="_blank">
+					<a href="javascript:;" target="_blank">
 						<div class="request-img-box inline" style="margin-top:0;" title="{{this.file_name}}">
 							<div class="requestImgBox cursor">
 								<img src="{{this.thumbnail}}" alt=""/>

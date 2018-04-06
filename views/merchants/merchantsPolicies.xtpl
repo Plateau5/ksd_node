@@ -153,6 +153,7 @@
 <input type="hidden" id="url" value="{{reqParams.url}}">
 <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
 <input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
+<input type="hidden" id="cityName" value="{{detail.city_name}}">
 <input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_car}}">
 </body>
 {{include ('./../inc/jsSources')}}
@@ -169,6 +170,7 @@
         var listUrl = $('#url').val().trim();       // 列表页的路由
         var navigation = $('#navigation').val().trim();     // 列表页的节点
         var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+        var cityName = $('#cityName').val().trim();         // 商户城市名称
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
 
 
@@ -364,8 +366,8 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 var type = _this.parents('.module_list').data('index');
-                // var rebateId = _this.parents('.module_list').data('id');
-               //  var rebateName = _this.parents('.module_list').data('rebate_name');
+                var rebateId = _this.parents('.module_list').data('id');
+                var rebateName = _this.parents('.module_list').data('rebate_name');
                 var checkOrgE = $('.org_select_list .list_item.active');
                 var orgName = checkOrgE.data('name').trim();
                 locationTo({
@@ -375,12 +377,14 @@
                         car_type : carType,
                         orgName : orgName,
                         rebate_type : type,
-//                        rebate_typeId : rebateId,
+                        rebate_typeId : rebateId,
+                        rebate_name : rebateName,
                         supplier_id : supplierId,
                         supplier_name : supplierName,
                         url : listUrl,
                         navigation : navigation,
                         city_id : mCityId,
+                        city_name : cityName,
                         applyto_car : mBusinessType,
                     }
                 })
