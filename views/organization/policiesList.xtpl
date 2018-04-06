@@ -650,7 +650,6 @@
             function createListElem (data) {
                 // 处理分页数据
                 var totalPageE = moduleList.find('.total_page').find('.num');
-                // totalPageE.text(data.total_count);
                 totalPageE.text(data.count);
                 moduleList.find('.next, .prev').data('currentpage', currentPage);
                 moduleList.find('.end').data('currentpage', data.total_page);
@@ -662,7 +661,7 @@
                     moduleList.find('.next, .end, .prev, .home').removeClass('disabled');
                 }
 
-                if (data.total_count == 0) {
+                if (data.count == 0) {
                     moduleList.find('.page').hide();
                 } else {
                     moduleList.find('.page').show();

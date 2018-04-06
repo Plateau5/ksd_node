@@ -58,7 +58,7 @@
                             </span>
                         </span>
                     </div>
-                    {{#if (total_count > 0) }}
+                    {{#if (count > 0) }}
                         <table class="normal" id="merchantsTable">
                             <colgroup style="width: 100%;">
                                 <col style="width: 22%;" />
@@ -143,7 +143,7 @@
                 success : function (res) {
                     if (res.error_code == 0) {
                         createTable(res);
-                        var totalCount = res.total_count;
+                        var totalCount = res.count;
                         var totalPage = res.total_page;
                         $();
                     } else {

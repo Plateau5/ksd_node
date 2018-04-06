@@ -395,7 +395,9 @@ function deleteOldPolicies (btn) {
         },
         success : function (res) {
             if (res.error_code == 0) {
-                $alert('政策删除成功。');
+                $alert('政策删除成功。', function () {
+                    window.location.reload();
+                });
             } else {
                 $alert(res.error_msg);
                 deletePolicy();
