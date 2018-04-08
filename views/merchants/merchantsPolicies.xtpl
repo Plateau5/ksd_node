@@ -54,11 +54,11 @@
                 </div>
                 <div class="tab">
                     <ul class="tab_list inline_block">
-                        {{#if (reqParams.car_type === '0') }}
-                        <li class="tab_item not_out {{#if (reqParams.car_type === '0') }}active{{/if}}">新车返点政策</li>
+                        {{#if (reqParams.applyto_car === '0' || reqParams.applyto_car === '2') }}
+                        <li class="tab_item not_out {{#if (reqParams.car_type === '0') }}active{{/if}}" data-car_type="0">新车返点政策</li>
                         {{/if}}
-                        {{#if (reqParams.car_type === '1') }}
-                        <li class="tab_item already_out {{#if (reqParams.car_type === '1') }}active{{/if}}">二手车返点政策</li>
+                        {{#if (reqParams.applyto_car === '1' || reqParams.applyto_car === '2') }}
+                        <li class="tab_item already_out {{#if (reqParams.car_type === '1') }}active{{/if}}" data-car_type="1">二手车返点政策</li>
                         {{/if}}
                     </ul>
                 </div>
@@ -172,6 +172,39 @@
         var mCityId = $('#merchantCity').val().trim();      // 商户城市id
         var cityName = $('#cityName').val().trim();         // 商户城市名称
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+
+        // tab标签的切换
+        function switchTab () {
+            var btn = $('.tab_item');
+            var type = null;
+            btn.on('click', function () {
+                var _this = $(this);
+                if (_this.hasClass('new_car')) {
+                    _this.addClass('active');
+                    _this.siblings('.old_car').removeClass('active');
+                    type = _this.data('car_type');
+                } else {
+                    _this.addClass('active');
+                    _this.siblings('.new_car').removeClass('active');
+                    type = _this.data('car_type');
+                };
+                locationTo({
+                    action : contextPath + markUri + '/merchants/policies/list',
+                    param : {
+                        organization_id : orgId,
+                        car_type : type,
+                        orgName : orgName,
+                        applyto_car : mBusinessType,
+                        city_id : mCityId,
+                        city_name : cityName,
+                        supplier_id : supplierId,
+                        supplier_name : supplierName,
+                        url : listUrl,
+                        navigation : navigation
+                    }
+                })
+            });
+        }
 
 
         /**
@@ -397,6 +430,7 @@
 
 
         $(function() {
+            switchTab();        // tab标签切换
             initRebateList();       // 注册页面加载时间获取数据
             bindRebateListPageEvent();      // 注册列表分页点击事件
             changeOrgGetNewPoliciesData();      // 机构切换

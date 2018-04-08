@@ -158,13 +158,14 @@
                 var _this = $(this);
                 var id = $.trim(_this.parents('.org_mask').attr("lang"));
                 var name = _this.parents('.org_mask').data('name');
-                var carType = _this.parents('.org_mask').data("business");
+                var carType = _this.parents('.org_mask').data("business").toString();
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/policies',
                     param : {
                         organization_id : id,
                         car_type : (carType.indexOf('0') != -1) ? 0 : 1,
-                        orgName : name
+                        orgName : name,
+                        applyto_business : carType
                     }
                 });
             })

@@ -47,8 +47,12 @@
                 <div class="title org_title">{{reqParams.orgName}}</div>
                 <div class="tab">
                     <ul class="tab_list inline_block">
+                        {{#if (reqParams.applyto_business.indexOf('0') !== -1) }}
                         <li class="tab_item new_car {{#if (reqParams.car_type === '0') }}active{{/if}}" data-car_type="0">新车返点政策</li>
+                        {{/if}}
+                        {{#if (reqParams.applyto_business.indexOf('1') !== -1) }}
                         <li class="tab_item old_car {{#if (reqParams.car_type === '1') }}active{{/if}}" data-car_type="1">二手车返点政策</li>
+                        {{/if}}
                     </ul>
                     {{#if (verifyCode(1473)) }}
                     <a href="javascript:" id="addPolicies" class="detail_title_btn create_btn {{#if (rebateTypeList.length === 4 ) }}disabled{{/if}}">添加返点类型</a>
