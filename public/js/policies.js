@@ -110,8 +110,8 @@ function cancelEdit () {
 function submitEvent (form, btn) {
     var cityBtn = btn.parents('.policies_item').find('.add_city_btn');
     var checkedCity = getCheckedCitys(cityBtn);
-    var submitIds = $('.cityIds');      // 提交的城市id隐藏数据
-    var submitNames = $('.cityNames');     // 提交的城市名称隐藏数据
+    var submitIds = form.find('.cityIds');      // 提交的城市id隐藏数据
+    var submitNames = form.find('.cityNames');     // 提交的城市名称隐藏数据
     btn.off('click');
     var editType = form.find('input.edit_type').val().trim().number();
     var tipText = '';
@@ -232,9 +232,9 @@ function validatePolicyEmpty (form) {
 
     // 业务城市校验
     var _thisBtn = form.find('.add_city_btn');
-    getCheckedCitys(_thisBtn);
-    var citys = form.find('.city_ids').val();
-    if (citys == '') {
+    var citys = getCheckedCitys(_thisBtn).cityIds;
+    // var citys = form.find('.city_ids').val();
+    if (citys.length <= 0) {
         $alert('请选择至少一个城市');
         return false;
     }
@@ -415,4 +415,22 @@ function deleteOldPolicies (btn) {
             deletePolicy();
         }
     })
+}
+
+/**
+ * 跳转佣金列表页（面包屑使用）
+ * @author Arley Joe 2018年4月8日15:14:15
+ */
+function backToPoliciesList () {
+    var btn = $('.back_policies_list');
+    btn.off('click').on('click', function () {
+        locationTo({
+            action : contextPath + markUri + '/supplier/organization/policies',
+            param : {
+                organization_id : orgId,
+                car_type : carType,
+                orgName : orgName
+            }
+        });
+    });
 }

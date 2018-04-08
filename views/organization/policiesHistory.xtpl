@@ -25,7 +25,7 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:" class="crumbs_item">制定返佣政策({{reqParams.orgName}})</a>
+                <a href="javascript:" class="crumbs_item back_policies_list">制定返佣政策({{reqParams.orgName}})</a>
                 <a href="javascript:" class="crumbs_item last_child">{{reqParams.rebate_name}}(历史)返点政策</a>
                 <a href="javascript:window.history.back();">
                     <em class="return_prev rf" style="margin-top:18px;"></em>
@@ -141,17 +141,18 @@
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var orgId = $('.orgId').val().trim().number();      // 机构Id
+    var orgName = $('.orgName').val().trim();      // 机构名称
+    var carType = $('.carType').val().trim().number();  //车辆类型
     (function ($) {
-
-
-
-
 
 
         $(function() {
             datePicker('.filtrate_date', {});
             paginationSwitch();     // 分页切换
+            backToPoliciesList();       // 面包屑跳转回列表页
         });
     })(jQuery,undefined);
 </script>

@@ -28,7 +28,7 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="{{markUri}}/supplier/organization/policies" class="crumbs_item">制定返佣政策({{reqParams.orgName}})</a>
+                <a href="javascript:" class="crumbs_item back_policies_list">制定返佣政策({{reqParams.orgName}})</a>
                 <a href="javascript:" class="crumbs_item">编辑{{reqParams.rebate_name}}</a>
             </div>
             <div class="policy_container">
@@ -95,7 +95,10 @@
                                                         <div class="mark_title text_center">万元系数</div>
                                                         <ul class="mark_desc">
                                                             {{#each (this.millionCoefficients) }}
-                                                            <li class="desc_item">{{this.name}}：{{this.value}}</li>
+                                                            <li class="desc_item">
+                                                                <span class="inline_block periods">{{this.name}}：</span>
+                                                                <span class="inline_block value">{{this.value}}</span>
+                                                            </li>
                                                             {{/each}}
                                                         </ul>
                                                     </div>
@@ -258,13 +261,13 @@
                     <div class="form_options policies_temp none policies_item" data-edit_type="0">
                 {{/if}}
                         <form action="{{contextPath}}/api/organization/rebate/save" method="post"  class="policy_form">
-                            <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}">
-                            <input type="hidden" name="car_type" value="{{reqParams.car_type}}">
-                            <input type="hidden" name="organization_name" value="{{reqParams.orgName}}">
-                            <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}">
-                            <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}">
-                            <input type="hidden" name="rebate_id" value="">
-                            <input type="hidden" name="edit_type" value="1" class="edit_type">
+                            <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
+                            <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
+                            <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
+                            <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
+                            <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebateTypeId">
+                            <input type="hidden" name="rebate_id" value="{{this.rebate_id}}" class="rebateId">
+                            <input type="hidden" name="edit_type" value="1"  class="edit_type">
                             <div class="option_item">
                                 <div class="column_name">
                                     <span class="options_name">政策名称：</span>
@@ -427,13 +430,13 @@
     const ISMERCHANT = false;
 </script>
 <script>
+    var orgId = $('.orgId').val().trim().number();      // 机构Id
+    var orgName = $('.orgName').val().trim();      // 机构名称
+    var carType = $('.carType').val().trim().number();  //车辆类型
+    var rebateType = $('.rebateType').val().trim().number();    // 返点类型
+    var rebateName = $('.rebateName').val().trim();     // 返点类型名称
+    // 添加城市
     (function ($) {
-        var orgId = $('.orgId').val().trim().number();      // 机构Id
-        var orgName = $('.orgName').val().trim();      // 机构名称
-        var carType = $('.carType').val().trim().number();  //车辆类型
-        var rebateType = $('.rebateType').val().trim().number();    // 返点类型
-        var rebateName = $('.rebateName').val().trim();     // 返点类型名称
-        // 添加城市
         function addCity () {
             var btn = $('.add_city_btn');
             btn.off('click').on('click', function (e) {
@@ -554,6 +557,7 @@
             cancelEdit();       // 取消编辑按钮
             toHistoryList();        // 跳转历史政策页面
             deletePolicy();     // 删除政策
+            backToPoliciesList();       // 面包屑跳转回列表页
         });
     })(jQuery,undefined);
 </script>
