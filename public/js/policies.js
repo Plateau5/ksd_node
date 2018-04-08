@@ -418,7 +418,7 @@ function deleteOldPolicies (btn) {
 }
 
 /**
- * 跳转佣金列表页（面包屑使用）
+ * 跳转机构佣金列表页（面包屑使用）
  * @author Arley Joe 2018年4月8日15:14:15
  */
 function backToPoliciesList () {
@@ -432,5 +432,57 @@ function backToPoliciesList () {
                 orgName : orgName
             }
         });
+    });
+}
+
+/**
+ * 跳转商户返佣政策列表页（面包屑使用）
+ * @author Arley 2018年4月8日15:49:59
+ */
+function toPoliciesList () {
+    var btn = $('.back_policies_list');
+    btn.off('click').on('click', function () {
+        var _this = $(this);
+        locationTo({
+            action : contextPath + markUri + '/merchants/policies/list',
+            param : {
+                applyto_car : mBusinessType,
+                city_id : mCityId,
+                city_name : cityName,
+                supplier_id : supplierId,
+                supplier_name : supplierName,
+                car_type : carType,
+                url : listUrl,
+                navigation : navigation
+            }
+        })
+    });
+}
+
+/**
+ * 跳转制定商户返佣政策编辑页（面包屑使用）【未使用方法】
+ * @author Arley 2018年4月8日16:12:12
+ */
+function toPoliciesEdit () {
+    var btn = $('.back_policies_edit');
+    btn.off('click').on('click', function () {
+        locationTo({
+            action : contextPath + markUri + '/merchants/policies/edit',
+            param : {
+                organization_id : orgId,
+                car_type : carType,
+                orgName : orgName,
+                rebate_type : type,
+                rebate_typeId : rebateId,
+                rebate_name : rebateName,
+                supplier_id : supplierId,
+                supplier_name : supplierName,
+                url : listUrl,
+                navigation : navigation,
+                city_id : mCityId,
+                city_name : cityName,
+                applyto_car : mBusinessType,
+            }
+        })
     });
 }

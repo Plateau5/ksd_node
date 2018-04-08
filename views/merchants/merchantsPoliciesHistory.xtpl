@@ -27,10 +27,11 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
                 <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
-                <a href="javascript:;" class="crumbs_item">{{reqParams.supplier_name}}</a>
-                <a href="javascript:;" class="crumbs_item">制定返佣政策</a>
-                <a href="javascript:;" class="crumbs_item last_child">历史政策</a>
-                <a href="javascript:window.history.back();">
+                <a href="javascript:;" class="crumbs_item merchant_name" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item back_policies_list">制定返佣政策</a>
+                <!--<a href="javascript:;" class="crumbs_item back_policies_edit">编辑{{reqParams.rebate_name}}政策({{reqParams.orgName}})</a>-->
+                <a href="javascript:;" class="crumbs_item last_child">{{reqParams.rebate_name}}(历史)返点政策</a>
+                <a href="javascript:" class="back_policies_list">
                     <em class="return_prev rf" style="margin-top:18px;"></em>
                 </a>
             </div>
@@ -158,11 +159,28 @@
 <input type="hidden" name="limit" value="10" id="limit">
 <input type="hidden" name="current_page" value="1" id="currentPage">
 <input type="hidden" name="rebate_type" value="" id="rebateType">
+<input type="hidden" id="supplierName" value="{{reqParams.supplier_name}}">
+<input type="hidden" id="cityName" value="{{reqParams.city_name}}">
+<input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_car}}">
+<input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var orgId = $('.orgId').val().trim().number();      // 机构Id
+    var orgName = $('#orgName').val().trim();      // 机构名称
+    var supplierId = $('#supplierId').val().trim().number();      // 商户Id
+    var supplierName = $('#supplierName').val().trim();      // 商户名称
+    var carType = $('.carType').val().trim().number();  //车辆类型
+    var rebateType = $('.rebateType').val().trim().number();    // 返点类型
+    var rebateName = $('.rebateName').val().trim();     // 返点类型名称
+    var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+    var cityName = $('#cityName').val().trim();         // 商户城市名称
+    var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+    var listUrl = $('#url').val().trim();       // 列表页的路由
+    var navigation = $('#navigation').val().trim();     // 列表页的节点
     (function ($) {
 
 
@@ -173,6 +191,9 @@
         $(function() {
             datePicker('.filtrate_date', {});
             paginationSwitch();     // 分页切换
+            goMerchantDetail();     // 跳转商户详情页
+            toPoliciesList();       // 跳转返佣政策列表页
+            toPoliciesEdit();       // 跳转返佣政策编辑页面
         });
     })(jQuery,undefined);
 

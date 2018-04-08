@@ -35,7 +35,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
                 <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
-                <a href="javascript:;" class="crumbs_item">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item merchant_name" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
                 <a href="javascript:;" class="crumbs_item">制定返佣政策</a>
             </div>
             <div class="policies_container merchant_policies">
@@ -401,6 +401,7 @@
             bindRebateListPageEvent();      // 注册列表分页点击事件
             changeOrgGetNewPoliciesData();      // 机构切换
             toPoliciesEdit();       // 跳转编辑页面
+            goMerchantDetail();     // 跳转商户详情页
         });
     })(jQuery,undefined);
 </script>
