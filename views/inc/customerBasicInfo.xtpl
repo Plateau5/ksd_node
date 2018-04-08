@@ -172,16 +172,24 @@
 			<div class="requestpayout_detail_label">所属商户：</div>
 			<div class="requestpayout_detail_txt">{{vo.supplier_name}}<em class="merchant_slidedown_arrow merchant_details_btn"></em></div>
 			<div class="merchant_slidedown_arrow_detail" style="display: none;">
-				<div class="merchant_slidedown_arrow_detail_title">{{supplierDetail.name}}</div>
+				<div class="merchant_slidedown_arrow_detail_title">{{vo.supplier_name}}</div>
 				<div class="merchant_remark">{{supplierDetail.flag_value}}</div>
 
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">店面类型：</div>
+                    {{#if (supplierDetail.type_value) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{supplierDetail.type_value}}</div>
+                    {{else}}
+                    <div class="merchant_slidedown_arrow_detail_shoptype_txt">--</div>
+                    {{/if}}
 				</div>
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">商户状态：</div>
+                    {{#if (supplierDetail.status_value) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{supplierDetail.status_value}}</div>
+                    {{else}}
+                    <div class="merchant_slidedown_arrow_detail_shoptype_txt">--</div>
+                    {{/if}}
 				</div>
 
 				<div class="merchant_slidedown_arrow_detail_shoptype">

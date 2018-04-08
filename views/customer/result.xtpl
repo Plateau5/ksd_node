@@ -125,7 +125,7 @@
                     <label>
                         <span class="need">*</span>购置税：</label>
                     <div>
-                        <input type="text" name="" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
+                        <input type="text" name="purchase_tax" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写</span>
@@ -136,7 +136,7 @@
                     <label>
                         <span class="need">*</span>GPS费：</label>
                     <div>
-                        <input type="text" name="" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
+                        <input type="text" name="gps_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写</span>
@@ -147,7 +147,7 @@
                     <label>
                         <span class="need">*</span>保险费：</label>
                     <div>
-                        <input type="text" name="" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
+                        <input type="text" name="insurance" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写</span>
@@ -158,7 +158,7 @@
                     <label>
                         <span class="need">*</span>服务费：</label>
                     <div>
-                        <input type="text" name="" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
+                        <input type="text" name="service_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写</span>
@@ -231,6 +231,11 @@
 
         //只能输入两个小数
         obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+        if(obj.value.toString().indexOf(".")!=-1){
+
+        }else{
+            obj.value = obj.value + ".00";
+        }
     }
     $(function(){
         $('body').off('click').on('click','.check_img',function(e){
