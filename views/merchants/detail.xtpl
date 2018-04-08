@@ -367,21 +367,25 @@
                                 <!--账户信息-->
                                 {{#each (detail.record_data) }}
                                     <div class="classify_item">
-                                        {{#if (detail.record_data.length === 1) }}
-                                            {{#if (detail.flag === 2 && this.is_new === 1) }}
+                                        {{#if (root.detail.record_data.length === 1) }}
+                                            {{#if (root.detail.flag === 2 && this.is_new === 1) }}
                                                 <div class="classify_title new">账户信息</div>
-                                            {{elseif (detail.flag === 2 && this.is_new === 0) }}
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
                                                 <div class="classify_title">账户信息</div>
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
+                                                <div class="classify_title update">账户信息</div>
                                             {{else}}
-                                                <div class="classify_title new">账户信息</div>
+                                                <div class="classify_title">账户信息</div>
                                             {{/if}}
-                                        {{elseif (detail.record_data.length > 1) }}
-                                            {{#if (detail.flag === 2 && this.is_new === 1) }}
+                                        {{elseif (root.detail.record_data.length > 1) }}
+                                            {{#if (root.detail.flag === 2 && this.is_new === 1) }}
                                                 <div class="classify_title new">账户信息{{xindex + 1}}</div>
-                                            {{elseif (detail.flag === 2 && this.is_new === 0) }}
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
                                                 <div class="classify_title">账户信息{{xindex + 1}}</div>
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
+                                                <div class="classify_title update">账户信息{{xindex + 1}}</div>
                                             {{else}}
-                                                <div class="classify_title update new">账户信息</div>
+                                                <div class="classify_title">账户信息{{xindex + 1}}</div>
                                             {{/if}}
                                         {{/if}}
                                         <div class="classify_content">
@@ -393,6 +397,16 @@
                                                             --
                                                         {{else}}
                                                             {{this.account_type_value}}
+                                                        {{/if}}
+                                                    </div>
+                                                </li>
+                                                <li class="item_row">
+                                                    <div class="item_name">账户用途：</div>
+                                                    <div class="item_value">
+                                                        {{#if (!this.account_use || this.account_use === '' || this.account_use <= 0) }}
+                                                            --
+                                                        {{else}}
+                                                            {{this.account_use_value}}
                                                         {{/if}}
                                                     </div>
                                                 </li>
