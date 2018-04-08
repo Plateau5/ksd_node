@@ -183,14 +183,18 @@
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">商户状态：</div>
 					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{supplierDetail.status_value}}</div>
 				</div>
-				{{#if (label_names) }}
+
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">标签：</div>
+					{{#if (label_names) }}
 					{{#each (label_names) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt">{{this}}</div>
 					{{/each}}
+					{{else}}
+					<div class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt">--</div>
+					{{/if}}
 				</div>
-				{{/if}}
+
 				<div class="imgDetail">
 					{{#each (fileList) }}
 					<a href="javascript:;" target="_blank">
