@@ -66,7 +66,7 @@ function bindPolicySubmit () {
                 if (editing.length > 0) {
                     $alert('有其他政策正在编辑状态');
                 } else {
-                    _this.text('保存').addClass('editing').siblings('.edit_cancel').show();
+                    _this.text('保存').addClass('editing').siblings('.edit_policies_cancel').show();
                     parentForm.find('.disabled_mask').hide();
                     _this.data('status', 1);
                 }
@@ -93,7 +93,7 @@ function bindPolicySubmit () {
  * @author Arley 2018年4月5日18:06:34
  */
 function cancelEdit () {
-    var btn = $('.edit_cancel');
+    var btn = $('.edit_policies_cancel');
     btn.off('click').on('click', function () {
         var _this = $(this);
         var form = _this.parents('.policy_form');
