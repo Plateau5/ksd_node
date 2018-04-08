@@ -217,12 +217,15 @@
 				</div>
 				<div class="merchant_remark">商户返佣政策（仅供参考）</div>
 				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">车款返点：</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_label">融资额返点：</div>
 					{{#if (rebate_car) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_car}}元</div>
 					{{else}}
 					<div class="merchant_slidedown_arrow_detail_shoptype_text">--</div>
 					{{/if}}
+                    {{#if (vo.financed_charge_rebate) }}
+                    <div class="merchant_slidedown_arrow_detail_shoptype_text">(已请{{vo.financed_charge_rebate}}元)</div>
+                    {{/if}}
 				</div>
 
 				<div class="merchant_slidedown_arrow_detail_shoptype">
