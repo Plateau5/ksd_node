@@ -275,17 +275,41 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 if(data.rebatePolicy){
                     for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
                         switch (data.rebatePolicy[i].rebate_type){
-                            case 1:
-                                data.rebate_car = data.rebatePolicy[i].exceed_money*data.rebatePolicy[i].rebate_money;//车款返点
+                            case 1://车款返点
+                                if(data.rebatePolicy[i].rebate_way == 1 || data.rebatePolicy[i].rebate_way == 3){
+                                    data.rebate_car = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    data.rebate_car = (data.vo.purchase_tax - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_car = data.vo.purchase_tax * data.rebatePolicy[i].rebate_money;
+                                }
                                 break;
-                            case 2:
-                                data.rebate_gps = data.rebatePolicy[i].rebate_money;//gps返点
+                            case 2://gps返点
+                                if(data.rebatePolicy[i].rebate_way == 1 || data.rebatePolicy[i].rebate_way == 3){
+                                    data.rebate_gps = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    data.rebate_gps = (data.vo.gps_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_gps = data.vo.gps_charge * data.rebatePolicy[i].rebate_money;
+                                }
                                 break;
-                            case 3:
-                                data.rebate_service = data.vo.service_charge*data.rebatePolicy[i].exceed_money;//服务费返点
+                            case 3://服务费返点
+                                if(data.rebatePolicy[i].rebate_way == 1 || data.rebatePolicy[i].rebate_way == 3){
+                                    data.rebate_service = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    data.rebate_service = (data.vo.service_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_service = data.vo.service_charge * data.rebatePolicy[i].rebate_money;
+                                }
                                 break;
-                            case 4:
-                                data.rebate_insurance = data.vo.insurance*data.rebatePolicy[i].exceed_money;//保险费返点
+                            case 4://保险费返点
+                                if(data.rebatePolicy[i].rebate_way == 1 || data.rebatePolicy[i].rebate_way == 3){
+                                    data.rebate_insurance = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    data.rebate_insurance = (data.vo.insurance - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_insurance = data.vo.insurance * data.rebatePolicy[i].rebate_money;
+                                }
                                 break;
                         }
                     }
