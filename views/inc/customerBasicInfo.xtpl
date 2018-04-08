@@ -192,8 +192,8 @@
                     {{/if}}
 				</div>
 
-				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">标签：</div>
+				<div class="merchant_slidedown_arrow_detail_shoptype" style="width:100%;padding-bottom: 30px;">
+					<div class="merchant_slidedown_arrow_detail_shoptype_label" style="padding-right: 24px;">标签：</div>
 					{{#if (label_names) }}
 					{{#each (label_names) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt">{{this}}</div>
@@ -203,7 +203,7 @@
 					{{/if}}
 				</div>
 
-				<div class="imgDetail">
+				<div class="imgDetail" style="padding-left: 20px;">
 					{{#each (fileList) }}
 					<a href="javascript:;" target="_blank">
 						<div class="request-img-box inline" style="margin-top:0;" title="{{this.file_name}}">
@@ -219,13 +219,15 @@
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">融资额返点：</div>
 					{{#if (rebate_car) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_car}}元</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">
+						{{rebate_car}}元
+						{{#if (financed_charge_rebate) }}
+						(已请{{financed_charge_rebate}}元)
+						{{/if}}
+					</div>
 					{{else}}
 					<div class="merchant_slidedown_arrow_detail_shoptype_text">--</div>
 					{{/if}}
-                    {{#if (vo.financed_charge_rebate) }}
-                    <div class="merchant_slidedown_arrow_detail_shoptype_text">(已请{{vo.financed_charge_rebate}}元)</div>
-                    {{/if}}
 				</div>
 
 				<div class="merchant_slidedown_arrow_detail_shoptype">
