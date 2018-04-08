@@ -187,7 +187,7 @@
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">标签：</div>
 					{{#each (label_names) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{this}}</div>
+					<div class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt">{{this}}</div>
 					{{/each}}
 				</div>
 				{{/if}}
@@ -204,31 +204,41 @@
 					{{/each}}
 				</div>
 				<div class="merchant_remark">商户返佣政策（仅供参考）</div>
-
-				{{#if (rebate_car) }}
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">车款返点：</div>
+					{{#if (rebate_car) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_car}}元</div>
+					{{else}}
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">--</div>
+					{{/if}}
 				</div>
-				{{/if}}
-				{{#if (rebate_service) }}
+
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">服务费返点：</div>
+					{{#if (rebate_service) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_service}}元</div>
+					{{else}}
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">--</div>
+					{{/if}}
 				</div>
-				{{/if}}
-				{{#if (rebate_gps) }}
+
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">GPS返点：</div>
+					{{#if (rebate_gps) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_gps}}元</div>
+					{{else}}
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">--</div>
+					{{/if}}
 				</div>
-				{{/if}}
-				{{#if (rebate_insurance) }}
+
 				<div class="merchant_slidedown_arrow_detail_shoptype">
 					<div class="merchant_slidedown_arrow_detail_shoptype_label">保险返点：</div>
+					{{#if (rebate_insurance) }}
 					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_insurance}}元</div>
+					{{else}}
+					<div class="merchant_slidedown_arrow_detail_shoptype_text">--</div>
+					{{/if}}
 				</div>
-				{{/if}}
 			</div>
 		</div>
 		{{/if}}
