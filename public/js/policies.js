@@ -223,7 +223,7 @@ function validatePolicyEmpty (form) {
     if (returnAmountE.length > 0) {
         var returnAmount = returnAmountE.val().number();
         if (returnAmount > excessAmount || returnAmount > 9999999.99) {
-            $alert('返还金额不能大于超出金额且不能大于超出金额。');
+            $alert('返还金额不能大于超出金额。');
             return false;
         }
     }

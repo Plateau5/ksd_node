@@ -443,6 +443,12 @@
             btn.off('click').on('click', function (e) {
                 /*SelCity(this,e);*/
                 var _this = $(this);
+                var checkedCitys = getCheckedCitys(btn).cityIds.length;
+                var allCitys = list.length;
+                if(allCitys == checkedCitys){
+                    $alert('暂无可选的城市');
+                    return;
+                }
                 _this.siblings('.citySelectInput').click();
             });
             $('.city_box').off('click').on('click', '.delete_btn', function (e) {
