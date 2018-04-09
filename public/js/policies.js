@@ -429,7 +429,8 @@ function backToPoliciesList () {
             param : {
                 organization_id : orgId,
                 car_type : carType,
-                orgName : orgName
+                orgName : orgName,
+                applyto_business : carType
             }
         });
     });

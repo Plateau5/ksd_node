@@ -32,7 +32,7 @@
                 <a href="javascript:" class="crumbs_item">编辑{{reqParams.rebate_name}}</a>
             </div>
             <div class="policy_container">
-
+                <input type="hidden" id="applytoBusiness" value="{{reqParams.applyto_business}}">
                 {{#if (rebatePolicy.length > 0) }}
                 <div class="btn_box title_btn">
                     <a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加返点类型</a>
@@ -435,6 +435,7 @@
     var carType = $('.carType').val().trim().number();  //车辆类型
     var rebateType = $('.rebateType').val().trim().number();    // 返点类型
     var rebateName = $('.rebateName').val().trim();     // 返点类型名称
+    var applytoBusiness = $('#applytoBusiness').val().trim();  // 机构适用业务
     // 添加城市
     (function ($) {
         function addCity () {

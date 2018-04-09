@@ -40,6 +40,7 @@
                 <input type="hidden" id="orgId" value="{{reqParams.organization_id}}">
                 <input type="hidden" id="orgName" value="{{reqParams.orgName}}">
                 <input type="hidden" id="carType" value="{{reqParams.car_type}}">
+                <input type="hidden" id="applytoBusiness" value="{{reqParams.applyto_business}}">
                 <input type="hidden" name="list_origin" value="1" id="listOrigin">
                 <input type="hidden" name="limit" value="10" id="limit">
                 <input type="hidden" name="current_page" value="1" id="currentPage">
@@ -173,6 +174,7 @@
         var orgId = $('#orgId').val().trim().number();      // 机构Id
         var orgName = $('#orgName').val().trim();      // 机构名称
         var carType = $('#carType').val().trim().number();  //车辆类型
+        var applytoBusiness = $('#applytoBusiness').val().trim();  // 机构适用业务
         var limit = $('#limit').val().trim().number();      // 列表加载条目数
         var listOrigin = 1;     // 加载列表类型： 1-机构返点类型列表页  2-历史记录页
         var elem = {
@@ -198,7 +200,8 @@
                     param : {
                         organization_id : orgId,
                         car_type : type,
-                        orgName : orgName
+                        orgName : orgName,
+                        applyto_business : applytoBusiness
                     }
                 })
             });
@@ -445,7 +448,7 @@
                     moduleList.find('.next, .end, .prev, .home').removeClass('disabled');
                 }
 
-                if (data.count == 0) {
+                if (data.total_page <= 1) {
                     moduleList.find('.page').hide();
                 } else {
                     moduleList.find('.page').show();
