@@ -228,6 +228,21 @@ function validatePolicyEmpty (form) {
         }
     }
 
+    // 验证比例是否是两位小数，没有时加两位小数
+    var proportion_inputE = form.find('.proportion_input').not('[disabled="disabled"]');
+    if (proportion_inputE.length > 0) {
+        var proportion_input = proportion_inputE.val();
+        if (proportion_input.indexOf(".") != -1) {
+            if(proportion_input.split(".")[1].length > 2){
+                $alert('请把比例控制小数点后两位。');
+                return false;
+            }else if(proportion_input.split(".")[1].length == 1){
+                proportion_inputE.val(proportion_input + "0");
+            }
+        }else{
+            proportion_inputE.val(proportion_input + ".00");
+        }
+    }
 
 
     // 业务城市校验

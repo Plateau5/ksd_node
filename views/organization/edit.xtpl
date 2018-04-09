@@ -63,7 +63,7 @@
                                     <input type="checkbox" name="applyto_business" value="0" style="display:none;">
                                     {{/if}}
                                     <div class="check_img
-                                     {{#if (vo.applyto_business.indexOf('0'))}}
+                                     {{#if (vo.applyto_business.indexOf('0') !== -1)}}
                                     icon_check
                                     {{else}}
                                         icon_uncheck
@@ -79,7 +79,7 @@
                                 <input type="checkbox" name="applyto_business" value="1" style="display:none;">
                                 {{/if}}
                                 <div class="check_img
-                                    {{#if (vo.applyto_business.indexOf('1'))}}
+                                    {{#if (vo.applyto_business.indexOf('1') !== -1)}}
                                     icon_check
                                     {{else}}
                                         icon_uncheck
@@ -135,7 +135,7 @@
             <span class="formError"></span>
         </div>
         <div class="form-group" style="margin-bottom:0;">
-            <label class="col-xs-2 control-label inviteLabel">机构LOGO：{{logo_list}}</label>
+            <label class="col-xs-2 control-label inviteLabel">机构LOGO：</label>
             <div class="col-xs-10" style="margin-left:-40px;">
                 {{#each (logo_list) }}
                     <div class="organization_logo" id="image_url">
