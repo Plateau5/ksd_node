@@ -216,12 +216,15 @@ router.all(markUri + '/merchants/policies/list', merchantsCtrl.VIEW_MERCHANTS_PO
 router.all(markUri + '/merchants/policies/edit', merchantsCtrl.VIEW_MERCHANTS_POLICIES_EDIT);
 // 商户-商户管理-返佣政策历史页 1478
 router.all(markUri + '/merchants/policies/history/list', merchantsCtrl.VIEW_MERCHANTS_POLICIES_HISTORY_LIST);
+//商户-放款管理
+router.all(markUri + '/merchants/pending', merchantsCtrl.VIEW_MERCHANTS_PENDING);
 
-
-
-
-
-
+/*// 商户-放款管理-侧导航跳转
+router.all(markUri + '/merchants/loan/system', merchantsCtrl.VIEW_MERCHANTS_LOAN_SYSTEM);*/
+/*// 商户-放款管理-待审批
+router.all(markUri + '/merchants/loan/pending', merchantsCtrl.VIEW_MERCHANTS_LOAN_PENDING);
+// 商户-放款管理-已审批
+router.all(markUri + '/merchants/loan/approved', merchantsCtrl.VIEW_MERCHANTS_LOAN_APPROVED);*/
 
 
 // 供应商部分-主导航跳转  1067

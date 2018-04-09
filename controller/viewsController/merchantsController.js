@@ -228,9 +228,58 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
     }, req, res, next);
 };
 
+/*
+// 商户-放款管理-侧导航跳转
+exports.VIEW_MERCHANTS_LOAN_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1370, req)) {
+            res.redirect(markUri + '/merchants/pending');
+        } else if (common.checkPrivilege(1371, req)) {
+            res.redirect(markUri + '/merchants/approved');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1370 | 1371  is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
 
-
-
-
-
-
+// 商户-放款管理-待审批
+exports.VIEW_MERCHANTS_LOAN_PENDING = function(req, res, next) {
+    /!*common.getPageData({
+        url : '',
+        title : '商户管理-放款管理-未审批',
+        page : './merchants/loan/pending'
+    }, req, res, next);*!/
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '数据统计-商户分类列表';
+    data.originUrl = localUrl;
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    res.render('./merchants/pending',data);
+};
+// 商户-放款管理-已审批
+exports.VIEW_MERCHANTS_LOAN_APPROVED = function(req, res, next) {
+    common.getPageData({
+        url : '',
+        title : '商户管理-放款管理-已审批',
+        page : './merchants/loan/approved'
+    }, req, res, next);
+};
+*/
+// 商户-放款管理-侧导航跳转
+exports.VIEW_MERCHANTS_PENDING = function(req, res, next) {
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '数据统计-商户分类列表';
+    data.originUrl = localUrl;
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    res.render('./merchants/pending',data);
+};
