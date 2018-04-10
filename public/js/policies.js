@@ -64,7 +64,7 @@ function bindPolicySubmit () {
             if (editStatus === 0) {
                 var editing = $('.edit_confirm.editing').not('.new');
                 var newPolicy = $('.policies_temp');
-                if (editing.length > 0 || !newPolicy.is(':hidden')) {
+                if (editing.length > 0 || (newPolicy.length > 0 && !newPolicy.is(':hidden'))) {
                     $alert('当前有政策正在编辑中，请先保存后再编辑！');
                 } else {
                     _this.text('保存').addClass('editing').siblings('.edit_policies_cancel').show();
@@ -248,11 +248,13 @@ function validatePolicyEmpty (form) {
 
     // 业务城市校验
     var _thisBtn = form.find('.add_city_btn');
-    var citys = getCheckedCitys(_thisBtn).cityIds;
-    // var citys = form.find('.city_ids').val();
-    if (citys.length <= 0) {
-        $alert('请选择至少一个城市');
-        return false;
+    if (_thisBtn.length > 0) {
+        var citys = getCheckedCitys(_thisBtn).cityIds;
+        // var citys = form.find('.city_ids').val();
+        if (citys.length <= 0) {
+            $alert('请选择至少一个城市');
+            return false;
+        }
     }
 
     // 生效日期
