@@ -128,7 +128,7 @@
                         <input type="text" name="purchase_tax" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
-                            <span class="tips">如果有融资时请填写</span>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
                         </span>
                     </div>
                 </div>
@@ -139,7 +139,7 @@
                         <input type="text" name="gps_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
-                            <span class="tips">如果有融资时请填写</span>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
                         </span>
                     </div>
                 </div>
@@ -150,7 +150,7 @@
                         <input type="text" name="insurance" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
-                            <span class="tips">如果有融资时请填写</span>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
                         </span>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                         <input type="text" name="service_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
-                            <span class="tips">如果有融资时请填写</span>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
                         </span>
                     </div>
                 </div>
@@ -260,7 +260,17 @@
         $('#review_sub').click(function(){
             for (var i = 0;i < $('.loan_money').length;i++) {
                 if($('.loan_money')[i].value==""){
-                    $('.loan_money')[i].value = 0;
+                    // $('.loan_money')[i].value = 0;
+                    if (i == 0) {
+                        alert('请输入购置税');
+                    } else if (i == 1) {
+                        alert('请输入GPS费');
+                    } else if (i == 2) {
+                        alert('请输入保险费');
+                    } else if (i == 3) {
+                        alert('请输入服务费');
+                    }
+                    return;
                 }
             }
             var url;
