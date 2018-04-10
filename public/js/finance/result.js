@@ -142,7 +142,7 @@ $(function(){
     //金额文本是否可输入
     $('input[type="radio"]').click(function(){
         $('.loan_amount').html('');
-        var check = $('input[type="radio"]').eq(0).prop('checked');
+        var check = $('input[type="radio"]').eq(1).prop('checked');
         if(check){
             $('.real_loan_amount').removeAttr('readonly');
         }else{
