@@ -116,6 +116,12 @@
                                     <a href="javascript:" class="delete_sm_btn">删除</a>
                                 {{/if}}
                         </div>
+                    {{else}}
+                        <div class="btn_box text_left setting_merchant">
+                            {{#if (verifyCode(1480)) }}
+                            <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                            {{/if}}
+                        </div>
                     {{/if}}
                 </div>
                 <div class="merchant_desc">
@@ -410,15 +416,7 @@
                                                         {{#if (!this.account_use_value || this.account_use_value === '' || this.account_use_value <= 0) }}
                                                             --
                                                         {{else}}
-                                                            {{#if (this.account_use.indexOf('1') !== -1) }}
-                                                                车款&nbsp;&nbsp;
-                                                            {{/if}}
-                                                            {{#if (this.account_use.indexOf('2') !== -1) }}
-                                                                返点&nbsp;&nbsp;
-                                                            {{/if}}
-                                                            {{#if (this.account_use.indexOf('3') !== -1) }}
-                                                                杂费
-                                                            {{/if}}
+                                                            {{this.account_use_value}}
                                                         {{/if}}
                                                     </div>
                                                 </li>
