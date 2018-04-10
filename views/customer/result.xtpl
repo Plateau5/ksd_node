@@ -258,6 +258,11 @@
 
         //提交数据
         $('#review_sub').click(function(){
+            for (var i = 0;i < $('.loan_money').length;i++) {
+                if($('.loan_money')[i].value==""){
+                    $('.loan_money')[i].value = 0;
+                }
+            }
             var url;
             $('#review_sub').attr('disabled',true);
             var status = $('#select_status').val();
