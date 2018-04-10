@@ -19,8 +19,10 @@ exports.VIEW_MERCHANTS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/merchants/manage/system');
         } else if (common.checkPrivilege(1368, req)) {
             res.redirect(markUri + '/records/manage');
-        } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1368 | 1367 is not defined.');
+        } else if (common.checkPrivilege(1369, req)) {
+            res.redirect(markUri + '/merchants/loan/system');
+        }else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1369 | 1368 | 1367 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
@@ -282,4 +284,16 @@ exports.VIEW_MERCHANTS_PENDING = function(req, res, next) {
     data.apiServerPath = apiServerPath;
     data.domain = domain;
     res.render('./merchants/pending',data);
+};
+// 商户-放款管理-侧导航跳转
+exports.VIEW_MERCHANTS_PAYMENTSETTLEMENTDETAILS = function(req, res, next) {
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '放款管理-商户分类列表';
+    data.originUrl = localUrl;
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    res.render('./merchants/paymentSettlementDetails',data);
 };

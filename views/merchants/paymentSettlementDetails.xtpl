@@ -1,0 +1,279 @@
+<!--商户打款结算详情-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <title>商户打款结算详情</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">放款管理</a>
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">待审批</a>
+                <a href="javascript:;" class="crumbs_item last_child">商户详情页</a>
+            </div>
+            <div class="merchants_load">
+                <div class="merchant_name_label">商户名称：</div><div class="merchant_name">北京4s店（月结）<em class="view"></em></div>
+                <!--弹出层-->
+                <div class="pop">
+                    <div class="pop_title">北京宝马4S店</div>
+                    <div class="pop_remark">备案已通过</div>
+                    <div class="pop_row">
+                        <div class="pop_name">店面类型：</div><div class="pop_value">4S</div>
+                    </div>
+                    <div class="pop_row">
+                        <div class="pop_name">商户状态：</div><div class="pop_value">活跃商户</div>
+                    </div>
+                    <div class="pop_row">
+                        <div class="pop_name">标签：</div><div class="pop_value">黑名单商户</div>
+                    </div>
+                    <div class="pop_img_detail clearfix">
+                        <a href="javascript:;" target="_blank">
+                            <div class="pop_item" title="">
+                                <div class="pop_img"><img src="http://loan-file.oss-cn-beijing.aliyuncs.com/3b35e781dbd7402e847c52654b7ded42.jpg" alt=""/></div>
+                                <div class="pop_img_text">合作协议.png</div>
+                            </div>
+                        </a>
+                        <a href="javascript:;" target="_blank">
+                            <div class="pop_item" title="" style="padding:0 2%;">
+                                <div class="pop_img"><img src="http://loan-file.oss-cn-beijing.aliyuncs.com/3b35e781dbd7402e847c52654b7ded42.jpg" alt=""/></div>
+                                <div class="pop_img_text">合作协议.png</div>
+                            </div>
+                        </a>
+                        <a href="javascript:;" target="_blank">
+                            <div class="pop_item" title="">
+                                <div class="pop_img"><img src="http://loan-file.oss-cn-beijing.aliyuncs.com/3b35e781dbd7402e847c52654b7ded42.jpg" alt=""/></div>
+                                <div class="pop_img_text">合作协议.png</div>
+                            </div>
+                        </a>
+                    </a>
+                    <div class="pop_remark clearfix">商户返佣政策（仅供参考）</div>
+                    <div class="pop_row">
+                        <div class="pop_name">车款返点：</div><div class="pop_value">--</div>
+                    </div>
+                    <div class="pop_row">
+                        <div class="pop_name">服务费返点</div><div class="pop_value">--</div>
+                    </div>
+                    <div class="pop_row">
+                        <div class="pop_name">GPS返点：</div><div class="pop_value">--</div>
+                    </div>
+                    <div class="pop_row">
+                        <div class="pop_name">保险返点</div><div class="pop_value">--</div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="account_item clearfix">
+                <ul class="account_list">
+                    <li class="account_list_line">
+                        <div class="account_list_name merchant_name">账户1<em class="drop_down"></em></div>
+                        <div class="account_row"><div class="account_name">账户类型：</div><div class="account_value merchant_name">公户</div></div>
+                        <div class="account_row"><div class="account_name">账户用途：</div><div class="account_value merchant_name">车款</div></div>
+                        <div class="account_row"><div class="account_name">账户名：</div><div class="account_value merchant_name">招商银行</div></div>
+                        <div class="account_row"><div class="account_name">银行卡号：</div><div class="account_value merchant_name">123454321442722</div></div>
+                        <div class="account_row"><div class="account_name">开户行：</div><div class="account_value merchant_name">北京银行科技园支行</div></div>
+                        <div class="account_row"><div class="account_name">总金额：</div><div class="account_value merchant_name">1,555,323.23</div></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="filtrate">
+                <div class="filtrate merchants_filtrate">
+                    <div class="filtrate_item select_item  inline_block">
+                        <div class="conditions_name inline_block" style="vertical-align: top;">时间：</div>
+                        <select name="car_type" class="filtrate_select" id="">
+                            <option value="">全部</option>
+                            {{#if (car_type === 0) }}
+                            <option selected value="0">本月</option>
+                            {{else}}
+                            <option value="0">本月</option>
+                            {{/if}}
+                            {{#if (car_type === 1) }}
+                            <option selected value="1">上月</option>
+                            {{else}}
+                            <option value="1">上月</option>
+                            {{/if}}
+                            {{#if (car_type === 2) }}
+                            <option selected value="1">以前</option>
+                            {{else}}
+                            <option value="1">以前</option>
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="filtrate_item select_item  inline_block">
+                        <div class="conditions_name inline_block" style="vertical-align: top;">款项类型：</div>
+                        <select name="car_type" class="filtrate_select" id="">
+                            <option value="">全部</option>
+                            {{#if (car_type === 0) }}
+                            <option selected value="0">车款</option>
+                            {{else}}
+                            <option value="0">车款</option>
+                            {{/if}}
+                            {{#if (car_type === 1) }}
+                            <option selected value="1">其他款项</option>
+                            {{else}}
+                            <option value="1">其他款项</option>
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="filtrate_item select_item  inline_block">
+                        <div class="conditions_name inline_block" style="vertical-align: top;">排序：</div>
+                        <select name="car_type" class="filtrate_select" id="">
+                            <!--<option value="">全部</option>-->
+                            {{#if (car_type === 0) }}
+                            <option selected value="0">按贷款时间正序排列</option>
+                            {{else}}
+                            <option value="0">按贷款时间正序排列</option>
+                            {{/if}}
+                            {{#if (car_type === 1) }}
+                            <option selected value="1">按贷款时间倒序排列</option>
+                            {{else}}
+                            <option value="1">按贷款时间倒序排列</option>
+                            {{/if}}
+                            {{#if (car_type === 2) }}
+                            <option selected value="1">按打款金额最多排列</option>
+                            {{else}}
+                            <option value="1">按打款金额最多排列</option>
+                            {{/if}}
+                            {{#if (car_type === 3) }}
+                            <option selected value="1">按打款金额最少排列</option>
+                            {{else}}
+                            <option value="1">按打款金额最少排列</option>
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="filtrate_item checked_first_letter">
+                        <ul class="letter_list">
+                            {{#each (start_with_list) }}
+                            <li class="letter_item" data-value="{{this}}">
+                                <span class="letter_val">{{this}}</span>
+                                <em class="remove_btn"></em>
+                            </li>
+                            {{/each}}
+                            <li class="error_msg" style="line-height: 26px;">(最多选择10个)</li>
+                        </ul>
+                    </div>
+
+                    <div class="btn_box text_right">
+                        <a href="javascript:" class="btn bg_btn cancel merchants_search_cancel">清空</a>
+                        <a href="javascript:" class="btn orange_btn confirm merchants_search_confirm">筛选</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loan_item">
+                <ul>
+                    <li>
+                        <div class="loan_time">2017-02-08 10:26</div><a href="javascript:" class="batch_btn">批量放款</a>
+                        <div class="load_list clearfix">
+                            <div class="load_row">
+                                <div class="load_name">客户：</div><div class="load_value">李四</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">城市：</div><div class="load_value">北京</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">业务类型：</div><div class="load_value">新车</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">车架号：</div><div class="load_value">1234556753</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">贷前：</div><div class="load_value">张珊</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">款项类型：</div><div class="load_value">车款</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">车价贷款额：</div><div class="load_value">123,455,673</div>
+                            </div>
+                            <div class="total_receipts clearfix">
+                                <div class="receipt_name">收款总额：</div><div class="amount">63300元</div><div class="capital_amount">（陆万叁仟叁佰圆整)</div>
+                            </div>
+                            <div class="pay_operate_btn text_right">
+                                <a href="javascript:" class="agree_btn">同意</a>
+                                <a href="javascript:" class="no_agree_btn">不同意</a>
+                                <a href="javascript:" class="transfer_btn">转交他人</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="loan_time">2017-02-08 10:26</div><a href="javascript:" class="batch_btn">批量放款</a>
+                        <div class="load_list clearfix">
+                            <div class="load_row">
+                                <div class="load_name">客户：</div><div class="load_value">李四</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">城市：</div><div class="load_value">北京</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">业务类型：</div><div class="load_value">新车</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">车架号：</div><div class="load_value">1234556753</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">贷前：</div><div class="load_value">张珊</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">款项类型：</div><div class="load_value">车款</div>
+                            </div>
+                            <div class="load_row">
+                                <div class="load_name">车价贷款额：</div><div class="load_value">123,455,673</div>
+                            </div>
+                            <div class="total_receipts clearfix">
+                                <div class="receipt_name">收款总额：</div><div class="amount">63300元</div><div class="capital_amount">（陆万叁仟叁佰圆整)</div>
+                            </div>
+                            <div class="pay_operate_btn text_right">
+                                <a href="javascript:" class="agree_btn">同意</a>
+                                <a href="javascript:" class="no_agree_btn">不同意</a>
+                                <a href="javascript:" class="transfer_btn">转交他人</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--分页部分 Begin-->
+
+
+            {{include('./../inc/paginations')}}
+
+            <!--分页部分 End-->
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+</body>
+<script type="text/javascript">
+    /*(function ($, window) {
+
+        //展开折叠效果
+        function slideDownList () {
+            var btn = $('.view');
+            btn.off('click').on("click", function () {
+                var t = $(this);
+                console.log("测试");
+            });
+        }
+
+        $(function () {
+            slideDownList();
+        })
+    })(jQuery, window, undefined)*/
+</script>

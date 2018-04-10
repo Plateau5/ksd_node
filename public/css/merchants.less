@@ -990,3 +990,251 @@
         }
     }
 }
+/*放款管理-打款结算*/
+    .merchants_load {
+        padding:28px 0 34px 0;
+        line-height:26px;
+    }
+    .merchant_name_label{
+        display: inline-block;
+        float: left;
+        color:#666;
+    }
+    .merchant_name{
+        color:#333;
+        .view{
+            display:inline-block;
+            margin-left:4px;
+            width:16px;
+            height:16px;
+            background-image: url("../img/view_docking_detail.png");
+            background-repeat: no-repeat;
+            vertical-align: middle;
+            cursor: pointer;
+            &:hover{
+                background: url("../img/view_docking_detail_h.png") no-repeat;
+            }
+        }
+    }
+    .account_item{
+        .account_list{
+            .account_list_line{
+                .account_list_name{
+                    padding-bottom:17px;
+                }
+                .account_row{
+                    float: left;
+                    width: 33.33%;
+                    height: 44px;
+                    line-height: 44px;
+                    .account_name{
+                        display:inline-block;
+                        width:20%;
+                        vertical-align: top;
+                        color: #666;
+                    }
+                    .account_value{
+                        display: inline-block;
+                        width: 78%;
+                        padding: 0 1%;
+                        vertical-align: top;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
+    }
+    .account_list_name{
+        .drop_down{
+            display:inline-block;
+            margin:-1px 0 0 4px;
+            width:16px;
+            height:16px;
+            background-image: url("../img/view_docking_detail.png");
+            background-repeat: no-repeat;
+            vertical-align: middle;
+            cursor: pointer;
+            &:hover{
+                background: url("../img/view_docking_detail_h.png") no-repeat;
+            }
+        }
+    }
+    .loan_item{
+        .loan_time{
+            display:inline-block;
+            padding:20px 0 8px 0;
+            color:#999;
+        }
+        .batch_btn{
+            float:right;
+            padding:20px 0 8px 0;
+            color:#1DC6BC;
+        }
+    }
+    .load_list{
+        padding:22px 0 10px 20px;
+        border:1px solid rgba(0, 0, 0, 0.12);
+        -webkit-border-radius:2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        .load_row{
+            float: left;
+            width:25%;
+            height: 32px;
+            line-height: 32px;
+            color:#333;
+            .load_name{
+                display:inline-block;
+                width:30%;
+                vertical-align: top;
+            }
+            .load_value{
+                display: inline-block;
+                width: 68%;
+                padding: 0 1%;
+                vertical-align: top;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+        .total_receipts{
+            float:left;
+            display: inline-block;
+            width:50%;
+            height: 40px;
+            line-height:40px;
+            color:#EA4B5F;
+            .receipt_name{
+                display: inline-block;
+                width:14%;
+                vertical-align: top;
+            }
+            .amount,.capital_amount{
+                display: inline-block;
+                width: 14%;
+                vertical-align: top;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .capital_amount{
+                width:32%;
+            }
+        }
+    }
+    .pay_operate_btn{
+        float: right;
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        .agree_btn,.no_agree_btn,.transfer_btn{
+            color:#1DC6BC;
+            margin-right:20px;
+            &:before{
+                content:'';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background: url(../img/operation_small_icon.png) no-repeat;
+                vertical-align: middle;
+            }
+        }
+        .agree_btn{
+            &:before{
+                background-position:-1px -3px;
+            }
+        }
+        .no_agree_btn{
+            &:before{
+                margin-top:-6px;
+                background-position: 0 -39px;
+            }
+        }
+        .transfer_btn{
+            &:before{
+                margin-top:-6px;
+                background-position:-44px -229px;
+            }
+        }
+        .agree_btn:hover{
+            &:before{
+                background-position: -21px -3px;
+            }
+        }
+        .no_agree_btn:hover{
+            &:before{
+                background-position: -21px -39px;
+            }
+        }
+        .transfer_btn:hover{
+            &:before{
+                margin-top:-6px;
+                background-position:-62px -229px;
+            }
+        }
+    }
+    /*弹出层*/
+    .pop{
+        display:none;
+        z-index: 100;
+        position: absolute;
+        top: 30px;
+        width: 392px;
+        padding:20px;
+        margin-bottom: 100px;
+        background: #ffffff;
+        box-shadow: 0px 0px 4px 0px rgba(192,192,192,0.5);
+        .pop_title{
+            font-size:20px;
+            color:#333;
+        }
+        .pop_remark{
+            padding-top:4px;
+            color:#1DC6BC;
+        }
+        .pop_row{
+            float: left;
+            width:50%;
+            height: 32px;
+            line-height: 32px;
+            color:#333;
+            .pop_name{
+                display:inline-block;
+                width:40%;
+                vertical-align: top;
+            }
+            .pop_value{
+                display: inline-block;
+                width: 58%;
+                padding: 0 1%;
+                vertical-align: top;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+        .pop_img_detail{
+            padding:27px 0 30px 0;
+            .pop_item{
+                float:left;
+                width:32%;
+            }
+            .pop_img img{
+                max-width:100%;
+                max-height: 100%;
+            }
+        }
+    }
+    .pop_img_text{
+        width: 100%;
+        line-height: 40px;
+        font-size: 14px;
+        color: #535E6A;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }

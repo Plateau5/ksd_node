@@ -219,11 +219,11 @@ router.all(markUri + '/merchants/policies/history/list', merchantsCtrl.VIEW_MERC
 //商户-放款管理
 router.all(markUri + '/merchants/pending', merchantsCtrl.VIEW_MERCHANTS_PENDING);
 
-/*// 商户-放款管理-侧导航跳转
-router.all(markUri + '/merchants/loan/system', merchantsCtrl.VIEW_MERCHANTS_LOAN_SYSTEM);*/
+// 商户-放款管理-商户放款详情
+router.all(markUri + '/merchants/paymentSettlementDetails', merchantsCtrl.VIEW_MERCHANTS_PAYMENTSETTLEMENTDETAILS);
 /*// 商户-放款管理-待审批
-router.all(markUri + '/merchants/loan/pending', merchantsCtrl.VIEW_MERCHANTS_LOAN_PENDING);
-// 商户-放款管理-已审批
+router.all(markUri + '/merchants/pending', merchantsCtrl.VIEW_MERCHANTS_LOAN_PENDING);*/
+/*// 商户-放款管理-已审批
 router.all(markUri + '/merchants/loan/approved', merchantsCtrl.VIEW_MERCHANTS_LOAN_APPROVED);*/
 
 
