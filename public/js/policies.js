@@ -63,8 +63,9 @@ function bindPolicySubmit () {
             var editStatus = _this.data('status');
             if (editStatus === 0) {
                 var editing = $('.edit_confirm.editing').not('.new');
-                if (editing.length > 0) {
-                    $alert('有其他政策正在编辑状态');
+                var newPolicy = $('.policies_temp');
+                if (editing.length > 0 || !newPolicy.is(':hidden')) {
+                    $alert('当前有政策正在编辑中，请先保存后再编辑！');
                 } else {
                     _this.text('保存').addClass('editing').siblings('.edit_policies_cancel').show();
                     parentForm.find('.disabled_mask').hide();
