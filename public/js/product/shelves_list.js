@@ -1,7 +1,8 @@
 $(function(){
 	
 	$('#publish_list_btn').click(function(){
-		window.location.href=contextPath+"/product/publishList";
+		// window.location.href=contextPath+"/product/publishList";
+        window.location.href = contextPath + markUri + "/supplier/organization/publishedProducts";
 	});
 	/*$('.detail').click(function(){
 		var id = $(this).attr('lang');

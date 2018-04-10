@@ -20,7 +20,8 @@ $(function(){
             //window.location.href=contextPath+"/product/publishList";
             var parentId = $.trim($(this).data("id"));
             locationTo({
-                action : contextPath + "/product/publishList",
+                // action : contextPath + "/product/publishList",
+                action : contextPath + markUri + "/supplier/organization/publishedProducts",
                 param : {
                     parent_id : parentId
                 }
