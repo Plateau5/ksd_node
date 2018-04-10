@@ -35,7 +35,7 @@
                 <input type="hidden" id="applytoBusiness" value="{{reqParams.applyto_business}}">
                 {{#if (rebatePolicy.length > 0) }}
                 <div class="btn_box title_btn">
-                    <a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加返点类型</a>
+                    <a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加政策</a>
                     <a href="javascript:" class="detail_title_btn history_btn">历史政策</a>
                 </div>
                 {{/if}}
@@ -443,7 +443,7 @@
             btn.off('click').on('click', function (e) {
                 /*SelCity(this,e);*/
                 var _this = $(this);
-                var checkedCitys = getCheckedCitys(btn).cityIds.length;
+                var checkedCitys = getCheckedCitys(_this).cityIds.length;
                 var allCitys = list.length;
                 if(allCitys == checkedCitys){
                     $alert('暂无可选的城市');

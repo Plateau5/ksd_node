@@ -56,7 +56,7 @@ function bindPolicySubmit () {
         if (editType === 0) {
             verify = validatePolicyEmpty(parentForm);
             if (verify) {
-                submitEvent(parentForm, btn);
+                submitEvent(parentForm, _this);
             }
         } else if (editType === 1) {
             // 获取编辑按钮的状态：0-编辑（锁定）  1-提交（更改后）
@@ -389,7 +389,21 @@ function deletePolicy () {
         if (btnType === 0) {
             policyE.remove();
         } else if (btnType === 1) {
-            deleteOldPolicies(_this);    // 调用接口删除政策
+            dialog('open',{
+                closeBtn : false,
+                title : '提醒',
+                content : '您确认要删除该政策？',
+                "button" : ["确认","取消"],
+                "maskClose" : false,
+                onConfirm : function (d) {
+                    d.close();
+                    deleteOldPolicies(_this,d);    // 调用接口删除政策
+                },
+                onCancel : function (d) {
+                    d.close();
+                }
+            });
+
         }
     });
 
@@ -402,7 +416,7 @@ function deletePolicy () {
  * @author Arley 2018年4月5日17:29:51
  * @param btn {Object} : 当前的删除按钮（jQuery对象）
  */
-function deleteOldPolicies (btn) {
+function deleteOldPolicies (btn,d) {
     btn.off('click');
     var policyE = btn.parents('.form_options');
     var policyId = policyE.data('id');      // 政策id
@@ -417,6 +431,7 @@ function deleteOldPolicies (btn) {
             effective_time : effectiveTime
         },
         success : function (res) {
+            d.close;
             if (res.error_code == 0) {
                 $alert('政策删除成功。', function () {
                     window.location.reload();
