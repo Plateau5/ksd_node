@@ -3,9 +3,9 @@
  */
 
 var log4js = require('log4js');     // 日志模块
-// var KSDConf = require('./../util/ksdConf');
-var logPath = '/home/work/apps/node/logs';      // 日志文件存放位置
-// var logPath = KSDConf.path;      // 日志文件存放位置
+var KSDConf = require('./../usr/local/config/KSDConfig');
+// var logPath = '/home/work/apps/node/logs';      // 日志文件存放位置
+var logPath = KSDConf.path;      // 日志文件存放位置
 // var logPath = 'F:/logs';
 
 // 日志配置项
