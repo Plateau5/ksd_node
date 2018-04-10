@@ -1368,6 +1368,7 @@ function $alert (text, callback) {
  */
 function toOrderDetail () {
     var input = $("#financeId");
+    var advance = $('#advanceId');
     var form = $("#to_order_detail");
     var orderList = $(".business_list .list_item .list_item_detail");
     var url = LOCALURL;
@@ -1378,7 +1379,9 @@ function toOrderDetail () {
             $('.business_list .order_mask').show();     // 禁用多次点击
             var t = $(this);
             var financeId = $.trim(t.parents(".list_item").attr("lang"));
+            var advanceId = $.trim(t.parents('.list_item').data('advance_id'));
             input.val(financeId);
+            advance.val(advanceId);
             form.submit();
         });
     });
