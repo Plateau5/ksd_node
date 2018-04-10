@@ -1,1 +1,1 @@
-exports.logPath = 'D:/';
+exports.logPath = '/home/work/apps/node/logs';
