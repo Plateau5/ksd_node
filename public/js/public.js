@@ -2223,6 +2223,17 @@ function paginationSwitch () {
     });
 }
 
+function disabledFormAutoSubmit () {
+    var doc = $('body');
+    doc.on('keydown', 'form', function (e) {
+        var ev = e || window.event;
+        var keyCode = ev.keyCode;
+        if (keyCode == 13) {
+            return false;
+        }
+    });
+}
+
 
 $(function () {
     customerListMask(); // 禁用订单多次点击跳转
@@ -2252,6 +2263,7 @@ $(function () {
         personnelSearch();
     });
     loading();
+    disabledFormAutoSubmit();
 });
 
 
