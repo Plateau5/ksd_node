@@ -153,7 +153,7 @@ exports.VIEW_MERCHANTS_POLICIES_EDIT = function(req, res, next) {
                     for (var j = 0, c = periods.length; j < c; j++) {
                         var _obj = {};
                         // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
-                        var millionCoefficient = parseInt(((Number(ratesArr[a]) * 100 * (Number(periods[j]) / 12) + 10000) / Number(periods[j])) * 1000) / 1000;
+                        var millionCoefficient = parseInt((((Number(ratesArr[a]) * 100 * (Number(periods[j]) / 12)) + 10000) / Number(periods[j])) * 1000) / 1000;
                         // console.log(Number(ratesArr[a]) + '-' + Number(periods[j]));
                         if (millionCoefficient.toString().indexOf('.') !== -1) {
                             if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
@@ -195,7 +195,7 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
                 var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
                 var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
                 // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
-                var millionCoefficient = parseInt(((rate * 100 * (periods / 12) + 10000) / periods) * 1000) / 1000;
+                var millionCoefficient = parseInt((((rate * 100 * (periods / 12)) + 10000) / periods) * 1000) / 1000;
                 if (millionCoefficient.toString().indexOf('.') !== -1) {
                     if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
                         millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;

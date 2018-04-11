@@ -345,7 +345,7 @@ function checkPoliciesRepeat (form) {
                         for (var c = 0, l3 = oldCitys.length; c < l3; c++) {
                             if (editPolicyData.citys.cityIds.indexOf(oldCitys[c]) !== -1) {
                                 // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
-                                var millionCoefficient = parseInt(((oldRates[a] * 100 * (oldPeriods[b] / 12) + 10000) / oldPeriods[b]) * 1000) / 1000;
+                                var millionCoefficient = parseInt((((oldRates[a] * 100 * (oldPeriods[b] / 12)) + 10000) / oldPeriods[b]) * 1000) / 1000;
                                 if (millionCoefficient.toString().indexOf('.') !== -1) {
                                     if (millionCoefficient.toString().split('.')[1].number() > 445) {
                                         millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
