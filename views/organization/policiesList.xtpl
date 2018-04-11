@@ -318,6 +318,19 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 var rebateId = _this.parents('.module_list').data('id');
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后所有商户返点规则将不可用</span><br><span>确认要删除该返点政策？</span></div>',
+                    onConfirm : function (d) {
+                        deleteEvent(d, rebateId);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+            function deleteEvent (d, rebateId) {
+                d.close();
                 redefineAjax({
                     url : contextPath + '/api/organization/rebate/delete',
                     data : {
@@ -339,7 +352,7 @@
                         $alert('返点类型删除失败，请稍后重试');
                     }
                 })
-            });
+            }
         }
 
         // 跳转编辑页
