@@ -230,7 +230,7 @@
                                                     <span class="options_name"><span class="require_icon">*</span>生效时间：</span>
                                                 </div>
                                                 <div class="column_val">
-                                                    <input type="hidden" name="old_effective_time" value="{{this.effective_time}}">
+                                                    <input id="old_effective_time" type="hidden" name="old_effective_time" value="{{this.effective_time}}">
                                                     <input type="text" class="effective_date datainp wicon" name="effective_time" value="{{this.effective_time}}" readonly="readonly"  placeholder="请选择日期" />
                                                     <span class="tips_info">(*请先生效时间)</span>
                                                 </div>
@@ -292,7 +292,7 @@
 <script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     const EDITAPI = contextPath + '/api/supplier/rebate/save';
-    const ISMERCHANT = true;
+    const ISMERCHANT = true;        // 是否是商户编辑页面
     var orgId = $('.orgId').val().trim().number();      // 机构Id
     var orgName = $('#orgName').val().trim();      // 机构名称
     var supplierId = $('#supplierId').val().trim().number();      // 商户Id

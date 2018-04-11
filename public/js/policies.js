@@ -263,6 +263,12 @@ function validatePolicyEmpty (form) {
         $alert('请选择生效时间');
         return false;
     }
+    var old_effective_time = new Date($('#old_effective_time').val()).getTime();//原始日期
+    effectiveDate = new Date(effectiveDate).getTime();//当前日期
+    if (effectiveDate < old_effective_time) {
+        $alert('时间无效');
+        return false;
+    }
     return true;
 }
 
