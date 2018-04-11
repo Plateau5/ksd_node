@@ -264,7 +264,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 if(data.supplierDetail){
                     if(data.supplierDetail.label_name){
                         if(data.supplierDetail.label_name.indexOf(",")!=-1){
-                            data.label_names = data.supplierDetail.label_name.split[","];
+                            data.label_names = data.supplierDetail.label_name.split(",");
                         }else{
                             data.label_names = [data.supplierDetail.label_name];
                         }

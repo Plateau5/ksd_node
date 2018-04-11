@@ -295,9 +295,24 @@
         // 申请单的展开折叠效果
         //含有子级权限的展开折叠效果
         function slideDownList () {
+	        var count = 0;
 	        var btn = $('.merchant_details_btn');
             btn.off('click').on("click", function () {
                 var t = $(this);
+                // count++;
+                // if (count < 2) {
+                //     var url = contextPath + "/api/supplier/baseinfo";
+                //     $.ajax({
+                //         type: "post",
+                //         url: url,
+                //         dataType: "json",
+                //         data: {finance_id:$('#finance_id_picture_reason').val(),supplier_id:$('#detail_supplier_id').val()},
+                //         async: false,
+                //         success: function (data) {
+					// 		console.log(data);
+                //         }
+                //     });
+                // }
                 var childPrivilege = t.parents(".detail_remarks").find(">.merchant_slidedown_arrow_detail");
                 if (childPrivilege.is(":hidden")) {
                     childPrivilege.slideDown(300).parents(".detail_remarks").find(".merchant_slidedown_arrow").addClass("merchant_slidedown_up_arrow");
