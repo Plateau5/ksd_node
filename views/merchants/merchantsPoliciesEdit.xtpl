@@ -46,7 +46,7 @@
                 <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
                 <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
                 <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebateTypeId">
-                <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebateName">
+                <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebatesName">
                 {{#if (data.length > 0) }}
                 <div class="btn_box title_btn">
                     <!--<a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加返点类型</a>-->
@@ -60,7 +60,6 @@
                         <input type="hidden" name="rebate_id" value="{{this.rebate_id}}" class="rebateId">
                         <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebate_type">
                         <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebate_typeId">
-                        <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebate_name">
                         <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="organization_id">
                         <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" class="supplier_id">
                         <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" class="supplier_name">
@@ -70,6 +69,7 @@
                         <input type="hidden" name="city_name" value="{{reqParams.city_name}}" class="city_name">
                         <input type="hidden" name="edit_type" value="2"  class="edit_type">
                         {{#if (this.rebate_name) }}
+                        <input type="hidden" name="rebate_name" value="{{this.rebate_name}}" class="policy_name">
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">政策名称：</span>
@@ -273,12 +273,12 @@
 <input type="hidden" id="orgId" value="{{organization_id}}">
     <input type="hidden" id="orgName" value="{{reqParams.orgName}}">
     <input type="hidden" id="supplierId" value="{{reqParams.supplier_id}}">
-<input type="hidden" id="supplierName" value="{{reqParams.supplier_name}}">
-<input type="hidden" id="carType" value="{{reqParams.car_type}}">
-<input type="hidden" name="list_origin" value="1" id="listOrigin">
-<input type="hidden" name="limit" value="10" id="limit">
-<input type="hidden" name="current_page" value="1" id="currentPage">
-<input type="hidden" name="rebate_type" value="" id="rebateType">
+    <input type="hidden" id="supplierName" value="{{reqParams.supplier_name}}">
+    <input type="hidden" id="carType" value="{{reqParams.car_type}}">
+    <input type="hidden" name="list_origin" value="1" id="listOrigin">
+    <input type="hidden" name="limit" value="10" id="limit">
+    <input type="hidden" name="current_page" value="1" id="currentPage">
+    <input type="hidden" name="rebate_type" value="" id="rebateType">
     <input type="hidden" id="url" value="{{reqParams.url}}">
     <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
     <input type="hidden" id="cityName" value="{{reqParams.city_name}}">
@@ -299,7 +299,7 @@
     var supplierName = $('#supplierName').val().trim();      // 商户名称
     var carType = $('.carType').val().trim().number();  //车辆类型
     var rebateType = $('.rebateType').val().trim().number();    // 返点类型
-    var rebateName = $('.rebateName').val().trim();     // 返点类型名称
+    var rebateName = $('.rebatesName').val().trim();     // 返点类型名称
     var mCityId = $('#merchantCity').val().trim();      // 商户城市id
     var cityName = $('#cityName').val().trim();         // 商户城市名称
     var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
