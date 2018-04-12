@@ -124,9 +124,11 @@ $(function(){
         if(status == '0'){
             $('.pass').css('display','block');
             $('.unPass').css('display','none');
+            $('.customer_check').css('display','block');
         }else{
             $('.pass').css('display','none');
             $('.unPass').css('display','block');
+            $('.customer_check').css('display','none');
         }
         $('.form-item .file_box').empty();
     });

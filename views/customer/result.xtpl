@@ -121,7 +121,7 @@
                 </div>
 
 
-                <div class="form-item" style="height:30px;clear: both;margin-bottom: 0;">
+                <div class="form-item customer_check" style="height:30px;clear: both;margin-bottom: 0;">
                     <label>
                         <span class="need">*</span>购置税：</label>
                     <div>
@@ -132,7 +132,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-item" style="height:30px;">
+                <div class="form-item customer_check" style="height:30px;">
                     <label>
                         <span class="need">*</span>GPS费：</label>
                     <div>
@@ -143,7 +143,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-item" style="height:30px;">
+                <div class="form-item customer_check" style="height:30px;">
                     <label>
                         <span class="need">*</span>保险费：</label>
                     <div>
@@ -154,7 +154,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-item" style="height:30px;">
+                <div class="form-item customer_check" style="height:30px;">
                     <label>
                         <span class="need">*</span>服务费：</label>
                     <div>
@@ -258,25 +258,25 @@
 
         //提交数据
         $('#review_sub').click(function(){
-            for (var i = 0;i < $('.loan_money').length;i++) {
-                if($('.loan_money')[i].value==""){
-                    // $('.loan_money')[i].value = 0;
-                    if (i == 0) {
-                        alert('请输入购置税');
-                    } else if (i == 1) {
-                        alert('请输入GPS费');
-                    } else if (i == 2) {
-                        alert('请输入保险费');
-                    } else if (i == 3) {
-                        alert('请输入服务费');
-                    }
-                    return;
-                }
-            }
             var url;
             $('#review_sub').attr('disabled',true);
             var status = $('#select_status').val();
             if(status == '0'){
+                for (var i = 0;i < $('.loan_money').length;i++) {
+                    if($('.loan_money')[i].value==""){
+                        // $('.loan_money')[i].value = 0;
+                        if (i == 0) {
+                            alert('请输入购置税');
+                        } else if (i == 1) {
+                            alert('请输入GPS费');
+                        } else if (i == 2) {
+                            alert('请输入保险费');
+                        } else if (i == 3) {
+                            alert('请输入服务费');
+                        }
+                        return;
+                    }
+                }
                 var check1 = $('input[type="radio"]').eq(0).prop('checked');
                 var check2 = $('input[type="radio"]').eq(1).prop('checked');
                 if(!check1 && !check2){
