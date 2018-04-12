@@ -46,8 +46,11 @@ function initDisabledOrReset (policy) {
  * @return {}
  */
 function bindPolicySubmit () {
-    var btn = $('.edit_confirm');
-    btn.off('click').on('click', function () {
+    var body = $('body');
+    body.on('click', '.edit_confirm', function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         // 获取编辑状态：新建：0  编辑：1
         var editType = _this.parents('.form_options').data('edit_type');
@@ -94,8 +97,11 @@ function bindPolicySubmit () {
  * @author Arley 2018年4月5日18:06:34
  */
 function cancelEdit () {
-    var btn = $('.edit_policies_cancel');
-    btn.off('click').on('click', function () {
+    var body = $('body');
+    body.on('click', '.edit_policies_cancel', function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         var form = _this.parents('.policy_form');
         window.location.reload();
@@ -158,14 +164,14 @@ function submitEvent (form, btn) {
  */
 function validatePolicyEmpty (form) {
     // 融资期限模块
-    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"]:checked');
+    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"][checked="checked"]');
     if (checkedPeirods.length <= 0) {
         $alert('请选择融资期限');
         return false;
     }
 
     // 费率模块
-    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"]:checked');
+    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"][checked="checked"]');
     if (checkedRates.length <= 0) {
         $alert('请选择费率');
         return false;
@@ -387,8 +393,11 @@ function createNewPolicy () {
  * @param btn {Object} : 当前的删除按钮（jQuery对象）
  */
 function deletePolicy () {
-    var btn = $('.edit_delete');
-    btn.off('click').on('click', function () {
+    var body = $('body');
+    body.on('click', '.edit_delete', function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         var btnBox = _this.parents('.btn_box');
         // 按钮的状态类型  新建：0 编辑状态：1

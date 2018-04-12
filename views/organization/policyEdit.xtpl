@@ -439,8 +439,11 @@
     // 添加城市
     (function ($) {
         function addCity () {
-            var btn = $('.add_city_btn');
-            btn.off('click').on('click', function (e) {
+            var body = $('body');
+            body.on('click', '.add_city_btn', function (e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
                 /*SelCity(this,e);*/
                 var _this = $(this);
                 var checkedCitys = getCheckedCitys(_this).cityIds.length;
@@ -451,7 +454,7 @@
                 }
                 _this.siblings('.citySelectInput').click();
             });
-            $('.city_box').off('click').on('click', '.delete_btn', function (e) {
+            body.on('click', '.delete_btn', function (e) {
                 var e = e || window.event;
                 e.stopPropagation();
                 e.preventDefault();
@@ -500,8 +503,8 @@
          * @author Arley 2018年4月4日14:53:21
          */
         function changeRebateType () {
-            var s = $('.rebate_type');
-            s.off('change').on('change', function () {
+            var body = $('body');
+            body.off('change').on('change', '.rebate_type', function () {
                 var _this = $(this);
                 var selectedOpt = _this.find('option:selected').val().trim().number();
                 if (selectedOpt === 1) {

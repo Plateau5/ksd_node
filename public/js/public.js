@@ -655,7 +655,10 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
     if(type == 'radio') {
         //target.each(function (i, obj) {
         //     $(obj).off('click').on('click', function () {
-            $('body').on('click', selector, function () {
+            $('body').on('click', selector, function (e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
                 var t = $(this);
                 if (!t.hasClass("disabled")) {
                     if (tp == 'class') {
