@@ -2147,6 +2147,26 @@ function formatNum (value){
 }
 
 /**
+ * 判断小数点后是否是两位小数
+ * @author gaoyuan 2018年4月12日13:50:44
+ * @param value {Number|String} 需要进行保留两位小数的值
+ * @return {*}
+ */
+function formatPointTwoNum (el) {
+    var xsd = el.val().toString();
+    if (xsd[1].split(".").length > 2) {
+        $alert('请输入保留两位小数。');
+        return false;
+    } else if (xsd[1].split(".").length == 1) {
+        el.val(xsd + "0");
+        return;
+    } else {
+        el.val(xsd + ".00");
+        return;
+    }
+}
+
+/**
  * 手机号校验
  * @param selector
  */

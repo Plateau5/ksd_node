@@ -47,12 +47,10 @@
                 <input type="hidden" name="rebate_type" value="{{reqParams.rebate_type}}" class="rebateType">
                 <input type="hidden" name="rebate_typeId" value="{{reqParams.rebate_typeId}}" class="rebateTypeId">
                 <input type="hidden" name="rebate_name" value="{{reqParams.rebate_name}}" class="rebatesName">
-                {{#if (data.length > 0) }}
                 <div class="btn_box title_btn">
                     <!--<a href="javascript:" class="detail_title_btn create_btn create_policy_btn">添加返点类型</a>-->
                     <a href="javascript:" class="detail_title_btn history_btn">历史政策</a>
                 </div>
-                {{/if}}
                 {{#if (data.length > 0) }}
                 {{#each (data) }}
                 <div class="form_options {{#if (xindex === 0) }}first_policy{{/if}} policies_item" data-id="{{this.rebate_id}}" data-edit_type="1">
@@ -156,9 +154,9 @@
                                             {{/if}}
                                             <span>返超出金额的</span>
                                             {{#if (this.rebate_way !== 4) }}
-                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例值不能为空" name="rebate_money" disabled="disabled" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            <input type="text" class="proportion_input" maxlength="6" data-tips="比例值不能为空" name="rebate_money" disabled="disabled" value="" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                             {{else}}
-                                            <input type="text" class="proportion_input" maxlength="3" data-tips="比例值不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                            <input type="text" class="proportion_input" maxlength="6" data-tips="比例值不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                             {{/if}}
                                             <span>%</span>
                                         </div>
@@ -197,9 +195,9 @@
                                                         <span>元</span>
                                                         <span>返超出金额的</span>
                                                         {{#if (this.rebate_way !== 2) }}
-                                                        <input type="text" class="proportion_input" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="" disabled="disabled" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                                        <input type="text" class="proportion_input" maxlength="6" data-tips="比例不能为空" name="rebate_money" value="" disabled="disabled" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                                         {{else}}
-                                                        <input type="text" class="proportion_input" maxlength="3" data-tips="比例不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
+                                                        <input type="text" class="proportion_input" maxlength="6" data-tips="比例不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" />
                                                         {{/if}}
                                                         <span>%</span>
                                                     </div>

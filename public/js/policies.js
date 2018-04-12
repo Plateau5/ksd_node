@@ -207,6 +207,14 @@ function validatePolicyEmpty (form) {
             if (proportion > 100) {
                 $alert('比例不能超过100%。');
                 return false;
+            } else {
+                // formatPointTwoNum($('.proportion_input'));
+                if (proportion.toString().indexOf(".") != -1) {
+                    if (proportion.toString().split(".")[1].length > 2) {
+                        $alert('请输入返佣比例保留两位小数。');
+                        return false;
+                    }
+                }
             }
         } else {
             $alert('请先填写比例，比例不能为空。');
