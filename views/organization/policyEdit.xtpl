@@ -83,16 +83,17 @@
                                     <div class="column_val policy_rates">
                                         {{#each (root.ratesList) }}
                                         <div class="form_group">
-                                            {{#if (../rate.indexOf(this.rates) !== -1) }}
-                                            <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this.rates}}" />
+                                            {{#each (../rate.split(',')) }}
+                                            {{#if (this === ../rates) }}
+                                            <input type="checkbox" class="rates" checked="checked" name="rate" value="{{../rates}}" />
                                             <label class="checked">
-                                                <span>{{this.rates}}%</span>
+                                                <span>{{../rates}}%</span>
                                                 <div class="tips_box">
                                                     <em class="text_mark"></em>
                                                     <div class="mark_box">
                                                         <div class="mark_title text_center">万元系数</div>
                                                         <ul class="mark_desc">
-                                                            {{#each (this.millionCoefficients) }}
+                                                            {{#each (../millionCoefficients) }}
                                                             <li class="desc_item">
                                                                 <span class="inline_block periods">{{this.name}}：</span>
                                                                 <span class="inline_block value">{{this.value}}</span>
@@ -103,9 +104,9 @@
                                                 </div>
                                             </label>
                                             {{else}}
-                                            <input type="checkbox" class="rates" name="rate" value="{{this.rates}}" />
+                                            <input type="checkbox" class="rates" name="rate" value="{{../rates}}" />
                                             <label class="">
-                                                <span>{{this.rates}}%</span>
+                                                <span>{{../rates}}%</span>
                                                 <div class="tips_box">
                                                     <em class="text_mark"></em>
                                                     <div class="mark_box">
@@ -122,6 +123,8 @@
                                                 </div>
                                             </label>
                                             {{/if}}
+                                            {{/each}}
+
                                         </div>
                                         {{/each}}
                                     </div>
@@ -159,7 +162,7 @@
                                         {{else}}
                                         <div class="inline_block proportion rebate_detail_value">
                                         {{/if}}
-                                            <span class="pad_lf_rt_10">返超出金额的</span>
+                                            <span class="pad_lf_rt_10"></span>
                                             {{#if (this.rebate_way !== 4) }}
                                             <input type="text" class="proportion_input" maxlength="6" data-tips="比例值不能为空" name="rebate_money" disabled="disabled" value="" placeholder="10"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
                                             {{else}}
@@ -334,7 +337,7 @@
                                         <span class="pad_lf_rt_10">元</span>
                                     </div>
                                     <div class="inline_block proportion rebate_detail_value" style="display: none;">
-                                        <span class="pad_lf_rt_10">返超出金额的</span>
+                                        <span class="pad_lf_rt_10"></span>
                                         <input type="text" class="proportion_input" maxlength="6" data-tips="比例值不能为空" name="rebate_money" value="" placeholder="10"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
                                         <span>%</span>
                                     </div>
@@ -550,7 +553,7 @@
         $(function() {
             // 注册时间插件
             datePicker('.effective_date', {
-                minDate : $.nowDate({DD:1})
+                minDate : $.nowDate({DD:0})
             });
             // 城市选择注册
             citySelect({}, function (btn) {

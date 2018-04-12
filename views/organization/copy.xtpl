@@ -107,20 +107,27 @@
                     <span class="formError"></span>
                 </div>-->
                     <!--<c:if test="${fn:length(city_business) > 1 }">-->
-                    <div class="form-group" id="applyto_city">
+                    <div class="form-group" id="applyto_city" style="margin-bottom:0;">
                         <label class="col-xs-2 control-label inviteLabel">
                             <span class="need">*</span>适用城市：</label>
                         <div class="col-xs-8">
-                            <div class="form-control" style="border:0;background:#F5F5F5;padding:0;margin-bottom:10px;">
+                            <input type="hidden" name="city_ids" value="">
+                            <div class="form-control checkBox" id="cityIdsCont" style="border:0;background:#F5F5F5;margin-bottom:10px;">
+                                <!--<c:forEach items="${city_business}" var="bean">
+                                <div class="radio">
+                                    <input type="radio" name="applyto_city" value="${bean.id}">
+                                    <label>${bean.name}</label>
+                                </div>
+                            </c:forEach>-->
                                 {{#each (city_business) }}
-                                    <div class="radio">
-                                        {{#if (vo.applyto_city === this.id) }}
-                                        <input type="radio" name="applyto_city" value="{{this.id}}" checked="checked" >
-                                        {{else}}
-                                        <input type="radio" name="applyto_city" value="{{this.id}}" >
-                                        {{/if}}
-                                        <label>{{this.name}}</label>
-                                    </div>
+                                <div class="check" data-id="{{this.id}}">
+                                    {{#if (vo.applyto_city === this.id) }}
+                                    <div class="check_img icon_check"></div>
+                                    {{else}}
+                                    <div class="check_img icon_uncheck"></div>
+                                    {{/if}}
+                                    <span>{{this.name}}</span>
+                                </div>
                                 {{/each}}
                             </div>
                         </div>
