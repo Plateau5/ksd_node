@@ -317,9 +317,8 @@
                         data: {finance_id:$('#finance_download_finance_id').val(),supplier_id:$('#detail_supplier_id').val()},
                         async: false,
                         success: function (data) {
-							console.log(data);
+//							console.log(data);
 							if (data.error_code === 0) {
-                                try {
                                     if (data.supplierDetail.flag_value) {
                                         $('#merchant_remark').html(data.supplierDetail.flag_value);
 									} else {
@@ -471,10 +470,8 @@
                                     } else {
                                         $('#rebate_insurance').html('--');
                                     }
-                                } catch (e) {
-                                    LOGERROR(e.stack);
-                                    res.redirect(markUri + '/404');
-                                }
+							} else {
+								console.log(res.error_msg);
 							}
                         }
                     });
