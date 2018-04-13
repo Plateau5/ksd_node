@@ -201,18 +201,18 @@
         {{/if}}
     {{/if}}
     <!-- 商户管理列表页分类 End -->
-    <!-- 放款管理列表页分类 Begin -->
-    <!--{{#if (active === 'supplier') }}
-        {{#if (verifyCode(1370)) }}
-            <a href="{{markUri}}/merchants/pendingAudit" class="category_item pending_audit
-                {{#if (startWith(markUri + '/merchants/pendingAudit')) }}active{{/if}}
-                 ">待审批 <span class="count_num">({{countvo.wait_check}})</span></a>
+        <!-- 放款管理列表页分类 Begin -->
+    {{#if (startWith(markUri + '/loan')) }}
+        {{#if (verifyCode(1487)) }}
+            <a href="{{markUri}}/loan/pending" class="category_item pending_audit
+                {{#if (startWith(markUri + '/loan/pending')) }}active{{/if}}
+            ">待审核 <!--<span class="count_num">({{count}})</span>--></a>
         {{/if}}
-        {{#if (verifyCode(1371)) }}
-            <a href="{{markUri}}/merchants/pass" class="category_item passed
-                {{#if (startWith(markUri + '/merchants/pass')) }}active{{/if}}
-                ">已审批 <span class="count_num">({{countvo.already_check}})</span></a>
+        {{#if (verifyCode(1488)) }}
+            <a href="{{markUri}}/loan/pass" class="category_item pending_audit
+                {{#if (startWith(markUri + '/loan/pass')) }}active{{/if}}
+             ">已审批 <!--<span class="count_num">({{count}})</span>--></a>
         {{/if}}
-    {{/if}}-->
+    {{/if}}
     <!-- 放款管理列表页分类 End -->
 </div>
