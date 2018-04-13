@@ -352,6 +352,7 @@
                         '                                            </div>\n' +
                         '                                        </td>\n' +
                         '                                    </tr>';
+                    moduleList.hide();
                 }
 
                 table.html(policiesStr);
@@ -389,7 +390,21 @@
 
                     _this.addClass('active').siblings('.list_item').removeClass('active');
 
-                    initRebateList();      // 重新初始化数据
+//                    initRebateList();      // 重新初始化数据
+                    locationTo({
+                        action : contextPath + markUri + '/merchants/policies/list',
+                        param : {
+                            applyto_car : mBusinessType,
+                            city_id : mCityId,
+                            city_name : cityName,
+                            supplier_id : supplierId,
+                            supplier_name : supplierName,
+                            car_type : carType,
+                            url : listUrl,
+                            navigation : navigation,
+                            organization_id : orgId
+                        }
+                    })
                 }
             });
         }
