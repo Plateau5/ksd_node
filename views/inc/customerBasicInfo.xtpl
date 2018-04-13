@@ -348,8 +348,14 @@
                                             }else{
                                                 $('#merchant_label_names').html(data.supplierDetail.label_name);
                                             }
-                                        }
-                                    }
+                                        } else {
+                                            $('#merchant_label_names').html('--');
+										}
+                                    } else {
+                                        $('#merchant_type').html('--');
+                                        $('#merchant_status').html('--');
+                                        $('#merchant_label_names').html('--');
+									}
 
                                     //图片
 									if (data.fileList.length !=0) {
@@ -444,26 +450,26 @@
                                                     break;
                                             }
                                         }
-                                        if (data.rebate_car) {
-                                            $('#financed_amount').html(data.rebate_car + '元');
-                                        } else {
-                                            $('#financed_amount').html('--');
-                                        }
-                                        if (data.rebate_gps) {
-                                            $('#gps_rebate').html(data.rebate_gps + '元');
-                                        } else {
-                                            $('#gps_rebate').html('--');
-                                        }
-                                        if (data.rebate_service) {
-                                            $('#rebate_service').html(data.rebate_service + '元');
-                                        } else {
-                                            $('#rebate_service').html('--');
-                                        }
-                                        if (data.rebate_insurance) {
-                                            $('#rebate_insurance').html(data.rebate_insurance + '元');
-                                        } else {
-                                            $('#rebate_insurance').html('--');
-                                        }
+                                    }
+                                    if (data.rebate_car) {
+                                        $('#financed_amount').html(data.rebate_car + '元');
+                                    } else {
+                                        $('#financed_amount').html('--');
+                                    }
+                                    if (data.rebate_gps) {
+                                        $('#gps_rebate').html(data.rebate_gps + '元');
+                                    } else {
+                                        $('#gps_rebate').html('--');
+                                    }
+                                    if (data.rebate_service) {
+                                        $('#rebate_service').html(data.rebate_service + '元');
+                                    } else {
+                                        $('#rebate_service').html('--');
+                                    }
+                                    if (data.rebate_insurance) {
+                                        $('#rebate_insurance').html(data.rebate_insurance + '元');
+                                    } else {
+                                        $('#rebate_insurance').html('--');
                                     }
                                 } catch (e) {
                                     LOGERROR(e.stack);
