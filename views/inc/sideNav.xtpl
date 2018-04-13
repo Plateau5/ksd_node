@@ -177,7 +177,7 @@
         {{/if}}
     </ul>
 </div>
-{{ elseif (startWith(markUri + '/merchants' + ' || ' + markUri + '/records'))}}
+{{ elseif (startWith(markUri + '/merchants' + ' || ' + markUri + '/records'+ ' || ' + markUri + '/loan'))}}
     <div id="slide_nav" class="contacts slide_nav">
         <div class="slide_nav_title bold">商户</div>
         <ul class="slide_nav_bar">
@@ -191,14 +191,15 @@
                     <a href="{{markUri}}/records/manage" class="">备案管理</a>
                 </li>
             {{/if}}
-
-            <li class="nav_item {{#if(startWith(markUri + '/pending'))}}active{{/if}}">
-                <a href="{{markUri}}/merchants/pending" class="">放款管理</a>
+            {{#if (verifyCode(1487)) }}
+            <li class="nav_item {{#if(startWith(markUri + '/loan'))}}active{{/if}}">
+                <a href="{{markUri}}/loan/system" class="">放款管理</a>
             </li>
+            {{/if}}
 
-            <li class="nav_item {{#if(startWith(markUri + '/paymentSettlementDetails'))}}active{{/if}}">
+          <!--  <li class="nav_item {{#if(startWith(markUri + '/paymentSettlementDetails'))}}active{{/if}}">
                 <a href="{{markUri}}/merchants/paymentSettlementDetails" class="">商户放款详情</a>
-            </li>
+            </li>-->
 
             <!--<li class="nav_item {{#if(startWith(markUri + '/system'))}}active{{/if}}">
                 <a href="{{markUri}}/merchants/loan/system" class="">放款管理</a>

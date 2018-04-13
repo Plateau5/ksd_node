@@ -216,15 +216,15 @@ router.all(markUri + '/merchants/policies/list', merchantsCtrl.VIEW_MERCHANTS_PO
 router.all(markUri + '/merchants/policies/edit', merchantsCtrl.VIEW_MERCHANTS_POLICIES_EDIT);
 // 商户-商户管理-返佣政策历史页 1478
 router.all(markUri + '/merchants/policies/history/list', merchantsCtrl.VIEW_MERCHANTS_POLICIES_HISTORY_LIST);
-//商户-放款管理
-router.all(markUri + '/merchants/pending', merchantsCtrl.VIEW_MERCHANTS_PENDING);
 
-// 商户-放款管理-商户放款详情
-router.all(markUri + '/merchants/paymentSettlementDetails', merchantsCtrl.VIEW_MERCHANTS_PAYMENTSETTLEMENTDETAILS);
-/*// 商户-放款管理-待审批
-router.all(markUri + '/merchants/pending', merchantsCtrl.VIEW_MERCHANTS_LOAN_PENDING);*/
-/*// 商户-放款管理-已审批
-router.all(markUri + '/merchants/loan/approved', merchantsCtrl.VIEW_MERCHANTS_LOAN_APPROVED);*/
+
+
+// 商户-放款管理-侧导航跳转 1487
+router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
+// 商户-放款管理-待审批 1487
+router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);
+// 商户-放款管理-已审批 1488
+router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
 
 
 // 供应商部分-主导航跳转  1067
