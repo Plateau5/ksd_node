@@ -751,7 +751,7 @@ function checkAll (selector, callback) {
     var target = $(selector);
     target.on("click", function () {
         var t = $(this);
-        if (t.hasClass("checked")) {
+        if (!t.hasClass("checked")) {
             var checkBoxInput = t.parents(".check_all_box").siblings(".form_container").find("input[type='checkbox']");
             checkBoxInput.each(function () {
                 var e = $(this);
