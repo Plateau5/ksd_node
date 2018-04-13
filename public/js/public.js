@@ -1603,8 +1603,10 @@ function  pageJump (selector, opt) {
         var financeId = $.trim(target.data("id"));
         var workflowId = $.trim(target.data("flow_id"));
         var url = $.trim(target.data("url"));
+        var advanceId = $.trim(target.data("advance_id"));
         financeId && (options.finance_id = financeId);
         workflowId && (options.id = workflowId);
+        advanceId && (options.advance_id = advanceId);
         locationTo({
             action : url,
             param : options

@@ -170,12 +170,14 @@
 	function affirmSubmitEvent () {
 		var ele = $(".affirm_submit_thirdparty");
 		var finance_id = $.trim(ele.attr("lang"));
+		var advance_id = ele.data('advance_id');
 		if (ele.length != 0) {
 			ele.off("click").on("click", function () {
 				locationTo({
 					action : contextPath + markUri + '/customer/approval/submit',
 					param : {
-						finance_id : finance_id
+						finance_id : finance_id,
+                        advance_id : advance_id
 					}
 				});
 			});

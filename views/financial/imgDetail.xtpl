@@ -143,10 +143,12 @@
 		btn.on("click", function () {
 			var t = $(this);
 			var finance_id = $.trim(t.attr("lang"));
+			var advance_id = t.data('advance_id');
 			locationTo({
 				action : contextPath + markUri + "/customer/financial/returnResult",
 				param : {
-					finance_id : finance_id
+					finance_id : finance_id,
+                    advance_id : advance_id
 				}
 			});
 			//window.location.href = contextPath + "/financial/return/result?finance_id=" + finance_id;
