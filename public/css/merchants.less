@@ -992,6 +992,7 @@
 }
 /*放款管理-打款结算*/
     .merchants_load {
+        position: relative;
         padding:28px 0 34px 0;
         line-height:26px;
     }
@@ -1020,30 +1021,30 @@
         .account_list{
             .account_list_line{
                 .account_list_name{
-                    padding-bottom:17px;
-                }
-                .account_row{
-                    float: left;
-                    width: 33.33%;
-                    height: 44px;
-                    line-height: 44px;
-                    .account_name{
-                        display:inline-block;
-                        width:20%;
-                        vertical-align: top;
-                        color: #666;
-                    }
-                    .account_value{
-                        display: inline-block;
-                        width: 78%;
-                        padding: 0 1%;
-                        vertical-align: top;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                    }
+                    padding-top:17px;
                 }
             }
+        }
+    }
+    .account_row{
+        float: left;
+        width: 33.33%;
+        height: 44px;
+        line-height: 44px;
+        .account_name{
+          display:inline-block;
+          width:20%;
+          vertical-align: top;
+          color: #666;
+        }
+        .account_value{
+          display: inline-block;
+          width: 78%;
+          padding: 0 1%;
+          vertical-align: top;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
     }
     .account_list_name{
@@ -1072,6 +1073,19 @@
             padding:20px 0 8px 0;
             color:#1DC6BC;
         }
+    }
+    .cancel_btn{
+        float:right;
+        height: 40px;
+        line-height: 40px;
+        color:#999;
+    }
+    .load_radio{
+        display:none;
+        margin:24px 0 0 -3px;
+    }
+    .total_btn{
+        display:none;
     }
     .load_list{
         padding:22px 0 10px 20px;
@@ -1125,7 +1139,7 @@
             }
         }
     }
-    .pay_operate_btn{
+    .pay_operate_btn,.total_operate_btn{
         float: right;
         display: inline-block;
         height: 40px;
@@ -1176,65 +1190,27 @@
             }
         }
     }
-    /*弹出层*/
-    .pop{
-        display:none;
-        z-index: 100;
+    .detail_menu{
+        display: none;
+        z-index:100;
         position: absolute;
-        top: 30px;
-        width: 392px;
-        padding:20px;
-        margin-bottom: 100px;
-        background: #ffffff;
-        box-shadow: 0px 0px 4px 0px rgba(192,192,192,0.5);
-        .pop_title{
-            font-size:20px;
-            color:#333;
+        top: 100px;
+        left:0;
+        width:970px;
+        padding:24px;
+        background: #fff;
+        border:1px solid @border-color;
+        -webkit-border-radius:@normal-radius;
+        -moz-border-radius: @normal-radius;
+        border-radius: @normal-radius;
+        .detail_menu_list{
+            float:left;
+            width:96%;
+            border-bottom:1px solid @border-color;
         }
-        .pop_remark{
-            padding-top:4px;
-            color:#1DC6BC;
+        .detail_menu_radio{
+            float:left;
+            width:4%;
+            line-height:44px;
         }
-        .pop_row{
-            float: left;
-            width:50%;
-            height: 32px;
-            line-height: 32px;
-            color:#333;
-            .pop_name{
-                display:inline-block;
-                width:40%;
-                vertical-align: top;
-            }
-            .pop_value{
-                display: inline-block;
-                width: 58%;
-                padding: 0 1%;
-                vertical-align: top;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-        }
-        .pop_img_detail{
-            padding:27px 0 30px 0;
-            .pop_item{
-                float:left;
-                width:32%;
-            }
-            .pop_img img{
-                max-width:100%;
-                max-height: 100%;
-            }
-        }
-    }
-    .pop_img_text{
-        width: 100%;
-        line-height: 40px;
-        font-size: 14px;
-        color: #535E6A;
-        text-align: center;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
     }
