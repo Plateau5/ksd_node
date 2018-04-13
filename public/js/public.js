@@ -347,7 +347,7 @@ function redefineAjax (option) {
                 options.error();
             } else {
                 //console.log(textStatus);
-                $alert('操作失败，请重新尝试');
+                // $alert('操作失败，请重新尝试');
             }
         },
         complete : function (XMLHttpRequest, textStatus) {      //请求完成
