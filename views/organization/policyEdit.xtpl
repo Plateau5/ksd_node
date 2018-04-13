@@ -81,51 +81,53 @@
                                         <span class="options_name"><span class="require_icon">*</span>费率：</span>
                                     </div>
                                     <div class="column_val policy_rates">
-                                        {{#each (root.ratesList) }}
-                                        <div class="form_group">
-                                            {{#each (../rate.split(',')) }}
-                                            {{#if (this === ../rates) }}
-                                            <input type="checkbox" class="rates" checked="checked" name="rate" value="{{../rates}}" />
-                                            <label class="checked">
-                                                <span>{{../rates}}%</span>
-                                                <div class="tips_box">
-                                                    <em class="text_mark"></em>
-                                                    <div class="mark_box">
-                                                        <div class="mark_title text_center">万元系数</div>
-                                                        <ul class="mark_desc">
-                                                            {{#each (../millionCoefficients) }}
-                                                            <li class="desc_item">
-                                                                <span class="inline_block periods">{{this.name}}：</span>
-                                                                <span class="inline_block value">{{this.value}}</span>
-                                                            </li>
-                                                            {{/each}}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                            {{else}}
-                                            <input type="checkbox" class="rates" name="rate" value="{{../rates}}" />
-                                            <label class="">
-                                                <span>{{../rates}}%</span>
-                                                <div class="tips_box">
-                                                    <em class="text_mark"></em>
-                                                    <div class="mark_box">
-                                                        <div class="mark_title text_center">万元系数</div>
-                                                        <ul class="mark_desc">
-                                                            {{#each (this.millionCoefficients) }}
-                                                            <li class="desc_item">
-                                                                <span class="inline_block periods">{{this.name}}：</span>
-                                                                <span class="inline_block value">{{this.value}}</span>
-                                                            </li>
-                                                            {{/each}}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                            {{/if}}
-                                            {{/each}}
 
-                                        </div>
+                                        {{#each (root.ratesList) }}
+                                            <div class="form_group">
+                                                {{set (ratesArr = ../rate.split(','))}}
+
+                                                    {{#if (ratesArr.indexOf(this.rates) !== -1) }}
+                                                        <input type="checkbox" class="rates" checked="checked" name="rate" value="{{this.rates}}" />
+                                                        <label class="checked">
+                                                            <span>{{this.rates}}%</span>
+                                                            <div class="tips_box">
+                                                                <em class="text_mark"></em>
+                                                                <div class="mark_box">
+                                                                    <div class="mark_title text_center">万元系数</div>
+                                                                    <ul class="mark_desc">
+                                                                        {{#each (this.millionCoefficients) }}
+                                                                        <li class="desc_item">
+                                                                            <span class="inline_block periods">{{this.name}}：</span>
+                                                                            <span class="inline_block value">{{this.value}}</span>
+                                                                        </li>
+                                                                        {{/each}}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    {{else}}
+                                                        <input type="checkbox" class="rates" name="rate" value="{{this.rates}}" />
+                                                        <label class="">
+                                                            <span>{{this.rates}}%</span>
+                                                            <div class="tips_box">
+                                                                <em class="text_mark"></em>
+                                                                <div class="mark_box">
+                                                                    <div class="mark_title text_center">万元系数</div>
+                                                                    <ul class="mark_desc">
+                                                                        {{#each (this.millionCoefficients) }}
+                                                                        <li class="desc_item">
+                                                                            <span class="inline_block periods">{{this.name}}：</span>
+                                                                            <span class="inline_block value">{{this.value}}</span>
+                                                                        </li>
+                                                                        {{/each}}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    {{/if}}
+
+
+                                            </div>
                                         {{/each}}
                                     </div>
                                 </div>
@@ -542,7 +544,8 @@
                         list_origin : 2,
                         limit : 20,
                         current_page : 1,
-                        rebate_name : rebateName
+                        rebate_name : rebateName,
+                        applyto_business : applytoBusiness
                     }
                 })
             });

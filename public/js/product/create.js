@@ -176,7 +176,7 @@ $(function(){
     });
 
     $('input[name="interest_rate_input"]').blur(function(){
-        var num = $('.rate_add input').val();
+        var num = Number($('.rate_add input').val());
         var reg = /^\d{1,2}(\.\d{1,2})?$/;
         if(num && !reg.test(num)){
             $(this).parent().parent().find('.formError').html('请输入正确的费率');
@@ -186,7 +186,7 @@ $(function(){
         var  interest_rate_num = $('.interest_rate_num');
         if(interest_rate_num.length != '0'){
             for(var i = 0; i <  interest_rate_num.length; i++){
-                var rate_arr = $('.interest_rate_num').eq(i).val();
+                var rate_arr = Number($('.interest_rate_num').eq(i).val());
                 if(num == rate_arr){
                     $(this).parent().parent().find('.formError').html('此费率已存在，请重新输入');
                     $('input[name="interest_rate_input"]').css('border-color','#FB2741');

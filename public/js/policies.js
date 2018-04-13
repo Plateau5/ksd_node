@@ -412,7 +412,8 @@ function deletePolicy () {
         var btnType = btnBox.data('btn_type');      // 按钮的状态类型
         var policyE = _this.parents('.form_options');
         if (btnType === 0) {
-            policyE.remove();
+            // policyE.remove();
+            window.location.reload();
         } else if (btnType === 1) {
             dialog('open',{
                 closeBtn : false,
@@ -486,7 +487,7 @@ function backToPoliciesList () {
                 organization_id : orgId,
                 car_type : carType,
                 orgName : orgName,
-                applyto_business : carType
+                applyto_business : applytoBusiness
             }
         });
     });
