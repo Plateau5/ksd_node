@@ -111,6 +111,10 @@
                 <div class="requestpayout_detail_txt">{{vo.rate}}%（{{vo.thousandRate}}）</div>
             </div>
         {{/if}}
+		<input type="hidden" id="insurance" value="{{vo.insurance}}">
+		<input type="hidden" id="purchase_tax" value="{{vo.purchase_tax}}">
+		<input type="hidden" id="service_charge" value="{{vo.service_charge}}">
+		<input type="hidden" id="gps_charge" value="{{vo.gps_charge}}">
         {{#if (vo.insurance) }}
             <div class="detail_remarks requestpayout_detail_remarks">
                 <div class="requestpayout_detail_label">保险费：</div>
@@ -380,10 +384,10 @@
                                     * 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money
                                     * */
                                     if(data.rebatePolicy.length !=0){
-                                        var carbate_baseinfo = $('#carbate_baseinfo').html().split("万元")[0];
-                                        var gsp_baseinfo = $('#gsp_baseinfo').html().split("元")[0];
-                                        var service_baseinfo = $('#service_baseinfo').html().split("元")[0];
-                                        var insurance_baseinfo = $('#insurance_baseinfo').html().split("元")[0];
+                                        var carbate_baseinfo = $.trim($('#purchase_tax').val());
+                                        var gsp_baseinfo = $.trim($('#gps_charge').val());
+                                        var service_baseinfo = $.trim($('#service_charge').val());
+                                        var insurance_baseinfo = $.trim($('#insurance').val());
                                         for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
                                             switch (data.rebatePolicy[i].rebate_type){
                                                 case 1://车款返点
