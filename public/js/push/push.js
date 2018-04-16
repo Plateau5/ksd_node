@@ -339,7 +339,8 @@ function viewLargeImage (selector) {
     var galley = $(selectorName);
 
     galley.each(function (i, t) {
-        var imgItem = $(this).find('.img_item');
+        // var imgItem = $(this).find('.img_item');
+        var imgItem = $(this).find('img');
         if (imgItem.length > 0) {
             var viewer = new Viewer(t, {
                 url: 'data-original',
