@@ -4,79 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <title>机构管理</title>
-    {{include ("./../inc/metaData")}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/organization/create.css">
+ <!--   <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/organization/create.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <script src="{{markUri}}/static/js/common/validate_form.js"></script>
-    <script src="{{markUri}}/static/js/organization/create.js"></script>
-    <style type="text/css">
-        body{overflow-x: hidden;}
-        .formML{margin-bottom:50px;margin-top:35px;padding-left:4%;}
-    </style>
+    <script src="{{markUri}}/static/js/organization/create.js"></script>-->
 </head>
 <body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
 
-{{include ('./../inc/header')}}
-
-<!--container start-->
-
-<div class="container minWidth">
-    <div class="row section">
-        <!--navLeft start-->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
 
-        <!--navLeft end-->
-
-        <!--listCon start-->
-        <div class="listCon">
-            <div class="listConHeader inviteCon">
-                <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/supplier/organization/system">机构管理</a></li>
-                    <li class="inline before"><a href="javascript:;">新建</a></li>
-                </ul>
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
+                <a href="javascript:;" class="crumbs_item">新建</a>
             </div>
-            <!--form start-->
-            <div class="inviteForm inviteConB formMT">
-                <form class="form-horizontal formML" id="organization_info_create">
-                    <input type="hidden" id="" value="">
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>机构名称：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" id="name" name="name" maxlength="20" placeholder="请输入机构名称" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='请输入机构名称';this.style.color='#A4A8AB';}"/>
+            <div class="create_options form_options" style="padding:0;">
+                <form action="" id="create_workflow">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">机构名称：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
+                        <div class="column_val">
+                            <input type="text" class="workflow_name" name="name" maxlength="20" placeholder="请输入机构名称" />
+                            <span class="tips_info" style="display: none;">(*最多二十个字)</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>适用业务：</label>
-                        <div class="col-xs-3" style="margin-left:-40px;">
-                            <div class="form-control checkBox" id="applyto_business">
-                                <div class="check">
-                                    <input type="checkbox" name="applyto_business" value="0" style="display:none;">
-                                    <div class="check_img icon_uncheck"></div>
-                                    <span>新车</span>
-                                </div>
-                                <div class="check" style="margin-left:30px;">
-                                    <input type="checkbox" name="applyto_business" value="1" style="display:none;">
-                                    <div class="check_img icon_uncheck"></div>
-                                    <span>二手车</span>
-                                </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">适用业务：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="applyto_business"  value="0" />
+                                <label for="newCars">新车</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="usedCars" type="checkbox" class="apply_scope" name="applyto_business" value="1" />
+                                <label for="usedCars">二手车</label>
                             </div>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">机构类别：</label>
-                        <div class="col-xs-5">
-                            <select class="form-control"  id="type" name="type">
-                                <option value="0">全部</option>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">机构类别：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" class="" id="" style="width: 160px;">
+                                <option value="">请选择</option>
                                 <option value="1">融资租赁</option>
                                 <option value="2">银行</option>
                                 <option value="3">信托</option>
@@ -84,137 +75,324 @@
                                 <option value="5">担保公司</option>
                             </select>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
                     </div>
-                    <div class="form-group" style="margin-bottom:0;">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>机构LOGO：</label>
-                        <div class="col-xs-10" style="margin-left:-40px;">
-                            {{#each (logo_list) }}
-                                <div class="organization_logo" id="image_url">
-                                    <input type="radio" name="image_url" value="{{this.image_url}}" hidden="hidden">
-                                    <img src="{{this.image_url}}" alt="">
-                                </div>
-                            {{/each}}
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">机构logo：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                    </div>
-                    <span class="formError logo_error"></span>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>有无系统：</label>
-                        <div class="col-xs-3" style="margin-left:-40px;">
-                            <div class="form-control" style="border:0;background:#F5F5F5;padding:0;" id="have_system">
-                                <div class="radio">
-                                    <input type="radio" name="have_system" value="1" checked="checked">
-                                    <label>有</label>
-                                </div>
-                                <div class="radio">
-                                    <input type="radio" name="have_system" value="0">
-                                    <label>无</label>
-                                </div>
+                        <div class="column_val">
+                            <div class="organization_logo" id="image_url">
+                                <input type="radio" name="image_url" value="" hidden="hidden">
+                                <img src="" alt="">
                             </div>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
                     </div>
-                    <div class="form-group have_system_url">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>系统地址：</label>
-                        <div class="col-xs-5">
-                            <input class="form-control" type="text" placeholder="例如：http://www.zhihjf.com" maxlength="100" id="system_url" name="system_url" value=""/>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">有无系统：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
+                        <div class="column_val">
+                            <div class="form_group mar6">
+                                <input id="" type="radio" checked="checked" name="feedback_type" value="1">
+                                <label for="" class="checked">有</label>
+                            </div>
+                            <div class="form_group mar6">
+                                <input id="" type="radio" name="feedback_type" value="2">
+                                <label for="" class="checked">无</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">官方电话：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" placeholder="请输入官方电话" maxlength="12" id="mobile" name="mobile" value=""/>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">系统地址：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
+                        <div class="column_val">
+                            <input type="text" class="" name="" placeholder="请输入系统地址">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">联系人：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" placeholder="请输入联系人姓名" maxlength="20" id="link_name" name="link_name" value=""/>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">车龄限制：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
+                        <div class="column_val">
+                            <input type="text" class="" name="" placeholder="请输入最低车龄">
+                            <span class="pad_lf_rt_8">-</span>
+                            <input type="text" class="" name="" placeholder="请输入最高车龄">
+                            <span class="pad_lf_rt_8">年</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">联系人手机：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" maxlength="11" placeholder="请输入联系人手机号" id="link_phone" name="link_phone" value=""/>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">年龄限制：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
+                        <div class="column_val">
+                            <input type="text" class="" name="" placeholder="请输入最低车龄">
+                            <span class="pad_lf_rt_8">-</span>
+                            <input type="text" class="" name="" placeholder="请输入最高车龄">
+                            <span class="pad_lf_rt_8">岁</span>
+                            <span class="remark_text">备注</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">联系人座机：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" maxlength="12" placeholder="请输入联系人座机电话" id="link_mobile" name="link_mobile" value=""/>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">审批速度：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
+                        <div class="column_val">
+                            <select name="" class="" id="" style="width: 160px;">
+                                <option value="0">1-20分钟</option>
+                                <option value="1">1-3个小时</option>
+                                <option value="2">半个工作日</option>
+                                <option value="3">1个工作日</option>
+                                <option value="4">1-2个工作日</option>
+                                <option value="5">3个工作日</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">可抵押城市：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" class="" id="" style="width: 160px;">
+                                <option value="0">北京</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">主贷人征信：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group mar6">
+                                <input id="" type="radio" checked="checked" name="" value="1">
+                                <label for="" class="checked">需要</label>
+                            </div>
+                            <div class="form_group mar6">
+                                <input id="" type="radio" name="" value="2">
+                                <label for="" class="checked">不需要</label>
+                            </div>
+                            <span class="remark_text">备注</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">配偶征信：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group mar6">
+                                <input id="" type="radio" checked="checked" name="" value="1">
+                                <label for="" class="checked">需要</label>
+                            </div>
+                            <div class="form_group mar6">
+                                <input id="" type="radio" name="" value="2">
+                                <label for="" class="checked">不需要</label>
+                            </div>
+                            <span class="remark_text">备注</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">背户情况：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group mar6">
+                                <input id="" type="radio" checked="checked" name="" value="1">
+                                <label for="" class="checked">需要</label>
+                            </div>
+                            <div class="form_group mar6">
+                                <input id="" type="radio" name="" value="2">
+                                <label for="" class="checked">不需要</label>
+                            </div>
+                            <span class="remark_text">备注</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">机构特点：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name=""  value="0" />
+                                <label for="">审批快</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="1" />
+                                <label for="">材料少</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="2" />
+                                <label for="">利息低</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="3" />
+                                <label for="">利润大</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="4" />
+                                <label for="">灵活</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="5" />
+                                <label for="">首付低</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="6" />
+                                <label for="">尺度大</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="7" />
+                                <label for="">可做黑户</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="8" />
+                                <label for="">无驾照</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">附加可融项目：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name=""  value="0" />
+                                <label for="">GPS</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="1" />
+                                <label for="">保险</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="2" />
+                                <label for="">服务费</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="3" />
+                                <label for="">人身意外险</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="4" />
+                                <label for="">购置税</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="" type="checkbox" class="" name="" value="5" />
+                                <label for="">金融方自营保险</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">附加可融项目说明：</span>
+                        </div>
+                        <div class="column_val">
+                            <textarea class="remark" name="" cols="30" rows="6" maxlength="200" placeholder="200个字符（包含文字、字母、数字、符号），超出不可输入"></textarea>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">征信尺度：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" class="" id="" style="width: 160px;">
+                                <option value="">请选择</option>
+                                <option value="1">宽松</option>
+                                <option value="2">适中</option>
+                                <option value="3">严格</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">电核尺度：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" class="" id="" style="width: 160px;">
+                                <option value="">请选择</option>
+                                <option value="1">宽松</option>
+                                <option value="2">适中</option>
+                                <option value="3">严格</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">大数据审查：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" class="" id="" style="width: 160px;">
+                                <option value="">请选择</option>
+                                <option value="1">宽松</option>
+                                <option value="2">适中</option>
+                                <option value="3">严格</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">官方电话：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="" name="" placeholder="请输入官方电话">
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">联系人：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="" name="" placeholder="请输入联系人姓名">
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">联系人手机：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="" name="" placeholder="请输入联系人手机号">
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">联系人座机：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="" name="" placeholder="请输入联系人座机电话">
+                        </div>
                     </div>
                 </form>
             </div>
-            <!--form end-->
-        </div>
-        {{#if (verifyCode(1069)) }}
-            <div class="form-group add_btn">
-                <div class="col-xs-10" style="margin-top:50px;margin-bottom:50px;margin-left:38.5555555%;">
-                    <input type="button" id="add_btn_y" value="保存"/>
-                    <a href="{{markUri}}/supplier/organization/system">
-                        <input type="button" id="add_btn_n" value="取消"/>
-                    </a>
-                </div>
+            <div class="btn_box clearfix create_wf_btn_box">
+                <a id="create_orange_btn" href="javascript:;" class="btn orange_btn confirm create_confirm">保存</a>
+                <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
             </div>
-        {{/if}}
-        <!--listCon end-->
+        </div>
 
+
+
+
+
+        <!---- Part of Main info End ---->
     </div>
+    <!-------- Part of main End -------->
 
-
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
 </div>
-
-<!--container end-->
-
 </body>
-
-<!--操作成功页  开始-->
-<div class="mask"></div>
-<div id="delS">
-    <div class="container">
-        <div class="row section">
-
-            <div class="col-xs-4 col-sm-offset-4 inviteBox delhtml">
-                <div class="col-sm-8 invSBox">
-                    <div class="col-sm-12 invSText">
-                        <div>操作成功</div>
-
-                        <img class="delSImg" src="{{markUri}}/static/img/employee/successIcon.png" alt=""/>
-                    </div>
-                </div>
-                <div class="col-sm-3 invSBtn cursor" id="delSBtn">确定</div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!--操作成功页  结束-->
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script type="text/javascript">
+    $('#create_orange_btn').click(function(){
+        $alert("操作成功！")
+    });
+</script>
+<!--<script type="text/javascript">
     var width = $('#organization_info_create').width();
     var left = $('.col-xs-2').width();
     $('.add_btn').css('marginLeft',-left - 95 + 'px');
@@ -222,5 +400,5 @@
     $('#add_btn_y').click(function(){
         send_organization_form(contextPath + "/api/organization/create");
     });
-</script>
+</script>-->
 </html>
