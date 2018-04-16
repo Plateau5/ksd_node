@@ -39,6 +39,27 @@ function goMerchantDetail () {
         }
     });
 }
+/**
+ *  跳转商户放款管理详情页
+ *  Created by qichunmei  on 2018年4月13日13:31:56.
+ */
+function goLoanDetail () {
+    var target = $('#loanList tbody tr');
+    target.off('click').on('click', function () {
+        var _this = $(this);
+        if (!_this.hasClass('no_data')) {
+            var mid = $.trim(_this.data('id'));
+            locationTo({
+                action : contextPath + markUri + '/loan/detailsInfo',
+                param : {
+                    supplier_id : mid,
+                    url : LOCALURL
+                }
+            });
+        }
+    });
+}
+
 
 /**
  * 标签管理

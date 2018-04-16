@@ -22,105 +22,15 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main merchants">
-                <div class="operation_category">
-                    <a href="" class="category_item pending_audit active">待审批 <span class="count_num">(884)</span></a>
-                    <a href="" class="category_item passed">已审批 <span class="count_num">(884)</span></a>
-                </div>
+            <form action="{{originUrl}}" method="post" id="form_search" role="form">
+            </form>
+            {{include('./../inc/operationCategory')}}
             <div class="filtrate">
-                <div class="filtrate merchants_filtrate">
-                    {{#if (cityList && cityList.length > 1) }}
-                    <div class="filtrate_item select_item inline_block">
-                        <div class="conditions_name inline_block" style="vertical-align: top;">城市：</div>
-                        <select name="city_id"  class="filtrate_select city_select" id="cityeSelect">
-                            <option value="">全部</option>
-                            {{#each (cityList) }}
-                            {{#if (this.id === city_id) }}
-                            <option value="{{this.id}}" selected="selected">{{this.name}}</option>
-                            {{else}}
-                            <option value="{{this.id}}">{{this.name}}</option>
-                            {{/if}}
-                            {{/each}}
-                        </select>
-                    </div>
-                    {{/if}}
-                    <div class="filtrate_item select_item  inline_block">
-                        <div class="conditions_name inline_block" style="vertical-align: top;">业务类型：</div>
-                        <select name="car_type" class="filtrate_select" id="typeBusiness">
-                            <option value="">全部</option>
-                            {{#if (car_type === 0) }}
-                            <option selected value="0">新车</option>
-                            {{else}}
-                            <option value="0">新车</option>
-                            {{/if}}
-                            {{#if (car_type === 1) }}
-                            <option selected value="1">二手车</option>
-                            {{else}}
-                            <option value="1">二手车</option>
-                            {{/if}}
-                            {{#if (car_type === 2) }}
-                            <option selected value="2">新车&二手车</option>
-                            {{else}}
-                            <option value="2">新车&二手车</option>
-                            {{/if}}
-                        </select>
-                    </div>
-                    <div class="filtrate_item select_item  inline_block">
-                        <div class="conditions_name inline_block" style="vertical-align: top;">结算方式：</div>
-                        <select name="car_type" class="filtrate_select" id="">
-                            <option value="">全部</option>
-                            {{#if (car_type === 0) }}
-                            <option selected value="0">单结</option>
-                            {{else}}
-                            <option value="0">单结</option>
-                            {{/if}}
-                            {{#if (car_type === 1) }}
-                            <option selected value="1">月结</option>
-                            {{else}}
-                            <option value="1">月结</option>
-                            {{/if}}
-                        </select>
-                    </div>
-                    <div class="filtrate_item select_item  inline_block">
-                        <div class="conditions_name inline_block" style="vertical-align: top;">款项类型：</div>
-                        <select name="car_type" class="filtrate_select" id="">
-                            <option value="">全部</option>
-                            {{#if (car_type === 0) }}
-                            <option selected value="0">车款</option>
-                            {{else}}
-                            <option value="0">车款</option>
-                            {{/if}}
-                            {{#if (car_type === 1) }}
-                            <option selected value="1">其他款项</option>
-                            {{else}}
-                            <option value="1">其他款项</option>
-                            {{/if}}
-                        </select>
-                    </div>
-                    <div class="filtrate_item checked_first_letter">
-                        <ul class="letter_list">
-                            {{#each (start_with_list) }}
-                            <li class="letter_item" data-value="{{this}}">
-                                <span class="letter_val">{{this}}</span>
-                                <em class="remove_btn"></em>
-                            </li>
-                            {{/each}}
-                            <li class="error_msg" style="line-height: 26px;">(最多选择10个)</li>
-                        </ul>
-                    </div>
-
-                    <div class="btn_box text_right">
-                        <a href="javascript:" class="btn bg_btn cancel merchants_search_cancel">清空</a>
-                        <a href="javascript:" class="btn orange_btn confirm merchants_search_confirm">筛选</a>
-                    </div>
-                </div>
+                {{include ('./../inc/filtrateMerchants')}}
             </div>
+
             <div class="merchants_list">
-                <form action="{{markUri}}/merchants/detail" method="post" id="">
-                    <!--查看详情传向后端的数据-->
-                    <input type="hidden" name="active" value="">
-                    <input type="hidden" name="supplier_id" value="" id="supplierId"><!--商户Id-->
-                </form>
-                <table class="normal" id="merchantsList">
+                <table class="normal" id="loanList">
                     <colgroup>
                         <col style="width: 25%;" />
                         <col style="width: 10%;" />
@@ -140,7 +50,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <!--<tr>
                         <td>北京奔驰</td>
                         <td>北京</td>
                         <td>新车</td>
@@ -155,7 +65,31 @@
                         <td>1000</td>
                         <td>月结</td>
                         <td>1,2,34,567.00元</td>
+                    </tr>-->
+
+                    {{#if (count > 0) }}
+                    {{#each (list) }}
+                    <tr data-id="{{this.supplier_id}}">
+                        <td>{{this.supplier_name}} </td>
+                        <td>{{this.city_name}}</td>
+                        {{#if (this.car_type  === 0) }}
+                        <td>新车</td>
+                        {{elseif (this.car_type  === 1) }}
+                        <td>二手车</td>
+                        {{else}}
+                        <td>新车&二手车</td>
+                        {{/if}}
+                        <td>{{this.loan_count}}</td>
+                        {{#if (this.settlement_type  === 1) }}
+                        <td>单结</td>
+                        {{else}}
+                        <td>月结</td>
+                        {{/if}}
+                        <td>{{this.total_charge}}</td>
+                        <td style="display:none">{{this.pay_account}}</td>
                     </tr>
+                    {{/each}}
+                    {{/if}}
                     <!-- 没有数据部分 -->
                     {{#if (count === 0) }}
                     <tr class="no_data">
@@ -172,7 +106,7 @@
                 <!--分页部分 Begin-->
 
 
-                {{include('./../inc/pagination')}}
+                {{include('./../inc/paginations')}}
 
                 <!--分页部分 End-->
             </div>
@@ -187,6 +121,7 @@
     (function ($) {
 
         $(function() {
+            goLoanDetail();
             goMerchantDetail();
         });
     })(jQuery,undefined);
