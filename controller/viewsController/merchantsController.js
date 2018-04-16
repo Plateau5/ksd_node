@@ -266,7 +266,6 @@ exports.VIEW_LOAN_PENDING = function(req, res, next) {
         //     for (var i = 0 ,len = data.cityList.length;i < len; i++ ) {
         //         data.cityList[i].name = data.cityList[i].city_name;
         //     }
-        //     // data.name = data.city_name;
         // }
     }, req, res, next);
 };
@@ -293,5 +292,6 @@ exports.VIEW_LOAN_DETIALSINFO = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/supplier/detail',
         title : '商户管理-放款管理-放款管理详情',
+        page : './merchants/detailsInfo',
     }, req, res, next);
 };

@@ -225,7 +225,8 @@ router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
 router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);
 // 商户-放款管理-已审批 1488
 router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
-
+// 商户-放款管理-商户打款结算详情 1489
+router.post(markUri + '/loan/detailsInfo', merchantsCtrl.VIEW_LOAN_DETIALSINFO);
 
 // 供应商部分-主导航跳转  1067
 router.get(markUri + '/supplier/system', supplierCtrl.VIEW_SUPPLIER_SYSTEM);
