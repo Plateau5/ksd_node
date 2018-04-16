@@ -448,7 +448,6 @@ function deleteOldPolicies (btn,d) {
     var policyId = policyE.data('id');      // 政策id
     var effectiveTime = policyE.find('input[name="effective_time"]').val().trim();
     var orgId = $('.orgId').val().trim().number();      // 机构Id
-    // todo 添加删除接口路径
     redefineAjax({
         url : contextPath + '/api/organization/policy/delete',
         data : {

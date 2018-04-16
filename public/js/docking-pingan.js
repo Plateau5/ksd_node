@@ -139,6 +139,46 @@ function intOrFloat (ele, max) {
     });
 }
 
+/**
+ * 校验车架号
+ * @author Arley Joe  2018年4月16日14:49:19
+ * @pattern 车架号只能输入英文及汉字
+ *
+ */
+function checkVin () {
+    var vinE = $('#carVin');
+    var vinPattern = /[a-zA-Z0-9]/;
+    if (vinE.length > 0) {
+        vinE.on('input', function () {
+            var _this = $(this);
+            var v = _this.val().trim();
+            _this.val(v.toUpperCase());
+            if (vinPattern.test(v)) {
+                _this.siblings('.tips_info').hide();
+                _this.attr('verify', 1);
+                return true;
+            } else {
+                _this.val();
+                _this.siblings('.tips_info').show().find('.tips_text').text("只允许输入数字与字母");
+                _this.attr('verify', 0);
+                return false;
+            }
+        });
+        vinE.on('blur', function () {
+            var _this = $(this);
+            var val = _this.val().trim();
+            var len = val.length;
+            if (len && len < 17) {
+                _this.siblings('.tips_info').show().find('.tips_text').text("请输入17位数字与字母");
+                _this.attr('verify', 0);
+                return false;
+            } else {
+                return false;
+            }
+        });
+    }
+}
+
 
 
 /**
