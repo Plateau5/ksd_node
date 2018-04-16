@@ -10,7 +10,7 @@ $(function(){
 	});
 
 	$('#toAdd').click(function(){
-		window.location.href=contextPath+"/product/toAdd";
+		window.location.href=contextPath+ markUri + "/product/toAdd";
 	});
 
 	//筛选
@@ -27,13 +27,13 @@ $(function(){
 		$(this).find('span').css('color','#808891');
 	});
 	$('#warehouse').click(function(){
-		window.location.href=contextPath+"/product/warehouseList";
+		window.location.href=contextPath+ markUri + "/supplier/organization/unpublishedProducts";
 	});
 	
 	$('.detail').click(function(){
 		var id = $(this).attr('lang');
 		var data_num = $(this).attr('data_num');
-		window.location.href=contextPath+"/product/detail?id="+id+"&data_num="+data_num;
+		window.location.href=contextPath+ markUri + "/supplier/organization/productDetail?id="+id+"&data_num="+data_num;
 	});
 	
 	

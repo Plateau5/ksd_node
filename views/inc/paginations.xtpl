@@ -1,9 +1,9 @@
-{{#if (total_page > 0) }}
+{{#if (total_page > 1) }}
 <div class="page">
     <a href="javascript:" class="page-item home {{#if (current_page === 1) }}disabled{{/if}}" data-currentPage="1" data-limit="20"></a>
     <a href="javascript:" class="page-item prev {{#if (current_page === 1) }}disabled{{/if}}" data-currentPage="{{current_page}}" data-limit="20"></a>
     <a href="javascript:" class="page-item next {{#if (current_page === total_page) }}disabled{{/if}}" data-currentPage="{{current_page}}" data-limit="20"></a>
     <a href="javascript:" class="page-item end {{#if (current_page === total_page) }}disabled{{/if}}" data-currentPage="{{total_page}}" data-limit="20"></a>
-    <span class="total_page">共<span class="num">{{total_count}}</span>条</span>
+    <span class="total_page">共<span class="num">{{count}}</span>条</span>
 </div>
 {{/if}}

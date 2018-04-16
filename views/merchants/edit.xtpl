@@ -162,6 +162,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>款项结算方式：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="settlement_type" id="settlementType">
+                                {{#if (!detail.settlement_type || detail.settlement_type === 1) }}
+                                <option value="1" selected="selected">单结</option>
+                                {{else}}
+                                <option value="1">单结</option>
+                                {{/if}}
+                                {{#if (detail.settlement_type === 2) }}
+                                <option value="2" selected="selected">月结</option>
+                                {{else}}
+                                <option value="2">月结</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
                     <div class="option_item" id="isSign">
                         <div class="column_name">
                             <span class="options_name long_text"><span class="require_icon">*</span>是否与机构签约：</span>

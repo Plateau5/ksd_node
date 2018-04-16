@@ -1,16 +1,9 @@
 <!--材料库-->
-<%@ taglib prefix="c"         uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="per" uri="com/mvc/web/common/tag/permissionTag"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {{include('./../inc/cssSources')}}
+    {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <title>快收单</title>
@@ -18,20 +11,20 @@
 <body>
 <div id="wrapper" class="wrapper">
     <!-------- Part of header Begin -------->
-    {{include('./../inc/header')}}
+    {{include ('./../inc/header')}}
     <!-------- Part of header End -------->
 
     <!-------- Part of main Begin -------->
     <div id="section" class="section normal_width">
         <!---- Part of slide nav Begin ---->
-        {{include('./../inc/organization_slide_nav')}}
-        <!---- Part of slide nav End ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/customerService/organization/list" class="crumbs_item">材料管理</a>
-                <a href="javascript:;" class="crumbs_item">${vo.parent_name }-{{vo.name}}</a>
+                <a href="javascript:;" class="crumbs_item">${vo.parent_name }-${vo.name }</a>
             </div>
             <div class="material_store">
                 <div class="form_item material_list">
@@ -43,7 +36,7 @@
                                     <!--<c:if test="${fn:contains(vo.resuest_material,bean.id)}"></c:if>
                                    checked="checked"-->
                                        <c:if test="${fn:contains(vo.resuest_material,bean.id)}">checked="checked"</c:if>
-                                       class="" name="{{this.name}}" value="{{this.id}}" />
+                                       class="" name="{{this.name}}" value="${bean.id }" />
                                 <label class="nor_wrap <c:if test="${fn:contains(vo.resuest_material,bean.id)}">checked</c:if>" >{{this.name}}</label>
                             </div>
                         </c:forEach>
@@ -117,7 +110,7 @@
     <!-------- Part of footer End -------->
 </div>
 </body>
-{{include('./../inc/jsSources')}}
+{{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script>

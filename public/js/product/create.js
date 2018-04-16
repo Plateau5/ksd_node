@@ -155,7 +155,7 @@ $(function(){
         var num = $('.rate_add input').val();
         if(num == ''){
             //添加当前为空时状态的提示信息
-            $('.rate_add').find("input").focus().end().siblings(".e_tip_info").find(".formError").text("请先输入当前年利率");
+            $('.rate_add').find("input").focus().end().siblings(".e_tip_info").find(".formError").text("请先输入当前费率");
             return;
         }
         var error = $(this).parent().parent().find('.formError').html();
@@ -176,19 +176,19 @@ $(function(){
     });
 
     $('input[name="interest_rate_input"]').blur(function(){
-        var num = $('.rate_add input').val();
+        var num = Number($('.rate_add input').val());
         var reg = /^\d{1,2}(\.\d{1,2})?$/;
         if(num && !reg.test(num)){
-            $(this).parent().parent().find('.formError').html('请输入正确的年利率');
+            $(this).parent().parent().find('.formError').html('请输入正确的费率');
             $('input[name="interest_rate_input"]').css('border-color','#FB2741');
             return;
         }
         var  interest_rate_num = $('.interest_rate_num');
         if(interest_rate_num.length != '0'){
             for(var i = 0; i <  interest_rate_num.length; i++){
-                var rate_arr = $('.interest_rate_num').eq(i).val();
+                var rate_arr = Number($('.interest_rate_num').eq(i).val());
                 if(num == rate_arr){
-                    $(this).parent().parent().find('.formError').html('此年利率已存在，请重新输入');
+                    $(this).parent().parent().find('.formError').html('此费率已存在，请重新输入');
                     $('input[name="interest_rate_input"]').css('border-color','#FB2741');
                     return;
                 }
@@ -492,7 +492,7 @@ $(function(){
         if(val == '0'){
             //window.location.href = contextPath+"/product/warehouseList";
             locationTo({
-                action : contextPath+"/product/warehouseList",
+                action : contextPath+ markUri + "/supplier/organization/unpublishedProducts",
                 param : {
                     parent_id : PARENTID
                 }
@@ -500,7 +500,8 @@ $(function(){
         }else{
             //window.location.href = contextPath+"/product/publishList";
             locationTo({
-                action : contextPath+"/product/publishList",
+                // action : contextPath+"/product/publishList",
+                action : contextPath + markUri + "/supplier/organization/publishedProducts",
                 param : {
                     parent_id : PARENTID
                 }
@@ -800,7 +801,7 @@ function send_product_form(url,save){
 
         //年利率
         if(interest_rate_arr.length == '0'){
-            $('#interest_rate').parent().find('.formError').html('年利率不能为空');
+            $('#interest_rate').parent().find('.formError').html('费率不能为空');
             $('input[name="interest_rate_input"]').css('border-color','#FB2741');
             $('#add_btn_y').attr('disabled',false);
             $('#add_btn_n').attr('disabled',false);

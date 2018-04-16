@@ -1,4 +1,9 @@
 
+.clearfix::after{
+    content: '';
+    display: block;
+    clear: both;
+}
 /*img_detail*/
 .img_detail_title{
     width:100%;
@@ -21,13 +26,19 @@
     border:1px solid #e4e4e4;
     margin-top: 18px;
     margin-bottom:35px;
-    overflow: hidden;
+    /*overflow: hidden;*/
+}
+.requestpayout_detail_container::after{
+    content: '';
+    display: block;
+    clear: both;
 }
 .imgDetail{
     padding-left:36px;
     clear: both;
 }
 .requestpayout_detail_remarks{
+    position: relative;
     float: left;
     height:20px;
     width:50%;
@@ -231,6 +242,7 @@
 }
 .requestpayout_detail_label{
     color:#535E6A;
+    width:22%;
 }
 .requestpayout_detail_txt{
     width:75%;
@@ -400,10 +412,54 @@
     height: 12px;
     cursor: pointer;
 }
-.apply_order .order_title .slidedown_arrow{
+
+/*所属商户详情 begin*/
+.detail_remarks .merchant_slidedown_arrow{
+    display: inline-block;
+    margin-left: 8px;
+    vertical-align: middle;
+    width:25px;
+    height:15px;
+}
+.merchant_slidedown_arrow_detail{
+    z-index: 100;
+    width:392px;
+    /*height:430px;*/
+    position: absolute;
+    top:30px;
+    background: #ffffff;
+    box-shadow: 0px 0px 4px 0px rgba(192,192,192,0.5);
+    margin-bottom: 100px;
+}
+.merchant_slidedown_arrow_detail_title{
+    font-size: 20px;
+    color:#333;
+    padding:20px;
+}
+.merchant_remark{
+    font-size: 12px;
+    padding:5px 20px;
+    color:#1DC6BC;
+}
+.merchant_slidedown_arrow_detail_shoptype{
+    display: inline-block;
+    width:49%;
+    padding:5px 20px;
+    color:#333;
+}
+.merchant_slidedown_arrow_detail_shoptype_label,.merchant_slidedown_arrow_detail_shoptype_txt{
+    float: left;
+    font-size: 10px;
+}
+.merchant_label_txt{
+    padding-right: 10px;
+}
+/*所属商户详情 end*/
+
+.apply_order .order_title .slidedown_arrow,.detail_remarks .merchant_slidedown_arrow{
     background: url(../../img/slidedown_down_icon.png) no-repeat;
 }
-.apply_order .order_title .slidedown_up_arrow{
+.apply_order .order_title .slidedown_up_arrow,.detail_remarks .merchant_slidedown_up_arrow{
     background: url(../../img/slidedown_up_icon.png) no-repeat;
 }
 .apply_order .order_detail{

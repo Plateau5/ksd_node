@@ -5,7 +5,7 @@
 		<span>合同资料</span>
 	</div>
 	<div class="requestpayout_detail_container">
-		<div class="cars_info_box">
+		<div class="cars_info_box clearfix">
 			<div class="requestpayout_detail_title">GPS信息</div>
 			{{#if (vo.gps_install_type === 0) }}
 				<div class="detail_remarks requestpayout_detail_remarks">
@@ -44,6 +44,12 @@
 					</div>
 				{{/if}}
 			{{/if}}
+			{{#if (vo.vin) }}
+				<div class="detail_remarks requestpayout_detail_remarks">
+					<div class="requestpayout_detail_label">车架号：</div>
+					<div class="requestpayout_detail_txt">{{vo.vin}}</div>
+				</div>
+			{{/if}}
 				<!-- 以下为图片展示区 -->
 			{{#if (file_list4.length > 0) }}
 				<div class="imgDetail">
@@ -58,22 +64,23 @@
 						</div>
 					{{/each}}
 				</div>
-				<div class="requestpayout_detail_btn_box">
-					<div class="cursor requestpayout_detail_btn requestpayout_download download_file" alt="4" lang="{{finance_id}}">全部下载</div>
-					{{#if (url === markUri + '/customer/compact/pendingPass') }}
-						{{#if (verifyCode(1265)) }}
-							<a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
-								<div class="cursor requestpayout_detail_btn requestpayout_disagree">不同意</div>
-							</a>
-						{{/if}}
-						{{#if (verifyCode(1264)) }}
-							<a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
-								<div class="cursor requestpayout_detail_btn requestpayout_agree" lang="{{finance_id}}">同意</div>
-							</a>
-						{{/if}}
-					{{/if}}
-				</div>
+
 			{{/if}}
+			<div class="requestpayout_detail_btn_box clearfix">
+				<div class="cursor requestpayout_detail_btn requestpayout_download download_file" alt="4" lang="{{finance_id}}">全部下载</div>
+				{{#if (url === markUri + '/customer/compact/pendingPass') }}
+				{{#if (verifyCode(1265)) }}
+				<a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
+					<div class="cursor requestpayout_detail_btn requestpayout_disagree">不同意</div>
+				</a>
+				{{/if}}
+				{{#if (verifyCode(1264)) }}
+				<a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+					<div class="cursor requestpayout_detail_btn requestpayout_agree" lang="{{finance_id}}">同意</div>
+				</a>
+				{{/if}}
+				{{/if}}
+			</div>
 		</div>
 	</div>
 {{/if}}

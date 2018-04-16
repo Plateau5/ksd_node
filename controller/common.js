@@ -259,6 +259,93 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 data.title = '客户-订单详情';
                 data.originUrl = localUrl;
                 data.markUri = markUri;
+                data.vo.thousandRate = thousandRate(data);
+                //所属商户弹出层的标签名
+                if(data.supplierDetail){
+                    if(data.supplierDetail.label_name){
+                        if(data.supplierDetail.label_name.indexOf(",")!=-1){
+                            data.label_names = data.supplierDetail.label_name.split(",");
+                        }else{
+                            data.label_names = [data.supplierDetail.label_name];
+                        }
+                    }
+                }
+
+                //所属商户弹出层的返点数据计算
+                /*data.rebatePolicy[i].rebate_type = 1为车款返点；2为gps返点；3为服务费返点；4为保险费返点
+                * 1.data.rebatePolicy[i].rebate_way=1时，返点为固定金额data.rebatePolicy[i].rebate_money
+                * 2.data.rebatePolicy[i].rebate_way=2时，返点为（固定金额 - 超出金额data.rebatePolicy[i].exceed_money）*超出金额的百分比data.rebatePolicy[i].rebate_money
+                * 3.data.rebatePolicy[i].rebate_way=3时，返点为超出金额的固定金额，即data.rebatePolicy[i].rebate_money;
+                * 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money
+                * */
+                if(data.rebatePolicy){
+                    for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
+                        switch (data.rebatePolicy[i].rebate_type){
+                            case 1://车款返点
+                                if(data.rebatePolicy[i].rebate_way == 1){
+                                    data.rebate_car = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
+                                        data.rebate_car = (data.vo.purchase_tax - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                    }
+                                }else if(data.rebatePolicy[i].rebate_way == 3){
+                                    if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
+                                        data.rebate_car = data.rebatePolicy[i].rebate_money;
+                                    }
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_car = data.vo.purchase_tax * data.rebatePolicy[i].rebate_money;
+                                }
+                                break;
+                            case 2://gps返点
+                                if(data.rebatePolicy[i].rebate_way == 1){
+                                    data.rebate_gps = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
+                                        data.rebate_gps = (data.vo.gps_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                    }
+
+                                }else if(data.rebatePolicy[i].rebate_way == 3) {
+                                    if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
+                                        data.rebate_gps = data.rebatePolicy[i].rebate_money;
+                                    }
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_gps = data.vo.gps_charge * data.rebatePolicy[i].rebate_money;
+                                }
+                                break;
+                            case 3://服务费返点
+                                if(data.rebatePolicy[i].rebate_way == 1){
+                                    data.rebate_service = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
+                                        data.rebate_service = (data.vo.service_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                    }
+                                }else if(data.rebatePolicy[i].rebate_way == 3){
+                                    if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
+                                        data.rebate_service = data.rebatePolicy[i].rebate_money;
+                                    }
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_service = data.vo.service_charge * data.rebatePolicy[i].rebate_money;
+                                }
+                                break;
+                            case 4://保险费返点
+                                if(data.rebatePolicy[i].rebate_way == 1){
+                                    data.rebate_insurance = data.rebatePolicy[i].rebate_money;
+                                }else if(data.rebatePolicy[i].rebate_way == 2){
+                                    if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
+                                        data.rebate_insurance = (data.vo.insurance - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                                    }
+                                }else if(data.rebatePolicy[i].rebate_way == 3){
+                                    if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
+                                        data.rebate_insurance = data.rebatePolicy[i].rebate_money;
+                                    }
+                                }else if(data.rebatePolicy[i].rebate_way == 4){
+                                    data.rebate_insurance = data.vo.insurance * data.rebatePolicy[i].rebate_money;
+                                }
+                                break;
+                        }
+                    }
+                }
+
                 if (localUrl.indexOf( markUri + '/customer/loan') !== -1) {
                     res.render('./customer/imgDetail', data);
                 } else if (localUrl.indexOf( markUri + '/customer/compact') !== -1) {
@@ -283,6 +370,18 @@ exports.getCustomerDetail = function(url, req, res, next) {
 
         } else {
             res.redirect(markUri + '/404');
+        }
+        //计算百分率
+        function thousandRate (data) {
+            var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
+            if(thoudsanData.toString().indexOf(".")!=-1){
+                if(thoudsanData.toString().split(".")[1]<445){
+                    thoudsanData = thoudsanData.toString().split(".")[0];
+                }else{
+                    thoudsanData = Number(thoudsanData.toString().split(".")[0])+1;
+                }
+            }
+            return thoudsanData;
         }
     }, req, res, next);
 };
@@ -311,6 +410,7 @@ exports.getPageData = function(options, req, res, next) {
                 data.markUri = markUri;
                 data.apiServerPath = apiServerPath;
                 data.domain = domain;
+                data.reqParams = body;
                 options.callback && options.callback(data);
                 res.render(options.page, data);
             } else {

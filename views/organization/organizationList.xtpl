@@ -1,10 +1,13 @@
+<!--机构列表-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     {{include ("./../inc/cssSources")}}
-    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
-    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <title>机构管理-机构列表</title>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -16,191 +19,73 @@
     <div id="section" class="section normal_width">
         <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
-        <!---- Part of slide nav End ---->
+        <!---- Part of slide na End ---->
 
         <!---- Part of Main info Begin ---->
-        <div id="main" class="main">
-            <div class="crumbs_nav">
-                <a href="javascript:;" class="crumbs_item">材料管理</a>
-                <a href="javascript:;" class="crumbs_item">王磊</a>
-                <a href="javascript:;" class="crumbs_item">查看资料</a>
-                <div class="new_btn_box rf" id="createOrg" style="display:inline-block;">
-                    <a href="javascript:"  class="btn blue_btn add_btn"><em></em>新建机构</a>
+        <div id="main" class="main org_product">
+            {{#if (count >0) }}
+                <div class="crumbs_nav">
+                    <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                    <a href="javascript:;" class="crumbs_item last_child">机构列表</a>
+                    {{#if (verifyCode(1068)) }}
+                        <div class="new_btn_box rf" id="createOrg" style="display:inline-block;">
+                            <a href="javascript:"  class="btn blue_btn add_btn"><em></em>新建机构</a>
+                        </div>
+                    {{/if}}
                 </div>
+                <!--作为机构分页加载使用-->
+                <form action="{{markUri}}/supplier/organization/list" method="post" id="form_search" role='form'>
+                </form>
+                <!--作为机构产品列表显示跳转用-->
+                <form action="{{markUri}}/supplier/organization/publishedProducts" method="post" id="form_search_product" role='form'>
+                    <input type="hidden" name="parent_id" id="parent_id" value="" >
+                </form>
+                <div class="org_list">
+                    {{#each (list) }}
+                        <div class="org_item inline_block org_bg_c{{xIndex + 1}}">
+                            <div class="org_info">
+                                <div class="org_logo inline_block">
+                                    <img class="img_responsive" src="{{this.image_url}}" alt="">
+                                </div>
+                                <div class="org_name">{{this.name}}</div>
+                                <div class="website_url"><a href="javascript:" style="color: #4990E2;cursor: default;">{{this.system_url}}</a></div>
+                            </div>
+                            <div class="org_business">
+                                <span class="business_type">适用业务：{{this.applyto_business_value}}</span>
+                                <span class="products_count rf">产品数：{{this.product_count}}个</span>
+                            </div>
+                            <div class="org_mask" alt="{{this.name }}" data-name="{{this.name}}" lang="{{this.id }}"  data-business="{{this.applyto_business}}">
+                                {{#if (root.verifyCode(1071)) }}
+                                    <a href="javascript:;" title="查看" alt="{{this.name}}" lang="{{this.id}}" class="view_org icon_btn inline_block"></a>
+                                {{/if}}
+                                {{#if (root.verifyCode(1075)) }}
+                                    <a href="javascript:;" title="产品" alt="{{this.name}}" lang="{{this.id}}" class="view_products icon_btn inline_block"></a>
+                                {{/if}}
+                                {{#if (this.product_count > 0) }}
+                                    {{#if (root.verifyCode(1475)) }} <!--1073-->
+                                        <a href="javascript:;" title="返佣政策" alt="{{this.name}}" lang="{{this.id}}" class="commission_policy icon_btn inline_block"></a>
+                                    {{/if}}
+                                {{/if}}
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/if}}
+            {{#if (count === 0) }}
+                <!--{{include('./../inc/empty_data')}}-->
+                {{#if (verifyCdoe(1068)) }}
+                    <div class="no_list_data">
+                        <div class="toast_img"></div>
+                        <div class="toast_text">目前还没有机构，请先创建机构</div>
+                        <div class="new_btn_box">
+                            <a href="javascript:"  class="btn blue_btn add_btn createOrg"><em></em>新建机构</a>
+                        </div>
+                    </div>
+                {{/if}}
+            {{/if}}
+            <div class="page_box">
+                {{include('./../inc/pagination')}}
             </div>
-            <!--作为机构分页加载使用-->
-            <form action="/organization/list" method="post" id="form_search" role='form'>
-            </form>
-            <!--作为机构产品列表显示跳转用-->
-            <form action="/organization/product/publishList" method="post" id="form_search_product" role='form'>
-                <input type="hidden" name="parent_id" id="parent_id" value="" >
-            </form>
-            <div class="org_list">
-                <div class="org_item inline_block org_bg_c1">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c2">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c3">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c4">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c5">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c6">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c7">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c8">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block"></a>
-                        <a href="javascript:;" class="icon_btn inline_block"></a>
-                        <a href="javascript:;" class="icon_btn inline_block"></a>
-                    </div>
-                </div>
-                <div class="org_item inline_block org_bg_c9">
-                    <div class="org_info">
-                        <div class="org_logo inline_block">
-                            <img class="img_responsive" src="" alt="">
-                        </div>
-                        <div class="org_name">先锋太盟</div>
-                        <div class="website_url">http://www.baidu.com</a></div>
-                    </div>
-                    <div class="org_business">
-                        <span class="business_type">适用业务：新车/二手车</span>
-                        <span class="products_count rf">产品数：10个</span>
-                    </div>
-                    <div class="org_mask">
-                        <a href="javascript:;" class="icon_btn inline_block view_org"></a>
-                        <a href="javascript:;" class="icon_btn inline_block view_products"></a>
-                        <a href="javascript:;" class="icon_btn inline_block delete_org"></a>
-                    </div>
-                </div>
-            </div>
-            {{include('./../inc/pagination')}}
-
         </div>
         <!---- Part of Main info End ---->
     </div>
@@ -210,7 +95,6 @@
     <!--<div id="footer" class="footer"></div>-->
     <!-------- Part of footer End -------->
 </div>
-<div class="mask" style="display: none;"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
@@ -222,7 +106,7 @@
             var btn = $("#createOrg, .createOrg");
             btn.off("click").on("click", function () {
                 locationTo({
-                    action : contextPath + "/organization/toAdd"
+                    action : contextPath + markUri + "/supplier/organization/create",
                 });
             });
         }
@@ -254,52 +138,13 @@
                 form.submit();
             })
         }
-
-        //删除机构按钮的点击事件
-        function deleteOrg () {
-            var delBtn = $(".delete_org");
-            delBtn.each(function () {
-                var t = $(this);
-                t.off("click").on("click", function () {
-                    var orgId = $.trim($(this).parents('.org_mask').attr("lang"));
-                    var data = {
-                        id : orgId
-                    };
-                    dialog('open', {
-                        title : '删除提醒',
-                        content : '<div style="padding: 40px 0 20px;line-height:30px;"><span style="color: #808692;font-size: 14px;">删除后此机构下的产品也将删除，删除后将不可恢复，</span><br><span>确认继续删除？</span></div>',
-                        onConfirm : function (d) {
-                            delConfirm(data, d);
-                        }
-                    })
-                });
-            });
-            //确定删除
-            function delConfirm (datas, d) {
-                var data = datas;
-                var url  = contextPath + "/api/organization/delete";
-                $ajax('post',url, data, function (req) {
-                    var res = eval(req);
-                    if (res.error_code == 0) {
-                        d.close();
-                        $alert('删除成功', function () {
-                            window.location.reload();
-                        });
-                    }
-                }, function () {
-                    d.close();
-                    $alert('删除失败，请稍后重试');
-                });
-            }
-        }
-
         //跳转机构详情页
         function goOrgDetail () {
             var btn = $(".org_mask .view_org");
             btn.off("click").on("click", function () {
                 var href = $.trim($(this).parents('.org_mask').attr("lang"));
                 locationTo({
-                    action : contextPath + '/organization/detail',
+                    action : contextPath + markUri + '/supplier/organization/detail',
                     param : {
                         id : href
                     }
@@ -308,13 +153,33 @@
 
         }
 
+        // 跳转佣金政策页
+        function toCommissionPolicyList () {
+            var btn = $(".org_mask .commission_policy");
+            btn.off("click").on("click", function () {
+                var _this = $(this);
+                var id = $.trim(_this.parents('.org_mask').attr("lang"));
+                var name = _this.parents('.org_mask').data('name');
+                var carType = _this.parents('.org_mask').data("business").toString();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/policies',
+                    param : {
+                        organization_id : id,
+                        car_type : (carType.indexOf('0') != -1) ? 0 : 1,
+                        orgName : name,
+                        applyto_business : carType
+                    }
+                });
+            })
+        }
+
         $(function() {
             displacementAnimation();
             showOrgProducts();
-            deleteOrg();
             goOrgDetail();
             createOrg();
+            toCommissionPolicyList();
         });
-    })(jQuery, undefined);
+    })(jQuery,undefined);
 </script>
 </html>

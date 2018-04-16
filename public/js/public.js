@@ -347,7 +347,7 @@ function redefineAjax (option) {
                 options.error();
             } else {
                 //console.log(textStatus);
-                $alert('操作失败，请重新尝试');
+                // $alert('操作失败，请重新尝试');
             }
         },
         complete : function (XMLHttpRequest, textStatus) {      //请求完成
@@ -653,8 +653,12 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
     }
 
     if(type == 'radio') {
-        target.each(function (i, obj) {
-            $(obj).off('click').on('click', function () {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+            $('body').on('click', selector, function (e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
                 var t = $(this);
                 if (!t.hasClass("disabled")) {
                     if (tp == 'class') {
@@ -680,10 +684,11 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
                     return false;
                 }
             })
-        })
+        //})
     } else if (type == 'checkbox') {
-        target.each(function (i, obj) {
-            $(obj).off('click').on('click', function () {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+            $('body').on('click', selector, function () {
                 var t = $(this);
                 if (!t.hasClass("disabled")) {
                     if (tp == 'class') {
@@ -725,7 +730,7 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
                     return false;
                 }
             })
-        })
+        // })
     } else {
         return false;
     }
@@ -746,7 +751,7 @@ function checkAll (selector, callback) {
     var target = $(selector);
     target.on("click", function () {
         var t = $(this);
-        if (t.hasClass("checked")) {
+        if (!t.hasClass("checked")) {
             var checkBoxInput = t.parents(".check_all_box").siblings(".form_container").find("input[type='checkbox']");
             checkBoxInput.each(function () {
                 var e = $(this);
@@ -1366,6 +1371,7 @@ function $alert (text, callback) {
  */
 function toOrderDetail () {
     var input = $("#financeId");
+    var advance = $('#advanceId');
     var form = $("#to_order_detail");
     var orderList = $(".business_list .list_item .list_item_detail");
     var url = LOCALURL;
@@ -1376,7 +1382,9 @@ function toOrderDetail () {
             $('.business_list .order_mask').show();     // 禁用多次点击
             var t = $(this);
             var financeId = $.trim(t.parents(".list_item").attr("lang"));
+            var advanceId = $.trim(t.parents('.list_item').data('advance_id'));
             input.val(financeId);
+            advance.val(advanceId);
             form.submit();
         });
     });
@@ -1573,6 +1581,10 @@ function onConfirm () {
     searchBusinessList();
 }
 
+function onChooseFun () {
+    searchBusinessList();
+}
+
 
 /**
  * 需传递订单编号进行的页面跳转方法
@@ -1591,8 +1603,10 @@ function  pageJump (selector, opt) {
         var financeId = $.trim(target.data("id"));
         var workflowId = $.trim(target.data("flow_id"));
         var url = $.trim(target.data("url"));
+        var advanceId = $.trim(target.data("advance_id"));
         financeId && (options.finance_id = financeId);
         workflowId && (options.id = workflowId);
+        advanceId && (options.advance_id = advanceId);
         locationTo({
             action : url,
             param : options
@@ -1850,8 +1864,9 @@ function datePicker (target, options) {
         minDate : options.minDate || '',
         maxDate : options.maxDate || '',
         isClear : options.isClear ? true : false,
-        okfun : options.okfun || null,
-        choosefun : options.okfun || null
+        okfun : options.okfun || onConfirm,
+        choosefun : options.okfun || onChooseFun,
+        clearfun : options.clearfun || onClear,
     });
     $(target).addClass('datainp wicon');
 }
@@ -2134,6 +2149,26 @@ function formatNum (value){
 }
 
 /**
+ * 判断小数点后是否是两位小数
+ * @author gaoyuan 2018年4月12日13:50:44
+ * @param value {Number|String} 需要进行保留两位小数的值
+ * @return {*}
+ */
+function formatPointTwoNum (el) {
+    var xsd = el.val().toString();
+    if (xsd[1].split(".").length > 2) {
+        $alert('请输入保留两位小数。');
+        return false;
+    } else if (xsd[1].split(".").length == 1) {
+        el.val(xsd + "0");
+        return;
+    } else {
+        el.val(xsd + ".00");
+        return;
+    }
+}
+
+/**
  * 手机号校验
  * @param selector
  */
@@ -2190,6 +2225,40 @@ function verifyLicense (selector, callback) {
 }
 
 
+// 分页切换
+function paginationSwitch () {
+    var btn = $('.page .page-item');
+    btn.off('click').on('click', function () {
+        var _this = $(this);
+        var form = $('form[role="form"]');
+        var currentPage = _this.data('currentpage');
+        var nextPage = null;
+        if (!_this.hasClass('disabled')) {
+            if (_this.hasClass('prev')) {
+                nextPage = currentPage - 1;
+            } else if (_this.hasClass('next')) {
+                nextPage = currentPage + 1;
+            } else {
+                nextPage = currentPage;
+            }
+            form.find('input[name="current_page"]').val(nextPage);
+            _this.data('currentpage', nextPage).siblings('.prev').data('currentpage', nextPage);
+            form.submit();
+        }
+    });
+}
+
+function disabledFormAutoSubmit () {
+    var doc = $('body');
+    doc.on('keydown', 'form', function (e) {
+        var ev = e || window.event;
+        var keyCode = ev.keyCode;
+        if (keyCode == 13) {
+            return false;
+        }
+    });
+}
+
 
 $(function () {
     customerListMask(); // 禁用订单多次点击跳转
@@ -2219,6 +2288,7 @@ $(function () {
         personnelSearch();
     });
     loading();
+    disabledFormAutoSubmit();
 });
 
 

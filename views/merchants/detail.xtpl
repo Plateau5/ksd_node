@@ -20,6 +20,11 @@
 
         <input type="hidden" id="supplierId" value="{{detail.id}}" />
         <input type="hidden" id="supplierName" value="{{detail.name}}" />
+        <input type="hidden" id="merchantBusinessType" value="{{detail.car_type}}">
+        <input type="hidden" id="merchantCity" value="{{detail.city_id}}">
+        <input type="hidden" id="cityName" value="{{detail.city_name}}">
+        <input type="hidden" id="url" value="{{url}}">
+        <input type="hidden" id="navigation" value="{{navigation}}">
         <input type="hidden" name="type"/><!--标识：商户标签删除type=1,标签库删除标签type=2，新增公库及商户增加标签type=3，公库增加给商户type=4-->
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
@@ -29,12 +34,12 @@
                 <a href="javascript:;" class="crumbs_item">查看资料</a>
             </div>
             <div class="merchants_details">
-                <div class="merchant_info">
-                    <div class="merchant_photo">
+                <div class="merchant_info merchant_logo">
+                    <div class="merchant_photo img_item">
                         {{#if (detail.image_url) }}
-                            <img src="{{detail.image_url}}" class="img_responsive" alt="商户封面图" target="商户封面图">
+                            <img data-original="{{detail.image_url}}" src="{{detail.image_url}}" class="img_responsive" alt="商户封面图" target="商户封面图">
                         {{else}}
-                            <img src="{{markUri}}/static/img/merchant_photo.png" class="img_responsive" alt="商户封面图" target="商户封面图">
+                            <img  src="{{markUri}}/static/img/merchant_photo.png" class="img_responsive" alt="商户封面图" target="商户封面图">
                         {{/if}}
                     </div>
                     <div class="name"><em class="name_icon"></em><span>{{detail.name}}</span></div>
@@ -101,12 +106,21 @@
                     <!-- 编辑删除操作 -->
                     {{#if (detail.flag === 3) }}
                         <div class="btn_box text_left setting_merchant">
+                                {{#if (verifyCode(1480)) }}
+                                <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                                {{/if}}
                                 {{#if (verifyCode(1385)) }}
                                     <a href="javascript:" class="edit_sm_btn">编辑</a>
                                 {{/if}}
                                 {{#if (verifyCode(1060)) }}
                                     <a href="javascript:" class="delete_sm_btn">删除</a>
                                 {{/if}}
+                        </div>
+                    {{else}}
+                        <div class="btn_box text_left setting_merchant">
+                            {{#if (verifyCode(1480)) }}
+                            <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                            {{/if}}
                         </div>
                     {{/if}}
                 </div>
@@ -224,6 +238,16 @@
                                                     --
                                                 {{else}}
                                                     {{detail.address}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name">款项结算方式：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.settlement_type || detail.settlement_type === '' || detail.settlement_type === 1) }}
+                                                单结
+                                                {{else}}
+                                                月结
                                                 {{/if}}
                                             </div>
                                         </li>
@@ -349,21 +373,27 @@
                                 <!--账户信息-->
                                 {{#each (detail.record_data) }}
                                     <div class="classify_item">
-                                        {{#if (detail.record_data.length === 1) }}
-                                            {{#if (detail.flag === 2 && this.is_new === 1) }}
+                                        {{#if (root.detail.record_data.length === 1) }}
+                                            {{#if (root.detail.flag === 2 && this.is_new === 1) }}
                                                 <div class="classify_title new">账户信息</div>
-                                            {{elseif (detail.flag === 2 && this.is_new === 0) }}
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
+                                                <div class="classify_title">账户信息</div>
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
+                                                <!--<div class="classify_title update">账户信息</div>-->
                                                 <div class="classify_title">账户信息</div>
                                             {{else}}
                                                 <div class="classify_title">账户信息</div>
                                             {{/if}}
-                                        {{elseif (detail.record_data.length > 1) }}
-                                            {{#if (detail.flag === 2 && this.is_new === 1) }}
+                                        {{elseif (root.detail.record_data.length > 1) }}
+                                            {{#if (root.detail.flag === 2 && this.is_new === 1) }}
                                                 <div class="classify_title new">账户信息{{xindex + 1}}</div>
-                                            {{elseif (detail.flag === 2 && this.is_new === 0) }}
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
                                                 <div class="classify_title">账户信息{{xindex + 1}}</div>
-                                            {{else}}
+                                            {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
+                                                <!--<div class="classify_title update">账户信息{{xindex + 1}}</div>-->
                                                 <div class="classify_title">账户信息</div>
+                                            {{else}}
+                                                <div class="classify_title">账户信息{{xindex + 1}}</div>
                                             {{/if}}
                                         {{/if}}
                                         <div class="classify_content">
@@ -375,6 +405,16 @@
                                                             --
                                                         {{else}}
                                                             {{this.account_type_value}}
+                                                        {{/if}}
+                                                    </div>
+                                                </li>
+                                                <li class="item_row">
+                                                    <div class="item_name">账户用途：</div>
+                                                    <div class="item_value">
+                                                        {{#if (!this.account_use_value || this.account_use_value === '' || this.account_use_value <= 0) }}
+                                                            --
+                                                        {{else}}
+                                                            {{this.account_use_value}}
                                                         {{/if}}
                                                     </div>
                                                 </li>
@@ -517,7 +557,7 @@
                                             </li>
                                         </ul>
                                         <!-- 无工商数据信息展示 -->
-                                    </div>-->
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -538,6 +578,20 @@
         var credentialsNum = '{{detail.id_num}}';    // 证件号码
         var merchantId = $.trim($('#supplierId').val());    // 商户ID
         var merchantName = $.trim($('#supplierName').val());    // 商户NAME
+        var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+        var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+        var cityName = $('#cityName').val().trim();         // 商户城市名称
+        var mCarType = null;
+        if (mBusinessType == 0 || mBusinessType == 2) {
+            mCarType = 0;
+        } else if (mBusinessType == 1) {
+            mCarType = 1;
+        }
+        var listUrl = $('#url').val().trim();       // 列表页的路由
+        var navigation = $('#navigation').val().trim();     // 列表页的节点
+
+
+
         // 加载工商数据信息
         function getBusinessInfo () {
             redefineAjax({
@@ -719,6 +773,30 @@
             })
         }
 
+        /**
+         * 跳转制定商户返佣政策列表页
+         * @author Arley 2018年4月6日17:32:29
+         */
+        function toPoliciesList () {
+            var btn = $('.add_sm_btn_policies');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                locationTo({
+                    action : contextPath + markUri + '/merchants/policies/list',
+                    param : {
+                        applyto_car : mBusinessType,
+                        city_id : mCityId,
+                        city_name : cityName,
+                        supplier_id : merchantId,
+                        supplier_name : merchantName,
+                        car_type : mCarType,
+                        url : listUrl,
+                        navigation : navigation
+                    }
+                })
+            });
+        }
+
 
 
         $(function() {
@@ -735,8 +813,10 @@
                 name : merchantName
             });
             // 查看大图
-            viewLargeImage('.img_list');
+            viewLargeImage('.img_list,.merchant_logo');
+            toPoliciesList();
         });
+
     })(jQuery,undefined);
 </script>
 </html>

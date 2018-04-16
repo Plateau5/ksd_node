@@ -1,19 +1,20 @@
 $(function(){
 	
 	$('#publish_list_btn').click(function(){
-		window.location.href=contextPath+"/product/publishList";
+		// window.location.href=contextPath+"/product/publishList";
+        window.location.href = contextPath + markUri + "/supplier/organization/publishedProducts";
 	});
 	/*$('.detail').click(function(){
 		var id = $(this).attr('lang');
 		var data_num = $(this).attr('data_num');
-		window.location.href=contextPath+"/product/detail?id="+id+"&data_num="+data_num;
+		window.location.href=contextPath+ markUri + "/supplier/organization/productDetail?id="+id+"&data_num="+data_num;
 	});*/
     $(".view_detail_icon").off("click").on("click", function () {
         var _this = $(this);
         var id = _this.attr('lang');
         var data_num = _this.attr('data_num');
         locationTo({
-            action : contextPath + "/product/detail",
+            action : contextPath + markUri + "/supplier/organization/productDetail",
             param : {
                 id : id,
                 data_num : data_num
@@ -24,16 +25,13 @@ $(function(){
         var _this = $(this);
         var id = _this.attr('lang');
         locationTo({
-            action : contextPath + "/product/toEdit",
+            action : contextPath + markUri + "/supplier/organization/productEdit",
             param : {
                 id : id
             }
         });
     });
-	/*$('.edit').click(function(){
-		var id = $(this).attr('lang');
-		window.location.href=contextPath+"/product/toEdit?id="+id;
-	});*/
+
 
     //筛选
 	$('.select_condition').change(function() {

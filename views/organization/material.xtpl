@@ -1,9 +1,10 @@
 <!--材料库-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {{include('./../inc/cssSources')}}
+    {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <title>快收单</title>
@@ -11,36 +12,37 @@
 <body>
 <div id="wrapper" class="wrapper">
     <!-------- Part of header Begin -------->
-    {{include('./../inc/header')}}
+    {{include ('./../inc/header')}}
     <!-------- Part of header End -------->
 
     <!-------- Part of main Begin -------->
     <div id="section" class="section normal_width">
         <!---- Part of slide nav Begin ---->
-        {{include('./../inc/sideNav')}}
-        <!---- Part of slide nav End ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/organization/getList" class="crumbs_item">金融机构</a>
-                <a href="javascript:" data-url="{{markUri}}/product/publishList" class="crumbs_item go_forward">${vo.parent_name }</a>
-                <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:" data-url="{{markUri}}/supplier/organization/publishedProducts" class="crumbs_item go_forward">{{vo.parent_name }}</a>
+                <a href="javascript:;" class="crumbs_item">{{vo.name }}</a>
             </div>
             <div class="material_store">
                 <div class="form_item material_list">
                     <div class="material_text lf">所需材料：</div>
                     <div class="form_container material_detail lf">
-                        <c:forEach items="${list }" var="bean">
+                        {{#each (list) }}
                             <div class="form_group lf">
-                                <input type="checkbox"
-                                    <!--<c:if test="${fn:contains(vo.resuest_material,bean.id)}"></c:if>
-                                   checked="checked"-->
-                                       <c:if test="${fn:contains(vo.resuest_material,bean.id)}">checked="checked"</c:if>
-                                       class="" name="{{this.name}}" value="{{this.id}}" />
-                                <label class="nor_wrap <c:if test="${fn:contains(vo.resuest_material,bean.id)}">checked</c:if>">{{this.name}}</label>
+                                {{#if (vo.resuest_material.indexOf(this.id) !== -1) }}
+                                <input type="checkbox" checked="checked" class="" name="{{this.name}}" value="{{this.id }}" />
+                                <label class="nor_wrap checked">{{this.name}}</label>
+                                {{else}}
+                                <input type="checkbox" class="" name="{{this.name}}" value="{{this.id }}" />
+                                <label class="nor_wrap">{{this.name}}</label>
+                                {{/if}}
                             </div>
-                        </c:forEach>
+                        {{/each}}
                     </div>
                     <div class="check_all_box clearfix">
                         <div class="form_group lf">
@@ -53,10 +55,10 @@
                 <div class="btn_box clearfix ">
                     <!--<a href="javascript:;" class="btn orange_btn confirm edit_confirm" lang="${product_id}">保存修改</a>
                     <a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>-->
-                    <per:button code="1194">
-                        <a href="javascript:;" class="btn orange_btn confirm edit_confirm" lang="${product_id}">保存修改</a>
+                    {{#if (verifyCode(1194)) }}
+                        <a href="javascript:;" class="btn orange_btn confirm edit_confirm" lang="{{product_id}}">保存修改</a>
                         <a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>
-                    </per:button>
+                    {{/if}}
                 </div>
             </div>
 
@@ -75,7 +77,7 @@
     <!-------- Part of footer End -------->
 </div>
 </body>
-{{include('./../inc/jsSources')}}
+{{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script>
@@ -131,11 +133,11 @@
                         });
                     } else {
                         //失败逻辑
-                        $alert("网络延迟，请稍后重试");
+                        $alert('提交失败，请重新尝试！');
                         rebind('.edit_confirm', "click", saveEdit);
                     }
                 }, function () {
-                    $alert("网络通信异常，请稍后重试或联系技术支持");
+                    $alert('提交失败，请重新尝试！');
                     rebind('.edit_confirm', "click", saveEdit);
                 })
             } else {
@@ -155,7 +157,7 @@
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             checkAll(".check_all");
             pageJump(".go_forward", {
-//                parent_id : ${vo.parent_id}
+                parent_id : "{{vo.parent_id}}"
             });
         });
     })(jQuery,undefined);

@@ -36,6 +36,23 @@
                         <span class="item_key">收件人：</span>
                         <span style="background: #f5f5f5;padding-left:10px;width: 300px;" class="item_val inline_block">{{vo.create_name }} 【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】 </span>
                     </div>
+
+                    <div class="recipient">
+                        <span class="item_key"><span class="need" style="color: #EA4B5F;vertical-align: middle;">*</span>车架号：</span>
+                        <span style="padding-left:10px;width: 350px;" class="item_val inline_block">
+                            <input type="text" name="vin" class="agree_vin" id="carVin" placeholder="请输入车架号" maxlength="17" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" onblur="checkNumOrEng()">
+                            <span class="agree_vin_tip" style="color: #EA4B5F;"></span>
+                        </span>
+                    </div>
+                   <!-- <div class="form-item" style="height:30px;">
+                        <label>
+                            <span class="need">*</span>车架号：</label>
+                        <div style="display: inline-block;padding-left: 14px;">
+                            <input type="text" name="real_loan_amount" class="real_loan_amount" placeholder="请输入车架号">
+                        </div>
+                    </div>-->
+
+
                     <div class="subject">
                         <span class="item_key">主题：</span>
                         <span class="item_val" style="background: none;">关于客户<span>{{vo.user_name}}</span>的贷款合同资料</span>
@@ -82,10 +99,19 @@
         function  verify () {
             var elem = $('.file_box');
             var files = elem.find('.file_item');
+            var vin = $('#carVin').val().trim().toUpperCase();
             var email = $.trim($('#emailAccount').text());
-            var reg = /@./ig;
+            var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ig;
             if (!reg.test(email)) {
                 $alert('邮箱格式不对，请输入正确邮箱。');
+                return false;
+            }
+            if (vin == '' || vin.length <= 0) {
+                $alert('车架号不能为空');
+                return false;
+            }
+            if ( vin.length < 17) {
+                $alert('车架号不足17位');
                 return false;
             }
             if (files.length <= 0) {
@@ -102,11 +128,15 @@
         }
         //提交逻辑
         function sendEmailEvent () {
+            var vinE = $('#carVin');        // 车架号元素
             var valid = verify();
             if (valid) {
                 elem.confirm.off("click");
                 var email = $.trim($('#emailAccount').text());
                 $('#account').val(email);
+                // 转化输入车架号为大写字母
+                var vin = vinE.val().trim().toUpperCase();
+                vinE.val(vin);
                 var data = new FormData($('#send_email')[0]);
                 var url = contextPath + '/api/compact/agree';
                 $.ajax({
@@ -135,8 +165,10 @@
                                     sendEmail();
                                     elem.confirm.click();
                                 },
-                                onCancel : function () {
-                                    window.location.href = contextPath + markUri +  '/customer/compact/pendingPass';
+                                onCancel : function (d) {
+                                    // window.location.href = contextPath + markUri +  '/customer/compact/agree';
+                                    // window.location.href = contextPath + markUri + '/customer/compact/pendingPass';
+                                    d.close();
                                 }
                             })
                         }
@@ -151,7 +183,6 @@
             }
         }
 
-
         $(function() {
             fileUpload({
                 maxCount : 5,
@@ -161,5 +192,22 @@
             sendEmail();
         });
     })(jQuery,undefined);
+
+    //校验输入车架号是否是数字或英文，17位
+    function checkNumOrEng () {
+        var reg = /^[0-9a-zA-Z]+$/;
+        var str = $(".agree_vin").val();
+        if(!reg.test(str)){
+            $('.agree_vin_tip').html('你输入的不是数字或者字母');
+            return;
+        }else{
+            $('.agree_vin_tip').html('');
+        }
+        if(str.length<17){
+            $('.agree_vin_tip').html('不足17位');
+        }else{
+            $('.agree_vin_tip').html('');
+        }
+    }
 </script>
 </html>
