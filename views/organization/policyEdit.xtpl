@@ -64,8 +64,9 @@
                                     </div>
                                     <div class="column_val policy_periods">
                                         {{#each (root.rebatePeriods.split(',')) }}
+                                            {{set (periodsArr = ../rebate_period.split(','))}}
                                         <div class="form_group">
-                                            {{#if (../rebate_period.indexOf(this) !== -1) }}
+                                            {{#if (periodsArr.indexOf(this) !== -1) }}
                                             <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this}}" />
                                             <label class="checked">{{this}}</label>
                                             {{else}}
