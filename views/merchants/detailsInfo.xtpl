@@ -6,6 +6,8 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <script src="{{markUri}}/static/js/requestpayout/agree.js"></script>
     <title>商户打款结算详情</title>
 </head>
 <body>
@@ -229,7 +231,7 @@
                                 <label class="nor_wrap">全选</label>
                             </div>
                             <div class="total_operate_btn text_right">
-                                {{#if (url === markUri + 'api/loan/batch/agree') }}
+                                {{#if (url === markUri + '/api/loan/batch/agree') }}
                                 {{#if (verifyCode(1940)) }}
                                 <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     <div class="agree_btn" lang="{{finance_id}}">同意</div>
@@ -255,12 +257,13 @@
                         </div>
                         <a href="javascript:" class="batch_btn">批量放款</a>
                     </li>
+
                     {{#each (list) }}
                     <li>
                         <div class="loan_time">{{this.create_time}}</div>
                         <div class="load_list clearfix">
                             <div class="load_row">
-                                <div class="load_name">客户：</div><div class="load_value">{{this.user_name}}</div>
+                                <div class="load_name">客户：</div><div class="load_value">{{this.pay_name}}</div>
                             </div>
                             <div class="load_row">
                                 <div class="load_name">城市：</div><div class="load_value">{{this.city_name}}</div>
@@ -360,7 +363,10 @@
                                 <div class="amount">{{this.total_charge}}&nbsp;元</div><div class="capital_amount">（{{this.cn_totalCharge}})</div>
                             </div>
                             {{/if}}
-                            <!--<div class="pay_operate_btn text_right">
+                            <div class="pay_operate_btn text_right">
+                                <a href="javascript:" id="argee_sub" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                    <div class="agree_btn" lang="{{finance_id}}">同意</div>
+                                </a>
                                 {{#if (url === markUri + '/api/loan/agree') }}
                                 {{#if (verifyCode(1940)) }}
                                 <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
@@ -378,7 +384,7 @@
                                 </a>
                                 {{/if}}
                                 {{/if}}
-                            </div>-->
+                            </div>
                         </div>
                     </li>
                     {{/each}}
@@ -474,29 +480,23 @@
             });
 
         }
-        function InfoList(){
-            var count = 0;
-            var btn = $('.view');
-            btn.off('click').on("click", function () {
-                $(".pop").toggle();
-                var t = $(this);
-                count++;
-                if (count < 2) {
-                    var url = contextPath + "/api/loan/supplier/detail";
-                    $.ajax({
-                        type: "post",
-                        url: url,
-                        dataType: "json",
-                        data: {
-                            // finance_id:$('#finance_download_finance_id').val(),
-                            supplier_id: $('#detail_supplier_id').val()
-                        },
-                        async: false,
-                        success: function (data) {
-                        }
-                    });
+        function InfoList() {
+
+            var url = contextPath + "/api/loan/supplier/detail";
+            $.ajax({
+                type: "post",
+                url: url,
+                dataType: "json",
+                data: {
+                    // finance_id:$('#finance_download_finance_id').val(),
+                    supplier_id: $('#detail_supplier_id').val()
+                },
+                async: false,
+                success: function (data) {
                 }
+            });
         }
+
         // 申请单的展开折叠效果
         //含有子级权限的展开折叠效果
         function slideDownList () {
@@ -595,12 +595,26 @@
                 }
             });
         }
+        function agree(ele) {
+            ele.click(function() {
+                var id = $(this).data('id');
+                var url = $(this).data('url');
+                locationTO({
+                    params: {
+                        action: url,
+                        id: id
+                    }
+                })
+            })
+        }
+
 
         $(function () {
             // POP();
             selectedAll();
             down_menu();
             batch();
+            agree($('.go_forward'))
             slideDownList();
             accountId();
             cancel_btn();

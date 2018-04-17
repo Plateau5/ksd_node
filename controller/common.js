@@ -398,13 +398,13 @@ exports.getPageData = function(options, req, res, next) {
     var body = req.body;
     var data = {};
     var localUrl = req.originalUrl;
+    console.log(body)
     try {
         this.httpRequest({
             url : apiServerPath + options.url,
             formData : body
         }, function (results) {
             data = results;
-
             if (data.error_code === 0) {
                 data.title = options.title;
                 data.originUrl = localUrl;
@@ -412,6 +412,36 @@ exports.getPageData = function(options, req, res, next) {
                 data.apiServerPath = apiServerPath;
                 data.domain = domain;
                 data.reqParams = body;
+                data.list= [
+                    {
+                        "car_loan_charge": 50000,//车价贷款额
+                        "car_type": 1,//车辆类型 0新车,1二手车
+                        "car_type_value": "二手车",
+                        "city_id": 1012,//城市id
+                        "city_name": "南宁市",//车市
+                        "create_id": 73943,//贷前关联id
+                        "create_time": "2017-12-25 18:40",//请款时间
+                        "emp_name": "韦丽媛",//贷前
+                        "finance_id": 1043100,//金融订单id
+                        "financed_charge_rebate": 2500,//融资额返点
+                        "id": 1033786,//请款单id
+                        "pay_account": "6217 0033 6000 0174 424",//付款账户
+                        "receipt_id": 1,// 1车款 ，不等于1其他款项
+                        "start_with": "ZY",//客户首字母
+                        "total_charge": 52500,//付款总额
+                        "user_name": "周毅",//用户名称
+                        "vin": "LFMBE22DX60054871",//车架号
+                        "gps_rebate":53555,//GPS返点
+                        "insurance_rebate":53555,//保险返点
+                        "service_charge_rebate":53555,//服务费返点
+                        "gps_installCharge":53555,//GPS安装费
+                        "pledge_charge":53555,//抵押费
+                        "unpack_charge":53555,//解押费
+                        "pre_interest":53555,//前置利息
+                        "refund_charge":53555,//退款
+                        "refund_charge":53555,//车价贷款（返贷）
+                    }
+                ]
                 options.callback && options.callback(data);
                 res.render(options.page, data);
             } else {
@@ -426,6 +456,39 @@ exports.getPageData = function(options, req, res, next) {
     }
 
 };
+/*exports.getPageData = function(options, req, res, next) {
+    var data = {};
+    data.list=[{
+        "car_loan_charge": 50000,//车价贷款额
+        "car_type": 1,//车辆类型 0新车,1二手车
+        "car_type_value": "二手车",
+        "city_id": 1012,//城市id
+        "city_name": "南宁市",//车市
+        "create_id": 73943,//贷前关联id
+        "create_time": "2017-12-25 18:40",//请款时间
+        "emp_name": "韦丽媛",//贷前
+        "finance_id": 1043100,//金融订单id
+        "financed_charge_rebate": 2500,//融资额返点
+        "id": 1033786,//请款单id
+        "pay_account": "6217 0033 6000 0174 424",//付款账户
+        "receipt_id": 1,// 1车款 ，不等于1其他款项
+        "start_with": "ZY",//客户首字母
+        "total_charge": 52500,//付款总额
+        "user_name": "周毅",//用户名称
+        "vin": "LFMBE22DX60054871",//车架号
+        "gps_rebate":53555,//GPS返点
+        "insurance_rebate":53555,//保险返点
+        "service_charge_rebate":53555,//服务费返点
+        "gps_installCharge":53555,//GPS安装费
+        "pledge_charge":53555,//抵押费
+        "unpack_charge":53555,//解押费
+        "pre_interest":53555,//前置利息
+        "refund_charge":53555,//退款
+        "refund_charge":53555,//车价贷款（返贷）
+    }];
+    res.render(options.page, data);
+}*/
+
 
 /**
  * 调用后台API接口公用方法
