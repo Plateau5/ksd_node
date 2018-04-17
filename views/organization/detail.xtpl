@@ -27,46 +27,7 @@
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
                 <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
             </div>
-            <div class="product_detail_header">
-                <div class="header_left">
-                    <div class="header_left_img">
-                        <img src="{{vo.image_url}}" alt="">
-                    </div>
-                    <div class="header_txt">
-                        <div class="header_txt_name">
-                            <div class="header_txt_top">{{vo.name}}</div>
-                            <div class="header_txt_bottom">
-                                {{#if (vo.applyto_business.indexOf('0') !== -1) }}
-                                <div class="header_txt_bottom1">新车</div>
-                                {{/if}}
-                                {{#if (vo.applyto_business.indexOf('1') !== -1) }}
-                                <div class="header_txt_bottom2">二手车</div>
-                                {{/if}}
-                            </div>
-                        </div>
-
-                        <div class="header_right org_create_info">
-                            <div class="header_time">
-                                <span>创建时间：</span>
-                                <span>{{vo.create_time}}</span>
-                            </div>
-                        </div>
-                        <div class="header_right org_create_info">
-                            <div class="header_personal">
-                                <spqn>创建人：</spqn>
-                                <span>{{vo.create_name}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{#if (verifyCode(1073)) }}
-                <div class="inviteP cursor inline delete_org delete_agency" id="delete_org" lang="{{vo.id}}">
-                    <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
-                    <span>删除机构</span>
-                </div>
-                {{/if}}
-            </div>
+            {{include ('./../inc/merchantInfos')}}
             <div class="tab">
                 <ul class="tab_list inline_block">
                     <li class="tab_item type_normal {{#if (type === 2) }}active{{/if}}">基本信息</li>
