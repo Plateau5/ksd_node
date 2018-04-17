@@ -61,6 +61,17 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDIT = function(req, res, next) {
         page : './organization/edit'
     }, req, res, next);
 };
+
+// 供应商部分-金融机构-机构编辑进件页跳转  1070
+exports.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/toEdit',
+        title : '供应商-机构详情页',
+        page : './organization/intoPieces'
+    }, req, res, next);
+};
+
+
 // 供应商部分-金融机构-机构详情页跳转  1071
 exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
     common.getPageData({

@@ -234,6 +234,11 @@ router.all(markUri + '/supplier/organization/list', supplierCtrl.VIEW_SUPPLIER_O
 router.post(markUri + '/supplier/organization/create', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_CREATE);
 // 供应商部分-金融机构-机构编辑页跳转  1070
 router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDIT);
+
+// 供应商部分-金融机构-机构编辑页跳转  1070
+router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES);
+
+
 // 供应商部分-金融机构-机构详情页跳转  1071
 router.post(markUri + '/supplier/organization/detail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_DETAIL);
 // 供应商部分-金融机构-产品列表-已发布页  1075

@@ -6,7 +6,7 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/organization/detail.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/organization/intoPieces.css"/>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
                     <li class="tab_item type_others {{#if (type === 2) }}active{{/if}}">二手车</li>
                 </ul>
             </div>
-            <form action="{{markUri}}/workflow/list" method="POST" id="form_search" role="form">
+            <form action="" method="POST" id="form_search" role="form">
                 <input type="hidden" name="type" value="{{type}}" id="flow_type">
             </form>
             <div class="product_detail_box">
@@ -44,71 +44,309 @@
                 {{/if}}
                 <!--<div class="detail_about">-->
 
+                    <div class="detail_about_txt">
+                        <div class="detail_about_lf">
+                            <div class="form_group">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                <label for="newCars">身份类</label>
+                            </div>
+                        </div>
+                        <div class="detail_about_rt">
+                            <div class="detail_about_rt_top">
+                                <div class="sentflag mar40">
+                                    <input id="order_type1" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type1">必传</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="order_type2" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type2">非必传</label>
+                                </div>
+                            </div>
+                            <div class="detail_about_rt_bot">
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">身份证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">驾驶证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">户口本</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">银行卡</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">婚姻证明</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">关系证明</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">单身证明</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_lf">
+                            <div class="form_group">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                <label for="newCars">收入类</label>
+                            </div>
+                        </div>
+                        <div class="detail_about_rt">
+                            <div class="detail_about_rt_top">
+                                <div class="sentflag mar40">
+                                    <input id="order_type1" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type1">必传</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="order_type2" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type2">非必传</label>
+                                </div>
+                            </div>
+                            <div class="detail_about_rt_bot">
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">申请表</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">征信授权书</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">风险告知书</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">承诺与授权书</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_lf">
+                            <div class="form_group">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                <label for="newCars">房产类</label>
+                            </div>
+                        </div>
+                        <div class="detail_about_rt">
+                            <div class="detail_about_rt_top">
+                                <div class="sentflag mar40">
+                                    <input id="order_type1" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type1">必传</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="order_type2" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type2">非必传</label>
+                                </div>
+                            </div>
+                            <div class="detail_about_rt_bot">
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">发票</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">土地证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">房产证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">租赁合同</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">居住证明</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">购房合同</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">安置协议</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">宅基地证明</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_lf">
+                            <div class="form_group">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                <label for="newCars">车辆类</label>
+                            </div>
+                        </div>
+                        <div class="detail_about_rt">
+                            <div class="detail_about_rt_top">
+                                <div class="sentflag mar40">
+                                    <input id="order_type1" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type1">必传</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="order_type2" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type2">非必传</label>
+                                </div>
+                            </div>
+                            <div class="detail_about_rt_bot">
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">身份证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">驾驶证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">户口本</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">银行卡</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">婚姻证明</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">关系证明</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">单身证明</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_lf">
+                            <div class="form_group">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                <label for="newCars">公户类</label>
+                            </div>
+                        </div>
+                        <div class="detail_about_rt">
+                            <div class="detail_about_rt_top">
+                                <div class="sentflag mar40">
+                                    <input id="order_type1" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type1">必传</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="order_type2" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type2">非必传</label>
+                                </div>
+                            </div>
+                            <div class="detail_about_rt_bot">
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">身份证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">驾驶证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">户口本</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">银行卡</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">婚姻证明</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">关系证明</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">单身证明</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_lf">
+                            <div class="form_group">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                <label for="newCars">收入类</label>
+                            </div>
+                        </div>
+                        <div class="detail_about_rt">
+                            <div class="detail_about_rt_top">
+                                <div class="sentflag mar40">
+                                    <input id="order_type1" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type1">必传</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="order_type2" type="radio" class="have_system" name="is_throw" value="1">
+                                    <label for="order_type2">非必传</label>
+                                </div>
+                            </div>
+                            <div class="detail_about_rt_bot">
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">身份证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">驾驶证</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">户口本</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">银行卡</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">婚姻证明</label>
+                                </div>
+                                <div class="sentflag mar20">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">关系证明</label>
+                                </div>
+                                <div class="sentflag">
+                                    <input id="" type="checkbox" class="apply_scope" name="applyto_business" value="0">
+                                    <label for="">单身证明</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    {{#if (vo.type !== null) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">机构类别：</div>
-                        <div class="detail_about_date">
-                            {{#if (vo.type === 1) }}融资租赁{{/if}}
-                            {{#if (vo.type === 2) }}银行{{/if}}
-                            {{#if (vo.type === 3) }}信托{{/if}}
-                            {{#if (vo.type === 4) }}汽车金融{{/if}}
-                            {{#if (vo.type === 5) }}担保公司{{/if}}
-                        </div>
-                    </div>
-                    {{/if}}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">产品数量：</div>
-                        <div class="detail_about_date">{{vo.product_count}}</div>
-                    </div>
-
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">系统地址：</div>
-                        <div class="detail_about_date">
-                            {{#if (!vo.system_url && vo.system_url !== 0) }}
-                            --
-                            {{else}}
-                            <a href="{{vo.system_url}}" target="_blank" style="color:#72ACE3;">{{vo.system_url}}</a>
-                            {{/if}}
-                        </div>
-                    </div>
-                    {{#if (vo.mobile !== null && vo.mobile !== '') }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">官方电话：</div>
-                        <div class="detail_about_date">
-                            {{vo.mobile }}
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.link_name !== null && vo.link_name !== '')}}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">联系人：</div>
-                        <div class="detail_about_date">
-                            {{vo.link_name }}
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.link_phone !== null && vo.link_phone !== '') }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">联系人手机：</div>
-                        <div class="detail_about_date">
-                            {{vo.link_phone }}
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.link_mobile !== null && vo.link_mobile !== '') }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">联系人座机：</div>
-                        <div class="detail_about_date">{{vo.link_mobile }}</div>
-                    </div>
-                    {{/if}}
                 </div>
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:;" class="btn orange_btn confirm create_confirm">确定</a>
+                        <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
+                    </div>
                 {{#if (type === 2) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
                 {{/if}}
-                    <div class="detail_about" style="display:block">
                     <div class="detail_about_txt">
                         <div class="detail_about_label supplier_cartype">新车</div>
                     </div>
