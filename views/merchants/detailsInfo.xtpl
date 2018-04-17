@@ -25,239 +25,115 @@
                 <a href="{{markUri}}/loan/pending" class="crumbs_item">待审批</a>
                 <a href="javascript:;" class="crumbs_item last_child">商户详情页</a>
             </div>
-            <input id="finance_download_finance_id" type="hidden" value="{{detail.finance_id}}">
-            <input id="detail_supplier_id" type="hidden" value="{{detail.supplier_id}}">
+            <!--<input id="finance_download_finance_id" type="hidden" value="{{detail.finance_id}}">-->
+            <input id="detail_supplier_id" type="hidden" value="{{reqParams.supplier_id}}">
             <!--<input id="list_supplier_id" type="hidden" value="{{list.id}}">-->
             <!--<input id="finance_download_finance_id" type="hidden" value="71775">
             <input id="detail_supplier_id" type="hidden" value="13969">-->
             <input id="list_supplier_id" type="hidden" value="1033786">
-            <div class="merchants_load">
+            <div class="merchants_load detail_remarks">
                 <div class="merchant_name_label">商户名称：</div><div class="merchant_name">{{reqParams.diySupplier_name}}<em class="view"></em></div>
                 <!--弹出层-->
                 <div class="pop">
-                    <div class="pop_title">{{detail.name}}</div>
-                    <div class="pop_remark">{{detail.flag_value}}</div>
+                    <div class="pop_title">{{reqParams.diySupplier_name}}</div>
+                    <div id="merchant_flag" class="pop_remark"></div>
                     <div class="pop_row">
                         <div class="pop_name">店面类型：</div>
-                        {{#if (detail.type_value) }}
-                        <div class="pop_value" id="shopFront">{{detail.type_value}}</div>
-                        {{else}}
-                        <div class="pop_value" id="shopFront">--</div>
-                        {{/if}}
+                        <div class="pop_value" id="merchant_remark"></div>
                     </div>
                     <div class="pop_row">
                         <div class="pop_name">商户状态：</div>
-                        {{#if (detail.status_value) }}
-                        <div class="pop_value" id="merchant_status">{{detail.status_value}}</div>
-                        {{else}}
-                        <div class="pop_value" id="merchant_status">--</div>
-                        {{/if}}
+                        <div class="pop_value" id="merchant_status"></div>
                     </div>
                     <div class="pop_row">
                         <div class="pop_name">标签：</div>
-                        {{#if (label_name) }}
-                        {{#each (label_name) }}
-                        <div class="pop_value" id="status">{{this}}</div>
-                        {{/each}}
-                        {{else}}
-                        <div class="pop_value" id="status">--</div>
-                        {{/if}}
+                        <div class="pop_value" id="merchant_label_names"></div>
                     </div>
-                    <div class="pop_img_detail clearfix">
-                        {{#each (fileList) }}
-                        <a href="javascript:;" target="_blank">
-                            <div class="pop_item" title="{{this.file_name}}">
-                                <div class="pop_img">
-                                    <img src="{{this.thumbnail}}" alt=""/>
-                                </div>
-                                <div class="pop_img_text">{{this.file_name}}</div>
-                            </div>
-                        </a>
-                        {{/each}}
+                    <div id="imgDetail_merchant" class="pop_img_detail clearfix">
                     </div>
-                    <!--<div class="pop_remark clearfix">商户返佣政策（仅供参考）</div>-->
-                    <!--<div class="pop_row">
-                        <div class="pop_name">车款返点：</div>
-                        {{#if (rebate_car) }}
-                        <div class="pop_value">
-                            {{rebate_car}}元
-                            {{#if (financed_charge_rebate) }}
-                            (已请{{financed_charge_rebate}}元)
-                            {{/if}}
-                        </div>
-                        {{else}}
-                        <div class="pop_value">&#45;&#45;</div>
-                        {{/if}}
-                    </div>-->
-                    <!--<div class="pop_row">
-                        <div class="pop_name">服务费返点：</div>
-                        {{#if (rebate_service) }}
-                        <div class="pop_value">{{rebate_service}}元</div>
-                        {{else}}
-                        <div class="pop_value">&#45;&#45;</div>
-                        {{/if}}
-                    </div>-->
-
-                    <!--<div class="pop_row">
-                        <div class="pop_name">GPS返点：</div>
-                        {{#if (rebate_gps) }}
-                        <div class="pop_value">{{rebate_gps}}元</div>
-                        {{else}}
-                        <div class="pop_value">&#45;&#45;</div>
-                        {{/if}}
-                    </div>-->
-
-                    <!--<div class="pop_row">
-                        <div class="pop_name">保险返点：</div>
-                        {{#if (rebate_insurance) }}
-                        <div class="pop_value">{{rebate_insurance}}元</div>
-                        {{else}}
-                        <div class="pop_value">&#45;&#45;</div>
-                        {{/if}}
-                    </div>-->
                 </div>
 
             </div>
             <div class="account_item clearfix">
                 <ul class="account_list">
                     <div class="account_list_name merchant_name">账户1<em class="drop_down"></em></div>
-                    <li class="account_list_line" data-id="id" id="pageSeleted" style="display:none;">
+                    <li class="account_list_line" data-id="id" id="pageSeleted">
                         <div class="account_row"><div class="account_name">账户类型：</div>
-                            {{accountlist.account_type}}
-                            {{#if (accountlist.account_type === 1) }}
+                            {{#if (accountList[0].account_type === 1) }}
                             <div class="account_value merchant_name">公户</div>
-                            {{elseif (accountlist.account_type === 2)}}
+                            {{elseif (accountList[0].account_type === 2)}}
                             <div class="account_value merchant_name">法人</div>
-                            {{elseif (accountlist.account_type === 3)}}
+                            {{elseif (accountList[0].account_type === 3)}}
                             <div class="account_value merchant_name">其他股东</div>
-                            {{else (accountlist.account_type === 4)}}
+                            {{else (accountList[0].account_type === 4)}}
                             <div class="account_value merchant_name">其他</div>
                             {{/if}}
                         </div>
                         <div class="account_row"><div class="account_name">账户用途：</div>
-                            {{#if (accountlist.account_use === 1) }}
+                            {{#if (accountList[0].account_use === 1) }}
                             <div class="account_value merchant_name">车款</div>
-                            {{elseif (accountlist.account_use === 2)}}
+                            {{elseif (accountList[0].account_use === 2)}}
                             <div class="account_value merchant_name">返点</div>
-                            {{else (accountlist.account_use === 3)}}
+                            {{else (accountList[0].account_use === 3)}}
                             <div class="account_value merchant_name">杂费</div>
                             {{/if}}
                         </div>
                         <div class="account_row"><div class="account_name">账户名：</div>
-                            {{#each (pay_account) }}
-                            <div class="account_value merchant_name">{{accountlist.pay_account}}</div>
-                            {{/each}}
+                            <div class="account_value merchant_name">{{accountList[0].pay_account}}</div>
                         </div>
                         <div class="account_row"><div class="account_name">银行卡号：</div>
-                            {{#each (pay_account) }}
-                            <div class="account_value merchant_name">{{accountlist.pay_account}}</div>
-                            {{/each}}
+                            <div class="account_value merchant_name">{{accountList[0].pay_account}}</div>
                         </div>
                         <div class="account_row"><div class="account_name">开户行：</div>
-                            {{#each (pay_open_bank) }}
-                            <div class="account_value merchant_name">{{accountlist.pay_open_bank}}</div>
-                            {{/each}}
+                            <div class="account_value merchant_name">{{accountList[0].pay_open_bank}}</div>
                         </div>
                         <div class="account_row"><div class="account_name">总金额：</div>
-                            {{#each (total_charge) }}
-                            <div class="account_value merchant_name">{{accountlist.total_charge}}</div>
-                            {{/each}}
+                            <div class="account_value merchant_name">{{accountList[0].total_charge}}</div>
                         </div>
                     </li>
                 </ul>
             </div>
             <div class="detail_menu">
                 <ul>
+                    {{#each (accountList) }}
                     <li class="clearfix">
-                        <div class="detail_menu_radio"><input type="radio" value="1" name="select" /></div>
+                        <div class="detail_menu_radio"><input class="tog_account" type="radio" value="1" name="select" /></div>
                         <div class="detail_menu_list">
-                            <div class="account_row"><div class="account_name">账户类型：</div>{{accountlist.account_type}}
-                                {{#if (accountlist.account_type === 1) }}
+                            <div class="account_row"><div class="account_name">账户类型：</div>
+                                {{#if (this.account_type === 1) }}
                                 <div class="account_value merchant_name">公户</div>
-                                {{elseif (accountlist.account_type === 2)}}
+                                {{elseif (this.account_type === 2)}}
                                 <div class="account_value merchant_name">法人</div>
-                                {{elseif (accountlist.account_type === 3)}}
+                                {{elseif (this.account_type === 3)}}
                                 <div class="account_value merchant_name">其他股东</div>
-                                {{else (accountlist.account_type === 4)}}
+                                {{elseif (this.account_type === 4)}}
                                 <div class="account_value merchant_name">其他</div>
                                 {{/if}}
                             </div>
                             <div class="account_row"><div class="account_name">账户用途：</div>
-                                {{#if (accountlist.account_use === 1) }}
+                                {{#if (this.account_use === 1) }}
                                 <div class="account_value merchant_name">车款</div>
-                                {{elseif (accountlist.account_use === 2)}}
+                                {{elseif (this.account_use === 2)}}
                                 <div class="account_value merchant_name">返点</div>
-                                {{else (accountlist.account_use === 3)}}
+                                {{elseif (this.account_use === 3)}}
                                 <div class="account_value merchant_name">杂费</div>
                                 {{/if}}
                             </div>
                             <div class="account_row"><div class="account_name">账户名：</div>
-                                {{#each (pay_account) }}
-                                <div class="account_value merchant_name">{{accountlist.pay_account}}</div>
-                                {{/each}}
+                                <div class="account_value merchant_name">{{this.pay_account}}</div>
                             </div>
                             <div class="account_row"><div class="account_name">银行卡号：</div>
-                                {{#each (pay_account) }}
-                                <div class="account_value merchant_name">{{accountlist.pay_account}}</div>
-                                {{/each}}
+                                <div class="account_value merchant_name">{{this.pay_account}}</div>
                             </div>
                             <div class="account_row"><div class="account_name">开户行：</div>
-                                {{#each (pay_open_bank) }}
-                                <div class="account_value merchant_name">{{accountlist.pay_open_bank}}</div>
-                                {{/each}}
+                                <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                             </div>
                             <div class="account_row"><div class="account_name">总金额：</div>
-                                {{#each (total_charge) }}
-                                <div class="account_value merchant_name">{{accountlist.total_charge}}</div>
-                                {{/each}}
+                                <div class="account_value merchant_name">{{this.total_charge}}</div>
                             </div>
                         </div>
                     </li>
-                    <li class="clearfix">
-                        <div class="detail_menu_radio"><input type="radio" value="1" name="select" /></div>
-                        <div class="detail_menu_list">
-                            <div class="account_row"><div class="account_name">账户类型：</div>{{accountlist.account_type}}
-                                {{#if (accountlist.account_type === 1) }}
-                                <div class="account_value merchant_name">公户</div>
-                                {{elseif (accountlist.account_type === 2)}}
-                                <div class="account_value merchant_name">法人</div>
-                                {{elseif (accountlist.account_type === 3)}}
-                                <div class="account_value merchant_name">其他股东</div>
-                                {{else (accountlist.account_type === 4)}}
-                                <div class="account_value merchant_name">其他</div>
-                                {{/if}}
-                            </div>
-                            <div class="account_row"><div class="account_name">账户用途：</div>
-                                {{#if (accountlist.account_use === 1) }}
-                                <div class="account_value merchant_name">车款</div>
-                                {{elseif (accountlist.account_use === 2)}}
-                                <div class="account_value merchant_name">返点</div>
-                                {{else (accountlist.account_use === 3)}}
-                                <div class="account_value merchant_name">杂费</div>
-                                {{/if}}
-                            </div>
-                            <div class="account_row"><div class="account_name">账户名：</div>
-                                {{#each (pay_account) }}
-                                <div class="account_value merchant_name">{{accountlist.pay_account}}</div>
-                                {{/each}}
-                            </div>
-                            <div class="account_row"><div class="account_name">银行卡号：</div>
-                                {{#each (pay_account) }}
-                                <div class="account_value merchant_name">{{accountlist.pay_account}}</div>
-                                {{/each}}
-                            </div>
-                            <div class="account_row"><div class="account_name">开户行：</div>
-                                {{#each (pay_open_bank) }}
-                                <div class="account_value merchant_name">{{accountlist.pay_open_bank}}</div>
-                                {{/each}}
-                            </div>
-                            <div class="account_row"><div class="account_name">总金额：</div>
-                                {{#each (total_charge) }}
-                                <div class="account_value merchant_name">{{accountlist.total_charge}}</div>
-                                {{/each}}
-                            </div>
-                        </div>
-                    </li>
+                    {{/each}}
                 </ul>
             </div>
             <div class="filtrate">
@@ -353,46 +229,62 @@
                                 <label class="nor_wrap">全选</label>
                             </div>
                             <div class="total_operate_btn text_right">
-                                <a href="javascript:" class="agree_btn">同意</a>
-                                <a href="javascript:" class="no_agree_btn">不同意</a>
-                                <a href="javascript:" class="transfer_btn">转交他人</a>
+                                {{#if (url === markUri + 'api/loan/batch/agree') }}
+                                {{#if (verifyCode(1940)) }}
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                    <div class="agree_btn" lang="{{finance_id}}">同意</div>
+                                </a>
+                                {{/if}}
+                                {{#if (verifyCode(1491)) }}
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
+                                    <div class="no_agree_btn" lang="{{finance_id}}">不同意</div>
+                                </a>
+                                {{/if}}
+                                {{#if (verifyCode(1494)) }}
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                    <div class="transfer_btn" lang="{{finance_id}}">转交他人</div>
+                                </a>
+                                {{/if}}
+                                {{/if}}
                                 <a href="javascript:" class="cancel_btn">取消</a>
                             </div>
                         </div>
-
                         <div class="form_group lf load_radio">
                             <input type="checkbox" class="" name="" value="1004">
                             <label class="nor_wrap radio_lable"></label>
                         </div>
-                        <div class="loan_time">{{list.create_time}}</div><a href="javascript:" class="batch_btn">批量放款</a>
+                        <a href="javascript:" class="batch_btn">批量放款</a>
+                    </li>
+                    {{#each (list) }}
+                    <li>
+                        <div class="loan_time">{{this.create_time}}</div>
                         <div class="load_list clearfix">
                             <div class="load_row">
-                                <div class="load_name">客户：</div><div class="load_value">{{list.user_name}}</div>
+                                <div class="load_name">客户：</div><div class="load_value">{{this.user_name}}</div>
                             </div>
                             <div class="load_row">
-                                <div class="load_name">城市：</div><div class="load_value">{{list.city_name}}</div>
+                                <div class="load_name">城市：</div><div class="load_value">{{this.city_name}}</div>
                             </div>
                             <div class="load_row">
                                 <div class="load_name">业务类型：</div>
-                                {{list.car_type}}
-                                {{#if (list.car_type === 0) }}
+                                {{#if (this.car_type === 0) }}
                                 <div class="load_value">新车</div>
-                                {{else (list.car_type === 1)}}
+                                {{elseif (this.car_type === 1)}}
                                 <div class="load_value">二手车</div>
                                 {{/if}}
                             </div>
                             <div class="load_row">
-                                <div class="load_name">车架号：</div><div class="load_value">{{list.vin}}</div>
+                                <div class="load_name">车架号：</div><div class="load_value">{{this.vin}}</div>
                             </div>
                             <div class="load_row">
-                                <div class="load_name">贷前：</div><div class="load_value">{{list.emp_name}}</div>
+                                <div class="load_name">贷前：</div><div class="load_value">{{this.emp_name}}</div>
                             </div>
                             <div class="load_row">
                                 <div class="load_name">款项类型：</div>
-                                {{list.receipt_id}}
-                                {{#if (list.receipt_id === 1) }}
+                                {{this.receipt_id}}
+                                {{#if (this.receipt_id === 1) }}
                                 <div class="load_value">车款</div>
-                                {{else (list.receipt_id !== 1)}}
+                                {{elseif (this.receipt_id !== 1)}}
                                 <div class="load_value">其他款项</div>
                                 {{/if}}
                             </div>
@@ -468,7 +360,7 @@
                                 <div class="amount">{{this.total_charge}}&nbsp;元</div><div class="capital_amount">（{{this.cn_totalCharge}})</div>
                             </div>
                             {{/if}}
-                            <div class="pay_operate_btn text_right">
+                            <!--<div class="pay_operate_btn text_right">
                                 {{#if (url === markUri + '/api/loan/agree') }}
                                 {{#if (verifyCode(1940)) }}
                                 <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
@@ -486,9 +378,10 @@
                                 </a>
                                 {{/if}}
                                 {{/if}}
-                            </div>
+                            </div>-->
                         </div>
                     </li>
+                    {{/each}}
                 </ul>
             </div>
             <!--分页部分 Begin-->
@@ -503,6 +396,7 @@
     <!-------- Part of main End -------->
 </div>
 {{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/requestpayout/disagree.js"></script>
 <script>
     (function ($, window) {
 
@@ -520,26 +414,18 @@
                     $('.nor_wrap').addClass('checked');
                     selFlag = true;
                 }
-
-          /*      if (selFlag) {
-                    for(var i = 0,len = $('.load_radio').length;i < len;i++ ) {
-                        $('.load_radio')[i].addClass("icon_check");
-                        if ($('.load_radio')[i].hasClass("icon_uncheck")) {
-                            $('.load_radio')[i].removeClass("icon_uncheck");
-                        }
-
-                    }
-                } else {
-                    for(var i = 0,len = $('.load_radio').length;i < len;i++ ) {
-                        $('.load_radio')[i].addClass("icon_uncheck");
-                        if ($('.load_radio')[i].hasClass("icon_check")) {
-                            $('.load_radio')[i].removeClass("icon_check");
-                        }
-
-                    }
-                }*/
-
-
+            });
+            $(".load_radio").click(function(){
+                console.log($('.load_radio'));
+                if(selFlag){
+                    $('input[type="checkbox"]').prop('checked',false);
+                    $('.nor_wrap').removeClass('checked');
+                    selFlag = false;
+                }else{
+                    $('input[type="checkbox"]').prop('checked',true);
+                    $('.nor_wrap').addClass('checked');
+                    selFlag = true;
+                }
             });
 
 
@@ -547,11 +433,11 @@
 
         console.log();
         // 弹出层
-        /*function POP () {
+        function POP () {
             $(".view").click(function(){
                 $(".pop").toggle();
             });
-        };*/
+        };
         function down_menu () {
             $(".drop_down").click(function(){
                 $(".detail_menu").toggle();
@@ -577,23 +463,39 @@
             })
         }
         function  accountId(){
-            var url = contextPath + "/api/loan/accountlist";
-            $.ajax({
-                type: "post",
-                url: url,
-                dataType: "json",
-                data: {
-                    // supplier_id:$('#list_supplier_id').val(),
-                    supplier_id:13969,
-                },
-                async: false,
-                success: function (data) {
-                    //console.log(data.list.length);
-                    var str = "";
-                    str += 'data.num';
-                    $("#pageSeleted").html(str).show();
+            var btn = $('.tog_account');
+            btn.off('click').on("click", function () {
+                if (this.checked) {
+                    var account_value = btn.siblings().find(".account_value ");
+                    for (var i = 0,len = account_value.length;i < len;i++) {
+                        $('.account_item').find(".account_value ")[i].html(account_value[i].html());
+                    }
                 }
-            })
+            });
+
+        }
+        function InfoList(){
+            var count = 0;
+            var btn = $('.view');
+            btn.off('click').on("click", function () {
+                $(".pop").toggle();
+                var t = $(this);
+                count++;
+                if (count < 2) {
+                    var url = contextPath + "/api/loan/supplier/detail";
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        dataType: "json",
+                        data: {
+                            // finance_id:$('#finance_download_finance_id').val(),
+                            supplier_id: $('#detail_supplier_id').val()
+                        },
+                        async: false,
+                        success: function (data) {
+                        }
+                    });
+                }
         }
         // 申请单的展开折叠效果
         //含有子级权限的展开折叠效果
@@ -601,27 +503,74 @@
             var count = 0;
             var btn = $('.view');
             btn.off('click').on("click", function () {
+                $(".pop").toggle();
                 var t = $(this);
                 count++;
                 if (count < 2) {
-                    var url = contextPath + "/api/supplier/detail";
+                    var url = contextPath + "/api/loan/supplier/detail";
                     $.ajax({
                         type: "post",
                         url: url,
                         dataType: "json",
                         data: {
-                            finance_id:$('#finance_download_finance_id').val(),
+                            // finance_id:$('#finance_download_finance_id').val(),
                             supplier_id:$('#detail_supplier_id').val()
                         },
                         async: false,
                         success: function (data) {
+                            console.log(data);
                             if (data.error_code === 0) {
 
-                                if (data.detail.flag_value) {
-                                    $('#shopFront').html(data.detail.flag_value);
-                                } else {
-                                    $('#shopFront').html('--');
+                                // if (data.detail.flag_value) {
+                                //     $('#shopFront').html(data.detail.flag_value);
+                                // } else {
+                                //     $('#shopFront').html('--');
+                                // }
+                                if (data.supplierDetail) {
+                                    if (data.supplierDetail.flag_value) {
+                                        $('#merchant_flag').html(data.supplierDetail.flag_value);
+                                    } else {
+                                        $('#merchant_flag').html('--');
+                                    }
+                                    if (data.supplierDetail.type_value) {
+                                        $('#merchant_remark').html(data.supplierDetail.type_value);
+                                    } else {
+                                        $('#merchant_remark').html('--');
+                                    }
+                                    //所属商户弹出层的标签名
+                                    if(data.supplierDetail){
+                                        if (data.supplierDetail.type_value) {
+                                            $('#merchant_type').html(data.supplierDetail.type_value);
+                                        } else {
+                                            $('#merchant_type').html('--');
+                                        }
+                                        if (data.supplierDetail.status_value) {
+                                            $('#merchant_status').html(data.supplierDetail.status_value);
+                                        } else {
+                                            $('#merchant_status').html('--');
+                                        }
+                                        if(data.supplierDetail.label_name){
+                                            if(data.supplierDetail.label_name.indexOf(",")!=-1){
+                                                data.label_names = data.supplierDetail.label_name.split(",");
+                                                var str = "";
+                                                for (var i = 0,len = data.label_names.length;i < len;i++) {
+                                                    str += data.label_names[i] + "&nbsp;&nbsp";
+                                                }
+                                                $('#merchant_label_names').html(str);
+                                            }else{
+                                                $('#merchant_label_names').html(data.supplierDetail.label_name);
+                                            }
+                                        } else {
+                                            $('#merchant_label_names').html('--');
+                                        }
+                                    } else {
+                                        $('#merchant_type').html('--');
+                                        $('#merchant_status').html('--');
+                                        $('#merchant_label_names').html('--');
+                                    }
+
                                 }
+
                                 //图片
                                 if (data.fileList.length !=0) {
                                     var imgStr = "";
@@ -644,23 +593,18 @@
                         }
                     });
                 }
-                var childPrivilege = t.parents(".detail_remarks").find(">.merchant_slidedown_arrow_detail");
-                if (childPrivilege.is(":hidden")) {
-                    childPrivilege.slideDown(300).parents(".detail_remarks").find(".merchant_slidedown_arrow").addClass("merchant_slidedown_up_arrow");
-                } else {
-                    childPrivilege.slideUp(300).parents(".detail_remarks").find(".merchant_slidedown_arrow").removeClass("merchant_slidedown_up_arrow");
-                }
             });
         }
 
         $(function () {
-            //POP();
+            // POP();
             selectedAll();
             down_menu();
             batch();
             slideDownList();
             accountId();
             cancel_btn();
+            InfoList();
         })
     })(jQuery, window, undefined)
 </script>
