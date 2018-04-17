@@ -346,9 +346,13 @@
                                     <option value="">请选择</option>
                                     {{#each (productData) }}
                                         {{#if (this.ID === carInfo.productId) }}
-                                            <option data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}" selected>{{this.NAME}}</option>
+                                            <option type="{{this.TYPE}}" data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}" selected>{{this.NAME}}</option>
                                         {{else}}
-                                            <option data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}">{{this.NAME}}</option>
+                                            {{#if (this.TYPE === 1 && !carInfo.is_can) }}
+                                                <option type="{{this.TYPE}}" style="display: none;" data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}">{{this.NAME}}</option>
+                                            {{else}}
+                                                <option type="{{this.TYPE}}" data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}">{{this.NAME}}</option>
+                                            {{/if}}
                                         {{/if}}
                                     {{/each}}
                                 </select>
@@ -1199,6 +1203,59 @@
             });
         }
 
+        /**
+         * 校验是否可以选择LCV产品
+         * @author Arley Joe 2018年4月17日16:17:19
+         * @desc   根据所选择的车型显示或隐藏LCV产品。唯有新车的LCV车型可以选择LCV产品。
+         *         产品中附带参数type，type值为1时为LCV车型产品。
+         */
+        function checkIsLCV () {
+            var carModel = $('#carModel');      // 车型下拉选择元素
+            var carSeries = $('#carSeries');        // 车系下拉选择元素
+            var carBrand = $('#brand');        // 品牌下拉选择元素
+            carModel.on('change', function () {
+                var _this = $(this);
+                var data = {};
+                data.model_id = _this.find('option:selected').val().trim();       // 车型id
+                data.series_id  = carSeries.find('option:selected').val().trim();       // 车系ID
+                data.brand_id = carBrand.find('option:selected').val().trim();
+                var isCan = checkLCVEvent(data);        // 获取校验结果
+                showOrHideLCV(isCan);       // 显示隐藏元素
+
+            });
+            // 请求校验是否可以做LCV产品
+            function checkLCVEvent (data) {
+                var result = null;
+                redefineAjax({
+                    url : contextPath + '/api/pingan/validate/model',
+                    data : data,
+                    async : false,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            result = res.is_can;
+                        } else {
+                            result = 0;
+                        }
+                    },
+                    error : function () {
+                        result = 0;
+                    }
+                });
+                return result;
+            }
+            // 显示或是隐藏LCV产品
+            function showOrHideLCV (isCan) {
+                var product = $('#productName');        // 产品下拉元素
+                if (isCan) {
+                    product.find('option[type="1"]').show();       // type为1时为LCV产品
+                } else {
+                    product.find('option[type="1"]').hide();       // type为1时为LCV产品
+                }
+            }
+        }
+
+
+
 
 
 
@@ -1224,6 +1281,7 @@
             bindSubmitEvent();      // 提交
 
             checkVin();     // 校验车架号
+            checkIsLCV();       // 校验是否可以选择LCV车型
 
         });
     })(jQuery,undefined);
