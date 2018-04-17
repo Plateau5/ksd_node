@@ -262,26 +262,26 @@ exports.VIEW_LOAN_PENDING = function(req, res, next) {
         url : '/api/loan/waitList',
         title : '商户管理-放款管理-待审批',
         page : './merchants/pending',
-        // callback : function (data) {
-        //     for (var i = 0 ,len = data.cityList.length;i < len; i++ ) {
-        //         data.cityList[i].name = data.cityList[i].city_name;
-        //     }
-        // }
+        /*callback : function (data) {
+            for (var i = 0 ,len = data.list.length;i < len; i++ ) {
+                console.log(data.list[i]);
+            }
+        }*/
     }, req, res, next);
 };
 
  //商户-放款管理-已审批 1488
 exports.VIEW_LOAN_PASS = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/passList',
-        title : '商户管理-放款管理-已审批',
-        page : './merchants/pending',
-        // callback : function (data) {
-        //     for (var i = 0 ,len = data.cityList.length;i < len; i++ ) {
-        //         data.cityList[i].name = data.cityList[i].city_name;
-        //     }
-        //
-        // }
+        url: '/api/loan/passList',
+        title: '商户管理-放款管理-已审批',
+        page: './merchants/pending',
+        /*callback : function (data) {
+            for (var i = 0 ,len = data.cityList.length;i < len; i++ ) {
+                data.cityList[i].name = data.cityList[i].city_name;
+            }
+
+        }*/
     }, req, res, next);
 };
 
@@ -290,8 +290,9 @@ exports.VIEW_LOAN_PASS = function(req, res, next) {
 //商户-放款管理-详情 1489
 exports.VIEW_LOAN_DETIALSINFO = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/supplier/detail',
+        url : '/api/loan/wait/list',
         title : '商户管理-放款管理-放款管理详情',
         page : './merchants/detailsInfo',
+
     }, req, res, next);
 };

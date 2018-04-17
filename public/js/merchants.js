@@ -49,10 +49,22 @@ function goLoanDetail () {
         var _this = $(this);
         if (!_this.hasClass('no_data')) {
             var mid = $.trim(_this.data('id'));
+            var pay = $.trim(_this.data('pay_account'));
+            var timeorder = $.trim(_this.data('timeorder_type'));
+            var receipt = $.trim(_this.data('receiptorder_type'));
+            var order = $.trim(_this.data('orderby_type'));
+            var currentPage = $.trim(_this.data('currentPage'));
+            var diySupplier_name = $.trim(_this.data('supplier_name'));
             locationTo({
                 action : contextPath + markUri + '/loan/detailsInfo',
                 param : {
                     supplier_id : mid,
+                    pay_account: pay,
+                    timeorder_type: timeorder,
+                    receiptorder_type: receipt,
+                    orderby_type: order,
+                    currentPage: currentPage,
+                    diySupplier_name : diySupplier_name,
                     url : LOCALURL
                 }
             });

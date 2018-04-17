@@ -404,6 +404,7 @@ exports.getPageData = function(options, req, res, next) {
             formData : body
         }, function (results) {
             data = results;
+
             if (data.error_code === 0) {
                 data.title = options.title;
                 data.originUrl = localUrl;
