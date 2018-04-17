@@ -371,7 +371,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
         } else {
             res.redirect(markUri + '/404');
         }
-        //计算百分率
+        //计算万元系数
         function thousandRate (data) {
             // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
             var thoudsanData = parseInt((((data.vo.rate * 100 * (data.vo.pay_periods / 12)) + 10000) / data.vo.pay_periods) * 1000) / 1000;
@@ -379,7 +379,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
             if(thoudsanData.toString().indexOf(".")!=-1){
                 var floatNum = Number(thoudsanData.toString().split(".")[1]);
                 if (floatNum <= 0) {
-                     floatNum = 0;
+                    floatNum = 0;
                 } else if (floatNum < 10) {
                     floatNum *= 100;
                 } else if (floatNum < 100) {
