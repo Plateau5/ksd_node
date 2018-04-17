@@ -1213,15 +1213,34 @@
             var carModel = $('#carModel');      // 车型下拉选择元素
             var carSeries = $('#carSeries');        // 车系下拉选择元素
             var carBrand = $('#brand');        // 品牌下拉选择元素
+            var carYear = $('#carYear');        // 年份
+            carYear.on('change', function () {
+                showOrHideLCV(false);       // 显示隐藏元素
+            });
+            carSeries.on('change', function () {
+                showOrHideLCV(false);       // 显示隐藏元素
+            });
+            carBrand.on('change', function () {
+                showOrHideLCV(false);       // 显示隐藏元素
+            });
             carModel.on('change', function () {
                 var _this = $(this);
-                var data = {};
-                data.model_id = _this.find('option:selected').val().trim();       // 车型id
-                data.series_id  = carSeries.find('option:selected').val().trim();       // 车系ID
-                data.brand_id = carBrand.find('option:selected').val().trim();
-                var isCan = checkLCVEvent(data);        // 获取校验结果
-                showOrHideLCV(isCan);       // 显示隐藏元素
-
+                var val = _this.find('option:selected').val().trim();
+                var isCan = _this.find('option:selected').data('is_can');
+                if (isCan) {
+                    showOrHideLCV(true);       // 显示隐藏元素
+                } else {
+                    if (val) {
+                        var data = {};
+                        data.model_id = val;       // 车型id
+                        data.series_id  = carSeries.find('option:selected').val().trim();       // 车系ID
+                        data.brand_id = carBrand.find('option:selected').val().trim();
+                        var isCan = checkLCVEvent(data);        // 获取校验结果
+                        showOrHideLCV(isCan);       // 显示隐藏元素
+                    } else {
+                        showOrHideLCV(false);       // 显示隐藏元素
+                    }
+                }
             });
             // 请求校验是否可以做LCV产品
             function checkLCVEvent (data) {
@@ -1281,7 +1300,10 @@
             bindSubmitEvent();      // 提交
 
             checkVin();     // 校验车架号
-            checkIsLCV();       // 校验是否可以选择LCV车型
+            // 只有新车LCV做校验
+            if (carType == 0) {
+                checkIsLCV();       // 校验是否可以选择LCV车型
+            }
 
         });
     })(jQuery,undefined);
