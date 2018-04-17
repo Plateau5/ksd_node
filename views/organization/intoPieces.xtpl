@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>机构详情</title>
+    <title>机构编辑-进件资料</title>
     {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/organization/detail.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
 </head>
 
 <body>
@@ -25,69 +25,22 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
-                <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
-            </div>
-            <div class="product_detail_header">
-                <div class="header_left">
-                    <div class="header_left_img">
-                        <img src="{{vo.image_url}}" alt="">
-                    </div>
-                    <div class="header_txt">
-                        <div class="header_txt_name">
-                            <div class="header_txt_top">{{vo.name}}</div>
-                            <div class="header_txt_bottom">
-                                {{#if (vo.applyto_business.indexOf('0') !== -1) }}
-                                <div class="header_txt_bottom1">新车</div>
-                                {{/if}}
-                                {{#if (vo.applyto_business.indexOf('1') !== -1) }}
-                                <div class="header_txt_bottom2">二手车</div>
-                                {{/if}}
-                            </div>
-                        </div>
-
-                        <div class="header_right org_create_info">
-                            <div class="header_time">
-                                <span>创建时间：</span>
-                                <span>{{vo.create_time}}</span>
-                            </div>
-                        </div>
-                        <div class="header_right org_create_info">
-                            <div class="header_personal">
-                                <spqn>创建人：</spqn>
-                                <span>{{vo.create_name}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{#if (verifyCode(1073)) }}
-                <div class="inviteP cursor inline delete_org delete_agency" id="delete_org" lang="{{vo.id}}">
-                    <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
-                    <span>删除机构</span>
-                </div>
-                {{/if}}
+                <a href="javascript:;" class="crumbs_item">编辑进件资料</a>
             </div>
             <div class="tab">
                 <ul class="tab_list inline_block">
-                    <li class="tab_item type_normal {{#if (type === 2) }}active{{/if}}">基本信息</li>
-                    <li class="tab_item type_others active">进件资料</li>
-                    <li class="tab_item type_others {{#if (type === 3) }}active{{/if}}">请款资料</li>
-                    <li class="tab_item type_others {{#if (type === 4) }}active{{/if}}">归档资料</li>
+                    <li class="tab_item type_normal active">新车</li>
+                    <li class="tab_item type_others {{#if (type === 2) }}active{{/if}}">二手车</li>
                 </ul>
             </div>
-            <form action="" method="POST" id="form_search" role="form">
+            <form action="{{markUri}}/workflow/list" method="POST" id="form_search" role="form">
                 <input type="hidden" name="type" value="{{type}}" id="flow_type">
             </form>
             <div class="product_detail_box">
-                <div class="rf_30">
-                    {{#if (verifyCode(1070)) }}
-                    <a href="javascript:" id="editOrg" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
-                    {{/if}}
-                </div>
                 {{#if (type === 1) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
-                <div class="detail_about" style="display:none">
+                <div class="detail_about" style="display:block">
                 {{/if}}
                 <!--<div class="detail_about">-->
 
@@ -153,7 +106,7 @@
                 {{#if (type === 2) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
-                <div class="detail_about" style="display:block">
+                <div class="detail_about" style="display:none">
                 {{/if}}
                     <div class="detail_about" style="display:block">
                     <div class="detail_about_txt">
