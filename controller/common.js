@@ -373,12 +373,15 @@ exports.getCustomerDetail = function(url, req, res, next) {
         }
         //计算百分率
         function thousandRate (data) {
-            var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
+            // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+              var thoudsanData = ((data.vo.rate * 100 * (data.vo.pay_periods / 12)) + 10000) / data.vo.pay_periods;
+            // var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
             if(thoudsanData.toString().indexOf(".")!=-1){
-                if(thoudsanData.toString().split(".")[1]<445){
+                var floatNum = thoudsanData.toString().split(".");
+                if(Number(floatNum[1]) * 1000 < 445){
                     thoudsanData = thoudsanData.toString().split(".")[0];
                 }else{
-                    thoudsanData = Number(thoudsanData.toString().split(".")[0])+1;
+                    thoudsanData = Number(thoudsanData.toString().split(".")[0]) + 1;
                 }
             }
             return thoudsanData;
