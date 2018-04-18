@@ -81,9 +81,9 @@
                     </ul>
                 </div>
                 <div class="detail_menu">
-                    <ul>
+                    <ul class="account_list">
                         {{#each (accountList) }}
-                        <li class="clearfix">
+                        <li class="list_item clearfix">
                             <div class="detail_menu_radio">
                                 <input class="tog_account" type="radio" value="1" name="select" />
                             </div>
@@ -222,7 +222,7 @@
                     </div>
                 </div>
 
-                <div class="loan_item">
+                <div class="order_list">
                     <div class="loan_order_btn">
                         <div class="total_btn clearfix">
                             <div id="selectedAll" class="form_group lf" style="line-height:50px;">
@@ -230,133 +230,126 @@
                                 <label class="nor_wrap">全选</label>
                             </div>
                             <div class="total_operate_btn text_right">
-                                {{#if (url === markUri + 'api/loan/batch/agree') }}
-                                {{#if (verifyCode(1940)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
-                                    <div class="agree_btn" lang="{{finance_id}}">同意</div>
+                                <a href="javascript:" class="go_forward agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                    同意
                                 </a>
-                                {{/if}}
-                                {{#if (verifyCode(1491)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
-                                    <div class="no_agree_btn" lang="{{finance_id}}">不同意</div>
+                                <a href="javascript:" class="go_forward no_agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
+                                    不同意
                                 </a>
-                                {{/if}}
-                                {{#if (verifyCode(1494)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
-                                    <div class="transfer_btn" lang="{{finance_id}}">转交他人</div>
+                                <a href="javascript:" class="go_forward transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                    转交他人
                                 </a>
-                                {{/if}}
-                                {{/if}}
-                                <a href="javascript:" class="cancel_btn">取消</a>
+                                <a href="javascript:" class="cancel_btn cancel_batch_btn">取消</a>
                             </div>
                         </div>
 
                         <a href="javascript:" class="batch_btn">批量放款</a>
                     </div>
-                    <ul>
-
+                    <ul class="loan_order_list">
                         {{#each (list) }}
-                        <li>
+                        <li class="list_item" data-id="{{this.advance_id}}">
                             <div class="loan_time">
-                                <div class="form_group lf load_radio">
-                                    <input type="checkbox" class="" name="" value="1004">
-                                    <label class="nor_wrap radio_lable"></label>
+                                <div class="form_group lf loan_checkbox">
+                                    <input type="checkbox" class="" name="" value="{{this.advance_id}}">
+                                    <label class="order_label"></label>
                                 </div>
                                 <span>{{this.create_time}}</span>
                             </div>
-                            <div class="load_list clearfix">
-                                <div class="load_row">
-                                    <div class="load_name">客户：</div><div class="load_value">{{this.user_name}}</div>
+                            <div class="loan_list clearfix">
+                                <div class="loan_row">
+                                    <div class="loan_name">客户：</div><div class="loan_value">{{this.user_name}}</div>
                                 </div>
-                                <div class="load_row">
-                                    <div class="load_name">城市：</div><div class="load_value">{{this.city_name}}</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">城市：</div><div class="loan_value">{{this.city_name}}</div>
                                 </div>
-                                <div class="load_row">
-                                    <div class="load_name">业务类型：</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">业务类型：</div>
                                     {{#if (this.car_type === 0) }}
-                                    <div class="load_value">新车</div>
+                                    <div class="loan_value">新车</div>
                                     {{elseif (this.car_type === 1)}}
-                                    <div class="load_value">二手车</div>
+                                    <div class="loan_value">二手车</div>
                                     {{/if}}
                                 </div>
-                                <div class="load_row">
-                                    <div class="load_name">车架号：</div><div class="load_value">{{this.vin}}</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">车架号：</div>
+                                    <div class="loan_value">{{this.vin}}</div>
                                 </div>
-                                <div class="load_row">
-                                    <div class="load_name">贷前：</div><div class="load_value">{{this.emp_name}}</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">贷前：</div>
+                                    <div class="loan_value">{{this.emp_name}}</div>
                                 </div>
-                                <div class="load_row">
-                                    <div class="load_name">款项类型：</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">款项类型：</div>
                                     {{#if (this.receipt_id === 1) }}
-                                    <div class="load_value">车款</div>
+                                    <div class="loan_value">车款</div>
                                     {{elseif (this.receipt_id === 2)}}
-                                    <div class="load_value">其他款项</div>
+                                    <div class="loan_value">其他款项</div>
                                     {{/if}}
                                 </div>
                                 {{#if (this.car_loan_charge || this.car_loan_charge === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">车价贷款额：</div>
-                                    <div class="load_value">{{this.car_loan_charge}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">车价贷款额：</div>
+                                    <div class="loan_value">{{this.car_loan_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.collection_charge || this.collection_charge === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">代商户收取费用：</div>
-                                    <div class="load_value">{{this.collection_charge}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">代商户收取费用：</div>
+                                    <div class="loan_value">{{this.collection_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.gps_installCharge || this.gps_installCharge === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">GPS安装费用：</div>
-                                    <div class="load_value">{{this.gps_installCharge}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">GPS安装费用：</div>
+                                    <div class="loan_value">{{this.gps_installCharge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.gps_rebate || this.gps_rebate === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">GPS返点：</div>
-                                    <div class="load_value">{{this.gps_rebate}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">GPS返点：</div>
+                                    <div class="loan_value">{{this.gps_rebate}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.service_charge_rebate || this.service_charge_rebate === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">服务费返点：</div>
-                                    <div class="load_value">{{this.service_charge_rebate}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">服务费返点：</div>
+                                    <div class="loan_value">{{this.service_charge_rebate}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.purchase_tax || this.purchase_tax === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">购置税：</div>
-                                    <div class="load_value">{{this.purchase_tax}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">购置税：</div>
+                                    <div class="loan_value">{{this.purchase_tax}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.insurance_rebate || this.insurance_rebate === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">保险返点：</div>
-                                    <div class="load_value">{{this.insurance_rebate}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">保险返点：</div>
+                                    <div class="loan_value">{{this.insurance_rebate}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.insurance || this.insurance === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">保险费：</div>
-                                    <div class="load_value">{{this.insurance}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">保险费：</div>
+                                    <div class="loan_value">{{this.insurance}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.financed_charge_rebate || this.financed_charge_rebate === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">融资返点：</div>
-                                    <div class="load_value">{{this.financed_charge_rebate}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">融资返点：</div>
+                                    <div class="loan_value">{{this.financed_charge_rebate}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.pledge_charge || this.pledge_charge === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">抵押费：</div>
-                                    <div class="load_value">{{this.pledge_charge}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">抵押费：</div>
+                                    <div class="loan_value">{{this.pledge_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.unpack_charge || this.unpack_charge === 0) }}
-                                <div class="load_row">
-                                    <div class="load_name">解压费：</div>
-                                    <div class="load_value">{{this.unpack_charge}}&nbsp;元</div>
+                                <div class="loan_row">
+                                    <div class="loan_name">解压费：</div>
+                                    <div class="loan_value">{{this.unpack_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.total_charge || this.total_charge === 0) }}
@@ -367,23 +360,9 @@
                                 {{/if}}
                                 <div class="inline_block order_btn_box">
                                     <div class="pay_operate_btn text_right">
-                                        {{#if (url === markUri + '/api/loan/agree') }}
-                                        {{#if (verifyCode(1940)) }}
-                                        <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
-                                            <div class="agree_btn" lang="{{finance_id}}">同意</div>
-                                        </a>
-                                        {{/if}}
-                                        {{#if (verifyCode(1491)) }}
-                                        <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
-                                            <div class="no_agree_btn" lang="{{finance_id}}">不同意</div>
-                                        </a>
-                                        {{/if}}
-                                        {{#if (verifyCode(1494)) }}
-                                        <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
-                                            <div class="transfer_btn" lang="{{finance_id}}">转交他人</div>
-                                        </a>
-                                        {{/if}}
-                                        {{/if}}
+                                        <a href="javascript:" class="go_forward agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
+                                        <a href="javascript:" class="go_forward no_agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
+                                        <a href="javascript:" class="go_forward transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
                                     </div>
                                 </div>
                             </div>
@@ -410,37 +389,48 @@
     (function ($, window) {
 
         //全选/全不选
-        var selFlag = false;
         function selectedAll(){
-            $("#selectedAll").click(function(){
-                console.log($('.load_radio'));
-                if(selFlag){
-                    $('input[type="checkbox"]').prop('checked',false);
-                    $('.nor_wrap').removeClass('checked');
-                    selFlag = false;
+            var checkedAllLabel = $("#selectedAll label");      // 全选按钮
+            var orderList = $('.loan_order_list');      // 订单列表
+            var orderLabel = orderList.find('label.order_label');     // 每个请款单的复选按钮
+            checkedAllLabel.on('click', function () {
+                var _this = $(this);
+                if(_this.hasClass('checked')){
+                    orderList.find('input[type="checkbox"]').prop('checked',false).siblings('label').removeClass('checked');
+                    _this.removeClass('checked');
                 }else{
-                    $('input[type="checkbox"]').prop('checked',true);
-                    $('.nor_wrap').addClass('checked');
-                    selFlag = true;
-                }
-            });
-            $(".load_radio").click(function(){
-                console.log($('.load_radio'));
-                if(selFlag){
-                    $('input[type="checkbox"]').prop('checked',false);
-                    $('.nor_wrap').removeClass('checked');
-                    selFlag = false;
-                }else{
-                    $('input[type="checkbox"]').prop('checked',true);
-                    $('.nor_wrap').addClass('checked');
-                    selFlag = true;
+                    orderList.find('input[type="checkbox"]').prop('checked',true).siblings('label').addClass('checked');
+                    _this.addClass('checked');
                 }
             });
 
+            orderLabel.on('click', function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    _this.removeClass('checked').siblings('input[type="checkbox"]').prop('checked',false);
+                    checkedAllLabel.removeClass('checked').siblings('input[type="checkbox"]').prop('checked',false);
+                } else {
+                    _this.addClass('checked').siblings('input[type="checkbox"]').prop('checked',true);
+                    var verify = verifyIsCheckAll();
+                    if (verify) {
+                        checkedAllLabel.addClass('checked').siblings('input[type="checkbox"]').prop('checked',true);
+                    }
+                }
+            });
+
+            function verifyIsCheckAll () {
+                var verify = true;
+                orderLabel.each(function () {
+                    var _this = $(this);
+                    if (!_this.hasClass('checked')) {
+                        verify = false;
+                        return false;
+                    }
+                });
+                return verify;
+            }
 
         }
-
-        console.log();
         // 弹出层
         function POP () {
             $(".view").click(function(){
@@ -458,16 +448,15 @@
         function batch(){
             $(".batch_btn").click(function(){
                 $(".batch_btn").hide();
-                $(".pay_operate_btn").hide();
-                $(".load_radio").show();
                 $(".total_btn").show();
+                $(".loan_checkbox").show();
             })
         };
-        function cancel_btn(){
-            $(".cancel_btn").click(function(){
-                $("#selectedAll").hide();
-                $(".load_radio").hide();
-                $(".total_operate_btn").hide();
+        function cancelBatchAudit(){
+            $(".cancel_batch_btn").on('click', function(){
+                $(".total_btn").hide();
+                $(".loan_checkbox").hide();
+                $('.batch_btn').show();
             })
         }
         function  accountId(){
@@ -612,7 +601,7 @@
             batch();
             slideDownList();
             accountId();
-            cancel_btn();
+            cancelBatchAudit();
             InfoList();
         })
     })(jQuery, window, undefined)

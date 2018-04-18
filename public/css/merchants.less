@@ -991,6 +991,7 @@
     }
 }
 /*放款管理-打款结算*/
+.loan_order_container{
     .merchants_load {
         position: relative;
         padding:28px 0 20px 0;
@@ -1032,19 +1033,19 @@
         height: 44px;
         line-height: 44px;
         .account_name{
-          display:inline-block;
-          width:20%;
-          vertical-align: top;
-          color: #666;
+            display:inline-block;
+            width:20%;
+            vertical-align: top;
+            color: #666;
         }
         .account_value{
-          display: inline-block;
-          width: 78%;
-          //padding: 0 1%;
-          vertical-align: top;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
+            display: inline-block;
+            width: 78%;
+            //padding: 0 1%;
+            vertical-align: top;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     }
     .account_list_name{
@@ -1062,7 +1063,7 @@
             }
         }
     }
-    .loan_item{
+    .order_list{
         .loan_time{
             display:inline-block;
             padding:20px 0 8px 0;
@@ -1070,14 +1071,18 @@
         }
         .batch_btn{
             float:right;
-            padding:20px 0 8px 0;
+            //padding:20px 0 8px 0;
             color:#1DC6BC;
         }
     }
+    .loan_order_btn{
+        height: 50px;
+        line-height: 50px;
+    }
     .cancel_btn{
         float:right;
-        height: 40px;
-        line-height: 40px;
+        /*height: 40px;
+        line-height: 40px;*/
         color:#999;
     }
     .load_radio{
@@ -1086,25 +1091,26 @@
     .total_btn{
         display:none;
     }
-    .load_list{
+    .loan_list{
         padding:22px 0 10px 20px;
         border:1px solid rgba(0, 0, 0, 0.12);
         -webkit-border-radius:2px;
         -moz-border-radius: 2px;
         border-radius: 2px;
-        .load_row{
+        .loan_row{
             float: left;
             width:25%;
             height: 32px;
             line-height: 32px;
             color:#333;
-            .load_name{
-                display:inline-block;
+            .loan_name, .loan_value{
+                float: left;
+            }
+            .loan_name{
                 width:30%;
                 vertical-align: top;
             }
-            .load_value{
-                display: inline-block;
+            .loan_value{
                 width: 68%;
                 //padding: 0 1%;
                 vertical-align: top;
@@ -1196,7 +1202,8 @@
         top: 160px;
         left:0;
         width:970px;
-        height:272px;
+        min-height: 270px;
+        max-height: 270px;
         padding:24px;
         background: #fff;
         border:1px solid @border-color;
@@ -1236,6 +1243,9 @@
             width:96%;
             border-bottom:1px solid @border-color;
         }
+        .detail_menu_list:last-child{
+            border-bottom: none;
+        }
         .detail_menu_radio{
             float:left;
             width:4%;
@@ -1245,3 +1255,7 @@
     .adjust_width{
         width:150px !important;
     }
+    .order_btn_box{
+        float: right;
+    }
+}

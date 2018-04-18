@@ -293,7 +293,13 @@ exports.VIEW_LOAN_DETIALSINFO = function(req, res, next) {
         url : '/api/loan/wait/list',
         title : '商户-放款管理-放款管理详情',
         page : './merchants/detailsInfo',
-
+        callback : function (data) {
+            var list = data.list;
+            for (var i = 0; i < 5; i++) {
+                list.push(list[0]);
+            }
+            data.list = list;
+        }
     }, req, res, next);
 };
 

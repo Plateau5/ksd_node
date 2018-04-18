@@ -57,38 +57,34 @@
                         <td>2000</td>
                         <td>月结</td>
                         <td>1,2,34,567.00元</td>
-                    </tr>
-                    <tr>
-                        <td>北京奔驰安安</td>
-                        <td>北京</td>
-                        <td>新车</td>
-                        <td>1000</td>
-                        <td>月结</td>
-                        <td>1,2,34,567.00元</td>
-                    </tr>-->
-
+                    </tr> -->
                     {{#if (count > 0) }}
-                    {{#each (list) }}
-                    <tr data-id="{{this.supplier_id}}" data-timeorder_type="{{this.timeorder_type}}" data-receipt_type="{{this.receipt_type}}" data-orderby_type="{{this.orderby_type}}" data-current_page="{{this.current_page}}" data-supplier_name="{{this.supplier_name}}">
-                        <td>{{this.supplier_name}} </td>
-                        <td>{{this.city_name}}</td>
-                        {{#if (this.car_type  === 0) }}
-                        <td>新车</td>
-                        {{elseif (this.car_type  === 1) }}
-                        <td>二手车</td>
-                        {{else}}
-                        <td>新车&二手车</td>
-                        {{/if}}
-                        <td>{{this.loan_count}}</td>
-                        {{#if (this.settlement_type  === 1) }}
-                        <td>单结</td>
-                        {{else}}
-                        <td>月结</td>
-                        {{/if}}
-                        <td>{{this.total_charge}}</td>
-                        <td style="display:none">{{this.pay_account}}</td>
-                    </tr>
-                    {{/each}}
+                        {{#each (list) }}
+                            <tr data-id="{{this.supplier_id}}" data-timeorder_type="{{vo.timeorder_type}}" data-receipt_type="{{vo.receipt_type}}" data-orderby_type="{{vo.orderby_type}}" data-current_page="{{vo.current_page}}" data-supplier_name="{{this.supplier_name}}">
+                                <td>{{this.supplier_name}} </td>
+                                <td>{{this.city_name}}</td>
+                                <td>
+                                    {{#if (this.car_type  === 0) }}
+                                    新车
+                                    {{elseif (this.car_type  === 1) }}
+                                    二手车
+                                    {{else}}
+                                    新车&二手车
+                                    {{/if}}
+                                <td>
+                                    {{this.loan_count}}
+                                </td>
+                                <td>
+                                    {{#if (this.settlement_type  === 1) }}
+                                        单结
+                                    {{else}}
+                                        月结
+                                    {{/if}}
+                                </td>
+                                <td>{{this.total_charge}}</td>
+                                <!--<td style="display:none">{{this.pay_account}}</td>-->
+                            </tr>
+                        {{/each}}
                     {{/if}}
                     <!-- 没有数据部分 -->
                     {{#if (count === 0) }}
