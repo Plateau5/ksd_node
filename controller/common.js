@@ -390,6 +390,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 }else{
                     thoudsanData = Number(thoudsanData.toString().split(".")[0]) + 1;
                 }
+                console.log(thoudsanData);
             }
             return thoudsanData;
         }
