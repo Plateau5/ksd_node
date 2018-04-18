@@ -51,9 +51,9 @@ function goLoanDetail () {
             var mid = $.trim(_this.data('id'));
             var pay = $.trim(_this.data('pay_account'));
             var timeorder = $.trim(_this.data('timeorder_type'));
-            var receipt = $.trim(_this.data('receiptorder_type'));
+            var receipt = $.trim(_this.data('receipt_type'));
             var order = $.trim(_this.data('orderby_type'));
-            var currentPage = $.trim(_this.data('currentPage'));
+            var currentPage = $.trim(_this.data('current_page'));
             var diySupplier_name = $.trim(_this.data('supplier_name'));
             locationTo({
                 action : contextPath + markUri + '/loan/detailsInfo',
@@ -61,9 +61,9 @@ function goLoanDetail () {
                     supplier_id : mid,
                     pay_account: pay,
                     timeorder_type: timeorder,
-                    receiptorder_type: receipt,
+                    receipt_type: receipt,
                     orderby_type: order,
-                    currentPage: currentPage,
+                    current_page: currentPage,
                     diySupplier_name : diySupplier_name,
                     url : LOCALURL
                 }

@@ -116,6 +116,12 @@
                                     <a href="javascript:" class="delete_sm_btn">删除</a>
                                 {{/if}}
                         </div>
+                    {{else}}
+                        <div class="btn_box text_left setting_merchant">
+                            {{#if (verifyCode(1480)) }}
+                            <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                            {{/if}}
+                        </div>
                     {{/if}}
                 </div>
                 <div class="merchant_desc">
@@ -373,7 +379,8 @@
                                             {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
                                                 <div class="classify_title">账户信息</div>
                                             {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
-                                                <div class="classify_title update">账户信息</div>
+                                                <!--<div class="classify_title update">账户信息</div>-->
+                                                <div class="classify_title">账户信息</div>
                                             {{else}}
                                                 <div class="classify_title">账户信息</div>
                                             {{/if}}
@@ -383,7 +390,8 @@
                                             {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
                                                 <div class="classify_title">账户信息{{xindex + 1}}</div>
                                             {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
-                                                <div class="classify_title update">账户信息{{xindex + 1}}</div>
+                                                <!--<div class="classify_title update">账户信息{{xindex + 1}}</div>-->
+                                                <div class="classify_title">账户信息</div>
                                             {{else}}
                                                 <div class="classify_title">账户信息{{xindex + 1}}</div>
                                             {{/if}}
@@ -403,7 +411,7 @@
                                                 <li class="item_row">
                                                     <div class="item_name">账户用途：</div>
                                                     <div class="item_value">
-                                                        {{#if (!this.account_use || this.account_use === '' || this.account_use <= 0) }}
+                                                        {{#if (!this.account_use_value || this.account_use_value === '' || this.account_use_value <= 0) }}
                                                             --
                                                         {{else}}
                                                             {{this.account_use_value}}
@@ -549,7 +557,7 @@
                                             </li>
                                         </ul>
                                         <!-- 无工商数据信息展示 -->
-                                    </div>-->
+                                    </div>
                             </div>
                         </div>
                     </div>

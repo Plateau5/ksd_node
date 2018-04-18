@@ -30,7 +30,7 @@
                         {{else}}
                             {{#each(list)}}
                             <!-- todo 修改返回数据中的: nextPath -->
-                                <li class="list_item" lang="{{this.msg_id}}" status="{{this.status}}" organization_id="{{this.organization_id }}" gps_apply_id="{{this.gps_apply_id}}"  financeId="{{this.finance_id}}" nextPath="{{this.next_step}}">
+                                <li class="list_item" lang="{{this.msg_id}}" data-advance_id="{{advance_id}}" status="{{this.status}}" organization_id="{{this.organization_id }}" gps_apply_id="{{this.gps_apply_id}}"  financeId="{{this.finance_id}}" nextPath="{{this.next_step}}">
                                     <div class="item_detail">
                                         <div class="last_person">{{this.title}}</div>
                                         <div class="desc">{{this.description}}</div>
@@ -75,10 +75,12 @@
                     var t = $(this);
                     var financeId = $.trim(t.attr("finance_id"));
                     var path = $.trim(t.attr("nextPath"));
+                    var advanceId = $.trim(t.data('advance_id'));
                     locationTo({
                         action : contextPath + path,
                         param : {
-                            finance_id : financeId
+                            finance_id : financeId,
+                            advance_id : advanceId
                         }
                     });
                 });

@@ -44,10 +44,10 @@
                         <div class="header_txt">
                             <div class="header_txt_top">{{vo.name}}</div>
                             <div class="header_txt_bottom">
-                                {{#if (vo.applyto_business.indexOf("0")) }}
+                                {{#if (vo.applyto_business.indexOf("0") !== -1) }}
                                     <div class="header_txt_bottom1">新车</div>
                                 {{/if}}
-                                {{#if (vo.applyto_business.indexOf("1")) }}
+                                {{#if (vo.applyto_business.indexOf("1") !== -1) }}
                                     <div class="header_txt_bottom2">二手车</div>
                                 {{/if}}
                             </div>
@@ -99,7 +99,7 @@
                     <div class="product_detail_date" id="interest_rate_box">
                         <input type="hidden" id="interest_rate_str" value="{{vo.interest_rate }}">
                         <div class="date_title">
-                            <span>年利率</span>
+                            <span>费率</span>
                             {{#if (interest_rate_size > 1) }}
                                 <img src="{{markUri}}/static/img/product/icon_shape_up.png" alt="" class="shape_img">
                             {{/if}}
@@ -157,7 +157,7 @@
                                 <div class="detail_about_date">{{vo.applyto_cityname}}</div>
                             </div>
                         {{/if}}
-                        {{#if (term !== null) }}
+                        {{#if (term) }}
                             <div class="detail_about_txt">
                                 <div class="detail_about_label">分期范围：</div>
                                 <div class="detail_about_date">
@@ -167,7 +167,7 @@
                                 </div>
                             </div>
                         {{/if}}
-                        {{#if (vo.age_start !== null) }}
+                        {{#if (vo.age_start && vo.age_end) }}
                             <div class="detail_about_txt">
                                 <div class="detail_about_label">年龄限制范围：</div>
                                 <div class="detail_about_date">
@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                         {{/if}}
-                        {{#if (addition_finance !== null) }}
+                        {{#if (addition_finance) }}
                             <div class="detail_about_txt">
                                 <div class="detail_about_label">可融项目：</div>
                                 <div class="detail_about_date">
@@ -191,7 +191,7 @@
                                 </div>
                             </div>
                         {{/if}}
-                        {{#if (vo.material_list !== null) }}
+                        {{#if (vo.material_list) }}
                             <div class="detail_about_txt">
                                 <div class="detail_about_label">所需材料：</div>
                                 <div class="detail_about_date">

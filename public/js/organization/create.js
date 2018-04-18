@@ -82,7 +82,7 @@ $(function(){
     $('#delSBtn').click(function(){
         $('.mask').css('display','none');
         $('#delS').css('display','none');
-        window.location.href=contextPath+"/organization/getList";
+        window.location.href=contextPath+ markUri + "/supplier/organization/list";
     });
 
     applyto_business_change($('#applyto_business_name'));

@@ -317,9 +317,11 @@ function  pageJump (selector, opt) {
 		var target = $(this);
 		var financeId = $.trim(target.data("id"));
 		var workflowId = $.trim(target.data("flow_id"));
+		var advanceId = $.trim(target.data("advance_id"));
 		var url = $.trim(target.data("url"));
 		financeId && (options.finance_id = financeId);
 		workflowId && (options.id = workflowId);
+        advanceId && (options.advance_id = advanceId);
 		locationTo({
 			action : url,
 			param : options
@@ -335,36 +337,41 @@ function  pageJump (selector, opt) {
 function viewLargeImage (selector) {
     var selectorName = selector || '#viewerImageList';
     var galley = $(selectorName);
+
     galley.each(function (i, t) {
-        var viewer = new Viewer(t, {
-            url: 'data-original',
-            interval : 2000,
-            loop : true,
-            toolbar: {
-                zoomIn : true,
-                zoomOut : true,
-                oneToOne: true,
-                reset : true,
-                prev: function() {
-                    viewer.prev(true);
-                },
-                play: true,
-                next: function() {
-                    viewer.next(true);
-                },
-                rotateLeft : true,
-                rotateRight : true,
-                flipHorizontal : true,
-                flipVertical : true,
-                download: function() {
-                    const a = document.createElement('a');
-                    a.href = viewer.image.src;
-                    a.download = viewer.image.alt;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
+        // var imgItem = $(this).find('.img_item');
+        var imgItem = $(this).find('img');
+        if (imgItem.length > 0) {
+            var viewer = new Viewer(t, {
+                url: 'data-original',
+                interval : 2000,
+                loop : true,
+                toolbar: {
+                    zoomIn : true,
+                    zoomOut : true,
+                    oneToOne: true,
+                    reset : true,
+                    prev: function() {
+                        viewer.prev(true);
+                    },
+                    play: true,
+                    next: function() {
+                        viewer.next(true);
+                    },
+                    rotateLeft : true,
+                    rotateRight : true,
+                    flipHorizontal : true,
+                    flipVertical : true,
+                    download: function() {
+                        const a = document.createElement('a');
+                        a.href = viewer.image.src;
+                        a.download = viewer.image.alt;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 }

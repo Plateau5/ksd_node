@@ -46,8 +46,11 @@ function initDisabledOrReset (policy) {
  * @return {}
  */
 function bindPolicySubmit () {
-    var btn = $('.edit_confirm');
-    btn.off('click').on('click', function () {
+    var body = $('body');
+    body.on('click', '.edit_confirm', function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         // 获取编辑状态：新建：0  编辑：1
         var editType = _this.parents('.form_options').data('edit_type');
@@ -56,15 +59,16 @@ function bindPolicySubmit () {
         if (editType === 0) {
             verify = validatePolicyEmpty(parentForm);
             if (verify) {
-                submitEvent(parentForm, btn);
+                submitEvent(parentForm, _this);
             }
         } else if (editType === 1) {
             // 获取编辑按钮的状态：0-编辑（锁定）  1-提交（更改后）
             var editStatus = _this.data('status');
             if (editStatus === 0) {
                 var editing = $('.edit_confirm.editing').not('.new');
-                if (editing.length > 0) {
-                    $alert('有其他政策正在编辑状态');
+                var newPolicy = $('.policies_temp');
+                if (editing.length > 0 || (newPolicy.length > 0 && !newPolicy.is(':hidden'))) {
+                    $alert('当前有政策正在编辑中，请先保存后再编辑！');
                 } else {
                     _this.text('保存').addClass('editing').siblings('.edit_policies_cancel').show();
                     parentForm.find('.disabled_mask').hide();
@@ -93,8 +97,11 @@ function bindPolicySubmit () {
  * @author Arley 2018年4月5日18:06:34
  */
 function cancelEdit () {
-    var btn = $('.edit_policies_cancel');
-    btn.off('click').on('click', function () {
+    var body = $('body');
+    body.on('click', '.edit_policies_cancel', function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         var form = _this.parents('.policy_form');
         window.location.reload();
@@ -157,14 +164,14 @@ function submitEvent (form, btn) {
  */
 function validatePolicyEmpty (form) {
     // 融资期限模块
-    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"]:checked');
+    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"][checked="checked"]');
     if (checkedPeirods.length <= 0) {
         $alert('请选择融资期限');
         return false;
     }
 
     // 费率模块
-    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"]:checked');
+    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"][checked="checked"]');
     if (checkedRates.length <= 0) {
         $alert('请选择费率');
         return false;
@@ -200,6 +207,14 @@ function validatePolicyEmpty (form) {
             if (proportion > 100) {
                 $alert('比例不能超过100%。');
                 return false;
+            } else {
+                // formatPointTwoNum($('.proportion_input'));
+                if (proportion.toString().indexOf(".") != -1) {
+                    if (proportion.toString().split(".")[1].length > 2) {
+                        $alert('请输入返佣比例保留两位小数。');
+                        return false;
+                    }
+                }
             }
         } else {
             $alert('请先填写比例，比例不能为空。');
@@ -223,26 +238,49 @@ function validatePolicyEmpty (form) {
     if (returnAmountE.length > 0) {
         var returnAmount = returnAmountE.val().number();
         if (returnAmount > excessAmount || returnAmount > 9999999.99) {
-            $alert('返还金额不能大于超出金额且不能大于超出金额。');
+            $alert('返还金额不能大于超出金额。');
             return false;
         }
     }
 
+    // 验证比例是否是两位小数，没有时加两位小数
+    var proportion_inputE = form.find('.proportion_input').not('[disabled="disabled"]');
+    if (proportion_inputE.length > 0) {
+        var proportion_input = proportion_inputE.val();
+        if (proportion_input.indexOf(".") != -1) {
+            if(proportion_input.split(".")[1].length > 2){
+                $alert('请把比例控制小数点后两位。');
+                return false;
+            }else if(proportion_input.split(".")[1].length == 1){
+                proportion_inputE.val(proportion_input + "0");
+            }
+        }else{
+            proportion_inputE.val(proportion_input + ".00");
+        }
+    }
 
 
     // 业务城市校验
     var _thisBtn = form.find('.add_city_btn');
-    var citys = getCheckedCitys(_thisBtn).cityIds;
-    // var citys = form.find('.city_ids').val();
-    if (citys.length <= 0) {
-        $alert('请选择至少一个城市');
-        return false;
+    if (_thisBtn.length > 0) {
+        var citys = getCheckedCitys(_thisBtn).cityIds;
+        // var citys = form.find('.city_ids').val();
+        if (citys.length <= 0) {
+            $alert('请选择至少一个城市');
+            return false;
+        }
     }
 
     // 生效日期
     var effectiveDate = form.find('.effective_date').val();
     if (effectiveDate == '') {
         $alert('请选择生效时间');
+        return false;
+    }
+    var old_effective_time = new Date($('#old_effective_time').val()).getTime();//原始日期
+    effectiveDate = new Date(effectiveDate).getTime();//当前日期
+    if (effectiveDate < old_effective_time) {
+        $alert('时间无效');
         return false;
     }
     return true;
@@ -320,8 +358,8 @@ function checkPoliciesRepeat (form) {
                     if (editPolicyData.rebatePeriods.indexOf(oldPeriods[b]) !== -1) {
                         for (var c = 0, l3 = oldCitys.length; c < l3; c++) {
                             if (editPolicyData.citys.cityIds.indexOf(oldCitys[c]) !== -1) {
-                                // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
-                                var millionCoefficient = parseInt(((oldRates[a] * 1000 * (oldPeriods[b] / 12) + 10000) / oldPeriods[b]) * 1000) / 1000;
+                                // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+                                var millionCoefficient = parseInt((((oldRates[a] * 100 * (oldPeriods[b] / 12)) + 10000) / oldPeriods[b]) * 1000) / 1000;
                                 if (millionCoefficient.toString().indexOf('.') !== -1) {
                                     if (millionCoefficient.toString().split('.')[1].number() > 445) {
                                         millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
@@ -363,17 +401,35 @@ function createNewPolicy () {
  * @param btn {Object} : 当前的删除按钮（jQuery对象）
  */
 function deletePolicy () {
-    var btn = $('.edit_delete');
-    btn.off('click').on('click', function () {
+    var body = $('body');
+    body.on('click', '.edit_delete', function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         var btnBox = _this.parents('.btn_box');
         // 按钮的状态类型  新建：0 编辑状态：1
         var btnType = btnBox.data('btn_type');      // 按钮的状态类型
         var policyE = _this.parents('.form_options');
         if (btnType === 0) {
-            policyE.remove();
+            // policyE.remove();
+            window.location.reload();
         } else if (btnType === 1) {
-            deleteOldPolicies(_this);    // 调用接口删除政策
+            dialog('open',{
+                closeBtn : false,
+                title : '提醒',
+                content : '您确认要删除该政策？',
+                "button" : ["确认","取消"],
+                "maskClose" : false,
+                onConfirm : function (d) {
+                    d.close();
+                    deleteOldPolicies(_this,d);    // 调用接口删除政策
+                },
+                onCancel : function (d) {
+                    d.close();
+                }
+            });
+
         }
     });
 
@@ -386,7 +442,7 @@ function deletePolicy () {
  * @author Arley 2018年4月5日17:29:51
  * @param btn {Object} : 当前的删除按钮（jQuery对象）
  */
-function deleteOldPolicies (btn) {
+function deleteOldPolicies (btn,d) {
     btn.off('click');
     var policyE = btn.parents('.form_options');
     var policyId = policyE.data('id');      // 政策id
@@ -401,6 +457,7 @@ function deleteOldPolicies (btn) {
             effective_time : effectiveTime
         },
         success : function (res) {
+            d.close;
             if (res.error_code == 0) {
                 $alert('政策删除成功。', function () {
                     window.location.reload();
@@ -430,7 +487,7 @@ function backToPoliciesList () {
                 organization_id : orgId,
                 car_type : carType,
                 orgName : orgName,
-                applyto_business : carType
+                applyto_business : applytoBusiness
             }
         });
     });
