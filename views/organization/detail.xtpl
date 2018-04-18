@@ -42,9 +42,7 @@
             </form>
             <div class="product_detail_box">
                 <div class="rf_30">
-                    {{#if (verifyCode(1070)) }}
-                    <a href="javascript:" id="editOrg" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}" data-type="1">编辑</a>
-                    {{/if}}
+                    <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}" data-type="2">编辑</a>
                 </div>
                 {{#if (vo.type === 1) }}
                 <div class="detail_about" style="display:block">
@@ -109,14 +107,19 @@
                     </div>
                     {{/if}}
                 </div>
-                {{#if (vo.type === 2) }}
+                {{#if (vo.type === 2 || vo.type === 3 || vo.type === 4 ) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
                 {{/if}}
                     <div class="detail_about_txt">
+                        {{#if (vo.applyto_business.indexOf('0') !== -1) }}
                         <div class="detail_about_label supplier_cartype">新车</div>
+                        {{else}}
+                        <div class="detail_about_label supplier_cartype">二手车</div>
+                        {{/if}}
                     </div>
+                    {{#if (vo.type === 2) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">身份类：</div>
                         <div class="detail_about_date">xxx</div>
@@ -129,17 +132,83 @@
                         <div class="detail_about_label">房产类：</div>
                         <div class="detail_about_date">xxxx</div>
                     </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">车辆类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">公户类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">收入类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.type === 3) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">发票类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">保单类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">合同类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">见证类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">GPS类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">极致附加类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">产证类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.type === 4) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">申请类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">合同类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">票据类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">身份类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">产证类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">公户类：</div>
+                        <div class="detail_about_date">xxxx</div>
+                    </div>
+                    {{/if}}
                 </div>
             </div>
         </div>
-    </div>
-            </div></div>
     </div>
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
-
 <script>
     (function ($) {
         // tab标签的切换
@@ -154,14 +223,14 @@
                     _this.siblings('.type_normal').removeClass('active');
                 }
                 $('#flow_type').val(_this.attr('data-type'));
-                $('#editOrg').attr('data-type',_this.attr('data-type'));
+                $('#editOrg_jump').attr('data-type',_this.attr('data-type'));
                 $('form[role="form"]').submit();
             });
         }
 
         //编辑机构
         function editOrg () {
-            var btn = $("#editOrg");
+            var btn = $("#editOrg_jump");
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var orgId = $.trim(t.attr("lang"));
