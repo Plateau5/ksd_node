@@ -233,17 +233,17 @@
                             <div class="total_operate_btn text_right">
                                 {{#if (url === markUri + '/api/loan/batch/agree') }}
                                 {{#if (verifyCode(1940)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}//load/batch/agree">
                                     <div class="agree_btn" lang="{{finance_id}}">同意</div>
                                 </a>
                                 {{/if}}
                                 {{#if (verifyCode(1491)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/load/disagree">
                                     <div class="no_agree_btn" lang="{{finance_id}}">不同意</div>
                                 </a>
                                 {{/if}}
                                 {{#if (verifyCode(1494)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}">
                                     <div class="transfer_btn" lang="{{finance_id}}">转交他人</div>
                                 </a>
                                 {{/if}}
@@ -262,6 +262,7 @@
                     <li>
                         <div class="loan_time">{{this.create_time}}</div>
                         <div class="load_list clearfix">
+                            <div class="load_row"><input type="checkbox" data-id="{{finance_id}}"></div>
                             <div class="load_row">
                                 <div class="load_name">客户：</div><div class="load_value">{{this.pay_name}}</div>
                             </div>
@@ -364,22 +365,22 @@
                             </div>
                             {{/if}}
                             <div class="pay_operate_btn text_right">
-                                <a href="javascript:" id="argee_sub" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" id="argee_sub" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/load/batch/agree">
                                     <div class="agree_btn" lang="{{finance_id}}">同意</div>
                                 </a>
                                 {{#if (url === markUri + '/api/loan/agree') }}
                                 {{#if (verifyCode(1940)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/load/agree">
                                     <div class="agree_btn" lang="{{finance_id}}">同意</div>
                                 </a>
                                 {{/if}}
                                 {{#if (verifyCode(1491)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/load/disagree">
                                     <div class="no_agree_btn" lang="{{finance_id}}">不同意</div>
                                 </a>
                                 {{/if}}
                                 {{#if (verifyCode(1494)) }}
-                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" class="go_forward" data-id="{{finance_id}}">
                                     <div class="transfer_btn" lang="{{finance_id}}">转交他人</div>
                                 </a>
                                 {{/if}}
@@ -407,7 +408,7 @@
     (function ($, window) {
 
         //全选/全不选
-        var selFlag = false;
+       /* var selFlag = false;
         function selectedAll(){
             $("#selectedAll").click(function(){
                 console.log($('.load_radio'));
@@ -435,9 +436,27 @@
             });
 
 
-        }
+        }*/
+        function selectedAll(){
+            $("#selectedAll").click(function(){
+                console.log($('.load_radio'));
+                if(selFlag){
+                    $('.go_forward_all').prop('id', '');
+                    $('input[type="checkbox"]').prop('checked',false);
+                    $('.nor_wrap').removeClass('checked');
+                    selFlag = false;
+                }else{
+                    var json = {};
+                    $('.load_row input').each(function(){
+                        json['ab'] = $(this).data('id');
+                    })
+                    $('.total_operate_btn .go_forward').prop('id', JSON.stringify(json));
+                    $('input[type="checkbox"]').prop('checked',true);
+                    $('.nor_wrap').addClass('checked');
+                    selFlag = true;
+                }
+            });
 
-        console.log();
         // 弹出层
         function POP () {
             $(".view").click(function(){
@@ -595,18 +614,7 @@
                 }
             });
         }
-        function agree(ele) {
-            ele.click(function() {
-                var id = $(this).data('id');
-                var url = $(this).data('url');
-                locationTO({
-                    params: {
-                        action: url,
-                        id: id
-                    }
-                })
-            })
-        }
+
 
 
         $(function () {

@@ -34,8 +34,8 @@
         <div class=" listCon relative">
             <div class="listConHeader inviteCon" style="line-height: normal;margin-top:32px;">
                 <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/loan/system">款项管理</a></li>
-                    <li class="inline before"><a href="{{markUri}}/loan/pendingAudit">待审批</a></li>
+                    <li class="inline colorB"><a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a></li>
+                    <li class="inline before"><a href="{{markUri}}/loan/pending" class="crumbs_item">待审批</a></li>
                     <li class="inline before"><a href="javascript:" id="goDetail" data-url="{{markUri}}/loan/wait/list " data-id="{{finance_id}}">{{list.user_name}}</a></li>
                     <li class="inline before"><a href="javascript:;" style="cursor:default">同意</a></li>
                 </ul>
@@ -61,7 +61,7 @@
                 <div class="form-item" style="margin-top:0;margin-left:0;">
                     <div class="file_box" style="margin-left:0;"></div>
                 </div>
-                {{#if (verifyCode(1118)) }}
+                {{#if (verifyCode(1493)) }}
                 <div class="form-item">
                     <div class="create_btn"   style="margin-left: 0">
                         <input type="button" class="create_sub" id="argee_sub" value="确认" data-url="{{markUri}}/customer/financial/print?print_type=current&orderNo={{orderNo}}"/>
