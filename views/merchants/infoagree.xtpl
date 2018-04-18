@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>放款-同意</title>
+    <title>客户-同意</title>
     {{include ("./../inc/metaData")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
@@ -14,11 +14,6 @@
 <style>
     .file_item{
         margin-left: 0;
-    }
-    .note{
-        margin-right:20px;
-        text-align: left;
-        width:80px;
     }
 </style>
 
@@ -35,13 +30,14 @@
 
         <!--navLeft end-->
 
+
         <!--listCon start-->
         <div class=" listCon relative">
             <div class="listConHeader inviteCon" style="line-height: normal;margin-top:32px;">
                 <ul>
-                    <li class="inline colorB"><a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a></li>
-                    <li class="inline before"><a href="{{markUri}}/loan/pending" class="crumbs_item">待审批</a></li>
-                    <li class="inline before"><a href="javascript:" id="goDetail" data-url="{{markUri}}/loan/wait/list" data-id="{{finance_id}}">{{list.user_name}}</a></li>
+                    <li class="inline colorB"><a class="TS" href="{{markUri}}/customer/financial/system">款项管理</a></li>
+                    <li class="inline before"><a href="{{markUri}}/customer/financial/pendingAudit">待审批</a></li>
+                    <li class="inline before"><a href="javascript:" id="goDetail" data-url="{{markUri}}/customer/financial/detail" data-id="{{finance_id}}">{{vo.user_name}}</a></li>
                     <li class="inline before"><a href="javascript:;" style="cursor:default">同意</a></li>
                 </ul>
             </div>
@@ -51,11 +47,12 @@
                 <input type="hidden" name="request_status" value="{{vo.request_status}}">
                 <input type="hidden" name="orderNo" value="{{orderNo}}">
                 <input type="hidden" name="advance_id" value="{{vo.advance_id}}">
-                <div class="form-item" style="padding-top:20px;">
-                    <label class="note">备注：</label>
-                    <textarea name="remark" id="remark" style="border:1px solid #e4e4e4;resize: none;margin-left:0;" placeholder="请输入具体原因，最多200字" maxlength="200"></textarea>
+                <div class="form-item" style="height:100px;">
+                    <div>
+                        <textarea id="content" name="remark" placeholder="请输入原因,最多可输入500个字" maxlength="500" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}"></textarea>
+                    </div>
                 </div>
-                <div class="form-item" style="margin-left:100px;height:20px;">
+                <div class="form-item" style="height:20px;">
                     <div class="img_item updata_img"  style="margin-top:0;margin-left:0;">
                         <div class="file_btn">上传图片</div>
                         <input type="file" id="file_select1" class="cursor file_input" name="file" onchange="select_allow(this);"/>
@@ -63,13 +60,13 @@
                     </div>
                 </div>
                 <div class="form-item" style="margin-top:0;margin-left:0;">
-                    <div class="file_box" style="margin-left:100px;"></div>
+                    <div class="file_box" style="margin-left:0;"></div>
                 </div>
-                {{#if (verifyCode(1493)) }}
-                <div class="form-item" style="margin-left:100px;">
+                {{#if (verifyCode(1118)) }}
+                <div class="form-item">
                     <div class="create_btn"   style="margin-left: 0">
-                        <input type="button" class="create_sub" id="argee_sub" value="确认" data-url="{{markUri}}/loan/print?print_type=current&orderNo={{orderNo}}"/>
-                        <a href="javascript:window.history.back();" class="" data-url="{{markUri}}/loan/wait/list" data-id="{{finance_id}}">
+                        <input type="button" class="create_sub" id="argee_sub" value="确认" data-advance_id="{{vo.advance_id}}" data-url="{{markUri}}/customer/financial/print?print_type=current&orderNo={{orderNo}}"/>
+                        <a href="javascript:window.history.back();" class="" data-url="{{markUri}}/customer/financial/detail" data-id="{{finance_id}}">
                             <input type="button" class="cancel_btn" value="取消">
                         </a>
                     </div>
@@ -90,14 +87,13 @@
 </body>
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/requestpayout/agree.js"></script>
-<script src="{{markUri}}/static/js/requestpayout/infoAgree.js"></script>
 <script>
     $('.form-item').eq(0).css('marginTop','32px');
     isFinancial = true;//判断是否为财务
 
     $(function () {
         pageJump("#goDetail, .go_detail",{
-            url : contextPath + markUri + "/loan/waitList",
+            url : contextPath + markUri + "/customer/financial/pendingAudit",
             active : "wait"
         });
     });

@@ -304,53 +304,55 @@ exports.VIEW_LOAN_DETIALSINFO = function(req, res, next) {
 };
 
 // 商户-放款管理-待审核-同意页面跳转 1490
-exports.VIEW_LOAN_AGREE = function(req, res, next) {
+exports.VIEW_LOAN_BATCH_AGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/agree',
+        url : '/api/financial/toAgree',
         title : '放款管理-审核通过',
         page : './merchants/infoagree'
     }, req, res, next);
 };
 
 // 商户-放款管理-待审核-同意页面跳转(批量) 1493
-exports.VIEW_LOAN_BATCH_AGREE = function(req, res, next) {
+exports.VIEW_LOAN_AGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/batch/agree',
+        url : '/api/financial/toAgree',
         title : '放款管理-审核通过',
         page : './merchants/infoagree'
     }, req, res, next);
 };
 
 // 商户-商户管理-待审核-不同意页面跳转 1491
-exports.VIEW_LOAN_DISAGREE = function(req, res, next) {
+exports.VIEW_LOAN_BATCH_DISAGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/disagree',
+        url : '/api/financial/toDisagree',
         title : '放款管理-审核不通过',
         page : './merchants/infodisagree'
     }, req, res, next);
 };
 
 // 商户-放款管理-待审核-不同意页面跳转(批量) 1494
-exports.VIEW_LOAN_BATCH_DISAGREE = function(req, res, next) {
+exports.VIEW_LOAN_DISAGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/batch/disagree',
+        url : '/api/financial/toDisagree',
         title : '放款管理-审核不通过',
         page : './merchants/infodisagree'
     }, req, res, next);
 };
 
 // 商户-放款管理-待审核-转交他人页面 1492
-exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
+exports.VIEW_LOAN_BATCH_TURNOVER = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/turnover',
+        url : '/api/financial/transfer',
         title : '放款管理-转交他人',
+        page : './merchants/loanTransfer'
     }, req, res, next);
 };
 
 // 商户-放款管理-待审核-转交他人页面(批量) 1495
 exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/turnover',
+        url : '/api/financial/transfer',
         title : '放款管理-转交他人',
+        page : './merchants/loanTransfer'
     }, req, res, next);
 };

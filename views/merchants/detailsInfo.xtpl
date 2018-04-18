@@ -230,13 +230,13 @@
                                 <label class="nor_wrap">全选</label>
                             </div>
                             <div class="total_operate_btn text_right">
-                                <a href="javascript:" class="go_forward agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" class="go_forward agree_btn agree_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     同意
                                 </a>
-                                <a href="javascript:" class="go_forward no_agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
+                                <a href="javascript:" class="go_forward disagree_btn disagree_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
                                     不同意
                                 </a>
-                                <a href="javascript:" class="go_forward transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" class="go_forward transfer_btn transfer_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     转交他人
                                 </a>
                                 <a href="javascript:" class="cancel_btn cancel_batch_btn">取消</a>
@@ -363,7 +363,7 @@
                                 {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
                                     <a href="javascript:" class="go_forward agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
-                                    <a href="javascript:" class="go_forward no_agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
+                                    <a href="javascript:" class="go_forward disagree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
                                     <a href="javascript:" class="go_forward transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
                                 </div>
                             </div>
@@ -593,6 +593,24 @@
                             }
                         }
                     });
+                }
+            });
+        }
+
+        // 跳转同意页面
+        function toAgree () {
+            var btn = $('.agree_all');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                if (_this.hasClass('agree_all')) {
+                    var ids = getBatchOrderIds();
+                    locationTo({
+                        action : contextPath + markUri + '',
+                        param : {
+                            ids : ids,
+
+                        }
+                    })
                 }
             });
         }

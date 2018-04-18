@@ -228,17 +228,22 @@ router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
 // 商户-放款管理-商户打款结算详情 1489
 router.post(markUri + '/loan/detailsInfo', merchantsCtrl.VIEW_LOAN_DETIALSINFO);
 // 商户-放款管理-待审核-同意页面 1490
-router.post(markUri + '/loan/agree', merchantsCtrl.VIEW_LOAN_AGREE);
-// 商户-放款管理-待审核-同意页面(批量) 1493
 router.post(markUri + '/loan/batch/agree', merchantsCtrl.VIEW_LOAN_BATCH_AGREE);
+// 商户-放款管理-待审核-同意页面(批量) 1493
+router.post(markUri + '/loan/agree', merchantsCtrl.VIEW_LOAN_AGREE);
 // 商户-放款管理-待请款-不同意页面 1491
-router.post(markUri + '/loan/disagree', merchantsCtrl.VIEW_LOAN_DISAGREE);
-// 商户-放款管理-待请款-不同意页面(批量) 1494
 router.post(markUri + '/loan/batch/disagree', merchantsCtrl.VIEW_LOAN_BATCH_DISAGREE);
+// 商户-放款管理-待请款-不同意页面(批量) 1494
+router.post(markUri + '/loan/disagree', merchantsCtrl.VIEW_LOAN_DISAGREE);
 // 商户-放款管理-待审核-转交他人页面 1492
-router.post(markUri + '/loan/turnover', merchantsCtrl.VIEW_LOAN_TURNOVER);
+router.post(markUri + '/loan/batch/turnover', merchantsCtrl.VIEW_LOAN_BATCH_TURNOVER);
 // 商户-放款管理-待审核-转交他人页面(批量) 1495
-router.post(markUri + '/loan/batch/turnover', merchantsCtrl.VIEW_LOAN_TURNOVER);
+router.post(markUri + '/loan/turnover', merchantsCtrl.VIEW_LOAN_TURNOVER);
+
+
+
+
+
 
 // 供应商部分-主导航跳转  1067
 router.get(markUri + '/supplier/system', supplierCtrl.VIEW_SUPPLIER_SYSTEM);
