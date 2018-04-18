@@ -62,7 +62,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDIT = function(req, res, next) {
     }, req, res, next);
 };
 
-// 供应商部分-金融机构-机构编辑进件页跳转  1070
+// 供应商部分-金融机构-机构进件资料编辑页跳转
 exports.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/toEdit',

@@ -235,7 +235,7 @@ router.post(markUri + '/supplier/organization/create', supplierCtrl.VIEW_SUPPLIE
 // 供应商部分-金融机构-机构编辑页跳转  1070
 router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDIT);
 
-// 供应商部分-金融机构-机构编辑页跳转  1070
+// 供应商部分-金融机构-机构进件资料编辑页跳转
 router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES);
 
 

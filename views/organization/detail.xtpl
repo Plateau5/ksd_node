@@ -30,29 +30,27 @@
             {{include ('./../inc/merchantInfos')}}
             <div class="tab">
                 <ul class="tab_list inline_block">
-                    <li class="tab_item type_normal {{#if (type === 2) }}active{{/if}}">基本信息</li>
-                    <li class="tab_item type_others active">进件资料</li>
-                    <li class="tab_item type_others {{#if (type === 3) }}active{{/if}}">请款资料</li>
-                    <li class="tab_item type_others {{#if (type === 4) }}active{{/if}}">归档资料</li>
+                    <li class="tab_item type_normal {{#if (vo.type === 1) }}active{{/if}}" data-type="1">基本信息</li>
+                    <li class="tab_item type_others {{#if (vo.type === 2) }}active{{/if}}" data-type="2">进件资料</li>
+                    <li class="tab_item type_others {{#if (vo.type === 3) }}active{{/if}}" data-type="3">请款资料</li>
+                    <li class="tab_item type_others {{#if (vo.type === 4) }}active{{/if}}" data-type="4">归档资料</li>
                 </ul>
             </div>
-            <form action="" method="POST" id="form_search" role="form">
-                <input type="hidden" name="type" value="{{type}}" id="flow_type">
+            <form action="{{markUri}}/supplier/organization/detail" method="POST" id="form_search" role="form">
+                <input type="hidden" name="id" value="{{vo.id}}">
+                <input type="hidden" name="type" value="{{vo.type}}" id="flow_type">
             </form>
             <div class="product_detail_box">
                 <div class="rf_30">
                     {{#if (verifyCode(1070)) }}
-                    <a href="javascript:" id="editOrg" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
+                    <a href="javascript:" id="editOrg" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}" data-type="1">编辑</a>
                     {{/if}}
                 </div>
-                {{#if (type === 1) }}
+                {{#if (vo.type === 1) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
                 {{/if}}
-                <!--<div class="detail_about">-->
-
-
                     {{#if (vo.type !== null) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">机构类别：</div>
@@ -111,12 +109,11 @@
                     </div>
                     {{/if}}
                 </div>
-                {{#if (type === 2) }}
+                {{#if (vo.type === 2) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
-                <div class="detail_about" style="display:block">
+                <div class="detail_about" style="display:none">
                 {{/if}}
-                    <div class="detail_about" style="display:block">
                     <div class="detail_about_txt">
                         <div class="detail_about_label supplier_cartype">新车</div>
                     </div>
@@ -136,6 +133,8 @@
             </div>
         </div>
     </div>
+            </div></div>
+    </div>
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
@@ -148,19 +147,14 @@
             var btn = $('.tab_item');
             btn.on('click', function () {
                 var _this = $(this);
+                _this.addClass('active');
                 if (_this.hasClass('type_normal')) {
-                    _this.addClass('active');
                     _this.siblings('.type_others').removeClass('active');
-                    $('#flow_type').val('1');
-                    /*$('table.type_normal').css('display', 'table');
-                    $('table.type_others').css('display', 'none');*/
                 } else {
-                    _this.addClass('active');
                     _this.siblings('.type_normal').removeClass('active');
-                    $('#flow_type').val('2');
-                    /*$('table.type_others').css('display', 'none');
-                    $('table.type_normal').css('display', 'table');*/
                 }
+                $('#flow_type').val(_this.attr('data-type'));
+                $('#editOrg').attr('data-type',_this.attr('data-type'));
                 $('form[role="form"]').submit();
             });
         }
@@ -171,8 +165,13 @@
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var orgId = $.trim(t.attr("lang"));
+                if (t.attr('data-type') == 1) {
+                    var url = "/supplier/organization/edit";//基本信息
+                } else {
+                    var url = "/supplier/organization/intoPieces";//进件、请款、归档
+                }
                 locationTo({
-                    action : contextPath + markUri + "/supplier/organization/intoPieces",//edit
+                    action : contextPath + markUri + url,
                     param : {
                         id : orgId
                     }
