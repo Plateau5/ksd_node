@@ -361,12 +361,10 @@
                                     <div class="amount">{{this.total_charge}}&nbsp;元</div><div class="capital_amount">（{{this.cn_totalCharge}})</div>
                                 </div>
                                 {{/if}}
-                                <div class="inline_block order_btn_box">
-                                    <div class="pay_operate_btn text_right">
-                                        <a href="javascript:" class="go_forward agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
-                                        <a href="javascript:" class="go_forward no_agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
-                                        <a href="javascript:" class="go_forward transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
-                                    </div>
+                                <div class="order_btn_box pay_operate_btn text_right">
+                                    <a href="javascript:" class="go_forward agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
+                                    <a href="javascript:" class="go_forward no_agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
+                                    <a href="javascript:" class="go_forward transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
                                 </div>
                             </div>
                         </li>
@@ -453,6 +451,7 @@
                 $(".batch_btn").hide();
                 $(".total_btn").show();
                 $(".loan_checkbox").show();
+                $('.order_btn_box').hide();
             })
         };
         function cancelBatchAudit(){
@@ -460,6 +459,7 @@
                 $(".total_btn").hide();
                 $(".loan_checkbox").hide();
                 $('.batch_btn').show();
+                $('.order_btn_box').show();
             })
         }
         function  accountId(){
