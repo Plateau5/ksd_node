@@ -312,19 +312,8 @@ exports.VIEW_LOAN_AGREE = function(req, res, next) {
     }, req, res, next);
 };
 
-
-//商户-放款管理-待审核-同意页面(批量) 1493
-exports.VIEW_LOAN_BATCH_AGREE= function(req, res, next) {
-    common.getPageData({
-        url : '/api/loan/batch/agree',
-        title : '商户-放款管理-同意',
-        page : './merchants/infoagree',
-
-    }, req, res, next);
-};
-
 // 商户-放款管理-待审核-同意页面跳转(批量) 1493
-exports.VIEW_LOAN_AGREE = function(req, res, next) {
+exports.VIEW_LOAN_BATCH_AGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/batch/agree',
         title : '放款管理-审核通过',
@@ -361,7 +350,7 @@ exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
 // 商户-放款管理-待审核-转交他人页面(批量) 1495
 exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/batch/turnover',
+        url : '/api/loan/turnover',
         title : '放款管理-转交他人',
     }, req, res, next);
 };

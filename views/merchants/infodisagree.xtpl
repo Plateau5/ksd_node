@@ -35,7 +35,7 @@
                     <li class="inline colorB"><a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a></li>
                     <li class="inline before"><a href="{{markUri}}/loan/pending" class="crumbs_item">待审批</a></li>
                     <li class="inline before"><a href="javascript:window.history.back();">{{name}}</a></li>
-                    <li class="inline before"><a href="javascript:;" style="cursor:default">不通过</a></li>
+                    <li class="inline before"><a href="javascript:;" style="cursor:default">不同意</a></li>
                 </ul>
             </div>
             <!--inviteCon end-->
@@ -44,10 +44,42 @@
                 <input type="hidden" id="select_question_ids" name="question_ids" value="">
                 <input type="hidden" id="select_reason" name="reason" value="">
                 <input type="hidden" id="is_agree" name="is_agree" value="0">
+                <!--<div class="form-item" style="height:30px;">
+                    <label>
+                        <span class="need">*</span>问题分类：</label>
+                    <div>
+                        <select name="parent_id" id="question_classify_name">
+                            {{#each (list) }}
+                            <option value="{{this.id }}">{{this.value}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>-->
+                <!--<div class="form-item">
+                    <label>
+                        <span class="need">*</span>问题详情：</label>
+                    <div class="question_container">
+                        {{#if (child_list.length <= 0) }}
+                        <div class="question_container_prom">该分类暂无问题详情，请重新选择问题分类</div>
+                        {{else}}
+                        {{#each (child_list) }}
+                        <div class="question-con-box">
+                            <div class="check">
+                                <div class="check_img icon_uncheck" data_id="{{this.id }}"></div>
+                                <span>{{this.value}}</span>
+                            </div>
+                            &lt;!&ndash;<p class="question-con">${bean.content}</p>&ndash;&gt;
+                            <input type="hidden" class="question-val" value="{{this.content}}">
+                        </div>
+                        {{/each}}
+                        {{/if}}
+                    </div>
+                    &lt;!&ndash;<div class="error_prom"></div>&ndash;&gt;
+                </div>-->
                 <div class="error_prom" style="margin-left: 0;"></div>
                 <div class="form-item" style="padding-top:20px;">
                     <label style="text-align: right;padding-right:20px;">备注：</label>
-                    <textarea name="remark" id="remark" style="border:1px solid #e4e4e4;resize: none;margin-left:0;" placeholder="请输入内容(200字以内)" maxlength="200"></textarea>
+                    <textarea name="remark" id="remark" style="border:1px solid #e4e4e4;resize: none;margin-left:0;" placeholder="请输入具体原因，最多200字" maxlength="200"></textarea>
                 </div>
                 <div class="form-item" style="height:20px;padding-top:20px;">
                     <div class="img_item updata_img">
@@ -62,7 +94,7 @@
                 {{#if (verifyCode(1491)) }}
                 <div class="form-item" style="margin-left: 0;margin-top:40px;padding-left: 96px;">
                     <div class="create_btn" style="margin-left: 0;">
-                        <input type="button" class="create_sub" id="disagree_sub" value="确认" data-url="{{markUri}}/merchants/pendingAudit"  style="margin:0;"/>
+                        <input type="button" class="create_sub" id="disagree_sub" value="确认" data-url="{{markUri}}/loan/pending"  style="margin:0;"/>
                         <a href="javascript:window.history.back();">
                             <input type="button" class="cancel_btn" value="取消">
                         </a>
