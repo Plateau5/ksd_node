@@ -50,7 +50,7 @@
 
                 </div>
                 <div class="account_item clearfix">
-                    <div class="account_list_name merchant_name">账户{{xindex + 1}}<em class="drop_down"></em></div>
+                    <div class="account_list_name merchant_name">账户<!--{{xindex + 1}}--><em class="drop_down"></em></div>
                     <ul class="account_list" id="defaultAccount">
                         {{#each (accountList) }}
                             {{#if (vo.pay_account === this.pay_account) }}
@@ -73,8 +73,9 @@
                                         <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                     </div>
                                     <div class="account_row"><div class="account_name">总金额：</div>
-                                        <div class="account_value merchant_name">{{this.total_charge}}元</div>
+                                        <div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}}元</div>
                                     </div>
+                                    <input type="hidden" id="totalCharge" value="{{this.total_charge}}">
                                 </li>
                             {{/if}}
                         {{/each}}
@@ -129,13 +130,18 @@
                         {{/each}}
                     </ul>
                 </div>
-                <form action="{{markUri}}/loan/detailsInfo" method="post" id="loanDetail" role="form">
+                {{#if (reqParams.list_type === '1') }}
+                <form action="{{markUri}}/loan/pending/list" method="post" id="loanDetail" role="form">
+                {{elseif (reqParams.list_type === '2') }}
+                <form action="{{markUri}}/loan/pass/list" method="post" id="loanDetail" role="form">
+                {{/if}}
                     <input name="supplier_id" id="detail_supplier_id" type="hidden" value="{{reqParams.supplier_id}}">
                     <input name="pay_account" id="pay_account" type="hidden" value="{{vo.pay_account}}">
+                    <input name="list_type" id="list_type" type="hidden" value="{{reqParams.list_type}}">
                 </form>
                 <div class="filtrate">
                     <div class="filtrate merchants_filtrate">
-                        <div class="filtrate_item select_item  inline_block">
+                        <div class="filtrate_item select_item inline_block">
                             <div class="conditions_name inline_block" style="vertical-align: top;">时间：</div>
                             <select name="timeorder_type" class="filtrate_select" id="timeorder_type">
                                 <option value="">全部</option>
@@ -150,9 +156,9 @@
                                 <option value="1">上月</option>
                                 {{/if}}
                                 {{#if (vo.timeorder_type === 2) }}
-                                <option selected value="1">以前</option>
+                                <option selected value="2">以前</option>
                                 {{else}}
-                                <option value="1">以前</option>
+                                <option value="2">以前</option>
                                 {{/if}}
                             </select>
                         </div>
@@ -199,7 +205,7 @@
                             </select>
                         </div>
                         <div class="filtrate_item first_letter_conditions">
-                            <div class="conditions_name  inline_block lf">客户名称：</div>
+                            <div class="conditions_name inline_block lf">客户名称：</div>
                             <div class="filtrate_box  inline_block">
                                 <a href="javascript:;" class="conditions_item choose_all letter_conditions {{#if (condition.start_with.length <= 0 || condition.start_with === '') }}active{{/if}}">全部</a>
                                 {{#each (initial_list) }}
@@ -246,8 +252,6 @@
                                 <a href="javascript:" class="cancel_btn cancel_batch_btn">取消</a>
                             </div>
                         </div>
-
-
                     </div>
                     <ul class="loan_order_list">
                         {{#each (list) }}
@@ -255,7 +259,7 @@
                             <div class="loan_time">
                                 <div class="form_group lf loan_checkbox">
                                     <input type="checkbox" class="" name="" value="{{this.advance_id}}">
-                                    <label class="order_label"></label>
+                                    <label class="order_label" data-total_charge="{{this.total_charge}}" data-deduction="{{this.deduction}}"></label>
                                 </div>
                                 <span>{{this.create_time}}</span>
                                 {{#if (xindex === 0) }}
@@ -359,10 +363,17 @@
                                     <div class="loan_value">{{this.unpack_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
+                                {{#if (this.unpack_charge || this.unpack_charge === 0) }}
+                                <div class="loan_row">
+                                    <div class="loan_name">解压费：</div>
+                                    <div class="loan_value">{{this.unpack_charge}}&nbsp;元</div>
+                                </div>
+                                {{/if}}
                                 {{#if (this.total_charge || this.total_charge === 0) }}
                                 <div class="total_receipts clearfix">
                                     <div class="receipt_name">收款总额：</div>
-                                    <div class="amount">{{this.total_charge}}&nbsp;元</div><div class="capital_amount">（{{this.cn_totalCharge}})</div>
+                                    <div class="amount">{{this.total_charge}}&nbsp;元</div>
+                                    <div class="capital_amount">（{{this.cn_totalCharge}})</div>
                                 </div>
                                 {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
@@ -399,6 +410,7 @@
             var checkedAllLabel = $("#selectedAll label");      // 全选按钮
             var orderList = $('.loan_order_list');      // 订单列表
             var orderLabel = orderList.find('label.order_label');     // 每个请款单的复选按钮
+            var accountTotalAmount = $('#defaultAmount');
             checkedAllLabel.on('click', function () {
                 var _this = $(this);
                 if(_this.hasClass('checked')){
@@ -408,6 +420,8 @@
                     orderList.find('input[type="checkbox"]').prop('checked',true).siblings('label').addClass('checked');
                     _this.addClass('checked');
                 }
+                var totalAmount = calcCheckedAmount();
+                accountTotalAmount.text(totalAmount + '元');
             });
 
             orderLabel.on('click', function () {
@@ -422,6 +436,8 @@
                         checkedAllLabel.addClass('checked').siblings('input[type="checkbox"]').prop('checked',true);
                     }
                 }
+                var totalAmount = calcCheckedAmount();
+                accountTotalAmount.text(totalAmount + '元');
             });
 
             function verifyIsCheckAll () {
@@ -667,6 +683,28 @@
                 }
             });
             return idArr.join(',');
+        }
+
+        // 批量选择计算总金额
+        function calcCheckedAmount () {
+            var amount = 0;
+            var orderLabel = $('.order_label');
+            var defaultCharge = $('#totalCharge').val().trim().number();
+            orderLabel.each(function () {
+                var _this = $(this);
+                var totalCharge = _this.data('total_charge');
+                var deduction = _this.data('deduction');
+                if (!deduction) {
+                    deduction = 0;
+                }
+                if (_this.hasClass('checked')) {
+                    amount = (amount + totalCharge - deduction).toFixed(2).number();
+                }
+            });
+            if (amount <= 0) {
+                amount = defaultCharge;
+            }
+            return amount;
         }
 
         $(function () {

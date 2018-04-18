@@ -110,10 +110,12 @@
         <!---- Part of Main info End ---->
     </div>
 </div>
+<input type="hidden" name="list_type" value="{{list_type}}" id="listType">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var listType = $('#listType').val().trim().number();
     (function ($) {
 
         $(function() {

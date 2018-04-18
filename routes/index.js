@@ -225,8 +225,10 @@ router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
 router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);
 // 商户-放款管理-已审批 1488
 router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
-// 商户-放款管理-商户打款结算详情 1489
-router.post(markUri + '/loan/detailsInfo', merchantsCtrl.VIEW_LOAN_DETIALSINFO);
+// 商户-放款管理-商户打款结算详情 1497
+router.post(markUri + '/loan/pending/list', merchantsCtrl.VIEW_LOAN_PENDING_LIST);
+// 商户-放款管理-商户打款结算详情 1498
+router.post(markUri + '/loan/pass/list', merchantsCtrl.VIEW_LOAN_PASS_LIST);
 // 商户-放款管理-待审核-同意页面 1501
 router.post(markUri + '/loan/batch/agree', merchantsCtrl.VIEW_LOAN_BATCH_AGREE);
 // 商户-放款管理-待审核-同意页面(批量) 1501

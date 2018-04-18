@@ -45,8 +45,14 @@ function goMerchantDetail () {
  */
 function goLoanDetail () {
     var target = $('#loanList tbody tr');
+    var detailPath = '';
     target.off('click').on('click', function () {
         var _this = $(this);
+        if (listType == 1) {
+            detailPath = '/loan/pending/list';
+        } else if (listType == 2) {
+            detailPath = '/loan/pass/list';
+        }
         if (!_this.hasClass('no_data')) {
             var mid = $.trim(_this.data('id'));
             var pay = $.trim(_this.data('pay_account'));
@@ -56,7 +62,7 @@ function goLoanDetail () {
             var currentPage = $.trim(_this.data('current_page'));
             var diySupplier_name = $.trim(_this.data('supplier_name'));
             locationTo({
-                action : contextPath + markUri + '/loan/detailsInfo',
+                action : contextPath + markUri + detailPath,
                 param : {
                     supplier_id : mid,
                     pay_account: pay,
@@ -65,7 +71,8 @@ function goLoanDetail () {
                     orderby_type: order,
                     current_page: currentPage,
                     diySupplier_name : diySupplier_name,
-                    url : LOCALURL
+                    url : LOCALURL,
+                    list_type : listType.number()
                 }
             });
         }

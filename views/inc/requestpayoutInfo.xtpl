@@ -27,7 +27,7 @@
             <div class="requestpayout_detail_title
             {{#if (req_list.length === (xindex + 1)) }}new{{/if}}
             ">
-                <span>{{this.receipt_name}}</span>
+                <span>{{this.receipt_name}}（{{#if (root.vo.settlement_type === 1)}}单结{{else}}月结{{/if}}）</span>
                 <em class="slidedown_arrow
                 {{#if (req_list.length === (xindex + 1)) }}slidedown_up_arrow{{/if}}
                 "></em>
@@ -170,6 +170,18 @@
                             产品方
                         {{/if}}
                     </div>
+                </div>
+            {{/if}}
+            {{#if (this.deduction) }}
+                <div class="detail_remarks requestpayout_detail_remarks payment_desc_item">
+                    <div class="requestpayout_detail_label">扣款：</div>
+                    <div class="requestpayout_detail_txt">{{this.deduction}}&nbsp;元</div>
+                </div>
+            {{/if}}
+            {{#if (this.deduction) }}
+                <div class="detail_remarks requestpayout_detail_remarks payment_desc_item">
+                    <div class="requestpayout_detail_label">扣款说明：</div>
+                    <div class="requestpayout_detail_txt nowrap">{{this.deduction_remark}}</div>
                 </div>
             {{/if}}
             <div style="clear: both;"></div>
