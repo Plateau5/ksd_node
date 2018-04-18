@@ -303,7 +303,7 @@ exports.VIEW_LOAN_DETIALSINFO = function(req, res, next) {
     }, req, res, next);
 };
 
-// 商户-放款管理-待审核-同意页面跳转 1490
+// 商户-放款管理-待审核-同意页面跳转 1501
 exports.VIEW_LOAN_BATCH_AGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/financial/toAgree',
@@ -312,46 +312,46 @@ exports.VIEW_LOAN_BATCH_AGREE = function(req, res, next) {
     }, req, res, next);
 };
 
-// 商户-放款管理-待审核-同意页面跳转(批量) 1493
+// 商户-放款管理-待审核-同意页面跳转(批量) 1501
 exports.VIEW_LOAN_AGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/financial/toAgree',
+        url : '/api/loan/toAgree',
         title : '放款管理-审核通过',
         page : './merchants/infoagree'
     }, req, res, next);
 };
 
-// 商户-商户管理-待审核-不同意页面跳转 1491
+// 商户-商户管理-待审核-不同意页面跳转 1502
 exports.VIEW_LOAN_BATCH_DISAGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/financial/toDisagree',
+        url : '/api/loan/toDisAgree',
         title : '放款管理-审核不通过',
         page : './merchants/infodisagree'
     }, req, res, next);
 };
 
-// 商户-放款管理-待审核-不同意页面跳转(批量) 1494
+// 商户-放款管理-待审核-不同意页面跳转(批量) 1502
 exports.VIEW_LOAN_DISAGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/financial/toDisagree',
+        url : '/api/loan/toDisAgree',
         title : '放款管理-审核不通过',
         page : './merchants/infodisagree'
     }, req, res, next);
 };
 
-// 商户-放款管理-待审核-转交他人页面 1492
+// 商户-放款管理-待审核-转交他人页面 1503
 exports.VIEW_LOAN_BATCH_TURNOVER = function(req, res, next) {
     common.getPageData({
-        url : '/api/financial/transfer',
+        url : '/api/loan/toTransfer',
         title : '放款管理-转交他人',
         page : './merchants/loanTransfer'
     }, req, res, next);
 };
 
-// 商户-放款管理-待审核-转交他人页面(批量) 1495
+// 商户-放款管理-待审核-转交他人页面(批量) 1503
 exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
     common.getPageData({
-        url : '/api/financial/transfer',
+        url : '/api/loan/toTransfer',
         title : '放款管理-转交他人',
         page : './merchants/loanTransfer'
     }, req, res, next);

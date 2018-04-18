@@ -14,7 +14,7 @@ function searchMerchants () {
         searchBusinessList(checkedLetter);
     });
     cancelBtn.off('click').on('click', function () {
-        var form = $('#loanDetail');
+        var form = $('form[role="form"]');
         form.submit();
     });
 }

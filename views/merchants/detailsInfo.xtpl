@@ -50,78 +50,82 @@
 
                 </div>
                 <div class="account_item clearfix">
-                    <ul class="account_list">
+                    <div class="account_list_name merchant_name">账户{{xindex + 1}}<em class="drop_down"></em></div>
+                    <ul class="account_list" id="defaultAccount">
                         {{#each (accountList) }}
-                        {{#if (vo.pay_account === this.pay_account) }}
-                        <div class="account_list_name merchant_name">账户{{xindex + 1}}<em class="drop_down"></em></div>
-                        <li class="account_list_line" data-id="id" id="pageSeleted">
-                            <div class="account_row">
-                                <div class="account_name">账户类型：</div>
-                                <span>{{this.account_type_value}}</span>
-                            </div>
-                            <div class="account_row">
-                                <div class="account_name">账户用途：</div>
-                                <span>{{this.account_use_value}}</span>
-                            </div>
-                            <div class="account_row"><div class="account_name">账户名：</div>
-                                <div class="account_value merchant_name">{{this.pay_name}}</div>
-                            </div>
-                            <div class="account_row"><div class="account_name">银行卡号：</div>
-                                <div class="account_value merchant_name">{{this.pay_account}}</div>
-                            </div>
-                            <div class="account_row"><div class="account_name">开户行：</div>
-                                <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
-                            </div>
-                            <div class="account_row"><div class="account_name">总金额：</div>
-                                <div class="account_value merchant_name">{{this.total_charge}}元</div>
-                            </div>
-                        </li>
-                        {{/if}}
+                            {{#if (vo.pay_account === this.pay_account) }}
+                                <li class="list_item clearfix">
+                                    <div class="account_row">
+                                        <div class="account_name">账户类型：</div>
+                                        <span>{{this.account_type_value}}</span>
+                                    </div>
+                                    <div class="account_row">
+                                        <div class="account_name">账户用途：</div>
+                                        <span>{{this.account_use_value}}</span>
+                                    </div>
+                                    <div class="account_row"><div class="account_name">账户名：</div>
+                                        <div class="account_value merchant_name">{{this.pay_name}}</div>
+                                    </div>
+                                    <div class="account_row"><div class="account_name">银行卡号：</div>
+                                        <div class="account_value merchant_name">{{this.pay_account}}</div>
+                                    </div>
+                                    <div class="account_row"><div class="account_name">开户行：</div>
+                                        <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
+                                    </div>
+                                    <div class="account_row"><div class="account_name">总金额：</div>
+                                        <div class="account_value merchant_name">{{this.total_charge}}元</div>
+                                    </div>
+                                </li>
+                            {{/if}}
                         {{/each}}
                     </ul>
                 </div>
                 <div class="detail_menu">
                     <ul class="account_list">
                         {{#each (accountList) }}
-                        <li class="list_item clearfix">
-                            <div class="detail_menu_radio">
-                                <input class="tog_account" type="radio" value="1" name="select" />
-                            </div>
-                            <div class="detail_menu_list">
-                                <div class="account_row"><div class="account_name">账户类型：</div>
-                                    {{#if (this.account_type === 1) }}
-                                    <div class="account_value merchant_name">公户</div>
-                                    {{elseif (this.account_type === 2)}}
-                                    <div class="account_value merchant_name">法人</div>
-                                    {{elseif (this.account_type === 3)}}
-                                    <div class="account_value merchant_name">其他股东</div>
-                                    {{elseif (this.account_type === 4)}}
-                                    <div class="account_value merchant_name">其他</div>
+                            <li class="list_item clearfix">
+                                <div class="detail_menu_radio">
+                                    {{#if (vo.pay_account === this.pay_account) }}
+                                    <input class="tog_account checked" type="radio" checked="checked" value="{{this.pay_account}}" name="account_radio" />
+                                    {{else}}
+                                    <input class="tog_account" type="radio" value="{{this.pay_account}}" name="account_radio" />
                                     {{/if}}
                                 </div>
-                                <div class="account_row"><div class="account_name">账户用途：</div>
-                                    {{#if (this.account_use === 1) }}
-                                    <div class="account_value merchant_name">车款</div>
-                                    {{elseif (this.account_use === 2)}}
-                                    <div class="account_value merchant_name">返点</div>
-                                    {{elseif (this.account_use === 3)}}
-                                    <div class="account_value merchant_name">杂费</div>
-                                    {{/if}}
+                                <div class="detail_menu_list">
+                                    <div class="account_row"><div class="account_name">账户类型：</div>
+                                        {{#if (this.account_type === 1) }}
+                                        <div class="account_value merchant_name">公户</div>
+                                        {{elseif (this.account_type === 2)}}
+                                        <div class="account_value merchant_name">法人</div>
+                                        {{elseif (this.account_type === 3)}}
+                                        <div class="account_value merchant_name">其他股东</div>
+                                        {{elseif (this.account_type === 4)}}
+                                        <div class="account_value merchant_name">其他</div>
+                                        {{/if}}
+                                    </div>
+                                    <div class="account_row"><div class="account_name">账户用途：</div>
+                                        {{#if (this.account_use === 1) }}
+                                        <div class="account_value merchant_name">车款</div>
+                                        {{elseif (this.account_use === 2)}}
+                                        <div class="account_value merchant_name">返点</div>
+                                        {{elseif (this.account_use === 3)}}
+                                        <div class="account_value merchant_name">杂费</div>
+                                        {{/if}}
+                                    </div>
+                                    <div class="account_row"><div class="account_name">账户名：</div>
+                                        <div class="account_value merchant_name">{{this.pay_account}}</div>
+                                    </div>
+                                    <div class="account_row"><div class="account_name">银行卡号：</div>
+                                        <div class="account_value merchant_name">{{this.pay_account}}</div>
+                                    </div>
+                                    <div class="account_row"><div class="account_name">开户行：</div>
+                                        <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
+                                    </div>
+                                    <div class="account_row"><div class="account_name">总金额：</div>
+                                        <div class="account_value merchant_name">{{this.total_charge}}</div>
+                                    </div>
                                 </div>
-                                <div class="account_row"><div class="account_name">账户名：</div>
-                                    <div class="account_value merchant_name">{{this.pay_account}}</div>
-                                </div>
-                                <div class="account_row"><div class="account_name">银行卡号：</div>
-                                    <div class="account_value merchant_name">{{this.pay_account}}</div>
-                                </div>
-                                <div class="account_row"><div class="account_name">开户行：</div>
-                                    <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
-                                </div>
-                                <div class="account_row"><div class="account_name">总金额：</div>
-                                    <div class="account_value merchant_name">{{this.total_charge}}</div>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
                         {{/each}}
                     </ul>
                 </div>
@@ -230,14 +234,13 @@
                                 <label class="nor_wrap">全选</label>
                             </div>
                             <div class="total_operate_btn text_right">
-
-                                <a href="javascript:" class="go_forward agree_btn agree_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" data-btn_type="1" class="go_forward audit_btn agree_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     同意
                                 </a>
-                                <a href="javascript:" class="go_forward disagree_btn disagree_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
+                                <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
                                     不同意
                                 </a>
-                                <a href="javascript:" class="go_forward transfer_btn transfer_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
+                                <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     转交他人
                                 </a>
                                 <a href="javascript:" class="cancel_btn cancel_batch_btn">取消</a>
@@ -363,9 +366,9 @@
                                 </div>
                                 {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
-                                    <a href="javascript:" class="go_forward agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
-                                    <a href="javascript:" class="go_forward disagree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
-                                    <a href="javascript:" class="go_forward transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
+                                    <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
+                                    <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
+                                    <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
                                 </div>
                             </div>
                         </li>
@@ -386,6 +389,7 @@
     <!-------- Part of main End -------->
 </div>
 {{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
     (function ($, window) {
@@ -465,11 +469,24 @@
         }
         function  accountId(){
             var btn = $('.tog_account');
+            var defaultItem = $('#defaultAccount');     // 默认账户信息
+            var payAccouont = $('#pay_account');      // 选中账户回显隐藏域
+            var form = $('#loanDetail');
             btn.off('click').on("click", function () {
-                if (this.checked) {
-                    var account_value = btn.siblings().find(".account_value ");
-                    for (var i = 0,len = account_value.length;i < len;i++) {
-                        $('.account_item').find(".account_value ")[i].html(account_value[i].html());
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    return false;
+                } else {
+                    if (this.checked) {
+                        var v = _this.val();
+                        var accountItem = _this.parents('.list_item').clone();
+                        _this.parents('ul.account_list').find('input.checked').removeClass('checked');
+                        _this.addClass('checked');
+                        defaultItem.find('.list_item').remove().end().append(accountItem).find('.detail_menu_radio').remove();
+                        payAccouont.val(v);
+                        _this.parents('.detail_menu').hide();
+                        var checkedLetter = getCheckedFirstLetter();
+                        searchBusinessList(checkedLetter);
                     }
                 }
             });
@@ -599,21 +616,56 @@
         }
 
         // 跳转同意页面
-        function toAgree () {
-            var btn = $('.agree_all');
+        function toAuditPage () {
+            var btn = $('.audit_btn');
             btn.off('click').on('click', function () {
                 var _this = $(this);
-                if (_this.hasClass('agree_all')) {
-                    var ids = getBatchOrderIds();
+                var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
+                var ids = '';
+                var nextUrl = '';
+                if (btnType === 1) {
+                    nextUrl = '/loan/agree';
+                } else if (btnType === 2) {
+                    nextUrl = '/loan/disagree';
+                } else if (btnType === 3) {
+                    nextUrl = '/loan/turnover';
+                }
+                if (_this.hasClass('batch_all')) {
+                    ids = getBatchOrderIds();
+                } else {
+                    ids = _this.parents('.list_item').data('id').toString();
+                }
+                if (ids == '') {
+                    $alert('最少选择一个订单后再做处理');
+                    return false;
+                } else {
                     locationTo({
-                        action : contextPath + markUri + '',
+                        action : contextPath + markUri + nextUrl,
                         param : {
-                            ids : ids,
-
+                            advance_ids : ids,
+                            url : '',
+                            navigation : ''
                         }
                     })
                 }
             });
+        }
+
+
+
+        // 获取选中的订单的ID
+        function getBatchOrderIds () {
+            var orderList = $('.loan_order_list .list_item');      // 订单列表
+            var idArr = [];     // 存储选中的订单的ID
+            orderList.each(function () {
+                var _this = $(this);
+                var _label = _this.find('label.order_label');       // 当前订单的复选框
+                var orderId = _this.data('id');
+                if (_label.hasClass('checked')) {
+                    idArr.push(orderId);
+                }
+            });
+            return idArr.join(',');
         }
 
         $(function () {
@@ -625,6 +677,7 @@
             accountId();
             cancelBatchAudit();
             InfoList();
+            toAuditPage();      // 跳转审核的三级页面
         })
     })(jQuery, window, undefined)
 </script>

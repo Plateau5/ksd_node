@@ -973,7 +973,7 @@ function getMessagesInfo(selector) {
                         $(".message_tip").hide().find(".count").text("");
                     }*/
                 //}
-            } else if (data.error_code == 800||data.error_code == 1000) {
+            } else if (data.error_code == 800||data.error_code == 1000 || data.error_code == 802|| data.error_code == 804) {
                 alert("登录失效，请重新登录");
                 window.location.href = contextPath + "/login/logout";
             } else {

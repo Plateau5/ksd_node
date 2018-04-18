@@ -227,17 +227,17 @@ router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);
 router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
 // 商户-放款管理-商户打款结算详情 1489
 router.post(markUri + '/loan/detailsInfo', merchantsCtrl.VIEW_LOAN_DETIALSINFO);
-// 商户-放款管理-待审核-同意页面 1490
+// 商户-放款管理-待审核-同意页面 1501
 router.post(markUri + '/loan/batch/agree', merchantsCtrl.VIEW_LOAN_BATCH_AGREE);
-// 商户-放款管理-待审核-同意页面(批量) 1493
+// 商户-放款管理-待审核-同意页面(批量) 1501
 router.post(markUri + '/loan/agree', merchantsCtrl.VIEW_LOAN_AGREE);
-// 商户-放款管理-待请款-不同意页面 1491
+// 商户-放款管理-待请款-不同意页面 1502
 router.post(markUri + '/loan/batch/disagree', merchantsCtrl.VIEW_LOAN_BATCH_DISAGREE);
-// 商户-放款管理-待请款-不同意页面(批量) 1494
+// 商户-放款管理-待请款-不同意页面(批量) 1502
 router.post(markUri + '/loan/disagree', merchantsCtrl.VIEW_LOAN_DISAGREE);
-// 商户-放款管理-待审核-转交他人页面 1492
+// 商户-放款管理-待审核-转交他人页面 1503
 router.post(markUri + '/loan/batch/turnover', merchantsCtrl.VIEW_LOAN_BATCH_TURNOVER);
-// 商户-放款管理-待审核-转交他人页面(批量) 1495
+// 商户-放款管理-待审核-转交他人页面(批量) 1503
 router.post(markUri + '/loan/turnover', merchantsCtrl.VIEW_LOAN_TURNOVER);
 
 
