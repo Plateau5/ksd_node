@@ -1,99 +1,140 @@
 <!-- 同意 -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{title}}</title>
-    {{include ("./../inc/metaData")}}
+    {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/question/edit.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/requestpayout/agree.css">
-    <script src="{{markUri}}/static/js/question/submit_form.js"></script>
+    <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
+    <title>商户管理-通过</title>
 </head>
-<style>
-    .file_item{
-        margin-left: 0;
-    }
-</style>
-
 <body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
 
-{{include ('./../inc/header')}}
-
-<!--container start-->
-
-<div class="container minWidth">
-    <div class="row section">
-        <!--navLeft start-->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
-        <!--listCon start-->
-        <div class=" listCon relative">
-            <div class="listConHeader inviteCon" style="line-height: normal;margin-top:32px;">
-                <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/customer/financial/system">放款管理</a></li>
-                    <li class="inline before"><a href="{{markUri}}/customer/financial/pendingAudit">待审批</a></li>
-                    <li class="inline before"><a href="javascript:" id="goDetail" data-url="{{markUri}}/customer/financial/detail" data-id="{{finance_id}}">{{vo.user_name}}</a></li>
-                    <li class="inline before"><a href="javascript:;" style="cursor:default">同意</a></li>
-                </ul>
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
+                <a href="{{markUri}}/merchants/pendingAudit" class="crumbs_item">待审批</a>
+                <a href="javascript:window.history.back();" class="crumbs_item">{{name}}</a>
+                <a href="javascript:;" class="crumbs_item">通过</a>
+            </div>
+            <div class="cashed_mark">
+                <form action="" method="post" id="returnResult">
+                    <input type="hidden" id="advance_ids" name="advance_ids" value="{{advance_ids}}">
+                    <input type="hidden" name="orderNo" value="{{orderNo}}">
+                    <div class="form_row textarea_container">
+                        <div class="column_l" style="width: 4%;">备注：</div>
+                        <div class="column_r" style="width: 90%;">
+                            <textarea name="remark" id="remark" maxlength="200" placeholder="请输入备注信息"></textarea>
+                        </div>
+                    </div>
+                    <div class="img_upload"  style="padding-left: 7%;">
+                        <div class="img_upload_layer"><span class="text">上传图片</span><span class="text_tip">（最多5张图片，每张大小不超过5M）</span></div>
+                        <input type="file" class="img_upload_btn" name="file" accept="image/jpeg,image/jpg,image/png" value="上传图片" style="display: none" />
+                        <div class="img_box">
+                            <!-- 上传图片缩略图 -->
+
+                        </div>
+
+                    </div>
+                </form>
+                <div class="btn_box clearfix text_left"   style="padding-left: 7%;">
+
+                    <a href="javascript:" class="btn orange_btn confirm submit_confirm">确认</a>
+                    <a href="javascript:" class="btn bg_btn submit_cancel">取消</a>
+
+                </div>
             </div>
 
-            <form class="formML" id="request_info_agree" enctype="multipart/form-data" method="post">
-                <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
-                <input type="hidden" name="request_status" value="{{vo.request_status}}">
-                <input type="hidden" name="orderNo" value="{{orderNo}}">
-                <input type="hidden" name="advance_id" value="{{vo.advance_id}}">
-                <div class="form-item" style="height:100px;">
-                    <div>
-                        <textarea id="content" name="remark" placeholder="请输入原因,最多可输入500个字" maxlength="500" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}"></textarea>
-                    </div>
-                </div>
-                <div class="form-item" style="height:20px;">
-                    <div class="img_item updata_img"  style="margin-top:0;margin-left:0;">
-                        <div class="file_btn">上传图片</div>
-                        <input type="file" id="file_select1" class="cursor file_input" name="file" onchange="select_allow(this);"/>
-                        <span class="file_prom">(最多5张图片，每张大小不超过5M)</span>
-                    </div>
-                </div>
-                <div class="form-item" style="margin-top:0;margin-left:0;">
-                    <div class="file_box" style="margin-left:0;"></div>
-                </div>
-                {{#if (verifyCode(1118)) }}
-                <div class="form-item">
-                    <div class="create_btn"   style="margin-left: 0">
-                        <input type="button" class="create_sub" id="argee_sub" value="确认" data-advance_id="{{vo.advance_id}}" data-url="{{markUri}}/customer/financial/print?print_type=current&orderNo={{orderNo}}"/>
-                        <a href="javascript:window.history.back();" class="" data-url="{{markUri}}/customer/financial/detail" data-id="{{finance_id}}">
-                            <input type="button" class="cancel_btn" value="取消">
-                        </a>
-                    </div>
-                </div>
-                {{/if}}
-            </form>
         </div>
-
-        <!--listCon end-->
-
+        <!---- Part of Main info End ---->
     </div>
-
-
 </div>
-
-<!--container end-->
-
 </body>
+{{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
-<script src="{{markUri}}/static/js/requestpayout/agree.js"></script>
 <script>
-    $('.form-item').eq(0).css('marginTop','32px');
-    isFinancial = true;//判断是否为财务
+    (function ($) {
+        const BTNTYPE = '{{reqParams.type}}';
+        //绑定确定按钮的点击事件
+        rebind(".submit_confirm", "click", returnSubmit);
+        //确定按钮的点击事件逻辑
+        function returnSubmit () {
+            disabled(".submit_confirm", "click", returnSubmit);//禁用按钮
+            var url = '';
+            if (BTNTYPE == 1) {
+                url = contextPath + "/api/loan/batch/agree";
+            } else if (BTNTYPE == 2) {
+                url = contextPath + "/api/loan/batch/disagree";
+            }
+            var ids = $('#advance_ids').val().trim();
+            var data = new FormData(document.getElementById("returnResult"));
+            $.ajax({
+                type : "post",
+                url : contextPath + url,
+                data : data,
+                async : false,
+                processData: false,
+                contentType: false,
+                success : function (req) {
+                    var res = eval(req);
+                    if (res.error_code == 0) {
+                        if (ids.indexOf(',') == -1 && BTNTYPE == 1) {
+                            dialog("open", {
+                                closeBtn : false,
+                                "title" : "打印提醒",
+                                "button" : ["立即打印","稍后再说"],
+                                "content" : "是否现在打印该车请款审批材料？",
+                                "maskClose" : false,
+                                onConfirm : function (d) {
+                                    d.close();
+                                    window.location.replace(location_url);
+                                },
+                                onCancel : function (d) {
+                                    d.close();
+                                    // window.location.href = contextPath + markUri + "/customer/financial/pendingAudit";
+                                    window.history.back();
+                                }
+                            });
+                        } else {
+                            $alert('提交成功', function () {
+                                window.location.href = contextPath + markUri + "/merchants/pendingAudit";
+                            });
+                        }
+                    } else {
+                        $alert(res.error_msg, function (){
+                            rebind( ".submit_confirm", "click", returnSubmit);
+                        });
+                    }
+                },
+                error : function () {
+                    $alert("提交异常，请稍后重试");
+                    rebind( ".submit_confirm", "click", returnSubmit);
+                }
+            });
+        }
 
-    $(function () {
-        pageJump("#goDetail, .go_detail",{
-            url : contextPath + markUri + "/customer/financial/pendingAudit",
-            active : "wait"
+        //取消按钮的点击逻辑
+        bindEvents("click", ".submit_cancel", function () {
+            window.history.back();
         });
-    });
+
+
+
+
+        $(function() {
+            imgUpload();
+        });
+    })(jQuery,undefined);
 </script>
 </html>
-
-

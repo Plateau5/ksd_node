@@ -326,7 +326,7 @@ exports.VIEW_LOAN_BATCH_DISAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/toDisAgree',
         title : '放款管理-审核不通过',
-        page : './merchants/infodisagree'
+        page : './merchants/infoagree'
     }, req, res, next);
 };
 
@@ -335,7 +335,7 @@ exports.VIEW_LOAN_DISAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/toDisAgree',
         title : '放款管理-审核不通过',
-        page : './merchants/infodisagree'
+        page : './merchants/infoagree'
     }, req, res, next);
 };
 

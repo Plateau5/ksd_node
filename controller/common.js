@@ -409,7 +409,6 @@ exports.getPageData = function(options, req, res, next) {
     var body = req.body;
     var data = {};
     var localUrl = req.originalUrl;
-    console.log(body)
     try {
         this.httpRequest({
             url : apiServerPath + options.url,
