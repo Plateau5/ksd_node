@@ -37,7 +37,7 @@
                 <input type="hidden" name="type" value="{{type}}" id="flow_type">
             </form>
             <div class="product_detail_box">
-                {{#if (type === 1) }}
+                {{#if (type === 2) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:block">
@@ -339,10 +339,10 @@
 
                 </div>
                     <div class="btn_box clearfix create_wf_btn_box">
-                        <a href="javascript:;" class="btn orange_btn confirm create_confirm">确定</a>
+                        <a href="javascript:;" class="btn orange_btn confirm create_confirm category_edit_btn">保存</a>
                         <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
                     </div>
-                {{#if (type === 2) }}
+                {{#if (type === 3) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
@@ -376,10 +376,20 @@
 <script>
     (function ($) {
 
+        //编辑保存
+        function categorySave () {
+            var savebtn = $('.category_edit_btn');
+            savebtn.off("click").on("click", function () {
+
+            });
+        }
+
         $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             /*switchTab();
             deleteOrg();
             editOrg();*/
+            categorySave();
         });
     })(jQuery,undefined);
 </script>
