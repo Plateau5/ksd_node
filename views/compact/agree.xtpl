@@ -40,7 +40,7 @@
                     <div class="recipient">
                         <span class="item_key"><span class="need" style="color: #EA4B5F;vertical-align: middle;">*</span>车架号：</span>
                         <span style="padding-left:10px;width: 350px;" class="item_val inline_block">
-                            <input type="text" name="vin" class="agree_vin" placeholder="请输入车架号" maxlength="17" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" onblur="checkNumOrEng()">
+                            <input type="text" name="vin" class="agree_vin" id="carVin" placeholder="请输入车架号" maxlength="17" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" onblur="checkNumOrEng()">
                             <span class="agree_vin_tip" style="color: #EA4B5F;"></span>
                         </span>
                     </div>
@@ -99,10 +99,19 @@
         function  verify () {
             var elem = $('.file_box');
             var files = elem.find('.file_item');
+            var vin = $('#carVin').val().trim().toUpperCase();
             var email = $.trim($('#emailAccount').text());
-            var reg = /@./ig;
+            var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ig;
             if (!reg.test(email)) {
                 $alert('邮箱格式不对，请输入正确邮箱。');
+                return false;
+            }
+            if (vin == '' || vin.length <= 0) {
+                $alert('车架号不能为空');
+                return false;
+            }
+            if ( vin.length < 17) {
+                $alert('车架号不足17位');
                 return false;
             }
             if (files.length <= 0) {
@@ -119,11 +128,15 @@
         }
         //提交逻辑
         function sendEmailEvent () {
+            var vinE = $('#carVin');        // 车架号元素
             var valid = verify();
             if (valid) {
                 elem.confirm.off("click");
                 var email = $.trim($('#emailAccount').text());
                 $('#account').val(email);
+                // 转化输入车架号为大写字母
+                var vin = vinE.val().trim().toUpperCase();
+                vinE.val(vin);
                 var data = new FormData($('#send_email')[0]);
                 var url = contextPath + '/api/compact/agree';
                 $.ajax({
@@ -152,8 +165,10 @@
                                     sendEmail();
                                     elem.confirm.click();
                                 },
-                                onCancel : function () {
-                                    window.location.href = contextPath + markUri +  '/customer/compact/pendingPass';
+                                onCancel : function (d) {
+                                    // window.location.href = contextPath + markUri +  '/customer/compact/agree';
+                                    // window.location.href = contextPath + markUri + '/customer/compact/pendingPass';
+                                    d.close();
                                 }
                             })
                         }

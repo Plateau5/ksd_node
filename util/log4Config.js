@@ -3,7 +3,19 @@
  */
 
 var log4js = require('log4js');     // 日志模块
-var logPath = '/home/work/apps/node/logs';      // 日志文件存放位置
+var os = require('os');
+var plateform = os.type();
+var KSDConf = null;
+if (plateform == 'Linux') {
+    KSDConf = require('/usr/local/config/KSDConfig');
+} else if (plateform == 'Windows_NT') {
+    KSDConf = require('./../usr/local/config/KSDConfig');
+} else if (plateform == 'Darwin') {
+    KSDConf = {
+        path : '/home/work/apps/node/logs'
+    };
+}
+var logPath = KSDConf.logPath;      // 日志文件存放位置
 // var logPath = 'F:/logs';
 
 // 日志配置项

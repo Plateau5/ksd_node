@@ -318,6 +318,19 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 var rebateId = _this.parents('.module_list').data('id');
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后所有商户返点规则将不可用</span><br><span>确认要删除该返点政策？</span></div>',
+                    onConfirm : function (d) {
+                        deleteEvent(d, rebateId);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+            function deleteEvent (d, rebateId) {
+                d.close();
                 redefineAjax({
                     url : contextPath + '/api/organization/rebate/delete',
                     data : {
@@ -339,7 +352,7 @@
                         $alert('返点类型删除失败，请稍后重试');
                     }
                 })
-            });
+            }
         }
 
         // 跳转编辑页
@@ -358,7 +371,8 @@
                         orgName : orgName,
                         rebate_type : type,
                         rebate_typeId : rebateId,
-                        rebate_name : rebateName
+                        rebate_name : rebateName,
+                        applyto_business : applytoBusiness
                     }
                 })
 
@@ -460,10 +474,10 @@
                 if (policiesList.length > 0) {
                     for (var i = 0, len = policiesList.length; i < len; i++) {
                         // -- 计算每个政策的万元系数
-                        var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
-                        var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
-                        // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
-                        var millionCoefficient = parseInt(((rate * 1000 * (periods / 12) + 10000) / periods) * 1000) / 1000;
+                        var rate = Number(policiesList[i].rate);    // 当前政策的费率
+                        var periods = Number(policiesList[i].rebate_period);    // 当前政策的融资期限
+                        // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+                        var millionCoefficient = parseInt((((rate * 100 * (periods / 12)) + 10000) / periods) * 1000) / 1000;
                         if (millionCoefficient.toString().indexOf('.') !== -1) {
                             if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
                                 millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;
@@ -495,9 +509,9 @@
                             '                                    <td>'+ policiesList[i].rebate_period +'</td>\n' +
                             '                                    <td>'+ policiesList[i].rate +'</td>\n' +
                             '                                    <td>'+ policiesList[i].millionCoefficient +'</td>\n' +
-                            '                                    <td>'+ policiesList[i].rule +'</td>\n' +
+                            '                                    <td title="'+ policiesList[i].rule +'">'+ policiesList[i].rule +'</td>\n' +
                             '                                    <td>'+ policiesList[i].effective_time +'</td>\n' +
-                            '                                    <td>'+ policiesList[i].city_names +'</td>\n' +
+                            '                                    <td title="'+ policiesList[i].city_names +'">'+ policiesList[i].city_names +'</td>\n' +
                             '                                </tr>';
                     }
                 } else {

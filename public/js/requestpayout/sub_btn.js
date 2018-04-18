@@ -19,7 +19,7 @@ function sub_btn(url,data,btn,location_url,callback) {
             } else {
                 alert(data.error_msg);
             }
-            btn.attr('disabled', false);
+            // btn.attr('disabled', false);
         }
     });
 }

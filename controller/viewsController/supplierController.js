@@ -56,7 +56,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_CREATE = function(req, res, next) {
 // 供应商部分-金融机构-机构编辑页跳转  1070
 exports.VIEW_SUPPLIER_ORGANIZATION_EDIT = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/detail',
+        url : '/api/organization/toEdit',
         title : '供应商-机构详情页',
         page : './organization/edit'
     }, req, res, next);
@@ -180,8 +180,8 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
                 _rateObj.rates = ratesArr[a];
                 for (var j = 0, c = periods.length; j < c; j++) {
                     var _obj = {};
-                    // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
-                    var millionCoefficient = parseInt(((Number(ratesArr[a]) * 1000 * (Number(periods[j]) / 12) + 10000) / Number(periods[j])) * 1000) / 1000;
+                    // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+                    var millionCoefficient = parseInt((((Number(ratesArr[a]) * 100 * (Number(periods[j]) / 12)) + 10000) / Number(periods[j])) * 1000) / 1000;
                     // console.log(Number(ratesArr[a]) + '-' + Number(periods[j]));
                     if (millionCoefficient.toString().indexOf('.') !== -1) {
                         if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
@@ -216,8 +216,8 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST = function(req, res,
                 // -- 计算每个政策的万元系数
                 var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
                 var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
-                // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
-                var millionCoefficient = parseInt(((rate * 1000 * (periods / 12) + 10000) / periods) * 1000) / 1000;
+                // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+                var millionCoefficient = parseInt((((rate * 100 * (periods / 12)) + 10000) / periods) * 1000) / 1000;
                 if (millionCoefficient.toString().indexOf('.') !== -1) {
                     if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
                         millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;

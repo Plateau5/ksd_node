@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
     <title>商户管理-返佣政策列表</title>
     <style>
-        .no_list_data{
+        .no_data_tr{
             margin: 20px 0;
         }
         .no_hover:hover{
@@ -47,7 +47,7 @@
                     {{#if (organization_list.length > 0) }}
                         <ul class="org_select_list clearfix">
                             {{#each (organization_list) }}
-                            <li class="list_item {{#if (organization_id === this.organization_id) }}active{{/if}}" data-id="{{this.organization_id}}" data-name="{{this.organization_name}}">{{this.organization_name}}</li>
+                            <li class="list_item nowrap {{#if (root.organization_id === this.organization_id) }}active{{/if}}" data-id="{{this.organization_id}}" data-name="{{this.organization_name}}">{{this.organization_name}}</li>
                             {{/each}}
                         </ul>
                     {{/if}}
@@ -98,7 +98,7 @@
                             </thead>
                             <tbody>
                             <td colspan="6" class="no_hover">
-                                <div class="no_list_data">
+                                <div class="no_list_data no_data_tr">
                                     <div class="toast_img"></div>
                                     <div class="toast_text">数据加载中……</div>
                                 </div>
@@ -303,10 +303,10 @@
                 if (policiesList.length > 0) {
                     for (var i = 0, len = policiesList.length; i < len; i++) {
                         // -- 计算每个政策的万元系数
-                        var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
-                        var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
-                        // 万元系数=（费率*1000*(融资期限➗12)+10000）➗融资期限
-                        var millionCoefficient = parseInt(((rate * 1000 * (periods / 12) + 10000) / periods) * 1000) / 1000;
+                        var rate = Number(policiesList[i].rate);    // 当前政策的费率
+                        var periods = Number(policiesList[i].rebate_period);    // 当前政策的融资期限
+                        // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+                        var millionCoefficient = parseInt((((rate * 100 * (periods / 12)) + 10000) / periods) * 1000) / 1000;
                         if (millionCoefficient.toString().indexOf('.') !== -1) {
                             if (Number(millionCoefficient.toString().split('.')[1]) > 445) {
                                 millionCoefficient = Number(millionCoefficient.toString().split('.')[0]) + 1;
@@ -338,20 +338,21 @@
                             '                                    <td>'+ policiesList[i].rebate_period +'</td>\n' +
                             '                                    <td>'+ policiesList[i].rate +'</td>\n' +
                             '                                    <td>'+ policiesList[i].millionCoefficient +'</td>\n' +
-                            '                                    <td>'+ policiesList[i].rule +'</td>\n' +
+                            '                                    <td title="'+ policiesList[i].rule +'">'+ policiesList[i].rule +'</td>\n' +
                             '                                    <td>'+ policiesList[i].effective_time +'</td>\n' +
-                            '                                    <td>'+ policiesList[i].city_names +'</td>\n' +
+                            '                                    <td title="'+ policiesList[i].city_names +'">'+ policiesList[i].city_names +'</td>\n' +
                             '                                </tr>';
                     }
                 } else {
                     policiesStr += '<tr class="no_hover">\n' +
                         '                                        <td colspan="6">\n' +
-                        '                                            <div class="no_list_data">\n' +
+                        '                                            <div class="no_list_data no_data_tr">\n' +
                         '                                                <div class="toast_img"></div>\n' +
                         '                                                <div class="toast_text">抱歉，目前暂无数据……</div>\n' +
                         '                                            </div>\n' +
                         '                                        </td>\n' +
                         '                                    </tr>';
+                    moduleList.hide();
                 }
 
                 table.html(policiesStr);
@@ -382,13 +383,28 @@
                     return false;
                 } else {
                     var orgName = _this.data('name');       // 机构名称
-                    var orgId = _this.data('id');       // 机构ID
-                    orgIdE.val(orgId);
+                    var oid = _this.data('id');       // 机构ID
+                    orgIdE.val(oid);
                     orgNameE.val(orgName);
+                    orgId = oid;
 
                     _this.addClass('active').siblings('.list_item').removeClass('active');
 
-                    initRebateList();      // 重新初始化数据
+//                    initRebateList();      // 重新初始化数据
+                    locationTo({
+                        action : contextPath + markUri + '/merchants/policies/list',
+                        param : {
+                            applyto_car : mBusinessType,
+                            city_id : mCityId,
+                            city_name : cityName,
+                            supplier_id : supplierId,
+                            supplier_name : supplierName,
+                            car_type : carType,
+                            url : listUrl,
+                            navigation : navigation,
+                            organization_id : orgId
+                        }
+                    })
                 }
             });
         }
