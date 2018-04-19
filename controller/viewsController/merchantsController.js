@@ -205,7 +205,7 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
                 if (policiesList[i].rebate_way === 1) {     // 固定金额
                     rule = '固定金额：' + policiesList[i].rebate_money + '元';
                 } else if (policiesList[i].rebate_way === 2) {      // 超额返比例
-                    rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
+                    rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money + '%';
                 } else if (policiesList[i].rebate_way === 3) {      // 超额返金额
                     rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
                 } else if (policiesList[i].rebate_way === 4) {      // 返比例
