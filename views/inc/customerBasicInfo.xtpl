@@ -424,21 +424,6 @@
                                                     break;
                                                 case 3://服务费返点
                                                     if(data.rebatePolicy[i].rebate_way == 1){
-                                                        data.rebate_service = data.rebatePolicy[i].rebate_money;
-                                                    }else if(data.rebatePolicy[i].rebate_way == 2){
-                                                        if(service_baseinfo  > data.rebatePolicy[i].exceed_money){
-                                                            data.rebate_service = (service_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;
-                                                        }
-                                                    }else if(data.rebatePolicy[i].rebate_way == 3){
-                                                        if(service_baseinfo > data.rebatePolicy[i].exceed_money){
-                                                            data.rebate_service = data.rebatePolicy[i].rebate_money;
-                                                        }
-                                                    }else if(data.rebatePolicy[i].rebate_way == 4){
-                                                        data.rebate_service = service_baseinfo * data.rebatePolicy[i].rebate_money / 100;
-                                                    }
-                                                    break;
-                                                case 4://保险费返点
-                                                    if(data.rebatePolicy[i].rebate_way == 1){
                                                         data.rebate_insurance = data.rebatePolicy[i].rebate_money;
                                                     }else if(data.rebatePolicy[i].rebate_way == 2){
                                                         if(insurance_baseinfo > data.rebatePolicy[i].exceed_money){
@@ -450,6 +435,21 @@
                                                         }
                                                     }else if(data.rebatePolicy[i].rebate_way == 4){
                                                         data.rebate_insurance = insurance_baseinfo * data.rebatePolicy[i].rebate_money / 100;
+                                                    }
+                                                    break;
+                                                case 4://保险费返点
+                                                    if(data.rebatePolicy[i].rebate_way == 1){
+                                                        data.rebate_service = data.rebatePolicy[i].rebate_money;
+                                                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                                                        if(service_baseinfo  > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_service = (service_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 3){
+                                                        if(service_baseinfo > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_service = data.rebatePolicy[i].rebate_money;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                                                        data.rebate_service = service_baseinfo * data.rebatePolicy[i].rebate_money / 100;
                                                     }
                                                     break;
                                             }
