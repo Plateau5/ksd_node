@@ -81,13 +81,13 @@
                         {{/each}}
                     </ul>
                 </div>
-                <div class="detail_menu">
+                <div class="detail_menu operate_logs">
                     <ul class="account_list">
                         {{#each (accountList) }}
                             <li class="list_item clearfix">
                                 <div class="detail_menu_radio">
                                     {{#if (vo.pay_account === this.pay_account) }}
-                                    <input class="tog_account checked" type="radio" checked="checked" value="{{this.pay_account}}" name="account_radio" />
+                                    <input class="tog_account" type="radio"  value="{{this.pay_account}}" name="account_radio" />
                                     {{else}}
                                     <input class="tog_account" type="radio" value="{{this.pay_account}}" name="account_radio" />
                                     {{/if}}
@@ -105,11 +105,11 @@
                                         {{/if}}
                                     </div>
                                     <div class="account_row"><div class="account_name">账户用途：</div>
-                                        {{#if (this.account_use === 1) }}
+                                        {{#if (this.account_use === '1') }}
                                         <div class="account_value merchant_name">车款</div>
-                                        {{elseif (this.account_use === 2)}}
+                                        {{elseif (this.account_use === '2')}}
                                         <div class="account_value merchant_name">返点</div>
-                                        {{elseif (this.account_use === 3)}}
+                                        {{elseif (this.account_use === '3')}}
                                         <div class="account_value merchant_name">杂费</div>
                                         {{/if}}
                                     </div>
