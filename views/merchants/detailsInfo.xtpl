@@ -149,69 +149,89 @@
                     <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
                 <div class="filtrate">
                     <div class="filtrate merchants_filtrate">
-                        <div class="filtrate_item select_item inline_block">
-                            <div class="conditions_name inline_block" style="vertical-align: top;">时间：</div>
-                            <select name="timeorder_type" class="filtrate_select" id="timeorder_type">
-                                <option value="">全部</option>
-                                {{#if (vo.timeorder_type === 0) }}
-                                <option selected value="0">本月</option>
-                                {{else}}
-                                <option value="0">本月</option>
-                                {{/if}}
-                                {{#if (vo.timeorder_type === 1) }}
-                                <option selected value="1">上月</option>
-                                {{else}}
-                                <option value="1">上月</option>
-                                {{/if}}
-                                {{#if (vo.timeorder_type === 2) }}
-                                <option selected value="2">以前</option>
-                                {{else}}
-                                <option value="2">以前</option>
-                                {{/if}}
-                            </select>
-                        </div>
-                        <div class="filtrate_item select_item  inline_block">
-                            <div class="conditions_name inline_block" style="vertical-align: top;">款项类型：</div>
-                            <select name="receipt_type" class="filtrate_select" id="receipt_type">
-                                <option value="">全部</option>
-                                {{#if (vo.receipt_type === 1 || reqParams.receipt_type === '1') }}
-                                <option selected value="1">车款</option>
-                                {{else}}
-                                <option value="1">车款</option>
-                                {{/if}}
-                                {{#if (vo.receipt_type === 2 || reqParams.receipt_type === '2') }}
-                                <option selected value="2">其他款项</option>
-                                {{else}}
-                                <option value="2">其他款项</option>
-                                {{/if}}
-                            </select>
-                        </div>
-                        <div class="filtrate_item select_item  inline_block">
-                            <div class="conditions_name inline_block" style="vertical-align: top;">排序：</div>
-                            <select name="orderby_type" class="filtrate_select adjust_width" id="orderby_type">
-                                <!--<option value="">全部</option>-->
-                                {{#if (vo.orderby_type === 1) }}
-                                <option selected value="1">按贷款时间正序排列</option>
-                                {{else}}
-                                <option value="1">按贷款时间正序排列</option>
-                                {{/if}}
-                                {{#if (vo.orderby_type === 2) }}
-                                <option selected value="2">按贷款时间倒序排列</option>
-                                {{else}}
-                                <option value="2">按贷款时间倒序排列</option>
-                                {{/if}}
-                                {{#if (vo.orderby_type === 3) }}
-                                <option selected value="3">按打款金额最多排列</option>
-                                {{else}}
-                                <option value="3">按打款金额最多排列</option>
-                                {{/if}}
-                                {{#if (vo.orderby_type === 4) }}
-                                <option selected value="4">按打款金额最少排列</option>
-                                {{else}}
-                                <option value="4">按打款金额最少排列</option>
-                                {{/if}}
-                            </select>
-                        </div>
+                        {{#if (reqParams.list_type === '2') }}
+                            <div class="filtrate_item select_item  inline_block">
+                                <div class="conditions_name inline_block" style="vertical-align: top;">审批结果：</div>
+                                <select name="is_pass" class="filtrate_select adjust_width" id="is_pass">
+                                    <option value="">全部</option>
+                                    {{#if (vo.is_pass === 1) }}
+                                    <option selected value="1">已通过</option>
+                                    {{else}}
+                                    <option value="1">已通过</option>
+                                    {{/if}}
+                                    {{#if (vo.is_pass === 2) }}
+                                    <option selected value="2">未通过</option>
+                                    {{else}}
+                                    <option value="2">未通过</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        {{/if}}
+                        {{#if (reqParams.list_type === '1') }}
+                            <div class="filtrate_item select_item inline_block">
+                                <div class="conditions_name inline_block" style="vertical-align: top;">时间：</div>
+                                <select name="timeorder_type" class="filtrate_select" id="timeorder_type">
+                                    <option value="">全部</option>
+                                    {{#if (vo.timeorder_type === 0) }}
+                                    <option selected value="0">本月</option>
+                                    {{else}}
+                                    <option value="0">本月</option>
+                                    {{/if}}
+                                    {{#if (vo.timeorder_type === 1) }}
+                                    <option selected value="1">上月</option>
+                                    {{else}}
+                                    <option value="1">上月</option>
+                                    {{/if}}
+                                    {{#if (vo.timeorder_type === 2) }}
+                                    <option selected value="2">以前</option>
+                                    {{else}}
+                                    <option value="2">以前</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                            <div class="filtrate_item select_item  inline_block">
+                                <div class="conditions_name inline_block" style="vertical-align: top;">款项类型：</div>
+                                <select name="receipt_type" class="filtrate_select" id="receipt_type">
+                                    <option value="">全部</option>
+                                    {{#if (vo.receipt_type === 1 || reqParams.receipt_type === '1') }}
+                                    <option selected value="1">车款</option>
+                                    {{else}}
+                                    <option value="1">车款</option>
+                                    {{/if}}
+                                    {{#if (vo.receipt_type === 2 || reqParams.receipt_type === '2') }}
+                                    <option selected value="2">其他款项</option>
+                                    {{else}}
+                                    <option value="2">其他款项</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                            <div class="filtrate_item select_item  inline_block">
+                                <div class="conditions_name inline_block" style="vertical-align: top;">排序：</div>
+                                <select name="orderby_type" class="filtrate_select adjust_width" id="orderby_type">
+                                    <!--<option value="">全部</option>-->
+                                    {{#if (vo.orderby_type === 1) }}
+                                    <option selected value="1">按贷款时间正序排列</option>
+                                    {{else}}
+                                    <option value="1">按贷款时间正序排列</option>
+                                    {{/if}}
+                                    {{#if (vo.orderby_type === 2) }}
+                                    <option selected value="2">按贷款时间倒序排列</option>
+                                    {{else}}
+                                    <option value="2">按贷款时间倒序排列</option>
+                                    {{/if}}
+                                    {{#if (vo.orderby_type === 3) }}
+                                    <option selected value="3">按打款金额最多排列</option>
+                                    {{else}}
+                                    <option value="3">按打款金额最多排列</option>
+                                    {{/if}}
+                                    {{#if (vo.orderby_type === 4) }}
+                                    <option selected value="4">按打款金额最少排列</option>
+                                    {{else}}
+                                    <option value="4">按打款金额最少排列</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        {{/if}}
                         <div class="filtrate_item first_letter_conditions">
                             <div class="conditions_name inline_block lf">客户名称：</div>
                             <div class="filtrate_box  inline_block">
@@ -241,6 +261,7 @@
                 </div>
 
                 <div class="order_list">
+                    {{#if (reqParams.list_type === '1') }}
                     <div class="loan_order_btn">
                         <div class="total_btn clearfix">
                             <div id="selectedAll" class="form_group lf" style="line-height:50px;">
@@ -267,6 +288,7 @@
                             </div>
                         </div>
                     </div>
+                    {{/if}}
                     {{#if (list.length > 0) }}
                     <ul class="loan_order_list">
                         {{#each (list) }}
@@ -278,7 +300,9 @@
                                 </div>
                                 <span>{{this.create_time}}</span>
                                 {{#if (xindex === 0) }}
-                                <a href="javascript:" class="batch_btn rf">批量放款</a>
+                                    {{#if (root.reqParams.list_type === '1') }}
+                                    <a href="javascript:" class="batch_btn rf">批量放款</a>
+                                    {{/if}}
                                 {{/if}}
                             </div>
                             <div class="loan_list clearfix">
@@ -392,14 +416,21 @@
                                 </div>
                                 {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
-                                    {{#if (root.verifyCode(1493)) }}
-                                    <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
+                                    {{#if (reqParams.list_type === '1') }}
+                                        {{#if (root.verifyCode(1493)) }}
+                                        <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn">同意</a>
+                                        {{/if}}
+                                        {{#if (root.verifyCode(1494)) }}
+                                        <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn">不同意</a>
+                                        {{/if}}
+                                        {{#if (root.verifyCode(1495)) }}
+                                        <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn">转交他人</a>
+                                        {{/if}}
                                     {{/if}}
-                                    {{#if (root.verifyCode(1494)) }}
-                                    <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
-                                    {{/if}}
-                                    {{#if (root.verifyCode(1495)) }}
-                                    <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
+                                    {{#if (reqParams.list_type === '2' && this.is_pass === 1) }}
+                                        {{#if (root.verifyCode(1190)) }}
+                                            <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}"  class="cursor loan_detail_btn print_btn" id="print_btn" target="_blank">打印</a>
+                                        {{/if}}
                                     {{/if}}
                                 </div>
                             </div>

@@ -1176,6 +1176,7 @@ function searchBusinessList (firstLetter) {
     var timeorder_type = $("select#timeorder_type option:selected").val();   // 商户-放款时间
     var receipt_type = $("select#receipt_type option:selected").val();   // 商户-款项类型
     var orderby_type = $("select#orderby_type option:selected").val();   // 商户-放款排序方式
+    var is_pass = $("select#is_pass option:selected").val();   // 商户-放款审核结果
 
     label_id && $("#"+id).append('<input type="hidden" id="label_id" name="label_id" value="'+ label_id + '" />');
     var gps_type = $("select#gps_type option:selected").val();//GPS类型筛选
@@ -1197,6 +1198,7 @@ function searchBusinessList (firstLetter) {
     timeorder_type && $("#"+id).append('<input type="hidden" id="timeorder_type" name="timeorder_type" value="'+ timeorder_type +'" />');
     receipt_type && $("#"+id).append('<input type="hidden" id="receipt_type" name="receipt_type" value="'+ receipt_type +'" />');
     orderby_type && $("#"+id).append('<input type="hidden" id="orderby_type" name="orderby_type" value="'+ orderby_type +'" />');
+    is_pass && $("#"+id).append('<input type="hidden" id="is_pass" name="is_pass" value="'+ is_pass +'" />');
 
     $("#"+id).submit();
 }
