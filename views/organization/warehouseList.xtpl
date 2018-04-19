@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/product/shelves_list.css">
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -97,7 +98,7 @@
                 </div>
 
                 <!--tableList start-->
-                <table class="normal">
+                <table class="normal product_table">
                     <colgroup style="width: 100%;">
                         <col style="width: 40%;">
                         <col style="width: 40%;">
@@ -107,7 +108,7 @@
                         <!--<td style="width:20%">所属机构</td>-->
                         <td>
                             <div class="check">
-                                <div class="check_img icon_uncheck"></div>
+                                <div class="check_img icon_uncheck selectall_check"></div>
                                 <div class="ellipsis">
                                     <span class="product_name">产品名称</span>
                                 </div>
@@ -170,61 +171,8 @@
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
-<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/product/shelves_list.js"></script>
-<!--操作成功页  开始-->
-<!--<div id="delS">
-    <div class="container">
-        <div class="row section">
-
-            <div class="col-xs-4 col-sm-offset-4 inviteBox delhtml">
-                <div class="col-sm-8 invSBox">
-                    <div class="col-sm-12 invSText">
-                        <div>操作成功</div>
-
-                        <img class="delSImg" src="{{markUri}}/static/img/employee/successIcon.png" alt=""/>
-                    </div>
-                </div>
-                <div class="col-sm-3 invSBtn cursor" id="delSBtn">确定</div>
-            </div>
-
-        </div>
-    </div>
-</div>
-&lt;!&ndash;操作成功页  结束&ndash;&gt;
-
-&lt;!&ndash;操作确认页  开始&ndash;&gt;
-<div id="delQ">
-    <input type="hidden" id="flag" value="">
-    <input type="hidden" id="shelves_flag" value="">
-    <div class="container">
-        <div class="row section">
-            <input type="hidden" value="" name="delLang" id="delLang">
-            <div class="col-xs-4 col-sm-offset-4 inviteBox delhtml" style="height:400px;">
-                <div class="col-sm-8 invSBox">
-                    <div class="col-sm-12 invSText" style="margin-top:20px;">
-                        <div style="line-height: 96px;"></div>
-
-                        <img class="delQIMG" src="{{markUri}}/static/img/employee/failIcon.png" alt="" style="margin-top:0;"/>
-
-                    </div>
-                </div>
-                <div class="col-sm-12" style="margin-top:30px;">
-                    <div class="del_txt1"></div>
-                    <div class="del_txt2"></div>
-                </div>
-                <div class="col-sm-12" style="margin-top:25px;">
-                    <div class="col-sm-3 cursor inline delA" id="delQDBtn">确定</div>
-                    <div class="col-sm-3 cursor inline delM" id="delQXBtn">取消</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>-->
-<!--操作确认页  结束-->
-
-</html>
 <script>
     //$('.product_table>tbody>tr[class="product_tr"]').eq(0).find('td').css('paddingTop','30px');
     $(function () {
@@ -233,3 +181,5 @@
         });
     });
 </script>
+</html>
+

@@ -60,184 +60,162 @@ $(function(){
         return select_all();
     });
 
-    $('.product_table .check').click(function(){
-        var className = $('.product_table .check .check_img').attr('class');
-        if(className.indexOf('icon_check') < '0'){
-            var check_length = $('.product_table').find('icon_uncheck');
-            if(check_length != '0'){
-                $('.select_all_btn .check_img').removeClass('icon_check');
-                $('.select_all_btn .check_img').addClass('icon_uncheck');
-            }
-            return;
+    //全选
+    $('.table_header_tr .check_img').click(function(){
+        var _this = $(this);
+        if (_this.hasClass('icon_uncheck')) {
+            _this.addClass('icon_check');
+            _this.removeClass('icon_uncheck');
+            var product_tr = $('.product_tr');
+            product_tr.each(function () {
+                var check_tr = $(this).find('.check_img');
+                if (check_tr.hasClass('icon_uncheck')) {
+                    check_tr.removeClass('icon_uncheck');
+                    check_tr.addClass('icon_check');
+                }
+            });
+        } else {
+            _this.removeClass('icon_check');
+            _this.addClass('icon_uncheck');
+            var product_tr = $('.product_tr');
+            product_tr.each(function () {
+                var check_tr = $(this).find('.check_img');
+                if (check_tr.hasClass('icon_check')) {
+                    check_tr.removeClass('icon_check');
+                    check_tr.addClass('icon_uncheck');
+                }
+            });
         }
-        var check_img = $('.product_table .icon_uncheck').length;
-        if(check_img == '0'){
-            $('.select_all_btn .check_img').addClass('icon_check');
-            $('.select_all_btn .check_img').removeClass('icon_uncheck');
+    });
+    //单个选中
+    $('.product_tr .check_img').click(function(){
+        var _this = $(this);
+        if (_this.hasClass('icon_uncheck')) {
+            _this.addClass('icon_check');
+            _this.removeClass('icon_uncheck');
+            var nums = 0;
+            var product_tr = $('.product_tr');
+            product_tr.each(function () {
+                var check_tr = $(this).find('.check_img');
+                if (check_tr.hasClass('icon_check')) {
+                    nums++;
+                }
+            });
+            if (nums == product_tr.length) {
+                $('.selectall_check').addClass('icon_check');
+                $('.selectall_check').removeClass('icon_uncheck');
+            } else {
+                $('.selectall_check').addClass('icon_uncheck');
+                $('.selectall_check').removeClass('icon_check');
+            }
+        } else {
+            _this.removeClass('icon_check');
+            _this.addClass('icon_uncheck');
+            $('.selectall_check').addClass('icon_uncheck');
+            $('.selectall_check').removeClass('icon_check');
         }
     });
 
     //上架按钮
-    $('.update_btn').click(function(){
-        var check = $('.icon_check').length;
-        var del_H = document.body.scrollHeight;
-        $('.invSText div').html('上架提醒');
-        $("#delQ").css({
-            'display' : 'block',
-            'height' : del_H + 'px'
-        });
-        if(check == '0'){
-            $('.del_txt1').html('未选中产品');
-            $('.del_txt2').html('请选择需要上架的产品！');
-            $('#delQXBtn').css('display','none');
-            $('#delQDBtn').css('marginLeft','35%');
-            $('#flag').val('shelves');
+    $(".update_btn").off("click").on("click", function () {
+        var check = $('.product_tr .icon_check').length;
+        if (check == '0') {
+            $alert('未选中产品，请选择需要上架的产品！');
             return;
         }
         var shelves_num = $('.icon_check').parent().parent().parent().find('.shelves_name').length;//未填写完整标识
         if(shelves_num != "0"){
             var product_name = $('.shelves_name').eq(0).prev().html();
-            $('.del_txt1').html('您选择上架的产品中，<span style="color:#1DC6BC;">' + product_name + '</span>等' + shelves_num + '个产品必填信息填写不完整');
-            $('.del_txt2').html('导致其产品不能正常上架，请填写完整后再次上架！');
-            $('#delQXBtn').css('display','');
-            $('#delQDBtn').css('marginLeft','20%');
-            $('#flag').val('shelves');
+            $alert('您选择上架的产品中，<span style="color:#1DC6BC;">' + product_name + '</span>等' + shelves_num + '个产品必填信息填写不完整，导致其产品不能正常上架，请填写完整后再次上架！');
             return;
         }
-        $('.del_txt1').html('选中产品将发布上架');
-        $('.del_txt2').html('确认继续上架？');
-        $('#delQXBtn').css('display','');
-        $('#delQDBtn').css('marginLeft','20%');
-        $('#flag').val('shelves');
+        var product_check = $('table .icon_check');
+        var product_arr = [];
+        for(var i = 0; i < product_check.length; i++){
+            var shelves_name = $('table .icon_check').eq(i).parent().parent().parent().find('.shelves_name');
+            if(shelves_name.length == '0'){
+                var id = $('table .icon_check').eq(i).attr('id');
+                product_arr.push(id);
+            }
+
+        }
+        if(product_arr.length == '0'){
+            return;
+        }
+        $('#shelves_id').val(product_arr.join(','));
+        var data = new FormData(document.getElementById('shelves_info'));
+        dialog('open', {
+            title : '上架提醒',
+            content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>选中产品将发布上架，确认继续上架？</span></div>',
+            onConfirm : function (d) {
+                d.close();
+                redefineAjax({
+                    url : contextPath + '/api/product/shelve',
+                    data : data,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            $alert('上架成功', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('上架失败，请重新尝试');
+                    }
+                });
+            },
+            onCancel : function (d) {
+                d.close();
+            }
+        });
     });
 
     //删除按钮
-    $('.delete_btn').click(function(){
-        var del_H = document.body.scrollHeight;
-        $('.invSText div').html('删除提醒');
+    $(".delete_btn").off("click").on("click", function () {
         var check = $('.icon_check').length;
-        $("#delQ").css({
-            'display' : 'block',
-            'height' : del_H + 'px'
-        });
         if(check == '0'){
-            $('.del_txt1').html('未选中产品');
-            $('.del_txt2').html('请选择需要删除的产品！');
-            $('#delQXBtn').css('display','none');
-            $('#delQDBtn').css('marginLeft','35%');
-            $('#flag').val('delete');
+            $alert('未选中产品，请选择需要删除的产品！');
             return;
         }
-        $('.del_txt1').html('删除后产品将不可恢复，');
-        $('.del_txt2').html('确认继续删除？');
-        $('#delQXBtn').css('display','');
-        $('#delQDBtn').css('marginLeft','20%');
-        $('#flag').val('delete');
-    });
-
-    //取消删除
-    $('#delQXBtn').click(function(){
-        $('#delQ').css('display','none');
-    });
-
-    //确定按钮
-    $('#delQDBtn').click(function(){
-        var display = $('#delQXBtn').css('display');
-        if(display == 'none'){
-            $('#delQ').css('display','none');
+        var delete_check = $('.product_tr .icon_check');
+        var delete_arr = [];
+        for(var i = 0; i < delete_check.length; i++){
+            var id = delete_check.eq(i).attr('id');
+            delete_arr.push(id);
+        }
+        if(delete_arr.length == '0'){
             return;
         }
-        var delLang = $('#delLang').val();
-        if(delLang == ''){
-            var h = document.body.scrollHeight;
-            $('#delQ').css('display','none');
-            $('#delS').css({
-                'height' : h + 'px',
-                'display' : 'display'
-            });
-        }
-        var flag = $('#flag').val();
-        if(flag == 'shelves'){
-            //进行产品上架操作
-            var product_check = $('table .icon_check');
-            var product_arr = [];
-            for(var i = 0; i < product_check.length; i++){
-                var shelves_name = $('table .icon_check').eq(i).parent().parent().parent().find('.shelves_name');
-                if(shelves_name.length == '0'){
-                    var id = $('table .icon_check').eq(i).attr('id');
-                    product_arr.push(id);
-                }
-
+        $('#delete_id').val(delete_arr.join(','));
+        var data = new FormData(document.getElementById('delete_info'));
+        dialog('open', {
+            title : '删除提醒',
+            content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后产品将不可恢复，确认继续删除？</span></div>',
+            onConfirm : function (d) {
+                d.close();
+                redefineAjax({
+                    url : contextPath + '/api/product/delete',
+                    data : data,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            $alert('删除成功', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('删除失败，请重新尝试');
+                    }
+                });
+            },
+            onCancel : function (d) {
+                d.close();
             }
-            if(product_arr.length == '0'){
-                return;
-            }
-            $('#shelves_id').val(product_arr.join(','));
-            var vFD = new FormData(document.getElementById('shelves_info'));
-            var oXHR = new XMLHttpRequest();
-            var url = contextPath+"/api/product/shelve";
-            oXHR.addEventListener('load', function(e) {
-                var response = e.target.responseText;
-                var data = JSON.parse(response);
-                //成功
-                if (data.error_code == '0') {
-                    var h = document.body.scrollHeight;
-                    $('#delQ').css('display','none');
-                    $('#delS').css({
-                        'height' : h + 'px',
-                        'display' : 'display'
-                    });
-                    window.location.reload();
-                } else {
-                    alert(data.error_msg);
-                }
-            }, false);
-            oXHR.addEventListener('error', function(e) {
-                alert("输入参数异常");
-                return;
-            }, false);
-            oXHR.addEventListener('abort', function() {}, false);
-            oXHR.open('POST', url);
-            oXHR.send(vFD);
-        }else{
-            //进行产品删除操作
-            var delete_check = $('table .icon_check');
-            var delete_arr = [];
-            for(var i = 0; i < delete_check.length; i++){
-                var id = $('table .icon_check').eq(i).attr('id');
-                    delete_arr.push(id);
-            }
-            if(delete_arr.length == '0'){
-                return;
-            }
-            $('#delete_id').val(delete_arr.join(','));
-            var vFD = new FormData(document.getElementById('delete_info'));
-            var oXHR = new XMLHttpRequest();
-            var url = contextPath+"/api/product/delete";
-            oXHR.addEventListener('load', function(e) {
-                var response = e.target.responseText;
-                var data = JSON.parse(response);
-                //成功
-                if (data.error_code == '0') {
-                    var h = document.body.scrollHeight;
-                    $('#delQ').css('display','none');
-                    $('#delS').css({
-                        'height' : h + 'px',
-                        'display' : 'display'
-                    });
-                    window.location.reload();
-                } else {
-                    alert(data.error_msg);
-                }
-            }, false);
-            oXHR.addEventListener('error', function(e) {
-                alert("输入参数异常");
-                return;
-            }, false);
-            oXHR.addEventListener('abort', function() {}, false);
-            oXHR.open('POST', url);
-            oXHR.send(vFD);
-        }
+        });
     });
 });
 
