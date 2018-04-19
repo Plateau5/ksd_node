@@ -52,7 +52,7 @@ function goLoanDetail () {
         if (listType == 1) {
             detailPath = '/loan/pending/list';
             url = markUri + '/loan/pending';
-            navigation = '待审核';
+            navigation = '待审批';
         } else if (listType == 2) {
             detailPath = '/loan/pass/list';
             url = markUri + '/loan/pass';
