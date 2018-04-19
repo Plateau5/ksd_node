@@ -9,11 +9,15 @@
 function searchMerchants () {
     var confirmBtn = $('.merchants_search_confirm');
     var cancelBtn = $('.merchants_search_cancel');
-    confirmBtn.off('click').one('click', function () {
+    confirmBtn.off('click').on('click', function () {
+        var _this = $(this);
+        _this.off('click');
         var checkedLetter = getCheckedFirstLetter();
         searchBusinessList(checkedLetter);
     });
     cancelBtn.off('click').on('click', function () {
+        var _this = $(this);
+        _this.off('click');
         var form = $('form[role="form"]');
         form.submit();
     });
