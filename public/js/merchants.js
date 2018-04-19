@@ -48,10 +48,15 @@ function goLoanDetail () {
     var detailPath = '';
     target.off('click').on('click', function () {
         var _this = $(this);
+        var url, navigation;
         if (listType == 1) {
             detailPath = '/loan/pending/list';
+            url = markUri + '/loan/pending';
+            navigation = '待审核';
         } else if (listType == 2) {
             detailPath = '/loan/pass/list';
+            url = markUri + '/loan/pass';
+            navigation = '已审批';
         }
         if (!_this.hasClass('no_data')) {
             var mid = $.trim(_this.data('id'));
@@ -60,7 +65,7 @@ function goLoanDetail () {
             var receipt = $.trim(_this.data('receipt_type'));
             var order = $.trim(_this.data('orderby_type'));
             var currentPage = $.trim(_this.data('current_page'));
-            var diySupplier_name = $.trim(_this.data('supplier_name'));
+            var supplier_name = $.trim(_this.data('supplier_name'));
             locationTo({
                 action : contextPath + markUri + detailPath,
                 param : {
@@ -70,8 +75,9 @@ function goLoanDetail () {
                     receipt_type: receipt,
                     orderby_type: order,
                     current_page: currentPage,
-                    diySupplier_name : diySupplier_name,
-                    url : LOCALURL,
+                    supplier_name : supplier_name,
+                    url : url,
+                    navigation : navigation,
                     list_type : listType.number()
                 }
             });
@@ -222,6 +228,35 @@ function merchantsAddTag () {
         } else {
             addTags(tagId, 4, '添加');
         }
+    });
+}
+
+/**
+ * 跳转商户放款订单详情页
+ */
+function goLoanOrderList () {
+    var btn = $('.go_loan_detail');     // 跳转放款
+    var detailPath = '';
+    btn.off('click').on('click', function () {
+        if (listType == 1) {
+            detailPath = '/loan/pending/list';
+        } else if (listType == 2) {
+            detailPath = '/loan/pass/list';
+        }
+        locationTo({
+            action : contextPath + markUri + detailPath,
+            param : {
+                supplier_id : merchantId,
+                pay_account: payAccount,
+                timeorder_type: timeorderType,
+                receipt_type: receiptType,
+                orderby_type: orderbyType,
+                supplier_name : merchantName,
+                url : url,
+                navigation : navigation,
+                list_type : listType
+            }
+        })
     });
 }
 

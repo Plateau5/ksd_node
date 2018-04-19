@@ -22,15 +22,15 @@
         <div id="main" class="main merchants">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
-                <a href="{{markUri}}/loan/pending" class="crumbs_item">待审批</a>
-                <a href="javascript:;" class="crumbs_item last_child">商户详情页</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item last_child">{{reqParams.supplier_name}}</a>
             </div>
             <div class="loan_order_container">
                 <div class="merchants_load detail_remarks">
-                    <div class="merchant_name_label">商户名称：</div><div class="merchant_name">{{reqParams.diySupplier_name}}<em class="view"></em></div>
+                    <div class="merchant_name_label">商户名称：</div><div class="merchant_name">{{reqParams.supplier_name}}<em class="view"></em></div>
                     <!--弹出层-->
                     <div class="pop">
-                        <div class="pop_title">{{reqParams.diySupplier_name}}</div>
+                        <div class="pop_title">{{reqParams.supplier_name}}</div>
                         <div id="merchant_flag" class="pop_remark"></div>
                         <div class="pop_row">
                             <div class="pop_name">店面类型：</div>
@@ -138,6 +138,14 @@
                     <input name="supplier_id" id="detail_supplier_id" type="hidden" value="{{reqParams.supplier_id}}">
                     <input name="pay_account" id="pay_account" type="hidden" value="{{vo.pay_account}}">
                     <input name="list_type" id="list_type" type="hidden" value="{{reqParams.list_type}}">
+                    <input type="hidden" name="url" value="{{reqParams.url}}" id="url">
+                    <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
+                    <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
+                    <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
+                    <input type="hidden" name="timeorder_type" value="{{reqParams.timeorder_type}}" id="timeorderType">
+                    <input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
+                    <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
+                    <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
                 </form>
                 <div class="filtrate">
                     <div class="filtrate merchants_filtrate">
@@ -166,12 +174,12 @@
                             <div class="conditions_name inline_block" style="vertical-align: top;">款项类型：</div>
                             <select name="receipt_type" class="filtrate_select" id="receipt_type">
                                 <option value="">全部</option>
-                                {{#if (vo.receipt_type === 1) }}
+                                {{#if (vo.receipt_type === 1 || reqParams.receipt_type === '1') }}
                                 <option selected value="1">车款</option>
                                 {{else}}
                                 <option value="1">车款</option>
                                 {{/if}}
-                                {{#if (vo.receipt_type === 2) }}
+                                {{#if (vo.receipt_type === 2 || reqParams.receipt_type === '2') }}
                                 <option selected value="2">其他款项</option>
                                 {{else}}
                                 <option value="2">其他款项</option>
@@ -399,10 +407,21 @@
     </div>
     <!-------- Part of main End -------->
 </div>
+
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
+    var listType = $('#list_type').val().trim();        // 列表页类型
+    var listUrl = $('#url').val().trim();           // 列表页路径
+    var navigation = $('#navigation').val().trim();         // 列表页节点名称
+    var merchantId = $('#supplier_id').val().trim();        // 商户ID
+    var merchantName = $('#supplier_name').val().trim();     // 商户名称
+    var timeorderType = $('#timeorderType').val().trim();     // 时间
+    var receiptType = $('#receiptType').val().trim();     // 款项类型
+    var orderbyType = $('#orderbyType').val().trim();     //    订单排序
+    var start_with = $('#start_with').val().trim();     // 首字母
+    var payAccount = $('#pay_account').val().trim();        // 默认账户
     (function ($, window) {
 
         //全选/全不选
@@ -659,9 +678,16 @@
                         action : contextPath + markUri + nextUrl,
                         param : {
                             advance_ids : ids,
-                            url : '',
-                            navigation : '',
-                            type : btnType
+                            url : listUrl,
+                            navigation : navigation,
+                            type : btnType,
+                            supplier_id : merchantId,
+                            supplier_name : merchantName,
+                            timeorder_type: timeorderType,
+                            receipt_type: receiptType,
+                            orderby_type: orderbyType,
+                            start_with : start_with,
+                            list_type : listType
                         }
                     })
                 }

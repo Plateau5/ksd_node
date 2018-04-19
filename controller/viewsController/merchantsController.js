@@ -19,9 +19,9 @@ exports.VIEW_MERCHANTS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/merchants/manage/system');
         } else if (common.checkPrivilege(1368, req)) {
             res.redirect(markUri + '/records/manage');
-        } else if (common.checkPrivilege(1369, req)) {
-            res.redirect(markUri + '/merchants/loan/system');
-        }else {
+        } else if (common.checkPrivilege(1487, req) || common.checkPrivilege(1488, req)) {
+            res.redirect(markUri + '/loan/system');
+        } else {
             throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1369 | 1368 | 1367 is not defined.');
         }
     } catch (e) {
@@ -177,13 +177,6 @@ exports.VIEW_MERCHANTS_POLICIES_EDIT = function(req, res, next) {
     }, req, res, next);
 };
 // 商户-商户管理-返佣政策历史页 1478
-/*exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
-    common.getPageData({
-        url : '/api/supplier/rebate/policy',
-        title : '商户管理-制定返佣政策',
-        page : './merchants/merchantsPoliciesHistory'
-    }, req, res, next);
-};*/
 exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/supplier/rebatepolicy/dislist',
@@ -237,7 +230,7 @@ exports.VIEW_LOAN_SYSTEM = function(req, res, next) {
         if (common.checkPrivilege(1487, req)) {
             res.redirect(markUri + '/loan/pending');
         } else if (common.checkPrivilege(1488, req)) {
-            res.redirect(markUri + '/loan/approved');
+            res.redirect(markUri + '/loan/pass');
         } else {
             throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1487 | 1488  is not defined.');
         }
@@ -245,17 +238,7 @@ exports.VIEW_LOAN_SYSTEM = function(req, res, next) {
         LOGERROR(e.stack);
         res.redirect(markUri + '/404');
     }
-    /*var data = {};
-    var localUrl = req.originalUrl;
-    data.title = '放款管理-商户分类列表';
-    data.originUrl = localUrl;
-    data.originUrl = localUrl;
-    data.markUri = markUri;
-    data.apiServerPath = apiServerPath;
-    data.domain = domain;
-    res.redirect(markUri + '/merchants/loan/pending');*/
 };
-
 // 商户-放款管理-待审批 1487
 exports.VIEW_LOAN_PENDING = function(req, res, next) {
     common.getPageData({
@@ -284,13 +267,7 @@ exports.VIEW_LOAN_PASS_LIST = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/already/list',
         title: '商户-放款管理-已审批',
-        page: './merchants/detailsInfo',
-        /*callback : function (data) {
-            for (var i = 0 ,len = data.cityList.length;i < len; i++ ) {
-                data.cityList[i].name = data.cityList[i].city_name;
-            }
-
-        }*/
+        page: './merchants/detailsInfo'
     }, req, res, next);
 };
 

@@ -6,7 +6,7 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
-    <title>商户管理-通过</title>
+    <title>{{title}}</title>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -23,15 +23,25 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
-                <a href="{{markUri}}/merchants/pendingAudit" class="crumbs_item">待审批</a>
-                <a href="javascript:window.history.back();" class="crumbs_item">{{name}}</a>
-                <a href="javascript:;" class="crumbs_item">通过</a>
+                <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_loan_detail">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item last_child">{{#if (reqParams.list_type === '1')}}同意{{else}}不同意{{/if}}</a>
             </div>
             <div class="cashed_mark">
                 <form action="" method="post" id="returnResult">
                     <input type="hidden" id="advance_ids" name="advance_ids" value="{{advance_ids}}">
                     <input type="hidden" name="orderNo" value="{{orderNo}}">
+                    <input name="list_type" id="list_type" type="hidden" value="{{reqParams.list_type}}">
+                    <input type="hidden" name="url" value="{{reqParams.url}}" id="url">
+                    <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
+                    <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
+                    <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
+                    <input type="hidden" name="timeorder_type" value="{{reqParams.timeorder_type}}" id="timeorderType">
+                    <input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
+                    <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
+                    <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
+                    <input name="pay_account" id="pay_account" type="hidden" value="{{reqParams.pay_account}}">
                     <div class="form_row textarea_container">
                         <div class="column_l" style="width: 4%;">备注：</div>
                         <div class="column_r" style="width: 90%;">
@@ -51,7 +61,7 @@
                 <div class="btn_box clearfix text_left"   style="padding-left: 7%;">
 
                     <a href="javascript:" class="btn orange_btn confirm submit_confirm">确认</a>
-                    <a href="javascript:" class="btn bg_btn submit_cancel">取消</a>
+                    <a href="javascript:" class="btn bg_btn submit_cancel go_loan_detail">取消</a>
 
                 </div>
             </div>
@@ -63,7 +73,18 @@
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
+    var listType = $('#list_type').val().trim();        // 列表页类型
+    var listUrl = $('#url').val().trim();           // 列表页路径
+    var navigation = $('#navigation').val().trim();         // 列表页节点名称
+    var merchantId = $('#supplier_id').val().trim();        // 商户ID
+    var merchantName = $('#supplier_name').val().trim();     // 商户名称
+    var timeorderType = $('#timeorderType').val().trim();     // 时间
+    var receiptType = $('#receiptType').val().trim();     // 款项类型
+    var orderbyType = $('#orderbyType').val().trim();     //    订单排序
+    var start_with = $('#start_with').val().trim();     // 首字母
+    var payAccount = $('#pay_account').val().trim();        // 默认账户
     (function ($) {
         const BTNTYPE = '{{reqParams.type}}';
         //绑定确定按钮的点击事件
@@ -134,6 +155,7 @@
 
         $(function() {
             imgUpload();
+            goLoanOrderList();      // 跳转订单详情页
         });
     })(jQuery,undefined);
 </script>
