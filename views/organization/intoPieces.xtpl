@@ -34,7 +34,7 @@
                 </ul>
             </div>
             <form action="" method="POST" id="form_category">
-                <input type="hidden" name="type" value="{{type}}" id="flow_type">
+                <input type="hidden" name="type" value="1000" id="orgId">
                 <div class="product_detail_box">
                     {{#if (type === 2) }}
                     <div class="detail_about" style="display:block">
@@ -764,7 +764,7 @@
                                 </div>
                                 <div class="btn_box clearfix create_wf_btn_box">
                                     <a href="javascript:;" class="btn orange_btn confirm create_confirm category_edit_btn">保存</a>
-                                    <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
+                                    <a href="javascript:;" class="btn bg_btn create_cancel category_cancel">取消</a>
                                 </div>
                             </div>
                         </div>
@@ -780,6 +780,19 @@
 
 <script>
     (function ($) {
+        //取消按钮
+        function categoryCancel () {
+            var btn = $('.category_cancel');
+            btn.off("click").on("click", function () {
+                var id = $.trim($('#orgId').val());
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detail',
+                    param : {
+                        id : id
+                    }
+                });
+            });
+        }
 
         //编辑保存
         function onUpdate () {
@@ -904,6 +917,7 @@
             checkAll(".check_all");
             monitorSelectAll();
             onUpdate();
+            categoryCancel();
         });
     })(jQuery,undefined);
 </script>
