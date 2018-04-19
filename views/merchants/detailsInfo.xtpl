@@ -93,36 +93,28 @@
                                     {{/if}}
                                 </div>
                                 <div class="detail_menu_list">
-                                    <div class="account_row"><div class="account_name">账户类型：</div>
-                                        {{#if (this.account_type === 1) }}
-                                        <div class="account_value merchant_name">公户</div>
-                                        {{elseif (this.account_type === 2)}}
-                                        <div class="account_value merchant_name">法人</div>
-                                        {{elseif (this.account_type === 3)}}
-                                        <div class="account_value merchant_name">其他股东</div>
-                                        {{elseif (this.account_type === 4)}}
-                                        <div class="account_value merchant_name">其他</div>
-                                        {{/if}}
+                                    <div class="account_row">
+                                        <div class="account_name">账户类型：</div>
+                                        <div class="account_value merchant_name">{{this.account_type_value}}</div>
                                     </div>
-                                    <div class="account_row"><div class="account_name">账户用途：</div>
-                                        {{#if (this.account_use === '1') }}
-                                        <div class="account_value merchant_name">车款</div>
-                                        {{elseif (this.account_use === '2')}}
-                                        <div class="account_value merchant_name">返点</div>
-                                        {{elseif (this.account_use === '3')}}
-                                        <div class="account_value merchant_name">杂费</div>
-                                        {{/if}}
+                                    <div class="account_row">
+                                        <div class="account_name">账户用途：</div>
+                                        <div class="account_value merchant_name">{{this.account_use_value}}</div>
                                     </div>
-                                    <div class="account_row"><div class="account_name">账户名：</div>
+                                    <div class="account_row">
+                                        <div class="account_name">账户名：</div>
                                         <div class="account_value merchant_name">{{this.pay_account}}</div>
                                     </div>
-                                    <div class="account_row"><div class="account_name">银行卡号：</div>
+                                    <div class="account_row">
+                                        <div class="account_name">银行卡号：</div>
                                         <div class="account_value merchant_name">{{this.pay_account}}</div>
                                     </div>
-                                    <div class="account_row"><div class="account_name">开户行：</div>
+                                    <div class="account_row">
+                                        <div class="account_name">开户行：</div>
                                         <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                     </div>
-                                    <div class="account_row"><div class="account_name">总金额：</div>
+                                    <div class="account_row">
+                                        <div class="account_name">总金额：</div>
                                         <div class="account_value merchant_name">{{this.total_charge}}</div>
                                     </div>
                                 </div>
