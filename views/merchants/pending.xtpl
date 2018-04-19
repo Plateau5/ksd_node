@@ -100,10 +100,7 @@
                     </tbody>
                 </table>
                 <!--分页部分 Begin-->
-
-
                 {{include('./../inc/paginations')}}
-
                 <!--分页部分 End-->
             </div>
         </div>
@@ -117,6 +114,7 @@
 <script>
     var listType = $('#listType').val().trim().number();
     (function ($) {
+        paginationSwitch();     // 分页切换
 
         $(function() {
             goLoanDetail();

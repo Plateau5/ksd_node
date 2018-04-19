@@ -277,14 +277,7 @@ exports.VIEW_LOAN_PENDING_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/wait/list',
         title : '商户-放款管理-放款管理详情',
-        page : './merchants/detailsInfo',
-        callback : function (data) {
-            var list = data.list;
-            for (var i = 0; i < 5; i++) {
-                list.push(list[0]);
-            }
-            data.list = list;
-        }
+        page : './merchants/detailsInfo'
     }, req, res, next);
 };
 

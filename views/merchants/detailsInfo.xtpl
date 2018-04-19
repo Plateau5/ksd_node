@@ -141,12 +141,12 @@
                     <input type="hidden" name="url" value="{{reqParams.url}}" id="url">
                     <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
                     <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
+                </form>
                     <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
                     <input type="hidden" name="timeorder_type" value="{{reqParams.timeorder_type}}" id="timeorderType">
                     <input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
                     <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
                     <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
-                </form>
                 <div class="filtrate">
                     <div class="filtrate merchants_filtrate">
                         <div class="filtrate_item select_item inline_block">
@@ -248,19 +248,26 @@
                                 <label class="nor_wrap">全选</label>
                             </div>
                             <div class="total_operate_btn text_right">
+                                {{#if (verifyCode(1493)) }}
                                 <a href="javascript:" data-btn_type="1" class="go_forward audit_btn agree_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     同意
                                 </a>
+                                {{/if}}
+                                {{#if (verifyCode(1494)) }}
                                 <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
                                     不同意
                                 </a>
+                                {{/if}}
+                                {{#if (verifyCode(1495)) }}
                                 <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     转交他人
                                 </a>
+                                {{/if}}
                                 <a href="javascript:" class="cancel_btn cancel_batch_btn">取消</a>
                             </div>
                         </div>
                     </div>
+                    {{#if (list.length > 0) }}
                     <ul class="loan_order_list">
                         {{#each (list) }}
                         <li class="list_item" data-id="{{this.advance_id}}">
@@ -385,19 +392,29 @@
                                 </div>
                                 {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
+                                    {{#if (root.verifyCode(1493)) }}
                                     <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">同意</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1494)) }}
                                     <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">不同意</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1495)) }}
                                     <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">转交他人</a>
+                                    {{/if}}
                                 </div>
                             </div>
                         </li>
                         {{/each}}
                     </ul>
+                    {{include('./../inc/paginations')}}
+                    {{else}}
+                        {{include('./../inc/empty_data.xtpl')}}
+                    {{/if}}
                 </div>
                 <!--分页部分 Begin-->
 
 
-                {{include('./../inc/paginations')}}
+
             </div>
 
 

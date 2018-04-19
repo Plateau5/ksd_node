@@ -61,7 +61,7 @@
                 <div class="btn_box clearfix text_left"   style="padding-left: 7%;">
 
                     <a href="javascript:" class="btn orange_btn confirm submit_confirm">确认</a>
-                    <a href="javascript:" class="btn bg_btn submit_cancel go_loan_detail">取消</a>
+                    <a href="javascript:window.history.back()" class="btn bg_btn submit_cancel">取消</a>
 
                 </div>
             </div>
@@ -119,17 +119,75 @@
                                 "maskClose" : false,
                                 onConfirm : function (d) {
                                     d.close();
-                                    window.location.replace(location_url);
+                                    //window.location.replace(location_url);
+                                    var detailPath = '';
+                                    if (listType == 1) {
+                                        detailPath = '/loan/pending/list';
+                                    } else if (listType == 2) {
+                                        detailPath = '/loan/pass/list';
+                                    }
+                                    locationTo({
+                                        action : contextPath + markUri + detailPath,
+                                        param : {
+                                            supplier_id : merchantId,
+                                            pay_account: payAccount,
+                                            timeorder_type: timeorderType,
+                                            receipt_type: receiptType,
+                                            orderby_type: orderbyType,
+                                            supplier_name : merchantName,
+                                            url : url,
+                                            navigation : navigation,
+                                            list_type : listType
+                                        }
+                                    })
                                 },
                                 onCancel : function (d) {
                                     d.close();
                                     // window.location.href = contextPath + markUri + "/customer/financial/pendingAudit";
-                                    window.history.back();
+                                    var detailPath = '';
+                                    if (listType == 1) {
+                                        detailPath = '/loan/pending/list';
+                                    } else if (listType == 2) {
+                                        detailPath = '/loan/pass/list';
+                                    }
+                                    locationTo({
+                                        action : contextPath + markUri + detailPath,
+                                        param : {
+                                            supplier_id : merchantId,
+                                            pay_account: payAccount,
+                                            timeorder_type: timeorderType,
+                                            receipt_type: receiptType,
+                                            orderby_type: orderbyType,
+                                            supplier_name : merchantName,
+                                            url : url,
+                                            navigation : navigation,
+                                            list_type : listType
+                                        }
+                                    })
                                 }
                             });
                         } else {
                             $alert('提交成功', function () {
-                                window.location.href = contextPath + markUri + "/merchants/pendingAudit";
+                                var detailPath = '';
+                                if (listType == 1) {
+                                    detailPath = '/loan/pending/list';
+                                } else if (listType == 2) {
+                                    detailPath = '/loan/pass/list';
+                                }
+                                locationTo({
+                                    action : contextPath + markUri + detailPath,
+                                    param : {
+                                        supplier_id : merchantId,
+                                        pay_account: payAccount,
+                                        timeorder_type: timeorderType,
+                                        receipt_type: receiptType,
+                                        orderby_type: orderbyType,
+                                        supplier_name : merchantName,
+                                        url : url,
+                                        navigation : navigation,
+                                        list_type : listType
+                                    }
+                                })
                             });
                         }
                     } else {
