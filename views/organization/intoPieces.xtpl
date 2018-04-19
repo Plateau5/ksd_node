@@ -33,732 +33,745 @@
                     <li class="tab_item type_others {{#if (type === 2) }}active{{/if}}">二手车</li>
                 </ul>
             </div>
-            <form action="" method="POST" id="form_search" role="form">
+            <form action="" method="POST" id="form_category">
                 <input type="hidden" name="type" value="{{type}}" id="flow_type">
-            </form>
-            <div class="product_detail_box">{{type}}
-                {{#if (type === 2) }}
-                <div class="detail_about" style="display:block">
-                {{else}}
-                <div class="detail_about" style="display:none">
-                {{/if}}
-                <!--<div class="detail_about">-->
+                <div class="product_detail_box">
+                    {{#if (type === 2) }}
+                    <div class="detail_about" style="display:block">
+                        {{else}}
+                        <div class="detail_about" style="display:block">
+                            {{/if}}
+                            <!--<div class="detail_about">-->
 
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">身份类</label>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_lf check_all_box">
+                                    <div class="form_group">
+                                        <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                        <label class="checked check_all">身份类</label>
+                                    </div>
+                                </div>
+                                <div class="detail_about_rt form_container">
+                                    <div class="detail_about_rt_top">
+                                        <div class="sentflag mar40">
+                                            <input id="type2_identity_send" type="radio" class="have_system" name="type2_identity_send" value="0" checked="checked">
+                                            <label for="type2_identity_send">必传</label>
+                                        </div>
+                                        <div class="sentflag">
+                                            <input id="type2_identity_nosend" type="radio" class="have_system" name="type2_identity_send" value="1">
+                                            <label for="type2_identity_nosend">非必传</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt_bot">
+                                        <div class="sentflag mar20 form_group">
+                                            <input id="" type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">身份证</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">驾驶证</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">户口本</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">银行卡</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">婚姻证明</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">关系证明</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">单身证明</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_lf check_all_box">
+                                    <div class="form_group">
+                                        <input type="checkbox" class="apply_scope check_all " name="" value="0">
+                                        <label class="checked check_all">申请类</label>
+                                    </div>
+                                </div>
+                                <div class="detail_about_rt form_container">
+                                    <div class="detail_about_rt_top">
+                                        <div class="sentflag mar40">
+                                            <input id="type2_apply_send" type="radio" class="have_system" name="type2_apply_send" value="0" checked="checked">
+                                            <label for="type2_apply_send">必传</label>
+                                        </div>
+                                        <div class="sentflag">
+                                            <input id="type2_apply_nosend" type="radio" class="have_system" name="type2_apply_send" value="1">
+                                            <label for="type2_apply_nosend">非必传</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt_bot">
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">申请表</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">征信授权书</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">风险告知书</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">承诺与授权书</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_lf check_all_box">
+                                    <div class="form_group">
+                                        <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                        <label class="checked check_all">房产类</label>
+                                    </div>
+                                </div>
+                                <div class="detail_about_rt form_container">
+                                    <div class="detail_about_rt_top">
+                                        <div class="sentflag mar40">
+                                            <input id="type2_house_send" type="radio" class="have_system" name="type2_house_send" value="0" checked="checked">
+                                            <label for="type2_house_send">必传</label>
+                                        </div>
+                                        <div class="sentflag">
+                                            <input id="type2_house_nosend" type="radio" class="have_system" name="type2_house_send" value="1">
+                                            <label for="type2_house_nosend">非必传</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt_bot">
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">发票</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">土地证</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">房产证</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">租赁合同</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">居住证明</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">购房合同</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">安置协议</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">宅基地证明</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_lf check_all_box">
+                                    <div class="form_group">
+                                        <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                        <label class="checked check_all">车辆类</label>
+                                    </div>
+                                </div>
+                                <div class="detail_about_rt form_container">
+                                    <div class="detail_about_rt_top">
+                                        <div class="sentflag mar40">
+                                            <input id="type2_car_send" type="radio" class="have_system" name="type2_car_send" value="0" checked="checked">
+                                            <label for="type2_car_send">必传</label>
+                                        </div>
+                                        <div class="sentflag">
+                                            <input id="type2_car_nosend" type="radio" class="have_system" name="type2_car_send" value="1">
+                                            <label for="type2_car_nosend">非必传</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt_bot">
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">行驶证</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">合格证</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">车辆照片</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">登记证书</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">牌照指标</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">购车合同</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">购车发票</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">二手车评估报告</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_lf check_all_box">
+                                    <div class="form_group">
+                                        <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                        <label class="checked check_all">公户类</label>
+                                    </div>
+                                </div>
+                                <div class="detail_about_rt form_container">
+                                    <div class="detail_about_rt_top">
+                                        <div class="sentflag mar40">
+                                            <input id="type2_account_send" type="radio" class="have_system" name="type2_account_send" value="0" checked="checked">
+                                            <label for="type2_account_send">必传</label>
+                                        </div>
+                                        <div class="sentflag">
+                                            <input id="type2_account_nosend" type="radio" class="have_system" name="type2_account_send" value="1">
+                                            <label for="type2_account_nosend">非必传</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt_bot">
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">法人材料</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">营业执照</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">经营照片</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">财务报表</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">企业征信报告</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">场地租赁合同</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail_about_txt">
+                                <div class="detail_about_lf check_all_box">
+                                    <div class="form_group">
+                                        <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                        <label class="checked check_all">收入类</label>
+                                    </div>
+                                </div>
+                                <div class="detail_about_rt form_container">
+                                    <div class="detail_about_rt_top">
+                                        <div class="sentflag mar40">
+                                            <input id="type2_income_send" type="radio" class="have_system" name="type2_income_send" value="0" checked="checked">
+                                            <label for="type2_income_send">必传</label>
+                                        </div>
+                                        <div class="sentflag">
+                                            <input id="type2_income_nosend" type="radio" class="have_system" name="type2_income_send" value="1">
+                                            <label for="type2_income_nosend">非必传</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt_bot">
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">银行流水</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">工作证明</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">业务单据</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">工作照片</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">工作证件</label>
+                                        </div>
+                                        <div class="sentflag mar20 form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">资格证书</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">工程合同</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">承包协议</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">居住和收入申明</label>
+                                        </div>
+                                        <div class="sentflag form_group">
+                                            <input type="checkbox" class="apply_scope" name="" value="0">
+                                            <label for="" class="checked">社保公积金缴纳证明</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
+                        {{#if (type === 3) }}
+                        <div class="detail_about" style="display:block">
+                            {{else}}
+                            <div class="detail_about" style="display:none">
+                                {{/if}}
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_lf check_all_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                            <label class="checked check_all">发票类</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt form_container">
+                                        <div class="detail_about_rt_top">
+                                            <div class="sentflag mar40">
+                                                <input id="type3_invoice_send" type="radio" class="have_system" name="type3_invoice_send" value="0" checked="checked">
+                                                <label for="type3_invoice_send">必传</label>
+                                            </div>
+                                            <div class="sentflag">
+                                                <input id="type3_invoice_nosend" type="radio" class="have_system" name="type3_invoice_send" value="1">
+                                                <label for="type3_invoice_nosend">非必传</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">发票</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_lf check_all_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                            <label class="checked check_all">保单类</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt form_container">
+                                        <div class="detail_about_rt_top">
+                                            <div class="sentflag mar40">
+                                                <input id="type3_insurance_send" type="radio" class="have_system" name="type3_insurance_send" value="0" checked="checked">
+                                                <label for="type3_insurance_send">必传</label>
+                                            </div>
+                                            <div class="sentflag">
+                                                <input id="type3_insurance_nosend" type="radio" class="have_system" name="type3_insurance_send" value="1">
+                                                <label for="type3_insurance_nosend">非必传</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">商业险</label>
+                                            </div>
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">交强险</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">身份证</label>
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_lf check_all_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                            <label class="checked check_all">合同类</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt form_container">
+                                        <div class="detail_about_rt_top">
+                                            <div class="sentflag mar40">
+                                                <input id="type3_compact_send" type="radio" class="have_system" name="type3_compact_send" value="0" checked="checked">
+                                                <label for="type3_compact_send">必传</label>
+                                            </div>
+                                            <div class="sentflag">
+                                                <input id="type3_compact_nosend" type="radio" class="have_system" name="type3_compact_send" value="1">
+                                                <label for="type3_compact_nosend">非必传</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">合同</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">驾驶证</label>
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_lf check_all_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                            <label class="checked check_all">见证类</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt form_container">
+                                        <div class="detail_about_rt_top">
+                                            <div class="sentflag mar40">
+                                                <input id="type3_witness_send" type="radio" class="have_system" name="type3_witness_send" value="0" checked="checked">
+                                                <label for="type3_witness_send">必传</label>
+                                            </div>
+                                            <div class="sentflag">
+                                                <input id="type3_witness_nosend" type="radio" class="have_system" name="type3_witness_send" value="1">
+                                                <label for="type3_witness_nosend">非必传</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">视频</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">照片</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">录音</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">线上签约凭证</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">户口本</label>
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_lf check_all_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                            <label class="checked check_all">GPS类</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt form_container">
+                                        <div class="detail_about_rt_top">
+                                            <div class="sentflag mar40">
+                                                <input id="type3_gps_send" type="radio" class="have_system" name="type3_gps_send" value="0" checked="checked">
+                                                <label for="type3_gps_send">必传</label>
+                                            </div>
+                                            <div class="sentflag">
+                                                <input id="type3_gps_nosend" type="radio" class="have_system" name="type3_gps_send" value="1">
+                                                <label for="type3_gps_nosend">非必传</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">设备编号</label>
+                                            </div>
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">车架号</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">银行卡</label>
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_lf check_all_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                            <label class="checked check_all">极致附加类</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt form_container">
+                                        <div class="detail_about_rt_top">
+                                            <div class="sentflag mar40">
+                                                <input id="type3_ultimate_send" type="radio" class="have_system" name="type3_ultimate_send" value="0" checked="checked">
+                                                <label for="type3_ultimate_send">必传</label>
+                                            </div>
+                                            <div class="sentflag">
+                                                <input id="type3_ultimate_nosend" type="radio" class="have_system" name="type3_ultimate_send" value="1">
+                                                <label for="type3_ultimate_nosend">非必传</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">服务协议</label>
+                                            </div>
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">风险告知函</label>
+                                            </div>
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">签约审查表</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">婚姻证明</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">关系证明</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">单身证明</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">收入类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="radio" class="have_system" name="" value="1">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">申请表</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">征信授权书</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">风险告知书</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">承诺与授权书</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">房产类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="radio" class="have_system" name="" value="1">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">发票</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">土地证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">房产证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">租赁合同</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">居住证明</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">购房合同</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">安置协议</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">宅基地证明</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">车辆类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="radio" class="have_system" name="" value="1">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">身份证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">驾驶证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">户口本</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">银行卡</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">婚姻证明</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">关系证明</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">单身证明</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">公户类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="radio" class="have_system" name="" value="1">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">身份证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">驾驶证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">户口本</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">银行卡</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">婚姻证明</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">关系证明</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">单身证明</label>
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_lf check_all_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                            <label class="checked check_all">产证类</label>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_rt form_container">
+                                        <div class="detail_about_rt_top">
+                                            <div class="sentflag mar40">
+                                                <input id="type3_permit_send" type="radio" class="have_system" name="type3_permit_send" value="0" checked="checked">
+                                                <label for="type3_permit_send">必传</label>
+                                            </div>
+                                            <div class="sentflag">
+                                                <input id="type3_permit_nosend" type="radio" class="have_system" name="type3_permit_send" value="1">
+                                                <label for="type3_permit_nosend">非必传</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt_bot">
+                                            <div class="sentflag mar20 form_group">
+                                                <input type="checkbox" class="apply_scope" name="" value="0">
+                                                <label for="" class="checked">登记证</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">收入类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
+                            {{#if (type === 4) }}
+                            <div class="detail_about" style="display:block">
+                                {{else}}
+                                <div class="detail_about" style="display:none">
+                                    {{/if}}
+                                    <div class="detail_about_txt">
+                                        <div class="detail_about_lf check_all_box">
+                                            <div class="form_group">
+                                                <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                                <label class="checked check_all">申请类</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt form_container">
+                                            <div class="detail_about_rt_top">
+                                                <div class="sentflag mar40">
+                                                    <input id="type4_application_send" type="radio" class="have_system" name="type4_application_send" value="0" checked="checked">
+                                                    <label for="type4_application_send">必传</label>
+                                                </div>
+                                                <div class="sentflag">
+                                                    <input id="type4_application_nosend" type="radio" class="have_system" name="type4_application_send" value="1">
+                                                    <label for="type4_application_nosend">非必传</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">申请表</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">征信授权书</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_txt">
+                                        <div class="detail_about_lf check_all_box">
+                                            <div class="form_group">
+                                                <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                                <label class="checked check_all">合同类</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt form_container">
+                                            <div class="detail_about_rt_top">
+                                                <div class="sentflag mar40">
+                                                    <input id="type4_compact_send" type="radio" class="have_system" name="type4_compact_send" value="0" checked="checked">
+                                                    <label for="type4_compact_send">必传</label>
+                                                </div>
+                                                <div class="sentflag">
+                                                    <input id="type4_compact_nosend" type="radio" class="have_system" name="type4_compact_send" value="1">
+                                                    <label for="type4_compact_nosend">非必传</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">合同原件</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_txt">
+                                        <div class="detail_about_lf check_all_box">
+                                            <div class="form_group">
+                                                <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                                <label class="checked check_all">票据类</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt form_container">
+                                            <div class="detail_about_rt_top">
+                                                <div class="sentflag mar40">
+                                                    <input id="type4_bill_send" type="radio" class="have_system" name="type4_bill_send" value="0" checked="checked">
+                                                    <label for="type4_bill_send">必传</label>
+                                                </div>
+                                                <div class="sentflag">
+                                                    <input id="type4_bill_nosend" type="radio" class="have_system" name="type4_bill_send" value="1">
+                                                    <label for="type4_bill_nosend">非必传</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">发票原件／图片</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="">保单图片</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">购置税凭证</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_txt">
+                                        <div class="detail_about_lf check_all_box">
+                                            <div class="form_group">
+                                                <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                                <label class="checked check_all">身份类</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt form_container">
+                                            <div class="detail_about_rt_top">
+                                                <div class="sentflag mar40">
+                                                    <input id="type4_identity_send" type="radio" class="have_system" name="type4_identity_send" value="0" checked="checked">
+                                                    <label for="type4_identity_send">必传</label>
+                                                </div>
+                                                <div class="sentflag">
+                                                    <input id="type4_identity_nosend" type="radio" class="have_system" name="type4_identity_send" value="1">
+                                                    <label for="type4_identity_nosend">非必传</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">身份证复印件</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">行驶证复印件</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_txt">
+                                        <div class="detail_about_lf check_all_box">
+                                            <div class="form_group">
+                                                <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                                <label class="checked check_all">产证类</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt form_container">
+                                            <div class="detail_about_rt_top">
+                                                <div class="sentflag mar40">
+                                                    <input id="type4_production_send" type="radio" class="have_system" name="type4_production_send" value="0" checked="checked">
+                                                    <label for="type4_production_send">必传</label>
+                                                </div>
+                                                <div class="sentflag">
+                                                    <input id="type4_production_nosend" type="radio" class="have_system" name="type4_production_send" value="1">
+                                                    <label for="type4_production_nosend">非必传</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">登记证原件</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="detail_about_txt">
+                                        <div class="detail_about_lf check_all_box">
+                                            <div class="form_group">
+                                                <input type="checkbox" class="apply_scope check_all" name="" value="0">
+                                                <label class="checked check_all">公户类</label>
+                                            </div>
+                                        </div>
+                                        <div class="detail_about_rt form_container">
+                                            <div class="detail_about_rt_top">
+                                                <div class="sentflag mar40">
+                                                    <input id="type4_surname_send" type="radio" class="have_system" name="type4_surname_send" value="0" checked="checked">
+                                                    <label for="type4_surname_send">必传</label>
+                                                </div>
+                                                <div class="sentflag">
+                                                    <input id="type4_surname_nosend" type="radio" class="have_system" name="type4_surname_send" value="1">
+                                                    <label for="type4_surname_nosend">非必传</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">营业执照复印件盖章</label>
+                                                </div>
+                                            </div>
+                                            <div class="detail_about_rt_bot">
+                                                <div class="sentflag mar20 form_group">
+                                                    <input type="checkbox" class="apply_scope" name="" value="0">
+                                                    <label for="" class="checked">挂靠协议</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="sentflag">
-                                    <input type="radio" class="have_system" name="" value="1">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">身份证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">驾驶证</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">户口本</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">银行卡</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">婚姻证明</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">关系证明</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">单身证明</label>
+                                <div class="btn_box clearfix create_wf_btn_box">
+                                    <a href="javascript:;" class="btn orange_btn confirm create_confirm category_edit_btn">保存</a>
+                                    <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{#if (type === 3) }}
-                <div class="detail_about" style="display:block">
-                {{else}}
-                <div class="detail_about" style="display:none">
-                {{/if}}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">发票类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">发票</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">保单类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">商业险</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">交强险</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">合同类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">合同</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">见证类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">视频</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">照片</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">录音</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">线上签约凭证</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">GPS类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">设备编号</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">车架号</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">极致附加类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">服务协议</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">风险告知函</label>
-                                </div>
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">签约审查表</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">产证类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">登记证</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {{#if (type === 3) }}
-                <div class="detail_about" style="display:block">
-                {{else}}
-                <div class="detail_about" style="display:none">
-                {{/if}}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">申请类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">申请表</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">征信授权书</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">合同类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">合同原件</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">票据类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">发票原件／图片</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">保单图片</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">购置税凭证</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">身份类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">身份证复印件</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">行驶证复印件</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">产证类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">登记证原件</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_lf">
-                            <div class="form_group">
-                                <input type="checkbox" class="apply_scope" name="" value="0">
-                                <label class="checked">公户类</label>
-                            </div>
-                        </div>
-                        <div class="detail_about_rt">
-                            <div class="detail_about_rt_top">
-                                <div class="sentflag mar40">
-                                    <input id="order_type1" type="radio" class="have_system" name="" value="1" checked="checked">
-                                    <label for="order_type1">必传</label>
-                                </div>
-                                <div class="sentflag">
-                                    <input id="order_type2" type="radio" class="have_system" name="" value="2">
-                                    <label for="order_type2">非必传</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">营业执照复印件盖章</label>
-                                </div>
-                            </div>
-                            <div class="detail_about_rt_bot">
-                                <div class="sentflag mar20">
-                                    <input type="checkbox" class="apply_scope" name="" value="0">
-                                    <label for="">挂靠协议</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="btn_box clearfix create_wf_btn_box">
-                    <a href="javascript:;" class="btn orange_btn confirm create_confirm category_edit_btn">保存</a>
-                    <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
-                </div>
-            </div>
-        </div>
-    </div>
-        </div>
+            </form>
+
     </div>
 </div>
 </body>
@@ -769,19 +782,128 @@
     (function ($) {
 
         //编辑保存
-        function categorySave () {
+        function onUpdate () {
             var savebtn = $('.category_edit_btn');
             savebtn.off("click").on("click", function () {
+                submitEvent(savebtn);
+            });
+        }
 
+        //提交保存
+        var isVerify = false;//提交的标志位
+        function submitEvent () {
+            validateEmpty();
+            if (isVerify) {
+                var data = new FormData(document.getElementById("form_category"));
+                // $.ajax({
+                //     type: 'post',
+                //     data : data,
+                //     url : contextPath + '/api/supplier/edit',
+                //     timeout : 600000,
+                //     processData: false,
+                //     contentType: false,
+                //     beforeSend : function () {
+                //         $('#loading').show();
+                //     },
+                //     success : function (res) {
+                //         $('#loading').hide();
+                //         if (res.error_code == 0) {
+                //             $alert('操作成功', function () {
+                //                 locationTo({
+                //                     action : contextPath + markUri + '/merchants/detail',
+                //                     param : {
+                //                         supplier_id : merchantId,
+                //                         url : LOCALURL
+                //                     }
+                //                 })
+                //             })
+                //         } else {
+                //             $alert(res.error_msg);
+                //             onUpdate();
+                //         }
+                //     },
+                //     error : function () {
+                //         $alert("操作失败，请稍后重试");
+                //         onUpdate();
+                //     }
+                // })
+            } else {
+                onUpdate();
+            }
+        }
+
+        //判断类别是否选中
+        var count = 0;//类别选中个数
+        function validateEmpty () {
+            var requireInput;
+            count = 0;
+            var detail_about = $('.detail_about');
+            detail_about.each(function () {
+                var e = $(this);
+                //只取当前显示的元素选择器
+                if (e.css('display') != 'none') {
+                    requireInput = e.find('label.check_all');
+                }
+            });
+
+            requireInput.each(function () {
+                var t = $(this);
+                if (t.hasClass('checked')) {
+                    isVerify = true;
+                    return false;
+                } else {
+                    var childCheck = t.parents(".check_all_box").siblings(".form_container").find('.sentflag');
+                    childCheck.each(function () {
+                        var c = $(this).find('label');
+                        if (c.hasClass('checked')) {
+                            count++;
+                        }
+                    });
+                }
+            });
+            if (count == 0) {
+                $alert('请至少选中一项类别／请选择XXXXXX里面对应的资料。');
+                isVerify = false;
+            } else {
+                isVerify = true;
+            }
+        }
+
+        //监听是否全选
+        function monitorSelectAll () {
+            var singleCheck = $('.detail_about_rt_bot label');
+            singleCheck.on('click', function () {
+                var _this = $(this);
+                var checkAll = _this.parents('.detail_about_txt').find('.check_all_box label');
+                var categoryCheck = _this.parents('.detail_about_rt_bot').find('label');
+                if (!_this.hasClass('checked')) {
+                    var labels = _this.parents('.detail_about_rt_bot').find('label');
+                    var count = 0;
+                    for (var i = 0,len = labels.length;i < len;i++) {
+                        if (labels[i].className == 'checked') {
+                            count++;
+                        }
+                    }
+                    if (count == categoryCheck.length -1) {
+                        checkAll.addClass('checked');
+                    } else {
+                        if (checkAll.hasClass('checked')) {
+                            checkAll.removeClass('checked');
+                        }
+                    }
+                } else {
+                    if (checkAll.hasClass('checked')) {
+                        checkAll.removeClass('checked');
+                    }
+                }
             });
         }
 
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
-            /*switchTab();
-            deleteOrg();
-            editOrg();*/
-            categorySave();
+            checkAll(".check_all");
+            monitorSelectAll();
+            onUpdate();
         });
     })(jQuery,undefined);
 </script>
