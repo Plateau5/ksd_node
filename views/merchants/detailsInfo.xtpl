@@ -116,7 +116,7 @@
                                     </div>
                                     <div class="account_row">
                                         <div class="account_name">总金额：</div>
-                                        <div class="account_value merchant_name">{{this.total_charge}}</div>
+                                        <div class="account_value merchant_name">{{this.total_charge}}元</div>
                                     </div>
                                 </div>
                             </li>
@@ -468,7 +468,7 @@
     var start_with = $('#start_with').val().trim();     // 首字母
     var payAccount = $('#pay_account').val().trim();        // 默认账户
     (function ($, window) {
-
+        paginationSwitch();     // 分页切换
         //全选/全不选
         function selectedAll(){
             var checkedAllLabel = $("#selectedAll label");      // 全选按钮
