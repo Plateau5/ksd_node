@@ -2256,7 +2256,7 @@ function paginationSwitch () {
             }
             var currentPageE = form.find('input[name="current_page"]');
             if (currentPageE.length <= 0) {
-                form.append('<input name="current_page" value="'+ nextPage +'" id="currentPage" />');
+                form.append('<input type="hidden" name="current_page" value="'+ nextPage +'" id="currentPage" />');
             } else {
                 currentPageE.val(nextPage);
             }
