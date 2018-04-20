@@ -431,15 +431,15 @@ router.post(markUri + '/docking/pingan/credit', dockingCtrl.VIEW_DOCKING_PINGAN_
 // 平安对接-查看详情-跳转录入首页
 router.post(markUri + '/docking/pingan/detailHome', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILHOME);
 // 平安对接-查看详情-车辆信息页
-router.post(markUri + '/docking/pingan/detaiCar', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCAR);
+router.post(markUri + '/docking/pingan/detailCar', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCAR);
 // 平安对接-查看详情-承租人信息页
-router.post(markUri + '/docking/pingan/detaiRenter', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILLENDER);
+router.post(markUri + '/docking/pingan/detailRenter', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILLENDER);
 // 平安对接-查看详情-担保人信息页
-router.post(markUri + '/docking/pingan/detaiGuarantor', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILGUARGANTOR);
+router.post(markUri + '/docking/pingan/detailGuarantor', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILGUARGANTOR);
 // 平安对接-查看详情-文件信息页
-router.post(markUri + '/docking/pingan/detaiFiles', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILFILES);
+router.post(markUri + '/docking/pingan/detailFiles', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILFILES);
 // 平安对接-查看详情-征信查询信息页
-router.post(markUri + '/docking/pingan/detaiCredit', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCREDIT);
+router.post(markUri + '/docking/pingan/detailCredit', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCREDIT);
 
 
 // If router is undefined redirect to 404 page.
