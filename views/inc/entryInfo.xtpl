@@ -70,7 +70,7 @@
 			<div class="cursor requestpayout_detail_btn requestpayout_download download_file" id="" alt="1" lang="{{finance_id}}">全部下载</div>
 		{{/if}}
 		{{#if (startWith(markUri + '/customer/loan/detail')) }}
-			{{#if (vo.status >= 4 && (vo.is_docking === 1 && vo.sign_ids && vo.sign_ids.indexOf('10') !== -1)) }}
+			{{#if (vo.status >= 4 && vo.is_docking === 1 }}
 				{{#if (verifyCode(1161))}}
 					<a href="javascript:" id="viewDockingPADetail" data-id="{{finance_id}}" data-url="{{markUri}}/docking/pingan/detailHome" class="btn_item" lang="{{finance_id}}">
 						<div class="requestpayout_detail_btn view_docking_pingan_detail">查看详情</div>
