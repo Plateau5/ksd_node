@@ -219,7 +219,7 @@ router.all(markUri + '/merchants/policies/history/list', merchantsCtrl.VIEW_MERC
 
 
 
-// 商户-放款管理-侧导航跳转 1487
+// 商户-放款管理-侧导航跳转 1490
 router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
 // 商户-放款管理-待审批 1487
 router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);

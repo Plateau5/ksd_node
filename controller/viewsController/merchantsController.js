@@ -19,10 +19,10 @@ exports.VIEW_MERCHANTS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/merchants/manage/system');
         } else if (common.checkPrivilege(1368, req)) {
             res.redirect(markUri + '/records/manage');
-        } else if (common.checkPrivilege(1487, req) || common.checkPrivilege(1488, req)) {
+        } else if (common.checkPrivilege(1490, req)) {
             res.redirect(markUri + '/loan/system');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1369 | 1368 | 1367 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1490 | 1368 | 1367 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
