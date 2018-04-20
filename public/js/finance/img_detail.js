@@ -14,9 +14,10 @@ $(function(){
         var auditTime = $('#auditTime').val();
         var carType = $.trim($('#carType').val());
         is_docking = 1;
+        var action = '';
         // if (is_docking == 1 && (sign_ids && sign_ids.indexOf('10') != -1)) {
         if (is_docking == 1) {
-            var action  = contextPath + markUri + '/docking/pingan/home';
+            action  = contextPath + markUri + '/docking/pingan/home';
             if (auditTime != 0) {
                 locationTo({
                     action : action,
@@ -61,7 +62,7 @@ $(function(){
                 });
             }
         } else {
-            var action = contextPath + markUri + '/customer/loan/detail';
+            action = contextPath + markUri + '/customer/loan/detail';
             $.ajax({
                 type:"post",
                 url :contextPath + '/api/finance/startApplyloan',
