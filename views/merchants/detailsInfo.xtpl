@@ -51,6 +51,7 @@
                 </div>
                 <div class="account_item clearfix">
                     <div class="account_list_name merchant_name">账户<!--{{xindex + 1}}--><em class="drop_down"></em></div>
+                    <input type="hidden"  id="listLength" value="{{accountList.length}}">
                     <ul class="account_list" id="defaultAccount">
                         {{#each (accountList) }}
                             {{#if (vo.pay_account === this.pay_account) }}
@@ -516,14 +517,24 @@
             }
 
         }
+    //賬戶下拉展示
         function down_menu () {
-            $(".drop_down").click(function(){
-                $(".detail_menu").toggle();
+            var dropDown = $(".drop_down");
+            var detailMenu = $(".detail_menu");
+            var listLength = $('#listLength');
+            dropDown.off('click').on('click', function () {
+
+                if (listLength == 0) {
+                    detailMenu.hide();
+                } else {
+                    detailMenu.toggle();
+                }
+
             });
             $(":radio").click(function(){
-                $(".detail_menu").hide();
+                detailMenu.hide();
             });
-        };
+        }
         function batch(){
             $(".batch_btn").click(function(){
                 $(".batch_btn").hide();
@@ -539,7 +550,8 @@
                 $('.batch_btn').show();
                 $('.order_btn_box').show();
             })
-        }
+        };
+
         function  accountId(){
             var btn = $('.tog_account');
             var defaultItem = $('#defaultAccount');     // 默认账户信息
