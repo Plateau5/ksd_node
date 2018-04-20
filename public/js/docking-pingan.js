@@ -152,8 +152,10 @@ function checkVin () {
         vinE.on('input', function () {
             var _this = $(this);
             var v = _this.val().trim();
-            _this.val(v.toUpperCase());
+            _this.val('');
             if (vinPattern.test(v)) {
+                v = v.toUpperCase();
+                _this.val(v);
                 _this.siblings('.tips_info').hide();
                 _this.attr('verify', 1);
                 return true;
