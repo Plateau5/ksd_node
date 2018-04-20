@@ -163,21 +163,25 @@
                             <div class="filtrate_item select_item inline_block">
                                 <div class="conditions_name inline_block" style="vertical-align: top;">时间：</div>
                                 <select name="timeorder_type" class="filtrate_select" id="timeorder_type">
-                                    <option value="">全部</option>
-                                    {{#if (vo.timeorder_type === 0) }}
-                                    <option selected value="0">本月</option>
-                                    {{else}}
-                                    <option value="0">本月</option>
-                                    {{/if}}
                                     {{#if (vo.timeorder_type === 1) }}
-                                    <option selected value="1">上月</option>
+                                    <option selected value="1">本月</option>
                                     {{else}}
-                                    <option value="1">上月</option>
+                                    <option value="1">本月</option>
                                     {{/if}}
                                     {{#if (vo.timeorder_type === 2) }}
-                                    <option selected value="2">以前</option>
+                                    <option selected value="2">上月</option>
                                     {{else}}
-                                    <option value="2">以前</option>
+                                    <option value="2">上月</option>
+                                    {{/if}}
+                                    {{#if (vo.timeorder_type === 3) }}
+                                    <option selected value="3">以前</option>
+                                    {{else}}
+                                    <option value="3">以前</option>
+                                    {{/if}}
+                                    {{#if (vo.timeorder_type === 4) }}
+                                    <option selected value="4">全部</option>
+                                    {{else}}
+                                    <option value="4">全部</option>
                                     {{/if}}
                                 </select>
                             </div>
@@ -512,12 +516,6 @@
             }
 
         }
-        // 弹出层
-        function POP () {
-            $(".view").click(function(){
-                $(".pop").toggle();
-            });
-        };
         function down_menu () {
             $(".drop_down").click(function(){
                 $(".detail_menu").toggle();
@@ -567,31 +565,6 @@
             });
 
         }
-        function InfoList(){
-            var count = 0;
-            var btn = $('.view');
-            btn.off('click').on("click", function () {
-                $(".pop").toggle();
-                var t = $(this);
-                count++;
-                if (count < 2) {
-                    var url = contextPath + "/api/loan/supplier/detail";
-                    $.ajax({
-                        type: "post",
-                        url: url,
-                        dataType: "json",
-                        data: {
-                            // finance_id:$('#finance_download_finance_id').val(),
-                            supplier_id: $('#detail_supplier_id').val()
-                        },
-                        async: false,
-                        success: function (res) {
-                        }
-                    });
-                }
-            })
-        }
-        // 申请单的展开折叠效果
         //含有子级权限的展开折叠效果
         function slideDownList () {
             var count = 0;
@@ -774,14 +747,12 @@
         }
 
         $(function () {
-            // POP();
             selectedAll();
             down_menu();
             batch();
             slideDownList();
             accountId();
             cancelBatchAudit();
-            InfoList();
             toAuditPage();      // 跳转审核的三级页面
         })
     })(jQuery, window, undefined)
