@@ -256,7 +256,7 @@ function goLoanOrderList () {
                 receipt_type: receiptType,
                 orderby_type: orderbyType,
                 supplier_name : merchantName,
-                url : url,
+                url : listUrl,
                 navigation : navigation,
                 list_type : listType
             }
