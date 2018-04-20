@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/common/provinceCity.css"/>
     <!--<link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">-->
 </head>
 <body>
@@ -85,7 +86,7 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val">
-                                <input type="text" class="requireTrue" name=""  value="{{detail.name}}" placeholder="请选择城市"/>
+                                <input type="text" class="select_city_input" name=""  value="" placeholder="请选择城市" readonly/>
                             </div>
                             <span class="formError"></span>
                         </div>
@@ -228,7 +229,7 @@
 
 
 </div>
-
+{{include ('./../inc/provinceCity')}}
 <!--container end-->
 
 </body>
@@ -236,14 +237,40 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/common/validate_form.js"></script>
 <script src="{{markUri}}/static/js/product/create.js"></script>
+<script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
 
+        //省市弹框
+        function proDialog () {
+            $( ".province_city" ).dialog({
+                autoOpen: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+            });
+        }
+
+        //选择城市
+        function selectCity () {
+            var btn = $('.select_city_input');
+            btn.off('click').on('click', function () {
+                $( ".province_city_box" ).css('display','block');
+            });
+        }
+
         $(function() {
+            // proDialog();
             const TYPE = true;
             var PARENTID = '{{parent_id}}',
                 PARENTNAME = '{{parent_name}}';
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            selectCity();
             $('#add_btn_n').click(function(){
                 send_product_form(contextPath + "/api/product/createAndPublish",1);
             });
