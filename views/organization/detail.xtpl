@@ -27,7 +27,16 @@
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
                 <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
             </div>
-            {{include ('./../inc/merchantInfos')}}
+            <div class="product_detail_header">
+                {{include ('./../inc/merchantInfos')}}
+                {{#if (verifyCode(1073)) }}
+                <div class="inviteP cursor inline delete_org delete_agency" id="delete_org" lang="{{vo.id}}">
+                    <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
+                    <span>删除机构</span>
+                </div>
+                {{/if}}
+            </div>
+
             <div class="tab">
                 <ul class="tab_list inline_block">
                     <li class="tab_item type_normal {{#if (vo.type === 1) }}active{{/if}}" data-type="1">基本信息</li>

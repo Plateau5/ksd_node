@@ -1,5 +1,14 @@
 
 $(function(){
+    //新车二手车
+    $('#usedCars').click(function(){
+        var status = $('#usedCars').attr('checked');
+        if (status == 'checked') {
+            $('.carage_limit').css('display','block');
+        } else {
+            $('.carage_limit').css('display','none');
+        }
+    });
     have_system_url();
     //选择机构logo
     $('.organization_logo').click(function(){
@@ -25,14 +34,22 @@ $(function(){
 
     //单选有无系统
     $('#have_system input').click(function(){
-        var have_system = $('#have_system').parent().parent().find('.formError').html();
+        var have_system = $('#have_system').parent().find('.formError').html();
         if(have_system != ''){
-            $('#have_system').parent().parent().find('.formError').html('');
+            $('#have_system').parent().find('.formError').html('');
         }
         have_system_url();
 
     });
 
+    //添加备注
+    $('.add_txt').click(function(){
+        var remarks = $(this).parent().parent().find('.remarks_box').css('display');
+        if(remarks == 'block'){
+            return;
+        }
+        $(this).parent().parent().find('.remarks_box').css('display','block');
+    });
 
     //表单校验
     $('#name').blur(function(){
@@ -117,15 +134,87 @@ function applyto_business_change(obj){
 function have_system_url(){
     var checked = $('input[name="have_system"]').eq(0).prop('checked');
     if(checked){
-        $('#have_system').parent().parent().next().css('display','block');
+        $('#have_system').parent().next().css('display','block');
     }else{
-        $('#have_system').parent().parent().next().css('display','none');
+        $('#have_system').parent().next().css('display','none');
     }
 }
 
 //保存更新函数
 function send_organization_form(url){
     $('#add_btn_y').attr('disabled',true);
+
+    var name = $('#name').val();
+    if(!name){
+        $('#name').parent().find('.formError').html('机构名称不能为空');
+        $('#name').css('border-color','#FB2741');
+        $('#add_btn_y').attr('disabled',false);
+        return;
+    }
+    //适用业务
+    var applyto_business1 = $('#applyto_business input').eq(0).attr('checked');
+    var applyto_business2 = $('#applyto_business input').eq(1).attr('checked');
+    if(!applyto_business1 && !applyto_business2){
+        $('#applyto_business').find('.formError').html('请选择机构的适用业务');
+        $('#add_btn_y').attr('disabled',false);
+        return;
+    } else {
+        $('#applyto_business').find('.formError').html('');
+    }
+    //有无机构LOGO
+    var have_logo = $('#image_url .icon_check').length;
+    if(have_logo == '0'){
+        $('.logo_error').css('display','block');
+        $('.logo_error').html('请选择机构LOGO');
+        $('#add_btn_y').attr('disabled',false);
+        return;
+    } else {
+        $('.logo_error').html('');
+    }
+    //有无系统
+    var have_system1 = $('#have_system input').eq(0).prop('checked');
+    var have_system2 = $('#have_system input').eq(1).prop('checked');
+    if(!have_system1 && !have_system2){
+        $('#have_system').find('.formError').html('请选择机构有无系统');
+        $('#add_btn_y').attr('disabled',false);
+        return;
+    } else {
+        $('#have_system').find('.formError').html('');
+    }
+    //有无系统地址
+    var have_system_url = $('.have_system_url').css('display');
+    if(have_system_url == 'block'){
+        var have_system_url_val = $('#system_url').val();
+        if(!have_system_url_val){
+            $('#system_url').parent().find('.formError').html('系统地址不能为空');
+            $('#add_btn_y').attr('disabled',false);
+            return;
+        } else {
+            $('#system_url').parent().find('.formError').html('');
+        }
+    } else {
+        $('#system_url').parent().find('.formError').html('');
+    }
+    //车龄限制--只针对二手车
+    var usedCar_status = $('#usedCars').attr('checked');
+    if (usedCar_status == 'checked') {
+        var minCarAge = $('.minCarAge').val();
+        var maxCarAge = $('.maxCarAge').val();
+        if (minCarAge == '' || maxCarAge == '') {
+            $('.minCarAge').find('.formError').html('请输入车龄区间');
+        } else {
+            $('.minCarAge').find('.formError').html('');
+        }
+    } else {
+        $('.minCarAge').find('.formError').html('');
+    }
+    //审批速度
+    var approval =$('.approval').val();
+    if (approval == '') {
+        $('.approval').parent().find('.formError').html('请选择审批速度');
+    } else {
+        $('.approval').parent().find('.formError').html('');
+    }
     //有无错误提示
     var str = '';
     var formError = $('.formError');
@@ -136,47 +225,6 @@ function send_organization_form(url){
     if(str != ''){
         $('#add_btn_y').attr('disabled',false);
         return;
-    }
-    var name = $('#name').val();
-    if(!name){
-        $('#name').parent().parent().find('.formError').html('机构名称不能为空');
-        $('#name').css('border-color','#FB2741');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    }
-    //适用业务
-    var applyto_business1 = $('#applyto_business input').eq(0).prop('checked');
-    var applyto_business2 = $('#applyto_business input').eq(1).prop('checked');
-    if(!applyto_business1 && !applyto_business2){
-        $('#applyto_business').parent().parent().find('.formError').html('请选择机构的适用业务');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    }
-    //有无机构LOGO
-    var have_logo = $('#image_url .icon_check').length;
-    if(have_logo == '0'){
-        $('.logo_error').css('display','block');
-        $('.logo_error').html('请选择机构LOGO');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    }
-    //有无系统
-    var have_system1 = $('#have_system input').eq(0).prop('checked');
-    var have_system2 = $('#have_system input').eq(1).prop('checked');
-    if(!have_system1 && !have_system2){
-        $('#have_system').parent().parent().find('.formError').html('请选择机构有无系统');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    }
-    //有无系统地址
-    var have_system_url = $('.have_system_url').css('display');
-    if(have_system_url == 'block'){
-        var have_system_url_val = $('#system_url').val();
-        if(!have_system_url_val){
-            $('#system_url').parent().parent().find('.formError').html('系统地址不能为空');
-            $('#add_btn_y').attr('disabled',false);
-            return;
-        }
     }
     var vFD = new FormData(document.getElementById('organization_info_create'));
     var oXHR = new XMLHttpRequest();
@@ -211,4 +259,32 @@ function send_organization_form(url){
     oXHR.send(vFD);
 }
 
-
+//校验函数
+function validate_form(required,obj,reg,error_txt){
+    var val = obj.val();
+    var reg = reg;
+    if(required == '1'){
+        if(!val){
+            obj.parent().find('.trueImg').css('display','');
+            obj.parent().find('.formError').html('此项内容不能为空');
+            obj.css('border-color','#FB2741');
+            return;
+        }
+    }else{
+        if(!val){
+            obj.parent().find('.trueImg').css('display','');
+            obj.parent().find('.formError').html('');
+            obj.css('border-color','#ccc');
+            return;
+        }
+    }
+    if(!reg.test(val)){
+        obj.parent().find('.trueImg').css('display','');
+        obj.parent().find('.formError').html(error_txt);
+        obj.css('border-color','#FB2741');
+        return;
+    }
+    obj.parent().find('.trueImg').css('display','inline-block');
+    obj.parent().find('.formError').html('');
+    obj.css('border-color','#ccc');
+}
