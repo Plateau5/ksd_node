@@ -6,7 +6,7 @@
     <title>产品管理</title>
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
-    <!--<link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>-->
+    <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css"/>
     <!--<link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">-->
 </head>
@@ -42,8 +42,10 @@
                                 <span class="options_name"><span class="require_icon">*</span>产品名称：</span>
                             </div>
                             <div class="column_val">
-                                <input type="text" class="requireTrue" data-text="商户名称" maxlength="30" name="name"  value="{{detail.name}}" placeholder="请输入产品名称"  />
+                                <input type="text" id="name" class="requireTrue" data-text="商户名称" maxlength="30" name="name"  value="{{detail.name}}" placeholder="请输入产品名称"  />
                                 <span class="tips_info">(*请输入产品名称)</span>
+                                <div class="trueImg"></div>
+                                <span class="formError"></span>
                             </div>
                         </div>
                         <div class="option_item">
@@ -52,41 +54,40 @@
                             </div>
                             <div class="column_val">
                                 <div class="radio">
-                                    <input type="radio" name="applyto_business" checked value="0" class="radio_applyto_business">
-                                    <label>金融方</label>
+                                    <input id="product_source_other" type="radio" name="product_source" value="0" class="radio_applyto_business" checked="checked">
+                                    <label for="product_source_other">金融方</label>
                                 </div>
                                 <div class="radio">
-                                    <input type="radio" name="applyto_business" value="1" class="radio_applyto_business">
-                                    <label>自营</label>
+                                    <input id="product_source_self" type="radio" name="product_source" value="1" class="radio_applyto_business">
+                                    <label for="product_source_self">自营</label>
                                 </div>
+                                <span class="formError"></span>
                             </div>
                         </div>
                         <div class="option_item">
                             <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>使用业务：</span>
+                                <span class="options_name"><span class="require_icon">*</span>适用业务：</span>
                             </div>
-                            <div class="column_val">
+                            <div id="applyto_business" class="column_val">
                                 <div class="radio">
-                                    <input type="radio" name="applyto_business" checked value="0" class="radio_applyto_business">
+                                    <input type="radio" name="applyto_business" value="0" class="radio_applyto_business" checked="checked">
                                     <label>新车</label>
                                 </div>
-                                <div class="radio">
+                                <div class="radio" style="margin-left:13px;">
                                     <input type="radio" name="applyto_business" value="1" class="radio_applyto_business">
                                     <label>二手车</label>
                                 </div>
+                                <span class="formError"></span>
                             </div>
                         </div>
-                        <div class="option_item">
+                        <div id="applyto_city" class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val">
-                                <div class="choose_box">
-                                    <em class="add_city_btn"></em>
-                                    <span class="province_txt" style="display: inline;cursor: pointer;">请选择省市</span>
-                                </div>
                                 <input type="text" class="requireTrue" name=""  value="{{detail.name}}" placeholder="请选择城市"/>
                             </div>
+                            <span class="formError"></span>
                         </div>
                         <div class="option_item">
                             <div class="column_name">
@@ -103,23 +104,58 @@
                             <div class="trueImg"></div>
                             <span class="formError"></span>
                         </div>
+                        <div class="option_item downpayment_rate">
+                            <input type="hidden" id="downpayment_rate" name="downpayment_rate" value="">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                            </div>
+                            <div class="column_val">
+                                <div class="form-control checkBox">
+                                    {{#each (list_downpaymentrate) }}
+                                    <div class="check">
+                                        <div class="check_img icon_uncheck"></div>
+                                        <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item downpayment_money">
+                            <input type="hidden" id="downpayment_money" name="downpayment_money" value="">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                <span>元</span>
+                                <span class="cursor downpayment_add_txt">添加</span>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>费率：</span>
                             </div>
-                            <div class="column_val">
+                            <div class="column_val rate_add">
                                 <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" name="interest_rate_input" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
                                 <span>%</span>
                                 <span class="cursor rate_add_txt">添加</span>
                             </div>
                         </div>
+                        <div class="e_tip_info">
+                            <span class="formProm"></span>
+                            <div class="trueImg"></div>
+                            <span class="formError"></span>
+                        </div>
+
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
                             </div>
                             <div class="column_val">
                                 <input type="text" class="form-control" placeholder="请输入最小金额" id="financeamount_start" name="financeamount_start" maxlength="5" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_start);"/>
-                                <span>-</span>
+                                <span style="padding:0 8px;">-</span>
                                 <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="5" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_end);"/>
                                 <span>万</span>
                             </div>
@@ -129,18 +165,24 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                             </div>
                             <div class="column_val">
-                                <div class="form-control checkBox">
+                                {{#each (list_term) }}
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this.id}}" />
+                                    <label>{{this.id}}</label>
+                                </div>
+                                {{/each}}
+                                <!--<div class="form-control checkBox">
                                     {{#each (list_term) }}
                                     <div class="check">
                                         <div class="check_img icon_uncheck"></div>
                                         <span>{{this.id}}</span>
                                     </div>
                                     {{/each}}
-                                </div>
+                                </div>-->
                             </div>
                         </div>
-                        <div class="option_item">
-                            <div class="column_name">
+                        <div class="option_item" style="margin:10px 0 20px 0;">
+                            <div class="column_name" style="line-height: 20px;">
                                 <span class="options_name">评估描述：</span>
                             </div>
                             <div class="column_val">
@@ -148,7 +190,7 @@
                             </div>
                         </div>
                         <div class="option_item">
-                            <div class="column_name">
+                            <div class="column_name" style="line-height: 20px;">
                                 <span class="options_name">产品说明：</span>
                             </div>
                             <div class="column_val">
@@ -172,7 +214,7 @@
                 </form>
             </div>
             <div class="add_btn">
-                <div style="margin-top:50px;margin-bottom:50px;margin-left:38.5555555%;">
+                <div style="margin-top:50px;margin-bottom:50px;margin-left:10%;">
                     <input type="button" id="add_btn_n" value="发布"/>
                     <input type="button" style="margin-left:30px;" id="add_btn_y" value="保存到仓库"/>
                 </div>
@@ -194,46 +236,24 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/common/validate_form.js"></script>
 <script src="{{markUri}}/static/js/product/create.js"></script>
-<!--操作成功页  开始-->
-<!--<div class="bg_mask"></div>
-<div id="delS">
-    <input type="hidden" id="url_flag" value="1">
-    <div class="container">
-        <div class="row section">
-
-            <div class="col-xs-4 col-sm-offset-4 inviteBox delhtml">
-                <div class="col-sm-8 invSBox">
-                    <div class="col-sm-12 invSText">
-                        <div>操作成功</div>
-
-                        <img class="delSImg" src="{{markUri}}/static/img/employee/successIcon.png" alt=""/>
-                    </div>
-                </div>
-                <div class="col-sm-3 invSBtn cursor" id="delSBtn">确定</div>
-            </div>
-
-        </div>
-    </div>
-</div>-->
-<!--操作成功页  结束-->
-
 <script>
-    const TYPE = true;
-    var PARENTID = '{{parent_id}}',
-        PARENTNAME = '{{parent_name}}';
-    var width = $('#product_info_create').width();
-    var left = $('.col-xs-2').width();
-    $('.add_btn').css('marginLeft',-left - 140 + 'px');
-    $('.remarks_box textarea').css('margin-left',left + 35 + 'px');
-    $('.form_left').css('margin-left',left - 5 + 'px');
-    $('#add_btn_n').click(function(){
-        send_product_form(contextPath + "/api/product/createAndPublish",1);
-    });
-    $('#add_btn_y').click(function(){
-        send_product_form(contextPath + "/api/product/create",0);
-    });
-    pageJump(".go_forward", {
-        parent_id : "{{parent_id}}"
-    });
+    (function ($) {
+
+        $(function() {
+            const TYPE = true;
+            var PARENTID = '{{parent_id}}',
+                PARENTNAME = '{{parent_name}}';
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            $('#add_btn_n').click(function(){
+                send_product_form(contextPath + "/api/product/createAndPublish",1);
+            });
+            $('#add_btn_y').click(function(){
+                send_product_form(contextPath + "/api/product/create",0);
+            });
+            pageJump(".go_forward", {
+                parent_id : "{{parent_id}}"
+            });
+        });
+    })(jQuery,undefined);
 </script>
 </html>

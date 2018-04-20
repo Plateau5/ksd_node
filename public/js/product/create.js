@@ -85,10 +85,10 @@ $(function(){
     $('.downpayment_add_txt').click(function(){
         var num = $('.downpayment_add input').val();
         if(num == ''){
-            var error = $(this).parent().parent().find('.formError').html('请填写首付金额');
+            var error = $(this).parent().find('.formError').html('请填写首付金额');
             return;
         }
-        var error = $(this).parent().parent().find('.formError').html();
+        var error = $(this).parent().find('.formError').html();
         if(error == ''){
             var num = $('.downpayment_add input').val();
             var inner = '<div class="col-xs-10 downpayment_box"><div class="col-xs-6 downpayment_add_ready"><input type="text" class="form-control" readonly="readonly" id="" name="" value="' + num + '" /><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
@@ -155,7 +155,7 @@ $(function(){
         var num = $('.rate_add input').val();
         if(num == ''){
             //添加当前为空时状态的提示信息
-            $('.rate_add').find("input").focus().end().siblings(".e_tip_info").find(".formError").text("请先输入当前费率");
+            $('.rate_add').find("input").focus().end().parent().siblings(".e_tip_info").find(".formError").text("请先输入当前费率");
             return;
         }
         var error = $(this).parent().parent().find('.formError').html();
@@ -585,20 +585,33 @@ function send_product_form(url,save){
     $('#add_btn_n').attr('disabled',true);
     var name = $('#name').val();
     if(!name){
-        $('#name').parent().parent().find('.formError').html('产品名称不能为空');
+        $('#name').parent().find('.formError').html('产品名称不能为空');
         $('#name').css('border-color','#FB2741');
         $('#add_btn_y').attr('disabled',false);
         $('#add_btn_n').attr('disabled',false);
         return;
+    } else {
+        $('#name').parent().find('.formError').html('');
     }
+    //产品来源
+    var product_source_other = $('#product_source_other').attr('checked');
+    var product_source_self = $('#product_source_self').attr('checked');
+    if (product_source_other == 'checked' || product_source_self == 'checked') {
+        $('#product_source_other').parent().sibling('.formError').html('请选择一项产品来源');
+    } else {
+        $('#product_source_other').parent().sibling('.formError').html('');
+    }
+
     //适用业务
-    var applyto_business1 = $('#applyto_business input').eq(0).prop('checked');
-    var applyto_business2 = $('#applyto_business input').eq(1).prop('checked');
+    var applyto_business1 = $('#applyto_business input').eq(0).attr('checked');
+    var applyto_business2 = $('#applyto_business input').eq(1).attr('checked');
     if(!applyto_business1 && !applyto_business2){
         $('#applyto_business').find('.formError').html('请选择产品的适用业务');
         $('#add_btn_y').attr('disabled',false);
         $('#add_btn_n').attr('disabled',false);
         return;
+    } else {
+        $('#applyto_business').find('.formError').html('');
     }
     /*//所属机构
     var parent_id = $('#parent_id').val();

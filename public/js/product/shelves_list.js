@@ -47,18 +47,18 @@ $(function(){
 
 
     //全选按钮
-    $('.select_all_btn').click(function(e){
-        var e = e || window.event;
-        e.stopPropagation();
-        e.preventDefault();
-        select_all();
-    });
-    $('.select_all_btn .check_img').off("click").on("click",function(e){
-        var e = e || window.event;
-        e.stopPropagation();
-        e.preventDefault();
-        return select_all();
-    });
+    // $('.select_all_btn').click(function(e){
+    //     var e = e || window.event;
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    //     select_all();
+    // });
+    // $('.select_all_btn .check_img').off("click").on("click",function(e){
+    //     var e = e || window.event;
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    //     return select_all();
+    // });
 
     //全选
     $('.table_header_tr .check_img').click(function(){
