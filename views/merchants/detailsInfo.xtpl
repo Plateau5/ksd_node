@@ -58,11 +58,11 @@
                                 <li class="list_item clearfix">
                                     <div class="account_row">
                                         <div class="account_name">账户类型：</div>
-                                        <span>{{this.account_type_value}}</span>
+                                        <span class="merchant_name">{{this.account_type_value}}</span>
                                     </div>
                                     <div class="account_row">
                                         <div class="account_name">账户用途：</div>
-                                        <span>{{this.account_use_value}}</span>
+                                        <span class="merchant_name">{{this.account_use_value}}</span>
                                     </div>
                                     <div class="account_row"><div class="account_name">账户名：</div>
                                         <div class="account_value merchant_name">{{this.pay_name}}</div>
@@ -522,7 +522,7 @@
             var dropDown = $(".drop_down");
             var detailMenu = $(".detail_menu");
             var listLength = $('#listLength');
-            dropDown.off('click').on('click', function () {
+            dropDown.on('click', function () {
 
                 if (listLength == 0) {
                     detailMenu.hide();
