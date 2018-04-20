@@ -57,7 +57,7 @@
                     {{#if (verifyCode(1120)) }}
                         <div class="btn_box">
                             <a href="javascript:" class="btn orange_btn confirm dialog_confirm" data-advance_id="{{vo.advance_id}}" id="dialog_confirm">确定</a>
-                            <a href="javascript:window.history.back();" class="btn bg_btn cancel">取消</a>
+                            <a href="javascript:" class="btn bg_btn cancel go_loan_detail">取消</a>
                         </div>
                     {{/if}}
                 </div>
@@ -168,7 +168,7 @@
                 $('#dialog_confirm').attr('disabled','false');
                 return;
             }
-            var remark = $('#transfer-remark').val();
+            var remark = $('#transfer-remark').val().trim();
             if(!remark){
                 $('.error').text('请填写转交原因');
                 $('.error').css('display','block');
