@@ -78,6 +78,7 @@
     <!--<div id="footer" class="footer"></div>-->
     <!-------- Part of footer End -------->
 </div>
+<div id="loading" class="loading" style="display: none;"></div>
 <input type="hidden" name="advance_ids" id="advance_ids" value="{{advance_ids}}">
 <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
 <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
@@ -187,10 +188,14 @@
                     remark: remark
                 },
                 async:false,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
                 error:function(xhr,status,err){
                     alert("系统异常");
                 },
                 success:function(data){
+                    $('#loading').hide();
                     if(data.error_code =='0'){
 //                        window.location.href = contextPath + markUri + "/customer/financial/pendingAudit";
                         var detailPath = '';

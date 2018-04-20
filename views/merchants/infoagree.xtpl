@@ -70,6 +70,7 @@
         <!---- Part of Main info End ---->
     </div>
 </div>
+<div id="loading" class="loading" style="display: none;"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -107,8 +108,12 @@
                 async : false,
                 processData: false,
                 contentType: false,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
                 success : function (req) {
                     var res = eval(req);
+                    $('#loading').hide();
                     if (res.error_code == 0) {
                         if (ids.indexOf(',') == -1 && BTNTYPE == 1) {
                             dialog("open", {
