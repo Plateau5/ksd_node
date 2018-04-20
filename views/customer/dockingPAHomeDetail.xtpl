@@ -104,12 +104,14 @@
     <input type="hidden" id="nodeUrl" value="{{nodeUrl}}">
     <input type="hidden" id="userName" value="{{userName}}">
     <div class="loading" id="loading"></div>
+    <input type="hidden" id="carType" name="car_type" value="{{car_type}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/docking-pingan.js" type="text/javascript" charset="UTF-8"></script>
 </html>
 <script>
+    var carType = $('#carType').val().trim();
     (function ($) {
         var financeId = $.trim($('#financeId').val());
         var preCode = $.trim($('#preCode').val());
@@ -192,7 +194,8 @@
                                 nextQueryType : nextQueryType,
                                 navigation : navigation,
                                 nodeUrl : nodeUrl,
-                                userName : userName
+                                userName : userName,
+                                car_type : carType
                             }
                         });
                     }
@@ -209,7 +212,8 @@
                             nextQueryType : nextQueryType,
                             navigation : navigation,
                             nodeUrl : nodeUrl,
-                            userName : userName
+                            userName : userName,
+                            car_type : carType
                         }
                     });
                 }
