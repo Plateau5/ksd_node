@@ -13,7 +13,6 @@ $(function(){
         var nodeUrl = $('#nodeUrl').val().trim();
         var auditTime = $('#auditTime').val();
         var carType = $.trim($('#carType').val());
-        is_docking = 1;
         var action = '';
         // if (is_docking == 1 && (sign_ids && sign_ids.indexOf('10') != -1)) {
         if (is_docking == 1) {
