@@ -10,25 +10,34 @@
             <div class="province">
                 <div class="province_city">省份</div>
                 <ul class="province_ul">
-                    <li class="province_ul_li">
-
-                        <a href="">北京市</a>
+                    {{#each (list_city) }}
+                    <li class="province_ul_li form_group">
+                        <input id="{{this.id }}" type="checkbox" name="" value="" checked="checked">
+                        <label for="{{this.id }}">{{this.name}}</label>
                     </li>
+                    {{/each}}
                 </ul>
             </div>
             <div class="city">
                 <div class="province_city">城市</div>
-                <div class="province_name">北京市</div>
-                <ul class="city_ul">
-                    <li class="city_ul_li">
-                        <a href="">海淀区</a>
-                    </li>
-                </ul>
+                {{#each (list_city) }}
+                <div id="{{this.id }}" class="city_box">
+                    <div class="province_name">{{this.name}}</div>
+                    <ul class="city_ul">
+                        {{#each (this.city_list) }}
+                        <li class="city_ul_li form_group">
+                            <input id="{{this.id}}" type="checkbox" name="" value="" checked="checked">
+                            <label for="{{this.id}}" class="checked">{{this.name}}</label>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/each}}
             </div>
         </div>
-        <div class="bottom_btn">
-            <a href="" class="confirm">确认</a>
-            <a href="" class="cancle">取消</a>
+        <div class="province_bottom_btn">
+            <a href="" class="province_confirm">确认</a>
+            <a href="" class="province_cancle">取消</a>
         </div>
     </div>
 </div>
