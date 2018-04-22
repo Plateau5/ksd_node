@@ -45,7 +45,7 @@
                             <div class="column_val">
                                 <input type="text" id="name" class="requireTrue" data-text="商户名称" maxlength="30" name="name"  value="{{detail.name}}" placeholder="请输入产品名称"  />
                                 <span class="tips_info">(*请输入产品名称)</span>
-                                <div class="trueImg"></div>
+                                <div class="trueImg" style="display: inline-block;"></div>
                                 <span class="formError"></span>
                             </div>
                         </div>
@@ -55,11 +55,11 @@
                             </div>
                             <div class="column_val">
                                 <div class="radio">
-                                    <input id="product_source_other" type="radio" name="product_source" value="0" class="radio_applyto_business" checked="checked">
+                                    <input id="product_source_other" type="radio" name="product_source" value="0" class="" checked="checked">
                                     <label for="product_source_other">金融方</label>
                                 </div>
                                 <div class="radio">
-                                    <input id="product_source_self" type="radio" name="product_source" value="1" class="radio_applyto_business">
+                                    <input id="product_source_self" type="radio" name="product_source" value="1" class="">
                                     <label for="product_source_self">自营</label>
                                 </div>
                                 <span class="formError"></span>
@@ -126,7 +126,7 @@
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
                             </div>
-                            <div class="column_val">
+                            <div class="column_val downpayment_add" style="margin-top: 10px;">
                                 <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
                                 <span>元</span>
                                 <span class="cursor downpayment_add_txt">添加</span>
@@ -138,16 +138,12 @@
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>费率：</span>
                             </div>
-                            <div class="column_val rate_add">
+                            <div class="column_val rate_add" style="margin-top: 10px;">
                                 <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" name="interest_rate_input" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
                                 <span>%</span>
                                 <span class="cursor rate_add_txt">添加</span>
+                                <span class="formError"></span>
                             </div>
-                        </div>
-                        <div class="e_tip_info">
-                            <span class="formProm"></span>
-                            <div class="trueImg"></div>
-                            <span class="formError"></span>
                         </div>
 
                         <div class="option_item">
@@ -155,9 +151,9 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
                             </div>
                             <div class="column_val">
-                                <input type="text" class="form-control" placeholder="请输入最小金额" id="financeamount_start" name="financeamount_start" maxlength="5" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_start);"/>
+                                <input type="text" class="form-control" placeholder="请输入最小金额" id="financeamount_start" name="financeamount_start" maxlength="7" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_start);" style="width:12%;"/>
                                 <span style="padding:0 8px;">-</span>
-                                <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="5" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_end);"/>
+                                <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="7" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_end);" style="width:12%;margin-right: 10px;"/>
                                 <span>万</span>
                             </div>
                         </div>
@@ -182,7 +178,7 @@
                                 </div>-->
                             </div>
                         </div>
-                        <div class="option_item" style="margin:10px 0 20px 0;">
+                        <div id="ssess_desc_form" class="option_item" style="margin:10px 0 20px 0;">
                             <div class="column_name" style="line-height: 20px;">
                                 <span class="options_name">评估描述：</span>
                             </div>
@@ -236,25 +232,11 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/common/validate_form.js"></script>
+<script src="{{markUri}}/static/js/common/is_num.js"></script>
 <script src="{{markUri}}/static/js/product/create.js"></script>
 <script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
-
-        //省市弹框
-        function proDialog () {
-            $( ".province_city" ).dialog({
-                autoOpen: false,
-                show: {
-                    effect: "blind",
-                    duration: 1000
-                },
-                hide: {
-                    effect: "explode",
-                    duration: 1000
-                }
-            });
-        }
 
         //选择城市
         function selectCity () {
@@ -265,7 +247,6 @@
         }
 
         $(function() {
-            // proDialog();
             const TYPE = true;
             var PARENTID = '{{parent_id}}',
                 PARENTNAME = '{{parent_name}}';

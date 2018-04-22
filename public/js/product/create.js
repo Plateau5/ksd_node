@@ -33,12 +33,10 @@ $(function(){
 
     $('.radio_applyto_business').eq(0).click(function(){
         $('#ssess_desc_form').css('display','none');
-        $('#carage_form').css('display','none');
     });
 
     $('.radio_applyto_business').eq(1).click(function(){
         $('#ssess_desc_form').css('display','block');
-        $('#carage_form').css('display','block');
     });
 
 
@@ -71,13 +69,19 @@ $(function(){
 
     //首付比例
     $('.check_img').click(function(){
-        var checked = $(this).prev().prop('checked');
-        if(!checked){
-            $(this).prev().prop('checked',true);
-            $(this).parent().parent().parent().find('.formError').html('');
+        var check_el = $(this);
+        var checked = check_el.hasClass('icon_check');
+        var unchecked = check_el.hasClass('icon_uncheck');
+        if (checked) {
+            check_el.removeClass('icon_check');
+            check_el.addClass('icon_uncheck');
             return;
         }
-        $(this).prev().prop('checked',false);
+        if (unchecked) {
+            check_el.removeClass('icon_uncheck');
+            check_el.addClass('icon_check');
+            return;
+        }
     });
 
     //添加首付金额
@@ -91,11 +95,10 @@ $(function(){
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
             var num = $('.downpayment_add input').val();
-            var inner = '<div class="col-xs-10 downpayment_box"><div class="col-xs-6 downpayment_add_ready"><input type="text" class="form-control" readonly="readonly" id="" name="" value="' + num + '" /><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
-            $('.downpayment_add').css('marginLeft',left - 5 + 'px');
+            var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="" value="' + num + '" style="width: 12%;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+            $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
+            $('.downpayment_add').css('paddingLeft','30px');
             $('.downpayment_add').before(inner);
-            $('.downpayment_box').css('marginLeft',left - 5 + 'px');
-            $('.downpayment_box').eq(0).css('marginLeft' , '');
             $('.downpayment_add input').val("");
         }
         var del = $('.downpayment_add_del').length;
@@ -142,11 +145,12 @@ $(function(){
             $('.downpayment_add').css('display','block');
         }
         if(del =='0'){
-            $('.downpayment_add').css('marginLeft','-40px');
+            $('.downpayment_add').css('marginLeft','0px');
+            $('.downpayment_add').css('paddingLeft','20px');
             $('input[name="downpayment_money_add"]').css('border-color','#ccc');
             $('.downpayment_add').parent().find('.formError').html('');
         }
-        $('.downpayment_box').eq(0).css('marginLeft','-40px');
+        // $('.downpayment_box').eq(0).css('marginLeft','-40px');
     });
 
     //添加年利率
@@ -155,17 +159,16 @@ $(function(){
         var num = $('.rate_add input').val();
         if(num == ''){
             //添加当前为空时状态的提示信息
-            $('.rate_add').find("input").focus().end().parent().siblings(".e_tip_info").find(".formError").text("请先输入当前费率");
+            $('.rate_add').find("input").focus().end().parent().find(".formError").text("请先输入当前费率");
             return;
         }
-        var error = $(this).parent().parent().find('.formError').html();
+        var error = $(this).parent().find('.formError').html();
         if(error == ''){
             var num = $('.rate_add input').val();
-            var inner = '<div class="col-xs-10 rate_box"><div class="col-xs-6 rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate_date" value="' + num + '" /><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
-            $('.rate_add').css('marginLeft',left - 5 + 'px');
+            var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate_date" value="' + num + '"  style="width: 12%;padding-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+            $('.rate_add').css('marginLeft',$('.column_name').width() + 'px');
+            $('.rate_add').css('paddingLeft','30px');
             $('.rate_add').before(inner);
-            $('.rate_box').css('marginLeft',left - 5 + 'px');
-            $('.rate_box').eq(0).css('marginLeft' , '');
             $('.rate_add input').val("");
         }
         var del = $('.rate_add_del').length;
@@ -214,11 +217,13 @@ $(function(){
             $('.rate_add').css('display','block');
         }
         if(del =='0'){
-            $('.rate_add').css('marginLeft','-40px');
+            $('.rate_add').css('marginLeft','0px');
+            $('.rate_add').css('paddingLeft','20px');
+            // $('.rate_add').css('marginLeft','-40px');
             $('input[name="interest_rate_input"]').css('border-color','#ccc');
             $('.rate_add').parent().find('.formError').html('');
         }
-        $('.rate_box').eq(0).css('marginLeft','-40px');
+        // $('.rate_box').eq(0).css('marginLeft','-40px');
     });
 
 
