@@ -2,6 +2,7 @@
 //切换城市显示隐藏
 $('.province_ul_li').off('click').on('click',function () {
     var _this = $(this);
+    var prolis = $('.province_ul_li');
     var province_id = _this.find('input').attr('id');
     var city_box = $('.city .city_box');
     city_box.each(function () {
@@ -11,6 +12,13 @@ $('.province_ul_li').off('click').on('click',function () {
         }
     });
     $('.city .city_box[id="'+province_id+'"]').addClass('display');
+    prolis.each(function () {
+        var cur_proli = $(this);
+        if (cur_proli.hasClass('select_pro')) {
+            cur_proli.removeClass('select_pro');
+        }
+    });
+    _this.addClass('select_pro');
 });
 
 //取消按钮
@@ -22,12 +30,12 @@ $('.province_cancle').off('click').on('click',function () {
 $('.province_confirm').off('click').on('click',function () {
     $('.province_city_box').css('display','none');
 })
-
 //省市复选框事件
 $('.province_ul_li label').on('click',function () {
     var _this = $(this);
     var cur_province_id = _this.prev().attr('id');
     var cur_citys = $('.city .city_box[id="'+cur_province_id+'"]').find('label');
+
     if (_this.hasClass('checked') || _this.hasClass('part')) {//全选所有城市
         _this.attr('class','checked');
         cur_citys.each(function () {

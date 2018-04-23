@@ -4,16 +4,17 @@
     <div class="province_city_box_bg"></div>
     <!--省市联动弹框-->
     <div class="province_city_dia">
-        <em class="close_btn">x</em>
+        <!--<em class="close_btn">x</em>-->
         <div class="title">选择可抵押城市</div>
         <div class="middle">
             <div class="province">
                 <div class="province_city">省份</div>
                 <ul class="province_ul">
                     {{#each (list_city) }}
-                    <li class="province_ul_li form_group">
+                    <li class="province_ul_li form_group cursor">
                         <input id="{{this.id }}" type="checkbox" name="" value="" checked="checked">
-                        <label for="{{this.id }}">{{this.name}}</label>
+                        <label for="{{this.id }}" class="cursor"></label>
+                        <span>{{this.name}}</span>
                     </li>
                     {{/each}}
                 </ul>
@@ -27,7 +28,7 @@
                         {{#each (this.city_list) }}
                         <li class="city_ul_li form_group">
                             <input id="{{this.id}}" type="checkbox" name="" value="" checked="checked">
-                            <label for="{{this.id}}" class="checked">{{this.name}}</label>
+                            <label for="{{this.id}}">{{this.name}}</label>
                         </li>
                         {{/each}}
                     </ul>
