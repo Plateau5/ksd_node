@@ -107,6 +107,7 @@
     <input type="hidden" id="navigation" value="{{navigation}}">
     <input type="hidden" id="nodeUrl" value="{{nodeUrl}}">
     <input type="hidden" id="userName" value="{{userName}}">
+    <input type="hidden" id="carType" name="car_type" value="{{car_type}}">
     <div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
@@ -121,6 +122,7 @@
         var navigation = $('#navigation').val().trim();
         var nodeUrl = $('#nodeUrl').val().trim();
         var userName = $('#userName').val().trim();
+        var carType = $('#carType').val().trim();
         // 点击tab跳转下一页的逻辑
         function toNextModule () {
             var btn = $('.edit_infos .info_item');
@@ -196,7 +198,8 @@
                                 nextQueryType : nextQueryType,
                                 navigation : navigation,
                                 nodeUrl : nodeUrl,
-                                userName : userName
+                                userName : userName,
+                                car_type : carType
                             }
                         });
                     }
@@ -213,7 +216,8 @@
                             nextQueryType : nextQueryType,
                             navigation : navigation,
                             nodeUrl : nodeUrl,
-                            userName : userName
+                            userName : userName,
+                            car_type : carType
                         }
                     });
                 }

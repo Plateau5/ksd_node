@@ -417,7 +417,7 @@
                                 </div>
                             </div>
                             {{/if}}
-                            {{#if (renterInfo.isFirstBuy === '2') }}
+                            {{#if ((renterInfo.isFirstBuy === '2' && renterInfo.hascarloan === '1')) }}
                             <div class="option_item oencarbrand_item" style="display: block;">
                             {{else}}
                             <div class="option_item oencarbrand_item" style="display: none;">
@@ -922,10 +922,10 @@
                 var _this = $(this);
                 var val = _this.val().trim();
                 if (val == 1) {
-                    oencarbrand.removeClass('required').addClass('required');
+                    oencarbrand.removeClass('required').addClass('required').prop('disabled', false);
                     oencarbrandC.show();
                 } else {
-                    oencarbrand.removeClass('required');
+                    oencarbrand.removeClass('required').prop('disabled', false);
                     oencarbrandC.hide();
                 }
             });

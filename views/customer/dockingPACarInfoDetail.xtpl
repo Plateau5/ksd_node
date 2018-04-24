@@ -37,6 +37,7 @@
                         <input type="hidden" id="nodeUrl" value="{{nodeUrl}}">
                         <input type="hidden" id="userName" value="{{userName}}">
                         <input type="hidden" id="preCode" value="{{preCode}}">
+                        <input type="hidden" id="carType" name="car_type" value="{{reqParams.car_type}}">
                         <!-- 车辆基本信息 Begin -->
                         <div class="options_title">车辆信息</div>
                         <div class="option_item">
@@ -71,6 +72,16 @@
                                 {{carInfo.carModelName}}
                             </div>
                         </div>
+                        {{#if (reqParams.car_type === '1') }}
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">车架号：</span>
+                            </div>
+                            <div class="column_val">
+                                {{carInfo.vin}}
+                            </div>
+                        </div>
+                        {{/if}}
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">颜色：</span>
@@ -79,6 +90,7 @@
                                 {{carInfo.carColor}}
                             </div>
                         </div>
+                        {{#if (reqParams.car_type === '0') }}
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">品牌指导价：</span>
@@ -87,6 +99,7 @@
                                 {{carInfo.price}}元
                             </div>
                         </div>
+                        {{/if}}
                         <!--<div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">是否进口：</span>
