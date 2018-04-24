@@ -69,7 +69,8 @@ function goLoanDetail () {
             var receipt = $.trim(_this.data('receipt_type'));
             var order = $.trim(_this.data('orderby_type'));
             var currentPage = $.trim(_this.data('current_page'));
-            var supplier_name = $.trim(_this.data('supplier_name'));
+            var supplier_name = _this.data('supplier_name').trim();
+            var settlement_type = _this.data('settlement_type');
             locationTo({
                 action : contextPath + markUri + detailPath,
                 param : {
@@ -80,6 +81,7 @@ function goLoanDetail () {
                     orderby_type: order,
                     current_page: currentPage,
                     supplier_name : supplier_name,
+                    settlement_type : settlement_type,
                     url : url,
                     navigation : navigation,
                     list_type : listType.number()

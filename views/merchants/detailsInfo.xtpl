@@ -29,27 +29,35 @@
                 <div class="merchants_load detail_remarks">
                     <div class="merchant_name_label">商户名称：</div>
                         <div class="merchant_name">{{reqParams.supplier_name}}
-                            <em class="slidedown_arrow"></em>
+                            (
+                            {{#if (reqParams.settlement_type === '1') }}
+                            单结
+                            {{elseif (reqParams.settlement_type === '2') }}
+                            月结
+                            {{/if}}
+                            )
+                            <em class="slidedown_arrow">
+                                <!--弹出层-->
+                                <div class="pop">
+                                    <div class="pop_title">{{reqParams.supplier_name}}</div>
+                                    <div id="merchant_flag" class="pop_remark"></div>
+                                    <div class="pop_row">
+                                        <div class="pop_name">店面类型：</div>
+                                        <div class="pop_value" id="merchant_remark"></div>
+                                    </div>
+                                    <div class="pop_row">
+                                        <div class="pop_name">商户状态：</div>
+                                        <div class="pop_value" id="merchant_status"></div>
+                                    </div>
+                                    <div class="pop_row">
+                                        <div class="pop_name">标签：</div>
+                                        <div class="pop_value" id="merchant_label_names"></div>
+                                    </div>
+                                    <div id="imgDetail_merchant" class="pop_img_detail  clearfix">
+                                    </div>
+                                </div>
+                            </em>
                         </div>
-                    <!--弹出层-->
-                    <div class="pop">
-                        <div class="pop_title">{{reqParams.supplier_name}}</div>
-                        <div id="merchant_flag" class="pop_remark"></div>
-                        <div class="pop_row">
-                            <div class="pop_name">店面类型：</div>
-                            <div class="pop_value" id="merchant_remark"></div>
-                        </div>
-                        <div class="pop_row">
-                            <div class="pop_name">商户状态：</div>
-                            <div class="pop_value" id="merchant_status"></div>
-                        </div>
-                        <div class="pop_row">
-                            <div class="pop_name">标签：</div>
-                            <div class="pop_value" id="merchant_label_names"></div>
-                        </div>
-                        <div id="imgDetail_merchant" class="pop_img_detail clearfix">
-                        </div>
-                    </div>
 
                 </div>
                 <div class="account_item clearfix">
@@ -105,7 +113,7 @@
                                         </div>
                                         <div class="account_row">
                                             <div class="account_name">账户名：</div>
-                                            <div class="account_value merchant_name">{{this.pay_account}}</div>
+                                            <div class="account_value merchant_name">{{this.pay_name}}</div>
                                         </div>
                                         <div class="account_row">
                                             <div class="account_name">银行卡号：</div>
@@ -409,12 +417,6 @@
                                     <div class="loan_value">{{this.unpack_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
-                                {{#if (this.unpack_charge || this.unpack_charge === 0) }}
-                                <div class="loan_row">
-                                    <div class="loan_name">解压费：</div>
-                                    <div class="loan_value">{{this.unpack_charge}}&nbsp;元</div>
-                                </div>
-                                {{/if}}
                                 {{#if (this.total_charge || this.total_charge === 0) }}
                                 <div class="total_receipts clearfix">
                                     <div class="receipt_name">收款总额：</div>
@@ -685,12 +687,13 @@
 
                                 //图片
                                 if (data.fileList.length !=0) {
+                                    btn.removeClass('hide_box');
                                     var imgStr = "";
                                     for (var j = 0,len = data.fileList.length;j < len;j++) {
                                         imgStr += '<a href="javascript:;" target="_blank">\n' +
                                             '\t\t\t\t\t\t<div class="pop_item imgDetail" style="margin-top:0;" title="'+data.fileList[j].file_name+'">\n' +
-                                            '\t\t\t\t\t\t\t<div class="pop_img detailBox">\n' +
-                                            '\t\t\t\t\t\t\t\t<img class="img_item detailImgBox " data-original="'+ data.fileList[j].url +'" src="'+data.fileList[j].thumbnail+'" alt=""/>\n' +
+                                            '\t\t\t\t\t\t\t<div class="pop_img detailBox img_item">\n' +
+                                            '\t\t\t\t\t\t\t\t<img class=" detailImgBox" data-original="'+ data.fileList[j].url +'" src="'+data.fileList[j].thumbnail+'" alt=""/>\n' +
                                             '\t\t\t\t\t\t\t</div>\n' +
                                             '\t\t\t\t\t\t\t<div class="pop_img_text">'+data.fileList[j].file_name+'</div>\n' +
                                             '\t\t\t\t\t\t</div>\n' +
@@ -707,9 +710,9 @@
                 }
             });
 
-            btn.mouseout(function(){
+            /*btn.mouseout(function(){
                 btn.removeClass('hide_box');
-            });
+            });*/
         }
 
         // 跳转同意页面
