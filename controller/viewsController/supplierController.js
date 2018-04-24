@@ -65,7 +65,23 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDIT = function(req, res, next) {
 // 供应商部分-金融机构-机构进件资料编辑页跳转
 exports.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/toEdit',
+        url : '/api/organization/orderMaterial/toEdit',
+        title : '供应商-机构详情页',
+        page : './organization/intoPieces'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构请款资料编辑页跳转
+exports.VIEW_SUPPLIER_ORGANIZATION_REQUEST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/requestMaterial/toEdit',
+        title : '供应商-机构详情页',
+        page : './organization/intoPieces'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构归档资料编辑页跳转
+exports.VIEW_SUPPLIER_ORGANIZATION_PLACEFILE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/pigeonholeMaterial/toEdit',
         title : '供应商-机构详情页',
         page : './organization/intoPieces'
     }, req, res, next);

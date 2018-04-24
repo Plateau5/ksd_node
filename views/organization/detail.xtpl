@@ -39,25 +39,26 @@
 
             <div class="tab">
                 <ul class="tab_list inline_block">
-                    <li class="tab_item type_normal {{#if (vo.type === 1) }}active{{/if}}" data-type="1">基本信息</li>
-                    <li class="tab_item type_others {{#if (vo.type === 2) }}active{{/if}}" data-type="2">进件资料</li>
-                    <li class="tab_item type_others {{#if (vo.type === 3) }}active{{/if}}" data-type="3">请款资料</li>
-                    <li class="tab_item type_others {{#if (vo.type === 4) }}active{{/if}}" data-type="4">归档资料</li>
+                    <li class="tab_item type_normal {{#if (material_type === 0) }}active{{/if}}" data-type="0">基本信息</li>
+                    <li class="tab_item type_others {{#if (material_type === 1) }}active{{/if}}" data-type="1">进件资料</li>
+                    <li class="tab_item type_others {{#if (material_type === 2) }}active{{/if}}" data-type="2">请款资料</li>
+                    <li class="tab_item type_others {{#if (material_type === 3) }}active{{/if}}" data-type="3">归档资料</li>
                 </ul>
             </div>
             <form action="{{markUri}}/supplier/organization/detail" method="POST" id="form_search" role="form">
-                <input type="hidden" name="id" value="{{vo.id}}">
-                <input type="hidden" name="type" value="{{vo.type}}" id="flow_type">
+                <input type="hidden" name="organization_id" value="{{vo.id}}">
+                <input type="hidden" name="material_type" value="{{material_type}}" id="flow_type">
             </form>
             <div class="product_detail_box">
                 <div class="rf_30">
-                    <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}" data-type="3">编辑</a>
+                    <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
                 </div>
-                {{#if (vo.type === 1) }}
+                <!--基本资料 start-->
+                {{#if (material_type === 0) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
-                {{/if}}
+                    {{/if}}
                     {{#if (vo.type !== null) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">机构类别：</div>
@@ -116,100 +117,42 @@
                     </div>
                     {{/if}}
                 </div>
-                {{#if (vo.type === 2 || vo.type === 3 || vo.type === 4 ) }}
+                <!--基本资料 end-->
+
+                {{#if (material_type === 1 || material_type === 2 || material_type === 3 ) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
                 {{/if}}
+                    {{#if(vo.applyto_business.indexOf('0') !== -1) }}
                     <div class="detail_about_txt">
-                        {{#if (vo.applyto_business.indexOf('0') !== -1) }}
                         <div class="detail_about_label supplier_cartype">新车</div>
-                        {{else}}
+                    </div>
+                    {{/if}}
+
+                    {{#each(list) }}
+                    {{#if(this.car_type === 0) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">{{this.type_value}}：</div>
+                        <div class="detail_about_date">{{this.material_name}}。</div>
+                    </div>
+                    {{/if}}
+                    {{/each}}
+
+                    {{#if (vo.applyto_business.indexOf('1') !== -1) }}
+                    <div class="detail_about_txt">
                         <div class="detail_about_label supplier_cartype">二手车</div>
-                        {{/if}}
-                    </div>
-                    {{#if (vo.type === 2) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">身份类：</div>
-                        <div class="detail_about_date">xxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">收入类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">房产类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">车辆类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">公户类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">收入类：</div>
-                        <div class="detail_about_date">xxxx</div>
                     </div>
                     {{/if}}
-                    {{#if (vo.type === 3) }}
+
+                    {{#each(list) }}
+                    {{#if(this.car_type === 1) }}
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">发票类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">保单类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">合同类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">见证类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">GPS类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">极致附加类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">产证类：</div>
-                        <div class="detail_about_date">xxxx</div>
+                        <div class="detail_about_label">{{this.type_value}}：</div>
+                        <div class="detail_about_date">{{this.material_name}}。</div>
                     </div>
                     {{/if}}
-                    {{#if (vo.type === 4) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">申请类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">合同类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">票据类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">身份类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">产证类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">公户类：</div>
-                        <div class="detail_about_date">xxxx</div>
-                    </div>
-                    {{/if}}
+                    {{/each}}
                 </div>
             </div>
         </div>
@@ -226,13 +169,13 @@
             btn.on('click', function () {
                 var _this = $(this);
                 _this.addClass('active');
+                $('#flow_type').val(_this.attr('data-type'));
                 if (_this.hasClass('type_normal')) {
                     _this.siblings('.type_others').removeClass('active');
                 } else {
                     _this.siblings('.type_normal').removeClass('active');
                 }
                 $('#flow_type').val(_this.attr('data-type'));
-                $('#editOrg_jump').attr('data-type',_this.attr('data-type'));
                 $('form[role="form"]').submit();
             });
         }
@@ -243,16 +186,31 @@
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var orgId = $.trim(t.attr("lang"));
-                if (t.attr('data-type') == 1) {
+                var supplier_car_type = $('#supplier_car_type');
+                var car_type = $.trim(supplier_car_type.val());
+                var flow_type = $('#flow_type');
+                var material_type = $.trim(flow_type.val());
+                if (material_type == 0) {
                     var url = "/supplier/organization/edit";//基本信息
+                    var paras = {
+                        id : orgId
+                    };
                 } else {
-                    var url = "/supplier/organization/intoPieces";//进件、请款、归档
+                    var applyto_business = car_type.number();
+                    var url = "/supplier/organization/intoPieces";
+                    if (car_type.indexOf(',') != -1) {
+                        car_type = 0;
+                    }
+                    var paras = {
+                        organization_id : orgId,
+                        car_type : car_type.number(),
+                        applyto_business : applyto_business,
+                        material_type : material_type
+                    };
                 }
                 locationTo({
                     action : contextPath + markUri + url,
-                    param : {
-                        id : orgId
-                    }
+                    param : paras
                 });
             });
         }

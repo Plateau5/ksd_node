@@ -237,6 +237,10 @@ router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_
 
 // 供应商部分-金融机构-机构进件资料编辑页跳转
 router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES);
+// 供应商部分-金融机构-机构请款资料编辑页跳转
+router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_REQUEST);
+// 供应商部分-金融机构-机构归档资料编辑页跳转
+router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PLACEFILE);
 
 
 // 供应商部分-金融机构-机构详情页跳转  1071
