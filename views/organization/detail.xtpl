@@ -169,7 +169,6 @@
             btn.on('click', function () {
                 var _this = $(this);
                 _this.addClass('active');
-                $('#flow_type').val(_this.attr('data-type'));
                 if (_this.hasClass('type_normal')) {
                     _this.siblings('.type_others').removeClass('active');
                 } else {
@@ -196,7 +195,7 @@
                         id : orgId
                     };
                 } else {
-                    var applyto_business = car_type.number();
+                    var applyto_business = car_type;
                     var url = "/supplier/organization/intoPieces";
                     if (car_type.indexOf(',') != -1) {
                         car_type = 0;
