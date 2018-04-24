@@ -57,52 +57,50 @@
                             {{else}}
                             <div class="data_use detail_about_txt clearfix">
                             {{/if}}
+                                <input type="hidden" name="org_mid" value="{{this.org_mid}}" class="org_mid">
                                 <div class="detail_about_lf check_all_box">
                                     <div class="form_group">
-                                        {{set (a = this.mlist.length) }}
-                                        {{set (len = organizationList.length) }}
-                                        {{#each (organizationList) }}
-                                            {{#if (this.type === ../type) }}
-                                                {{#if (this.data_ids) }}
-                                                    {{set (b = this.data_ids.split(',').length) }}
-                                                    {{#if (a === b) }}
-                                                        <input type="checkbox" class="check_all" checked="checked" name="" value="{{../type}}">
-                                                        <label class="check_all checked">{{../type_value}}</label>
-                                                    {{else}}
-                                                        <input type="checkbox" class="check_all" name="" value="{{../type}}">
-                                                        <label class="check_all">{{../type_value}}</label>
-                                                    {{/if}}
-                                                {{else}}
-                                                    <input type="checkbox" class="check_all" name="" value="{{../type}}">
-                                                    <label class="check_all">{{../type_value}}</label>
-                                                {{/if}}
+                                        {{#if (this.data_ids) }}
+                                            {{#if (this.mlist.length === this.data_ids.split(',').length) }}
+                                                <input type="checkbox" class="check_all" checked="checked" name="" value="{{this.type}}">
+                                                <label class="check_all checked">{{this.type_value}}</label>
+                                            {{else}}
+                                                <input type="checkbox" class="check_all" name="" value="{{this.type}}">
+                                                <label class="check_all">{{this.type_value}}</label>
                                             {{/if}}
-                                        {{/each}}
+                                        {{else}}
+                                            <input type="checkbox" class="check_all" name="" value="{{this.type}}">
+                                            <label class="check_all">{{this.type_value}}</label>
+                                        {{/if}}
                                     </div>
                                 </div>
                                 <div class="detail_about_rt form_container">
                                     <div class="detail_about_rt_top">
-                                        <div class="sentflag mar40">
-                                            <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" checked="checked">
-                                            <label for="must_send{{xindex}}">必传</label>
+                                        <div class="form_group sentflag mar40">
+                                            <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" {{#if (this.is_must === 1) }}checked="checked"{{/if}}>
+                                            <label for="must_send{{xindex}}" {{#if (this.is_must === 1) }}class="checked"{{/if}}>必传</label>
                                         </div>
-                                        <div class="sentflag">
-                                            <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0">
-                                            <label for="must_nosend{{xindex}}">非必传</label>
+                                        <div class="form_group sentflag">
+                                            <input id="must_nosend{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="0" {{#if (this.is_must === 0) }}checked="checked"{{/if}}>
+                                            <label for="must_nosend{{xindex}}" {{#if (this.is_must === 0) }}class="checked"{{/if}}>非必传</label>
                                         </div>
                                     </div>
                                     <div class="detail_about_rt_bot">
                                         {{#each (this.mlist) }}
-                                        <div class="sentflag mar20 form_group">
-                                            <input id="{{this.material_id}}" type="checkbox" class="apply_scope" name="" value="{{this.material_id}}">
-                                            <label for="{{this.material_id}}" class="
-                                            {{#each (organizationList)}}
-                                                {{#if (this.data_ids)}}
-                                                {{#if (this.data_ids.indexOf(../material_id) !== -1)}}checked
+                                            <div class="sentflag mar20 form_group">
+                                                {{#if (../data_ids) }}
+                                                    {{#if (../data_ids.indexOf(this.material_id) !== -1) }}
+                                                        <input id="{{this.material_id}}" type="checkbox" class="data_ids" name="data_ids" value="{{this.material_id}}" checked="checked">
+                                                        <label for="{{this.material_id}}" class="checked">{{this.material_name}}</label>
+                                                    {{else}}
+                                                        <input id="{{this.material_id}}" type="checkbox" class="data_ids" name="data_ids" value="{{this.material_id}}">
+                                                        <label for="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                {{else}}
+                                                    <input id="{{this.material_id}}" type="checkbox" class="data_ids" name="data_ids" value="{{this.material_id}}">
+                                                    <label for="{{this.material_id}}">{{this.material_name}}</label>
                                                 {{/if}}
-                                                {{/if}}
-                                            {{/each}}">{{this.material_name}}</label>
-                                        </div>
+                                            </div>
                                         {{/each}}
                                     </div>
                                 </div>
@@ -127,6 +125,11 @@
 
 <script>
     (function ($) {
+        //radio事件
+        // function clickRadio () {
+        //     var is_must = $('.must_send');
+        // }
+
         // tab标签的切换
         function switchTab () {
             var btn = $('.tab_item');
@@ -180,6 +183,7 @@
                 var jsonData = [];
                 data_use.each(function () {
                     var _this = $(this);
+                    var org_mid = _this.find('.org_mid');
                     var type = _this.find('.detail_about_lf').find('input').val();
                     var must_send = _this.find('.must_send');
                     var must_nosend = _this.find('.must_nosend');
@@ -188,7 +192,7 @@
                     } else {
                         var is_must = must_nosend.val();
                     }
-                    var material_ids = _this.find('.detail_about_rt_bot').find('.apply_scope');
+                    var material_ids = _this.find('.detail_about_rt_bot').find('.data_ids');
                     var data_ids = [];
                     material_ids.each(function () {
                         var cur_id = $(this);
@@ -198,6 +202,7 @@
                     });
                     var obj = {
                         'type' : type,
+                        'org_mid' : org_mid,
                         'data_ids' : data_ids.join(','),
                         'is_must' : is_must
                     };
@@ -252,37 +257,30 @@
         //判断类别是否选中
         var count = 0;//类别选中个数
         function validateEmpty () {
-            var requireInput;
-            count = 0;
-            var detail_about = $('.detail_about');
-            detail_about.each(function () {
-                var e = $(this);
-                //只取当前显示的元素选择器
-                if (e.css('display') != 'none') {
-                    requireInput = e.find('label.check_all');
+            var detail_about_rt = $('.detail_about_rt ');
+            var is_must = detail_about_rt.find('.detail_about_rt_top').find('input.must_send[type="radio"][checked="checked"]');
+            var checks = detail_about_rt.find('.detail_about_rt_bot').find('input.data_ids[type="checkbox"][checked="checked"]');
+            var flag = false;
+            is_must.each(function () {
+                var _this = $(this);
+                if (_this.val() == 1) {
+                    var cur_nums = _this.parents('.detail_about_rt').find('.detail_about_rt_bot').find('input.data_ids[type="checkbox"][checked="checked"]');
+                    if (cur_nums.length <= 0) {
+                        flag = true;
+                        isVerify = true;
+                        $alert('请至少选中一项类别／请选择XXXXXX里面对应的资料。');
+                    } else {
+                        isVerify = false;
+                    }
                 }
             });
-
-            requireInput.each(function () {
-                var t = $(this);
-                if (t.hasClass('checked')) {
+            if (!flag) {
+                if (checks.length > 0) {
                     isVerify = true;
-                    return false;
                 } else {
-                    var childCheck = t.parents(".check_all_box").siblings(".form_container").find('.sentflag');
-                    childCheck.each(function () {
-                        var c = $(this).find('label');
-                        if (c.hasClass('checked')) {
-                            count++;
-                        }
-                    });
+                    $alert('请至少选中一项类别／请选择XXXXXX里面对应的资料。');
+                    isVerify = false;
                 }
-            });
-            if (count == 0) {
-                $alert('请至少选中一项类别／请选择XXXXXX里面对应的资料。');
-                isVerify = false;
-            } else {
-                isVerify = true;
             }
         }
 

@@ -125,33 +125,37 @@
                 <div class="detail_about" style="display:none">
                 {{/if}}
                     {{#if(vo.applyto_business.indexOf('0') !== -1) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label supplier_cartype">新车</div>
-                    </div>
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label supplier_cartype">新车</div>
+                        </div>
                     {{/if}}
 
                     {{#each(list) }}
-                    {{#if(this.car_type === 0) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">{{this.type_value}}：</div>
-                        <div class="detail_about_date">{{this.material_name}}。</div>
-                    </div>
-                    {{/if}}
+                        {{#if(this.car_type === 0) }}
+                            {{#if (this.type_value) }}
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_label">{{this.type_value}}：</div>
+                                    <div class="detail_about_date">{{this.material_name}}。</div>
+                                </div>
+                            {{/if}}
+                        {{/if}}
                     {{/each}}
 
                     {{#if (vo.applyto_business.indexOf('1') !== -1) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label supplier_cartype">二手车</div>
-                    </div>
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label supplier_cartype">二手车</div>
+                        </div>
                     {{/if}}
 
                     {{#each(list) }}
-                    {{#if(this.car_type === 1) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">{{this.type_value}}：</div>
-                        <div class="detail_about_date">{{this.material_name}}。</div>
-                    </div>
-                    {{/if}}
+                        {{#if(this.car_type === 1) }}
+                            {{#if (this.type_value) }}
+                                <div class="detail_about_txt">
+                                    <div class="detail_about_label">{{this.type_value}}：</div>
+                                    <div class="detail_about_date">{{this.material_name}}。</div>
+                                </div>
+                            {{/if}}
+                        {{/if}}
                     {{/each}}
                 </div>
             </div>
