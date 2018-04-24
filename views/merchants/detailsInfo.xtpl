@@ -127,7 +127,7 @@
                                 </li>
                             {{/each}}
                         </ul>
-                        <div class="btn_box pad_btm_50 clearfix" style="margin-top:20px;">
+                        <div class="btn_box  clearfix" style="margin-top:5px;">
                                 <a href="javascript:" class="btn orange_btn confirm account_submit_btn">确定</a>
                                 <a href="javascript:" class="btn bg_btn account_cancel">取消</a>
                         </div>
@@ -537,8 +537,10 @@
 
                 if (listLength == 0) {
                     popBg.hide();
+                    $(".pop").hide();
                 } else {
                     popBg.toggle();
+                    $(".pop").hide();
                 }
 
             });
@@ -605,7 +607,7 @@
 
                 })
 
-        }
+        };
         //含有子级权限的展开折叠效果
         function slideDownList () {
             var count = 0;
@@ -615,6 +617,7 @@
                 pop.toggle();
                 var t = $(this);
                 btn.addClass('slidedown_up_arrow').removeClass('slidedown_up_arrow');
+                btn.addClass('hide_box');
                 count++;
                 if (count < 2) {
                     var url = contextPath + "/api/loan/supplier/detail";
@@ -702,6 +705,10 @@
                         }
                     });
                 }
+            });
+
+            btn.mouseout(function(){
+                btn.removeClass('hide_box');
             });
         }
 
