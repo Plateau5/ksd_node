@@ -34,14 +34,14 @@
 			{{/if}}
 		{{/if}}
 
-		{{#if (vo.status === 3 && (vo.start_audit_time !== 0 || (vo.is_docking === 1 && vo.sign_ids.indexOf('10') !== -1 && vo.car_type === 0))) }}
+		{{#if (vo.status === 3 && vo.start_audit_time !== 0) }}
 			<div class="cursor requestpayout_detail_btn requestpayout_download download_file"  alt="1" lang="{{finance_id}}">全部下载</div>
 			{{#if (verifyCode(1037)) }}
 				<a href="javascript:;" id="picture_reason" lang="{{finance_id}}"  alt="{{vo.user_name}}" create_name="{{create_name}}">
 					<div class="requestpayout_detail_btn requestpayout_his" lang="{{finance_id}}">发送不合格通知</div>
 				</a>
 			{{/if}}
-			{{#if (vo.is_docking !== 1 || (vo.sign_ids.indexOf('10') === -1)) }}
+			{{#if (vo.is_docking !== 1) }}
 				{{#if (verifyCode(1032)) }}
 					<div class="requestpayout_detail_btn requestpayout_apply" id="requestpayout_apply" lang="{{finance_id}}">确认申请</div>
 				{{/if}}
