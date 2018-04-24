@@ -80,7 +80,7 @@
 			</tr>
 			<!--付款明细1 begin-->
 			<tr>
-				<td rowspan="2">商户付款明细</td>
+				<td rowspan="3">商户付款明细</td>
 				<td>车价贷款(元)</td>
 				<td>服务费返点(元)</td>
 				<td >GPS安装费(元)</td>
@@ -99,6 +99,9 @@
 				<td>{{vo.financed_charge_rebate}}</td>
 				<td>{{vo.insurance_rebate}}<!-- <c:if test="${vo.car_type eq 0 }">${vo.credit_charge }</c:if><c:if test="${vo.car_type eq 1 }">${vo.insurance_rebate }</c:if> --></td>
 				<td>{{vo.gps_rebate}}</td>
+			</tr>
+			<tr>
+				<td colspan="8">总付款总额(元)：{{vo.total_charge }}({{total_charge_cn}})</td>
 			</tr>
 			<!--付款明细1 end-->
 			<!--付款信息 begin-->
