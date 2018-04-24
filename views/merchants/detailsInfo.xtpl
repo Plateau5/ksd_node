@@ -94,7 +94,7 @@
                     </ul>
                 </div>
                 <div class="pop_bg">
-                    <div class="detail_menu operate_logs">
+                    <div class="detail_menu clearfix">
                         <h1 class="subtitle">切换账户</h1>
                         <ul class="account_list">
                             {{#each (accountList) }}
@@ -158,6 +158,7 @@
                     <input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
                     <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
                     <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
+                    <input type="hidden" name="settlement_type" value="{{reqParams.settlement_type}}" id="settlement_type">
                 <div class="filtrate">
                     <div class="filtrate merchants_filtrate">
                         {{#if (reqParams.list_type === '2') }}
@@ -417,6 +418,12 @@
                                     <div class="loan_value">{{this.unpack_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
+                                {{#if (this.deduction || this.deduction === 0) }}
+                                <div class="loan_row">
+                                    <div class="loan_name">扣款项：</div>
+                                    <div class="loan_value">{{this.deduction}}&nbsp;元</div>
+                                </div>
+                                {{/if}}
                                 {{#if (this.total_charge || this.total_charge === 0) }}
                                 <div class="total_receipts clearfix">
                                     <div class="receipt_name">收款总额：</div>
@@ -479,8 +486,11 @@
     var orderbyType = $('#orderbyType').val().trim();     //    订单排序
     var start_with = $('#start_with').val().trim();     // 首字母
     var payAccount = $('#pay_account').val().trim();        // 默认账户
+    var settlementType =$('#settlement_type').val().trim();       // 结算方式
     (function ($, window) {
         paginationSwitch();     // 分页切换
+
+
         //全选/全不选
         function selectedAll(){
             var checkedAllLabel = $("#selectedAll label");      // 全选按钮
@@ -536,12 +546,12 @@
             var popBg = $(".pop_bg");
             var listLength = $('#listLength');
             dropDown.on('click', function () {
-
                 if (listLength == 0) {
                     popBg.hide();
                     $(".pop").hide();
                 } else {
                     popBg.toggle();
+                    popBgHeight();
                     $(".pop").hide();
                 }
 
@@ -709,10 +719,6 @@
                     });
                 }
             });
-
-            /*btn.mouseout(function(){
-                btn.removeClass('hide_box');
-            });*/
         }
 
         // 跳转同意页面
@@ -752,7 +758,8 @@
                             receipt_type: receiptType,
                             orderby_type: orderbyType,
                             start_with : start_with,
-                            list_type : listType
+                            list_type : listType,
+                            settlement_type: settlementType
                         }
                     })
                 }
@@ -796,6 +803,16 @@
                 amount = defaultCharge;
             }
             return amount;
+        };
+        //弹出层高度
+        function popBgHeight(){
+            var screen = $(window).height(); //屏幕的高度
+            var detailMenu = $('.detail_menu');
+            var accountList = $('.account_list').height(); //ul的高度
+            var detailMenuHeight = $('.detail_menu').height();
+            var popHeight = (screen-detailMenuHeight)/2;
+            detailMenu.css("height",detailMenuHeight);
+            detailMenu.css("top",popHeight);
         }
 
         $(function () {

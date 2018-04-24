@@ -90,6 +90,7 @@
 <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
 <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
 <input name="pay_account" id="pay_account" type="hidden" value="{{reqParams.pay_account}}">
+<input name="settlement_type" id="settlement_type" type="hidden" value="{{reqParams.settlement_type}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/merchants.js"></script>
@@ -104,6 +105,7 @@
     var orderbyType = $('#orderbyType').val().trim();     //    订单排序
     var start_with = $('#start_with').val().trim();     // 首字母
     var payAccount = $('#pay_account').val().trim();        // 默认账户
+    var settlementType = $('#settlement_type').val().trim();       // 结算方式
     $(function(){
         //页面初始化
         $('.principal_list .list_item').eq(0).addClass('active');
@@ -215,7 +217,8 @@
                                 supplier_name : merchantName,
                                 url : listUrl,
                                 navigation : navigation,
-                                list_type : listType
+                                list_type : listType,
+                                settlement_type: settlementType
                             }
                         })
                     }else{

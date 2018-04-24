@@ -260,7 +260,8 @@ function goLoanOrderList () {
                 supplier_name : merchantName,
                 url : listUrl,
                 navigation : navigation,
-                list_type : listType
+                list_type : listType,
+                settlement_type: settlementType
             }
         })
     });

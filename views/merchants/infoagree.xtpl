@@ -42,6 +42,7 @@
                     <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
                     <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
                     <input name="pay_account" id="pay_account" type="hidden" value="{{reqParams.pay_account}}">
+                    <input name="settlement_type" id="settlement_type" type="hidden" value="{{reqParams.settlement_type}}">
                     <div class="form_row textarea_container">
                         <div class="column_l" style="width: 4%;">备注：</div>
                         <div class="column_r" style="width: 90%;">
@@ -86,6 +87,7 @@
     var orderbyType = $('#orderbyType').val().trim();     //    订单排序
     var start_with = $('#start_with').val().trim();     // 首字母
     var payAccount = $('#pay_account').val().trim();        // 默认账户
+    var settlementType = $('#settlement_type').val().trim();       // 结算方式
     (function ($) {
         const BTNTYPE = '{{reqParams.type}}';
         //绑定确定按钮的点击事件
@@ -142,13 +144,13 @@
                                             supplier_name : merchantName,
                                             url : listUrl,
                                             navigation : navigation,
-                                            list_type : listType
+                                            list_type : listType,
+                                            settlement_type: settlementType
                                         }
                                     })
                                 },
                                 onCancel : function (d) {
                                     d.close();
-                                    // window.location.href = contextPath + markUri + "/customer/financial/pendingAudit";
                                     var detailPath = '';
                                     if (listType == 1) {
                                         detailPath = '/loan/pending/list';
@@ -166,7 +168,8 @@
                                             supplier_name : merchantName,
                                             url : listUrl,
                                             navigation : navigation,
-                                            list_type : listType
+                                            list_type : listType,
+                                            settlement_type: settlementType
                                         }
                                     })
                                 }
@@ -190,7 +193,8 @@
                                         supplier_name : merchantName,
                                         url : listUrl,
                                         navigation : navigation,
-                                        list_type : listType
+                                        list_type : listType,
+                                        settlement_type: settlementType
                                     }
                                 })
                             });
