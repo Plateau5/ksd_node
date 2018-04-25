@@ -76,14 +76,25 @@
                                 </div>
                                 <div class="detail_about_rt form_container">
                                     <div class="detail_about_rt_top">
-                                        <div class="form_group sentflag mar40">
-                                            <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" {{#if (this.is_must === 1) }}checked="checked"{{/if}}>
-                                            <label for="must_send{{xindex}}" {{#if (this.is_must === 1) }}class="checked"{{/if}}>必传</label>
-                                        </div>
-                                        <div class="form_group sentflag">
-                                            <input id="must_nosend{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="0" {{#if (this.is_must === 0) }}checked="checked"{{/if}}>
-                                            <label for="must_nosend{{xindex}}" {{#if (this.is_must === 0) }}class="checked"{{/if}}>非必传</label>
-                                        </div>
+                                        {{#if (this.is_must) }}
+                                            <div class="form_group sentflag mar40">
+                                                <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" {{#if (this.is_must === 1) }}checked="checked"{{/if}}>
+                                                <label for="must_send{{xindex}}" {{#if (this.is_must === 1) }}class="checked"{{/if}}>必传</label>
+                                            </div>
+                                            <div class="form_group sentflag">
+                                                <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0" {{#if (this.is_must === 0) }}checked="checked"{{/if}}>
+                                                <label for="must_nosend{{xindex}}" {{#if (this.is_must === 0) }}class="checked"{{/if}}>非必传</label>
+                                            </div>
+                                        {{else}}
+                                            <div class="form_group sentflag mar40">
+                                                <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" checked="checked">
+                                                <label for="must_send{{xindex}}"class="checked">必传</label>
+                                            </div>
+                                            <div class="form_group sentflag">
+                                                <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0">
+                                                <label for="must_nosend{{xindex}}">非必传</label>
+                                            </div>
+                                        {{/if}}
                                     </div>
                                     <div class="detail_about_rt_bot">
                                         {{#each (this.mlist) }}
@@ -183,14 +194,15 @@
                 var jsonData = [];
                 data_use.each(function () {
                     var _this = $(this);
-                    var org_mid = _this.find('.org_mid');
+                    var org_mid = _this.find('.org_mid').val();
                     var type = _this.find('.detail_about_lf').find('input').val();
-                    var must_send = _this.find('.must_send');
-                    var must_nosend = _this.find('.must_nosend');
-                    if (must_send.attr('checked')) {
-                        var is_must = must_send.val();
-                    } else {
-                        var is_must = must_nosend.val();
+                    var must_send = _this.find('input.must_send[type="radio"]:checked');
+                    var must_nosend = _this.find('input.must_nosend[type="radio"]:checked');
+                    if (must_send) {
+                        var is_must = _this.find('.must_send').val();
+                    }
+                    if (must_nosend) {
+                        var is_must = _this.find('.must_nosend').val();
                     }
                     var material_ids = _this.find('.detail_about_rt_bot').find('.data_ids');
                     var data_ids = [];
@@ -255,10 +267,9 @@
         }
 
         //判断类别是否选中
-        var count = 0;//类别选中个数
         function validateEmpty () {
             var detail_about_rt = $('.detail_about_rt ');
-            var is_must = detail_about_rt.find('.detail_about_rt_top').find('input.must_send[type="radio"][checked="checked"]');
+            var is_must = detail_about_rt.find('.detail_about_rt_top').find('input.must_send[type="radio"]:checked');
             var checks = detail_about_rt.find('.detail_about_rt_bot').find('input.data_ids[type="checkbox"][checked="checked"]');
             var flag = false;
             is_must.each(function () {
@@ -268,7 +279,9 @@
                     if (cur_nums.length <= 0) {
                         flag = true;
                         isVerify = true;
-                        $alert('请至少选中一项类别／请选择XXXXXX里面对应的资料。');
+                        var detail_about_txt = _this.parents('.detail_about_txt ').find('.detail_about_lf  label').text();
+                        $alert('请选择'+detail_about_txt+'里面对应的资料。');
+                        return false;
                     } else {
                         isVerify = false;
                     }
@@ -278,8 +291,9 @@
                 if (checks.length > 0) {
                     isVerify = true;
                 } else {
-                    $alert('请至少选中一项类别／请选择XXXXXX里面对应的资料。');
                     isVerify = false;
+                    $alert('请至少选中一项类别资料。');
+                    return false;
                 }
             }
         }
