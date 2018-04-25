@@ -96,9 +96,9 @@
                 <div class="pop_bg">
                     <div class="detail_menu clearfix">
                         <h1 class="subtitle">切换账户</h1>
-                        <ul class="account_list">
+                        <ul class="account_list pop_list">
                             {{#each (accountList) }}
-                                <li class="list_item clearfix">
+                                <li class="list_item pop_line clearfix">
                                     <div class="detail_menu_radio">
                                         {{#if (vo.pay_account === this.pay_account) }}
                                         <input class="tog_account" type="radio"  value="{{this.pay_account}}" name="account_radio" />
@@ -107,27 +107,27 @@
                                         {{/if}}
                                     </div>
                                     <div class="detail_menu_list">
-                                        <div class="account_row">
+                                        <div class="account_row pop_row_one">
                                             <div class="account_name">账户类型：</div>
                                             <div class="account_value merchant_name">{{this.account_type_value}}</div>
                                         </div>
-                                        <div class="account_row">
+                                        <div class="account_row pop_row_two">
                                             <div class="account_name">账户名：</div>
                                             <div class="account_value merchant_name">{{this.pay_name}}</div>
                                         </div>
-                                        <div class="account_row">
+                                        <div class="account_row pop_row_three">
                                             <div class="account_name">银行卡号：</div>
                                             <div class="account_value merchant_name">{{this.pay_account}}</div>
                                         </div>
-                                        <div class="account_row">
+                                        <div class="account_row pop_row_one">
                                             <div class="account_name">账户用途：</div>
                                             <div class="account_value merchant_name">{{this.account_use_value}}</div>
                                         </div>
-                                        <div class="account_row">
-                                            <div class="account_name">开户行：</div>
+                                        <div class="account_row pop_row_two">
+                                            <div class="account_name loan_text">开户行：</div>
                                             <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                         </div>
-                                        <div class="account_row">
+                                        <div class="account_row pop_row_three">
                                             <div class="account_name">总金额：</div>
                                             <div class="account_value merchant_name">{{this.total_charge}}元</div>
                                         </div>
@@ -183,6 +183,7 @@
                             <div class="filtrate_item select_item inline_block">
                                 <div class="conditions_name inline_block" style="vertical-align: top;">时间：</div>
                                 <select name="timeorder_type" class="filtrate_select" id="timeorder_type">
+                                    <option value="">全部</option>
                                     {{#if (vo.timeorder_type === 1) }}
                                     <option selected value="1">本月</option>
                                     {{else}}
@@ -198,11 +199,11 @@
                                     {{else}}
                                     <option value="3">以前</option>
                                     {{/if}}
-                                    {{#if (vo.timeorder_type === 4) }}
+                                    <!--{{#if (vo.timeorder_type === 4) }}
                                     <option selected value="4">全部</option>
                                     {{else}}
                                     <option value="4">全部</option>
-                                    {{/if}}
+                                    {{/if}}-->
                                 </select>
                             </div>
                             <div class="filtrate_item select_item  inline_block">
@@ -323,7 +324,7 @@
                             </div>
                             <div class="loan_list clearfix">
                                 <div class="loan_row">
-                                    <div class="loan_name">客户：</div><div class="loan_value">{{this.user_name}}</div>
+                                    <div class="loan_name">客户：</div><div class="loan_value" title="{{this.user_name}}">{{this.user_name}}</div>
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">城市：</div><div class="loan_value">{{this.city_name}}</div>
@@ -338,7 +339,7 @@
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">车架号：</div>
-                                    <div class="loan_value">{{this.vin}}</div>
+                                    <div class="loan_value" title="{{this.vin}}">{{this.vin}}</div>
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">贷前：</div>
@@ -354,8 +355,8 @@
                                 </div>
                                 {{#if (this.car_loan_charge || this.car_loan_charge === 0) }}
                                 <div class="loan_row">
-                                    <div class="loan_name">车价贷款额：</div>
-                                    <div class="loan_value">{{this.car_loan_charge}}&nbsp;元</div>
+                                    <div class="loan_name loan_text">车价贷款额：</div>
+                                    <div class="loan_value" title="this.car_loan_charge">{{this.car_loan_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.collection_charge || this.collection_charge === 0) }}
@@ -759,6 +760,7 @@
                             orderby_type: orderbyType,
                             start_with : start_with,
                             list_type : listType,
+                            pay_account : payAccount,
                             settlement_type: settlementType
                         }
                     })
@@ -810,7 +812,7 @@
             var detailMenu = $('.detail_menu');
             var accountList = $('.account_list').height(); //ul的高度
             var detailMenuHeight = $('.detail_menu').height();
-            var popHeight = (screen-detailMenuHeight)/2;
+            var popHeight = (screen-detailMenuHeight)/2 -50;
             detailMenu.css("height",detailMenuHeight);
             detailMenu.css("top",popHeight);
         }
