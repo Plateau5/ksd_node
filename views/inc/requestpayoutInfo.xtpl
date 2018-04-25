@@ -172,13 +172,13 @@
                     </div>
                 </div>
             {{/if}}
-            {{#if (this.deduction) }}
+            {{#if (this.deduction || this.deduction === 0) }}
                 <div class="detail_remarks requestpayout_detail_remarks payment_desc_item">
                     <div class="requestpayout_detail_label">扣款：</div>
                     <div class="requestpayout_detail_txt">{{this.deduction}}&nbsp;元</div>
                 </div>
             {{/if}}
-            {{#if (this.deduction) }}
+            {{#if (this.deduction_remark) }}
                 <div class="detail_remarks requestpayout_detail_remarks payment_desc_item">
                     <div class="requestpayout_detail_label">扣款说明：</div>
                     <div class="requestpayout_detail_txt nowrap">{{this.deduction_remark}}</div>
