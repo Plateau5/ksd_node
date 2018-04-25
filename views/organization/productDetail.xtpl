@@ -25,7 +25,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a data-id="{{vo.parent_id}}" class="TS crumbs_item" style="cursor: pointer;">产品管理</a>
-                <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
+                <a href="javascript:;" class="crumbs_item">{{name}}</a>
             </div>
             <div class="product_detail_header">
                 {{include ('./../inc/merchantInfos')}}
@@ -33,12 +33,12 @@
 
             <div class="product_detail_date_box">
                 <div class="product_detail_date" id="downpayment_rate_box">
-                    <input type="hidden" id="downpayment_rate_str" value="{{vo.downpayment_rate }}">
+                    <input type="hidden" id="downpayment_rate_str" value="{{downpayment_rate }}">
                     <div class="date_title">
-                        {{#if (vo.downpayment_type === 1 || vo.downpayment_type === -1 || !vo.downpayment_type) }}
+                        {{#if (downpayment_type === 1 || downpayment_type === -1 || !downpayment_type) }}
                         <span>首付比例：</span>
                         {{/if}}
-                        {{#if (vo.downpayment_type === 2) }}
+                        {{#if (downpayment_type === 2) }}
                         <span>首付金额：</span>
                         {{/if}}
                         {{#if (downpayment_rate_size > 1) }}
@@ -72,11 +72,11 @@
                         <span>申请人数：</span>
                     </div>
                     <div class="date_num1">
-                        <span>{{vo.apply_count }}</span>
+                        <span>{{apply_count }}</span>
                     </div>
                 </div>
                 <div class="product_detail_date" id="interest_rate_box">
-                    <input type="hidden" id="interest_rate_str" value="{{vo.interest_rate }}">
+                    <input type="hidden" id="interest_rate_str" value="{{interest_rate }}">
                     <div class="date_title">
                         <span>费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率：</span>
                     </div>
@@ -99,7 +99,7 @@
                         <span>通&nbsp;&nbsp;过&nbsp;率：</span>
                     </div>
                     <div class="date_num1">
-                        <span>{{vo.pass_rate }}%</span>
+                        <span>{{pass_rate }}%</span>
                     </div>
                 </div>
             </div>
@@ -108,63 +108,64 @@
                     <div class="detail_line"></div>
                     <div class="detail_title_txt">产品信息</div>
                     {{#if (verifyCode(1078)) }}
-                    <a href="javascript:" class="use_template" id="useTemplate" data-id="{{vo.id}}" data-parent_id="{{vo.parent_id}}">以此模板发布新产品</a>
+                        <a href="javascript:" class="use_template" id="useTemplate" data-id="{{vo.id}}" data-parent_id="{{vo.parent_id}}">以此模板发布新产品</a>
                     {{/if}}
                 </div>
                 <div class="detail_about">
-                    {{#if (vo.product_origin) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">产品来源：</div>
-                        <div class="detail_about_date">
-                            {{vo.product_origin }}
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.applyto_cityname ) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">适用城市：</div>
-                        <div class="detail_about_date">{{vo.applyto_cityname}}</div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.financeamount_start && vo.financeamount_end) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">融资金额范围：</div>
-                        <div class="detail_about_date">
-                            {{vo.financeamount_start }}-{{vo.financeamount_end }}万
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.term) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">融资期限：</div>
-                        <div class="detail_about_date">{{vo.term }}</div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.assess_desc) }}
-                    <div class="detail_about_txt clearfix pro_intro">
-                        <div class="detail_about_label">评估描述：</div>
-                        <div class="detail_about_date">{{vo.assess_desc }}</div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.product_explain) }}
-                    <div class="detail_about_txt clearfix pro_intro">
-                        <div class="detail_about_label">产品说明：</div>
-                        <div class="detail_about_date">{{vo.product_explain }}</div>
-                    </div>
-                    {{/if}}
-                    <div class="detail_about_txt clearfix pro_intro">
-                        <div class="detail_about_label">产品说明：</div>
-                        <div class="detail_about_date">惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻惺惺惜惺惺想寻寻寻寻寻寻寻寻寻寻寻寻寻寻</div>
-
-                        <div class="detailBox inline">
-                            <div class="detailImgBox cursor">
-                                <a href="javascript:;" data-type="imgBox">
-                                    <img data-original="http://loan-file.oss-cn-beijing.aliyuncs.com/15246381390456b9b2338a27846e38d3d32d55ee327c1.jpg" src="http://loan-file.img-cn-beijing.aliyuncs.com/15246381390456b9b2338a27846e38d3d32d55ee327c1.jpg@120w_90h_100q.jpg" alt="身份证.jpg">
-                                </a>
+                    {{#if (product_origin) }}
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">产品来源：</div>
+                            <div class="detail_about_date">
+                                {{product_origin }}
                             </div>
-                            <div class="imgText">身份证.jpg</div>
                         </div>
-                    </div>
+                    {{/if}}
+                    {{#if (applyto_cityname ) }}
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">适用城市：</div>
+                            <div class="detail_about_date">{{applyto_cityname}}</div>
+                        </div>
+                    {{/if}}
+                    {{#if (financeamount_start && financeamount_end) }}
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">融资金额范围：</div>
+                            <div class="detail_about_date">
+                                {{financeamount_start }}-{{financeamount_end }}万
+                            </div>
+                        </div>
+                    {{/if}}
+                    {{#if (term) }}
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">融资期限：</div>
+                            <div class="detail_about_date">{{term }}</div>
+                        </div>
+                    {{/if}}
+                    {{#if (assess_desc) }}
+                        <div class="detail_about_txt clearfix pro_intro">
+                            <div class="detail_about_label">评估描述：</div>
+                            <div class="detail_about_date">{{assess_desc }}</div>
+                        </div>
+                    {{/if}}
+                    {{#if (product_explain) }}
+                        <div class="detail_about_txt clearfix pro_intro">
+                            <div class="detail_about_label">产品说明：</div>
+                            <div class="detail_about_date">xxx</div>
+                            {{#if (file_list.length !== 0) }}
+                            <div id="pro_intro_img" class="imgDetail clearfix">
+                                {{#each (file_list) }}
+                                <div class="detailBox inline">
+                                    <div class="detailImgBox cursor">
+                                        <a class="img_item" href="javascript:;" data-type="imgBox">
+                                            <img data-original="this.url" src="this.thumbnail" alt="this.file_name">
+                                        </a>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                            {{/if}}
+                        </div>
+                    {{/if}}
+
                 </div>
             </div>
 
@@ -212,6 +213,7 @@
     }
     $(function () {
         copyThisToCreate();
+        viewLargeImage('.imgDetail');
     });
 </script>
 </html>
