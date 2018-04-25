@@ -29,7 +29,7 @@
                 <a href="javascript:;" class="crumbs_item">新建</a>
             </div>
             <div class="create_options form_options" style="padding:0;">
-                <form action="" id="create_workflow">
+                <form action="" id="organization_info_create">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -64,7 +64,7 @@
                             <span class="options_name">机构类别：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" class="" id="org_type">
+                            <select name="type" class="" id="org_type">
                                 <option value="0">请选择</option>
                                 <option value="1">融资租赁</option>
                                 <option value="2">银行</option>
@@ -114,7 +114,7 @@
                             <span class="options_name">系统地址：</span>
                         </div>
                         <div class="column_val">
-                            <input id="system_url" type="text" class="" name="" placeholder="请输入系统地址">
+                            <input id="system_url" type="text" class="" name="system_url" placeholder="请输入系统地址">
                             <span class="formError"></span>
                         </div>
                     </div>
@@ -124,9 +124,9 @@
                             <span class="options_name">车龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="minCarAge" name="" placeholder="1">
+                            <input type="text" class="minCarAge" name="carage_start" placeholder="1">
                             <span class="pad_lf_rt_8">-</span>
-                            <input type="text" class="maxCarAge" name="" placeholder="9">
+                            <input type="text" class="maxCarAge" name="carage_end" placeholder="9">
                             <span class="pad_lf_rt_8">年</span>
                             <span class="formError"></span>
                         </div>
@@ -136,9 +136,9 @@
                             <span class="options_name">年龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="" name="" placeholder="请输入最低年龄">
+                            <input type="text" class="" name="age_start" placeholder="请输入最低年龄">
                             <span class="pad_lf_rt_8">-</span>
-                            <input type="text" class="" name="" placeholder="请输入最高年龄">
+                            <input type="text" class="" name="age_end" placeholder="请输入最高年龄">
                             <span class="pad_lf_rt_8">岁</span>
                             <span class="remark_text add_txt">备注</span>
                             <div class="remarks_box" style="display: none;">
@@ -152,7 +152,7 @@
                             <span class="options_name">审批速度：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" class="" id="approval">
+                            <select name="approve_speed" class="" id="approval">
                                 <option value="0">1-20分钟</option>
                                 <option value="1">1-3个小时</option>
                                 <option value="2">半个工作日</option>
@@ -168,7 +168,7 @@
                             <span class="options_name">可抵押省市：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" class="" id="">
+                            <select name="outsettling_province" class="" id="">
                                 <option value="0">北京</option>
                             </select>
                         </div>
@@ -179,11 +179,11 @@
                         </div>
                         <div class="column_val">
                             <div class="form_group mar6">
-                                <input id="principal_need" type="radio" checked="checked" name="principal_need" value="1">
+                                <input id="principal_need" type="radio" checked="checked" name="borrower_credit" value="1">
                                 <label for="principal_need" class="checked">需要</label>
                             </div>
                             <div class="form_group mar6">
-                                <input id="principal_noneed" type="radio" name="principal_need" value="2">
+                                <input id="principal_noneed" type="radio" name="borrower_credit" value="2">
                                 <label for="principal_noneed" class="checked">不需要</label>
                             </div>
                             <span class="remark_text add_txt">备注</span>
@@ -198,11 +198,11 @@
                         </div>
                         <div class="column_val">
                             <div class="form_group mar6">
-                                <input id="partner_need" type="radio" checked="checked" name="partner_need" value="1">
+                                <input id="partner_need" type="radio" checked="checked" name="spouse_credit" value="1">
                                 <label for="partner_need" class="checked">需要</label>
                             </div>
                             <div class="form_group mar6">
-                                <input id="partner_noneed" type="radio" name="partner_need" value="2">
+                                <input id="partner_noneed" type="radio" name="spouse_credit" value="2">
                                 <label for="partner_noneed" class="checked">不需要</label>
                             </div>
                             <span class="remark_text add_txt">备注</span>
@@ -217,11 +217,11 @@
                         </div>
                         <div class="column_val">
                             <div class="form_group mar6">
-                                <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
+                                <input id="back_door_need" type="radio" checked="checked" name="bei_hu" value="1">
                                 <label for="back_door_need" class="checked">需要</label>
                             </div>
                             <div class="form_group mar6">
-                                <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
+                                <input id="back_door_noneed" type="radio" name="bei_hu" value="2">
                                 <label for="back_door_noneed" class="checked">不需要</label>
                             </div>
                             <span class="remark_text add_txt">备注</span>
@@ -236,39 +236,39 @@
                         </div>
                         <div class="column_val">
                             <div class="form_group">
-                                <input id="org_feature1" type="checkbox" class="" name=""  value="0" />
+                                <input id="org_feature1" type="checkbox" class="" name="special"  value="0" />
                                 <label for="org_feature1">审批快</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature2" type="checkbox" class="" name="" value="1" />
+                                <input id="org_feature2" type="checkbox" class="" name="special" value="1" />
                                 <label for="org_feature2">材料少</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature3" type="checkbox" class="" name="" value="2" />
+                                <input id="org_feature3" type="checkbox" class="" name="special" value="2" />
                                 <label for="org_feature3">利息低</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature4" type="checkbox" class="" name="" value="3" />
+                                <input id="org_feature4" type="checkbox" class="" name="special" value="3" />
                                 <label for="org_feature4">利润大</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature5" type="checkbox" class="" name="" value="4" />
+                                <input id="org_feature5" type="checkbox" class="" name="special" value="4" />
                                 <label for="org_feature5">灵活</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature6" type="checkbox" class="" name="" value="5" />
+                                <input id="org_feature6" type="checkbox" class="" name="special" value="5" />
                                 <label for="org_feature6">首付低</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature7" type="checkbox" class="" name="" value="6" />
+                                <input id="org_feature7" type="checkbox" class="" name="special" value="6" />
                                 <label for="org_feature7">尺度大</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature8" type="checkbox" class="" name="" value="7" />
+                                <input id="org_feature8" type="checkbox" class="" name="special" value="7" />
                                 <label for="org_feature8">可做黑户</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature9" type="checkbox" class="" name="" value="8" />
+                                <input id="org_feature9" type="checkbox" class="" name="special" value="8" />
                                 <label for="org_feature9">无驾照</label>
                             </div>
                         </div>
@@ -279,27 +279,27 @@
                         </div>
                         <div class="column_val">
                             <div class="form_group">
-                                <input id="additional_project1" type="checkbox" class="" name=""  value="0" />
+                                <input id="additional_project1" type="checkbox" class="" name="addition_finance"  value="0" />
                                 <label for="additional_project1">GPS</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project2" type="checkbox" class="" name="" value="1" />
+                                <input id="additional_project2" type="checkbox" class="" name="addition_finance" value="1" />
                                 <label for="additional_project2">保险</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project3" type="checkbox" class="" name="" value="2" />
+                                <input id="additional_project3" type="checkbox" class="" name="addition_finance" value="2" />
                                 <label for="additional_project3">服务费</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project4" type="checkbox" class="" name="" value="3" />
+                                <input id="additional_project4" type="checkbox" class="" name="addition_finance" value="3" />
                                 <label for="additional_project4">人身意外险</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project5" type="checkbox" class="" name="" value="4" />
+                                <input id="additional_project5" type="checkbox" class="" name="addition_finance" value="4" />
                                 <label for="additional_project5">购置税</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project6" type="checkbox" class="" name="" value="5" />
+                                <input id="additional_project6" type="checkbox" class="" name="addition_finance" value="5" />
                                 <label for="additional_project6">金融方自营保险</label>
                             </div>
                         </div>
@@ -309,7 +309,7 @@
                             <span class="options_name">附加可融项目说明：</span>
                         </div>
                         <div class="column_val">
-                            <textarea class="remark" name="" cols="30" rows="6" maxlength="200" placeholder="200个字符（包含文字、字母、数字、符号），超出不可输入"></textarea>
+                            <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="200个字符（包含文字、字母、数字、符号），超出不可输入"></textarea>
                         </div>
                     </div>
                     <div class="option_item">
@@ -317,7 +317,7 @@
                             <span class="options_name">征信尺度：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" class="">
+                            <select name="credit" class="">
                                 <option value="">请选择</option>
                                 <option value="1">宽松</option>
                                 <option value="2">适中</option>
@@ -330,7 +330,7 @@
                             <span class="options_name">电核尺度：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" class="">
+                            <select name="electricity" class="">
                                 <option value="">请选择</option>
                                 <option value="1">宽松</option>
                                 <option value="2">适中</option>
@@ -343,7 +343,7 @@
                             <span class="options_name">大数据审查：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" class="">
+                            <select name="bigdata_review" class="">
                                 <option value="">请选择</option>
                                 <option value="1">宽松</option>
                                 <option value="2">适中</option>
@@ -356,7 +356,7 @@
                             <span class="options_name">官方电话：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="" name="" placeholder="请输入官方电话">
+                            <input type="text" class="" name="mobile" placeholder="请输入官方电话">
                         </div>
                     </div>
                     <div class="option_item">
@@ -364,7 +364,7 @@
                             <span class="options_name">联系人：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="" name="" placeholder="请输入联系人姓名">
+                            <input type="text" class="" name="link_name" placeholder="请输入联系人姓名">
                         </div>
                     </div>
                     <div class="option_item">
@@ -372,7 +372,7 @@
                             <span class="options_name">联系人手机：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="" name="" placeholder="请输入联系人手机号">
+                            <input type="text" class="" name="link_phone" placeholder="请输入联系人手机号">
                         </div>
                     </div>
                     <div class="option_item">
@@ -380,7 +380,7 @@
                             <span class="options_name">联系人座机：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="" name="" placeholder="请输入联系人座机电话">
+                            <input type="text" class="" name="link_mobile" placeholder="请输入联系人座机电话">
                         </div>
                     </div>
                 </form>
