@@ -50,7 +50,17 @@
             </form>
             <div class="product_detail_box">
                 <div class="rf_30">
-                    <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
+                    <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">
+                        {{#if (material_type === 0) }}
+                            编辑
+                        {{else}}
+                            {{#if (data_flag !== '' || data_flag.indexOf(',') !== -1) }}
+                                编辑
+                            {{else}}
+                                新建
+                            {{/if}}
+                        {{/if}}
+                    </a>
                 </div>
                 <!--基本资料 start-->
                 {{#if (material_type === 0) }}
@@ -123,8 +133,8 @@
                 {{else}}
                 <div class="detail_about" style="display:none">
                 {{/if}}
-                    {{#if (data_flag !== 0) }}
-                        {{#if (data_flag === 1) }}
+                    {{#if (data_flag !== '') }}
+                        {{#if (data_flag.indexOf('1') !== -1) }}
                             <div class="detail_about_txt">
                                 <div class="detail_about_label supplier_cartype">新车</div>
                             </div>
@@ -139,7 +149,7 @@
                                 {{/if}}
                             {{/each}}
                         {{/if}}
-                        {{#if (data_flag === 2) }}
+                        {{#if (data_flag.indexOf('2') !== -1) }}
                             <div class="detail_about_txt">
                                 <div class="detail_about_label supplier_cartype">二手车</div>
                             </div>
@@ -155,12 +165,12 @@
                             {{/each}}
                         {{/if}}
                     {{else}}
-                        <div class="no_workflow">
-                            <div class="toast_text">目前还没有数据，请先创建分类</div>
-                            <div class="new_btn_box">
-                                <a href="javascript:;"  class="btn blue_btn add_btn"><em></em>新建类别</a>
-                            </div>
-                        </div>
+                        <ul class="todo_list">
+                            <li class="no_list_data">
+                                <div class="toast_img"></div>
+                                <div class="toast_text">目前还没有数据，请先创建分类</div>
+                            </li>
+                        </ul>
                     {{/if}}
                 </div>
             </div>
