@@ -36,7 +36,6 @@
                 </div>
                 {{/if}}
             </div>
-
             <div class="tab">
                 <ul class="tab_list inline_block">
                     <li class="tab_item type_normal {{#if (material_type === 0) }}active{{/if}}" data-type="0">基本信息</li>
@@ -124,39 +123,45 @@
                 {{else}}
                 <div class="detail_about" style="display:none">
                 {{/if}}
-                    {{#if(vo.applyto_business.indexOf('0') !== -1) }}
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label supplier_cartype">新车</div>
+                    {{#if (data_flag !== 0) }}
+                        {{#if (data_flag === 1) }}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label supplier_cartype">新车</div>
+                            </div>
+                            {{#each(list) }}
+                                {{#if(this.car_type === 0) }}
+                                    {{#if (this.material_name) }}
+                                        <div class="detail_about_txt">
+                                            <div class="detail_about_label">{{this.type_value}}：</div>
+                                            <div class="detail_about_date">{{this.material_name}}。</div>
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+                        {{#if (data_flag === 2) }}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label supplier_cartype">二手车</div>
+                            </div>
+                            {{#each(list) }}
+                                {{#if(this.car_type === 1) }}
+                                    {{#if (this.material_name) }}
+                                        <div class="detail_about_txt">
+                                            <div class="detail_about_label">{{this.type_value}}：</div>
+                                            <div class="detail_about_date">{{this.material_name}}。</div>
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+                    {{else}}
+                        <div class="no_workflow">
+                            <div class="toast_text">目前还没有数据，请先创建分类</div>
+                            <div class="new_btn_box">
+                                <a href="javascript:;"  class="btn blue_btn add_btn"><em></em>新建类别</a>
+                            </div>
                         </div>
                     {{/if}}
-
-                    {{#each(list) }}
-                        {{#if(this.car_type === 0) }}
-                            {{#if (this.material_name) }}
-                                <div class="detail_about_txt">
-                                    <div class="detail_about_label">{{this.type_value}}：</div>
-                                    <div class="detail_about_date">{{this.material_name}}。</div>
-                                </div>
-                            {{/if}}
-                        {{/if}}
-                    {{/each}}
-
-                    {{#if (vo.applyto_business.indexOf('1') !== -1) }}
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label supplier_cartype">二手车</div>
-                        </div>
-                    {{/if}}
-
-                    {{#each(list) }}
-                        {{#if(this.car_type === 1) }}
-                            {{#if (this.material_name) }}
-                                <div class="detail_about_txt">
-                                    <div class="detail_about_label">{{this.type_value}}：</div>
-                                    <div class="detail_about_date">{{this.material_name}}。</div>
-                                </div>
-                            {{/if}}
-                        {{/if}}
-                    {{/each}}
                 </div>
             </div>
         </div>

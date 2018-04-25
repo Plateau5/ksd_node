@@ -48,22 +48,22 @@
                     <div class="date_num1">
                         <!--<span>{{downpayment_rate_first }}</span>-->
                         {{#if (vo.downpayment_type === 1 || vo.downpayment_type === -1) }}
-                        {{#if (downpayment_rate.length === 1) }}
-                        <span class="date_num2">{{this}}%</span>
-                        {{else}}
-                        {{#each (downpayment_rate) }}
-                        {{#if (i !== downpayment_rate.length-1) }}
-                        <span class="date_num2">{{this}}%、</span>
-                        {{else}}
-                        <span class="date_num2">{{this}}%</span>
-                        {{/if}}
-                        {{/each}}
-                        {{/if}}
+                            {{#if (downpayment_rate.length === 1) }}
+                                <span class="date_num2">{{this}}%</span>
+                            {{else}}
+                                {{#each (downpayment_rate) }}
+                                    {{#if (xindex !== downpayment_rate.length-1) }}
+                                        <span class="date_num2">{{this}}%、</span>
+                                    {{else}}
+                                        <span class="date_num2">{{this}}%</span>
+                                    {{/if}}
+                                {{/each}}
+                            {{/if}}
                         {{/if}}
                         {{#if (vo.downpayment_type === 2) }}
-                        {{#each (downpayment_rate) }}
-                        <span class="date_num2">{{this }}元</span>
-                        {{/each}}
+                            {{#each (downpayment_rate) }}
+                                <span class="date_num2">{{this }}元</span>
+                            {{/each}}
                         {{/if}}
                     </div>
                 </div>
@@ -112,71 +112,70 @@
                     {{/if}}
                 </div>
                 <div class="detail_about">
-                    {{#if (vo.financeamount_start && vo.financeamount_end !== null) }}
+                    {{#if (vo.introduce) }}
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">产品介绍：</div>
+                            <div class="detail_about_date">
+                                {{vo.introduce }}
+                            </div>
+                        </div>
+                    {{/if}}
+                    {{#if (vo.product_origin) }}
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">融资金额：</div>
+                        <div class="detail_about_label">产品来源：</div>
                         <div class="detail_about_date">
-                            {{vo.financeamount_start }}-{{vo.financeamount_end }}万
+                            {{vo.product_origin }}
                         </div>
                     </div>
                     {{/if}}
-                    {{#if (vo.applyto_cityname  && vo.applyto_cityname) }}
+                    {{#if (vo.applyto_cityname ) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">适用城市：</div>
                         <div class="detail_about_date">{{vo.applyto_cityname}}</div>
                     </div>
                     {{/if}}
-                    {{#if (term) }}
+                    {{#if (vo.financeamount_start && vo.financeamount_end !== null) }}
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">分期范围：</div>
+                        <div class="detail_about_label">融资金额范围：</div>
                         <div class="detail_about_date">
-                            {{#each (term) }}
-                            {{this}}&nbsp;
-                            {{/each}}
+                            {{vo.financeamount_start }}-{{vo.financeamount_end }}万
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.term) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">融资期限：</div>
+                        <div class="detail_about_date">{{vo.term }}</div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.carage_start && vo.carage_end) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">车龄限制：</div>
+                        <div class="detail_about_date">
+                            {{vo.carage_start }}-{{vo.carage_end }}年
                         </div>
                     </div>
                     {{/if}}
                     {{#if (vo.age_start && vo.age_end) }}
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">年龄限制范围：</div>
+                        <div class="detail_about_label">年龄限制：</div>
                         <div class="detail_about_date">
-                            <div style="float:left;">
-                                {{vo.age_start}}-{{vo.age_end }}岁
-                            </div>
-                            <input type="hidden" value="{{vo.age_remark }}">
+                            {{vo.age_start }}-{{vo.age_end }}岁
                         </div>
                     </div>
                     {{/if}}
-                    {{#if (addition_finance) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">可融项目：</div>
-                        <div class="detail_about_date">
-                            {{#each (addition_finance) }}
-                            {{this}}&nbsp;
-                            {{/each}}
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.material_list) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">所需材料：</div>
-                        <div class="detail_about_date">
-                            {{#each (vo.material_list) }}
-                            {{this.name}}&nbsp;
-                            {{/each}}
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.approve_speed_value && vo.approve_speed_value) }}
+                    {{#if (vo.approve_speed) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">审批速度：</div>
-                        <div class="detail_about_date">{{vo.approve_speed_value }}</div>
+                        <div class="detail_about_date">
+                            {{vo.approve_speed }}个小时
+                        </div>
                     </div>
                     {{/if}}
-                    {{#if (vo.fitness_value && vo.fitness_value) }}
+                    {{#if (vo.outsettling_province_name) }}
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">审核宽松度：</div>
-                        <div class="detail_about_date">{{vo.fitness_value }}</div>
+                        <div class="detail_about_label">可抵押城市：</div>
+                        <div class="detail_about_date">{{vo.outsettling_province_name }}</div>
                     </div>
                     {{/if}}
                     {{#if (vo.borrower_credit && vo.borrower_credit !== -1) }}
@@ -192,7 +191,7 @@
                                 {{/if}}
                             </div>
                             <input type="hidden" value="{{vo.borrower_credit_remark}}">
-                            {{#if (vo.borrower_credit_remark && vo.borrower_credit_remark) }}
+                            {{#if (vo.borrower_credit_remark) }}
                             <div class="icon_remarks"></div>
                             {{/if}}
                         </div>
@@ -215,13 +214,6 @@
                             <div class="icon_remarks"></div>
                             {{/if}}
                         </div>
-
-                    </div>
-                    {{/if}}
-                    {{#if (vo.gps && vo.gps) }}
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">GPS费用：</div>
-                        <div class="detail_about_date">{{vo.gps}}</div>
                     </div>
                     {{/if}}
                     {{#if (vo.bei_hu && vo.bei_hu !== -1) }}
@@ -240,27 +232,14 @@
                         </div>
                     </div>
                     {{/if}}
-                    {{#if (vo.special && vo.special) }}
+                    {{#if (vo.special) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">产品特点：</div>
-                        <div class="detail_about_date">
-                            {{#each (special) }}
-                            {{this}}&nbsp;
-                            {{/each}}
-                        </div>
+                        <div class="detail_about_date">{{vo.special }}</div>
                     </div>
                     {{/if}}
-
-                    {{#if (vo.carage_start && vo.carage_end ) }}
-                    <div class="detail_about_txt" id="carage_box">
-                        <div class="detail_about_label">车龄限制：</div>
-                        <div class="detail_about_date">
-                            {{vo.carage_start }}-{{vo.carage_end }}年
-                        </div>
-                    </div>
-                    {{/if}}
-                    {{#if (vo.assess_desc && vo.assess_desc) }}
-                    <div class="detail_about_txt" id="assess_desc_box">
+                    {{#if (vo.assess_desc) }}
+                    <div class="detail_about_txt">
                         <div class="detail_about_label">评估描述：</div>
                         <div class="detail_about_date">{{vo.assess_desc }}</div>
                     </div>

@@ -67,7 +67,22 @@ exports.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/orderMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/intoPieces'
+        page : './organization/intoPieces',
+        callback : function (data) {
+            var data_flag = 0;//无数据
+            if (data.list.length != 0) {
+                for(var i = 0,len = data.list;i < len;i++) {
+                    if (data.list[i].car_type ==0) {
+                        data_flag = 1;//新车有数据
+                    } else {
+                        data_flag = 2;//二手车有数据
+                    }
+                }
+            } else {
+                data_flag = 0;
+            }
+            data.data_flag = data_flag;
+        }
     }, req, res, next);
 };
 // 供应商部分-金融机构-机构请款资料编辑页跳转
@@ -75,7 +90,22 @@ exports.VIEW_SUPPLIER_ORGANIZATION_REQUEST = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/requestMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/intoPieces'
+        page : './organization/intoPieces',
+        callback : function (data) {
+            var data_flag = 0;//无数据
+            if (data.list.length != 0) {
+                for(var i = 0,len = data.list;i < len;i++) {
+                    if (data.list[i].car_type ==0) {
+                        data_flag = 1;//新车有数据
+                    } else {
+                        data_flag = 2;//二手车有数据
+                    }
+                }
+            } else {
+                data_flag = 0;
+            }
+            data.data_flag = data_flag;
+        }
     }, req, res, next);
 };
 // 供应商部分-金融机构-机构归档资料编辑页跳转
@@ -83,7 +113,22 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PLACEFILE = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/pigeonholeMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/intoPieces'
+        page : './organization/intoPieces',
+        callback : function (data) {
+            var data_flag = 0;//无数据
+            if (data.list.length != 0) {
+                for(var i = 0,len = data.list;i < len;i++) {
+                    if (data.list[i].car_type ==0) {
+                        data_flag = 1;//新车有数据
+                    } else {
+                        data_flag = 2;//二手车有数据
+                    }
+                }
+            } else {
+                data_flag = 0;
+            }
+            data.data_flag = data_flag;
+        }
     }, req, res, next);
 };
 
