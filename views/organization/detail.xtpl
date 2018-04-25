@@ -50,17 +50,13 @@
             </form>
             <div class="product_detail_box">
                 <div class="rf_30">
-                    <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">
-                        {{#if (material_type === 0) }}
-                            编辑
-                        {{else}}
-                            {{#if (data_flag !== '' || data_flag.indexOf(',') !== -1) }}
-                                编辑
-                            {{else}}
-                                新建
-                            {{/if}}
+                    {{#if (material_type === 0) }}
+                        <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
+                    {{else}}
+                        {{#if (data_flag !== '' || data_flag.indexOf(',') !== -1) }}
+                            <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
                         {{/if}}
-                    </a>
+                    {{/if}}
                 </div>
                 <!--基本资料 start-->
                 {{#if (material_type === 0) }}
@@ -168,7 +164,10 @@
                         <ul class="todo_list">
                             <li class="no_list_data">
                                 <div class="toast_img"></div>
-                                <div class="toast_text">目前还没有数据，请先创建分类</div>
+                                <div class="toast_text">目前暂无数据......</div>
+                                <div class="toast_btn">
+                                    <a href="javascript:;" id="editOrg_jump" class="btn orange_btn confirm edit_confirm edit_btn" lang="{{vo.id}}" style="border-radius: 3px;"><em></em>编辑</a>
+                                </div>
                             </li>
                         </ul>
                     {{/if}}
