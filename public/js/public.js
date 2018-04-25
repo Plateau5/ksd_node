@@ -1177,7 +1177,6 @@ function searchBusinessList (firstLetter) {
     var receipt_type = $("select#receipt_type option:selected").val();   // 商户-款项类型
     var orderby_type = $("select#orderby_type option:selected").val();   // 商户-放款排序方式
     var is_pass = $("select#is_pass option:selected").val();   // 商户-放款审核结果
-    var settlementType =$('#settlement_type').val().trim();       // 结算方式
 
     label_id && $("#"+id).append('<input type="hidden" id="label_id" name="label_id" value="'+ label_id + '" />');
     var gps_type = $("select#gps_type option:selected").val();//GPS类型筛选
@@ -1231,7 +1230,6 @@ function pageChange (e, firstLetter) {
         var carType = $("select#typeBusiness option:selected").val();   // 商户-业务类型
         var merchantsStatus = $("select#merchantsState option:selected").val();   // 商户-状态
         var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
-        var settlementType =$('#settlement_type').val().trim();       // 结算方式
 
 
         label_id && $("#"+id).append('<input type="hidden" id="label_id" name="label_id" value="'+ label_id + '" />');

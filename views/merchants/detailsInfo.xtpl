@@ -29,13 +29,11 @@
                 <div class="merchants_load detail_remarks">
                     <div class="merchant_name_label">商户名称：</div>
                         <div class="merchant_name">{{reqParams.supplier_name}}
-                            (
                             {{#if (reqParams.settlement_type === '1') }}
-                            单结
+                            (单结)
                             {{elseif (reqParams.settlement_type === '2') }}
-                            月结
+                            (月结)
                             {{/if}}
-                            )
                             <em class="slidedown_arrow">
                                 <!--弹出层-->
                                 <div class="pop">
@@ -136,7 +134,7 @@
                             {{/each}}
                         </ul>
                         <div class="btn_box  clearfix" style="margin-top:5px;">
-                                <a href="javascript:" class="btn orange_btn confirm account_submit_btn">确定</a>
+                                <a href="javascript:" class="btn orange_btn confirm account_submit_btn">确认</a>
                                 <a href="javascript:" class="btn bg_btn account_cancel">取消</a>
                         </div>
                     </div>
@@ -152,13 +150,14 @@
                     <input type="hidden" name="url" value="{{reqParams.url}}" id="url">
                     <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
                     <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
+                    <input type="hidden" name="settlement_type" value="{{reqParams.settlement_type}}" id="settlement_type">
                 </form>
                     <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
                     <input type="hidden" name="timeorder_type" value="{{reqParams.timeorder_type}}" id="timeorderType">
                     <input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
                     <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
                     <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
-                    <input type="hidden" name="settlement_type" value="{{reqParams.settlement_type}}" id="settlement_type">
+
                 <div class="filtrate">
                     <div class="filtrate merchants_filtrate">
                         {{#if (reqParams.list_type === '2') }}
@@ -199,11 +198,6 @@
                                     {{else}}
                                     <option value="3">以前</option>
                                     {{/if}}
-                                    <!--{{#if (vo.timeorder_type === 4) }}
-                                    <option selected value="4">全部</option>
-                                    {{else}}
-                                    <option value="4">全部</option>
-                                    {{/if}}-->
                                 </select>
                             </div>
                             <div class="filtrate_item select_item  inline_block">
@@ -356,7 +350,7 @@
                                 {{#if (this.car_loan_charge || this.car_loan_charge === 0) }}
                                 <div class="loan_row">
                                     <div class="loan_name loan_text">车价贷款额：</div>
-                                    <div class="loan_value" title="this.car_loan_charge">{{this.car_loan_charge}}&nbsp;元</div>
+                                    <div class="loan_value" title="{{this.car_loan_charge}}">{{this.car_loan_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.collection_charge || this.collection_charge === 0) }}
@@ -589,8 +583,7 @@
             var popBg = $('.pop_bg');
             accountSubmitBtn.off('click').on("click", function () {
                 var _this = $(this);
-                _this.parents('btn_box').prev('ul.account_list').find('input[type="radio"]:checked');
-                var v = btn.val();
+                var v = _this.parents('.btn_box').siblings('ul.account_list').find('input[type="radio"]:checked').val().trim();
                 var accountItem = _this.parents('btn_box').prev('.account_list').children('.list_item ').clone();
                 defaultItem.find('.list_item').remove().end().append(accountItem).find('.detail_menu_radio').remove();
                 payAccouont.val(v);
