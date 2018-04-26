@@ -29,7 +29,7 @@
                 <a href="javascript:;" class="crumbs_item">新建</a>
             </div>
             <div class="create_options form_options" style="padding:0;">
-                <form action="" id="organization_info_create">
+                <form action="" id="organization_info_create" method="post">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -97,13 +97,14 @@
                             <span class="options_name">有无系统：</span>
                         </div>
                         <div id="have_system" class="column_val">
+                            <input id="have_sys_input" type="text" name="have_system" value="" style="display: none;">
                             <div class="form_group mar6">
-                                <input id="have_sys" type="radio" checked="checked" name="have_system" value="1">
+                                <input id="have_sys" type="radio" checked="checked" name="have_sys" value="1">
                                 <label for="have_sys" class="checked">有</label>
                             </div>
                             <div class="form_group mar6">
-                                <input id="nohave_system" type="radio" name="have_system" value="2">
-                                <label for="nohave_system" class="checked">无</label>
+                                <input id="nohave_system" type="radio" name="have_sys" value="0">
+                                <label for="nohave_system">无</label>
                             </div>
                             <span class="formError"></span>
                         </div>
@@ -383,15 +384,16 @@
                             <input type="text" class="" name="link_mobile" placeholder="请输入联系人座机电话">
                         </div>
                     </div>
+                    <div class="btn_box clearfix create_wf_btn_box" style="margin-bottom: 50px;">
+                        <a id="add_btn_y" href="javascript:;" class="btn orange_btn confirm create_confirm">保存</a>
+                        <a id="add_btn_n" href="{{markUri}}/supplier/organization/system" class="btn bg_btn create_cancel">取消</a>
+                    </div>
                 </form>
             </div>
 
         </div>
 
-        <div class="btn_box clearfix create_wf_btn_box" style="margin-bottom: 50px;">
-            <a id="add_btn_y" href="javascript:;" class="btn orange_btn confirm create_confirm">保存</a>
-            <a id="add_btn_n" href="{{markUri}}/supplier/organization/system" class="btn bg_btn create_cancel">取消</a>
-        </div>
+
 
 
 
@@ -403,6 +405,7 @@
     <!--<div id="footer" class="footer"></div>-->
     <!-------- Part of footer End -------->
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/organization/create.js"></script>
@@ -414,7 +417,136 @@
         function saveOrg () {
             var btn = $("#add_btn_y");
             btn.off("click").on("click", function () {
-                send_organization_form(contextPath + "/api/organization/create");
+                send_organization_form(btn);
+            });
+        }
+        //保存更新函数
+        function send_organization_form(btn){
+            btn.attr('disabled',true);
+
+            var name = $('#name');
+            if(!name.val()){
+                name.parent().find('.formError').html('机构名称不能为空');
+                name.css('border-color','#FB2741');
+                btn.attr('disabled',false);
+                return;
+            }
+            //适用业务
+            var applyto_business = $('#applyto_business');
+            console.log(applyto_business.find('input').eq(0).val());
+            console.log(applyto_business.find('input').eq(1).val());
+            var applyto_business1 = applyto_business.find('input').eq(0).attr('checked');
+            var applyto_business2 = applyto_business.find('input').eq(1).attr('checked');
+            if(!applyto_business1 && !applyto_business2){
+                applyto_business.find('.formError').html('请选择机构的适用业务');
+                btn.attr('disabled',false);
+                return;
+            } else {
+                applyto_business.find('.formError').html('');
+            }
+            //有无机构LOGO
+            var have_logo = $('#image_url .icon_check').length;
+            var logo_error = $('.logo_error');
+            if(have_logo == '0'){
+                logo_error.css('display','block');
+                logo_error.html('请选择机构LOGO');
+                btn.attr('disabled',false);
+                return;
+            } else {
+                logo_error.html('');
+            }
+            //有无系统
+            var have_system = $('#have_system');
+            var have_system1 = have_system.find('input[type="radio"]').eq(0).prop('checked');
+            var have_system2 = have_system.find('input[type="radio"]').eq(1).prop('checked');
+            if(!have_system1 && !have_system2){
+                have_system.find('.formError').html('请选择机构有无系统');
+                btn.attr('disabled',false);
+                return;
+            } else {
+                have_system.find('.formError').html('');
+            }
+            //有无系统地址
+            var have_system_url = $('.have_system_url').css('display');
+            var system_url = $('#system_url');
+            if(have_system_url == 'block'){
+                var have_system_url_val = system_url.val();
+                if(!have_system_url_val){
+                    system_url.parent().find('.formError').html('系统地址不能为空');
+                    btn.attr('disabled',false);
+                    return;
+                } else {
+                    system_url.parent().find('.formError').html('');
+                }
+            } else {
+                system_url.parent().find('.formError').html('');
+            }
+            //车龄限制--只针对二手车
+            var usedCar_status = $('#usedCars').attr('checked');
+            var minCarAge = $('.minCarAge');
+            var maxCarAge = $('.maxCarAge');
+            if (usedCar_status == 'checked') {
+                if (minCarAge.val() == '' || maxCarAge.val() == '') {
+                    minCarAge.find('.formError').html('请输入车龄区间');
+                } else {
+                    minCarAge.find('.formError').html('');
+                }
+            } else {
+                minCarAge.find('.formError').html('');
+            }
+            //审批速度
+            var approval =$('.approval');
+            if (approval.val() == '') {
+                approval.parent().find('.formError').html('请选择审批速度');
+            } else {
+                approval.parent().find('.formError').html('');
+            }
+            //有无错误提示
+            var str = '';
+            var formError = $('.formError');
+            for(var i = 0; i < formError.length; i++){
+                var text = $('.formError').eq(i).text();
+                str += text;
+            }
+            if(str != ''){
+                btn.attr('disabled',false);
+                return;
+            }
+            ajaxSubmit();
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('organization_info_create'));
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + "/api/organization/create",
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/list'
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            saveOrg();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    saveOrg();
+                }
             });
         }
 
@@ -424,13 +556,4 @@
         });
     })(jQuery,undefined);
 </script>
-<!--<script type="text/javascript">
-    var width = $('#organization_info_create').width();
-    var left = $('.col-xs-2').width();
-    $('.add_btn').css('marginLeft',-left - 95 + 'px');
-    $('.logo_error').css('marginLeft',left - 40 + 'px');
-    $('#add_btn_y').click(function(){
-        send_organization_form(contextPath + "/api/organization/create");
-    });
-</script>-->
 </html>

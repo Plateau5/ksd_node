@@ -21,17 +21,6 @@ $(function(){
         $('.logo_error').html('');
     });
 
-    //多选适用业务
-    $('.check_img').click(function(){
-        var checked = $(this).prev().prop('checked');
-        if(!checked){
-            $(this).prev().prop('checked',true);
-            $('#applyto_business').parent().parent().find('.formError').html('');
-            return;
-        }
-        $(this).prev().prop('checked',false);
-    });
-
     //单选有无系统
     $('#have_system input').click(function(){
         var have_system = $('#have_system').parent().find('.formError').html();
@@ -39,7 +28,6 @@ $(function(){
             $('#have_system').parent().find('.formError').html('');
         }
         have_system_url();
-
     });
 
     //添加备注
@@ -89,32 +77,9 @@ $(function(){
         var error_txt = '请输入正确格式的电话号码';
         validate_form(0,$('#link_mobile'),reg,error_txt);
     });
-
-    $('.mask').click(function(){
-        $('.mask').css('display','none');
-        $('#delS').css('display','none');
-        $('#delQ').css('display','none');
-    });
-
-    $('#delSBtn').click(function(){
-        $('.mask').css('display','none');
-        $('#delS').css('display','none');
-        window.location.href=contextPath+ markUri + "/supplier/organization/list";
-    });
-
     applyto_business_change($('#applyto_business_name'));
-
 });
 
-//适用业务改变提醒框
-function porm_box(){
-    var h = document.body.scrollHeight;
-    $('.mask').css({
-        'height' : h + 'px',
-        'display' : 'block'
-    });
-    $('#delQ').css('display','block');
-}
 
 //适用业务有无改变
 function applyto_business_change(obj){
@@ -132,131 +97,14 @@ function applyto_business_change(obj){
 
 //系统地址有无显示函数
 function have_system_url(){
-    var checked = $('input[name="have_system"]').eq(0).prop('checked');
+    var checked = $('#have_system').find('input[type="radio"]').eq(0).prop('checked');
     if(checked){
         $('#have_system').parent().next().css('display','block');
+        $('#have_sys_input').val(1);
     }else{
         $('#have_system').parent().next().css('display','none');
+        $('#have_sys_input').val(0);
     }
-}
-
-//保存更新函数
-function send_organization_form(url){
-    $('#add_btn_y').attr('disabled',true);
-
-    var name = $('#name').val();
-    if(!name){
-        $('#name').parent().find('.formError').html('机构名称不能为空');
-        $('#name').css('border-color','#FB2741');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    }
-    //适用业务
-    var applyto_business1 = $('#applyto_business input').eq(0).attr('checked');
-    var applyto_business2 = $('#applyto_business input').eq(1).attr('checked');
-    if(!applyto_business1 && !applyto_business2){
-        $('#applyto_business').find('.formError').html('请选择机构的适用业务');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    } else {
-        $('#applyto_business').find('.formError').html('');
-    }
-    //有无机构LOGO
-    var have_logo = $('#image_url .icon_check').length;
-    if(have_logo == '0'){
-        $('.logo_error').css('display','block');
-        $('.logo_error').html('请选择机构LOGO');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    } else {
-        $('.logo_error').html('');
-    }
-    //有无系统
-    var have_system1 = $('#have_system input').eq(0).prop('checked');
-    var have_system2 = $('#have_system input').eq(1).prop('checked');
-    if(!have_system1 && !have_system2){
-        $('#have_system').find('.formError').html('请选择机构有无系统');
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    } else {
-        $('#have_system').find('.formError').html('');
-    }
-    //有无系统地址
-    var have_system_url = $('.have_system_url').css('display');
-    if(have_system_url == 'block'){
-        var have_system_url_val = $('#system_url').val();
-        if(!have_system_url_val){
-            $('#system_url').parent().find('.formError').html('系统地址不能为空');
-            $('#add_btn_y').attr('disabled',false);
-            return;
-        } else {
-            $('#system_url').parent().find('.formError').html('');
-        }
-    } else {
-        $('#system_url').parent().find('.formError').html('');
-    }
-    //车龄限制--只针对二手车
-    var usedCar_status = $('#usedCars').attr('checked');
-    if (usedCar_status == 'checked') {
-        var minCarAge = $('.minCarAge').val();
-        var maxCarAge = $('.maxCarAge').val();
-        if (minCarAge == '' || maxCarAge == '') {
-            $('.minCarAge').find('.formError').html('请输入车龄区间');
-        } else {
-            $('.minCarAge').find('.formError').html('');
-        }
-    } else {
-        $('.minCarAge').find('.formError').html('');
-    }
-    //审批速度
-    var approval =$('.approval').val();
-    if (approval == '') {
-        $('.approval').parent().find('.formError').html('请选择审批速度');
-    } else {
-        $('.approval').parent().find('.formError').html('');
-    }
-    //有无错误提示
-    var str = '';
-    var formError = $('.formError');
-    for(var i = 0; i < formError.length; i++){
-        var text = $('.formError').eq(i).text();
-        str += text;
-    }
-    if(str != ''){
-        $('#add_btn_y').attr('disabled',false);
-        return;
-    }
-    var vFD = new FormData(document.getElementById('organization_info_create'));
-    var oXHR = new XMLHttpRequest();
-    oXHR.addEventListener('load', function(e) {
-        var response = e.target.responseText;
-        var data = JSON.parse(response);
-        //成功
-        if (data.error_code == '0') {
-            var h = document.body.scrollHeight;
-            $('#delS').css('display','block');
-            $('.mask').css({
-                'display' : 'block',
-                'height' : h + 'px'
-            });
-            $('#delQ').css('display','none');
-            $(".formProm").html("");
-            $(".formError").html("");
-            $(".trueImg").css("display","");
-        } else {
-            alert(data.error_msg);
-        }
-        $('#add_btn_y').attr('disabled',false);
-
-    }, false);
-    oXHR.addEventListener('error', function(e) {
-        alert("输入参数异常");
-        return;
-    }, false);
-    oXHR.addEventListener('abort', function() {
-    }, false);
-    oXHR.open('POST', url);
-    oXHR.send(vFD);
 }
 
 //校验函数
