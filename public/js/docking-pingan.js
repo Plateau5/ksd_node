@@ -174,6 +174,10 @@ function checkVin () {
                 _this.siblings('.tips_info').show().find('.tips_text').text("请输入17位数字与字母");
                 _this.attr('verify', 0);
                 return false;
+            } else if (len > 17) {
+                _this.siblings('.tips_info').show().find('.tips_text').text("最大只能为17位");
+                _this.attr('verify', 0);
+                return false;
             } else {
                 return false;
             }
