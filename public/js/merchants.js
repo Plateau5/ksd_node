@@ -79,7 +79,7 @@ function goLoanDetail () {
                     timeorder_type: timeorder,
                     receipt_type: receipt,
                     orderby_type: order,
-                    current_page: currentPage,
+                    current_page: 1,
                     supplier_name : supplier_name,
                     settlement_type : settlement_type,
                     url : url,
