@@ -82,12 +82,12 @@
                                     <div class="account_row"><div class="account_name">开户行：</div>
                                         <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                     </div>
-                                    {{#if (this.total_charge || this.total_charge === 0) }}
                                     <div class="account_row">
                                         <div class="account_name">总金额：</div>
-                                        <div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}}&nbsp;元</div>
+                                        {{#if (this.total_charge || this.total_charge === 0) }}
+                                        <div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}} 元</div>
+                                        {{/if}}
                                     </div>
-                                    {{/if}}
                                     <input type="hidden" id="totalCharge" value="{{this.total_charge}}">
                                 </li>
                             {{/if}}
@@ -128,12 +128,12 @@
                                             <div class="account_name loan_text">开户行：</div>
                                             <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                         </div>
-                                        {{#if (this.total_charge || this.total_charge === 0) }}
                                         <div class="account_row pop_row_three">
                                             <div class="account_name">总金额：</div>
-                                            <div class="account_value merchant_name">{{this.total_charge}}&nbsp;元</div>
+                                            {{#if (this.total_charge || this.total_charge === 0) }}
+                                            <div class="account_value merchant_name">{{this.total_charge}} 元</div>
+                                            {{/if}}
                                         </div>
-                                        {{/if}}
                                     </div>
                                 </li>
                             {{/each}}
