@@ -1,12 +1,32 @@
 
 $(function(){
     //新车二手车
+    $('#newCars').click(function(){
+        var status = $('#newCars').attr('checked');
+        var status1 = $('#usedCars').attr('checked');
+        if (status == 'checked') {
+            if (status1 == 'checked') {
+                $('#applyto_business_input').val('0,1');
+            } else {
+                $('#applyto_business_input').val('0');
+            }
+        } else {
+            $('#applyto_business_input').val('1');
+        }
+    });
     $('#usedCars').click(function(){
+        var status1 = $('#newCars').attr('checked');
         var status = $('#usedCars').attr('checked');
         if (status == 'checked') {
             $('.carage_limit').css('display','block');
+            if (status1 == 'checked') {
+                $('#applyto_business_input').val('0,1');
+            } else {
+                $('#applyto_business_input').val('1');
+            }
         } else {
             $('.carage_limit').css('display','none');
+            $('#applyto_business_input').val('0');
         }
     });
     have_system_url();
@@ -67,7 +87,7 @@ $(function(){
     });
 
     $('#link_phone').blur(function(){
-        var reg = /^1[3|4|5|8|7]\d{9}$/;
+        var reg = /^1[3|4|5|6|9|8|7]\d{9}$/;
         var error_txt = "请输入11位数字";
         validate_form(0,$('#link_phone'),reg,error_txt);
     });
@@ -113,26 +133,22 @@ function validate_form(required,obj,reg,error_txt){
     var reg = reg;
     if(required == '1'){
         if(!val){
-            obj.parent().find('.trueImg').css('display','');
             obj.parent().find('.formError').html('此项内容不能为空');
             obj.css('border-color','#FB2741');
             return;
         }
     }else{
         if(!val){
-            obj.parent().find('.trueImg').css('display','');
             obj.parent().find('.formError').html('');
             obj.css('border-color','#ccc');
             return;
         }
     }
     if(!reg.test(val)){
-        obj.parent().find('.trueImg').css('display','');
         obj.parent().find('.formError').html(error_txt);
         obj.css('border-color','#FB2741');
         return;
     }
-    obj.parent().find('.trueImg').css('display','inline-block');
     obj.parent().find('.formError').html('');
     obj.css('border-color','#ccc');
 }
