@@ -49,7 +49,7 @@ $('.province_confirm').off('click').on('click',function () {
     var city_ids = [];
     city_ul.each(function () {
        var _this = $(this);
-       var city_ul_li = _this.find('city_ul_li');
+       var city_ul_li = _this.find('.city_ul_li');
        city_ul_li.each(function () {
           var cur_li = $(this);
           if (cur_li.find('label').hasClass('checked')){

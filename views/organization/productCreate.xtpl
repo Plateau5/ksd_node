@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>产品管理</title>
     {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css"/>
@@ -53,13 +54,13 @@
                                 <span class="options_name"><span class="require_icon">*</span>产品来源：</span>
                             </div>
                             <div class="column_val">
-                                <input type="hidden" class="product_source" name="product_source" value="0">
+                                <input type="hidden" class="product_source" name="product_origin" value="1">
                                 <div class="radio">
-                                    <input id="product_source_other" type="radio" name="product_source_other" value="0" class="" checked="checked">
+                                    <input id="product_source_other" type="radio" name="product_source_other" value="1" class="" checked="checked">
                                     <label for="product_source_other" class="checked">金融方</label>
                                 </div>
                                 <div class="radio">
-                                    <input id="product_source_self" type="radio" name="product_source_other" value="1" class="">
+                                    <input id="product_source_self" type="radio" name="product_source_other" value="2" class="">
                                     <label for="product_source_self">自营</label>
                                 </div>
                                 <span class="formError"></span>
@@ -140,7 +141,7 @@
                                 <span class="options_name"><span class="require_icon">*</span>费率：</span>
                             </div>
                             <div class="column_val rate_add" style="margin-top: 10px;">
-                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" name="interest_rate_input" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" name="interest_rate" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
                                 <span>%</span>
                                 <span class="cursor rate_add_txt">添加</span>
                                 <span class="formError"></span>
@@ -166,7 +167,7 @@
                             <div class="column_val term">
                                 {{#each (list_term) }}
                                 <div class="form_group">
-                                    <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this.id}}" />
+                                    <input type="checkbox" class="rates" checked="checked" name="term" value="{{this.id}}" />
                                     <label>{{this.id}}</label>
                                 </div>
                                 {{/each}}

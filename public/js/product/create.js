@@ -39,10 +39,10 @@ $(function(){
     });
     //产品来源
     $('#product_source_other').click(function(){
-        $('.product_source').val(0);
+        $('.product_source').val(1);
     });
     $('#product_source_self').click(function(){
-        $('.product_source').val(1);
+        $('.product_source').val(2);
     });
 
 
@@ -132,6 +132,7 @@ $(function(){
                 }
             }
         }
+        $('#downpayment_money').val($('.downpayment_add input').val());
         $('input[name="downpayment_money_add"]').css('border-color','#ccc');
         $(this).parent().parent().find('.formError').html('');
     });
