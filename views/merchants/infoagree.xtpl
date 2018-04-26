@@ -26,7 +26,13 @@
                 <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
                 <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
                 <a href="javascript:;" class="crumbs_item go_loan_detail">{{reqParams.supplier_name}}</a>
-                <a href="javascript:;" class="crumbs_item last_child">{{#if (reqParams.list_type === '1')}}同意{{else}}不同意{{/if}}</a>
+                <a href="javascript:;" class="crumbs_item last_child">
+                    {{#if (reqParams.type === '1' )}}
+                        同意
+                    {{else}}
+                        不同意
+                    {{/if}}
+                </a>
             </div>
             <div class="cashed_mark">
                 <form action="" method="post" id="returnResult">

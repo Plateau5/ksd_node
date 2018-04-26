@@ -99,7 +99,7 @@
                                 <li class="list_item pop_line clearfix">
                                     <div class="detail_menu_radio">
                                         {{#if (vo.pay_account === this.pay_account) }}
-                                        <input class="tog_account" type="radio"  value="{{this.pay_account}}" name="account_radio" />
+                                        <input class="tog_account" type="radio"  checked="checked" value="{{this.pay_account}}" name="account_radio" />
                                         {{else}}
                                         <input class="tog_account" type="radio" value="{{this.pay_account}}" name="account_radio" />
                                         {{/if}}
@@ -584,17 +584,19 @@
             accountSubmitBtn.off('click').on("click", function () {
                 var _this = $(this);
                 var v = _this.parents('.btn_box').siblings('ul.account_list').find('input[type="radio"]:checked').val().trim();
-                var accountItem = _this.parents('btn_box').prev('.account_list').children('.list_item ').clone();
+                var accountItem = _this.parents('btn_box').siblings('.account_list').children('.list_item ').clone();
                 defaultItem.find('.list_item').remove().end().append(accountItem).find('.detail_menu_radio').remove();
                 payAccouont.val(v);
                 _this.parents('.pop_bg').hide();
-                var checkedLetter = getCheckedFirstLetter();
-                searchBusinessList(checkedLetter);
+                /*var checkedLetter = getCheckedFirstLetter();
+                searchBusinessList(checkedLetter);*/
+                var form = $('form[role="form"]');
+                form.submit();
 
-               /* if (_this.hasClass('checked')) {
+                /*if (_this.hasClass('checked')) {
                     return false;
                 } else {
-                    if (submit_btn) {
+                    if (this.checked) {
                         var v = _this.val();
                         var accountItem = _this.parents('.list_item').clone();
                         _this.parents('ul.account_list').find('input.checked').removeClass('checked');
@@ -610,9 +612,7 @@
 
             accountBtn.off('click').on('click', function () {
                 popBg.hide();
-
-                })
-
+            })
         };
         //含有子级权限的展开折叠效果
         function slideDownList () {
