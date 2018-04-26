@@ -26,7 +26,7 @@
         <!---- Part of slide nav End ---->
 
         <!---- Part of Main info Begin ---->
-        <div id="main" class="main">
+        <div id="main" class="main product_new">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a data-id="{{vo.parent_id}}" class="TS crumbs_item" data-url="{{markUri}}/supplier/organization/publishedProducts" style="cursor: pointer;">产品管理</a>
@@ -203,11 +203,19 @@
                                 <span class="options_name"></span>
                             </div>
                             <div class="column_val">
-                                <div class="img_item updata_img">
-                                    <span class="file_btn">上传图片</span>
-                                    <input type="file" id="file_select1" class="cursor file_input" name="file" onchange="select_allow(this);" accept="image/jpeg,image/jpg,image/png">
-                                    <span class="file_prom">(最多5张图片，每张大小不超过5M)</span>
-                                    <div class="updata_img_mask" style="cursor: pointer;"></div>
+                                <div class="img_md_box file_upload">
+                                    <input type="hidden" class="file_ids">
+                                    {{#each (fileList) }}
+                                        <a href="javascript:;" class="img_item">
+                                            <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail_160_100}}">
+                                            <div class="img_md_operate_box">
+                                                <em class="img_md_operate_btn view" data-url="{{this.url}}" title="查看"></em>
+                                                <em class="img_md_operate_btn delete" data-id="{{this.file_id}}" title="删除"></em>
+                                            </div>
+                                        </a>
+                                    {{/each}}
+                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type=""></a>
+                                    <input type="file" class="file_upload_btn"   value="上传图片" style="display: none" />
                                 </div>
                             </div>
                         </div>
@@ -242,6 +250,7 @@
 <script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
+        var file_ids = [];//上传图片ids
 
         //选择城市
         function selectCity () {
@@ -418,8 +427,10 @@
                     return;
                 }
             }
+            $('.file_ids').val(file_ids.join(','));
             ajaxSubmit(url);
         }
+
 
         //ajax提交參數
         function ajaxSubmit (url) {
@@ -459,6 +470,171 @@
                 }
             });
         }
+        /**
+         * 图片上传功能
+         * @author Plateau 2018年4月26日17:37:41
+         */
+        function uploadImage () {
+            fileUpload({
+                maxCount : 1,
+                filesSize : 5,
+                imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
+                needThumbnails : false,
+                callback : function (btn) {
+                    onChoose(btn);
+                }
+            });
+            // 上传逻辑
+            var onChoose = function (btn) {
+                var type = $.trim(btn.data('type'));
+                var data = (btn.parents('.file_upload').find('.file_upload_btn')[0]).files[0];
+                var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
+                var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
+                var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
+                var fileName = filingName + '_' + (fileCount + 1) + fileExtension;
+                var merchantId = $.trim($('#supplierId').val());
+                var form = new FormData();
+                form.append("file", data);
+                form.append("file_type", type);
+                form.append("supplier_id", merchantId);
+                form.append("file_name", fileName);     // 用于后台重命名图片物理名字
+                var url = contextPath + '/api/product/uploadfile';
+                $.ajax({
+                    type : "post",
+                    url : url,
+                    data : form,
+                    async : false,
+                    timeout : 300000,
+                    processData: false,
+                    contentType: false,
+                    beforeSend : function () {
+                        //elem.loading.show();
+                        btn.removeClass('disabled');
+                        btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
+                    },
+                    success : function (res) {
+                        //elem.loading.hide();
+                        if (res.error_code == 0) {
+                            file_ids.push(res.file_id);
+                            $alert('图片上传成功');
+                            var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
+                                '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
+                                '             <div class="img_md_operate_box">\n' +
+                                '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" style="margin-right: 0" title="查看"></em>\n' +
+                                ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
+                                '             </div>\n' +
+                                '             </a>';
+                            if (type == '99') {
+                                btn.parents('.img_md_box').find('.head_photo').replaceWith(imgEle);
+                                $('#image_url').val(res.image_url);
+                                var parents = btn.parents('.img_md_box');
+                                var img = parents.find('.img_item');
+                                if (img.length >= 1) {
+                                    parents[0].viewer.destroy();
+                                }
+                                viewLargeImage(parents[0]);
+                                /*var viewer = new Viewer(parents[0], {
+                                    url: 'data-original',
+                                    interval : 2000,
+                                    loop : true
+                                });*/
+                            } else {
+                                btn.before(imgEle);
+                                /* 赋予新图片查看的实例属性 */
+                                var parents = btn.parents('.img_md_box');
+                                /*var count = parents.find('img').length;
+                                var newImgEle = parents.find('img').eq(count - 1)[0];
+                                parents[0].viewer.images.push(newImgEle);*/
+                                // 销毁父元素
+                                var img = parents.find('.img_item');
+                                if (img.length > 1) {
+                                    parents[0].viewer.destroy();
+                                }
+                                viewLargeImage(parents[0]);
+                                /*var viewer = new Viewer(parents[0], {
+                                    url: 'data-original',
+                                    interval : 2000,
+                                    loop : true
+                                });*/
+                            }
+                        } else {
+                            $alert('图片上传失败，请重试');
+                        }
+                    },
+                    error : function () {
+                        $alert('图片上传失败，请重试');
+                    }
+                });
+            }
+        }
+        /**
+         * 删除图片
+         * @author Plateau 2018年4月26日17:37:41
+         */
+        function deleteImages () {
+            var imagesParents = $('.product_new');
+            imagesParents.on('click', '.img_md_operate_box .delete', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var id  = $.trim(_this.data('id'));
+                /*var ids = [];
+                ids.push(id);
+                ids = JSON.stringify(ids);*/
+                redefineAjax({
+                    data : {
+                        file_ids : id
+                    },
+                    url : contextPath + '/api/supplier/file/delete',
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            for (var i = 0,len = file_ids.length;i<len;i++) {
+                                if (file_ids[i] == id) {
+                                    file_ids.splice(i,1);
+                                }
+                            }
+                            $alert('图片删除成功', function () {
+                                // 获取父元素
+                                var parents = _this.parents('.img_md_box');
+                                // 销毁父元素的viewer实例
+                                parents[0].viewer.destroy();
+                                _this.parents('.img_item').remove();
+                                // 删除图片后从新实例化
+                                /*var viewer = new Viewer(parents[0], {
+                                    url: 'data-original',
+                                    interval : 2000,
+                                    loop : true
+                                });*/
+                                viewLargeImage(parents[0]);
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('图片删除异常，请稍后重试');
+                    }
+                })
+            })
+        }
+        /**
+         * 查看图片跳转
+         * @author Plateau 2018年4月26日17:37:41
+         */
+        function viewImages () {
+            var imagesParents = $('.product_new');
+            imagesParents.on('click', '.img_md_operate_box .view', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                /*var url  = $.trim(_this.data('url'));
+                window.open(url);*/
+                var img = _this.parents('.img_md_operate_box').siblings('img');
+                img.click();
+            })
+        }
 
         $(function() {
             const TYPE = true;
@@ -468,7 +644,9 @@
             selectCity();
             send_product();
             save_ware();
-
+            viewImages();       // 查看大图
+            deleteImages();     // 图片删除
+            uploadImage();      // 图片上传注册
             pageJump(".go_forward", {
                 parent_id : "{{parent_id}}"
             });
