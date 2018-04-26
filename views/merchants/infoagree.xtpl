@@ -77,6 +77,7 @@
         <!---- Part of Main info End ---->
     </div>
 </div>
+<input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
 <div id="loading" class="loading" style="display: none;"></div>
 </body>
 {{include ('./../inc/jsSources')}}
@@ -94,6 +95,7 @@
     var start_with = $('#start_with').val().trim();     // 首字母
     var payAccount = $('#pay_account').val().trim();        // 默认账户
     var settlementType = $('#settlement_type').val().trim();       // 结算方式
+    var orderNo = $('#orderNo').val().trim();       // 打印的跳转加密id
     (function ($) {
         const BTNTYPE = '{{reqParams.type}}';
         //绑定确定按钮的点击事件
@@ -132,8 +134,9 @@
                                 "maskClose" : false,
                                 onConfirm : function (d) {
                                     d.close();
-                                    //window.location.replace(location_url);
-                                    var detailPath = '';
+                                    var printPage = contextPath + markUri + '/customer/financial/print?orderNo=' + orderNo;
+                                    window.location.replace(printPage);
+                                    /*var detailPath = '';
                                     if (listType == 1) {
                                         detailPath = '/loan/pending/list';
                                     } else if (listType == 2) {
@@ -153,7 +156,7 @@
                                             list_type : listType,
                                             settlement_type: settlementType
                                         }
-                                    })
+                                    })*/
                                 },
                                 onCancel : function (d) {
                                     d.close();
