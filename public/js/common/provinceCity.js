@@ -28,6 +28,37 @@ $('.province_cancle').off('click').on('click',function () {
 
 //确认按钮
 $('.province_confirm').off('click').on('click',function () {
+    var province_ul_li = $('.province_ul_li');
+    var check_pros = 0;
+    var check_val = '';
+    province_ul_li.each(function () {
+       var _this = $(this);
+       if (_this.find('label').hasClass('checked')) {
+           if (check_pros == 0) {
+               check_val = _this.find('span').text();
+           }
+           check_pros++;
+       }
+    });
+    if (check_pros == 1) {
+        $('.select_city_input').val(check_val);
+    } else {
+        $('.select_city_input').val(check_val + "等" + check_pros + "个省份");
+    }
+    var city_ul = $('.city_ul');
+    var city_ids = [];
+    city_ul.each(function () {
+       var _this = $(this);
+       var city_ul_li = _this.find('city_ul_li');
+       city_ul_li.each(function () {
+          var cur_li = $(this);
+          if (cur_li.find('label').hasClass('checked')){
+              var id = cur_li.find('input').val();
+              city_ids.push(id);
+          }
+       });
+    });
+    $('.select_city_ids').val(city_ids.join(','));
     $('.province_city_box').css('display','none');
 })
 //省市复选框事件

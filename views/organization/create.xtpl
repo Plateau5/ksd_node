@@ -47,7 +47,7 @@
                             <span class="options_name">适用业务：</span>
                         </div>
                         <div id="applyto_business" class="column_val">
-                            <input id="applyto_business_input" type="text" name="applyto_business" value="" style="display: none;">
+                            <input id="applyto_business_input" type="hidden" name="applyto_business" value="">
                             <div class="form_group">
                                 <input id="newCars" type="checkbox" class="apply_scope" name="newCars"  value="0" />
                                 <label for="newCars">新车</label>
@@ -97,7 +97,7 @@
                             <span class="options_name">有无系统：</span>
                         </div>
                         <div id="have_system" class="column_val">
-                            <input id="have_sys_input" type="text" name="have_system" value="" style="display: none;">
+                            <input id="have_sys_input" type="hidden" name="have_system" value="1">
                             <div class="form_group mar6">
                                 <input id="have_sys" type="radio" checked="checked" name="have_sys" value="1">
                                 <label for="have_sys" class="checked">有</label>
@@ -488,6 +488,8 @@
             if (usedCar_status == 'checked') {
                 if (minCarAge.val() == '' || maxCarAge.val() == '') {
                     minCarAge.find('.formError').html('请输入车龄区间');
+                    btn.attr('disabled',false);
+                    return;
                 } else {
                     minCarAge.find('.formError').html('');
                 }
@@ -498,6 +500,8 @@
             var approval =$('.approval');
             if (approval.val() == '') {
                 approval.parent().find('.formError').html('请选择审批速度');
+                btn.attr('disabled',false);
+                return;
             } else {
                 approval.parent().find('.formError').html('');
             }

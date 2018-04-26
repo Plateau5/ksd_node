@@ -35,7 +35,7 @@
             <div class="product_create">
 
                 <form method="post" id="product_create">
-                    <input type="hidden" name="parent_id" value="{{parent_id}}">
+                    <input type="hidden" name="parent_id" value="{{parent_id}}" class="parent_id">
                     <input type="hidden" name="parent_name" value="{{parent_name}}">
                     <div class="form_content form_options merchants_create">
                         <div class="option_item">
@@ -45,7 +45,6 @@
                             <div class="column_val">
                                 <input type="text" id="name" class="requireTrue" data-text="商户名称" maxlength="30" name="name"  value="{{detail.name}}" placeholder="请输入产品名称"  />
                                 <span class="tips_info">(*请输入产品名称)</span>
-                                <div class="trueImg" style="display: inline-block;"></div>
                                 <span class="formError"></span>
                             </div>
                         </div>
@@ -54,12 +53,13 @@
                                 <span class="options_name"><span class="require_icon">*</span>产品来源：</span>
                             </div>
                             <div class="column_val">
+                                <input type="hidden" class="product_source" name="product_source" value="0">
                                 <div class="radio">
-                                    <input id="product_source_other" type="radio" name="product_source" value="0" class="" checked="checked">
+                                    <input id="product_source_other" type="radio" name="product_source_other" value="0" class="" checked="checked">
                                     <label for="product_source_other" class="checked">金融方</label>
                                 </div>
                                 <div class="radio">
-                                    <input id="product_source_self" type="radio" name="product_source" value="1" class="">
+                                    <input id="product_source_self" type="radio" name="product_source_other" value="1" class="">
                                     <label for="product_source_self">自营</label>
                                 </div>
                                 <span class="formError"></span>
@@ -70,12 +70,13 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用业务：</span>
                             </div>
                             <div id="applyto_business" class="column_val">
+                                <input type="hidden" class="applyto_business" name="applyto_business" value="0">
                                 <div class="radio">
-                                    <input id="new_car" type="radio" name="applyto_business" value="0" class="radio_applyto_business" checked="checked">
+                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
                                     <label for="new_car" class="checked">新车</label>
                                 </div>
                                 <div class="radio" style="margin-left:13px;">
-                                    <input id="old_car" type="radio" name="applyto_business" value="1" class="radio_applyto_business">
+                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
                                     <label class="old_car">二手车</label>
                                 </div>
                                 <span class="formError"></span>
@@ -86,6 +87,7 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val">
+                                <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
                                 <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
                             </div>
                             <span class="formError"></span>
@@ -101,8 +103,6 @@
                                     <option value="2">首付金额</option>
                                 </select>
                             </div>
-                            <span class="formProm"></span>
-                            <div class="trueImg"></div>
                             <span class="formError"></span>
                         </div>
                         <div class="option_item downpayment_rate">
@@ -120,6 +120,7 @@
                                     {{/each}}
                                 </div>
                             </div>
+                            <span class="formError"></span>
                         </div>
                         <div class="option_item downpayment_money">
                             <input type="hidden" id="downpayment_money" name="downpayment_money" value="">
@@ -155,19 +156,21 @@
                                 <span style="padding:0 8px;">-</span>
                                 <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="7" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_end);" style="width:12%;margin-right: 10px;"/>
                                 <span>万</span>
+                                <span class="formError"></span>
                             </div>
                         </div>
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                             </div>
-                            <div class="column_val">
+                            <div class="column_val term">
                                 {{#each (list_term) }}
                                 <div class="form_group">
                                     <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this.id}}" />
                                     <label>{{this.id}}</label>
                                 </div>
                                 {{/each}}
+                                <span class="formError"></span>
                                 <!--<div class="form-control checkBox">
                                     {{#each (list_term) }}
                                     <div class="check">
@@ -208,14 +211,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="add_btn">
+                        <div style="margin-top:50px;margin-bottom:50px;margin-left:10%;">
+                            <input type="button" id="add_btn_n" value="发布"/>
+                            <input type="button" style="margin-left:30px;" id="add_btn_y" value="保存到仓库"/>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <div class="add_btn">
-                <div style="margin-top:50px;margin-bottom:50px;margin-left:10%;">
-                    <input type="button" id="add_btn_n" value="发布"/>
-                    <input type="button" style="margin-left:30px;" id="add_btn_y" value="保存到仓库"/>
-                </div>
-            </div>
+
             <!--form end-->
         </div>
 
@@ -227,7 +231,7 @@
 </div>
 {{include ('./../inc/provinceCity')}}
 <!--container end-->
-
+<div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
@@ -246,18 +250,224 @@
             });
         }
 
+        //发布按钮
+        function send_product () {
+            var btn = $('#add_btn_y');
+            btn.off('click').on('click', function () {
+                send_product_form(contextPath + "/api/product/create",0);
+            });
+        }
+        //保存到仓库
+        function save_ware () {
+            var btn = $('#add_btn_n');
+            btn.off('click').on('click', function () {
+                send_product_form(contextPath + "/api/product/createAndPublish",1);
+            });
+        }
+
+        //按钮操作
+        function send_product_form(url,save){
+            var add_btn_y = $('#add_btn_y');
+            var add_btn_n = $('#add_btn_n');
+            add_btn_y.attr('disabled',true)
+            add_btn_n.attr('disabled',true);
+            var name = $('#name');
+            if(!name.val()){
+                name.parent().find('.formError').html('产品名称不能为空');
+                name.css('border-color','#FB2741');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            } else {
+                name.parent().find('.formError').html('');
+            }
+            //产品来源
+            var product_source_other = $('#product_source_other');
+            var product_source_self = $('#product_source_self');
+            if (product_source_other.attr('checked') == 'checked' || product_source_self.attr('checked') == 'checked') {
+                product_source_other.parents('.column_val').find('.formError').html('');
+            } else {
+                product_source_other.parents('.column_val').find('.formError').html('请选择一项产品来源');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            }
+
+            //适用业务
+            var applyto_business1 = $('#applyto_business input').eq(0).attr('checked');
+            var applyto_business2 = $('#applyto_business input').eq(1).attr('checked');
+            if(!applyto_business1 && !applyto_business2){
+                $('#applyto_business').find('.formError').html('请选择产品的适用业务');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            } else {
+                $('#applyto_business').find('.formError').html('');
+            }
+            //适用城市
+            var select_citys = $('.select_city_input').val();
+            if (select_citys == '') {
+                $('#applyto_city').find('.formError').html('请选择适用城市');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            } else {
+                $('#applyto_city').find('.formError').html('');
+            }
+
+
+            //发布新产品时校验
+            if(save == '1'){
+                //首付类型
+                var downpayment_select = $('#downpayment_select');
+                if (downpayment_select.val() == -1) {
+                    downpayment_select.parents('.option_item').find('.formError').html('请选择首付类型');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                } else {
+                    downpayment_select.parents('.option_item').find('.formError').html('');
+                }
+
+                //首付金额
+                if (downpayment_select.val() == 2) {
+                    if ($('.downpayment_add input').val() == '') {
+                        $('.downpayment_add').find('.formError').html('请输入首付金额');
+                        add_btn_y.attr('disabled',false);
+                        add_btn_n.attr('disabled',false);
+                        return;
+                    } else {
+                        $('.downpayment_add').find('.formError').html('');
+                    }
+                }
+                //首付比例
+                if (downpayment_select.val() == 1) {
+                    var num = 0;
+                    var check = $('.downpayment_rate .check');
+                    check.each(function () {
+                        var _this = $(this);
+                        if (_this.find('.check_img').hasClass('icon_check')) {
+                            num++;
+                        }
+                    });
+                    if (num == 0) {
+                        $('.downpayment_rate').find('.formError').html('请选择首付比例');
+                        add_btn_y.attr('disabled',false);
+                        add_btn_n.attr('disabled',false);
+                        return;
+                    } else {
+                        $('.downpayment_rate').find('.formError').html('');
+                    }
+                }
+                //费率
+                var rate_add = $('.rate_add');
+                if (rate_add.find('.interest_rate_data').val() == '') {
+                    rate_add.find('.formError').html('请输入费率');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                } else {
+                    rate_add.find('.formError').html('');
+                }
+                //融资金额范围
+                var financeamount_start = $('#financeamount_start');
+                var financeamount_end = $('#financeamount_end');
+                if (financeamount_start == '') {
+                    financeamount_start.siblings('.formError').html('请输入融资金额的最小金额');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                }
+                if (financeamount_end == '') {
+                    financeamount_start.siblings('.formError').html('请输入融资金额的最大金额');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                } else {
+                    financeamount_start.siblings('.formError').html('');
+                }
+                //融资期限
+                var term = $('.term');
+                var term_num = 0;
+                term.each(function () {
+                    var _this = $(this);
+                    if (_this.find('label').hasClass('checked')) {
+                        term_num++
+                    }
+                });
+                if (term_num == 0) {
+                    term.find('.formError').html('请选择融资期限');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                } else {
+                    term.find('.formError').html('');
+                }
+
+                //有无错误提示
+                var str = '';
+                var formError = $('.formError');
+                for(var i = 0; i < formError.length; i++){
+                    var text = $('.formError').eq(i).text();
+                    str += text;
+                }
+                if(str != ''){
+                    $('#add_btn_y').attr('disabled',false);
+                    $('#add_btn_n').attr('disabled',false);
+                    return;
+                }
+            }
+            ajaxSubmit(url);
+        }
+
+        //ajax提交參數
+        function ajaxSubmit (url) {
+            var parameters = new FormData(document.getElementById('product_create'));
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            var parent_id = $('.parent_id').val();
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/publishedProducts',
+                                param : {
+                                    parent_id : parent_id
+                                }
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            send_product();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    send_product();
+                }
+            });
+        }
+
         $(function() {
             const TYPE = true;
             var PARENTID = '{{parent_id}}',
                 PARENTNAME = '{{parent_name}}';
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             selectCity();
-            $('#add_btn_n').click(function(){
-                send_product_form(contextPath + "/api/product/createAndPublish",1);
-            });
-            $('#add_btn_y').click(function(){
-                send_product_form(contextPath + "/api/product/create",0);
-            });
+            send_product();
+            save_ware();
+
             pageJump(".go_forward", {
                 parent_id : "{{parent_id}}"
             });
