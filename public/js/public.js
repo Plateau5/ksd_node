@@ -1872,6 +1872,7 @@ function datePicker (target, options) {
         isinitVal : false,
         festival : false,
         ishmsVal : false,
+        isToday : ((options.isToday === false) ? false : true),
         format : options.format || "YYYY-MM-DD",
         zIndex : 3000,
         minDate : options.minDate || '',
