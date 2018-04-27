@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/common/provinceCity.css"/>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -34,6 +33,7 @@
             <div class="product_create">
 
                 <form method="post" id="product_create">
+                    <input type="hidden" name="id" value="{{vo.id}}">
                     <input type="hidden" name="parent_id" value="{{vo.parent_id}}">
                     <input type="hidden" name="parent_name" value="{{vo.parent_name}}">
                     <div class="form_content form_options merchants_create">
@@ -42,7 +42,7 @@
                                 <span class="options_name"><span class="require_icon">*</span>产品名称：</span>
                             </div>
                             <div class="column_val">
-                                <input type="text" id="name" class="requireTrue" data-text="商户名称" maxlength="30" name="name"  value="{{vo.name}}" placeholder="请输入产品名称"  />
+                                <input type="text" id="name" class="requireTrue" data-text="商户名称" maxlength="30" name="name"  value="" placeholder="请输入产品名称"  />
                                 <span class="tips_info">(*请输入产品名称)</span>
                                 <span class="formError"></span>
                             </div>
@@ -182,9 +182,9 @@
                                     {{#if (downpayment_money_size >= 5) }}
                                     <div class="column_val downpayment_add" style="margin-top: 10px;display: none;">
                                         {{else}}
-                                        <div class="column_val downpayment_add" style="margin-top: 10px;display: block;margin-left: 12%;">
+                                        <div class="column_val downpayment_add" style="margin-top: 10px;display: block;margin-left: 12%;padding-left: 0;">
                                             {{/if}}
-                                            <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="{{this}}" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                            <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" style="padding-right: 12px;" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
                                             <span>元</span>
                                             <span class="cursor downpayment_add_txt">添加</span>
                                             <span class="formError"></span>
@@ -273,9 +273,9 @@
                                             <div class="column_val">
                                                 <div class="img_md_box file_upload">
                                                     <input type="hidden" class="file_ids">
-                                                    {{#each (fileList) }}
+                                                    {{#each (vo.file_list) }}
                                                     <a href="javascript:;" class="img_item">
-                                                        <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail_160_100}}">
+                                                        <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail}}">
                                                         <div class="img_md_operate_box">
                                                             <em class="img_md_operate_btn view" data-url="{{this.url}}" title="查看"></em>
                                                             <em class="img_md_operate_btn delete" data-id="{{this.file_id}}" title="删除"></em>
@@ -306,7 +306,6 @@
 
 
 </div>
-{{include ('./../inc/provinceCity')}}
 <!--container end-->
 <div class="loading" id="loading"></div>
 </body>
@@ -315,7 +314,6 @@
 <script src="{{markUri}}/static/js/common/validate_form.js"></script>
 <script src="{{markUri}}/static/js/common/is_num.js"></script>
 <script src="{{markUri}}/static/js/product/create.js"></script>
-<script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
         var file_ids = [];//上传图片ids

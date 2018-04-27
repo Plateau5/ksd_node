@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/common/provinceCity.css"/>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -108,8 +107,16 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val">
-                                <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
-                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+                                {{#each (list_city) }}
+                                <div class="radio">
+                                    {{#if (vo.applyto_city === this.id) }}
+                                    <input id="applyto_city{{xindex}}" type="radio" name="applyto_city" value="{{this.id}}" checked="checked" >
+                                    {{else}}
+                                    <input id="applyto_city{{xindex}}" type="radio" name="applyto_city" value="{{this.id}}" >
+                                    {{/if}}
+                                    <label for="applyto_city{{xindex}}">{{this.name}}</label>
+                                </div>
+                                {{/each}}
                             </div>
                             <span class="formError"></span>
                         </div>
@@ -205,8 +212,8 @@
                                 </div>
                             </div>
                             {{/each}}
-                            {{#if (interest_rate_size >= 5) }}
-                            <div class="column_val rate_add" style="margin-top: 10px;display: none;">
+                            {{#if (!vo.interest_rate) }}
+                            <div class="column_val rate_add" style="margin-top: 10px;">
                             {{else}}
                             <div class="column_val rate_add" style="margin-top: 10px;display: block;margin-left: 12%;padding-left: 0;">
                             {{/if}}
@@ -234,6 +241,7 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                             </div>
                             <div class="column_val term">
+                                <input type="hidden" name="term" class="term_hd">
                                 {{#each (list_term) }}
                                 <div class="form_group">
                                     {{#if (vo.term.indexOf('6') === 0 && this.id === '6') }}
@@ -274,9 +282,9 @@
                             <div class="column_val">
                                 <div class="img_md_box file_upload">
                                     <input type="hidden" class="file_ids">
-                                    {{#each (fileList) }}
+                                    {{#each (vo.file_list) }}
                                     <a href="javascript:;" class="img_item">
-                                        <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail_160_100}}">
+                                        <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail}}">
                                         <div class="img_md_operate_box">
                                             <em class="img_md_operate_btn view" data-url="{{this.url}}" title="查看"></em>
                                             <em class="img_md_operate_btn delete" data-id="{{this.file_id}}" title="删除"></em>
@@ -307,7 +315,7 @@
 
 
 </div>
-{{include ('./../inc/provinceCity')}}
+
 <!--container end-->
 <div class="loading" id="loading"></div>
 </body>
@@ -316,7 +324,6 @@
 <script src="{{markUri}}/static/js/common/validate_form.js"></script>
 <script src="{{markUri}}/static/js/common/is_num.js"></script>
 <script src="{{markUri}}/static/js/product/create.js"></script>
-<script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
         var file_ids = [];//上传图片ids
@@ -394,7 +401,14 @@
                 $('#applyto_city').find('.formError').html('');
             }
 
-
+            var rate_val = [];
+            var check = $('.downpayment_rate .check');
+            check.each(function () {
+                var _this = $(this);
+                if (_this.find('.check_img').hasClass('icon_check')) {
+                    rate_val.push(_this.find('.downpayment_rate_date').text());
+                }
+            });
             //发布新产品时校验
             if(save == '1'){
                 //首付类型
@@ -496,7 +510,9 @@
                     return;
                 }
             }
+            $('#downpayment_rate').val(rate_val.join(','));
             $('.file_ids').val(file_ids.join(','));
+            $('.term_hd').val(rates_arr.join(','));
             ajaxSubmit(url);
         }
 

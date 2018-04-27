@@ -345,7 +345,14 @@
                 $('#applyto_city').find('.formError').html('');
             }
 
-
+            var rate_val = [];
+            var check = $('.downpayment_rate .check');
+            check.each(function () {
+                var _this = $(this);
+                if (_this.find('.check_img').hasClass('icon_check')) {
+                    rate_val.push(_this.find('.downpayment_rate_date').text());
+                }
+            });
             //发布新产品时校验
             if(save == '1'){
                 //首付类型
@@ -373,7 +380,6 @@
                 //首付比例
                 if (downpayment_select.val() == 1) {
                     var num = 0;
-                    var check = $('.downpayment_rate .check');
                     check.each(function () {
                         var _this = $(this);
                         if (_this.find('.check_img').hasClass('icon_check')) {
@@ -386,14 +392,6 @@
                         add_btn_n.attr('disabled',false);
                         return;
                     } else {
-                        var rate_val = [];
-                        check.each(function () {
-                            var _this = $(this);
-                            if (_this.find('.check_img').hasClass('icon_check')) {
-                                rate_val.push(_this.find('.downpayment_rate_date').text());
-                            }
-                        });
-                        $('#downpayment_rate').val(rate_val.join(','));
                         $('.downpayment_rate').find('.formError').html('');
                     }
                 }
@@ -441,20 +439,20 @@
                 } else {
                     term.find('.formError').html('');
                 }
-
-                //有无错误提示
-                var str = '';
-                var formError = $('.formError');
-                for(var i = 0; i < formError.length; i++){
-                    var text = $('.formError').eq(i).text();
-                    str += text;
-                }
-                if(str != ''){
-                    $('#add_btn_y').attr('disabled',false);
-                    $('#add_btn_n').attr('disabled',false);
-                    return;
-                }
             }
+            //有无错误提示
+            var str = '';
+            var formError = $('.formError');
+            for(var i = 0; i < formError.length; i++){
+                var text = $('.formError').eq(i).text();
+                str += text;
+            }
+            if(str != ''){
+                $('#add_btn_y').attr('disabled',false);
+                $('#add_btn_n').attr('disabled',false);
+                return;
+            }
+            $('#downpayment_rate').val(rate_val.join(','));
             $('.file_ids').val(file_ids.join(','));
             $('.term_hd').val(rates_arr.join(','));
             ajaxSubmit(url);
