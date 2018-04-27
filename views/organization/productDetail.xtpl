@@ -22,9 +22,10 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
+            <input type="hidden" id="judge" value="{{data_num}}">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a data-id="{{vo.parent_id}}" class="TS crumbs_item" style="cursor: pointer;">产品管理</a>
+                <a href="javascript:;" data-id="{{vo.parent_id}}" class="TS crumbs_item" style="cursor: pointer;">产品管理</a>
                 <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
             </div>
             <div class="product_detail_header">
@@ -188,9 +189,8 @@
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
-<script src="{{markUri}}/static/js/product/detail.js"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
-
+<script src="{{markUri}}/static/js/product/detail.js"></script>
 
 <script>
     // var length = $('.detail_about_txt').length;
@@ -220,6 +220,16 @@
         });
     }
     $(function () {
+        $('.TS').on('click', function () {
+            var _this = $(this);
+            var parent_id = $.trim(_this.data('id'));
+            locationTo({
+                action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                param : {
+                    parent_id : parent_id
+                }
+            })
+        });
         copyThisToCreate();
         viewLargeImage('.imgDetail');
     });

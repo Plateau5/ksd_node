@@ -27,7 +27,7 @@
         <div id="main" class="main product_new">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a data-id="{{vo.parent_id}}" class="TS crumbs_item" data-url="{{markUri}}/supplier/organization/publishedProducts" style="cursor: pointer;">产品管理</a>
+                <a data-id="{{vo.parent_id}}" class="TS crumbs_item" style="cursor: pointer;">产品管理</a>
                 <a href="javascript:;" class="crumbs_item">发布新产品</a>
             </div>
             <!--form start-->
@@ -675,6 +675,16 @@
             viewImages();       // 查看大图
             deleteImages();     // 图片删除
             uploadImage();      // 图片上传注册
+            $('.TS').on('click', function () {
+                var _this = $(this);
+                var parent_id = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                    param : {
+                        parent_id : parent_id
+                    }
+                })
+            });
             pageJump(".go_forward", {
                 parent_id : "{{parent_id}}"
             });
