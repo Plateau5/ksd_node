@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/organization/create.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/common/provinceCity.css"/>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -169,9 +170,8 @@
                             <span class="options_name">可抵押省市：</span>
                         </div>
                         <div class="column_val">
-                            <select name="outsettling_province" class="" id="">
-                                <option value="0">北京</option>
-                            </select>
+                            <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
+                            <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
                         </div>
                     </div>
                     <div class="option_item">
@@ -405,13 +405,22 @@
     <!--<div id="footer" class="footer"></div>-->
     <!-------- Part of footer End -------->
 </div>
+{{include ('./../inc/provinceCity')}}
 <div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/organization/create.js"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script type="text/javascript">
     (function ($) {
+        //选择城市
+        function selectCity () {
+            var btn = $('.select_city_input');
+            btn.off('click').on('click', function () {
+                $( ".province_city_box" ).css('display','block');
+            });
+        }
 
         //保存按钮
         function saveOrg () {
@@ -556,6 +565,7 @@
 
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            selectCity();
             saveOrg();
         });
     })(jQuery,undefined);
