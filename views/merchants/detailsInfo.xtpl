@@ -176,9 +176,9 @@
                                     <option value="1">已通过</option>
                                     {{/if}}
                                     {{#if (vo.is_pass === 0) }}
-                                    <option selected value="2">未通过</option>
+                                    <option selected value="0">未通过</option>
                                     {{else}}
-                                    <option value="2">未通过</option>
+                                    <option value="0">未通过</option>
                                     {{/if}}
                                 </select>
                             </div>
@@ -412,6 +412,24 @@
                                 <div class="loan_row">
                                     <div class="loan_name">解压费：</div>
                                     <div class="loan_value">{{this.unpack_charge}}&nbsp;元</div>
+                                </div>
+                                {{/if}}
+                                {{#if (this.pre_interest || this.pre_interest === 0) }}
+                                <div class="loan_row">
+                                    <div class="loan_name">前置利息：</div>
+                                    <div class="loan_value">{{this.pre_interest}}&nbsp;元</div>
+                                </div>
+                                {{/if}}
+                                {{#if (this.refund_charge || this.refund_charge === 0) }}
+                                <div class="loan_row">
+                                    <div class="loan_name">退款：</div>
+                                    <div class="loan_value">{{this.refund_charge}}&nbsp;元</div>
+                                </div>
+                                {{/if}}
+                                {{#if (this.refund_charge || this.refund_charge === 0) }}
+                                <div class="loan_row">
+                                    <div class="loan_name">车价贷款(返贷)：</div>
+                                    <div class="loan_value">{{this.refund_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.deduction || this.deduction === 0) }}
