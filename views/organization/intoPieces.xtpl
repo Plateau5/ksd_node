@@ -25,7 +25,15 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
-                <a href="javascript:;" class="crumbs_item">编辑进件资料</a>
+                <a href="javascript:;" class="crumbs_item">
+                    {{#if (material_type === 1)}}
+                    编辑进件资料
+                    {{elseif (material_type === 2) }}
+                    编辑请款资料
+                    {{else}}
+                    编辑归档资料
+                    {{/if}}
+                </a>
             </div>
             <div class="tab">
                 <ul class="tab_list inline_block">
