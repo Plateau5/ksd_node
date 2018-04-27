@@ -164,7 +164,7 @@
                     <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
                     <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
                     <input type="hidden" name="settlement_type" value="{{reqParams.settlement_type}}" id="settlement_type">
-
+                </form>
                     <div class="filtrate">
                         <div class="filtrate merchants_filtrate">
                             {{#if (reqParams.list_type === '2') }}
@@ -277,7 +277,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+
 
                 <div class="order_list">
                     {{#if (reqParams.list_type === '1') }}
@@ -854,7 +854,6 @@
             accountId();
             cancelBatchAudit();
             toAuditPage();      // 跳转审核的三级页面
-            listenIsHaveAccount();      // 监听是否有账户
         })
     })(jQuery, window, undefined)
 </script>
