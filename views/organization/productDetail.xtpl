@@ -25,7 +25,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a data-id="{{vo.parent_id}}" class="TS crumbs_item" style="cursor: pointer;">产品管理</a>
-                <a href="javascript:;" class="crumbs_item">{{name}}</a>
+                <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
             </div>
             <div class="product_detail_header">
                 {{include ('./../inc/merchantInfos')}}
@@ -41,7 +41,7 @@
                         {{#if (vo.downpayment_type === 2) }}
                         <span>首付金额：</span>
                         {{/if}}
-                        {{#if (downpayment_rate_size > 1) }}
+                        {{#if (vo.downpayment_rate_size > 1) }}
                         <!--<img src="{{markUri}}/static/img/product/icon_shape_up.png" alt="" class="shape_img">-->
                         {{/if}}
                     </div>
@@ -52,7 +52,7 @@
                                 <span class="date_num2">{{this}}%</span>
                             {{else}}
                                 {{#each (downpayment_rate) }}
-                                    {{#if (xindex !== downpayment_rate.length-1) }}
+                                    {{#if (xindex !== vo.downpayment_rate.length-1) }}
                                         <span class="date_num2">{{this}}%、</span>
                                     {{else}}
                                         <span class="date_num2">{{this}}%</span>
@@ -60,7 +60,7 @@
                                 {{/each}}
                             {{/if}}
                         {{/if}}
-                        {{#if (downpayment_type === 2) }}
+                        {{#if (vo.downpayment_type === 2) }}
                             {{#each (downpayment_rate) }}
                                 <span class="date_num2">{{this }}元</span>
                             {{/each}}

@@ -126,9 +126,9 @@
                             <span class="options_name">车龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="minCarAge" name="carage_start" placeholder="1">
+                            <input type="text" class="minCarAge" name="carage_start" placeholder="1" value="1">
                             <span class="pad_lf_rt_8">-</span>
-                            <input type="text" class="maxCarAge" name="carage_end" placeholder="9">
+                            <input type="text" class="maxCarAge" name="carage_end" placeholder="9" value="9">
                             <span class="pad_lf_rt_8">年</span>
                             <span class="formError"></span>
                         </div>
@@ -179,13 +179,14 @@
                             <span class="options_name">主贷人征信：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="borrower_credit" name="borrower_credit" value="1">
                             <div class="form_group mar6">
-                                <input id="principal_need" type="radio" checked="checked" name="borrower_credit" value="1">
+                                <input id="principal_need" type="radio" checked="checked" name="principal_need" value="1">
                                 <label for="principal_need" class="checked">需要</label>
                             </div>
                             <div class="form_group mar6">
-                                <input id="principal_noneed" type="radio" name="borrower_credit" value="2">
-                                <label for="principal_noneed" class="checked">不需要</label>
+                                <input id="principal_noneed" type="radio" name="principal_need" value="2">
+                                <label for="principal_noneed">不需要</label>
                             </div>
                             <span class="remark_text add_txt">备注</span>
                             <div class="remarks_box" style="display: none;">
@@ -198,13 +199,14 @@
                             <span class="options_name">配偶征信：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="spouse_credit" name="spouse_credit" value="1">
                             <div class="form_group mar6">
-                                <input id="partner_need" type="radio" checked="checked" name="spouse_credit" value="1">
+                                <input id="partner_need" type="radio" checked="checked" name="partner_need" value="1">
                                 <label for="partner_need" class="checked">需要</label>
                             </div>
                             <div class="form_group mar6">
-                                <input id="partner_noneed" type="radio" name="spouse_credit" value="2">
-                                <label for="partner_noneed" class="checked">不需要</label>
+                                <input id="partner_noneed" type="radio" name="partner_need" value="2">
+                                <label for="partner_noneed">不需要</label>
                             </div>
                             <span class="remark_text add_txt">备注</span>
                             <div class="remarks_box" style="display: none;">
@@ -217,13 +219,14 @@
                             <span class="options_name">背户情况：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="bei_hu" name="bei_hu" value="1">
                             <div class="form_group mar6">
-                                <input id="back_door_need" type="radio" checked="checked" name="bei_hu" value="1">
+                                <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
                                 <label for="back_door_need" class="checked">需要</label>
                             </div>
                             <div class="form_group mar6">
-                                <input id="back_door_noneed" type="radio" name="bei_hu" value="2">
-                                <label for="back_door_noneed" class="checked">不需要</label>
+                                <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
+                                <label for="back_door_noneed">不需要</label>
                             </div>
                             <span class="remark_text add_txt">备注</span>
                             <div class="remarks_box" style="display: none;">
@@ -236,40 +239,41 @@
                             <span class="options_name">机构特点：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="special" name="special">
                             <div class="form_group">
-                                <input id="org_feature1" type="checkbox" class="" name="special"  value="0" />
+                                <input id="org_feature1" type="checkbox" class="org_feature" name="special"  value="0" />
                                 <label for="org_feature1">审批快</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature2" type="checkbox" class="" name="special" value="1" />
+                                <input id="org_feature2" type="checkbox" class="org_feature" name="special" value="1" />
                                 <label for="org_feature2">材料少</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature3" type="checkbox" class="" name="special" value="2" />
+                                <input id="org_feature3" type="checkbox" class="org_feature" name="special" value="2" />
                                 <label for="org_feature3">利息低</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature4" type="checkbox" class="" name="special" value="3" />
+                                <input id="org_feature4" type="checkbox" class="org_feature" name="special" value="3" />
                                 <label for="org_feature4">利润大</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature5" type="checkbox" class="" name="special" value="4" />
+                                <input id="org_feature5" type="checkbox" class="org_feature" name="special" value="4" />
                                 <label for="org_feature5">灵活</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature6" type="checkbox" class="" name="special" value="5" />
+                                <input id="org_feature6" type="checkbox" class="org_feature" name="special" value="5" />
                                 <label for="org_feature6">首付低</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature7" type="checkbox" class="" name="special" value="6" />
+                                <input id="org_feature7" type="checkbox" class="org_feature" name="special" value="6" />
                                 <label for="org_feature7">尺度大</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature8" type="checkbox" class="" name="special" value="7" />
+                                <input id="org_feature8" type="checkbox" class="org_feature" name="special" value="7" />
                                 <label for="org_feature8">可做黑户</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature9" type="checkbox" class="" name="special" value="8" />
+                                <input id="org_feature9" type="checkbox" class="org_feature" name="special" value="8" />
                                 <label for="org_feature9">无驾照</label>
                             </div>
                         </div>
@@ -279,28 +283,29 @@
                             <span class="options_name">附加可融项目：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="addition_finance" name="addition_finance">
                             <div class="form_group">
-                                <input id="additional_project1" type="checkbox" class="" name="addition_finance"  value="0" />
+                                <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance"  value="0" />
                                 <label for="additional_project1">GPS</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project2" type="checkbox" class="" name="addition_finance" value="1" />
+                                <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance" value="1" />
                                 <label for="additional_project2">保险</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project3" type="checkbox" class="" name="addition_finance" value="2" />
+                                <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance" value="2" />
                                 <label for="additional_project3">服务费</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project4" type="checkbox" class="" name="addition_finance" value="3" />
+                                <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance" value="3" />
                                 <label for="additional_project4">人身意外险</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project5" type="checkbox" class="" name="addition_finance" value="4" />
+                                <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance" value="4" />
                                 <label for="additional_project5">购置税</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project6" type="checkbox" class="" name="addition_finance" value="5" />
+                                <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance" value="5" />
                                 <label for="additional_project6">金融方自营保险</label>
                             </div>
                         </div>
@@ -392,11 +397,6 @@
             </div>
 
         </div>
-
-
-
-
-
         <!---- Part of Main info End ---->
     </div>
     <!-------- Part of main End -------->
@@ -414,13 +414,6 @@
 <script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script type="text/javascript">
     (function ($) {
-        //选择城市
-        function selectCity () {
-            var btn = $('.select_city_input');
-            btn.off('click').on('click', function () {
-                $( ".province_city_box" ).css('display','block');
-            });
-        }
 
         //保存按钮
         function saveOrg () {
@@ -525,6 +518,8 @@
                 btn.attr('disabled',false);
                 return;
             }
+            $('.special').val(org_feature_arr.join(','));
+            $('.addition_finance').val(additional_project_arr.join(','));
             ajaxSubmit();
         }
 
@@ -565,6 +560,11 @@
 
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            getBackDoor();
+            getPartner();
+            getPrincipal();
+            getOrgFeature();
+            getAdditionalProject();
             selectCity();
             saveOrg();
         });

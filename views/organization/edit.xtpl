@@ -49,7 +49,7 @@
                             <span class="options_name">适用业务：</span>
                         </div>
                         <div id="applyto_business" class="column_val">
-                            <input id="applyto_business_input" type="hidden" name="applyto_business" value="">
+                            <input id="applyto_business_input" type="hidden" name="applyto_business" value="{{vo.applyto_business}}">
                             <div class="form_group">
                                 {{#if (vo.applyto_business.indexOf("0")!== -1) }}
                                 <input id="newCars" type="checkbox" class="apply_scope" name="newCars" checked="checked" value="0" />
@@ -140,7 +140,11 @@
                             <span class="options_name">有无系统：</span>
                         </div>
                         <div id="have_system" class="column_val">
+                            {{#if (vo.have_system === 1) }}
                             <input id="have_sys_input" type="hidden" name="have_system" value="1">
+                            {{else}}
+                            <input id="have_sys_input" type="hidden" name="have_system" value="0">
+                            {{/if}}
                             <div class="form_group mar6">
                                 {{#if (vo.have_system === 1) }}
                                 <input id="have_sys" type="radio" checked="checked" name="have_sys" value="1">
@@ -255,21 +259,22 @@
                             <span class="options_name">主贷人征信：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="borrower_credit" name="borrower_credit" value="{{vo.borrower_credit}}">
                             <div class="form_group mar6">
                                 {{#if (vo.borrower_credit === 1) }}
-                                <input id="principal_need" type="radio" checked="checked" name="borrower_credit" value="1">
+                                <input id="principal_need" type="radio" checked="checked" name="principal_need" value="1">
                                 <label for="principal_need" class="checked">需要</label>
                                 {{else}}
-                                <input id="principal_need" type="radio" name="borrower_credit" value="1">
+                                <input id="principal_need" type="radio" name="principal_need" value="1">
                                 <label for="principal_need">需要</label>
                                 {{/if}}
                             </div>
                             <div class="form_group mar6">
-                                {{#if (vo.borrower_credit === 0) }}
-                                <input id="principal_noneed" type="radio" checked="checked" name="borrower_credit" value="2">
+                                {{#if (vo.borrower_credit === 2) }}
+                                <input id="principal_noneed" type="radio" checked="checked" name="principal_need" value="2">
                                 <label for="principal_noneed" class="checked">不需要</label>
                                 {{else}}
-                                <input id="principal_noneed" type="radio" name="borrower_credit" value="2">
+                                <input id="principal_noneed" type="radio" name="principal_need" value="2">
                                 <label for="principal_noneed">不需要</label>
                                 {{/if}}
                             </div>
@@ -284,21 +289,22 @@
                             <span class="options_name">配偶征信：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="spouse_credit" name="spouse_credit" value="{{vo.spouse_credit}}">
                             <div class="form_group mar6">
                                 {{#if (vo.spouse_credit === 1 ) }}
-                                <input id="partner_need" type="radio" checked="checked" name="spouse_credit" value="1">
+                                <input id="partner_need" type="radio" checked="checked" name="partner_need" value="1">
                                 <label for="partner_need" class="checked">需要</label>
                                 {{else}}
-                                <input id="partner_need" type="radio" name="spouse_credit" value="1">
+                                <input id="partner_need" type="radio" name="partner_need" value="1">
                                 <label for="partner_need">需要</label>
                                 {{/if}}
                             </div>
                             <div class="form_group mar6">
                                 {{#if (vo.spouse_credit === 2) }}
-                                <input id="partner_noneed" type="radio" checked="checked" name="spouse_credit" value="2">
+                                <input id="partner_noneed" type="radio" checked="checked" name="partner_need" value="2">
                                 <label for="partner_noneed" class="checked">不需要</label>
                                 {{else}}
-                                <input id="partner_noneed" type="radio" name="spouse_credit" value="2">
+                                <input id="partner_noneed" type="radio" name="partner_need" value="2">
                                 <label for="partner_noneed">不需要</label>
                                 {{/if}}
                             </div>
@@ -313,21 +319,22 @@
                             <span class="options_name">背户情况：</span>
                         </div>
                         <div class="column_val">
+                            <input type="hidden" class="bei_hu" name="bei_hu" value="{{vo.bei_hu}}">
                             <div class="form_group mar6">
                                 {{#if (vo.bei_hu === 1) }}
-                                <input id="back_door_need" type="radio" checked="checked" name="bei_hu" value="1">
+                                <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
                                 <label for="back_door_need" class="checked">需要</label>
                                 {{else}}
-                                <input id="back_door_need" type="radio" name="bei_hu" value="1">
+                                <input id="back_door_need" type="radio" name="back_door_need" value="1">
                                 <label for="back_door_need">需要</label>
                                 {{/if}}
                             </div>
                             <div class="form_group mar6">
-                                {{#if (vo.bei_hu === 0) }}
-                                <input id="back_door_noneed" type="radio" checked="checked" name="bei_hu" value="2">
+                                {{#if (vo.bei_hu === 2) }}
+                                <input id="back_door_noneed" type="radio" checked="checked" name="back_door_need" value="2">
                                 <label for="back_door_noneed" class="checked">不需要</label>
                                 {{else}}
-                                <input id="back_door_noneed" type="radio" name="bei_hu" value="2">
+                                <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
                                 <label for="back_door_noneed">不需要</label>
                                 {{/if}}
                             </div>
@@ -343,122 +350,124 @@
                         </div>
                         <div class="column_val">
                             {{#if (vo.special) }}
+                                <input type="hidden" class="special" name="special" value="{{vo.special}}">
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('审批快') !== -1 ) }}
-                                    <input id="org_feature1" type="checkbox" class="" checked="checked" name="special"  value="0" />
+                                    {{#if (vo.special.indexOf('0') !== -1 ) }}
+                                    <input id="org_feature1" type="checkbox" class="org_feature" checked="checked" name="special"  value="0" />
                                     <label for="org_feature1" class="checked">审批快</label>
                                     {{else}}
-                                    <input id="org_feature1" type="checkbox" class="" name="special"  value="0" />
+                                    <input id="org_feature1" type="checkbox" class="org_feature" name="special"  value="0" />
                                     <label for="org_feature1">审批快</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('材料少') !== -1 ) }}
-                                    <input id="org_feature2" type="checkbox" class="" checked="checked" name="special" value="1" />
+                                    {{#if (vo.special.indexOf('1') !== -1 ) }}
+                                    <input id="org_feature2" type="checkbox" class="org_feature" checked="checked" name="special" value="1" />
                                     <label for="org_feature2" class="checked">材料少</label>
                                     {{else}}
-                                    <input id="org_feature2" type="checkbox" class="" name="special" value="1" />
+                                    <input id="org_feature2" type="checkbox" class="org_feature" name="special" value="1" />
                                     <label for="org_feature2">材料少</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('利息低') !== -1 ) }}
-                                    <input id="org_feature3" type="checkbox" class="" checked="checked" name="special" value="2" />
+                                    {{#if (vo.special.indexOf('2') !== -1 ) }}
+                                    <input id="org_feature3" type="checkbox" class="org_feature" checked="checked" name="special" value="2" />
                                     <label for="org_feature3" class="checked">利息低</label>
                                     {{else}}
-                                    <input id="org_feature3" type="checkbox" class="" name="special" value="2" />
+                                    <input id="org_feature3" type="checkbox" class="org_feature" name="special" value="2" />
                                     <label for="org_feature3">利息低</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('利润大') !== -1 ) }}
-                                    <input id="org_feature4" type="checkbox" class="" checked="checked" name="special" value="3" />
+                                    {{#if (vo.special.indexOf('3') !== -1 ) }}
+                                    <input id="org_feature4" type="checkbox" class="org_feature" checked="checked" name="special" value="3" />
                                     <label for="org_feature4" class="checked">利润大</label>
                                     {{else}}
-                                    <input id="org_feature4" type="checkbox" class="" name="special" value="3" />
+                                    <input id="org_feature4" type="checkbox" class="org_feature" name="special" value="3" />
                                     <label for="org_feature4">利润大</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('灵活') !== -1 ) }}
-                                    <input id="org_feature5" type="checkbox" class="" checked="checked" name="special" value="4" />
+                                    {{#if (vo.special.indexOf('4') !== -1 ) }}
+                                    <input id="org_feature5" type="checkbox" class="org_feature" checked="checked" name="special" value="4" />
                                     <label for="org_feature5" class="checked">灵活</label>
                                     {{else}}
-                                    <input id="org_feature5" type="checkbox" class="" name="special" value="4" />
+                                    <input id="org_feature5" type="checkbox" class="org_feature" name="special" value="4" />
                                     <label for="org_feature5">灵活</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('首付低') !== -1 ) }}
-                                    <input id="org_feature6" type="checkbox" class="" checked="checked" name="special" value="5" />
+                                    {{#if (vo.special.indexOf('5') !== -1 ) }}
+                                    <input id="org_feature6" type="checkbox" class="org_feature" checked="checked" name="special" value="5" />
                                     <label for="org_feature6">首付低</label>
                                     {{else}}
-                                    <input id="org_feature6" type="checkbox" class="" name="special" value="5" />
+                                    <input id="org_feature6" type="checkbox" class="org_feature" name="special" value="5" />
                                     <label for="org_feature6" class="checked">首付低</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('尺度大') !== -1 ) }}
-                                    <input id="org_feature7" type="checkbox" class="" checked="checked" name="special" value="6" />
+                                    {{#if (vo.special.indexOf('6') !== -1 ) }}
+                                    <input id="org_feature7" type="checkbox" class="org_feature" checked="checked" name="special" value="6" />
                                     <label for="org_feature7" class="checked">尺度大</label>
                                     {{else}}
-                                    <input id="org_feature7" type="checkbox" class="" name="special" value="6" />
+                                    <input id="org_feature7" type="checkbox" class="org_feature" name="special" value="6" />
                                     <label for="org_feature7">尺度大</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('可做黑户') !== -1 ) }}
-                                    <input id="org_feature8" type="checkbox" class="" checked="checked" name="special" value="7" />
+                                    {{#if (vo.special.indexOf('7') !== -1 ) }}
+                                    <input id="org_feature8" type="checkbox" class="org_feature" checked="checked" name="special" value="7" />
                                     <label for="org_feature8" class="checked">可做黑户</label>
                                     {{else}}
-                                    <input id="org_feature8" type="checkbox" class="" name="special" value="7" />
+                                    <input id="org_feature8" type="checkbox" class="org_feature" name="special" value="7" />
                                     <label for="org_feature8">可做黑户</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.special.indexOf('无驾照') !== -1 ) }}
-                                    <input id="org_feature9" type="checkbox" class="" checked="checked" name="special" value="8" />
+                                    {{#if (vo.special.indexOf('8') !== -1 ) }}
+                                    <input id="org_feature9" type="checkbox" class="org_feature" checked="checked" name="special" value="8" />
                                     <label for="org_feature9" class="checked">无驾照</label>
                                     {{else}}
-                                    <input id="org_feature9" type="checkbox" class="" name="special" value="8" />
+                                    <input id="org_feature9" type="checkbox" class="org_feature" name="special" value="8" />
                                     <label for="org_feature9">无驾照</label>
                                     {{/if}}
                                 </div>
                             {{else}}
+                                <input type="hidden" class="special" name="special">
                                 <div class="form_group">
-                                    <input id="org_feature1" type="checkbox" class="" name="special"  value="0" />
+                                    <input id="org_feature1" type="checkbox" class="org_feature" name="special"  value="0" />
                                     <label for="org_feature1">审批快</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature2" type="checkbox" class="" name="special" value="1" />
+                                    <input id="org_feature2" type="checkbox" class="org_feature" name="special" value="1" />
                                     <label for="org_feature2">材料少</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature3" type="checkbox" class="" name="special" value="2" />
+                                    <input id="org_feature3" type="checkbox" class="org_feature" name="special" value="2" />
                                     <label for="org_feature3">利息低</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature4" type="checkbox" class="" name="special" value="3" />
+                                    <input id="org_feature4" type="checkbox" class="org_feature" name="special" value="3" />
                                     <label for="org_feature4">利润大</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature5" type="checkbox" class="" name="special" value="4" />
+                                    <input id="org_feature5" type="checkbox" class="org_feature" name="special" value="4" />
                                     <label for="org_feature5">灵活</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature6" type="checkbox" class="" name="special" value="5" />
+                                    <input id="org_feature6" type="checkbox" class="org_feature" name="special" value="5" />
                                     <label for="org_feature6">首付低</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature7" type="checkbox" class="" name="special" value="6" />
+                                    <input id="org_feature7" type="checkbox" class="org_feature" name="special" value="6" />
                                     <label for="org_feature7">尺度大</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature8" type="checkbox" class="" name="special" value="7" />
+                                    <input id="org_feature8" type="checkbox" class="org_feature" name="special" value="7" />
                                     <label for="org_feature8">可做黑户</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="org_feature9" type="checkbox" class="" name="special" value="8" />
+                                    <input id="org_feature9" type="checkbox" class="org_feature" name="special" value="8" />
                                     <label for="org_feature9">无驾照</label>
                                 </div>
                             {{/if}}
@@ -470,83 +479,85 @@
                         </div>
                         <div class="column_val">
                             {{#if (vo.addition_finance)}}
+                                <input type="hidden" class="addition_finance" name="addition_finance" value="{{vo.addition_finance}}">
                                 <div class="form_group">
-                                    {{#if (vo.addition_finance.indexOf('GPS') !== -1) }}
-                                    <input id="additional_project1" type="checkbox" class="" checked="checked" name="addition_finance"  value="0" />
+                                    {{#if (vo.addition_finance.indexOf('0') !== -1) }}
+                                    <input id="additional_project1" type="checkbox" class="additional_project" checked="checked" name="addition_finance"  value="0" />
                                     <label for="additional_project1" class="checked">GPS</label>
                                     {{else}}
-                                    <input id="additional_project1" type="checkbox" class="" name="addition_finance"  value="0" />
+                                    <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance"  value="0" />
                                     <label for="additional_project1">GPS</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.addition_finance.indexOf('保险') !== -1) }}
-                                    <input id="additional_project2" type="checkbox" class="" checked="checked" name="addition_finance" value="1" />
+                                    {{#if (vo.addition_finance.indexOf('1') !== -1) }}
+                                    <input id="additional_project2" type="checkbox" class="additional_project" checked="checked" name="addition_finance" value="1" />
                                     <label for="additional_project2" class="checked">保险</label>
                                     {{else}}
-                                    <input id="additional_project2" type="checkbox" class="" name="addition_finance" value="1" />
+                                    <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance" value="1" />
                                     <label for="additional_project2">保险</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.addition_finance.indexOf('服务费') !== -1) }}
-                                    <input id="additional_project3" type="checkbox" class="" checked="checked" name="addition_finance" value="2" />
+                                    {{#if (vo.addition_finance.indexOf('2') !== -1) }}
+                                    <input id="additional_project3" type="checkbox" class="additional_project" checked="checked" name="addition_finance" value="2" />
                                     <label for="additional_project3" class="checked">服务费</label>
                                     {{else}}
-                                    <input id="additional_project3" type="checkbox" class="" name="addition_finance" value="2" />
+                                    <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance" value="2" />
                                     <label for="additional_project3">服务费</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.addition_finance.indexOf('人身意外险') !== -1) }}
-                                    <input id="additional_project4" type="checkbox" class="" checked="checked" name="addition_finance" value="3" />
+                                    {{#if (vo.addition_finance.indexOf('3') !== -1) }}
+                                    <input id="additional_project4" type="checkbox" class="additional_project" checked="checked" name="addition_finance" value="3" />
                                     <label for="additional_project4" class="checked">人身意外险</label>
                                     {{else}}
-                                    <input id="additional_project4" type="checkbox" class="" name="addition_finance" value="3" />
+                                    <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance" value="3" />
                                     <label for="additional_project4">人身意外险</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.addition_finance.indexOf('购置税') !== -1) }}
-                                    <input id="additional_project5" type="checkbox" class="" checked="checked" name="addition_finance" value="4" />
+                                    {{#if (vo.addition_finance.indexOf('4') !== -1) }}
+                                    <input id="additional_project5" type="checkbox" class="additional_project" checked="checked" name="addition_finance" value="4" />
                                     <label for="additional_project5" class="checked">购置税</label>
                                     {{else}}
-                                    <input id="additional_project5" type="checkbox" class="" name="addition_finance" value="4" />
+                                    <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance" value="4" />
                                     <label for="additional_project5">购置税</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (vo.addition_finance.indexOf('金融方自营保险') !== -1) }}
-                                    <input id="additional_project6" type="checkbox" class="" checked="checked" name="addition_finance" value="5" />
+                                    {{#if (vo.addition_finance.indexOf('5') !== -1) }}
+                                    <input id="additional_project6" type="checkbox" class="additional_project" checked="checked" name="addition_finance" value="5" />
                                     <label for="additional_project6" class="checked">金融方自营保险</label>
                                     {{else}}
-                                    <input id="additional_project6" type="checkbox" class="" name="addition_finance" value="5" />
+                                    <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance" value="5" />
                                     <label for="additional_project6">金融方自营保险</label>
                                     {{/if}}
                                 </div>
                             {{else}}
+                                <input type="hidden" class="addition_finance" name="addition_finance">
                                 <div class="form_group">
-                                    <input id="additional_project1" type="checkbox" class="" name="addition_finance"  value="0" />
+                                    <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance"  value="0" />
                                     <label for="additional_project1">GPS</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="additional_project2" type="checkbox" class="" name="addition_finance" value="1" />
+                                    <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance" value="1" />
                                     <label for="additional_project2">保险</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="additional_project3" type="checkbox" class="" name="addition_finance" value="2" />
+                                    <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance" value="2" />
                                     <label for="additional_project3">服务费</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="additional_project4" type="checkbox" class="" name="addition_finance" value="3" />
+                                    <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance" value="3" />
                                     <label for="additional_project4">人身意外险</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="additional_project5" type="checkbox" class="" name="addition_finance" value="4" />
+                                    <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance" value="4" />
                                     <label for="additional_project5">购置税</label>
                                 </div>
                                 <div class="form_group">
-                                    <input id="additional_project6" type="checkbox" class="" name="addition_finance" value="5" />
+                                    <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance" value="5" />
                                     <label for="additional_project6">金融方自营保险</label>
                                 </div>
                             {{/if}}
@@ -557,7 +568,7 @@
                             <span class="options_name">附加可融项目说明：</span>
                         </div>
                         <div class="column_val">
-                            <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="200个字符（包含文字、字母、数字、符号），超出不可输入"></textarea>
+                            <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="200个字符（包含文字、字母、数字、符号），超出不可输入">{{vo.addition_finance_explain}}</textarea>
                         </div>
                     </div>
                     <div class="option_item">
@@ -566,10 +577,26 @@
                         </div>
                         <div class="column_val">
                             <select name="credit" class="">
+                                {{#if (vo.credit) }}
                                 <option value="">请选择</option>
+                                {{else}}
+                                <option value="" selected="selected">请选择</option>
+                                {{/if}}
+                                {{#if (vo.credit === 1) }}
+                                <option value="1" selected="selected">宽松</option>
+                                {{else}}
                                 <option value="1">宽松</option>
+                                {{/if}}
+                                {{#if (vo.credit === 2) }}
+                                <option value="2" selected="selected">适中</option>
+                                {{else}}
                                 <option value="2">适中</option>
+                                {{/if}}
+                                {{#if (vo.credit === 3) }}
+                                <option value="3" selected="selected">严格</option>
+                                {{else}}
                                 <option value="3">严格</option>
+                                {{/if}}
                             </select>
                         </div>
                     </div>
@@ -579,10 +606,26 @@
                         </div>
                         <div class="column_val">
                             <select name="electricity" class="">
+                                {{#if (vo.electricity) }}
                                 <option value="">请选择</option>
+                                {{else}}
+                                <option value="" selected="selected">请选择</option>
+                                {{/if}}
+                                {{#if (vo.electricity === 1) }}
+                                <option value="1" selected="selected">宽松</option>
+                                {{else}}
                                 <option value="1">宽松</option>
+                                {{/if}}
+                                {{#if (vo.electricity === 2) }}
+                                <option value="2" selected="selected">适中</option>
+                                {{else}}
                                 <option value="2">适中</option>
+                                {{/if}}
+                                {{#if (vo.electricity === 3) }}
+                                <option value="3" selected="selected">严格</option>
+                                {{else}}
                                 <option value="3">严格</option>
+                                {{/if}}
                             </select>
                         </div>
                     </div>
@@ -592,10 +635,26 @@
                         </div>
                         <div class="column_val">
                             <select name="bigdata_review" class="">
+                                {{#if (vo.bigdata_review) }}
                                 <option value="">请选择</option>
+                                {{else}}
+                                <option value="" selected="selected">请选择</option>
+                                {{/if}}
+                                {{#if (vo.bigdata_review === 1) }}
+                                <option value="1" selected="selected">宽松</option>
+                                {{else}}
                                 <option value="1">宽松</option>
+                                {{/if}}
+                                {{#if (vo.bigdata_review === 2) }}
+                                <option value="2" selected="selected">适中</option>
+                                {{else}}
                                 <option value="2">适中</option>
+                                {{/if}}
+                                {{#if (vo.bigdata_review === 3) }}
+                                <option value="3" selected="selected">严格</option>
+                                {{else}}
                                 <option value="3">严格</option>
+                                {{/if}}
                             </select>
                         </div>
                     </div>
@@ -805,6 +864,12 @@
 
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            getBackDoor();
+            getPartner();
+            getPrincipal();
+            getOrgFeature();
+            getAdditionalProject();
+            selectCity();
             saveOrg();
         });
     })(jQuery,undefined);

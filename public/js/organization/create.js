@@ -152,3 +152,129 @@ function validate_form(required,obj,reg,error_txt){
     obj.parent().find('.formError').html('');
     obj.css('border-color','#ccc');
 }
+
+//选择城市
+function selectCity () {
+    var btn = $('.select_city_input');
+    btn.off('click').on('click', function () {
+        $( ".province_city_box" ).css('display','block');
+    });
+}
+
+//主贷人征信
+function getPrincipal () {
+    var principal_need = $('#principal_need');
+    principal_need.off('click').on('click', function () {
+        var _this = $(this)[0];
+        if (_this.checked) {
+            $('.borrower_credit').val(1);
+        } else {
+            $('.borrower_credit').val(2);
+        }
+    });
+    var principal_noneed = $('#principal_noneed');
+    principal_noneed.off('click').on('click', function () {
+        var _this = $(this)[0];
+        if (_this.checked) {
+            $('.borrower_credit').val(2);
+        } else {
+            $('.borrower_credit').val(1);
+        }
+    });
+}
+//配偶征信
+function getPartner () {
+    var partner_need = $('#partner_need');
+    partner_need.off('click').on('click', function () {
+        var _this = $(this)[0];
+        if (_this.checked) {
+            $('.spouse_credit').val(1);
+        } else {
+            $('.spouse_credit').val(2);
+        }
+    });
+    var partner_noneed = $('#partner_noneed');
+    partner_noneed.off('click').on('click', function () {
+        var _this = $(this)[0];
+        if (_this.checked) {
+            $('.spouse_credit').val(2);
+        } else {
+            $('.spouse_credit').val(1);
+        }
+    });
+}
+//背户情况
+function getBackDoor () {
+    var back_door_need = $('#back_door_need');
+    back_door_need.off('click').on('click', function () {
+        var _this = $(this)[0];
+        if (_this.checked) {
+            $('.bei_hu').val(1);
+        } else {
+            $('.bei_hu').val(2);
+        }
+    });
+    var back_door_noneed = $('#back_door_noneed');
+    back_door_noneed.off('click').on('click', function () {
+        var _this = $(this)[0];
+        if (_this.checked) {
+            $('.bei_hu').val(2);
+        } else {
+            $('.bei_hu').val(1);
+        }
+    });
+}
+//获取机构特点val
+var org_feature_arr = [];
+function getOrgFeature () {
+    var org_feature = $('.org_feature');
+    org_feature.each(function () {
+        var _cur = $(this);
+        _cur.off('click').on('click', function () {
+            var _this = $(this);
+            if (_this.siblings('label').hasClass('checked')) {
+                org_feature_arr.push(_this.val());
+            } else {
+                for(var i = 0,len = org_feature_arr.length;i < len;i++) {
+                    if (org_feature_arr[i] == _this.val()) {
+                        org_feature_arr.splice(i,1);
+                        break;
+                    }
+                }
+            }
+        });
+    });
+}
+//获取附加可融项目val
+var additional_project_arr = [];
+function getAdditionalProject () {
+    var additional_project = $('.additional_project');
+    additional_project.each(function () {
+        var _cur = $(this);
+        _cur.off('click').on('click', function () {
+            var _this = $(this);
+            if (_this.siblings('label').hasClass('checked')) {
+                additional_project_arr.push(_this.val());
+            } else {
+                for(var i = 0,len = additional_project_arr.length;i < len;i++) {
+                    if (additional_project_arr[i] == _this.val()) {
+                        additional_project_arr.splice(i,1);
+                        break;
+                    }
+                }
+            }
+        });
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
