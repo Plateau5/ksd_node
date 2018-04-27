@@ -59,7 +59,7 @@
 
                 </div>
                 <div class="account_item clearfix">
-                    <div class="account_list_name merchant_name">账户<!--{{xindex + 1}}--><em class="drop_down">切换账户</em></div>
+                    <div class="account_list_name merchant_name">账户<!--{{xindex + 1}}-->{{#if (accountList.length > 1) }}<em class="drop_down">切换账户</em>{{/if}}</div>
                     <input type="hidden"  id="listLength" value="{{accountList.length}}">
                     <ul class="account_list cont_list" id="defaultAccount">
                         {{#each (accountList) }}
@@ -94,6 +94,7 @@
                         {{/each}}
                     </ul>
                 </div>
+                {{#if (accountList.length > 1) }}
                 <div class="pop_bg">
                     <div class="detail_menu clearfix">
                         <h1 class="subtitle">切换账户</h1>
@@ -144,6 +145,7 @@
                         </div>
                     </div>
                 </div>
+                {{/if}}
 
                     <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
                     <input type="hidden" name="timeorder_type" value="{{reqParams.timeorder_type}}" id="timeorderType">
@@ -307,6 +309,7 @@
                     </div>
                     {{/if}}
                     {{#if (list.length > 0) }}
+                    <input type="hidden" id="haveOrderList" value="1">
                     <ul class="loan_order_list">
                         {{#each (list) }}
                         <li class="list_item" data-id="{{this.advance_id}}">
@@ -560,14 +563,18 @@
             var detailMenu = $(".detail_menu");
             var popBg = $(".pop_bg");
             var listLength = $('#listLength');
-            dropDown.on('click', function () {
-                if (listLength == 0) {
-                    popBg.hide();
-                    $(".pop").hide();
+            dropDown.off('click').on('click', function () {
+                if (popBg.length > 0) {
+                    if (listLength == 0) {
+                        popBg.hide();
+                        $(".pop").hide();
+                    } else {
+                        popBg.toggle();
+                        popBgHeight();
+                        $(".pop").hide();
+                    }
                 } else {
-                    popBg.toggle();
-                    popBgHeight();
-                    $(".pop").hide();
+                    return false;
                 }
 
             });
@@ -830,6 +837,15 @@
             detailMenu.css("top",popHeight);
         }
 
+        // 监听是否有账户
+        function listenIsHaveAccount () {
+            var changeBtn = $('.drop_down');
+            var orderList = $('#haveOrderList');
+            if (changeBtn.length <= 0 && listType == 1 && orderList.length <= 0) {
+                window.location.href = contextPath + markUri + '/loan/pending';
+            }
+        }
+
         $(function () {
             selectedAll();
             down_menu();
@@ -838,6 +854,7 @@
             accountId();
             cancelBatchAudit();
             toAuditPage();      // 跳转审核的三级页面
+            listenIsHaveAccount();      // 监听是否有账户
         })
     })(jQuery, window, undefined)
 </script>
