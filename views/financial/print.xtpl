@@ -163,8 +163,17 @@
 		</div>
 	</div>
 </div>
+<input type="hidden" name="supplier_name" value="{{supplier_name}}" id="supplier_name">
+<input type="hidden" name="supplier_id" value="{{supplier_id}}" id="supplier_id">
+<input type="hidden" name="receipt_type" value="{{receipt_type}}" id="receiptType">
+<input name="pay_account" id="pay_account" type="hidden" value="{{pay_account}}">
 </body>
+{{include ('./../inc/jsSources')}}
 <script type="text/javascript">
+    var merchantId = $('#supplier_id').val().trim();        // 商户ID
+    var merchantName = $('#supplier_name').val().trim();     // 商户名称
+    var receiptType = $('#receiptType').val().trim();     // 款项类型
+    var payAccount = $('#pay_account').val().trim();        // 默认账户
 	(function () {
 		/**
 		*	获取查询字符串的参数值（value）
@@ -184,10 +193,22 @@
 		var printType = getQuerystringParam("print_type");
 		window.onload = function () {
 			window.print();
-			if (printType == 'current') {
-				var href = contextPath + markUri + "/customer/financial/pendingAudit";
-				setTimeout(function () {
-					window.location.href = href;
+            if (printType == 'current') {
+                // var href = contextPath + markUri + "/loan/pending";
+                setTimeout(function () {
+					// window.location.href = href;
+                    locationTo({
+                        action : contextPath + markUri + '/loan/pending/list',
+                        param : {
+                            supplier_id : merchantId,
+                            pay_account: payAccount,
+                            receipt_type: receiptType,
+                            supplier_name : merchantName,
+                            url : contextPath + markUri + 'loan/pending',
+                            navigation : '待审批',
+							list_type : 1
+                        }
+                    })
 				}, 0);
 			} else {
 				setTimeout("window.close();", 0);

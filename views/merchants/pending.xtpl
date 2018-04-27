@@ -22,12 +22,12 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main merchants">
-            <form action="{{originUrl}}" method="post" id="form_search" role="form">
-            </form>
             {{include('./../inc/operationCategory')}}
-            <div class="filtrate">
-                {{include ('./../inc/filtrateMerchants')}}
-            </div>
+            <form action="{{originUrl}}" method="post" id="form_search" role="form">
+                <div class="filtrate">
+                    {{include ('./../inc/filtrateMerchants')}}
+                </div>
+            </form>
 
             <div class="merchants_list">
                 <table class="normal" id="loanList">
@@ -114,12 +114,13 @@
 <script>
     var listType = $('#listType').val().trim().number();
     (function ($) {
-        paginationSwitch();     // 分页切换
+
 
         $(function() {
             goLoanDetail();
             searchMerchants();
             goMerchantDetail();
+            paginationSwitch();     // 分页切换
         });
     })(jQuery,undefined);
 </script>

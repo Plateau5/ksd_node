@@ -2262,6 +2262,15 @@ function paginationSwitch () {
                 currentPageE.val(nextPage);
             }
             _this.data('currentpage', nextPage).siblings('.prev').data('currentpage', nextPage);
+            var start_with = getCheckedFirstLetter();
+            if (start_with) {
+                var firstLetter = form.find('#start_with');
+                if (firstLetter.length <= 0) {
+                    form.append('<input type="hidden" id="start_with" name="start_with" value="'+ start_with + '" />');
+                } else {
+                    firstLetter.val(start_with);
+                }
+            }
             form.submit();
         }
     });
