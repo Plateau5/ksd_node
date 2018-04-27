@@ -152,6 +152,7 @@
                     <input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
                     <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
                     <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
+                    <input type="hidden" name="is_pass" value="{{reqParams.is_pass}}" id="isPass">
                 {{#if (reqParams.list_type === '1') }}
                 <form action="{{markUri}}/loan/pending/list" method="post" id="loanDetail" role="form">
                 {{elseif (reqParams.list_type === '2') }}
@@ -164,7 +165,7 @@
                     <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
                     <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
                     <input type="hidden" name="settlement_type" value="{{reqParams.settlement_type}}" id="settlement_type">
-                </form>
+
                     <div class="filtrate">
                         <div class="filtrate merchants_filtrate">
                             {{#if (reqParams.list_type === '2') }}
@@ -277,7 +278,7 @@
                             </div>
                         </div>
                     </div>
-
+                </form>
 
                 <div class="order_list">
                     {{#if (reqParams.list_type === '1') }}
@@ -326,11 +327,12 @@
                                 {{/if}}
                             </div>
                             <div class="loan_list clearfix">
-                                <div class="loan_row">
-                                    <div class="loan_name">客户：</div><div class="loan_value" title="{{this.user_name}}">{{this.user_name}}</div>
+                                <div class="loan_row" title="{{this.user_name}}">
+                                    客户：{{this.user_name}}
                                 </div>
                                 <div class="loan_row">
-                                    <div class="loan_name">城市：</div><div class="loan_value">{{this.city_name}}</div>
+                                    <div class="loan_name">城市：</div>
+                                    <div class="loan_value">{{this.city_name}}</div>
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">业务类型：</div>
@@ -505,6 +507,7 @@
     var start_with = $('#start_with').val().trim();     // 首字母
     var payAccount = $('#pay_account').val().trim();        // 默认账户
     var settlementType =$('#settlement_type').val().trim();       // 结算方式
+    var isPass =$('#isPass').val().trim();       // 审批结果
     (function ($, window) {
         paginationSwitch();     // 分页切换
 
@@ -781,7 +784,8 @@
                             start_with : start_with,
                             list_type : listType,
                             pay_account : payAccount,
-                            settlement_type: settlementType
+                            settlement_type: settlementType,
+                            is_pass : isPass
                         }
                     })
                 }
