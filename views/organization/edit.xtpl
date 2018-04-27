@@ -250,8 +250,19 @@
                             <span class="options_name">可抵押省市：</span>
                         </div>
                         <div class="column_val">
-                            <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
-                            <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+                            {{#if (vo.outsettling_province && vo.city_ids) }}
+                                <input type="hidden" class="select_province_ids" name="outsettling_province"  value="{{vo.outsettling_province}}"/>
+                                <input type="hidden" class="select_city_ids" name="city_ids"  value="{{vo.city_ids}}"/>
+                                {{#if (vo.outsettling_province.indexOf(',') !== -1) }}
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{vo.outsettling_province.split(',').length}}个省份" placeholder="请选择城市" readonly/>
+                                {{else}}
+                                    <input type="text" class="select_city_input cursor" name=""  value="1个省份" placeholder="请选择城市" readonly/>
+                                {{/if}}
+                            {{else}}
+                                <input type="hidden" class="select_province_ids" name="outsettling_province"/>
+                                <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+                            {{/if}}
                         </div>
                     </div>
                     <div class="option_item">
@@ -399,10 +410,10 @@
                                 <div class="form_group">
                                     {{#if (vo.special.indexOf('5') !== -1 ) }}
                                     <input id="org_feature6" type="checkbox" class="org_feature" checked="checked" name="special" value="5" />
-                                    <label for="org_feature6">首付低</label>
+                                    <label for="org_feature6" class="checked">首付低</label>
                                     {{else}}
                                     <input id="org_feature6" type="checkbox" class="org_feature" name="special" value="5" />
-                                    <label for="org_feature6" class="checked">首付低</label>
+                                    <label for="org_feature6">首付低</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
@@ -869,7 +880,7 @@
             getPrincipal();
             getOrgFeature();
             getAdditionalProject();
-            selectCity();
+            selectCity(1);
             saveOrg();
         });
     })(jQuery,undefined);

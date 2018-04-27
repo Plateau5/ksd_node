@@ -154,9 +154,71 @@ function validate_form(required,obj,reg,error_txt){
 }
 
 //选择城市
-function selectCity () {
+function selectCity (flag) {
     var btn = $('.select_city_input');
     btn.off('click').on('click', function () {
+        if (flag == 1) {//编辑回显
+            var select_province_ids = $('.select_province_ids');
+            var pro_ids = select_province_ids.val();
+            var select_city_ids = $('.select_city_ids');
+            var citys_ids = select_city_ids.val();
+            if (pro_ids && citys_ids) {
+                //先选中城市
+                if (citys_ids.indexOf(',') != -1) {
+                    var city_id_arr = citys_ids.split(',');
+                    for (var i = 0, len = city_id_arr.length;i < len;i++) {
+                        if (i == 0) {
+                            $('.city #'+city_id_arr[i]).parents('.city_box').addClass('display');
+                        }
+                        $('.city #'+city_id_arr[i]).siblings('label').addClass('checked');
+                    }
+                } else {
+                    $('.city #'+citys_ids).siblings('label').addClass('checked');
+                    $('.city #'+citys_ids).parents('.city_box').addClass('display')
+                }
+                //再选择省市
+                if (pro_ids.indexOf(',') != -1) {
+                    var pro_ids_arr = pro_ids.split(',');
+                    for (var i = 0, len = pro_ids_arr.length;i < len;i++) {
+                        var cur_city = $('.city').find('#' + pro_ids_arr[i]).find('label');
+                        var sel_city_num = 0;
+                        if (cur_city.length == 1) {
+                            if(cur_city.hasClass('checked')){
+                                sel_city_num++;
+                            }
+                        } else {
+                            for (var j = 0, lens = cur_city.length;j < lens;j++) {
+                                if(cur_city[j].className == 'checked'){
+                                    sel_city_num++;
+                                }
+                            }
+                        }
+                        $('#'+pro_ids_arr[i]).siblings('label').attr('class','');
+                        if (sel_city_num == cur_city.length) {
+                            $('#'+pro_ids_arr[i]).siblings('label').addClass('checked');
+                        } else {
+                            $('#'+pro_ids_arr[i]).siblings('label').addClass('checked part');
+                        }
+                        if (i == 0) {
+                            $('#' + pro_ids_arr[i]).parents('.province_ul_li').addClass('select_pro');
+                        }
+                    }
+                } else {
+                    var cur_city = $('#' + pro_ids).find('label');
+                    var sel_city_num = 0;
+                    for (var i = 0, len = cur_city.length;i < len;i++) {
+                        if(cur_city[i].hasClass('checked')){
+                            sel_city_num++;
+                        }
+                    }
+                    if (sel_city_num == cur_city.length) {
+                        $('#'+pro_ids).siblings('label').addClass('checked');
+                    } else {
+                        $('#'+pro_ids).siblings('label').addClass('checked part');
+                    }
+                }
+            }
+        }
         $( ".province_city_box" ).css('display','block');
     });
 }

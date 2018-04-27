@@ -163,9 +163,10 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                             </div>
                             <div class="column_val term">
+                                <input type="hidden" name="term" class="term_hd">
                                 {{#each (list_term) }}
                                 <div class="form_group">
-                                    <input type="checkbox" class="rates" checked="checked" name="term" value="{{this.id}}" />
+                                    <input type="checkbox" class="rates" name="" value="{{this.id}}" />
                                     <label>{{this.id}}</label>
                                 </div>
                                 {{/each}}
@@ -202,7 +203,7 @@
                             </div>
                             <div class="column_val">
                                 <div class="img_md_box file_upload">
-                                    <input type="hidden" class="file_ids">
+                                    <input type="hidden" class="file_ids" name="file_ids">
                                     {{#each (fileList) }}
                                         <a href="javascript:;" class="img_item">
                                             <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail_160_100}}">
@@ -248,6 +249,27 @@
 <script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
+        //获取融资期限val
+        var rates_arr = [];
+        function getRates () {
+            var rates = $('.term label');
+            rates.each(function () {
+                var _cur = $(this);
+                _cur.off('click').on('click', function () {
+                    var _this = $(this);
+                    if (!_this.hasClass('checked')) {
+                        rates_arr.push(_this.siblings('input').val());
+                    } else {
+                        for(var i = 0,len = rates_arr.length;i < len;i++) {
+                            if (rates_arr[i] == _this.siblings('input').val()) {
+                                rates_arr.splice(i,1);
+                                break;
+                            }
+                        }
+                    }
+                });
+            });
+        }
         var file_ids = [];//上传图片ids
 
         //选择城市
@@ -364,6 +386,16 @@
                         add_btn_n.attr('disabled',false);
                         return;
                     } else {
+                        var rate_val = [];
+                        var downpayment_rate =$('.downpayment_rate');
+                        downpayment_rate.each(function () {
+                            var _this = $(this);
+                            var check_stauts = _this.parent('.check').find('.check_img');
+                            if (check_stauts.hasClass('icon_check')) {
+                                rate_val.push(_this.text());
+                            }
+                        });
+                        $('#downpayment_rate').val(rate_val.join(','));
                         $('.downpayment_rate').find('.formError').html('');
                     }
                 }
@@ -426,6 +458,7 @@
                 }
             }
             $('.file_ids').val(file_ids.join(','));
+            $('.term_hd').val(rates_arr.join(','));
             ajaxSubmit(url);
         }
 
@@ -639,6 +672,7 @@
             var PARENTID = '{{parent_id}}',
                 PARENTNAME = '{{parent_name}}';
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            getRates();
             selectCity();
             send_product();
             save_ware();

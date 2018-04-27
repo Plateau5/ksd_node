@@ -30,21 +30,21 @@ $('.province_cancle').off('click').on('click',function () {
 $('.province_confirm').off('click').on('click',function () {
     var province_ul_li = $('.province_ul_li');
     var check_pros = 0;
-    var check_val = '';
+    var pro_ids = [];
+    // var check_val = '';
     province_ul_li.each(function () {
        var _this = $(this);
        if (_this.find('label').hasClass('checked')) {
-           if (check_pros == 0) {
-               check_val = _this.find('span').text();
-           }
+           var proid = _this.find('input').attr('id');
+           pro_ids.push(proid);
+           // if (check_pros == 0) {
+           //     check_val = _this.find('span').text();
+           // }
            check_pros++;
        }
     });
-    if (check_pros == 1) {
-        $('.select_city_input').val(check_val);
-    } else {
-        $('.select_city_input').val(check_val + "等" + check_pros + "个省份");
-    }
+    $('.select_province_ids').val(pro_ids.join(','));
+    $('.select_city_input').val(check_pros + "个省份");
     var city_ul = $('.city_ul');
     var city_ids = [];
     city_ul.each(function () {
