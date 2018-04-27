@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="radio" style="margin-left:13px;">
                                     <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                    <label class="old_car">二手车</label>
+                                    <label for="old_car" class="old_car">二手车</label>
                                 </div>
                                 <span class="formError"></span>
                             </div>
@@ -387,12 +387,10 @@
                         return;
                     } else {
                         var rate_val = [];
-                        var downpayment_rate =$('.downpayment_rate');
-                        downpayment_rate.each(function () {
+                        check.each(function () {
                             var _this = $(this);
-                            var check_stauts = _this.parent('.check').find('.check_img');
-                            if (check_stauts.hasClass('icon_check')) {
-                                rate_val.push(_this.text());
+                            if (_this.find('.check_img').hasClass('icon_check')) {
+                                rate_val.push(_this.find('.downpayment_rate_date').text());
                             }
                         });
                         $('#downpayment_rate').val(rate_val.join(','));
