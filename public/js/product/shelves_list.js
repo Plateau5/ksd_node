@@ -126,19 +126,27 @@ $(function(){
         var shelves_num = $('.icon_check').parent().parent().parent().find('.shelves_name').length;//未填写完整标识
         if(shelves_num != "0"){
             var product_name = $('.shelves_name').eq(0).prev().html();
-            $alert('您选择上架的产品中，<span style="color:#1DC6BC;">' + product_name + '</span>等' + shelves_num + '个产品必填信息填写不完整，导致其产品不能正常上架，请填写完整后再次上架！');
+            $alert('您选择上架的产品中，' + product_name + '等' + shelves_num + '个产品必填信息填写不完整，导致其产品不能正常上架，请填写完整后再次上架！');
             return;
         }
-        var product_check = $('table .icon_check');
         var product_arr = [];
-        for(var i = 0; i < product_check.length; i++){
-            var shelves_name = $('table .icon_check').eq(i).parent().parent().parent().find('.shelves_name');
-            if(shelves_name.length == '0'){
-                var id = $('table .icon_check').eq(i).attr('id');
+        var product_check = $('table .product_tr');
+        product_check.each(function () {
+            var _this = $(this);
+            if (_this.find(".check_img").hasClass('icon_check')) {
+                var id = _this.find(".check_img").attr('id');
                 product_arr.push(id);
             }
+        });
 
-        }
+        // for(var i = 0; i < product_check.length; i++){
+        //     var shelves_name = $('table .icon_check').eq(i).parent().parent().parent().find('.shelves_name');
+        //     if(shelves_name.length == '0'){
+        //         var id = $('table .icon_check').eq(i).attr('id');
+        //         product_arr.push(id);
+        //     }
+        //
+        // }
         if(product_arr.length == '0'){
             return;
         }
@@ -149,7 +157,27 @@ $(function(){
             content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>选中产品将发布上架，确认继续上架？</span></div>',
             onConfirm : function (d) {
                 d.close();
-                redefineAjax({
+                $.ajax({
+                    type:'post',
+                    timeout:3000,
+                    url : contextPath + "/api/product/shelve",
+                    data : data,
+                    processData : false,      //序列化参数为String类型，默认：true。
+                    contentType : false,      //内容编码，文件上传时设为FALSE
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            $alert('上架成功', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('上架失败，请重新尝试');
+                    }
+                });
+                /*redefineAjax({
                     url : contextPath + '/api/product/shelve',
                     data : data,
                     success : function (res) {
@@ -164,7 +192,7 @@ $(function(){
                     error : function () {
                         $alert('上架失败，请重新尝试');
                     }
-                });
+                });*/
             },
             onCancel : function (d) {
                 d.close();

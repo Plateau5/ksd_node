@@ -32,10 +32,12 @@ $(function(){
     }
     //新车二手车
     $('#new_car').click(function(){
+        $('#ssess_desc_form').css('display','none');
         $('.applyto_business').val(0);
     });
     $('#old_car').click(function(){
         $('.applyto_business').val(1);
+        $('#ssess_desc_form').css('display','block');
     });
     //产品来源
     $('#product_source_other').click(function(){

@@ -93,10 +93,10 @@
                                     {{#if (vo.applyto_business === 1) }}
                                     <input type="hidden" class="applyto_business" name="applyto_business" value="1">
                                     <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
-                                    <label class="old_car" class="checked">二手车</label>
+                                    <label for="old_car" class="checked">二手车</label>
                                     {{else}}
                                     <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                    <label class="old_car">二手车</label>
+                                    <label for="old_car">二手车</label>
                                     {{/if}}
                                 </div>
                                 <span class="formError"></span>
@@ -326,6 +326,27 @@
 <script src="{{markUri}}/static/js/product/create.js"></script>
 <script>
     (function ($) {
+        //获取融资期限val
+        var rates_arr = [];
+        function getRates () {
+            var rates = $('.term label');
+            rates.each(function () {
+                var _cur = $(this);
+                _cur.off('click').on('click', function () {
+                    var _this = $(this);
+                    if (!_this.hasClass('checked')) {
+                        rates_arr.push(_this.siblings('input').val());
+                    } else {
+                        for(var i = 0,len = rates_arr.length;i < len;i++) {
+                            if (rates_arr[i] == _this.siblings('input').val()) {
+                                rates_arr.splice(i,1);
+                                break;
+                            }
+                        }
+                    }
+                });
+            });
+        }
         var file_ids = [];//上传图片ids
 
         //选择城市
@@ -391,7 +412,8 @@
                 $('#applyto_business').find('.formError').html('');
             }
             //适用城市
-            var select_citys = $('.select_city_input').val();
+            var select_citys = $('#applyto_city')
+                $('.select_city_input').val();
             if (select_citys == '') {
                 $('#applyto_city').find('.formError').html('请选择适用城市');
                 add_btn_y.attr('disabled',false);
@@ -510,8 +532,16 @@
                     return;
                 }
             }
+            //获取上传图片id
+            var file_upload = $('.file_upload');
+            var img_ids = [];
+            file_upload.each(function () {
+                var _this = $(this);
+                var id = _this.find('em').eq(1).data('id');
+                img_ids.push(id);
+            });
             $('#downpayment_rate').val(rate_val.join(','));
-            $('.file_ids').val(file_ids.join(','));
+            $('.file_ids').val(img_ids.join(','));
             $('.term_hd').val(rates_arr.join(','));
             ajaxSubmit(url);
         }
