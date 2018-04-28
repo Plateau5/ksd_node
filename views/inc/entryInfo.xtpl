@@ -41,16 +41,16 @@
 					<div class="requestpayout_detail_btn requestpayout_his" lang="{{finance_id}}">发送不合格通知</div>
 				</a>
 			{{/if}}
-			{{#if (vo.is_docking !== 1) }}
+			{{#if (vo.is_docking !== 1 || vo.loan_type === 2) }}
 				{{#if (verifyCode(1032)) }}
 					<div class="requestpayout_detail_btn requestpayout_apply" id="requestpayout_apply" lang="{{finance_id}}">确认申请</div>
 				{{/if}}
 			{{/if}}
 		{{/if}}
 
-		{{#if (vo.status === 3 && (vo.start_audit_time === 0 || vo.is_docking === 1 )) }}
+		{{#if (vo.status === 3 && (vo.start_audit_time === 0 || (vo.is_docking === 1 && vo.loan_type === 1))) }}
 			{{#if (verifyCode(1161)) }}
-					<div class="requestpayout_detail_btn requestpayout_entering" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" id="entering" lang="{{finance_id}}">开始录入</div>
+					<div class="requestpayout_detail_btn requestpayout_entering" data-loan_type="{{vo.loan_type}}" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" id="entering" lang="{{finance_id}}">开始录入</div>
 			{{/if}}
 		{{/if}}
 

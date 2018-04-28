@@ -4,8 +4,8 @@ $(function(){
     //开始录入
     $('#entering').on('click', function(){
         var _this = $(this);
-        var is_docking = _this.data('is_docking');
-        var sign_ids = _this.data('sign_ids').toString();
+        var is_docking = _this.data('is_docking');      // 是否对接
+        var loan_type = _this.data('loan_type');        // 进件类型 1-个人 2-企业
         var finance_id = $('#finance_id').val();
         var user_name = $('#userName').val().trim();
         var locationUrl = LOCALURL;
@@ -15,7 +15,7 @@ $(function(){
         var carType = $.trim($('#carType').val());
         var action = '';
         // if (is_docking == 1 && (sign_ids && sign_ids.indexOf('10') != -1)) {
-        if (is_docking == 1) {
+        if (is_docking == 1 && loan_type == 1) {
             action  = contextPath + markUri + '/docking/pingan/home';
             if (auditTime != 0) {
                 locationTo({
