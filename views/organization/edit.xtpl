@@ -835,6 +835,26 @@
                 btn.attr('disabled',false);
                 return;
             }
+            //获取机构特点val
+            var org_features = [];
+            var org_feature = $('.org_feature');
+            org_feature.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    org_features.push(_cur.val());
+                }
+            });
+            $('.special').val(org_features.join(','));
+            //附加可融项目val
+            var additional_projects = [];
+            var additional_project = $('.additional_project');
+            additional_project.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    additional_projects.push(_cur.val());
+                }
+            });
+            $('.addition_finance').val(additional_projects.join(','));
             ajaxSubmit();
         }
 
@@ -844,7 +864,7 @@
             $.ajax({
                 type:'post',
                 timeout:5000,
-                url : contextPath + "/api/organization/create",
+                url : contextPath + "/api/organization/update",
                 data : parameters,
                 processData : false,      //序列化参数为String类型，默认：true。
                 contentType : false,      //内容编码，文件上传时设为FALSE
