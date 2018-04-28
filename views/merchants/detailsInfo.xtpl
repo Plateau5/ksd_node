@@ -330,9 +330,8 @@
                                 <div class="loan_row" title="{{this.user_name}}">
                                     客户：{{this.user_name}}
                                 </div>
-                                <div class="loan_row">
-                                    <div class="loan_name">城市：</div>
-                                    <div class="loan_value">{{this.city_name}}</div>
+                                <div class="loan_row" title="{{this.city_name}}">
+                                    城市：{{this.city_name}}
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">业务类型：</div>
@@ -342,23 +341,14 @@
                                     <div class="loan_value">二手车</div>
                                     {{/if}}
                                 </div>
-                                <div class="loan_row">
-                                    <div class="loan_name">金融产品：</div>
-                                    <div class="loan_value" title="{{this.product_name}}">{{this.product_name}}</div>
+                                <div class="loan_row" title="{{this.product_name}}">
+                                    金融产品：{{this.product_name}}
                                 </div>
-                                <div class="loan_row">
-                                    <div class="loan_name">车系：</div>
-                                    <div class="loan_value" title="{{this.series_name}}">{{this.series_name}}</div>
+                                <div class="loan_row"  title="{{this.series_name}}">
+                                    车系：{{this.series_name}}
                                 </div>
-                                <div class="loan_row">
-                                    <div class="loan_name">车架号：</div>
-                                    <div class="loan_value" title="{{this.vin}}">
-                                        {{#if (this.vin) }}
-                                            {{this.vin}}
-                                        {{else}}
-                                            --
-                                        {{/if}}
-                                    </div>
+                                <div class="loan_row" title="{{this.vin}}">
+                                    车架号：{{#if (this.vin) }}{{this.vin}}{{else}}--{{/if}}
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">贷前：</div>
@@ -462,7 +452,7 @@
                                 <div class="total_receipts clearfix">
                                     <div class="receipt_name">收款总额：</div>
                                     <div class="amount">{{this.total_charge}}&nbsp;元</div>
-                                    <div class="capital_amount">（{{this.cn_totalCharge}})</div>
+                                    <div class="capital_amount">({{this.cn_totalCharge}})</div>
                                 </div>
                                 {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
@@ -542,7 +532,7 @@
                     _this.addClass('checked');
                 }
                 var totalAmount = calcCheckedAmount();
-                accountTotalAmount.text(totalAmount + '元');
+                accountTotalAmount.text(totalAmount + ' 元');
             });
 
             orderLabel.on('click', function () {
@@ -558,7 +548,7 @@
                     }
                 }
                 var totalAmount = calcCheckedAmount();
-                accountTotalAmount.text(totalAmount + '元');
+                accountTotalAmount.text(totalAmount + ' 元');
             });
 
             function verifyIsCheckAll () {
