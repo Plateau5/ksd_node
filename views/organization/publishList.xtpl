@@ -4,13 +4,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>快收单</title>
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
-    <title>快收单</title>
-    <style>
-
-    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -164,7 +161,6 @@
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
-<script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
@@ -182,7 +178,7 @@
                         parent_id : parentId
                     }
                 });
-            })
+            });
         }
 
         //仓库中的产品
@@ -243,60 +239,60 @@
                 //var data_num = $.trim(t.attr("data_num"));
                 data.id = productId;
                 dialog("open", {
-                    title : "下架原因",
+                    title: "下架原因",
                     content: 'textarea',
-                    errorMsg : "请先填写下架原因",
-                    textarea : {
-                        show : true,
-                        name : 'unShelve_reason',
-                        placeholder : '请输入下架该产品的原因',
-                        height : 80 ,
-                        maxlength : 200
+                    errorMsg: "请先填写下架原因",
+                    textarea: {
+                        show: true,
+                        name: 'unShelve_reason',
+                        placeholder: '请输入下架该产品的原因',
+                        height: 80,
+                        maxlength: 200
                     },
-                    onConfirm : function (d) {
+                    onConfirm: function (d) {
                         onConfirmEvent(d, data);
                     }
                 });
             });
+        }
 
-            function onConfirmEvent (d, reqData) {
-                //d.close();
-                var unShelveReason = $("#dialog-layer #dialog-layer-textarea").val();
-                if (unShelveReason == '' || unShelveReason == undefined || unShelveReason == null) {
-                    $("#dialog-layer #errorMsg").show();
-                    dialogTextareaInput();
-                } else {
-                    var reason = $("#dialog-layer #dialog-layer-textarea").val();
-                    reqData.unShelve_reason = reason;
-                    d.close();
-                    $ajax('post', url, reqData, function (res) {
-                        if (res.error_code == 0) {
-                            $alert("产品下架成功", function () {
-                                window.location.reload();
-                            })
-                        } else {
-                            $alert("产品下架失败", function () {
-                                window.location.reload();
-                            })
-                        }
-                    });
-                }
-
-            }
-
-            //注册弹出层文本域的输入监听
-            function dialogTextareaInput () {
-                var target = $("#dialog-layer #dialog-layer-textarea");
-                target.off("input").on("input", function () {
-                    var $this = $(this);
-                    var val = $this.val();
-                    if (val != '') {
-                        $("#dialog-layer #errorMsg").hide();
+        function onConfirmEvent (d, reqData) {
+            //d.close();
+            var unShelveReason = $("#dialog-layer #dialog-layer-textarea").val();
+            if (unShelveReason == '' || unShelveReason == undefined || unShelveReason == null) {
+                $("#dialog-layer #errorMsg").show();
+                dialogTextareaInput();
+            } else {
+                var reason = $("#dialog-layer #dialog-layer-textarea").val();
+                reqData.unShelve_reason = reason;
+                d.close();
+                $ajax('post', url, reqData, function (res) {
+                    if (res.error_code == 0) {
+                        $alert("产品下架成功", function () {
+                            window.location.reload();
+                        })
                     } else {
-                        $("#dialog-layer #errorMsg").show();
+                        $alert("产品下架失败", function () {
+                            window.location.reload();
+                        })
                     }
                 });
             }
+
+        }
+
+        //注册弹出层文本域的输入监听
+        function dialogTextareaInput () {
+            var target = $("#dialog-layer #dialog-layer-textarea");
+            target.off("input").on("input", function () {
+                var $this = $(this);
+                var val = $this.val();
+                if (val != '') {
+                    $("#dialog-layer #errorMsg").hide();
+                } else {
+                    $("#dialog-layer #errorMsg").show();
+                }
+            });
         }
         $(function() {
             paginationSwitch();// 分页切换
