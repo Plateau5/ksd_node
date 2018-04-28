@@ -343,8 +343,22 @@
                                     {{/if}}
                                 </div>
                                 <div class="loan_row">
+                                    <div class="loan_name">金融产品：</div>
+                                    <div class="loan_value" title="{{this.product_name}}">{{this.product_name}}</div>
+                                </div>
+                                <div class="loan_row">
+                                    <div class="loan_name">车系：</div>
+                                    <div class="loan_value" title="{{this.series_name}}">{{this.series_name}}</div>
+                                </div>
+                                <div class="loan_row">
                                     <div class="loan_name">车架号：</div>
-                                    <div class="loan_value" title="{{this.vin}}">{{this.vin}}</div>
+                                    <div class="loan_value" title="{{this.vin}}">
+                                        {{#if (this.vin) }}
+                                            {{this.vin}}
+                                        {{else}}
+                                            --
+                                        {{/if}}
+                                    </div>
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">贷前：</div>
@@ -817,12 +831,8 @@
             orderLabel.each(function () {
                 var _this = $(this);
                 var totalCharge = _this.data('total_charge');
-                var deduction = _this.data('deduction');
-                if (!deduction) {
-                    deduction = 0;
-                }
                 if (_this.hasClass('checked')) {
-                    amount = (amount + totalCharge - deduction).toFixed(2).number();
+                    amount = (amount + totalCharge).toFixed(2).number();
                 }
             });
             if (amount <= 0) {
