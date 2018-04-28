@@ -27,7 +27,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a data-id="{{vo.parent_id}}" class="TS crumbs_item go_forward" data-url="{{markUri}}/supplier/organization/unpublishedProducts" style="cursor: pointer;">产品管理</a>
-                <a href="javascript:;" class="crumbs_item">发布新产品</a>
+                <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
             <!--form start-->
             <div class="product_create">
@@ -93,10 +93,10 @@
                                     {{#if (vo.applyto_business === 1) }}
                                     <input type="hidden" class="applyto_business" name="applyto_business" value="1">
                                     <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
-                                    <label class="old_car" class="checked">二手车</label>
+                                    <label for="old_car" class="checked">二手车</label>
                                     {{else}}
                                     <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                    <label class="old_car">二手车</label>
+                                    <label for="old_car">二手车</label>
                                     {{/if}}
                                 </div>
                                 <span class="formError"></span>
@@ -107,8 +107,16 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val">
-                                <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
-                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+                                {{#each (list_city) }}
+                                <div class="radio">
+                                    {{#if (vo.applyto_city === this.id) }}
+                                    <input id="applyto_city{{xindex}}" type="radio" name="applyto_city" value="{{this.id}}" checked="checked" >
+                                    {{else}}
+                                    <input id="applyto_city{{xindex}}" type="radio" name="applyto_city" value="{{this.id}}" >
+                                    {{/if}}
+                                    <label for="applyto_city{{xindex}}">{{this.name}}</label>
+                                </div>
+                                {{/each}}
                             </div>
                             <span class="formError"></span>
                         </div>
@@ -182,9 +190,9 @@
                                     {{#if (downpayment_money_size >= 5) }}
                                     <div class="column_val downpayment_add" style="margin-top: 10px;display: none;">
                                         {{else}}
-                                        <div class="column_val downpayment_add" style="margin-top: 10px;display: block;margin-left: 12%;padding-left: 0;">
+                                        <div class="column_val downpayment_add" style="margin-top: 10px;display: block;margin-left: 12%;">
                                             {{/if}}
-                                            <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" style="padding-right: 12px;" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                            <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="{{this}}" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
                                             <span>元</span>
                                             <span class="cursor downpayment_add_txt">添加</span>
                                             <span class="formError"></span>
@@ -204,8 +212,8 @@
                                             </div>
                                         </div>
                                         {{/each}}
-                                        {{#if (interest_rate_size >= 5) }}
-                                        <div class="column_val rate_add" style="margin-top: 10px;display: none;">
+                                        {{#if (!vo.interest_rate) }}
+                                        <div class="column_val rate_add" style="margin-top: 10px;">
                                             {{else}}
                                             <div class="column_val rate_add" style="margin-top: 10px;display: block;margin-left: 12%;padding-left: 0;">
                                                 {{/if}}
@@ -233,6 +241,7 @@
                                                 <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                                             </div>
                                             <div class="column_val term">
+                                                <input type="hidden" name="term" class="term_hd">
                                                 {{#each (list_term) }}
                                                 <div class="form_group">
                                                     {{#if (vo.term.indexOf('6') === 0 && this.id === '6') }}
@@ -272,7 +281,7 @@
                                             </div>
                                             <div class="column_val">
                                                 <div class="img_md_box file_upload">
-                                                    <input type="hidden" class="file_ids">
+                                                    <input type="hidden" class="file_ids" name="file_ids">
                                                     {{#each (vo.file_list) }}
                                                     <a href="javascript:;" class="img_item">
                                                         <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail}}">
@@ -282,7 +291,7 @@
                                                         </div>
                                                     </a>
                                                     {{/each}}
-                                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type=""></a>
+                                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0"></a>
                                                     <input type="file" class="file_upload_btn"   value="上传图片" style="display: none" />
                                                 </div>
                                             </div>
@@ -290,8 +299,8 @@
                                     </div>
                                     <div class="add_btn">
                                         <div style="margin-top:50px;margin-bottom:50px;margin-left:10%;">
-                                            <input type="button" id="add_btn_n" value="发布"/>
-                                            <input type="button" style="margin-left:30px;" id="add_btn_y" value="保存到仓库"/>
+                                            <input type="button" id="add_btn_n" class="submit_btn_n" value="发布"/>
+                                            <input type="button" style="margin-left:30px;" id="add_btn_y" class="submit_btn_y" value="保存到仓库"/>
                                         </div>
                                     </div>
                 </form>
@@ -306,6 +315,7 @@
 
 
 </div>
+
 <!--container end-->
 <div class="loading" id="loading"></div>
 </body>
@@ -316,6 +326,27 @@
 <script src="{{markUri}}/static/js/product/create.js"></script>
 <script>
     (function ($) {
+        //获取融资期限val
+        var rates_arr = [];
+        function getRates () {
+            var rates = $('.term label');
+            rates.each(function () {
+                var _cur = $(this);
+                _cur.off('click').on('click', function () {
+                    var _this = $(this);
+                    if (!_this.hasClass('checked')) {
+                        rates_arr.push(_this.siblings('input').val());
+                    } else {
+                        for(var i = 0,len = rates_arr.length;i < len;i++) {
+                            if (rates_arr[i] == _this.siblings('input').val()) {
+                                rates_arr.splice(i,1);
+                                break;
+                            }
+                        }
+                    }
+                });
+            });
+        }
         var file_ids = [];//上传图片ids
 
         //选择城市
@@ -326,15 +357,15 @@
             });
         }
 
-        //发布按钮
-        function send_product () {
+        //保存到仓库
+        function save_ware () {
             var btn = $('#add_btn_y');
             btn.off('click').on('click', function () {
                 send_product_form(contextPath + "/api/product/create",0);
             });
         }
-        //保存到仓库
-        function save_ware () {
+        //发布按钮
+        function send_product () {
             var btn = $('#add_btn_n');
             btn.off('click').on('click', function () {
                 send_product_form(contextPath + "/api/product/createAndPublish",1);
@@ -381,7 +412,8 @@
                 $('#applyto_business').find('.formError').html('');
             }
             //适用城市
-            var select_citys = $('.select_city_input').val();
+            var select_citys = $('#applyto_city')
+            $('.select_city_input').val();
             if (select_citys == '') {
                 $('#applyto_city').find('.formError').html('请选择适用城市');
                 add_btn_y.attr('disabled',false);
@@ -391,7 +423,14 @@
                 $('#applyto_city').find('.formError').html('');
             }
 
-
+            var rate_val = [];
+            var check = $('.downpayment_rate .check');
+            check.each(function () {
+                var _this = $(this);
+                if (_this.find('.check_img').hasClass('icon_check')) {
+                    rate_val.push(_this.find('.downpayment_rate_date').text());
+                }
+            });
             //发布新产品时校验
             if(save == '1'){
                 //首付类型
@@ -493,7 +532,17 @@
                     return;
                 }
             }
-            $('.file_ids').val(file_ids.join(','));
+            //获取上传图片id
+            var file_upload = $('.file_upload');
+            var img_ids = [];
+            file_upload.each(function () {
+                var _this = $(this);
+                var id = _this.find('em').eq(1).data('id');
+                img_ids.push(id);
+            });
+            $('#downpayment_rate').val(rate_val.join(','));
+            $('.file_ids').val(img_ids.join(','));
+            $('.term_hd').val(rates_arr.join(','));
             ajaxSubmit(url);
         }
 
@@ -581,6 +630,7 @@
                     success : function (res) {
                         //elem.loading.hide();
                         if (res.error_code == 0) {
+                            btn.data('type',type.number() + 1);
                             file_ids.push(res.file_id);
                             $alert('图片上传成功');
                             var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
@@ -590,39 +640,26 @@
                                 ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
                                 '             </div>\n' +
                                 '             </a>';
-                            if (type == '99') {
-                                btn.parents('.img_md_box').find('.head_photo').replaceWith(imgEle);
-                                $('#image_url').val(res.image_url);
-                                var parents = btn.parents('.img_md_box');
-                                var img = parents.find('.img_item');
-                                if (img.length >= 1) {
-                                    parents[0].viewer.destroy();
-                                }
-                                viewLargeImage(parents[0]);
-                                /*var viewer = new Viewer(parents[0], {
-                                    url: 'data-original',
-                                    interval : 2000,
-                                    loop : true
-                                });*/
-                            } else {
-                                btn.before(imgEle);
-                                /* 赋予新图片查看的实例属性 */
-                                var parents = btn.parents('.img_md_box');
-                                /*var count = parents.find('img').length;
-                                var newImgEle = parents.find('img').eq(count - 1)[0];
-                                parents[0].viewer.images.push(newImgEle);*/
-                                // 销毁父元素
-                                var img = parents.find('.img_item');
-                                if (img.length > 1) {
-                                    parents[0].viewer.destroy();
-                                }
-                                viewLargeImage(parents[0]);
-                                /*var viewer = new Viewer(parents[0], {
-                                    url: 'data-original',
-                                    interval : 2000,
-                                    loop : true
-                                });*/
+                            if (type == 4) {
+                                btn.hide();
                             }
+                            btn.before(imgEle);
+                            /* 赋予新图片查看的实例属性 */
+                            var parents = btn.parents('.img_md_box');
+                            /*var count = parents.find('img').length;
+                            var newImgEle = parents.find('img').eq(count - 1)[0];
+                            parents[0].viewer.images.push(newImgEle);*/
+                            // 销毁父元素
+                            var img = parents.find('.img_item');
+                            if (img.length > 1) {
+                                parents[0].viewer.destroy();
+                            }
+                            viewLargeImage(parents[0]);
+                            /*var viewer = new Viewer(parents[0], {
+                                url: 'data-original',
+                                interval : 2000,
+                                loop : true
+                            });*/
                         } else {
                             $alert('图片上传失败，请重试');
                         }
@@ -661,6 +698,12 @@
                                 }
                             }
                             $alert('图片删除成功', function () {
+                                var btn = $('.add_img_md_btn');
+                                var type = $.trim(btn.data('type'));
+                                btn.data('type',type.number() - 1);
+                                if (btn.data('type') == 4) {
+                                    btn.show();
+                                }
                                 // 获取父元素
                                 var parents = _this.parents('.img_md_box');
                                 // 销毁父元素的viewer实例
@@ -711,6 +754,7 @@
             send_product();
             save_ware();
             viewImages();       // 查看大图
+            viewLargeImage('.img_md_box');
             deleteImages();     // 图片删除
             uploadImage();      // 图片上传注册
             pageJump(".go_forward", {

@@ -177,22 +177,6 @@ $(function(){
                         $alert('上架失败，请重新尝试');
                     }
                 });
-                /*redefineAjax({
-                    url : contextPath + '/api/product/shelve',
-                    data : data,
-                    success : function (res) {
-                        if (res.error_code == 0) {
-                            $alert('上架成功', function () {
-                                window.location.reload();
-                            });
-                        } else {
-                            $alert(res.error_msg);
-                        }
-                    },
-                    error : function () {
-                        $alert('上架失败，请重新尝试');
-                    }
-                });*/
             },
             onCancel : function (d) {
                 d.close();
@@ -223,9 +207,13 @@ $(function(){
             content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后产品将不可恢复，确认继续删除？</span></div>',
             onConfirm : function (d) {
                 d.close();
-                redefineAjax({
-                    url : contextPath + '/api/product/delete',
+                $.ajax({
+                    type:'post',
+                    timeout:3000,
+                    url : contextPath + "/api/product/delete",
                     data : data,
+                    processData : false,      //序列化参数为String类型，默认：true。
+                    contentType : false,      //内容编码，文件上传时设为FALSE
                     success : function (res) {
                         if (res.error_code == 0) {
                             $alert('删除成功', function () {
@@ -263,17 +251,17 @@ function btn_hover(obj,img_name){
 }
 
 //全选操作
-function select_all(){
-    var check_img_length = $('.product_table .check').length;
-    if(check_img_length == '0'){
-        $('.select_all_btn .check_img').removeClass('icon_check');
-        $('.select_all_btn .check_img').addClass('icon_uncheck');
-        return;
-    }
-    var check = $('.select_all_btn').find('.icon_check').length;
-    if(check == '0'){
-       return $('.check_img').removeClass('icon_uncheck').addClass('icon_check');
-    }else{
-       return $('.check_img').removeClass('icon_check').addClass('icon_uncheck');
-    }
-}
+// function select_all(){
+//     var check_img_length = $('.product_table .check').length;
+//     if(check_img_length == '0'){
+//         $('.select_all_btn .check_img').removeClass('icon_check');
+//         $('.select_all_btn .check_img').addClass('icon_uncheck');
+//         return;
+//     }
+//     var check = $('.select_all_btn').find('.icon_check').length;
+//     if(check == '0'){
+//        return $('.check_img').removeClass('icon_uncheck').addClass('icon_check');
+//     }else{
+//        return $('.check_img').removeClass('icon_check').addClass('icon_uncheck');
+//     }
+// }

@@ -291,7 +291,7 @@
                                         </div>
                                     </a>
                                     {{/each}}
-                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type=""></a>
+                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0"></a>
                                     <input type="file" class="file_upload_btn"   value="上传图片" style="display: none" />
                                 </div>
                             </div>
@@ -299,8 +299,8 @@
                     </div>
                     <div class="add_btn">
                         <div style="margin-top:50px;margin-bottom:50px;margin-left:10%;">
-                            <input type="button" id="add_btn_n" value="发布"/>
-                            <input type="button" style="margin-left:30px;" id="add_btn_y" value="保存到仓库"/>
+                            <input type="button" id="add_btn_n" class="submit_btn_n" value="发布"/>
+                            <input type="button" style="margin-left:30px;" id="add_btn_y" class="submit_btn_y" value="保存到仓库"/>
                         </div>
                     </div>
                 </form>
@@ -357,18 +357,18 @@
             });
         }
 
-        //发布按钮
-        function send_product () {
+        //保存到仓库
+        function save_ware () {
             var btn = $('#add_btn_y');
             btn.off('click').on('click', function () {
                 send_product_form(contextPath + "/api/product/create",0);
             });
         }
-        //保存到仓库
-        function save_ware () {
+        //发布按钮
+        function send_product () {
             var btn = $('#add_btn_n');
             btn.off('click').on('click', function () {
-                send_product_form(contextPath + "/api/product/updateAndPublish",1);
+                send_product_form(contextPath + "/api/product/createAndPublish",1);
             });
         }
 
@@ -630,6 +630,7 @@
                     success : function (res) {
                         //elem.loading.hide();
                         if (res.error_code == 0) {
+                            btn.data('type',type.number() + 1);
                             file_ids.push(res.file_id);
                             $alert('图片上传成功');
                             var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
@@ -639,39 +640,26 @@
                                 ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
                                 '             </div>\n' +
                                 '             </a>';
-                            if (type == '99') {
-                                btn.parents('.img_md_box').find('.head_photo').replaceWith(imgEle);
-                                $('#image_url').val(res.image_url);
-                                var parents = btn.parents('.img_md_box');
-                                var img = parents.find('.img_item');
-                                if (img.length >= 1) {
-                                    parents[0].viewer.destroy();
-                                }
-                                viewLargeImage(parents[0]);
-                                /*var viewer = new Viewer(parents[0], {
-                                    url: 'data-original',
-                                    interval : 2000,
-                                    loop : true
-                                });*/
-                            } else {
-                                btn.before(imgEle);
-                                /* 赋予新图片查看的实例属性 */
-                                var parents = btn.parents('.img_md_box');
-                                /*var count = parents.find('img').length;
-                                var newImgEle = parents.find('img').eq(count - 1)[0];
-                                parents[0].viewer.images.push(newImgEle);*/
-                                // 销毁父元素
-                                var img = parents.find('.img_item');
-                                if (img.length > 1) {
-                                    parents[0].viewer.destroy();
-                                }
-                                viewLargeImage(parents[0]);
-                                /*var viewer = new Viewer(parents[0], {
-                                    url: 'data-original',
-                                    interval : 2000,
-                                    loop : true
-                                });*/
+                            if (type == 4) {
+                                btn.hide();
                             }
+                            btn.before(imgEle);
+                            /* 赋予新图片查看的实例属性 */
+                            var parents = btn.parents('.img_md_box');
+                            /*var count = parents.find('img').length;
+                            var newImgEle = parents.find('img').eq(count - 1)[0];
+                            parents[0].viewer.images.push(newImgEle);*/
+                            // 销毁父元素
+                            var img = parents.find('.img_item');
+                            if (img.length > 1) {
+                                parents[0].viewer.destroy();
+                            }
+                            viewLargeImage(parents[0]);
+                            /*var viewer = new Viewer(parents[0], {
+                                url: 'data-original',
+                                interval : 2000,
+                                loop : true
+                            });*/
                         } else {
                             $alert('图片上传失败，请重试');
                         }
@@ -710,6 +698,12 @@
                                 }
                             }
                             $alert('图片删除成功', function () {
+                                var btn = $('.add_img_md_btn');
+                                var type = $.trim(btn.data('type'));
+                                btn.data('type',type.number() - 1);
+                                if (btn.data('type') == 4) {
+                                    btn.show();
+                                }
                                 // 获取父元素
                                 var parents = _this.parents('.img_md_box');
                                 // 销毁父元素的viewer实例
