@@ -1,62 +1,67 @@
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pages">
-    <ul class="pagesBox">
-            <c:if test="${totalPages > 1}">
-	            <c:if test="${currentPage > 1}">
-	                <a currentPage="${1}" limit="${limit}"><li class="inline cursor first"><span>首页</span></li></a>
-	                <a currentPage="${currentPage-1}" limit="${limit}"><li class="inline cursor forward"><span>上一页<div class="forwardIcon"></div></span></li></a>
-	            </c:if>
-	            <c:if test="${currentPage == 1}">
-	                <li class="inline cursor first pagesDisable"><span>首页</span></li>
-	                <li class="inline cursor forward pagesDisable"><span>上一页<div class="forwardIcon"></div></span></li>
-	            </c:if>
+<!-- Template of pagination -->
+{{#if (totalPages > 1) }}
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pages">
+		<ul class="pagesBox">
+			{{#if (currentPage > 1) }}
+				<a currentPage="1" limit="{{limit}}"><li class="inline cursor first"><span>首页</span></li></a>
+				<a currentPage="{{currentPage - 1}}" limit="{{limit}}"><li class="inline cursor forward"><span>上一页<div class="forwardIcon"></div></span></li></a>
+			{{/if}}
+			{{#if (currentPage === 1) }}
+				<li class="inline cursor first pagesDisable"><span>首页</span></li>
+				<li class="inline cursor forward pagesDisable"><span>上一页<div class="forwardIcon"></div></span></li>
+			{{/if}}
 
-	            <c:if test="${totalPages<= 10}">
-	                <c:forEach var="i" begin="1" end="${totalPages}" step="1">
-	                    <c:if test="${currentPage == i }">
-	                        <li class="inline cursor num pageActive"><span>${i}</span></li>
-	                    </c:if>
+			{{#if (totalPages <= 10) }}
+				{{set (end = totalPages) }}
+				{{#each(range(1,end+1))}}
+					{{#if(currentPage === this) }}
+						<li class="inline cursor num pageActive"><span>{{this}}</span></li>
+					{{/if}}
 
-	                    <c:if test="${currentPage!= i }">
-	                        <a href="javascript:void(0)" currentPage="${i}" limit="${limit}"><li class="inline cursor num">${i}</li></a>
-	                    </c:if>
-	                </c:forEach>
-	            </c:if>
+					{{#if(currentPage !== this )}}
+						<a href="javascript:void(0)" currentPage="{{this}}" limit="{{limit}}"><li class="inline cursor num">{{this}}</li></a>
+					{{/if}}
+				{{/each}}
+			{{/if}}
 
-	            <c:if test="${totalPages > 10}">
-	                <c:set var="pageEnd"
-	                       value="${(totalPages)<(currentPage +9)?(totalPages+1):(currentPage +9)}"
-	                       scope="page"/>
-	                <c:if test="${currentPage<=10}">
-	                	<c:forEach var="i" begin="1" end="10" step="1">
-		                    <c:if test="${currentPage == i }">
-		                        <li class="inline cursor num pageActive"><span>${i}</span></li>
-		                    </c:if>
+			{{#if (totalPages > 10) }}
+				{{#if (currentPage <= 10) }}
+					{{#each (range(1, 11)) }}
+						{{#if (currentPage === this) }}
+							<li class="inline cursor num pageActive"><span>{{this}}</span></li>
+						{{/if}}
+						{{#if (currentPage !== this) }}
+							<a href="javascript:void(0)" currentPage="{{this}}" limit="{{limit}}"><li class="inline cursor num">{{this}}</li></a>
+						{{/if}}
+					{{/each}}
+				{{/if}}
 
-		                    <c:if test="${currentPage != i }">
-		                        <a href="javascript:void(0)" currentPage="${i}" limit="${limit}"><li class="inline cursor num">${i}</li></a>
-		                    </c:if>
-		                </c:forEach>
-	                </c:if>
-	                <c:if test="${currentPage>10}">
-	                	<c:forEach var="i" begin="${(totalPages-currentPage)>(9)?(currentPage):(totalPages-9)}" end="${(totalPages-currentPage)>(9)?(currentPage+9):(totalPages)}" step="1">
-		                    <c:if test="${currentPage == i }">
-		                        <li class="inline cursor num pageActive"><span>${i}</span></li>
-		                    </c:if>
 
-		                    <c:if test="${currentPage != i }">
-		                        <a href="javascript:void(0)" currentPage="${i}" limit="${limit}"><li class="inline cursor num">${i}</li></a>
-		                    </c:if>
-		                </c:forEach>
-	                </c:if>
-	            </c:if>
-                <c:if test="${currentPage < totalPages}">
-                    <a currentPage="${currentPage+1}" limit="${limit}"> <li class="inline cursor next"><span>下一页<div class="nextIcon"></div></span></li></a>
-                    <a currentPage="${totalPages}" limit="${limit}"> <li class="inline cursor last"><span>尾页</span></li></a>
-                </c:if>
-                <c:if test="${currentPage == totalPages}">
-					<li class="inline cursor next pagesDisable"><span>下一页<div class="nextIcon"></div></span></li>
-					<li class="inline cursor last pagesDisable"><span>尾页</span></li>
-                </c:if>
-            </c:if>
-    </ul>
-</div>
+				{{#if (currentPage > 10) }}
+					{{set ( begin = (totalPages - currentPage) > 9 ? currentPage : (totalPages - 9), end = (totalPages - currentPage) > 9 ? (currentPage + 9) : totalPages ) }}
+					{{#each (range(begin, end + 1)) }}
+						{{#if (currentPage === this) }}
+							<li class="inline cursor num pageActive"><span>{{this}}</span></li>
+						{{/if}}
+
+						{{#if (currentPage !== this) }}
+							<a href="javascript:void(0)" currentPage="{{this}}" limit="{{limit}}"><li class="inline cursor num">{{this}}</li></a>
+						{{/if}}
+					{{/each}}
+				{{/if}}
+			{{/if}}
+
+
+			{{#if (currentPage < totalPages)}}
+				<a currentPage="{{currentPage}}" limit="{{limit}}"> <li class="inline cursor next"><span>下一页<div class="nextIcon"></div></span></li></a>
+				<a currentPage="{{totalPages}}" limit="{{limit}}"> <li class="inline cursor last"><span>尾页</span></li></a>
+			{{/if}}
+			{{#if (currentPage === totalPages)}}
+				<li class="inline cursor next pagesDisable"><span>下一页<div class="nextIcon"></div></span></li>
+				<li class="inline cursor last pagesDisable"><span>尾页</span></li>
+			{{/if}}
+		</ul>
+	</div>
+{{/if}}
+
+
