@@ -31,14 +31,14 @@
                 {{include ('./../inc/merchantInfos')}}
                 {{#if (verifyCode(1073)) }}
                 <div class="inviteP cursor inline delete_org delete_agency" id="delete_org" lang="{{vo.id}}">
-                    <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
+                    <img  style="margin-right:5px;margin-top:-2px;vertical-align: middle;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
                     <span>删除机构</span>
                 </div>
                 {{/if}}
             </div>
             <div class="tab">
                 <ul class="tab_list inline_block">
-                    <li class="tab_item type_normal {{#if (material_type === 0) }}active{{/if}}" data-type="0"><span></span>基本信息</li>
+                    <li class="tab_item type_normal {{#if (material_type === 0) }}active{{/if}}" data-type="0" {{#if (material_type === 0) }}style="border-left:0px;"{{/if}}><span></span>基本信息</li>
                     <li class="tab_item type_others {{#if (material_type === 1) }}active{{/if}}" data-type="1"><span></span>进件资料</li>
                     <li class="tab_item type_others {{#if (material_type === 2) }}active{{/if}}" data-type="2"><span></span>请款资料</li>
                     <li class="tab_item type_others {{#if (material_type === 3) }}active{{/if}}" data-type="3"><span></span>归档资料</li>
