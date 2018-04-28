@@ -127,7 +127,7 @@
                                 <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
                             </div>
                             <div class="column_val downpayment_add" style="margin-top: 10px;">
-                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;"/>
                                 <span>元</span>
                                 <span class="cursor downpayment_add_txt">添加</span>
                                 <span class="formError"></span>
@@ -139,7 +139,7 @@
                                 <span class="options_name"><span class="require_icon">*</span>费率：</span>
                             </div>
                             <div class="column_val rate_add" style="margin-top: 10px;">
-                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" name="interest_rate" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" maxlength="5" name="interest_rate" value="" onpaste="return false;" onkeyup="clearNoNum(this)"/>
                                 <span>%</span>
                                 <span class="cursor rate_add_txt">添加</span>
                                 <span class="formError"></span>
@@ -151,9 +151,9 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
                             </div>
                             <div class="column_val">
-                                <input type="text" class="form-control" placeholder="请输入最小金额" id="financeamount_start" name="financeamount_start" maxlength="7" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_start);" style="width:12%;"/>
+                                <input type="text" class="form-control" placeholder="请输入最小金额" id="financeamount_start" name="financeamount_start" maxlength="7" style="width:12%;" onpaste="return false;" onkeyup="clearNoNum3(this)"/>
                                 <span style="padding:0 8px;">-</span>
-                                <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="7" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_end);" style="width:12%;margin-right: 10px;"/>
+                                <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="7" style="width:12%;margin-right: 10px;" onpaste="return false;" onkeyup="clearNoNum3(this)"/>
                                 <span>万</span>
                                 <span class="formError"></span>
                             </div>
@@ -245,6 +245,7 @@
 <script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
+
         //获取融资期限val
         var rates_arr = [];
         function getRates () {

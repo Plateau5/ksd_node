@@ -73,6 +73,102 @@ $(function(){
         var error_txt = '请输入有效的系统地址';
         validate_form(0,$('#system_url'),reg,error_txt);
     });
+    $('#age_start').blur(function(){
+        var val1 = $(this).val();
+        var val2 = $('#age_end').val();
+        if(val1 == '' && val2 == ''){
+            $(this).parents('.option_item').find('.formError').html('');
+            $(this).css('border-color','#ccc');
+            return;
+        }
+        if(parseInt(val1) < 18){
+            $(this).parent().parent().find('.formError').html('年龄不能低于18岁');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        if(parseInt(val2) > 65){
+            $(this).parent().parent().find('.formError').html('年龄不能高于65岁');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        var reg = /^\d{1,2}$/;
+        var error_txt1 = '请输入正确的年龄数';
+        var error_txt2 = '请输入正确的年龄范围';
+        num_check($('#age_start'),$('#age_end'),reg,error_txt1,error_txt2);
+    });
+
+    $('#age_end').blur(function(){
+        var val1 = $(this).val();
+        var val2 = $('#age_start').val();
+        if(val1 == '' && val2 == ''){
+            $(this).parent().parent().find('.formError').html('');
+            $(this).css('border-color','#ccc');
+            return;
+        }
+        if(parseInt(val2) < 18){
+            $(this).parent().parent().find('.formError').html('年龄不能低于18岁');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        if(parseInt(val1) > 65){
+            $(this).parent().parent().find('.formError').html('年龄不能高于65岁');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        var reg = /^\d{1,2}$/;
+        var error_txt1 = '请输入正确的年龄数';
+        var error_txt2 = '请输入正确的年龄范围';
+        num_check($('#age_start'),$('#age_end'),reg,error_txt1,error_txt2);
+    });
+
+    $('#carage_start').blur(function(){
+        var val1 = $(this).val();
+        var val2 = $('#carage_end').val();
+        if(val1 == '' && val2 == ''){
+            $(this).parent().parent().find('.formError').html('');
+            $(this).css('border-color','#ccc');
+            return;
+        }
+        if(parseFloat(val1) < 0.5 || parseFloat(val2) < 0.5){
+            $(this).parent().parent().find('.formError').html('车龄不能低于0.5年');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        if(parseFloat(val1) > 15 ||parseFloat(val2) > 15){
+            $(this).parent().parent().find('.formError').html('车龄不能超过15年');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        var reg = /^[\d]+(\.\d)?$/;
+        var error_txt1 = '请输入正确的车龄数';
+        var error_txt2 = '请输入正确的车龄范围';
+        num_check($('#carage_start'),$('#carage_end'),reg,error_txt1,error_txt2);
+    });
+
+    $('#carage_end').blur(function(){
+        var val1 = $(this).val();
+        var val2 = $('#carage_start').val();
+        if(val1 == '' && val2 == ''){
+            $(this).parent().parent().find('.formError').html('');
+            $(this).css('border-color','#ccc');
+            return;
+        }
+        if(parseFloat(val1) < 0.5 || parseFloat(val2) < 0.5){
+            $(this).parent().parent().find('.formError').html('车龄不能低于0.5年');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        if(parseFloat(val1) > 15 || parseFloat(val2) > 15){
+            $(this).parent().parent().find('.formError').html('车龄不能超过15年');
+            $(this).css('border-color','#FB2741');
+            return;
+        }
+        var reg = /^[\d]+(\.\d)?$/;
+        var error_txt1 = '请输入正确的车龄数';
+        var error_txt2 = '请输入正确的车龄范围';
+        num_check($('#carage_start'),$('#carage_end'),reg,error_txt1,error_txt2);
+    });
+
 
     $('#mobile').blur(function(){
         var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
@@ -330,7 +426,33 @@ function getAdditionalProject () {
 }
 
 
-
+//起始—结束
+function num_check(obj1,obj2,reg,error_txt1,error_txt2){
+    var val1 = obj1.val();
+    if(val1 != ''){
+        if(!reg.test(val1)){
+            obj1.parent().parent().find('.formError').html(error_txt1);
+            obj1.css('border-color','#FB2741');
+            return;
+        }
+    }
+    var val2 = obj2.val();
+    if(val2 != ''){
+        if(!reg.test(val2)){
+            obj1.parent().parent().find('.formError').html(error_txt1);
+            obj2.css('border-color','#FB2741');
+            return;
+        }
+        if(parseInt(val1) >= parseInt(val2)){
+            obj1.parent().parent().find('.formError').html(error_txt2);
+            obj2.css('border-color','#FB2741');
+            return;
+        }
+    }
+    obj1.parent().parent().find('.formError').html('');
+    obj1.css('border-color','#ccc');
+    obj2.css('border-color','#ccc');
+}
 
 
 

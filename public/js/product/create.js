@@ -1,26 +1,6 @@
 
 $(function(){
 
-    // 所属机构
-    /*$('.radio_applyto_business').click(function(){
-        var url = contextPath + "/api/product/getOrganization";
-        var applyto_business = $(this).val();
-        $.ajax({
-            type: "post",
-            url: url,
-            dataType: "json",
-            data: {applyto_business: applyto_business},
-            async: false,
-            success: function (data) {
-                var inner = '<option value="-1">请选择</option>';
-                $.each(data.list, function (n, value) {
-                    inner += '<option value=' + value.id + '>' + value.name + '</option>';
-                });
-                $('#parent_id option').remove();
-                $('#parent_id').append(inner);
-            }
-        });
-    });*/
     //二手车的隐藏域
     var carage_form = $('.radio_applyto_business').eq(0).prop('checked');
     if(carage_form){
@@ -235,31 +215,12 @@ $(function(){
         // $('.rate_box').eq(0).css('marginLeft','-40px');
     });
 
-
-    //添加备注
-    // $('.add_txt').click(function(){
-    //     var remarks = $(this).parent().parent().find('.remarks_box').css('display');
-    //     if(remarks == 'block'){
-    //         return;
-    //     }
-    //     $(this).parent().parent().find('.remarks_box').css('display','block');
-    // });
-
     //表单校验
     $('#name').blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
         var error_txt = '产品名称不能包含特殊字符';
         validate_form(1,$('#name'),reg,error_txt);
     });
-
-    // $('input[type="radio"]').click(function(){
-    //     $(this).prop('checked',true);
-    //     $(this).parent().parent().parent().parent().find('.formError').html('');
-    // });
-
-    // $('.check_img').click(function(){
-    //     $(this).parent().parent().parent().parent().find('.formError').html('');
-    // });
 
     $('#financeamount_start').blur(function(){
         var reg = /^\d+(\.\d{1,2})?$/;
@@ -275,131 +236,37 @@ $(function(){
         num_check($('#financeamount_start'),$('#financeamount_end'),reg,error_txt1,error_txt2);
     });
 
-    // $('#age_start').blur(function(){
-    //     var val1 = $(this).val();
-    //     var val2 = $('#age_end').val();
-    //     if(val1 == '' && val2 == ''){
-    //         $(this).parent().parent().find('.formError').html('');
-    //         $(this).css('border-color','#ccc');
-    //         return;
-    //     }
-    //     if(parseInt(val1) < 18){
-    //         $(this).parent().parent().find('.formError').html('年龄不能低于18岁');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     if(parseInt(val2) > 65){
-    //         $(this).parent().parent().find('.formError').html('年龄不能高于65岁');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     var reg = /^\d{1,2}$/;
-    //     var error_txt1 = '请输入正确的年龄数';
-    //     var error_txt2 = '请输入正确的年龄范围';
-    //     num_check($('#age_start'),$('#age_end'),reg,error_txt1,error_txt2);
-    // });
-    //
-    // $('#age_end').blur(function(){
-    //     var val1 = $(this).val();
-    //     var val2 = $('#age_start').val();
-    //     if(val1 == '' && val2 == ''){
-    //         $(this).parent().parent().find('.formError').html('');
-    //         $(this).css('border-color','#ccc');
-    //         return;
-    //     }
-    //     if(parseInt(val2) < 18){
-    //         $(this).parent().parent().find('.formError').html('年龄不能低于18岁');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     if(parseInt(val1) > 65){
-    //         $(this).parent().parent().find('.formError').html('年龄不能高于65岁');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     var reg = /^\d{1,2}$/;
-    //     var error_txt1 = '请输入正确的年龄数';
-    //     var error_txt2 = '请输入正确的年龄范围';
-    //     num_check($('#age_start'),$('#age_end'),reg,error_txt1,error_txt2);
-    // });
-    //
-    // $('#carage_start').blur(function(){
-    //     var val1 = $(this).val();
-    //     var val2 = $('#carage_end').val();
-    //     if(val1 == '' && val2 == ''){
-    //         $(this).parent().parent().find('.formError').html('');
-    //         $(this).css('border-color','#ccc');
-    //         return;
-    //     }
-    //     if(parseFloat(val1) < 0.5 || parseFloat(val2) < 0.5){
-    //         $(this).parent().parent().find('.formError').html('车龄不能低于0.5年');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     if(parseFloat(val1) > 15 ||parseFloat(val2) > 15){
-    //         $(this).parent().parent().find('.formError').html('车龄不能超过15年');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     var reg = /^[\d]+(\.\d)?$/;
-    //     var error_txt1 = '请输入正确的车龄数';
-    //     var error_txt2 = '请输入正确的车龄范围';
-    //     num_check($('#carage_start'),$('#carage_end'),reg,error_txt1,error_txt2);
-    // });
-    //
-    // $('#carage_end').blur(function(){
-    //     var val1 = $(this).val();
-    //     var val2 = $('#carage_start').val();
-    //     if(val1 == '' && val2 == ''){
-    //         $(this).parent().parent().find('.formError').html('');
-    //         $(this).css('border-color','#ccc');
-    //         return;
-    //     }
-    //     if(parseFloat(val1) < 0.5 || parseFloat(val2) < 0.5){
-    //         $(this).parent().parent().find('.formError').html('车龄不能低于0.5年');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     if(parseFloat(val1) > 15 || parseFloat(val2) > 15){
-    //         $(this).parent().parent().find('.formError').html('车龄不能超过15年');
-    //         $(this).css('border-color','#FB2741');
-    //         return;
-    //     }
-    //     var reg = /^[\d]+(\.\d)?$/;
-    //     var error_txt1 = '请输入正确的车龄数';
-    //     var error_txt2 = '请输入正确的车龄范围';
-    //     num_check($('#carage_start'),$('#carage_end'),reg,error_txt1,error_txt2);
-    // });
-
-
 });
-
-//起始—结束
-function num_check(obj1,obj2,reg,error_txt1,error_txt2){
-    var val1 = obj1.val();
-    if(val1 != ''){
-        if(!reg.test(val1)){
-            obj1.parent().parent().find('.formError').html(error_txt1);
-            obj1.css('border-color','#FB2741');
-            return;
-        }
+//文本框校验
+//只可输入数字，两位整数，小数点后保留两位，超出不可输入
+function clearNoNum(obj){
+    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数
+    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+        obj.value= parseFloat(obj.value);
     }
-    var val2 = obj2.val();
-    if(val2 != ''){
-        if(!reg.test(val2)){
-            obj1.parent().parent().find('.formError').html(error_txt1);
-            obj2.css('border-color','#FB2741');
-            return;
-        }
-        if(parseInt(val1) >= parseInt(val2)){
-            obj1.parent().parent().find('.formError').html(error_txt2);
-            obj2.css('border-color','#FB2741');
-            return;
-        }
+    if(obj.value > 99.99){
+        obj.value = obj.value.slice(0,obj.value.length-1);
+        return;
     }
-    obj1.parent().parent().find('.formError').html('');
-    obj1.css('border-color','#ccc');
-    obj2.css('border-color','#ccc');
 }
+//只可输入数字，三位整数，小数点后保留三位，超出不可输入
+function clearNoNum3(obj){
+    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d\d).*$/,'$1$2.$3');//只能输入三个小数
+    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+        obj.value= parseFloat(obj.value);
+    }
+    if(obj.value > 999.99){
+        obj.value = obj.value.slice(0,obj.value.length-1);
+        return;
+    }
+}
+
+
 
 
