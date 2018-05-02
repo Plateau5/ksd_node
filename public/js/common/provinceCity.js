@@ -34,7 +34,7 @@ $('.province_confirm').off('click').on('click',function () {
     // var check_val = '';
     province_ul_li.each(function () {
        var _this = $(this);
-       if (_this.find('label').hasClass('checked')) {
+       if (_this.find('label').hasClass('checked') || _this.find('label').hasClass('part')) {
            var proid = _this.find('input').attr('id');
            pro_ids.push(proid);
            // if (check_pros == 0) {
@@ -60,7 +60,7 @@ $('.province_confirm').off('click').on('click',function () {
     });
     $('.select_city_ids').val(city_ids.join(','));
     $('.province_city_box').css('display','none');
-})
+});
 //省市复选框事件
 $('.province_ul_li label').on('click',function () {
     var _this = $(this);
