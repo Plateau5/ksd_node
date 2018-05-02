@@ -250,13 +250,13 @@
                         maxlength: 200
                     },
                     onConfirm: function (d) {
-                        onConfirmEvent(d, data);
+                        onConfirmEvent(d, data, url);
                     }
                 });
             });
         }
 
-        function onConfirmEvent (d, reqData) {
+        function onConfirmEvent (d, reqData, url) {
             //d.close();
             var unShelveReason = $("#dialog-layer #dialog-layer-textarea").val();
             if (unShelveReason == '' || unShelveReason == undefined || unShelveReason == null) {

@@ -45,9 +45,8 @@
                         <!--<img src="{{markUri}}/static/img/product/icon_shape_up.png" alt="" class="shape_img">-->
                         {{/if}}
                     </div>
-                    <div class="date_num1">
-                        <!--<span>{{downpayment_rate_first }}</span>-->
-                        {{#if (vo.downpayment_type === 1 || vo.downpayment_type === -1) }}
+                    {{#if (vo.downpayment_type === 1 || vo.downpayment_type === -1) }}
+                        <div class="date_num1" title="{{#each (downpayment_rate)}}{{#if (downpayment_rate.length === 1) }}{{this}}%{{else}}{{#if (xindex !== downpayment_rate.length-1) }}{{this}}%、{{else}}{{this}}%{{/if}}{{/if}}{{/each}}">
                             {{#each (downpayment_rate) }}
                                 {{#if (downpayment_rate.length === 1) }}
                                     <span class="date_num2">{{this}}%</span>
@@ -59,13 +58,15 @@
                                     {{/if}}
                                 {{/if}}
                             {{/each}}
-                        {{/if}}
-                        {{#if (vo.downpayment_type === 2) }}
+                        </div>
+                    {{/if}}
+                    {{#if (vo.downpayment_type === 2) }}
+                        <div class="date_num1">
                             {{#each (downpayment_rate) }}
                                 <span class="date_num2">{{this }}元</span>
                             {{/each}}
-                        {{/if}}
-                    </div>
+                        </div>
+                    {{/if}}
                 </div>
                 <div class="product_detail_date">
                     <div class="date_title">
