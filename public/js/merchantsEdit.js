@@ -787,8 +787,25 @@ function settingAddress () {
 
 
     });
-
-
+    // 根据城市名称获取城市id并进行比对
+    function getCityId(cityNameInfo) {
+        $.ajax({
+            type: "post",
+            url: "http://restapi.amap.com/v3/geocode/geo?parameters",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: {key: "c3725ac7a65da63d77cf1a18c6abe1cb", address: cityNameInfo},
+            async: false,
+            success: function (data) {
+                var cityCode = data.geocodes[0].citycode;// 通过api获取城市id
+                var htmlCode = $("#businesssCity option:selected").data("code");//获取后台传输的城市id
+                if (cityCode.indexOf(htmlCode) === -1) {
+                    $alert("详细地址与定位不匹配，请重新定位");
+                    return;
+                }
+            }
+        });
+    }
 
 
     // 联想结果的点击事件
@@ -806,6 +823,7 @@ function settingAddress () {
         var lat = _this.data('lat');
         var lng = _this.data('lng');
         var addrResult = _this.find('.addr_desc').text();
+        getCityId(addrResult);      // 获取城市id并进行比对
         addrElem.val(addrResult);   // 对地址输入进行赋值
         searchTarget.val(name);   // 搜索框赋值
         AMap.service('AMap.Geocoder',function(){//回调函数
