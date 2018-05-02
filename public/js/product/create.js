@@ -156,7 +156,7 @@ $(function(){
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
             var num = $('.rate_add input').val();
-            var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate" value="' + num + '"  style="width: 12%;padding-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+            var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate" value="' + num + '"  style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
             $('.rate_add').css('marginLeft',$('.column_name').width() + 'px');
             $('.rate_add').css('paddingLeft','30px');
             $('.rate_add').before(inner);
