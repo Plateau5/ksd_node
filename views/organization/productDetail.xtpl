@@ -82,7 +82,17 @@
                         <span>费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;率：</span>
                     </div>
                     <div class="date_num1">
-                        <span>{{interest_rate_first }}</span>
+                        {{#each (interest_rate) }}
+                            {{#if (interest_rate.length === 1) }}
+                                <span>{{this }}%</span>
+                            {{else}}
+                                {{#if (xindex !== interest_rate.length-1) }}
+                                    <span>{{this}}%、</span>
+                                {{else}}
+                                    <span>{{this}}%</span>
+                                {{/if}}
+                            {{/if}}
+                        {{/each}}
                     </div>
                 </div>
                 {{#if (interest_rate_size > 1) }}

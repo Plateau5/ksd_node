@@ -32,7 +32,7 @@
 
                 <form method="post" id="product_create">
                     <input type="hidden" name="id" value="{{vo.id}}">
-                    <input type="hidden" name="parent_id" value="{{vo.parent_id}}">
+                    <input type="hidden" name="parent_id" value="{{vo.parent_id}}" class="parent_id">
                     <input type="hidden" name="parent_name" value="{{vo.parent_name}}">
                     <div class="form_content form_options merchants_create">
                         <div class="option_item">
@@ -105,12 +105,14 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val">
+
                                 {{#each (list_city) }}
                                 <div class="radio">
                                     {{#if (vo.applyto_city === this.id) }}
-                                    <input id="applyto_city{{xindex}}" type="radio" name="applyto_city" value="{{this.id}}" checked="checked" >
+                                    <input type="hidden" class="have_city" value="{{this.id}}" name="city_ids">
+                                    <input id="applyto_city{{xindex}}" type="radio" name="have_city" value="{{this.id}}" checked="checked" >
                                     {{else}}
-                                    <input id="applyto_city{{xindex}}" type="radio" name="applyto_city" value="{{this.id}}" >
+                                    <input id="applyto_city{{xindex}}" type="radio" name="have_city" value="{{this.id}}" >
                                     {{/if}}
                                     <label for="applyto_city{{xindex}}">{{this.name}}</label>
                                 </div>
@@ -188,9 +190,9 @@
                             {{#if (downpayment_money_size >= 5) }}
                             <div class="column_val downpayment_add" style="margin-top: 10px;display: none;">
                             {{else}}
-                            <div class="column_val downpayment_add" style="margin-top: 10px;display: block;margin-left: 12%;">
+                            <div class="column_val downpayment_add" style="margin-top: 10px;display: block;margin-left: 12%;padding-left: 0px;">
                             {{/if}}
-                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="{{this}}" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" style="width:100px;" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
                                 <span>元</span>
                                 <span class="cursor downpayment_add_txt">添加</span>
                                 <span class="formError"></span>
@@ -215,7 +217,7 @@
                             {{else}}
                             <div class="column_val rate_add" style="margin-top: 10px;display: block;margin-left: 12%;padding-left: 0;">
                             {{/if}}
-                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" name="interest_rate" value="" style="padding-right: 12px;" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" maxlength="5" name="interest_rate" value="" onpaste="return false;" onkeyup="clearNoNum(this)"/>
                                 <span>%</span>
                                 <span class="cursor rate_add_txt">添加</span>
                                 <span class="formError"></span>
@@ -227,9 +229,9 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
                             </div>
                             <div class="column_val">
-                                <input type="text" class="form-control" placeholder="请输入最小金额" id="financeamount_start" value="{{vo.financeamount_start }}" name="financeamount_start" maxlength="7" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_start);" style="width:12%;"/>
+                                <input type="text" class="form-control" placeholder="请输入最小金额" id="financeamount_start" name="financeamount_start" maxlength="7" style="width:12%;" onpaste="return false;" onkeyup="clearNoNum3(this)"/>
                                 <span style="padding:0 8px;">-</span>
-                                <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" value="{{vo.financeamount_end }}" name="financeamount_end"  maxlength="7" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_end);" style="width:12%;margin-right: 10px;"/>
+                                <input type="text" class="form-control" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="7" style="width:12%;margin-right: 10px;" onpaste="return false;" onkeyup="clearNoNum3(this)"/>
                                 <span>万</span>
                                 <span class="formError"></span>
                             </div>
@@ -275,21 +277,21 @@
                         </div>
                         <div class="option_item">
                             <div class="column_name">
-                                <span class="options_name"></span>
+                                <span class="options_name">上传图片：</span>
                             </div>
                             <div class="column_val">
-                                <div class="img_md_box file_upload">
+                                <div class="img_md_box file_upload" style="padding-left: 0px;">
                                     <input type="hidden" class="file_ids" name="file_ids">
-                                    {{#each (vo.file_list) }}
+                                    {{#each (fileList) }}
                                     <a href="javascript:;" class="img_item">
-                                        <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail}}">
+                                        <img data-original="{{this.url}}" alt="{{this.file_name}}" src="{{this.thumbnail_160_100}}">
                                         <div class="img_md_operate_box">
                                             <em class="img_md_operate_btn view" data-url="{{this.url}}" title="查看"></em>
                                             <em class="img_md_operate_btn delete" data-id="{{this.file_id}}" title="删除"></em>
                                         </div>
                                     </a>
                                     {{/each}}
-                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0"></a>
+                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
                                     <input type="file" class="file_upload_btn"   value="上传图片" style="display: none" />
                                 </div>
                             </div>
@@ -349,9 +351,16 @@
 
         //选择城市
         function selectCity () {
-            var btn = $('.select_city_input');
-            btn.off('click').on('click', function () {
-                $( ".province_city_box" ).css('display','block');
+            var select_citys = $('#applyto_city');
+            select_citys.find('.radio').each(function () {
+                var _this = $(this);
+                _this.find('input').on('click', function () {
+                    var _cur = $(this);
+                    if (_cur[0].checked == true) {
+                        $('.have_city').val(_cur.val());
+                    }
+                });
+
             });
         }
 
@@ -409,17 +418,15 @@
             } else {
                 $('#applyto_business').find('.formError').html('');
             }
-            //适用城市
-            var select_citys = $('#applyto_city')
-                $('.select_city_input').val();
-            if (select_citys == '') {
-                $('#applyto_city').find('.formError').html('请选择适用城市');
-                add_btn_y.attr('disabled',false);
-                add_btn_n.attr('disabled',false);
-                return;
-            } else {
-                $('#applyto_city').find('.formError').html('');
-            }
+
+            // if (select_citys == '') {
+            //     $('#applyto_city').find('.formError').html('请选择适用城市');
+            //     add_btn_y.attr('disabled',false);
+            //     add_btn_n.attr('disabled',false);
+            //     return;
+            // } else {
+            //     $('#applyto_city').find('.formError').html('');
+            // }
 
             var rate_val = [];
             var check = $('.downpayment_rate .check');
@@ -569,7 +576,7 @@
                                     parent_id : parent_id
                                 }
                             });
-                        })
+                        });
                     } else {
                         $alert(res.error_msg, function () {
                             send_product();

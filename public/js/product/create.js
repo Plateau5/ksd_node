@@ -142,7 +142,7 @@ $(function(){
         // $('.downpayment_box').eq(0).css('marginLeft','-40px');
     });
 
-    //添加年利率
+    //添加费率
     var rate_arr = [];
     $('.rate_add_txt').click(function(){
         var num = $('.rate_add input').val();
@@ -150,11 +150,13 @@ $(function(){
             //添加当前为空时状态的提示信息
             $('.rate_add').find("input").focus().end().parent().find(".formError").text("请先输入当前费率");
             return;
+        } else {
+            $('.rate_add').find("input").focus().end().parent().find(".formError").text("");
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
             var num = $('.rate_add input').val();
-            var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate_date" value="' + num + '"  style="width: 12%;padding-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+            var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate" value="' + num + '"  style="width: 12%;padding-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
             $('.rate_add').css('marginLeft',$('.column_name').width() + 'px');
             $('.rate_add').css('paddingLeft','30px');
             $('.rate_add').before(inner);
@@ -267,6 +269,34 @@ function clearNoNum3(obj){
     }
 }
 
+
+//起始—结束
+function num_check(obj1,obj2,reg,error_txt1,error_txt2){
+    var val1 = obj1.val();
+    if(val1 != ''){
+        if(!reg.test(val1)){
+            obj1.parent().parent().find('.formError').html(error_txt1);
+            obj1.css('border-color','#FB2741');
+            return;
+        }
+    }
+    var val2 = obj2.val();
+    if(val2 != ''){
+        if(!reg.test(val2)){
+            obj1.parent().parent().find('.formError').html(error_txt1);
+            obj2.css('border-color','#FB2741');
+            return;
+        }
+        if(parseInt(val1) >= parseInt(val2)){
+            obj1.parent().parent().find('.formError').html(error_txt2);
+            obj2.css('border-color','#FB2741');
+            return;
+        }
+    }
+    obj1.parent().parent().find('.formError').html('');
+    obj1.css('border-color','#ccc');
+    obj2.css('border-color','#ccc');
+}
 
 
 
