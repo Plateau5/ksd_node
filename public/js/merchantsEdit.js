@@ -745,7 +745,7 @@ function settingAddress () {
                         listBox.html(noDataEle).show();
                     }
 
-                } else if (status == 'error') {noDataEle
+                } else if (status == 'error') {
                     // $alert('获取数据失败');
                     mapBox.hide();
                     listBox.html(noDataEle).show();
