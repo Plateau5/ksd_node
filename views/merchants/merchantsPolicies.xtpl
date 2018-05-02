@@ -89,7 +89,7 @@
                             <thead>
                             <tr>
                                 <th>融资期限</th>
-                                <th>利率</th>
+                                <th>费率</th>
                                 <th>万元系数</th>
                                 <th>返点规则</th>
                                 <th>生效时间</th>
@@ -321,7 +321,7 @@
                         if (policiesList[i].rebate_way === 1) {     // 固定金额
                             rule = '固定金额：' + policiesList[i].rebate_money + '元';
                         } else if (policiesList[i].rebate_way === 2) {      // 超额返比例
-                            rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
+                            rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money + '%';
                         } else if (policiesList[i].rebate_way === 3) {      // 超额返金额
                             rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
                         } else if (policiesList[i].rebate_way === 4) {      // 返比例
@@ -336,7 +336,7 @@
 
                         policiesStr += '<tr>\n' +
                             '                                    <td>'+ policiesList[i].rebate_period +'</td>\n' +
-                            '                                    <td>'+ policiesList[i].rate +'</td>\n' +
+                            '                                    <td>'+ policiesList[i].rate +'%</td>\n' +
                             '                                    <td>'+ policiesList[i].millionCoefficient +'</td>\n' +
                             '                                    <td title="'+ policiesList[i].rule +'">'+ policiesList[i].rule +'</td>\n' +
                             '                                    <td>'+ policiesList[i].effective_time +'</td>\n' +

@@ -128,7 +128,7 @@ function getMessagesInfo(selector) {
 						// $(".message_tip").hide().find(".count").text("");
 					}*/
 				//}
-			} else if (data.error_code == 800||data.error_code == 1000) {
+			} else if (data.error_code == 800||data.error_code == 1000 || data.error_code == 802|| data.error_code == 804) {
 				alert("登录失效，请重新登录");
 				window.location.href = contextPath + "/login/logout";
 			} else {
@@ -375,3 +375,24 @@ function viewLargeImage (selector) {
         }
     });
 }
+Array.prototype.indexOf = function(val) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == val) return i;
+    }
+    return -1;
+};
+Array.prototype.remove = function(val) {
+    var index = this.indexOf(val);
+    if (index > -1) {
+        this.splice(index, 1);
+    }
+};
+String.prototype.number = function () {
+    return Number(this);
+};
+String.prototype.trim = function () {
+    return $.trim(this);
+};
+Number.prototype.number = function() {
+    return Number(this);
+};

@@ -64,7 +64,7 @@ fieldset,
   margin: 0;
   padding: 0;
   word-wrap: break-word;
-  font-family: verdana, Microsoft YaHei, Tahoma, sans-serif;
+  font-family: Microsoft YaHei, Tahoma, sans-serif;
   *font-family: Microsoft YaHei, verdana, Tahoma, sans-serif;
 }
 body,
@@ -983,6 +983,7 @@ table.normal td {
   width: 1020px;
 }
 .main {
+  position: relative;
   padding-bottom: 50px;
 }
 .main .title {
@@ -2858,3 +2859,89 @@ textarea {
   background: rgba(255, 0, 0, 0.6);
 }
 /***** toast提示 End ******/
+/***** 商户详细内容弹出层 Start ******/
+.pop {
+  display: none;
+  z-index: 100;
+  position: absolute;
+  top: 58px;
+  left: 58px;
+  width: 392px;
+  padding: 20px;
+  /*margin-bottom: 100px;*/
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 0 5px 1px #e4e4e4;
+  -moz-box-shadow: 0 0 5px 1px #e4e4e4;
+  box-shadow: 0 0 5px 1px #e4e4e4;
+}
+.pop:after {
+  display: block;
+  z-index: 90;
+  position: absolute;
+  top: -13px;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 12px;
+  background: #FFFFFF;
+}
+.pop .pop_title {
+  font-size: 20px;
+  color: #333333;
+}
+.pop .pop_remark {
+  padding-top: 4px;
+  color: #1dc6bc;
+}
+.pop .pop_row {
+  float: left;
+  width: 50%;
+  height: 32px;
+  line-height: 32px;
+}
+.pop .pop_row .pop_name {
+  display: inline-block;
+  width: 40%;
+  color: #666;
+  vertical-align: top;
+}
+.pop .pop_row .pop_value {
+  display: inline-block;
+  width: 50%;
+  padding: 0 1%;
+  color: #333;
+  vertical-align: top;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pop .pop_img_detail {
+  padding: 27px 0 30px 0;
+}
+.pop .pop_img_detail .pop_item {
+  float: left;
+  width: 32%;
+}
+.pop .pop_img_detail .pop_img {
+  width: 120px;
+  height: 90px;
+  overflow: hidden;
+}
+.pop .pop_img_detail .pop_img img {
+  max-width: 100%;
+}
+.pop_img_text {
+  width: 100%;
+  line-height: 40px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/***** 商户详细内容弹出层 End ******/

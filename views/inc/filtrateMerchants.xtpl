@@ -21,14 +21,14 @@
                 {{/if}}
             </select>
         </div>
-        {{#if (cityList && cityList.length > 1) }}
+        {{#if (cityList && cityList.length > 0) }}
         <div class="filtrate_item select_item inline_block">
             <div class="conditions_name inline_block" style="vertical-align: top;">城市：</div>
             <select name="city_id"  class="filtrate_select city_select" id="cityeSelect">
                 <option value="">全部</option>
                 {{#each (cityList) }}
                     {{#if (this.id === city_id) }}
-                        <option value="{{this.id}}" selected="selected">{{this.name}}</option>
+                       <option value="{{this.id}}" selected="selected">{{this.name}}</option>
                     {{else}}
                         <option value="{{this.id}}">{{this.name}}</option>
                     {{/if}}
@@ -36,6 +36,7 @@
             </select>
         </div>
         {{/if}}
+        {{#if (startWith(markUri + '/merchants/'))   }}
         <div class="filtrate_item select_item inline_block">
             <div class="conditions_name inline_block" style="vertical-align: top;">状态：</div>
             <select name="status"  class="filtrate_select merchants_state" id="merchantsState">
@@ -78,7 +79,41 @@
                 {{/each}}
             </select>
         </div>
-
+        {{/if}}
+        {{#if (startWith(markUri + '/loan')) }}
+        <div class="filtrate_item select_item  inline_block">
+            <div class="conditions_name inline_block">结算方式：</div>
+            <select name="settlement_type" class="filtrate_select" id="settlementType">
+                <option value="">全部</option>
+                {{#if (settlement_type === 1) }}
+                <option selected value="1">单结</option>
+                {{else}}
+                <option value="1">单结</option>
+                {{/if}}
+                {{#if (settlement_type === 2) }}
+                <option selected value="2">月结</option>
+                {{else}}
+                <option value="2">月结</option>
+                {{/if}}
+            </select>
+        </div>
+        <div class="filtrate_item select_item  inline_block">
+            <div class="conditions_name inline_block">款项类型：</div>
+            <select name="receipt_type" class="filtrate_select" id="receipt_type">
+                <option value="">全部</option>
+                {{#if (receipt_type === 1) }}
+                <option selected value="1">车款</option>
+                {{else}}
+                <option value="1">车款</option>
+                {{/if}}
+                {{#if (receipt_type === 2) }}
+                <option selected value="2">其他款项</option>
+                {{else}}
+                <option value="2">其他款项</option>
+                {{/if}}
+            </select>
+        </div>
+        {{/if}}
         <div class="filtrate_item first_letter_conditions">
             <div class="conditions_name  inline_block lf">商户名称：</div>
             <div class="filtrate_box  inline_block">

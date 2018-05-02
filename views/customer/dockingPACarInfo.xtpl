@@ -37,6 +37,7 @@
                         <input type="hidden" id="nodeUrl" value="{{nodeUrl}}">
                         <input type="hidden" id="userName" value="{{userName}}">
                         <input type="hidden" id="preCode" value="{{preCode}}">
+                        <input type="hidden" id="carType" name="car_type" value="{{reqParams.car_type}}">
                         <!-- 车辆基本信息 Begin -->
                         <div class="options_title">车辆信息</div>
                         <div class="option_item">
@@ -154,6 +155,26 @@
                                 </select>
                             </div>
                         </div>
+                        {{#if (reqParams.car_type === '1') }}
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">车架号：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" id="carVin" class="required" data-tips="车架号不能为空" maxlength="17" name="vin" value="{{carInfo.vin}}" placeholder="请输入17位车架号" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        <!--<div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">车牌号码：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" data-tips="车牌号码不能为空" maxlength="9" name="carColor" value="{{carInfo.plate_num}}" placeholder="请输入颜色，比如：黑色" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            </div>
+                        </div>-->
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">颜色：</span>
@@ -163,6 +184,7 @@
                                 <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             </div>
                         </div>
+                        {{#if (reqParams.car_type === '0') }}
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">品牌指导价：</span>
@@ -172,6 +194,7 @@
                                 <span class="value_text"><span class="value">{{carInfo.price}}</span><span>元</span></span>
                             </div>
                         </div>
+                        {{/if}}
                         <!--<div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">是否进口：</span>
@@ -323,9 +346,13 @@
                                     <option value="">请选择</option>
                                     {{#each (productData) }}
                                         {{#if (this.ID === carInfo.productId) }}
-                                            <option data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}" selected>{{this.NAME}}</option>
+                                            <option type="{{this.TYPE}}" data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}" selected>{{this.NAME}}</option>
                                         {{else}}
-                                            <option data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}">{{this.NAME}}</option>
+                                            {{#if (this.TYPE === 1 && !carInfo.is_can) }}
+                                                <option type="{{this.TYPE}}" style="display: none;" data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}">{{this.NAME}}</option>
+                                            {{else}}
+                                                <option type="{{this.TYPE}}" data-product_id="{{this.ID}}" data-product_number="{{this.PRODUCTID}}" value="{{this.NAME}}" data-price="{{this.INTERESTRATE}}">{{this.NAME}}</option>
+                                            {{/if}}
                                         {{/if}}
                                     {{/each}}
                                 </select>
@@ -565,6 +592,7 @@
 </html>
 <script>
     const ISCARINFO = true;
+    var carType = $('#carType').val().trim();
     /**
      * 验证融资金额及首付比例是否合法。
      * @desc :  【注：打包时最小首付比例 A = 20%，未打包时最小首付比例 A = 10%】
@@ -594,10 +622,29 @@
         // 根据是否打包约定最小首付比例
         if (isWrap === 1) {
             minimumFirstScale = 20;
+            //  安心融346-A（新一证） || 安心融346-A（新两证）16
+            if (productId == 15 || productId == 16) {
+                minimumFirstScale = 30;
+            }
         } else if (isWrap === 2) {
             minimumFirstScale = 10;
+            if (productId == 15 || productId == 16) {
+                minimumFirstScale = 20;
+            }
         }
-        if (productId == 2 || productId == 5 || productId == 8 || productId == 11) {       // 【新车定制】C1-328 、【极致进店】329  【极致定制】新车融330-A 【极致进店】新车融330-A
+        // 产品为14 安心融346-A、【20%首付】安心融346-A（新一证）17
+
+        if (productId == 14 || productId == 17) {
+            minimumFirstScale = 20;
+        }
+
+        // 【12万】安心融346-A（新一证）18
+        if (productId == 18) {
+            minimumFirstScale = 30;
+        }
+
+
+        if (productId == 2 || productId == 5 || productId == 8 || productId == 11  || productId == 14) {       // 【新车定制】C1-328 、【极致进店】329  【极致定制】新车融330-A 【极致进店】新车融330-A、安心融346-A
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;
@@ -632,7 +679,7 @@
                 $alert('【融资金额】不能高于150000元。');
                 return false;
             }
-        } else if (productId == 4 || productId == 7 || productId == 10 || productId == 13) {    // 【新车定制】C1-328（新两证）、【极致进店】329（新两证）、【极致定制】新车融330-A（新两证）、【极致进店】新车融330-A（新两证）
+        } else if (productId == 4 || productId == 7 || productId == 10 || productId == 13 || productId == 16 || productId == 21) {    // 【新车定制】C1-328（新两证）、【极致进店】329（新两证）、【极致定制】新车融330-A（新两证）、【极致进店】新车融330-A（新两证）、安心融346-A（新两证）、【LCV】新车融329-A（新两证）
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;
@@ -655,7 +702,63 @@
                 $alert('【融资金额】不能高于200000元。');
                 return false;
             }
+        } else if (productId == 15 || productId == 17  || productId == 20) {    // 安心融346-A（新一证）、【20%首付】安心融346-A（新一证）、【LCV】新车融329-A（新一证）
+            if (financeAmount < 20000) {
+                $alert('【融资金额】不能低于20000元。');
+                return false;
+            } else if (financeAmount >= 20000 && financeAmount <= 100000) {
+                if (firstScale < minimumFirstScale) {
+                    $alert('【首付比例】不能低于'+ minimumFirstScale +'%。');
+                    return false;
+                }
+            } else if (financeAmount > 100000 && financeAmount <= 120000) {
+                if (firstScale < 40) {
+                    $alert('【首付比例】不能低于40%。');
+                    return false;
+                }
+            } else if (financeAmount > 120000 && financeAmount <= 150000) {
+                if (firstScale < 50) {
+                    $alert('【首付比例】不能低于50%。');
+                    return false;
+                }
+            } else if (financeAmount > 150000) {
+                $alert('【融资金额】不能高于150000元。');
+                return false;
+            }
+        } else if (productId == 18) {    // 【12万】安心融346-A（新一证）
+            if (financeAmount < 20000) {
+                $alert('【融资金额】不能低于20000元。');
+                return false;
+            } else if (financeAmount >= 20000 && financeAmount <= 120000) {
+                if (firstScale < minimumFirstScale) {
+                    $alert('【首付比例】不能低于'+ minimumFirstScale +'%。');
+                    return false;
+                }
+            } else if (financeAmount > 120000 && financeAmount <= 150000) {
+                if (firstScale < 50) {
+                    $alert('【首付比例】不能低于50%。');
+                    return false;
+                }
+            } else if (financeAmount > 150000) {
+                $alert('【融资金额】不能高于150000元。');
+                return false;
+            }
+        } else if (productId == 19) {   // 【LCV】新车融329-A
+            if (financeAmount < 20000) {
+                $alert('【融资金额】不能低于20000元。');
+                return false;
+            } else if (financeAmount > 300000) {
+                $alert('【融资金额】不能高于300000元。');
+                return false;
+            }
+            if (firstScale < minimumFirstScale) {
+                $alert('【首付比例】不能低于'+ minimumFirstScale +'%。');
+                return false;
+            }
         }
+
+
+
         if (firstScale > 100) {
             $alert('【首付比例】不能高于100%。');
             return false;
@@ -741,10 +844,11 @@
                     $alert('请先选择年份后再选择车型。');
                     return false;
                 }*/
+                var v;
                 if (_this.hasClass('car_year')) {
-                    var v = $('#carSeries').find('option:selected').val().trim();     // 当前元素的选中值
+                    v = $('#carSeries').find('option:selected').val().trim();     // 当前元素的选中值
                 } else {
-                    var v = _this.find('option:selected').val().trim();     // 当前元素的选中值
+                    v = _this.find('option:selected').val().trim();     // 当前元素的选中值
                 }
                 var parent_id = v;
                 param.query_type = queryType;
@@ -758,7 +862,9 @@
                 }else if (_this.hasClass('car_model')) {
                     var price = _this.find('option:selected').data('price');
                     (price == '' || price == undefined || price == null) && (price = 0);
-                    priceELe.val(price).siblings('.value_text').find('.value').text(price);
+                    if (carType == 0) {
+                        priceELe.val(price).siblings('.value_text').find('.value').text(price);
+                    }
                     pawnValue.val(price);
                     // 设置首付金额
                     var firstPay = price * 20 / 100;
@@ -807,7 +913,7 @@
                 var firstScaleV = firstScale.val().trim().number();
                 if (v === 1) {
                     if (firstScaleV < 20) {
-                        firstPay.siblings('.tips_info').show().find('.tips_text').text('首付比例不能低于20%。');
+//                        firstPay.siblings('.tips_info').show().find('.tips_text').text('首付比例不能低于20%。');
                         firstPay.attr('verify', 0);
                     } else {
                         firstPay.css({
@@ -818,7 +924,7 @@
                     calcfinanceAmount(true);
                 } else if (v === 2) {
                     if (firstScaleV < 10) {
-                        firstPay.siblings('.tips_info').show().find('.tips_text').text('首付比例不能低于10%。');
+//                        firstPay.siblings('.tips_info').show().find('.tips_text').text('首付比例不能低于10%。');
                         firstPay.attr('verify', 0);
                     } else {
                         firstPay.css({
@@ -873,7 +979,7 @@
                 if (oldValue == 0) {
                     _this.val('');
                 }
-                var isWrap = $('input[name="isWrap"]:checked').val();
+                /*var isWrap = $('input[name="isWrap"]:checked').val();
                 var minFirstScale = isWrap == 1 ? 20 : 10;
                 if ((oldValue * 100 / pawnValue) < minFirstScale) {
                     _this.siblings('.tips_info').show().find('.tips_text').text('首付比例不能低于'+ minFirstScale +'%。');
@@ -883,7 +989,7 @@
                     // firstPayScale = firstPayScale;
                     _this.siblings('.tips_info').hide().find('.tips_text').text('');
                     _this.attr('verify', 1);
-                }
+                }*/
 
             });
             firstPayAmountE.on('input', function () {
@@ -902,12 +1008,12 @@
                             return false;
                         }
                         var firstPayScale = (newValue * 100 / pawnValue).toFixed(2);
-                        /*var index = firstPayScale.toString().indexOf('.');
-                        alert(index);*/
-                        var isWrap = $('input[name="isWrap"]:checked').val();
-                        var minFirstScale = isWrap == 1 ? 20 : 10;
                         firstPayScaleE.val(firstPayScale);
                         calcfinanceAmount();
+                        /*var index = firstPayScale.toString().indexOf('.');
+                        alert(index);*/
+                        /*var isWrap = $('input[name="isWrap"]:checked').val();
+                        var minFirstScale = isWrap == 1 ? 20 : 10;
                         if (firstPayScale < minFirstScale) {
                             _this.siblings('.tips_info').show().find('.tips_text').text('首付比例不能低于'+ minFirstScale +'%。');
                             _this.attr('verify', 0);
@@ -916,7 +1022,7 @@
                             // firstPayScale = firstPayScale;
                             _this.siblings('.tips_info').hide()
                             _this.attr('verify', 1);
-                        }
+                        }*/
 
                     }
                 }
@@ -1016,7 +1122,8 @@
             // 融资金额 = 项目金额 - 首付金额 + 附加融资额
             financeAmount = (projectAmount - firstPayAmount + attachFinance).toFixed(2);
             // 净融资额 = 首付金额 - 保证金 - 服务费
-            netFinancingAmount = (firstPayAmount - cautionMoney - serviceCharge).toFixed(2);
+            // 净融资金额= 项目金额 - 首付金额 - 保证金 - 服务费（有调整）
+            netFinancingAmount = (projectAmount - firstPayAmount - cautionMoney - serviceCharge).toFixed(2);
             // 首付比例 = 首付金额 / 车辆实际价格
             // firstPayScale = firstPayAmount / pawnValue;
 
@@ -1096,6 +1203,78 @@
             });
         }
 
+        /**
+         * 校验是否可以选择LCV产品
+         * @author Arley Joe 2018年4月17日16:17:19
+         * @desc   根据所选择的车型显示或隐藏LCV产品。唯有新车的LCV车型可以选择LCV产品。
+         *         产品中附带参数type，type值为1时为LCV车型产品。
+         */
+        function checkIsLCV () {
+            var carModel = $('#carModel');      // 车型下拉选择元素
+            var carSeries = $('#carSeries');        // 车系下拉选择元素
+            var carBrand = $('#brand');        // 品牌下拉选择元素
+            var carYear = $('#carYear');        // 年份
+            carYear.on('change', function () {
+                showOrHideLCV(false);       // 显示隐藏元素
+            });
+            carSeries.on('change', function () {
+                showOrHideLCV(false);       // 显示隐藏元素
+            });
+            carBrand.on('change', function () {
+                showOrHideLCV(false);       // 显示隐藏元素
+            });
+            carModel.on('change', function () {
+                var _this = $(this);
+                var val = _this.find('option:selected').val().trim();
+                var isCan = _this.find('option:selected').data('is_can');
+                if (isCan) {
+                    showOrHideLCV(true);       // 显示隐藏元素
+                } else {
+                    if (val) {
+                        var data = {};
+                        data.model_id = val;       // 车型id
+                        data.series_id  = carSeries.find('option:selected').val().trim();       // 车系ID
+                        data.brand_id = carBrand.find('option:selected').val().trim();
+                        var isCan = checkLCVEvent(data);        // 获取校验结果
+                        showOrHideLCV(isCan);       // 显示隐藏元素
+                    } else {
+                        showOrHideLCV(false);       // 显示隐藏元素
+                    }
+                }
+            });
+            // 请求校验是否可以做LCV产品
+            function checkLCVEvent (data) {
+                var result = null;
+                redefineAjax({
+                    url : contextPath + '/api/pingan/validate/model',
+                    data : data,
+                    async : false,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            result = res.is_can;
+                        } else {
+                            result = 0;
+                        }
+                    },
+                    error : function () {
+                        result = 0;
+                    }
+                });
+                return result;
+            }
+            // 显示或是隐藏LCV产品
+            function showOrHideLCV (isCan) {
+                var product = $('#productName');        // 产品下拉元素
+                if (isCan) {
+                    product.find('option[type="1"]').show();       // type为1时为LCV产品
+                } else {
+                    product.find('option[type="1"]').hide();       // type为1时为LCV产品
+                }
+            }
+        }
+
+
+
 
 
 
@@ -1108,6 +1287,8 @@
             validateBlurEmpty();    // 输入框非空校验
             showRepaymentPlan();    // 显示还款计划表
 
+
+
             autoCalcRepaymentTbale();       // 自动计算还款计划表
             isBale();       // 是否打包切换
             accountChange();    // 车辆价格等金额发生变化监听
@@ -1117,6 +1298,12 @@
 
             verifyPhone('.phone');      // 手机号码校验
             bindSubmitEvent();      // 提交
+
+            checkVin();     // 校验车架号
+            // 只有新车LCV做校验
+            if (carType == 0) {
+                checkIsLCV();       // 校验是否可以选择LCV车型
+            }
 
         });
     })(jQuery,undefined);

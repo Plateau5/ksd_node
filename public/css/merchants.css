@@ -45,7 +45,7 @@
   line-height: 50px;
 }
 .merchants table.normal tr:hover {
-  background: #f5f5f5;
+  background: #f0fffe;
   cursor: pointer;
 }
 .merchants table.normal .no_data:hover {
@@ -947,4 +947,366 @@
 .business_result .no_business_info .tip_info {
   height: 60px;
   line-height: 60px;
+}
+/*放款管理-打款结算*/
+.loan_order_container .merchants_load {
+  position: relative;
+  padding: 27px 0 19px 0;
+  line-height: 26px;
+}
+.loan_order_container .merchant_name_label {
+  display: inline-block;
+  float: left;
+  color: #666;
+}
+.loan_order_container .merchant_name {
+  color: #333;
+}
+.loan_order_container .merchant_name .slidedown_arrow {
+  display: inline-block;
+  margin-left: 4px;
+  margin-top: -2px;
+  width: 18px;
+  height: 10px;
+  background: url("../img/slidedown_down_icon.png") no-repeat;
+  background-size: 100% 100%;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.loan_order_container .merchant_name .slidedown_arrow:hover {
+  background: url("../img/slidedown_up_icon.png") no-repeat;
+  background-size: 100% 100%;
+}
+.loan_order_container .merchant_name .hide_box .pop {
+  display: block;
+}
+.loan_order_container .merchant_name .slidedown_up_arrow {
+  background: url("../img/slidedown_up_icon.png") no-repeat;
+}
+.loan_order_container .account_item .account_list .account_list_line .account_list_name {
+  padding-top: 17px;
+}
+.loan_order_container .loan_checkbox {
+  display: none;
+}
+.loan_order_container .account_row {
+  position: relative;
+  float: left;
+  width: 33.33%;
+  line-height: 26px;
+}
+.loan_order_container .account_row .account_name {
+  float: left;
+  width: 18%;
+  color: #666;
+}
+.loan_order_container .account_row .account_value {
+  float: left;
+  margin-left: 5px;
+  width: 72%;
+  /*overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;*/
+}
+.loan_order_container .pop_line {
+  padding: 10px 0;
+  border-bottom: 1px solid #e4e4e4;
+}
+.loan_order_container .pop_line:last-child {
+  border-bottom: none;
+}
+.loan_order_container .account_list_name .drop_down {
+  margin: 0 20px;
+  color: #1DC6BC;
+  cursor: pointer;
+}
+.loan_order_container .order_list .loan_time {
+  padding: 18px 0 8px 0;
+  color: #999;
+}
+.loan_order_container .order_list .batch_btn {
+  float: right;
+  color: #1DC6BC;
+}
+.loan_order_container .order_list .print_btn {
+  color: #1dc6bc;
+}
+.loan_order_container .order_list .print_btn:hover {
+  color: #0b9c94;
+}
+.loan_order_container .loan_order_btn {
+  line-height: 18px;
+}
+.loan_order_container .cancel_btn {
+  float: right;
+  /*height: 40px;
+        line-height: 40px;*/
+  color: #999;
+}
+.loan_order_container .load_radio {
+  display: none;
+}
+.loan_order_container .total_btn {
+  display: none;
+}
+.loan_order_container .loan_list {
+  padding: 10px 0 10px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.loan_order_container .loan_list .loan_row {
+  float: left;
+  width: 23%;
+  height: 32px;
+  line-height: 32px;
+  padding-right: 2%;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+.loan_order_container .loan_list .loan_row .loan_name,
+.loan_order_container .loan_list .loan_row .loan_value {
+  float: left;
+}
+.loan_order_container .loan_list .loan_row .loan_text {
+  padding-top: 6px;
+  line-height: 18px;
+}
+.loan_order_container .loan_list .loan_row .loan_value {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loan_order_container .loan_list .total_receipts {
+  float: left;
+  display: inline-block;
+  width: 70%;
+  height: 32px;
+  line-height: 32px;
+  color: #EA4B5F;
+}
+.loan_order_container .loan_list .total_receipts .receipt_name {
+  float: left;
+}
+.loan_order_container .loan_list .total_receipts .amount,
+.loan_order_container .loan_list .total_receipts .capital_amount {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.loan_order_container .pay_operate_btn,
+.loan_order_container .total_operate_btn {
+  float: right;
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+}
+.loan_order_container .pay_operate_btn .agree_btn,
+.loan_order_container .total_operate_btn .agree_btn,
+.loan_order_container .pay_operate_btn .disagree_btn,
+.loan_order_container .total_operate_btn .disagree_btn,
+.loan_order_container .pay_operate_btn .transfer_btn,
+.loan_order_container .total_operate_btn .transfer_btn {
+  height: 20px;
+  line-height: 20px;
+  margin-top: 14px;
+  color: #1DC6BC;
+  font-size: 12px;
+  padding-left: 22px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.loan_order_container .agree_btn {
+  background: url(../img/requestpayout/agree_icon.png) left center no-repeat;
+}
+.loan_order_container .disagree_btn {
+  background: url(../img/requestpayout/disagree_icon.png) left center no-repeat;
+}
+.loan_order_container .transfer_btn {
+  background: url(../img/requestpayout/assigning_icon.png) left center no-repeat;
+}
+.loan_order_container .agree_btn:hover {
+  background: url(../img/requestpayout/agree_icon_hover.png) left center no-repeat;
+  color: #0B9C94;
+}
+.loan_order_container .disagree_btn:hover {
+  background: url(../img/requestpayout/disagree_icon_hover.png) left center no-repeat;
+  color: #0B9C94;
+}
+.loan_order_container .transfer_btn:hover {
+  background: url(../img/requestpayout/assigning_icon_hover.png) left center no-repeat;
+  color: #0B9C94;
+}
+.loan_order_container .detail_menu {
+  margin: auto;
+  position: absolute;
+  /* top:0;*/
+  left: 0;
+  /*bottom:0;*/
+  right: 0;
+  width: 900px;
+  padding: 40px 40px 20px 40px;
+  background: #fff;
+  border: 1px solid #e4e4e4;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  /*.detail_menu_list:last-child{
+            border-bottom: none;
+        }*/
+}
+.loan_order_container .detail_menu tr,
+.loan_order_container .detail_menu td,
+.loan_order_container .detail_menu th {
+  border: none;
+  text-align: center;
+  vertical-align: middle;
+}
+.loan_order_container .detail_menu .detail_menu_list {
+  float: left;
+  width: 96%;
+}
+.loan_order_container .detail_menu .detail_menu_radio {
+  float: left;
+  width: 4%;
+  line-height: 44px;
+}
+.loan_order_container .account_list {
+  padding: 0 10px;
+  max-height: 291px;
+  border: 1px solid #e4e4e4;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  /*-webkit-box-shadow:  0 0 5px 1px #e4e4e4;
+        -moz-box-shadow: 0 0 5px 1px #e4e4e4;
+        box-shadow: 0 0 5px 1px #e4e4e4;*/
+  overflow-y: scroll;
+  /*定义滚动条轨道 内阴影+圆角*/
+  /*定义滑块 内阴影+圆角*/
+}
+.loan_order_container .account_list::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+}
+.loan_order_container .account_list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.loan_order_container .account_list::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  background-color: #f5f5f5;
+}
+.loan_order_container .account_list .loan_text {
+  padding-top: 6px;
+  line-height: 18px;
+}
+.loan_order_container .pop_list {
+  padding: 0 18px;
+}
+.loan_order_container .cont_list {
+  padding: 0;
+  margin-top: 14px;
+  border: none;
+}
+.loan_order_container .adjust_width {
+  width: 150px !important;
+}
+.loan_order_container .order_btn_box {
+  float: right;
+}
+.loan_order_container .loan_detail_btn {
+  height: 32px;
+  line-height: 32px;
+  float: right;
+  color: #1DC6BC;
+  font-size: 12px;
+  padding-left: 22px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.loan_order_container .loan_detail_btn:hover {
+  color: #0B9C94;
+}
+.loan_order_container .print_btn {
+  color: #1DC6BC;
+  background: url('../img/finance/print_icon.png') left center no-repeat;
+}
+.loan_order_container .print_btn:hover {
+  color: #0B9C94;
+  background: url('../img/finance/print_hover_icon.png') left center no-repeat;
+}
+.loan_order_container .pop_bg {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  zoom: 1;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10005;
+  height: 100%;
+  overflow-y: scroll;
+  /*定义滚动条轨道 内阴影+圆角*/
+  /*定义滑块 内阴影+圆角*/
+}
+.loan_order_container .pop_bg::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+}
+.loan_order_container .pop_bg::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.loan_order_container .pop_bg::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  background-color: #f5f5f5;
+}
+.loan_order_container .pop_bg .subtitle {
+  color: #2B3C4A;
+  font-size: 18px;
+  text-align: center;
+  padding: 0px 0 24px 0;
+}
+.loan_order_container .space {
+  margin: 16px 0 -14px 0;
+}
+.loan_order_container .space .total_operate_btn {
+  height: 18px;
+  line-height: 18px;
+}
+.loan_order_container .pop_row_one {
+  width: 27%;
+}
+.loan_order_container .pop_row_one .account_name {
+  width: 28%;
+}
+.loan_order_container .pop_row_one .account_value {
+  width: 62%;
+}
+.loan_order_container .pop_row_two {
+  width: 42%;
+}
+.loan_order_container .pop_row_three {
+  width: 31%;
+}
+.loan_order_container .pop_row_three .account_name {
+  width: 24%;
+}
+.loan_order_container .pop_row_three .account_value {
+  width: 66%;
 }

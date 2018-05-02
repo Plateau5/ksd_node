@@ -10,12 +10,16 @@ function searchMerchants () {
     var confirmBtn = $('.merchants_search_confirm');
     var cancelBtn = $('.merchants_search_cancel');
     confirmBtn.off('click').on('click', function () {
+        var _this = $(this);
+        _this.off('click');
         var checkedLetter = getCheckedFirstLetter();
         searchBusinessList(checkedLetter);
     });
     cancelBtn.off('click').on('click', function () {
-        $('form[role="form"]').find('input').not('#limit').not('#currentPage').remove();
-        $('form[role="form"]').submit();
+        var _this = $(this);
+        _this.off('click');
+        var form = $('form[role="form"]');
+        form.submit();
     });
 }
 
@@ -39,6 +43,54 @@ function goMerchantDetail () {
         }
     });
 }
+/**
+ *  跳转商户放款管理详情页
+ *  Created by qichunmei  on 2018年4月13日13:31:56.
+ */
+function goLoanDetail () {
+    var target = $('#loanList tbody tr');
+    var detailPath = '';
+    target.off('click').on('click', function () {
+        var _this = $(this);
+        var url, navigation;
+        if (listType == 1) {
+            detailPath = '/loan/pending/list';
+            url = markUri + '/loan/pending';
+            navigation = '待审批';
+        } else if (listType == 2) {
+            detailPath = '/loan/pass/list';
+            url = markUri + '/loan/pass';
+            navigation = '已审批';
+        }
+        if (!_this.hasClass('no_data')) {
+            var mid = $.trim(_this.data('id'));
+            var pay = $.trim(_this.data('pay_account'));
+            var timeorder = $.trim(_this.data('timeorder_type'));
+            var receipt = $.trim(_this.data('receipt_type'));
+            var order = $.trim(_this.data('orderby_type'));
+            var currentPage = $.trim(_this.data('current_page'));
+            var supplier_name = _this.data('supplier_name').trim();
+            var settlement_type = _this.data('settlement_type');
+            locationTo({
+                action : contextPath + markUri + detailPath,
+                param : {
+                    supplier_id : mid,
+                    pay_account: pay,
+                    timeorder_type: timeorder,
+                    receipt_type: receipt,
+                    orderby_type: order,
+                    current_page: 1,
+                    supplier_name : supplier_name,
+                    settlement_type : settlement_type,
+                    url : url,
+                    navigation : navigation,
+                    list_type : listType.number()
+                }
+            });
+        }
+    });
+}
+
 
 /**
  * 标签管理
@@ -182,6 +234,36 @@ function merchantsAddTag () {
         } else {
             addTags(tagId, 4, '添加');
         }
+    });
+}
+
+/**
+ * 跳转商户放款订单详情页
+ */
+function goLoanOrderList () {
+    var btn = $('.go_loan_detail');     // 跳转放款
+    var detailPath = '';
+    btn.off('click').on('click', function () {
+        if (listType == 1) {
+            detailPath = '/loan/pending/list';
+        } else if (listType == 2) {
+            detailPath = '/loan/pass/list';
+        }
+        locationTo({
+            action : contextPath + markUri + detailPath,
+            param : {
+                supplier_id : merchantId,
+                pay_account: payAccount,
+                timeorder_type: timeorderType,
+                receipt_type: receiptType,
+                orderby_type: orderbyType,
+                supplier_name : merchantName,
+                url : listUrl,
+                navigation : navigation,
+                list_type : listType,
+                settlement_type: settlementType
+            }
+        })
     });
 }
 

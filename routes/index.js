@@ -219,6 +219,29 @@ router.all(markUri + '/merchants/policies/history/list', merchantsCtrl.VIEW_MERC
 
 
 
+// 商户-放款管理-侧导航跳转 1490
+router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
+// 商户-放款管理-待审批 1487
+router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);
+// 商户-放款管理-已审批 1488
+router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
+// 商户-放款管理-商户打款结算详情 1497
+router.post(markUri + '/loan/pending/list', merchantsCtrl.VIEW_LOAN_PENDING_LIST);
+// 商户-放款管理-商户打款结算详情 1498
+router.post(markUri + '/loan/pass/list', merchantsCtrl.VIEW_LOAN_PASS_LIST);
+// 商户-放款管理-待审核-同意页面 1501
+router.post(markUri + '/loan/batch/agree', merchantsCtrl.VIEW_LOAN_BATCH_AGREE);
+// 商户-放款管理-待审核-同意页面(批量) 1501
+router.post(markUri + '/loan/agree', merchantsCtrl.VIEW_LOAN_AGREE);
+// 商户-放款管理-待请款-不同意页面 1502
+router.post(markUri + '/loan/batch/disagree', merchantsCtrl.VIEW_LOAN_BATCH_DISAGREE);
+// 商户-放款管理-待请款-不同意页面(批量) 1502
+router.post(markUri + '/loan/disagree', merchantsCtrl.VIEW_LOAN_DISAGREE);
+// 商户-放款管理-待审核-转交他人页面 1503
+router.post(markUri + '/loan/batch/turnover', merchantsCtrl.VIEW_LOAN_BATCH_TURNOVER);
+// 商户-放款管理-待审核-转交他人页面(批量) 1503
+router.post(markUri + '/loan/turnover', merchantsCtrl.VIEW_LOAN_TURNOVER);
+
 
 
 
@@ -440,15 +463,15 @@ router.post(markUri + '/docking/pingan/credit', dockingCtrl.VIEW_DOCKING_PINGAN_
 // 平安对接-查看详情-跳转录入首页
 router.post(markUri + '/docking/pingan/detailHome', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILHOME);
 // 平安对接-查看详情-车辆信息页
-router.post(markUri + '/docking/pingan/detaiCar', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCAR);
+router.post(markUri + '/docking/pingan/detailCar', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCAR);
 // 平安对接-查看详情-承租人信息页
-router.post(markUri + '/docking/pingan/detaiRenter', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILLENDER);
+router.post(markUri + '/docking/pingan/detailRenter', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILLENDER);
 // 平安对接-查看详情-担保人信息页
-router.post(markUri + '/docking/pingan/detaiGuarantor', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILGUARGANTOR);
+router.post(markUri + '/docking/pingan/detailGuarantor', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILGUARGANTOR);
 // 平安对接-查看详情-文件信息页
-router.post(markUri + '/docking/pingan/detaiFiles', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILFILES);
+router.post(markUri + '/docking/pingan/detailFiles', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILFILES);
 // 平安对接-查看详情-征信查询信息页
-router.post(markUri + '/docking/pingan/detaiCredit', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCREDIT);
+router.post(markUri + '/docking/pingan/detailCredit', dockingCtrl.VIEW_DOCKING_PINGAN_DETAILCREDIT);
 
 
 // If router is undefined redirect to 404 page.

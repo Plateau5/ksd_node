@@ -390,6 +390,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 }else{
                     thoudsanData = Number(thoudsanData.toString().split(".")[0]) + 1;
                 }
+                console.log(thoudsanData);
             }
             return thoudsanData;
         }
@@ -435,6 +436,8 @@ exports.getPageData = function(options, req, res, next) {
     }
 
 };
+
+
 
 /**
  * 调用后台API接口公用方法

@@ -139,6 +139,52 @@ function intOrFloat (ele, max) {
     });
 }
 
+/**
+ * 校验车架号
+ * @author Arley Joe  2018年4月16日14:49:19
+ * @pattern 车架号只能输入英文及汉字
+ *
+ */
+function checkVin () {
+    var vinE = $('#carVin');
+    var vinPattern = /[a-zA-Z0-9]/;
+    if (vinE.length > 0) {
+        vinE.on('input', function () {
+            var _this = $(this);
+            var v = _this.val().trim();
+            _this.val('');
+            if (vinPattern.test(v)) {
+                v = v.toUpperCase();
+                _this.val(v);
+                _this.siblings('.tips_info').hide();
+                _this.attr('verify', 1);
+                return true;
+            } else {
+                _this.val();
+                _this.siblings('.tips_info').show().find('.tips_text').text("只允许输入数字与字母");
+                _this.attr('verify', 0);
+                return false;
+            }
+        });
+        vinE.on('blur', function () {
+            var _this = $(this);
+            var val = _this.val().trim();
+            var len = val.length;
+            if (len && len < 17) {
+                _this.siblings('.tips_info').show().find('.tips_text').text("请输入17位数字与字母");
+                _this.attr('verify', 0);
+                return false;
+            } else if (len > 17) {
+                _this.siblings('.tips_info').show().find('.tips_text').text("最大只能为17位");
+                _this.attr('verify', 0);
+                return false;
+            } else {
+                return false;
+            }
+        });
+    }
+}
+
 
 
 /**
@@ -183,7 +229,7 @@ function createBrandOption (data, type) {
         } else if (type == 2) {
             eleStr += '<option value="'+ data[i].serialId +'">'+ data[i].serialName +'</option>';
         } else if (type == 3) {
-            eleStr += '<option value="'+ data[i].modelId +'" data-price="'+ Math.round(data[i].price * 10000) +'">'+ data[i].modelName +'</option>';
+            eleStr += '<option data-is_can="'+ data[i].is_can +'" value="'+ data[i].modelId +'" data-price="'+ Math.round(data[i].price * 10000) +'">'+ data[i].modelName +'</option>';
         }
 
     }

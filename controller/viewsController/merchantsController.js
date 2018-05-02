@@ -19,8 +19,10 @@ exports.VIEW_MERCHANTS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/merchants/manage/system');
         } else if (common.checkPrivilege(1368, req)) {
             res.redirect(markUri + '/records/manage');
+        } else if (common.checkPrivilege(1490, req)) {
+            res.redirect(markUri + '/loan/system');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1368 | 1367 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1490 | 1368 | 1367 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
@@ -175,13 +177,6 @@ exports.VIEW_MERCHANTS_POLICIES_EDIT = function(req, res, next) {
     }, req, res, next);
 };
 // 商户-商户管理-返佣政策历史页 1478
-/*exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
-    common.getPageData({
-        url : '/api/supplier/rebate/policy',
-        title : '商户管理-制定返佣政策',
-        page : './merchants/merchantsPoliciesHistory'
-    }, req, res, next);
-};*/
 exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/supplier/rebatepolicy/dislist',
@@ -210,7 +205,7 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
                 if (policiesList[i].rebate_way === 1) {     // 固定金额
                     rule = '固定金额：' + policiesList[i].rebate_money + '元';
                 } else if (policiesList[i].rebate_way === 2) {      // 超额返比例
-                    rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
+                    rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money + '%';
                 } else if (policiesList[i].rebate_way === 3) {      // 超额返金额
                     rule = '超过' + policiesList[i].exceed_money + '返超出金额的' + policiesList[i].rebate_money;
                 } else if (policiesList[i].rebate_way === 4) {      // 返比例
@@ -229,8 +224,113 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
 };
 
 
+// 商户-放款管理-侧导航跳转
+exports.VIEW_LOAN_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1487, req)) {
+            res.redirect(markUri + '/loan/pending');
+        } else if (common.checkPrivilege(1488, req)) {
+            res.redirect(markUri + '/loan/pass');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1487 | 1488  is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 商户-放款管理-待审批 1487
+exports.VIEW_LOAN_PENDING = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/waitList',
+        title : '商户-放款管理-待审批',
+        page : './merchants/pending',
+        callback : function (data) {
+            data.list_type = 1;
+        }
+    }, req, res, next);
+};
+
+ //商户-放款管理-已审批 1488
+exports.VIEW_LOAN_PASS = function(req, res, next) {
+    common.getPageData({
+        url: '/api/loan/passList',
+        title: '商户-放款管理-已审批',
+        page: './merchants/pending',
+        callback : function (data) {
+            data.list_type = 2;
+        }
+    }, req, res, next);
+};
+// 商户-放款管理-商户打款结算详情 1498
+exports.VIEW_LOAN_PASS_LIST = function(req, res, next) {
+    common.getPageData({
+        url: '/api/loan/already/list',
+        title: '商户-放款管理-已审批',
+        page: './merchants/detailsInfo'
+    }, req, res, next);
+};
 
 
+//商户-放款管理-详情 1497
+exports.VIEW_LOAN_PENDING_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/wait/list',
+        title : '商户-放款管理-放款管理详情',
+        page : './merchants/detailsInfo'
+    }, req, res, next);
+};
 
+// 商户-放款管理-待审核-同意页面跳转 1501
+exports.VIEW_LOAN_BATCH_AGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/financial/toAgree',
+        title : '放款管理-审核通过',
+        page : './merchants/infoagree'
+    }, req, res, next);
+};
 
+// 商户-放款管理-待审核-同意页面跳转(批量) 1501
+exports.VIEW_LOAN_AGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/toAgree',
+        title : '放款管理-审核通过',
+        page : './merchants/infoagree'
+    }, req, res, next);
+};
 
+// 商户-商户管理-待审核-不同意页面跳转 1502
+exports.VIEW_LOAN_BATCH_DISAGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/toDisAgree',
+        title : '放款管理-审核不通过',
+        page : './merchants/infoagree'
+    }, req, res, next);
+};
+
+// 商户-放款管理-待审核-不同意页面跳转(批量) 1502
+exports.VIEW_LOAN_DISAGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/toDisAgree',
+        title : '放款管理-审核不通过',
+        page : './merchants/infoagree'
+    }, req, res, next);
+};
+
+// 商户-放款管理-待审核-转交他人页面 1503
+exports.VIEW_LOAN_BATCH_TURNOVER = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/toTransfer',
+        title : '放款管理-转交他人',
+        page : './merchants/loanTransfer'
+    }, req, res, next);
+};
+
+// 商户-放款管理-待审核-转交他人页面(批量) 1503
+exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/toTransfer',
+        title : '放款管理-转交他人',
+        page : './merchants/loanTransfer'
+    }, req, res, next);
+};

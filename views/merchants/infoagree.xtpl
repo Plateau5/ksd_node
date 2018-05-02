@@ -1,0 +1,238 @@
+<!-- 同意 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
+    <title>{{title}}</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_loan_detail">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item last_child">
+                    {{#if (reqParams.type === '1' )}}
+                        同意
+                    {{else}}
+                        不同意
+                    {{/if}}
+                </a>
+            </div>
+            <div class="cashed_mark">
+                <form action="" method="post" id="returnResult">
+                    <input type="hidden" id="advance_ids" name="advance_ids" value="{{advance_ids}}">
+                    <input type="hidden" name="orderNo" value="{{orderNo}}">
+                    <input name="list_type" id="list_type" type="hidden" value="{{reqParams.list_type}}">
+                    <input type="hidden" name="url" value="{{reqParams.url}}" id="url">
+                    <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
+                    <input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
+                    <input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
+                    <input type="hidden" name="timeorder_type" value="{{reqParams.timeorder_type}}" id="timeorderType">
+                    <input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
+                    <input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
+                    <input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
+                    <input name="pay_account" id="pay_account" type="hidden" value="{{reqParams.pay_account}}">
+                    <input name="settlement_type" id="settlement_type" type="hidden" value="{{reqParams.settlement_type}}">
+                    <div class="form_row textarea_container">
+                        <div class="column_l" style="width: 4%;">备注：</div>
+                        <div class="column_r" style="width: 90%;">
+                            <textarea name="remark" id="remark" maxlength="200" placeholder="请输入具体原因，最多200字"></textarea>
+                        </div>
+                    </div>
+                    <div class="img_upload"  style="padding-left: 7%;">
+                        <div class="img_upload_layer"><span class="text">上传图片</span><span class="text_tip">（最多5张图片，每张大小不超过5M）</span></div>
+                        <input type="file" class="img_upload_btn" name="file" accept="image/jpeg,image/jpg,image/png" value="上传图片" style="display: none" />
+                        <div class="img_box">
+                            <!-- 上传图片缩略图 -->
+
+                        </div>
+
+                    </div>
+                </form>
+                <div class="btn_box clearfix text_left"   style="padding-left: 7%;">
+
+                    <a href="javascript:" class="btn orange_btn confirm submit_confirm">确认</a>
+                    <a href="javascript:" class="btn bg_btn go_loan_detail">取消</a>
+
+                </div>
+            </div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
+<div id="loading" class="loading" style="display: none;"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/js/merchants.js"></script>
+<script>
+    var listType = $('#list_type').val().trim();        // 列表页类型
+    var listUrl = $('#url').val().trim();           // 列表页路径
+    var navigation = $('#navigation').val().trim();         // 列表页节点名称
+    var merchantId = $('#supplier_id').val().trim();        // 商户ID
+    var merchantName = $('#supplier_name').val().trim();     // 商户名称
+    var timeorderType = $('#timeorderType').val().trim();     // 时间
+    var receiptType = $('#receiptType').val().trim();     // 款项类型
+    var orderbyType = $('#orderbyType').val().trim();     //    订单排序
+    var start_with = $('#start_with').val().trim();     // 首字母
+    var payAccount = $('#pay_account').val().trim();        // 默认账户
+    var settlementType = $('#settlement_type').val().trim();       // 结算方式
+    var orderNo = $('#orderNo').val().trim();       // 打印的跳转加密id
+    (function ($) {
+        const BTNTYPE = '{{reqParams.type}}';
+        //绑定确定按钮的点击事件
+        rebind(".submit_confirm", "click", returnSubmit);
+        //确定按钮的点击事件逻辑
+        function returnSubmit () {
+            disabled(".submit_confirm", "click", returnSubmit);//禁用按钮
+            var url = '';
+            if (BTNTYPE == 1) {
+                url = contextPath + "/api/loan/batch/agree";
+            } else if (BTNTYPE == 2) {
+                url = contextPath + "/api/loan/batch/disagree";
+            }
+            var ids = $('#advance_ids').val().trim();
+            var data = new FormData(document.getElementById("returnResult"));
+            $.ajax({
+                type : "post",
+                url : contextPath + url,
+                data : data,
+                async : false,
+                processData: false,
+                contentType: false,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (req) {
+                    var res = eval(req);
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        if (ids.indexOf(',') == -1 && BTNTYPE == 1) {
+                            dialog("open", {
+                                closeBtn : false,
+                                "title" : "打印提醒",
+                                "button" : ["立即打印","稍后再说"],
+                                "content" : "是否现在打印该车请款审批材料？",
+                                "maskClose" : false,
+                                onConfirm : function (d) {
+                                    d.close();
+                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&receipt_type=' + receiptType;
+                                    window.location.replace(printPage);
+                                    /*var detailPath = '';
+                                    if (listType == 1) {
+                                        detailPath = '/loan/pending/list';
+                                    } else if (listType == 2) {
+                                        detailPath = '/loan/pass/list';
+                                    }
+                                    locationTo({
+                                        action : contextPath + markUri + detailPath,
+                                        param : {
+                                            supplier_id : merchantId,
+                                            pay_account: payAccount,
+                                            timeorder_type: timeorderType,
+                                            receipt_type: receiptType,
+                                            orderby_type: orderbyType,
+                                            supplier_name : merchantName,
+                                            url : listUrl,
+                                            navigation : navigation,
+                                            list_type : listType,
+                                            settlement_type: settlementType
+                                        }
+                                    })*/
+                                },
+                                onCancel : function (d) {
+                                    d.close();
+                                    var detailPath = '';
+                                    if (listType == 1) {
+                                        detailPath = '/loan/pending/list';
+                                    } else if (listType == 2) {
+                                        detailPath = '/loan/pass/list';
+                                    }
+                                    locationTo({
+                                        action : contextPath + markUri + detailPath,
+                                        param : {
+                                            supplier_id : merchantId,
+                                            pay_account: payAccount,
+                                            timeorder_type: timeorderType,
+                                            receipt_type: receiptType,
+                                            orderby_type: orderbyType,
+                                            supplier_name : merchantName,
+                                            url : listUrl,
+                                            navigation : navigation,
+                                            list_type : listType,
+                                            settlement_type: settlementType
+                                        }
+                                    })
+                                }
+                            });
+                        } else {
+                            $alert('提交成功', function () {
+                                var detailPath = '';
+                                if (listType == 1) {
+                                    detailPath = '/loan/pending/list';
+                                } else if (listType == 2) {
+                                    detailPath = '/loan/pass/list';
+                                }
+                                locationTo({
+                                    action : contextPath + markUri + detailPath,
+                                    param : {
+                                        supplier_id : merchantId,
+                                        pay_account: payAccount,
+                                        timeorder_type: timeorderType,
+                                        receipt_type: receiptType,
+                                        orderby_type: orderbyType,
+                                        supplier_name : merchantName,
+                                        url : listUrl,
+                                        navigation : navigation,
+                                        list_type : listType,
+                                        settlement_type: settlementType
+                                    }
+                                })
+                            });
+                        }
+                    } else {
+                        $alert(res.error_msg, function (){
+                            rebind( ".submit_confirm", "click", returnSubmit);
+                        });
+                    }
+                },
+                error : function () {
+                    $alert("提交异常，请稍后重试");
+                    rebind( ".submit_confirm", "click", returnSubmit);
+                }
+            });
+        }
+
+        //取消按钮的点击逻辑
+        bindEvents("click", ".submit_cancel", function () {
+            window.history.back();
+        });
+
+
+
+
+        $(function() {
+            imgUpload();
+            goLoanOrderList();      // 跳转订单详情页
+        });
+    })(jQuery,undefined);
+</script>
+</html>

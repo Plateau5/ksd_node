@@ -27,7 +27,7 @@
             <div class="requestpayout_detail_title
             {{#if (req_list.length === (xindex + 1)) }}new{{/if}}
             ">
-                <span>{{this.receipt_name}}</span>
+                <span>{{this.receipt_name}}（{{#if (root.vo.settlement_type === 1)}}单结{{else}}月结{{/if}}）</span>
                 <em class="slidedown_arrow
                 {{#if (req_list.length === (xindex + 1)) }}slidedown_up_arrow{{/if}}
                 "></em>
@@ -172,6 +172,18 @@
                     </div>
                 </div>
             {{/if}}
+            {{#if (this.deduction || this.deduction === 0) }}
+                <div class="detail_remarks requestpayout_detail_remarks payment_desc_item">
+                    <div class="requestpayout_detail_label">扣款：</div>
+                    <div class="requestpayout_detail_txt">{{this.deduction}}&nbsp;元</div>
+                </div>
+            {{/if}}
+            {{#if (this.deduction_remark) }}
+                <div class="detail_remarks requestpayout_detail_remarks payment_desc_item">
+                    <div class="requestpayout_detail_label">扣款说明：</div>
+                    <div class="requestpayout_detail_txt nowrap">{{this.deduction_remark}}</div>
+                </div>
+            {{/if}}
             <div style="clear: both;"></div>
             {{#if (this.pay_name) }}
                 <div class="detail_remarks requestpayout_detail_remarks payment_info_item">
@@ -189,6 +201,12 @@
                 <div class="detail_remarks requestpayout_detail_remarks payment_info_item">
                     <div class="requestpayout_detail_label">收款账号：</div>
                     <div class="requestpayout_detail_txt">{{this.pay_account}}</div>
+                </div>
+            {{/if}}
+            {{#if (this.account_use_value) }}
+                <div class="detail_remarks requestpayout_detail_remarks payment_info_item">
+                    <div class="requestpayout_detail_label">账户用途：</div>
+                    <div class="requestpayout_detail_txt">{{this.account_use_value}}</div>
                 </div>
             {{/if}}
            <!-- {{#if (this.supplier_name) }}
@@ -232,16 +250,16 @@
 
         </div>
 
-        {{#if (x) }}    <!--页面头部设置-->
-            {{#if (y) }}    <!--页面头部设置-->
+        <!--{{#if (x) }}    &lt;!&ndash;页面头部设置&ndash;&gt;
+            {{#if (y) }}    &lt;!&ndash;页面头部设置&ndash;&gt;
 	            <div class="requestpayout_detail_btn_box" style="background: none; border: none;">
-                    <!--todo 增加dmsHost地址-->
+                    &lt;!&ndash;todo 增加dmsHost地址&ndash;&gt;
 	                <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{orderNo}}" target="_blank">
 	                    <div class="cursor requestpayout_detail_btn print_btn" id="print_btn">打印</div>
 	                </a>
 	            </div>
             {{/if}}
-        {{/if}}
+        {{/if}}-->
     </div>
 {{/each}}
 

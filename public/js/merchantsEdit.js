@@ -257,13 +257,21 @@ function deleteLinkOrRecord () {
             if (recordCount > 1) {
                 if (_this.parents('.record_option').hasClass('his_record')){
                     var t = _this.parents('.record_option');    // 当前账户信息container
+                    var accountUse = t.find('input.account_use[type="checkbox"][checked="checked"]');
+                    var accountUseArr = [];
+                    accountUse.each(function () {
+                        var _this = $(this);
+                        var v = _this.val().trim();
+                        accountUseArr.push(v);
+                    });
                     var record = {
                         id : $.trim(t.find('.account_name').data('id')),
                         account_name : $.trim(t.find('.account_name').val()),
-                        status : 1,
+                        status : 0,
                         bank_no : $.trim(t.find('.bank_no').val()),
                         open_bank : $.trim(t.find('.open_bank').val()),
-                        account_type : $.trim(t.find('.account_type option:selected').val())
+                        account_type : $.trim(t.find('.account_type option:selected').val()),
+                        account_use : accountUseArr.join(',')
                     };
                     deleteRecordList.push(record);
                     var oldDeleteRecord = $('#deleteLinkList').val();     // 已经删除的账户信息
@@ -448,6 +456,26 @@ function addLinkOrRecord () {
                 '                                </select>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
+                '                        <div class="option_item">\n' +
+                '                            <div class="column_name">\n' +
+                '                               <em class="require_icon">*</em>\n' +
+                '                                <span class="options_name">账户用途：</span>\n' +
+                '                            </div>\n' +
+                '                               <div class="column_val">\n' +
+                '                                    <div class="form_group">\n' +
+                '                                        <input id="account_use1" type="checkbox" class="account_use" name="account_use"  value="1" />\n' +
+                '                                        <label for="account_use1">车款</label>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="form_group">\n' +
+                '                                        <input id="account_use2" type="checkbox" class="account_use" name="account_use" value="2" />\n' +
+                '                                        <label for="account_use2">返点</label>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="form_group">\n' +
+                '                                        <input id="account_use3" type="checkbox" class="account_use" name="account_use" value="3" />\n' +
+                '                                        <label for="account_use3">杂费</label>\n' +
+                '                                    </div>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
                 '                        <div class="option_item">\n' +
                 '                            <div class="column_name">\n' +
                 '                                <span class="options_name"><span class="require_icon">*</span>账&nbsp;户&nbsp;名：</span>\n' +
@@ -1125,13 +1153,21 @@ function getLinkOrRecordInfo () {
     // 新增账户信息
     $('.record_option.new_record').each(function (){
         var t = $(this);
+        var accountUse = t.find('input.account_use[type="checkbox"][checked="checked"]');
+        var accountUseArr = [];
+        accountUse.each(function () {
+            var _this = $(this);
+            var v = _this.val().trim();
+            accountUseArr.push(v);
+        });
         var record = {
             supplier_id : merchantId,
             account_name : $.trim(t.find('.account_name').val()),
             status : 1,
             bank_no : $.trim(t.find('.bank_no').val()),
             open_bank : $.trim(t.find('.open_bank').val()),
-            account_type : $.trim(t.find('.account_type option:selected').val())
+            account_type : $.trim(t.find('.account_type option:selected').val()),
+            account_use : accountUseArr.join(',')
         };
         insertRecordList.push(record);
     });
@@ -1142,13 +1178,21 @@ function getLinkOrRecordInfo () {
     // 更新账户信息
     $('.record_option.his_record').each(function (){
         var t = $(this);
+        var accountUse = t.find('input.account_use[type="checkbox"][checked="checked"]');
+        var accountUseArr = [];
+        accountUse.each(function () {
+            var _this = $(this);
+            var v = _this.val().trim();
+            accountUseArr.push(v);
+        });
         var record = {
             id : $.trim(t.find('.account_name').data('id')),
             account_name : $.trim(t.find('.account_name').val()),
             status : 1,
             bank_no : $.trim(t.find('.bank_no').val()),
             open_bank : $.trim(t.find('.open_bank').val()),
-            account_type : $.trim(t.find('.account_type option:selected').val())
+            account_type : $.trim(t.find('.account_type option:selected').val()),
+            account_use : accountUseArr.join(',')
         };
         updateRecordList.push(record);
     });

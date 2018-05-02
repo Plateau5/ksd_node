@@ -33,7 +33,7 @@
         {{/if}}
         {{#if (verifyCode(1227)) }}
             <li class="nav_item {{#if (startWith(markUri + '/customer/financial')) }}active{{/if}}">
-                <a href="{{markUri}}/customer/financial/system" class="">款项管理</a>
+                <a href="{{markUri}}/customer/financial/system" class="">回款管理</a>
             </li>
         {{/if}}
         {{#if (verifyCode(1228)) }}
@@ -177,7 +177,7 @@
         {{/if}}
     </ul>
 </div>
-{{ elseif (startWith(markUri + '/merchants' + ' || ' + markUri + '/records'))}}
+{{ elseif (startWith(markUri + '/merchants' + ' || ' + markUri + '/records'+ ' || ' + markUri + '/loan'))}}
     <div id="slide_nav" class="contacts slide_nav">
         <div class="slide_nav_title bold">商户</div>
         <ul class="slide_nav_bar">
@@ -190,6 +190,11 @@
                 <li class="nav_item {{#if(startWith(markUri + '/records'))}}active{{/if}}">
                     <a href="{{markUri}}/records/manage" class="">备案管理</a>
                 </li>
+            {{/if}}
+            {{#if (verifyCode(1490)) }}
+            <li class="nav_item {{#if(startWith(markUri + '/loan'))}}active{{/if}}">
+                <a href="{{markUri}}/loan/system" class="">放款管理</a>
+            </li>
             {{/if}}
         </ul>
     </div>

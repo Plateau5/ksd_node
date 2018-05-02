@@ -973,7 +973,7 @@ function getMessagesInfo(selector) {
                         $(".message_tip").hide().find(".count").text("");
                     }*/
                 //}
-            } else if (data.error_code == 800||data.error_code == 1000) {
+            } else if (data.error_code == 800||data.error_code == 1000 || data.error_code == 802|| data.error_code == 804) {
                 alert("登录失效，请重新登录");
                 window.location.href = contextPath + "/login/logout";
             } else {
@@ -1171,6 +1171,12 @@ function searchBusinessList (firstLetter) {
     var carType = $("select#typeBusiness option:selected").val();   // 商户-业务类型
     var merchantsStatus = $("select#merchantsState option:selected").val();   // 商户-状态
     var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
+    var settlementType = $("select#settlementType option:selected").val();   // 商户-结算方式
+
+    /*var timeorder_type = $("select#timeorder_type option:selected").val();   // 商户-放款时间
+    var receipt_type = $("select#receipt_type option:selected").val();   // 商户-款项类型
+    var orderby_type = $("select#orderby_type option:selected").val();   // 商户-放款排序方式
+    var is_pass = $("select#is_pass option:selected").val();   // 商户-放款审核结果*/
 
     label_id && $("#"+id).append('<input type="hidden" id="label_id" name="label_id" value="'+ label_id + '" />');
     var gps_type = $("select#gps_type option:selected").val();//GPS类型筛选
@@ -1187,6 +1193,13 @@ function searchBusinessList (firstLetter) {
     carType && $("#"+id).append('<input type="hidden" id="car_type" name="car_type" value="'+ carType +'" />');
     merchantsStatus && $("#"+id).append('<input type="hidden" id="status" name="status" value="'+ merchantsStatus +'" />');
     ownType && $("#"+id).append('<input type="hidden" id="own_type" name="own_type" value="'+ ownType +'" />');
+    settlementType && $("#"+id).append('<input type="hidden" id="settlement_type" name="settlement_type" value="'+ settlementType +'" />');
+
+    /*timeorder_type && $("#"+id).append('<input type="hidden" id="timeorder_type" name="timeorder_type" value="'+ timeorder_type +'" />');
+    receipt_type && $("#"+id).append('<input type="hidden" id="receipt_type" name="receipt_type" value="'+ receipt_type +'" />');
+    orderby_type && $("#"+id).append('<input type="hidden" id="orderby_type" name="orderby_type" value="'+ orderby_type +'" />');
+    is_pass && $("#"+id).append('<input type="hidden" id="is_pass" name="is_pass" value="'+ is_pass +'" />');*/
+
     $("#"+id).submit();
 }
 
@@ -1859,6 +1872,7 @@ function datePicker (target, options) {
         isinitVal : false,
         festival : false,
         ishmsVal : false,
+        isToday : ((options.isToday === false) ? false : true),
         format : options.format || "YYYY-MM-DD",
         zIndex : 3000,
         minDate : options.minDate || '',
@@ -2241,8 +2255,22 @@ function paginationSwitch () {
             } else {
                 nextPage = currentPage;
             }
-            form.find('input[name="current_page"]').val(nextPage);
+            var currentPageE = form.find('input[name="current_page"]');
+            if (currentPageE.length <= 0) {
+                form.append('<input type="hidden" name="current_page" value="'+ nextPage +'" id="currentPage" />');
+            } else {
+                currentPageE.val(nextPage);
+            }
             _this.data('currentpage', nextPage).siblings('.prev').data('currentpage', nextPage);
+            var start_with = getCheckedFirstLetter();
+            if (start_with) {
+                var firstLetter = form.find('#start_with');
+                if (firstLetter.length <= 0) {
+                    form.append('<input type="hidden" id="start_with" name="start_with" value="'+ start_with + '" />');
+                } else {
+                    firstLetter.val(start_with);
+                }
+            }
             form.submit();
         }
     });

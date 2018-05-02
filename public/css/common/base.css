@@ -771,3 +771,237 @@ input:focus, textarea:focus, select:focus {
     line-height: 20px;
 }
 /************ 无数据及新建按钮 Begin **********/
+/********** 分页样式 Begin **********/
+.page_box {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    margin-top: 20px;
+    text-align: center;
+}
+.page_box .page_list {
+    display: inline-block;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.page_box .page_list .page_item {
+    float: left;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 10px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid #f1f1f1;
+    color: #1dc6bc;
+}
+.page_box .page_list .page_item > a {
+    display: block;
+    color: #1dc6bc;
+}
+.page_box .page_list .home_page,
+.page_box .page_list .last_page {
+    width: 46px;
+}
+.page_box .page_list .home_page.disabled,
+.page_box .page_list .last_page.disabled,
+.page_box .page_list .prev_page.disabled,
+.page_box .page_list .next_page.disabled,
+.page_box .page_list .page_item.disabled {
+    background: #f1f1f1;
+}
+.page_box .page_list .home_page.disabled > a,
+.page_box .page_list .last_page.disabled > a,
+.page_box .page_list .prev_page.disabled > a,
+.page_box .page_list .next_page.disabled > a,
+.page_box .page_list .page_item.disabled > a {
+    color: #FFFFFF;
+}
+.page_box .page_list .home_page.active,
+.page_box .page_list .last_page.active,
+.page_box .page_list .prev_page.active,
+.page_box .page_list .next_page.active,
+.page_box .page_list .page_item.active,
+.page_box .page_list .home_page:hover,
+.page_box .page_list .last_page:hover,
+.page_box .page_list .prev_page:hover,
+.page_box .page_list .next_page:hover,
+.page_box .page_list .page_item:hover {
+    background: #1dc6bc;
+    border-color: #1dc6bc;
+}
+.page_box .page_list .home_page.active > a,
+.page_box .page_list .last_page.active > a,
+.page_box .page_list .prev_page.active > a,
+.page_box .page_list .next_page.active > a,
+.page_box .page_list .page_item.active > a,
+.page_box .page_list .home_page:hover > a,
+.page_box .page_list .last_page:hover > a,
+.page_box .page_list .prev_page:hover > a,
+.page_box .page_list .next_page:hover > a,
+.page_box .page_list .page_item:hover > a {
+    color: #FFFFFF;
+}
+.page_box .page_list .home_page.disabled:hover,
+.page_box .page_list .last_page.disabled:hover,
+.page_box .page_list .prev_page.disabled:hover,
+.page_box .page_list .next_page.disabled:hover,
+.page_box .page_list .page_item.disabled:hover,
+.page_box .page_list .home_page.disabled.active,
+.page_box .page_list .last_page.disabled.active,
+.page_box .page_list .prev_page.disabled.active,
+.page_box .page_list .next_page.disabled.active,
+.page_box .page_list .page_item.disabled.active {
+    background: #f1f1f1;
+    border-color: #f1f1f1;
+    cursor: text;
+}
+.page_box .page_list .home_page.disabled:hover > a,
+.page_box .page_list .last_page.disabled:hover > a,
+.page_box .page_list .prev_page.disabled:hover > a,
+.page_box .page_list .next_page.disabled:hover > a,
+.page_box .page_list .page_item.disabled:hover > a,
+.page_box .page_list .home_page.disabled.active > a,
+.page_box .page_list .last_page.disabled.active > a,
+.page_box .page_list .prev_page.disabled.active > a,
+.page_box .page_list .next_page.disabled.active > a,
+.page_box .page_list .page_item.disabled.active > a {
+    color: #FFFFFF;
+    cursor: text;
+}
+.page_box .page_list .prev_page,
+.page_box .page_list .next_page {
+    position: relative;
+    width: 60px;
+    padding-left: 10px;
+    background-color: transparent;
+}
+.page_box .page_list .prev_page:before,
+.page_box .page_list .next_page:before {
+    position: absolute;
+    top: 6px;
+    display: block;
+    content: '';
+    width: 13px;
+    height: 17px;
+    background: url(../img/page_icon.png) no-repeat;
+}
+.page_box .page_list .prev_page {
+    margin-right: 20px;
+}
+.page_box .page_list .prev_page:before {
+    left: 6px;
+    background-position: 0 -13px;
+}
+.page_box .page_list .prev_page.disabled:before,
+.page_box .page_list .prev_page:hover:before {
+    background-position: 0 0;
+}
+.page_box .page_list .next_page {
+    margin-left: 10px;
+    padding: 0 10px 0 0;
+}
+.page_box .page_list .next_page:before {
+    right: 6px;
+    background-position: 0 -39px;
+}
+.page_box .page_list .next_page.disabled:before,
+.page_box .page_list .next_page:hover:before {
+    background-position: 0 -26px;
+}
+.page {
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    overflow: hidden;
+}
+.page .page-item {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 10px;
+    vertical-align: middle;
+    border: 1px solid #f1f1f1;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    transition: 0.2s all;
+}
+.page .page-item:hover {
+    border-color: #1dc6bc;
+    background-color: #1dc6bc;
+}
+.page .page-item.disabled {
+    border-color: #f1f1f1;
+    background-color: #FFFFFF;
+    cursor: default;
+}
+.page .page-item:before {
+    content: '';
+    position: absolute;
+    display: block;
+    background: url("../../img/page-list-icon.png") no-repeat 0 0;
+}
+.page .home:before,
+.page .end:before {
+    left: 14px;
+    top: 2px;
+    width: 22px;
+    height: 24px;
+}
+.page .prev,
+.page .next {
+    width: 70px;
+}
+.page .prev:before,
+.page .next:before {
+    left: 17px;
+    top: 6px;
+    width: 36px;
+    height: 16px;
+}
+.page .home:before {
+    background-position: 0 -40px;
+}
+.page .home:hover:before {
+    background-position: 0 -20px;
+}
+.page .home.disabled:before {
+    background-position: 0 0;
+}
+.page .prev:before {
+    background-position: 0 -86px;
+}
+.page .prev:hover:before {
+    background-position: 0 -73px;
+}
+.page .prev.disabled:before {
+    background-position: 0 -60px;
+}
+.page .next:before {
+    background-position: 0 -125px;
+}
+.page .next:hover:before {
+    background-position: 0 -112px;
+}
+.page .next.disabled:before {
+    background-position: 0 -99px;
+}
+.page .end:before {
+    background-position: 0 -178px;
+}
+.page .end:hover:before {
+    background-position: 0 -158px;
+}
+.page .end.disabled:before {
+    background-position: 0 -138px;
+}
+.page .total_page {
+    margin-left: 20px;
+    color: #999999;
+}
+/********** 分页样式 End **********/

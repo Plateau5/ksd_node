@@ -88,7 +88,7 @@ var DialogLayer = function(type, params, callback) {
 		"onConfirm" : null,
 		"onCancel" : null,
 		"onClose" : null
-	}
+	};
 
 
 
@@ -258,10 +258,10 @@ var DialogLayer = function(type, params, callback) {
 				closeBtn = this.target.find(".dialog-close-btn");
 
 
-		container.off("click").on("click", function(e) {
+		/*container.off("click").on("click", function(e) {
 			var e = e || window.event;
 			e.stopPropagation();
-		});
+		});*/
 
 		//console.log(this.target[0]);
 		this.target.off("mousedown").on("mousedown", function(e) {

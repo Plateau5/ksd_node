@@ -32,7 +32,7 @@
                 </div>
                 <div class="form_content content_box xf_edit_content">
                     <ul class="edit_infos">
-                        <li class="info_item" data-module="car" data-route="{{markUri}}/docking/pingan/detaiCar">
+                        <li class="info_item" data-module="car" data-route="{{markUri}}/docking/pingan/detailCar">
                             <a href="javascript:;">
                                 <div class="text text_center">
                                     <span class="asterisk">*</span>
@@ -41,7 +41,7 @@
                                 <em class="edit_status_icon xf_edit_home_icon"></em>
                             </a>
                         </li>
-                        <li class="info_item" data-module="renter" data-route="{{markUri}}/docking/pingan/detaiRenter">
+                        <li class="info_item" data-module="renter" data-route="{{markUri}}/docking/pingan/detailRenter">
                             <a href="javascript:;">
                                 <div class="text text_center">
                                     <span class="asterisk">*</span>
@@ -51,7 +51,7 @@
                             </a>
                         </li>
                         {{#if (isSponsor === 0 || isSponsor === 1) }}
-                        <li class="info_item" data-module="guarantor" data-route="{{markUri}}/docking/pingan/detaiGuarantor">
+                        <li class="info_item" data-module="guarantor" data-route="{{markUri}}/docking/pingan/detailGuarantor">
                             <a href="javascript:;">
                                 <div class="text text_center">
                                     <span class="asterisk">*</span>
@@ -61,7 +61,7 @@
                             </a>
                         </li>
                         {{/if}}
-                        <li class="info_item" data-module="files" data-route="{{markUri}}/docking/pingan/detaiFiles">
+                        <li class="info_item" data-module="files" data-route="{{markUri}}/docking/pingan/detailFiles">
                             <a href="javascript:;">
                                 <div class="text text_center">
                                     <span class="asterisk">*</span>
@@ -71,7 +71,7 @@
                             </a>
                         </li>
                         {{#if (!preCode || preCode === '0') }}
-                        <li class="info_item last_item" data-module="credit" data-route="{{markUri}}/docking/pingan/detaiCredit">
+                        <li class="info_item last_item" data-module="credit" data-route="{{markUri}}/docking/pingan/detailCredit">
                             <a href="javascript:;">
                                 <div class="text text_center">
                                     <span class="asterisk">*</span>
@@ -104,12 +104,14 @@
     <input type="hidden" id="nodeUrl" value="{{nodeUrl}}">
     <input type="hidden" id="userName" value="{{userName}}">
     <div class="loading" id="loading"></div>
+    <input type="hidden" id="carType" name="car_type" value="{{car_type}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/docking-pingan.js" type="text/javascript" charset="UTF-8"></script>
 </html>
 <script>
+    var carType = $('#carType').val().trim();
     (function ($) {
         var financeId = $.trim($('#financeId').val());
         var preCode = $.trim($('#preCode').val());
@@ -192,7 +194,8 @@
                                 nextQueryType : nextQueryType,
                                 navigation : navigation,
                                 nodeUrl : nodeUrl,
-                                userName : userName
+                                userName : userName,
+                                car_type : carType
                             }
                         });
                     }
@@ -209,7 +212,8 @@
                             nextQueryType : nextQueryType,
                             navigation : navigation,
                             nodeUrl : nodeUrl,
-                            userName : userName
+                            userName : userName,
+                            car_type : carType
                         }
                     });
                 }

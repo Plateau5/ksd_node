@@ -1,0 +1,259 @@
+<!--转交他人-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/css/transfer.css">
+    <title>转交他人</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <input type="hidden" id="emp_id" value="">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_loan_detail">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item">转交他人</a>
+            </div>
+
+            <div class="dialog_box">
+                <div class="add_principal_dialog">
+                    <div class="content">
+                        <ul class="principal_list">
+                            {{#each (role_list) }}
+                            <li class="list_item character_item" lang="{{this.id}}">{{this.name}}</li>
+                            {{/each}}
+                        </ul>
+                        <ul class="employee_list">
+                            {{#each (emp_list) }}
+                            <li class="list_item employee_item" lang="{{this.role_id }}" style="display:none;">
+                                {{#if (this.image_url === '' || this.image_url.length <= 0) }}
+                                <img src="{{markUri}}/static/img/employee/perIcon.png" alt="">
+                                {{else}}
+                                <img src="{{this.image_url}}" alt="">
+                                {{/if}}
+                                <span class="employee_name" lang="{{this.id}}">{{this.name }}</span>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    <div class="transfer-remark">
+                        <textarea id="transfer-remark" name="" value="" placeholder="请输入转交原因（必填）" maxlength="200"></textarea>
+                    </div>
+                    <div class="error"></div>
+                    {{#if (verifyCode(1120)) }}
+                        <div class="btn_box">
+                            <a href="javascript:" class="btn orange_btn confirm dialog_confirm" data-advance_id="{{vo.advance_id}}" id="dialog_confirm">确定</a>
+                            <a href="javascript:" class="btn bg_btn cancel go_loan_detail">取消</a>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
+</div>
+<div id="loading" class="loading" style="display: none;"></div>
+<input type="hidden" name="advance_ids" id="advance_ids" value="{{advance_ids}}">
+<input type="hidden" name="supplier_name" value="{{reqParams.supplier_name}}" id="supplier_name">
+<input type="hidden" name="supplier_id" value="{{reqParams.supplier_id}}" id="supplier_id">
+<input name="list_type" id="list_type" type="hidden" value="{{reqParams.list_type}}">
+<input type="hidden" name="url" value="{{reqParams.url}}" id="url">
+<input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
+<input type="hidden" name="timeorder_type" value="{{reqParams.timeorder_type}}" id="timeorderType">
+<input type="hidden" name="receipt_type" value="{{reqParams.receipt_type}}" id="receiptType">
+<input type="hidden" name="orderby_type" value="{{reqParams.orderby_type}}" id="orderbyType">
+<input type="hidden" name="start_with" value="{{reqParams.start_with}}" id="start_with">
+<input name="pay_account" id="pay_account" type="hidden" value="{{reqParams.pay_account}}">
+<input name="settlement_type" id="settlement_type" type="hidden" value="{{reqParams.settlement_type}}">
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/merchants.js"></script>
+<script>
+    var listType = $('#list_type').val().trim();        // 列表页类型
+    var listUrl = $('#url').val().trim();           // 列表页路径
+    var navigation = $('#navigation').val().trim();         // 列表页节点名称
+    var merchantId = $('#supplier_id').val().trim();        // 商户ID
+    var merchantName = $('#supplier_name').val().trim();     // 商户名称
+    var timeorderType = $('#timeorderType').val().trim();     // 时间
+    var receiptType = $('#receiptType').val().trim();     // 款项类型
+    var orderbyType = $('#orderbyType').val().trim();     //    订单排序
+    var start_with = $('#start_with').val().trim();     // 首字母
+    var payAccount = $('#pay_account').val().trim();        // 默认账户
+    var settlementType = $('#settlement_type').val().trim();       // 结算方式
+    $(function(){
+        //页面初始化
+        $('.principal_list .list_item').eq(0).addClass('active');
+
+        var langFirst = $('.principal_list .list_item').eq(0).attr('lang');
+        $('.employee_list .list_item[lang="' + langFirst + '"]').css('display','block');
+        clearBorder(langFirst);
+
+        //角色选择
+        $('.principal_list .list_item').each(function(index){
+            $('.principal_list .list_item').eq(index).click(function(){
+                var lang_val = $(this).attr('lang');
+                $(this).addClass('active').siblings('.list_item').removeClass('active');
+                $('.employee_list .list_item').each(function(index){
+                    $('.employee_list .list_item').eq(index).css('display','none');
+                });
+                $('.employee_list .list_item[lang="' + lang_val + '"]').css('display','block');
+                clearBorder(lang_val);
+            })
+        });
+
+        //人员选择
+        $('.employee_list .list_item').each(function(index){
+            $('.employee_list .list_item').eq(index).click(function(){
+                var emp_id = $(this).find('.employee_name').attr('lang');
+                $('#emp_id').val(emp_id);
+                $(this).addClass('active').siblings('.employee_item').removeClass('active');
+                var id = $('#emp_id').val();
+                if(!id){
+                    $('.error').text('请选择要转交的人员');
+                    $('.error').css('display','block');
+                    $('#dialog_confirm').attr('disabled','false');
+                    return;
+                }
+                $('.error').text('');
+                $('.error').css('display','none');
+
+            });
+        });
+
+        //转交原因校验
+        $('#transfer-remark').blur(function(){
+            var remark = $('#transfer-remark').val();
+            if(!remark){
+                $('.error').text('请填写转交原因');
+                $('.error').css('display','block');
+                $('#dialog_confirm').attr('disabled','false');
+                return;
+            }
+            $('.error').text('');
+            $('.error').css('display','none');
+        });
+
+        //转交确定
+        $('#dialog_confirm').click(function(){
+            var _this = $(this);
+            $('#dialog_confirm').attr('disabled','true');
+            var id = $('#emp_id').val();
+            if(!id){
+                $('.error').text('请选择要转交的人员');
+                $('.error').css('display','block');
+                $('#dialog_confirm').attr('disabled','false');
+                return;
+            }
+            var remark = $('#transfer-remark').val().trim();
+            if(!remark){
+                $('.error').text('请填写转交原因');
+                $('.error').css('display','block');
+                $('#dialog_confirm').attr('disabled','false');
+                return;
+            }
+            $('.error').text('');
+            $('.error').css('display','none');
+            var advanceIds = $.trim($('#advance_ids').val());
+            $.ajax({
+                type:"post",
+                url :contextPath + "/api/loan/batch/turnover",
+                dataType:"json",
+                data:{
+                    advance_ids : advanceIds,
+                    emp_id: id,
+                    remark: remark
+                },
+                async:false,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                error:function(xhr,status,err){
+                    alert("系统异常");
+                },
+                success:function(data){
+                    $('#loading').hide();
+                    if(data.error_code =='0'){
+//                        window.location.href = contextPath + markUri + "/customer/financial/pendingAudit";
+                        var detailPath = '';
+                        if (listType == 1) {
+                            detailPath = '/loan/pending/list';
+                        } else if (listType == 2) {
+                            detailPath = '/loan/pass/list';
+                        }
+                        locationTo({
+                            action : contextPath + markUri + detailPath,
+                            param : {
+                                supplier_id : merchantId,
+                                pay_account: payAccount,
+                                timeorder_type: timeorderType,
+                                receipt_type: receiptType,
+                                orderby_type: orderbyType,
+                                supplier_name : merchantName,
+                                url : listUrl,
+                                navigation : navigation,
+                                list_type : listType,
+                                settlement_type: settlementType
+                            }
+                        })
+                    }else{
+                        $('.error').text(data.error_msg);
+                        $('.error').css('display','block');
+                    }
+                    $('#dialog_confirm').attr('disabled','false');
+                }
+            });
+
+        });
+
+        //去除边线
+        function clearBorder(lang){
+            var emp_length = $('.employee_list .list_item[lang="' + lang + '"]').length;
+            if(emp_length > 5){
+                var border_bottom = parseFloat(emp_length % 5);
+                if(border_bottom > 0){
+                    for(var i = 0; i < border_bottom; i++){
+                        $('.employee_list .list_item[lang="' + lang + '"]').eq(emp_length - i - 1).css('border-bottom','none');
+                    }
+                }
+            }else{
+                $('.employee_list .list_item[lang="' + lang + '"]').css('border-bottom','none');
+            }
+
+        }
+
+        pageJump(".go_forward",{
+            url : contextPath + markUri + "/customer/financial/pendingAudit",
+            active : "wait"
+        });
+        goLoanOrderList();      // 跳转订单详情页
+    });
+
+</script>
+
+</html>
