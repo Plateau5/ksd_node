@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>产品管理</title>
     {{include ("./../inc/cssSources")}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/product/detail.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
 </head>
@@ -49,17 +48,17 @@
                     <div class="date_num1">
                         <!--<span>{{downpayment_rate_first }}</span>-->
                         {{#if (vo.downpayment_type === 1 || vo.downpayment_type === -1) }}
-                            {{#if (downpayment_rate.length === 1) }}
-                                <span class="date_num2">{{this}}%</span>
-                            {{else}}
-                                {{#each (downpayment_rate) }}
+                            {{#each (downpayment_rate) }}
+                                {{#if (downpayment_rate.length === 1) }}
+                                    <span class="date_num2">{{this}}%</span>
+                                {{else}}
                                     {{#if (xindex !== downpayment_rate.length-1) }}
                                         <span class="date_num2">{{this}}%、</span>
                                     {{else}}
                                         <span class="date_num2">{{this}}%</span>
                                     {{/if}}
-                                {{/each}}
-                            {{/if}}
+                                {{/if}}
+                            {{/each}}
                         {{/if}}
                         {{#if (vo.downpayment_type === 2) }}
                             {{#each (downpayment_rate) }}
