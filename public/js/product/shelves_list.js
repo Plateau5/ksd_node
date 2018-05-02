@@ -41,7 +41,7 @@ $(function(){
 
     //操作按钮交互
     btn_hover($('.select_all_btn'));
-    btn_hover($('.delete_btn'),'delete');
+    // btn_hover($('.delete_btn'),'delete');
     btn_hover($('.update_btn'),'update');
     btn_hover($('.publish_list_btn'),'shelves');
 
