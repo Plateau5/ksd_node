@@ -141,6 +141,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
         page : './organization/policyEdit',
         callback : function (data) {
             var citys = data.cityList;
+            data.citysNum = data.cityList.length;       // 存储城市总量
             var cityList = [];
             var provinceId = [];
             data.rebatePolicies = JSON.stringify(data.rebatePolicy);

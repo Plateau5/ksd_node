@@ -427,6 +427,8 @@
 <script src="{{markUri}}/static/js/citySelect.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var citysNum = '{{citysNum}}';
+    citysNum = citysNum.number();
     var list = '{{cityList}}'; // 城市数据
     list = JSON.parse(list.replace(/&quot;/ig, '"'));
     var __LocalDataCities = formatCityData(list);
@@ -455,7 +457,8 @@
                 /*SelCity(this,e);*/
                 var _this = $(this);
                 var checkedCitys = getCheckedCitys(_this).cityIds.length;
-                var allCitys = list.length;
+//                 var allCitys = list.length;
+                var allCitys = citysNum;
                 if(allCitys == checkedCitys){
                     $alert('暂无可选的城市');
                     return;
