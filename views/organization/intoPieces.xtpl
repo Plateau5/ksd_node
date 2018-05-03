@@ -37,13 +37,13 @@
             <div class="tab">
                 <ul class="tab_list inline_block">
                     {{#if (reqParams.applyto_business.indexOf(',') !== -1 ) }}
-                        <li class="tab_item type_normal {{#if (reqParams.car_type === '0') }}active{{/if}}" data-type="{{reqParams.applyto_business.split(',')[0]}}"><span></span>新车</li>
+                        <li class="tab_item type_normal {{#if (reqParams.car_type === '0') }}active{{/if}}" data-type="{{reqParams.applyto_business.split(',')[0]}}" {{#if (reqParams.car_type === '0') }}style="border-left:0px;"{{/if}}><span></span>新车</li>
                         <li class="tab_item type_others {{#if (reqParams.car_type === '1') }}active{{/if}}" data-type="{{reqParams.applyto_business.split(',')[1]}}"><span></span>二手车</li>
                     {{else}}
                         {{#if (reqParams.applyto_business === '1')}}
                             <li class="tab_item type_normal active" data-type="{{reqParams.applyto_business}}"><span></span>二手车</li>
                         {{else}}
-                            <li class="tab_item type_normal active" data-type="{{reqParams.applyto_business}}"><span></span>新车</li>
+                            <li class="tab_item type_normal active" data-type="{{reqParams.applyto_business}}" style="border-left:0px;"><span></span>新车</li>
                         {{/if}}
                     {{/if}}
                 </ul>
