@@ -89,7 +89,7 @@ $(function(){
             $("#phone").parent().next().next().next().html("请输入手机号");
             return;
         }
-        var reg=/^1[3|4|5|8|7]\d{9}$/;
+        var reg=/^1[3|4|5|8|7|6|9]\d{9}$/;
         if(!reg.test($("#phone").val())){
             $("#phone").parent().next().next().next().html("请输入11位数字的手机号");
             return;
@@ -166,7 +166,7 @@ $(function(){
     });
     $("#phone").blur(function(){
         var val=$("#phone").val();
-        var reg=/^1[3|4|5|8|7]\d{9}$/;
+        var reg=/^1[3|4|5|8|7|6|9]\d{9}$/;
         if(!reg.test(val)){
             $("#phone").parent().next().next().next().html("请输入11位数字的手机号");
             $("#phone").parent().next().next().css("display","none");
