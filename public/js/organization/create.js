@@ -82,14 +82,18 @@ $(function(){
             return;
         }
         if(parseInt(val1) < 18){
-            $(this).parent().parent().find('.formError').html('年龄不能低于18岁');
+            $(this).parent().find('.formError').html('年龄不能低于18岁');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         if(parseInt(val2) > 65){
-            $(this).parent().parent().find('.formError').html('年龄不能高于65岁');
+            $(this).parent().find('.formError').html('年龄不能高于65岁');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         var reg = /^\d{1,2}$/;
         var error_txt1 = '请输入正确的年龄数';
@@ -101,19 +105,23 @@ $(function(){
         var val1 = $(this).val();
         var val2 = $('#age_start').val();
         if(val1 == '' && val2 == ''){
-            $(this).parent().parent().find('.formError').html('');
+            $(this).parent().find('.formError').html('');
             $(this).css('border-color','#ccc');
             return;
         }
         if(parseInt(val2) < 18){
-            $(this).parent().parent().find('.formError').html('年龄不能低于18岁');
+            $(this).parent().find('.formError').html('年龄不能低于18岁');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         if(parseInt(val1) > 65){
-            $(this).parent().parent().find('.formError').html('年龄不能高于65岁');
+            $(this).parent().find('.formError').html('年龄不能高于65岁');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         var reg = /^\d{1,2}$/;
         var error_txt1 = '请输入正确的年龄数';
@@ -125,19 +133,23 @@ $(function(){
         var val1 = $(this).val();
         var val2 = $('#carage_end').val();
         if(val1 == '' && val2 == ''){
-            $(this).parent().parent().find('.formError').html('');
+            $(this).parent().find('.formError').html('');
             $(this).css('border-color','#ccc');
             return;
         }
         if(parseFloat(val1) < 0.5 || parseFloat(val2) < 0.5){
-            $(this).parent().parent().find('.formError').html('车龄不能低于0.5年');
+            $(this).parent().find('.formError').html('车龄不能低于0.5年');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         if(parseFloat(val1) > 15 ||parseFloat(val2) > 15){
-            $(this).parent().parent().find('.formError').html('车龄不能超过15年');
+            $(this).parent().find('.formError').html('车龄不能超过15年');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         var reg = /^[\d]+(\.\d)?$/;
         var error_txt1 = '请输入正确的车龄数';
@@ -149,19 +161,23 @@ $(function(){
         var val1 = $(this).val();
         var val2 = $('#carage_start').val();
         if(val1 == '' && val2 == ''){
-            $(this).parent().parent().find('.formError').html('');
+            $(this).parent().find('.formError').html('');
             $(this).css('border-color','#ccc');
             return;
         }
         if(parseFloat(val1) < 0.5 || parseFloat(val2) < 0.5){
-            $(this).parent().parent().find('.formError').html('车龄不能低于0.5年');
+            $(this).parent().find('.formError').html('车龄不能低于0.5年');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         if(parseFloat(val1) > 15 || parseFloat(val2) > 15){
-            $(this).parent().parent().find('.formError').html('车龄不能超过15年');
+            $(this).parent().find('.formError').html('车龄不能超过15年');
             $(this).css('border-color','#FB2741');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         var reg = /^[\d]+(\.\d)?$/;
         var error_txt1 = '请输入正确的车龄数';
@@ -431,7 +447,7 @@ function num_check(obj1,obj2,reg,error_txt1,error_txt2){
     var val1 = obj1.val();
     if(val1 != ''){
         if(!reg.test(val1)){
-            obj1.parent().parent().find('.formError').html(error_txt1);
+            obj1.parent().find('.formError').html(error_txt1);
             obj1.css('border-color','#FB2741');
             return;
         }
@@ -439,17 +455,17 @@ function num_check(obj1,obj2,reg,error_txt1,error_txt2){
     var val2 = obj2.val();
     if(val2 != ''){
         if(!reg.test(val2)){
-            obj1.parent().parent().find('.formError').html(error_txt1);
+            obj1.parent().find('.formError').html(error_txt1);
             obj2.css('border-color','#FB2741');
             return;
         }
         if(parseInt(val1) >= parseInt(val2)){
-            obj1.parent().parent().find('.formError').html(error_txt2);
+            obj1.parent().find('.formError').html(error_txt2);
             obj2.css('border-color','#FB2741');
             return;
         }
     }
-    obj1.parent().parent().find('.formError').html('');
+    obj1.parent().find('.formError').html('');
     obj1.css('border-color','#ccc');
     obj2.css('border-color','#ccc');
 }

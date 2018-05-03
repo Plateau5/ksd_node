@@ -174,15 +174,19 @@
                             <span class="formError"></span>
                         </div>
                     </div>
+                    {{#if (vo.applyto_business.indexOf("1")!== -1) }}
+                    <div class="option_item carage_limit">
+                    {{else}}
                     <div class="option_item carage_limit" style="display: none;">
+                    {{/if}}
                         <div class="column_name">
                             <em class="require_icon">*</em>
                             <span class="options_name">车龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="minCarAge wid_half" value="{{vo.carage_start }}" name="carage_start" placeholder="1">
+                            <input id="carage_start" type="text" class="minCarAge wid_half" value="{{vo.carage_start }}" name="carage_start" placeholder="1">
                             <span class="pad_lf_rt_8">-</span>
-                            <input type="text" class="maxCarAge wid_half" value="{{vo.carage_end }}" name="carage_end" placeholder="9">
+                            <input id="carage_end" type="text" class="maxCarAge wid_half" value="{{vo.carage_end }}" name="carage_end" placeholder="9">
                             <span class="pad_lf_rt_8">年</span>
                             <span class="formError"></span>
                         </div>
@@ -192,9 +196,9 @@
                             <span class="options_name">年龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="wid_half" name="age_start" value="{{vo.age_start }}" placeholder="请输入最低年龄">
+                            <input id="age_start" type="text" class="wid_half" name="age_start" value="{{vo.age_start }}" placeholder="请输入最低年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
                             <span class="pad_lf_rt_8">-</span>
-                            <input type="text" class="wid_half" name="age_end" value="{{vo.age_end }}" placeholder="请输入最高年龄">
+                            <input id="age_end" type="text" class="wid_half" name="age_end" value="{{vo.age_end }}" placeholder="请输入最高年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
                             <span class="pad_lf_rt_8">岁</span>
                             <span class="remark_text add_txt">备注</span>
                             <div class="remarks_box" style="display: none;">
@@ -724,8 +728,8 @@
 <div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
-<script src="{{markUri}}/static/js/organization/create.js"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/organization/create.js"></script>
 <script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script type="text/javascript">
     (function ($) {
@@ -750,16 +754,14 @@
             }
             //适用业务
             var applyto_business = $('#applyto_business');
-            console.log(applyto_business.find('input').eq(0).val());
-            console.log(applyto_business.find('input').eq(1).val());
-            var applyto_business1 = applyto_business.find('input').eq(0).attr('checked');
-            var applyto_business2 = applyto_business.find('input').eq(1).attr('checked');
-            if(!applyto_business1 && !applyto_business2){
+            var applyto_business1 = applyto_business.find('label').eq(0);
+            var applyto_business2 = applyto_business.find('label').eq(1);
+            if (applyto_business1.hasClass('checked') || applyto_business2.hasClass('checked')) {
+                applyto_business.find('.formError').html('');
+            } else {
                 applyto_business.find('.formError').html('请选择机构的适用业务');
                 btn.attr('disabled',false);
                 return;
-            } else {
-                applyto_business.find('.formError').html('');
             }
             //有无机构LOGO
             var have_logo = $('#image_url .icon_check').length;

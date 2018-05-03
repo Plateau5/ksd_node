@@ -124,9 +124,9 @@
                             <span class="options_name">车龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="minCarAge wid_half" name="carage_start" placeholder="1" value="1">
+                            <input id="carage_start" type="text" class="minCarAge wid_half" name="carage_start" placeholder="1" value="1">
                             <span class="pad_lf_rt_8">-</span>
-                            <input type="text" class="maxCarAge wid_half" name="carage_end" placeholder="9" value="9">
+                            <input id="carage_end" type="text" class="maxCarAge wid_half" name="carage_end" placeholder="9" value="9">
                             <span class="pad_lf_rt_8">年</span>
                             <span class="formError"></span>
                         </div>
@@ -136,14 +136,15 @@
                             <span class="options_name">年龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="wid_half" name="age_start" placeholder="请输入最低年龄">
+                            <input id="age_start" type="text" class="wid_half" name="age_start" placeholder="请输入最低年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
                             <span class="pad_lf_rt_8">-</span>
-                            <input type="text" class="wid_half" name="age_end" placeholder="请输入最高年龄">
+                            <input id="age_end" type="text" class="wid_half" name="age_end" placeholder="请输入最高年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
                             <span class="pad_lf_rt_8">岁</span>
                             <span class="remark_text add_txt">备注</span>
                             <div class="remarks_box" style="display: none;">
                                 <textarea placeholder="请输入内容" name="age_remark" id="age_remark" class="form-control" maxlength="200"></textarea>
                             </div>
+                            <span class="formError"></span>
                         </div>
                     </div>
                     <div class="option_item">
@@ -153,12 +154,12 @@
                         </div>
                         <div class="column_val">
                             <select name="approve_speed" class="" id="approval">
-                                <option value="0">1-20分钟</option>
-                                <option value="1">1-3个小时</option>
-                                <option value="2">半个工作日</option>
-                                <option value="3">1个工作日</option>
-                                <option value="4">1-2个工作日</option>
-                                <option value="5">3个工作日</option>
+                                <option value="1">1-20分钟</option>
+                                <option value="2">1-3个小时</option>
+                                <option value="3">半个工作日</option>
+                                <option value="4">1个工作日</option>
+                                <option value="5">1-2个工作日</option>
+                                <option value="6">3个工作日</option>
                             </select>
                             <span class="formError"></span>
                         </div>

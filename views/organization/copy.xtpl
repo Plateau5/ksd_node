@@ -24,7 +24,7 @@
         <div id="main" class="main product_new">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a data-id="{{vo.parent_id}}" class="TS crumbs_item go_forward" data-url="{{markUri}}/supplier/organization/unpublishedProducts" style="cursor: pointer;">产品管理</a>
+                <a data-id="{{vo.parent_id}}" class="TS crumbs_item go_forward" data-url="{{markUri}}/supplier/organization/publishedProducts" style="cursor: pointer;">产品管理</a>
                 <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
             <!--form start-->
@@ -190,7 +190,7 @@
                                     {{#if (downpayment_money_size >= 5) }}
                                     <div class="column_val downpayment_add" style="margin-top: 10px;display: none;">
                                         {{else}}
-                                        <div class="column_val downpayment_add" style="margin-top: 10px;display: block;padding-left: 20px;">
+                                        <div class="column_val downpayment_add" style="margin-top: 10px;display: block;padding-left: 0px;margin-left: 12%;">
                                             {{/if}}
                                             <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" style="width:90px;" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;"/>
                                             <span>元</span>
