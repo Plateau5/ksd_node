@@ -363,13 +363,17 @@
 
                 //首付金额
                 if (downpayment_select.val() == 2) {
-                    if ($('.downpayment_add input').val() == '') {
-                        $('.downpayment_add').find('.formError').html('请输入首付金额');
-                        add_btn_y.attr('disabled',false);
-                        add_btn_n.attr('disabled',false);
-                        return;
-                    } else {
+                    if ($('.downpayment_add').css('display') == 'none') {
                         $('.downpayment_add').find('.formError').html('');
+                    } else {
+                        if ($('.downpayment_add input').val() == '') {
+                            $('.downpayment_add').find('.formError').html('请输入首付金额');
+                            add_btn_y.attr('disabled',false);
+                            add_btn_n.attr('disabled',false);
+                            return;
+                        } else {
+                            $('.downpayment_add').find('.formError').html('');
+                        }
                     }
                 }
                 //首付比例
@@ -459,7 +463,7 @@
             var parameters = new FormData(document.getElementById('product_create'));
             $.ajax({
                 type:'post',
-                timeout:5000,
+                timeout:8000,
                 url : url,
                 data : parameters,
                 processData : false,      //序列化参数为String类型，默认：true。

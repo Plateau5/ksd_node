@@ -17,7 +17,8 @@ $(function(){
             action : contextPath + markUri + "/supplier/organization/productDetail",
             param : {
                 id : id,
-                data_num : data_num
+                data_num : data_num,
+                page_flag : 0
             }
         });
     });

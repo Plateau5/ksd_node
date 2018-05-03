@@ -25,7 +25,7 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a data-id="{{vo.parent_id}}" class="TS crumbs_item" style="cursor: pointer;">{{parent_name}}</a>
+                <a data-id="{{parent_id}}" class="TS crumbs_item" style="cursor: pointer;">{{parent_name}}</a>
                 <a href="javascript:;" class="crumbs_item">仓库中的产品</a>
             </div>
             <div class="listConHeader relative selectBox" style="margin-bottom:2px;">
@@ -154,7 +154,9 @@
                 <!--tableList end-->
 
             <!--pages start-->
-            {{include('./../inc/paginition')}}
+                <div class="page_box">
+                    {{include('./../inc/paginations')}}
+                </div>
             <!--pages end-->
 
                 {{#if (count === 0) }}
