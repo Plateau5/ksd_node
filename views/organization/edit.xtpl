@@ -890,6 +890,13 @@
                 }
             });
         }
+        //城市icon点击
+        function iconCity () {
+            var btn = $('.city_icon');
+            btn.off('click').on('click', function () {
+                $('.select_city_input').click();
+            });
+        }
 
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
@@ -898,6 +905,7 @@
             getPrincipal();
             getOrgFeature();
             getAdditionalProject();
+            iconCity();
             selectCity(1);
             saveOrg();
         });

@@ -171,6 +171,7 @@
                             <input type="hidden" class="select_province_ids" name="outsettling_province"  value=""/>
                             <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
                             <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+                            <em class="city_icon"></em>
                         </div>
                     </div>
                     <div class="option_item">
@@ -556,6 +557,13 @@
                 }
             });
         }
+        //城市icon点击
+        function iconCity () {
+            var btn = $('.city_icon');
+            btn.off('click').on('click', function () {
+                $('.select_city_input').click();
+            });
+        }
 
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
@@ -564,6 +572,7 @@
             getPrincipal();
             getOrgFeature();
             getAdditionalProject();
+            iconCity();
             selectCity(0);
             saveOrg();
         });
