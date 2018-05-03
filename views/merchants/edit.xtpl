@@ -126,7 +126,7 @@
                                     {{#if (this.id === detail.city_id) }}
                                         <option value="{{this.id}}" data-code="{{this.code}}" selected>{{this.name}}</option>
                                     {{else}}
-                                        <option value="{{this.id}}">{{this.name}}</option>
+                                        <option value="{{this.id}}" data-code="{{this.code}}" >{{this.name}}</option>
                                     {{/if}}
                                 {{/each}}
                             </select>
@@ -667,6 +667,9 @@
 <script type="text/javascript" src="{{markUri}}/static/js/merchantsEdit.js"></script>
 <script>
     var empList = "{{empList}}";
+    var geoCode = '{{geoCode}}';        // 已展业城市的高德地图code对应值
+    geoCode = geoCode.split(',');
+    console.log(geoCode);
     empList = JSON.parse(empList.replace(/&quot;/ig, '"'));
     var merchantId = $.trim($('#supplierId').val());
     // storeType：店面类型
