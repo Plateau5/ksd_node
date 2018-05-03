@@ -190,9 +190,9 @@
                             {{#if (downpayment_money_size >= 5) }}
                             <div class="column_val downpayment_add" style="margin-top: 10px;display: none;">
                             {{else}}
-                            <div class="column_val downpayment_add" style="margin-top: 10px;display: block;margin-left: 12%;padding-left: 0px;">
+                            <div class="column_val downpayment_add" style="margin-top: 10px;display: block;padding-left: 20px;">
                             {{/if}}
-                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" style="width:90px;" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
+                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money_add" value="" style="width:90px;" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;"/>
                                 <span>元</span>
                                 <span class="cursor downpayment_add_txt">添加</span>
                                 <span class="formError"></span>

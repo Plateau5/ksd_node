@@ -83,7 +83,7 @@ $(function(){
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
             var num = $('.downpayment_add input').val();
-            var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="" value="' + num + '" style="width: 12%;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+            var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
             $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
             $('.downpayment_add').css('paddingLeft','30px');
             $('.downpayment_add').before(inner);
