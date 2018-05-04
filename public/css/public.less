@@ -890,8 +890,8 @@ table.normal{
     //margin-top: 14px;
     .conditions_name{
         //float: left;
-        margin-right: 20px;
-        color: #999999;
+        margin-right: 4px;
+        color: @label-color;
     }
     .filtrate_box{
         //float: left;
@@ -912,22 +912,35 @@ table.normal{
             cursor: pointer;
         }
     }
+    .date_conditions{
+        padding:24px 8px;
+        margin-top: 15px;
+        border: 1px dashed #CFCFCF;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        .btn_box{
+            margin: 0;
+            height: 50px;
+            line-height: 50px;
+        }
+    }
     .date_conditions .conditions_item{
         margin-top: 13px;
     }
     .filtrate_audit_type,.filtrate_city{
-        margin-left: 30px;
+        margin-left: 20px;
     }
     .filtrate_audit_type,.filtrate_order_status{
-        margin-left: 30px;
+        margin-left: 20px;
     }
     .filtrate_audit_type,.filtrate_requestpayout_type{
-        margin-left: 30px;
+        margin-left: 20px;
     }
     .filtrate_date{
         width: 190px;
-        height: 28px;
-        line-height: 28px;
+        height: 30px;
+        line-height: 30px;
         padding: 0 @date-right 0 10px;
         border: 1px solid #f2f2f2;
         //-webkit-border-radius: @normal-radius;
@@ -937,6 +950,11 @@ table.normal{
         cursor: default;
 
     }
+    /***** 客户归档时间框 Start ******/
+    .archiving_time{
+        width:90px;
+    }
+    /***** 客户归档时间框 End ******/
     .filtrate_select{
         width:100px;
         height: 28px;
@@ -1243,21 +1261,22 @@ table.normal{
 }
 .finance_list .list_item {
     position: relative;
-    height: 160px;
-    padding: 10px 0;
+    height: 180px;
+    padding: 14px 0;
     /*margin-bottom: 20px;*/
     //overflow: hidden;
     .create_date{
         height: 30px;
         line-height: 30px;
         text-align: left;
-        color: #808891;
-        opacity: .5;
+        font-size:10px;
+        color: #999;
     }
     .list_item_detail{
         position: relative;
-        height: 120px;
-        padding: 10px 0;
+        height: 110px;
+        padding:15px 0;
+        background:#F8F8F8;
         -webkit-border-radius: @normal-radius;
         -moz-border-radius: @normal-radius;
         border-radius: @normal-radius;
@@ -1284,13 +1303,14 @@ table.normal{
 }
 .finance_list .list_item .user_info img,
 .finance_list .list_item .user_info .lender{
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: 1px solid #ddd;
     margin: 10px auto 5px;
     text-align: center;
-    line-height: 40px;
+    line-height: 50px;
+    font-size:24px;
 }
 .finance_list .list_item .user_info .lender,
 .finance_list .list_item .user_info .shake-lender{
@@ -1305,10 +1325,11 @@ table.normal{
 }
 .finance_list .list_item .user_info .user_name,
 .finance_list .list_item .user_info .user_position {
-    height: 30px;
-    line-height: 30px;
+    height: 24px;
+    line-height: 24px;
     padding: 0 12px;
-    font-size: 12px;
+    font-size: 14px;
+    color:#333;
 }
 .finance_list .list_item .user_info .user_position {
     line-height: 15px;
@@ -1318,10 +1339,10 @@ table.normal{
     content: "";
     display: block;
     position: absolute;
-    top: 15px;
+    top: 0;
     right: 0;
-    height: 86px;
-    border-right: 1px solid #D8D8D8;
+    height: 120px;
+    border-right: 1px solid #DCDCDC;
 }
 .finance_list .finance_desc {
     margin-left: 30px;
@@ -1329,13 +1350,12 @@ table.normal{
 }
 .finance_list .finance_desc dl {
     float: left;
-    height: 100px;
+    padding-top:38px;
 }
 
 .finance_list .finance_desc dl dd {
-    height: 45px;
-    line-height: 45px;
     padding: 0 8px;
+    color:#333;
     font-weight: normal;
     overflow: hidden;
     -ms-text-overflow: ellipsis;
@@ -1343,10 +1363,8 @@ table.normal{
     white-space: nowrap;
 }
 .finance_list .finance_desc dl dt {
-    height: 55px;
-    line-height: 70px;
-    font-size: 12px;
-    color: #808891;
+    color: #666;
+    padding-bottom:18px;
 }
 .finance_list .finance_desc .effect_one {
     width: 20%;
@@ -1448,7 +1466,7 @@ table.normal{
     height: 30px;
     position: absolute;
     right: 60px;
-    top: 0;
+    top: 15px;
 }
 .shake {
     float: left;
@@ -2819,3 +2837,77 @@ textarea{
     text-overflow: ellipsis;
 }
 /***** 商户详细内容弹出层 End ******/
+
+/***** 客户筛选搜索 Start ******/
+.search_box{
+    position: relative;
+    width:130px;
+    height:30px;
+    line-height:30px;
+    border:1px solid #cacaca;
+    background:#fff;
+    color:#999;
+    .search_input{
+        position: relative;
+        padding-right:20px;
+        height:30px;
+        &:before{
+            position: absolute;
+            right: 5px;
+            top: 10px;
+            display: block;
+            content: '';
+            width: 11px;
+            height: 11px;
+            background: url(../img/manager_search_icon.png) no-repeat;
+        }
+        .m_search{
+            width: 100px;
+            height: 26px;
+            padding: 0 5px;
+            border: none;
+            vertical-align: inherit;
+        }
+    }
+    .search_result{
+        position: absolute;
+        right:0;
+        margin-top:10px;
+        padding:24px 22px;
+        width:240px;
+        height:168px;
+        background: #fff;
+        border:1px solid #DCDCDC;
+        -webkit-border-radius:1px solid #DCDCDC;
+        -moz-border-radius: 1px solid #DCDCDC;
+        border-radius: 1px solid #DCDCDC;
+        -webkit-box-shadow:  0 0 5px 1px #e4e4e4;
+        -moz-box-shadow: 0 0 5px 1px #e4e4e4;
+        box-shadow: 0 0 5px 1px #e4e4e4;
+        z-index:10;
+        &:after{
+            position: absolute;
+            top: -5px;
+            right: 16px;
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-top: 1px solid #DCDCDC;
+            border-right: 1px solid #DCDCDC;
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+        }
+        .res_item{
+            color:#333;
+            line-height: 24px;
+            font-size:12px;
+            span:first-child{
+                margin-right: 20px;
+            }
+        }
+    }
+}
+
+/***** 客户筛选搜索 End ******/
