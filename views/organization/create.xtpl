@@ -490,14 +490,14 @@
             var maxCarAge = $('.maxCarAge');
             if (usedCar_status == 'checked') {
                 if (minCarAge.val() == '' || maxCarAge.val() == '') {
-                    minCarAge.find('.formError').html('请输入车龄区间');
+                    minCarAge.parent().find('.formError').html('请输入车龄区间');
                     btn.attr('disabled',false);
                     return;
                 } else {
-                    minCarAge.find('.formError').html('');
+                    minCarAge.parent().find('.formError').html('');
                 }
             } else {
-                minCarAge.find('.formError').html('');
+                minCarAge.parent().find('.formError').html('');
             }
             //审批速度
             var approval =$('.approval');

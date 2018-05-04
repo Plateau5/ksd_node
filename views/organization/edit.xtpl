@@ -337,19 +337,19 @@
                             <div class="form_group mar6">
                                 {{#if (vo.bei_hu === 1) }}
                                 <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
-                                <label for="back_door_need" class="checked">需要</label>
+                                <label for="back_door_need" class="checked">可以</label>
                                 {{else}}
                                 <input id="back_door_need" type="radio" name="back_door_need" value="1">
-                                <label for="back_door_need">需要</label>
+                                <label for="back_door_need">可以</label>
                                 {{/if}}
                             </div>
                             <div class="form_group mar6">
                                 {{#if (vo.bei_hu === 2) }}
                                 <input id="back_door_noneed" type="radio" checked="checked" name="back_door_need" value="2">
-                                <label for="back_door_noneed" class="checked">不需要</label>
+                                <label for="back_door_noneed" class="checked">不可以</label>
                                 {{else}}
                                 <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
-                                <label for="back_door_noneed">不需要</label>
+                                <label for="back_door_noneed">不可以</label>
                                 {{/if}}
                             </div>
                             <span class="remark_text add_txt">备注</span>
@@ -807,14 +807,14 @@
             var maxCarAge = $('.maxCarAge');
             if (usedCar_status == 'checked') {
                 if (minCarAge.val() == '' || maxCarAge.val() == '') {
-                    minCarAge.find('.formError').html('请输入车龄区间');
+                    minCarAge.parent().find('.formError').html('请输入车龄区间');
                     btn.attr('disabled',false);
                     return;
                 } else {
-                    minCarAge.find('.formError').html('');
+                    minCarAge.parent().find('.formError').html('');
                 }
             } else {
-                minCarAge.find('.formError').html('');
+                minCarAge.parent().find('.formError').html('');
             }
             //审批速度
             var approval =$('.approval');
