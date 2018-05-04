@@ -46,6 +46,8 @@ $(function(){
             $('.downpayment_money').css('display','none');
             $('#downpayment_select').parent().parent().find('.formError').html('');
         }else if(val == '2'){
+            $('.downpayment_add').css('padding-left','20px');
+            $('.downpayment_add').css('margin-left','0px');
             $('.downpayment_rate').css('display','none');
             $('.downpayment_money').css('display','block');
             $('#downpayment_select').parent().parent().find('.formError').html('');
@@ -83,7 +85,7 @@ $(function(){
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
             var num = $('.downpayment_add input').val();
-            var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="downpayment_money_add" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+            var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="downpayment_money" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
             $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
             $('.downpayment_add').css('paddingLeft','30px');
             $('.downpayment_add').before(inner);
