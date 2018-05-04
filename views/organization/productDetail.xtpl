@@ -137,7 +137,11 @@
                         <div class="detail_about_txt">
                             <div class="detail_about_label">产品来源：</div>
                             <div class="detail_about_date">
-                                {{vo.product_origin }}
+                                {{#if (vo.product_origin === 1) }}
+                                    金融方
+                                {{else}}
+                                    自营
+                                {{/if}}
                             </div>
                         </div>
                     {{/if}}
