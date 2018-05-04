@@ -396,13 +396,17 @@
                 }
                 //费率
                 var rate_add = $('.rate_add');
-                if (rate_add.find('.interest_rate_data').val() == '') {
-                    rate_add.find('.formError').html('请输入费率');
-                    add_btn_y.attr('disabled',false);
-                    add_btn_n.attr('disabled',false);
-                    return;
-                } else {
+                if (rate_add.css('display') == 'none') {
                     rate_add.find('.formError').html('');
+                } else {
+                    if (rate_add.find('.interest_rate_data').val() == '') {
+                        rate_add.find('.formError').html('请输入费率');
+                        add_btn_y.attr('disabled',false);
+                        add_btn_n.attr('disabled',false);
+                        return;
+                    } else {
+                        rate_add.find('.formError').html('');
+                    }
                 }
                 //融资金额范围
                 var financeamount_start = $('#financeamount_start');

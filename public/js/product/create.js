@@ -224,19 +224,19 @@ $(function(){
         validate_form(1,$('#name'),reg,error_txt);
     });
 
-    $('#financeamount_start').blur(function(){
-        var reg = /^\d+(\.\d{1,2})?$/;
-        var error_txt1 = '请输入正确的融资金额数';
-        var error_txt2 = '请输入正确的融资金额范围';
-        num_check($('#financeamount_start'),$('#financeamount_end'),reg,error_txt1,error_txt2);
-    });
-
-    $('#financeamount_end').blur(function(){
-        var reg = /^\d+(\.\d{1,2})?$/;
-        var error_txt1 = '请输入正确的融资金额数';
-        var error_txt2 = '请输入正确的融资金额范围';
-        num_check($('#financeamount_start'),$('#financeamount_end'),reg,error_txt1,error_txt2);
-    });
+    // $('#financeamount_start').blur(function(){
+    //     var reg = /^\d+(\.\d{1,2})?$/;
+    //     var error_txt1 = '请输入正确的融资金额数';
+    //     var error_txt2 = '请输入正确的融资金额范围';
+    //     num_check($('#financeamount_start'),$('#financeamount_end'),reg,error_txt1,error_txt2);
+    // });
+    //
+    // $('#financeamount_end').blur(function(){
+    //     var reg = /^\d+(\.\d{1,2})?$/;
+    //     var error_txt1 = '请输入正确的融资金额数';
+    //     var error_txt2 = '请输入正确的融资金额范围';
+    //     num_check($('#financeamount_start'),$('#financeamount_end'),reg,error_txt1,error_txt2);
+    // });
 
 });
 //文本框校验
