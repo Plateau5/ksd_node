@@ -548,12 +548,12 @@
             $('#downpayment_rate').val(rate_val.join(','));
             $('.file_ids').val(img_ids.join(','));
             $('.term_hd').val(rates_arr.join(','));
-            ajaxSubmit(url);
+            ajaxSubmit(url,save);
         }
 
 
         //ajax提交參數
-        function ajaxSubmit (url) {
+        function ajaxSubmit (url,save) {
             var parameters = new FormData(document.getElementById('product_create'));
             $.ajax({
                 type:'post',
@@ -570,12 +570,22 @@
                     if (res.error_code == 0) {
                         $alert('操作成功', function () {
                             var parent_id = $('.parent_id').val();
-                            locationTo({
-                                action : contextPath + markUri + '/supplier/organization/publishedProducts',
-                                param : {
-                                    parent_id : parent_id
-                                }
-                            });
+                            if (save == '1') {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/publishedProducts',
+                                    param : {
+                                        parent_id : parent_id
+                                    }
+                                });
+                            } else {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/unpublishedProducts',
+                                    param : {
+                                        parent_id : parent_id
+                                    }
+                                });
+                            }
+
                         });
                     } else {
                         $alert(res.error_msg, function () {
