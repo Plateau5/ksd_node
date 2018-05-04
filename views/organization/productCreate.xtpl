@@ -372,6 +372,17 @@
                             add_btn_n.attr('disabled',false);
                             return;
                         } else {
+                            var downpayment_add_ready = $('.downpayment_add_ready');
+                            var downpayment_money_arr = [];
+                            for(var i = 0; i < downpayment_add_ready.length; i++){
+                                var val = downpayment_add_ready.eq(i).find('input').val();
+                                downpayment_money_arr.push(val);
+                            }
+                            var downpayment_add = $('.downpayment_add input').val();
+                            if(downpayment_add != ''){
+                                downpayment_money_arr.push(downpayment_add);
+                            }
+                            $('#downpayment_money').val(downpayment_money_arr.join(','));
                             $('.downpayment_add').find('.formError').html('');
                         }
                     }

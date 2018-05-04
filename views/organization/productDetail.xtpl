@@ -63,7 +63,15 @@
                     {{#if (vo.downpayment_type === 2) }}
                         <div class="date_num1">
                             {{#each (downpayment_rate) }}
-                                <span class="date_num2">{{this }}元</span>
+                                {{#if (downpayment_rate.length === 1) }}
+                                    <span class="date_num2">{{this}}元</span>
+                                {{else}}
+                                    {{#if (xindex !== downpayment_rate.length-1) }}
+                                        <span class="date_num2">{{this}}元、</span>
+                                    {{else}}
+                                        <span class="date_num2">{{this}}元</span>
+                                    {{/if}}
+                                {{/if}}
                             {{/each}}
                         </div>
                     {{/if}}
