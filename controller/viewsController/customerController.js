@@ -494,10 +494,10 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_SYSTEM = function(req, res, next) {
         res.redirect(markUri + '/404');
     }
 };
-// 客户-归档管理-待处理
+// 客户-归档管理-待归档
 exports.VIEW_CUSTOMER_PIGEONHOLE_PENDING = function(req, res, next) {
     var url = '/api/pigeonhole/getWaitList';
-    common.getCustomerList(url, '待处理', req, res, next);
+    common.getCustomerList(url, '待归档', req, res, next);
 };
 // 客户-归档管理-已归档
 exports.VIEW_CUSTOMER_PIGEONHOLE_ARCHIVED = function(req, res, next) {

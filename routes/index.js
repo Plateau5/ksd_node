@@ -159,7 +159,7 @@ router.all(markUri + '/customer/financial/print', customerCtrl.VIEW_CUSTOMER_FIN
 
 // 客户-归档管理-访问路径 1228
 router.get(markUri + '/customer/pigeonhole/system', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_SYSTEM);
-// 客户-归档管理-待处理 1177
+// 客户-归档管理-待归档 1177
 router.all(markUri + '/customer/pigeonhole/pending', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_PENDING);
 // 客户-归档管理-已归档 1178
 router.all(markUri + '/customer/pigeonhole/archived', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_ARCHIVED);
