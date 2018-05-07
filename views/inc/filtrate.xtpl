@@ -1,10 +1,18 @@
 <div class="filtrate">
     <div class="filtrate date_conditions">
+        {{#if(startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/otherfund'))}}
+        <div class="inline_block">
+            <div class="conditions_name inline_block">时间筛选：</div>
+            <input type="text" id="filtrate_date" class="filtrate_date" placeholder="请选择日期" value="{{condition.time}}" name="time" readonly="readonly" />
+        </div>
+        {{/if}}
+        {{#if(startWith(markUri + '/customer/pigeonhole/pending'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block">归档时间：</div>
-            <input type="text" id="filtrate_date" readonly class="filtrate_date archiving_time" value="" placeholder="请选择日期" /> <span style="color:#D8D8D8">—</span>
-            <input type="text" id="filtrate" readonly class="filtrate_date archiving_time"  value="" placeholder="请选择日期" />
+            <input type="text" id="inpstart1" readonly class="filtrate_date archiving_time" value="" placeholder="请选择日期" /> <span style="color:#D8D8D8">—</span>
+            <input type="text" id="inpend1" readonly class="filtrate_date archiving_time"  value="" placeholder="请选择日期" />
         </div>
+        {{/if}}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_city">地点筛选：</div>
             <select name="city_id" class="filtrate_select city_select" id="city_id">
@@ -18,6 +26,7 @@
                 {{/each}}
             </select>
         </div>
+        {{#if(startWith(markUri + '/customer/pigeonhole/pending'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">状态：</div>
             <select name="risk_type" class="filtrate_select" id="">
@@ -49,9 +58,101 @@
                         <span class="name nowrap" title="" data-lid="71772">张三丰</span>
                         <span class="p_dep nowrap" title="">zhangsf@jizhicar.com</span>
                     </li>
+                    <li class="res_item" title="">
+                        <span class="name nowrap" title="" data-lid="71772">张三丰</span>
+                        <span class="p_dep nowrap" title="">zhangsf@jizhicar.com</span>
+                    </li>
+                    <li class="res_item" title="">
+                        <span class="name nowrap" title="" data-lid="71772">张三丰</span>
+                        <span class="p_dep nowrap" title="">zhangsf@jizhicar.com</span>
+                    </li>
+                    <li class="res_item" title="">
+                        <span class="name nowrap" title="" data-lid="71772">张三丰</span>
+                        <span class="p_dep nowrap" title="">zhangsf@jizhicar.com</span>
+                    </li>
+                    <li class="res_item" title="">
+                        <span class="name nowrap" title="" data-lid="71772">张三丰</span>
+                        <span class="p_dep nowrap" title="">zhangsf@jizhicar.com</span>
+                    </li>
                 </ul>
             </div>
         </div>
+        {{/if}}
+        <!-- 请款客服已通过列表页筛选条件 Begin -->
+        {{#if(startWith(markUri + '/customer/requestpayout/pass'))}}
+        <div class="inline_block">
+            <div class="conditions_name inline_block filtrate_requestpayout_type">类型筛选：</div>
+            <select name="already_request" class="filtrate_select req_type_select" id="request_type">
+                <option value="">全部</option>
+                {{#if (condition.already_request === 0) }}
+                <option value="0">未请款</option>
+                {{elseif (condition.already_request === 1) }}
+                <option value="1">已请款</option>
+                {{/if}}
+            </select>
+        </div>
+        {{/if}}
+        <!-- 请款客服已通过列表页筛选条件 End -->
+        <!-- 客服主管已通过列表页筛选条件 Begin -->
+        {{#if(startWith(markUri + '/customer/loan/passed'))}}
+        <div class="inline_block">
+            <div class="conditions_name inline_block filtrate_order_status">状态筛选：</div>
+            <select name="status" class="filtrate_select order_status_select" id="order_status">
+                <option value="">全部</option>
+                {{#if(condition.status === 5)}}
+                <option value="5" selected="selected">已通过</option>
+                {{else}}
+                <option value="5">已通过</option>
+                {{/if}}
+                {{#if(condition.status === 8)}}
+                <option value="8" selected="selected">已申请合同</option>
+                {{else}}
+                <option value="8">已申请合同</option>
+                {{/if}}
+                {{#if(condition.status === 9)}}
+                <option value="9" selected="selected">已出合同</option>
+                {{else}}
+                <option value="9">已出合同</option>
+                {{/if}}
+                {{#if(condition.status === 10)}}
+                <option value="10"  selected="selected">已请款</option>
+                {{else}}
+                <option value="10">已请款</option>
+                {{/if}}
+                {{#if(condition.status === 11)}}
+                <option value="11"  selected="selected">已放款</option>
+                {{else}}
+                <option value="11">已放款</option>
+                {{/if}}
+                {{#if(condition.status === 12)}}
+                <option value="12" selected="selected">已回款</option>
+                {{else}}
+                <option value="12">已回款</option>
+                {{/if}}
+                {{#if(condition.status === 13)}}
+                <option value="13" selected="selected">已归档</option>
+                {{else}}
+                <option value="13">已归档</option>
+                {{/if}}
+            </select>
+        </div>
+        {{/if}}
+        <!-- 客服主管已通过列表页筛选条件 Begin -->
+        {{#if (risk_list.length >= 0) }}
+        <div class="inline_block">
+            <div class="conditions_name inline_block filtrate_audit_type">风险类型：</div>
+            <select name="risk_type" class="filtrate_select risk_type_select" id="filtrate_audit_type" style="width: 200px;">
+                <option value="">全部</option>
+                {{#each (risk_list) }}
+                {{#if (this.index === condition.risk_type) }}
+                <option value="{{this.index}}" selected="selected">{{this.name}}</option>
+                {{else}}
+                <option value="{{this.index}}">{{this.name}}</option>
+                {{/if}}
+                {{/each}}
+            </select>
+        </div>
+        {{/if}}
         <div class="filtrate_item first_letter_conditions">
             <div class="conditions_name  inline_block lf">姓名筛选：</div>
             <div class="filtrate_box  inline_block">
@@ -74,8 +175,8 @@
         </div>
 
         <div class="btn_box text_right">
-            <a href="javascript:" class="btn bg_btn cancel">清空</a>
-            <a href="javascript:" class="btn orange_btn confirm">筛选</a>
+            <a href="javascript:" class="btn bg_btn cancel customer_search_cancel">清空</a>
+            <a href="javascript:" class="btn orange_btn confirm customer_search_confirm">筛选</a>
         </div>
     </div>
 </div>

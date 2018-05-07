@@ -23,6 +23,8 @@
             <form action="{{originUrl}}" method="post" id="form_search" role="form"></form>
             {{include('./../inc/operationCategory')}}
             {{include('./../inc/filtrate')}}
+            <input type="hidden" name="start" value="{{reqParams.settlement_type}}" id="start">
+            <input type="hidden" name="end" value="{{reqParams.settlement_type}}" id="end">
             <div class="business_list">
                 <form action="{{detailUrl}}" method="post" id="to_order_detail">
                     <input type="hidden" name="active" value="active">
@@ -37,7 +39,7 @@
 
                 <!--分页部分 Begin-->
 
-                    {{include('./../inc/pagination')}}
+                    {{include('./../inc/paginations')}}
 
                 <!--分页部分 End-->
             </div>
@@ -60,11 +62,42 @@
 </html>
 <script>
     (function ($) {
+        /**
+         *  客户列表筛选逻辑
+         *  Created by Arley on 2018年5月7日14:24:40.
+         */
+        function searchCustomer () {
+            var confirmBtn = $('.customer_search_confirm');
+            var cancelBtn = $('.customer_search_cancel');
+            confirmBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                var checkedLetter = getCheckedFirstLetter();
+                searchBusinessList(checkedLetter);
+            });
+            cancelBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                var form = $('form[role="form"]');
+                form.submit();
+            });
+        };
+        //模糊查询
+        /*var sBox = $(".search_box");
+        var resBox = $(".search_result");
+        function searchManagers () {
+            sBox.off("click").on("click", function (e) {
+                var e = e || window.event;
+                resBox.show();
+            })
+        }*/
         $(function() {
-
             initDateMinTodayForOrder('#filtrate_date');
-            selectChange();
+            searchCustomer();  //搜索
+            initDateStartEnd('#inpstart1','#inpend1');  //日期筛选
+            /*searchManagers();*/
             toOrderDetail();
+            paginationSwitch();     // 分页切换
         });
     })(jQuery,undefined);
 </script>
