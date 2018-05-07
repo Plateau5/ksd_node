@@ -63,6 +63,9 @@ $('.province_confirm').off('click').on('click',function () {
           }
        });
     });
+    if ($('.select_city_input').val() != '') {
+        $('.select_city_input').siblings('.formError').text('');
+    }
     $('.select_city_ids').val(city_ids.join(','));
     $('.province_city_box').css('display','none');
 });
