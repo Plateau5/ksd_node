@@ -84,16 +84,20 @@ $(function(){
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
+
+
+            var num = $('.downpayment_add input').val();
+            var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="downpayment_money" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+            $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
+            $('.downpayment_add').css('paddingLeft','30px');
+            $('.downpayment_add').before(inner);
+            $('.downpayment_add input').val("");
+
             var del = $('.downpayment_add_del').length;
-            if(del == '4'){
-                $('.downpayment_add_txt').css('删除');
-            } else {
-                var num = $('.downpayment_add input').val();
-                var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="downpayment_money" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
-                $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
-                $('.downpayment_add').css('paddingLeft','30px');
-                $('.downpayment_add').before(inner);
-                $('.downpayment_add input').val("");
+            if (del == '4') {
+                var last = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" id="" name="downpayment_money" value="" placeholder="请输入首付金额" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+                $('.downpayment_add').before(last);
+                $('.downpayment_add').hide();
             }
         }
     });
@@ -157,16 +161,18 @@ $(function(){
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
+            var num = $('.rate_add input').val();
+            var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate" value="' + num + '"  style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+            $('.rate_add').css('marginLeft',$('.column_name').width() + 'px');
+            $('.rate_add').css('paddingLeft','30px');
+            $('.rate_add').before(inner);
+            $('.rate_add input').val("");
+
             var del = $('.rate_add_del').length;
-            if(del == '4'){
-                $('.rate_add_txt').text('删除');
-            } else {
-                var num = $('.rate_add input').val();
-                var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate" value="' + num + '"  style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
-                $('.rate_add').css('marginLeft',$('.column_name').width() + 'px');
-                $('.rate_add').css('paddingLeft','30px');
-                $('.rate_add').before(inner);
-                $('.rate_add input').val("");
+            if (del == '4') {
+                var last = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" name="interest_rate" value="" placeholder="请输入费率" maxlength="5" style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+                $('.rate_add').before(last);
+                $('.rate_add').hide();
             }
         }
     });
