@@ -84,17 +84,17 @@ $(function(){
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
-            var num = $('.downpayment_add input').val();
-            var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="downpayment_money" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
-            $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
-            $('.downpayment_add').css('paddingLeft','30px');
-            $('.downpayment_add').before(inner);
-            $('.downpayment_add input').val("");
-        }
-        var del = $('.downpayment_add_del').length;
-        if(del == '5'){
-            $('.downpayment_add').css('display','none');
-            $('.downpayment_box').eq(4).css('margin-bottom','0');
+            var del = $('.downpayment_add_del').length;
+            if(del == '4'){
+                $('.downpayment_add_txt').css('删除');
+            } else {
+                var num = $('.downpayment_add input').val();
+                var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="downpayment_money" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+                $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
+                $('.downpayment_add').css('paddingLeft','30px');
+                $('.downpayment_add').before(inner);
+                $('.downpayment_add input').val("");
+            }
         }
     });
 
@@ -157,17 +157,17 @@ $(function(){
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
-            var num = $('.rate_add input').val();
-            var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate" value="' + num + '"  style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
-            $('.rate_add').css('marginLeft',$('.column_name').width() + 'px');
-            $('.rate_add').css('paddingLeft','30px');
-            $('.rate_add').before(inner);
-            $('.rate_add input').val("");
-        }
-        var del = $('.rate_add_del').length;
-        if(del == '5'){
-            $('.rate_add').css('display','none');
-            $('.rate_box').eq(4).css('margin-bottom','0');
+            var del = $('.rate_add_del').length;
+            if(del == '4'){
+                $('.rate_add_txt').text('删除');
+            } else {
+                var num = $('.rate_add input').val();
+                var inner = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate" value="' + num + '"  style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+                $('.rate_add').css('marginLeft',$('.column_name').width() + 'px');
+                $('.rate_add').css('paddingLeft','30px');
+                $('.rate_add').before(inner);
+                $('.rate_add input').val("");
+            }
         }
     });
 
