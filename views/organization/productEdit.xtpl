@@ -142,6 +142,9 @@
                         </div>
                         {{#if (vo.downpayment_type === 1) }}
                         <div class="option_item downpayment_rate" style="display: block;">
+                        {{else}}
+                        <div class="option_item downpayment_rate" style="display: none;">
+                        {{/if}}
                             <input type="hidden" id="downpayment_rate" name="downpayment_rate" value="{{vo.downpayment_rate}}">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
@@ -157,17 +160,24 @@
                                         {{else}}
                                             icon_uncheck
                                         {{/if}}"></div>
-                                        <span><span class="downpayment_rate_date">{{this.value}}</span></span>
+                                        <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
                                     </div>
                                     {{/each}}
                                 </div>
                             </div>
                             <span class="formError"></span>
                         </div>
-                        {{/if}}
+
                         {{#if (vo.downpayment_type === 2) }}
                         <div class="option_item downpayment_money" style="display: block;">
+                        {{else}}
+                        <div class="option_item downpayment_money" style="display: none;">
+                        {{/if}}
+                            {{#if (downpayment_money) }}
                             <input type="hidden" id="downpayment_money" name="downpayment_money" value="{{downpayment_money.join(',')}}">
+                            {{else}}
+                            <input type="hidden" id="downpayment_money" name="downpayment_money" value="">
+                            {{/if}}
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
                             </div>
@@ -191,7 +201,7 @@
                                 <span class="formError"></span>
                             </div>
                         </div>
-                        {{/if}}
+
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>费率：</span>
