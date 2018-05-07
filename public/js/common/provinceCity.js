@@ -43,8 +43,13 @@ $('.province_confirm').off('click').on('click',function () {
            check_pros++;
        }
     });
-    $('.select_province_ids').val(pro_ids.join(','));
-    $('.select_city_input').val(check_pros + "个省份");
+    if (check_pros != 0) {
+        $('.select_province_ids').val(pro_ids.join(','));
+        $('.select_city_input').val(check_pros + "个省份");
+    } else {
+        $('.select_province_ids').val('');
+        $('.select_city_input').val('');
+    }
     var city_ul = $('.city_ul');
     var city_ids = [];
     city_ul.each(function () {
