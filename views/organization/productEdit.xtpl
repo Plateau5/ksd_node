@@ -24,8 +24,8 @@
         <div id="main" class="main product_new">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a data-id="{{vo.parent_id}}" class="TS crumbs_item go_forward" data-url="{{markUri}}/supplier/organization/unpublishedProducts" style="cursor: pointer;">产品管理</a>
-                <a href="javascript:;" class="crumbs_item">编辑</a>
+                <a href="javascript:;" data-id="{{vo.parent_id}}" class="TS crumbs_item go_forward" style="cursor: pointer;">产品管理</a>
+                <a href="javascript:;" class="crumbs_item">编辑1</a>
             </div>
             <!--form start-->
             <div class="product_create">
@@ -768,13 +768,22 @@
             selectCity();
             send_product();
             save_ware();
+            $('.TS').on('click', function () {
+                var t = $(this);
+                var productId = $.trim(t.attr("lang"));
+                var parentId = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
+                    param : {
+                        product_id : productId,
+                        parent_id : parentId
+                    }
+                });
+            });
             viewImages();       // 查看大图
             viewLargeImage('.img_md_box');
             deleteImages();     // 图片删除
             uploadImage();      // 图片上传注册
-            pageJump(".go_forward", {
-                parent_id : "{{parent_id}}"
-            });
         });
     })(jQuery,undefined);
 </script>
