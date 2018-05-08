@@ -78,9 +78,9 @@
                             </div>
                             <div id="applyto_business" class="column_val">
                                 {{#if (applyto_business.indexOf(',') !== -1) }}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{vo.applyto_business}}">
                                     <div class="radio">
                                         {{#if (vo.applyto_business === 0) }}
-                                        <input type="hidden" class="applyto_business" name="applyto_business" value="0">
                                         <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
                                         <label for="new_car" class="checked">新车</label>
                                         {{else}}
@@ -90,7 +90,6 @@
                                     </div>
                                     <div class="radio" style="margin-left:13px;">
                                         {{#if (vo.applyto_business === 1) }}
-                                        <input type="hidden" class="applyto_business" name="applyto_business" value="1">
                                         <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
                                         <label for="old_car" class="checked">二手车</label>
                                         {{else}}

@@ -454,10 +454,11 @@
                 //融资期限
                 var term = $('.term');
                 var term_num = 0;
-                term.each(function () {
+                term.find('label').each(function () {
                     var _this = $(this);
-                    if (_this.find('label').hasClass('checked')) {
-                        term_num++
+                    if (_this.hasClass('checked')) {
+                        term_num++;
+                        rates_arr.push(_this.text());
                     }
                 });
                 if (term_num == 0) {
@@ -700,7 +701,7 @@
             var PARENTID = '{{parent_id}}',
                 PARENTNAME = '{{parent_name}}';
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
-            getRates();
+            // getRates();
             iconCity();
             selectCity();
             send_product();
