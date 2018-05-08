@@ -3,6 +3,54 @@
 
  */
 @import "variate";
+.tab{
+    width:100%;
+    margin-top:40px;
+    height:42px;
+    line-height: 42px;
+    border-bottom: 0;
+    .tab_list{
+        overflow: visible;
+        width:100%;
+        padding-left: 0;
+        border:1px solid #e4e4e4 ;
+        background-color: #F0F0F0;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        .tab_item{
+            width:116px;
+            height:40px;
+            line-height: 40px;
+            /*transition:none;*/
+            margin-right: 0;
+            &:after{
+                height:4px;
+                top:-4px;
+                border-top-left-radius: 50px;
+                border-top-right-radius: 50px;
+            }
+            &:hover:after{
+                display: none;
+            }
+        }
+        .active{
+            background-color: #fff;
+            span{
+                position: absolute;
+                width: 116px;
+                height: 6px;
+                left: 0;
+                bottom: -4px;
+                background-color: #fff;
+            }
+            &:hover:after{
+                display: block;
+            }
+        }
+
+    }
+}
 .details_item{
     margin-bottom: 20px;
 }
@@ -12,6 +60,11 @@
 .details_item{
     width: 100%;
     height: auto;
+    border: 1px solid @border-color;
+    border-top:none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     overflow: hidden;
     .detail_title{
         position: relative;
@@ -31,25 +84,26 @@
         }
     }
     .detail_box{
-        padding: 0 30px 20px 30px;
-        border: 1px solid @border-color;
+        padding: 20px 30px 20px 30px;
         .img_list{
             height: auto;
-            margin: 0px 0 30px;
+            margin: 20px 0 30px;
             overflow: hidden;
+            &:after{
+                content: '';
+                display: block;
+                clear: both;
+            }
             .list_item{
                 position: relative;
                 float: left;
                 width: 128px;
                 height: 130px;
-                margin: 30px 38px 0 0;
+                margin: 20px 40px 0 0;
                 overflow: hidden;
                 a{
                     display: block;
                 }
-            }
-            .list_item:nth-child(6n){
-                margin-right: 0;
             }
         }
 
@@ -63,26 +117,65 @@
         img{
             width: 120px;
             height: 90px;
-            border: 1px solid @border-color;
-            padding: 3px;
             background: #FFFFFF;
             overflow: hidden;
         }
     }
+    .detail_box.operate_logs{
+        border:none;
+        padding-top:0;
+        margin:10px 0 50px 0;
+    }
     .detail_footer{
-        height: 50px;
-        line-height: 50px;
-        border: 1px solid @border-color;
-        border-top: none;
-        background: @th-bg-color;
+        width:100%;
+        margin-bottom:40px;
         text-align: right;
+        .detail_high_btn{
+            display:inline-block;
+            width:110px;
+            height:30px;
+            line-height:30px;
+            text-align: center;
+            border-radius: 4px ;
+            margin-right:68px;
+            background: @active-color;
+            color: #fff;
+        }
+        .detail_low_btn{
+            display:inline-block;
+            width:110px;
+            height:30px;
+            line-height:30px;
+            text-align: center;
+            color: @active-color;
+            background: #fff;
+            border-radius: 4px ;
+            border:1px solid @active-color;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin-right:68px;
+        }
+        .mr_20{
+            margin-right:20px;
+        }
     }
     .classify_title{
+        position: relative;
         height: 40px;
         line-height: 40px;
-        margin-top: 20px;
-        font-size: 14px;
-        color: @active-color;
+        padding-left: 10px;
+        font-size: 12px;
+        color: #333;
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            top: 14px;
+            left: 0;
+            height: 12px;
+            border-left: 2px solid @active-color;
+        }
     }
     .classify_content{
         width: 100%;
@@ -94,15 +187,15 @@
         .item_row{
             float: left;
             width: 50%;
-            height: 50px;
-            line-height: 50px;
+            height: 40px;
+            line-height: 40px;
             box-sizing: border-box;
             .item_name{
                 display: inline-block;
                 width: 20%;
                 //text-align: right;
                 vertical-align: top;
-                color: #808891;
+                color: #666;
             }
             .item_name.long_text{
                 line-height: 18px;
@@ -117,6 +210,7 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                color: #333;
             }
         }
         .item_row.whole_line{
@@ -204,7 +298,4 @@
             }
         }
     }
-}
-.img_info .detail_box{
-    padding-bottom: 0;
 }

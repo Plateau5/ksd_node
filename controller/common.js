@@ -256,7 +256,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
         // res.send(data);
         if (data.error_code === 0) {
             try {
-                data.title = '客户-订单详情';
+                data.title = '客户-客户详情';
                 data.originUrl = localUrl;
                 data.markUri = markUri;
                 data.vo.thousandRate = thousandRate(data);
@@ -347,7 +347,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 }
 
                 if (localUrl.indexOf( markUri + '/customer/loan') !== -1) {
-                    res.render('./customer/imgDetail', data);
+                    res.render('./customer/customerDetail', data);
                 } else if (localUrl.indexOf( markUri + '/customer/compact') !== -1) {
                     res.render('./compact/imgDetail', data);
                 } else if (localUrl.indexOf( markUri + '/customer/requestpayout') !== -1) {

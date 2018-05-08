@@ -1,53 +1,46 @@
 <!--操作记录部分-->
-<div class="img_detail_title">
-	<div class="title_line"></div>
-	<span>操作记录</span>
-</div>
-<div class="operate_logs">
-	<ul class="log_list">
-		<!--第一个为当前审批人-->
-		{{#if (current_name) }}
-			<li class="list_item current_audit_p">
-				<div class="log_item_info">
-					<div class="date" id="currentTime"></div>
-					<div class="text">当前处理人：{{current_name }}</div>
-				</div>
-			</li>
-		{{/if}}
-		<!--操作记录列表-->
-		{{#each (his_list) }}
-			<li class="list_item log_item">
-				<div class="log_item_info">
-					<div class="date">{{this.modify_time }}</div>
-					<div class="text">{{this.modify_des}}/{{this.status_value}}&nbsp;&nbsp;{{this.position_desc}}：{{this.modify_name}} &nbsp;&nbsp;
-						{{#if (this.remark || this.reason) }}
-							{{this.parent_value}} {{this.reason}}&nbsp;&nbsp;{{this.remark }}
-						{{/if}}
+<div class="details_content">
+	<div class="tab">
+		<ul class="tab_list inline_block">
+			<li class="tab_item type_others" data-type="3">操作记录</li>
+		</ul>
+	</div>
+	<div class="details_item operate_info">
+		<div class="detail_box operate_logs">
+			<ul class="log_list">
+				<!--第一个为当前审批人-->
+				{{#if (current_name) }}
+				<li class="list_item current_audit_p">
+					<div class="log_item_info">
+						<div class="date" id="currentTime"></div>
+						<div class="text">当前处理人：{{current_name }}</div>
 					</div>
-					<!--是否有图片-->
-					{{#if (this.material_list.length > 0) }}
+				</li>
+				{{/if}}
+				<!--操作记录列表-->
+				{{#each (his_list) }}
+				<li class="list_item log_item current_audit_p">
+					<div class="log_item_info">
+						<div class="date">{{this.modify_time }}</div>
+						<div class="text">{{this.modify_des}}/{{this.status_value}}&nbsp;&nbsp;{{this.position_desc}}：{{this.modify_name}} &nbsp;&nbsp;
+							{{#if (this.remark || this.reason) }}
+							{{this.parent_value}} {{this.reason}}&nbsp;&nbsp;{{this.remark }}
+							{{/if}}
+						</div>
+						<!--是否有图片-->
+						{{#if (this.material_list.length > 0) }}
 						<div class="audit_img">
 							{{#each (this.material_list) }}
-								<a href="javascript:;" style="border: 1px solid #e4e4e4;">
-									<img data-original="{{this.big_image_url }}" src="{{this.small_image_url }}" alt="" class="img_responsive">
-								</a>
+							<a href="javascript:;" style="border: 1px solid #e4e4e4;">
+								<img data-original="{{this.big_image_url }}" src="{{this.small_image_url }}" alt="" class="img_responsive">
+							</a>
 							{{/each}}
 						</div>
-					{{/if}}
-				</div>
-			</li>
-		{{/each}}
-	</ul>
+						{{/if}}
+					</div>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
 </div>
-<script type="text/javascript">
-	(function () {
-		var currentTime = new Date().format('yyyy/MM/dd hh:mm');
-		var currentPerson = document.getElementById("currentTime");
-		if (currentPerson != null || currentPerson != undefined) {
-			currentPerson.innerHTML = currentTime;
-		}
-	})(window, undefined)
-    $(function () {
-        viewLargeImage('.log_item');
-    });
-</script>

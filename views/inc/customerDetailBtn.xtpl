@@ -1,0 +1,55 @@
+<div class="detail_footer">
+    <a href="javascript:" class="detail_high_btn mr_20">同意</a>
+    <a href="javascript:" class="detail_low_btn">不同意</a>
+</div>
+{{#if (vo.status === 2) }}
+<div class="cursor requestpayout_detail_btn requestpayout_download download_file" alt="1" lang="{{finance_id}}">全部下载</div>
+{{#if (verifyCode(1031)) }}
+<div class="requestpayout_detail_btn toAllot btn_item assigning_task requestpayout_assigning" alt="" lang="{{finance_id}}">分配任务</div>
+{{/if}}
+{{/if}}
+
+{{#if (vo.status === 3 && vo.start_audit_time !== 0) }}
+<div class="cursor requestpayout_detail_btn requestpayout_download download_file"  alt="1" lang="{{finance_id}}">全部下载</div>
+{{#if (verifyCode(1037)) }}
+<a href="javascript:;" id="picture_reason" lang="{{finance_id}}"  alt="{{vo.user_name}}" create_name="{{create_name}}">
+    <div class="requestpayout_detail_btn requestpayout_his" lang="{{finance_id}}">发送不合格通知</div>
+</a>
+{{/if}}
+{{#if (vo.is_docking !== 1 || vo.loan_type === 2) }}
+{{#if (verifyCode(1032)) }}
+<div class="requestpayout_detail_btn requestpayout_apply" id="requestpayout_apply" lang="{{finance_id}}">确认申请</div>
+{{/if}}
+{{/if}}
+{{/if}}
+
+{{#if (vo.status === 3 && (vo.start_audit_time === 0 || (vo.is_docking === 1 && vo.loan_type === 1))) }}
+{{#if (verifyCode(1161)) }}
+<div class="requestpayout_detail_btn requestpayout_entering" data-loan_type="{{vo.loan_type}}" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" id="entering" lang="{{finance_id}}">开始录入</div>
+{{/if}}
+{{/if}}
+
+<!--<div class="requestpayout_detail_btn requestpayout_entering" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" id="entering" lang="{{finance_id}}">开始录入</div>-->
+
+
+{{#if (vo.status === 4) }}
+<div class="cursor requestpayout_detail_btn requestpayout_download download_file" alt="1" lang="{{finance_id}}">全部下载</div>
+{{#if (verifyCode(1236)) }}
+<a href="javascript:" id="sendAuditResult" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/notifyResult" class="btn_item send_result" lang="{{finance_id}}">
+    <div class="requestpayout_detail_btn requestpayout_result">通知审核结果</div>
+</a>
+{{/if}}
+{{/if}}
+
+{{#if (vo.status > 4) }}
+<div class="cursor requestpayout_detail_btn requestpayout_download download_file" id="" alt="1" lang="{{finance_id}}">全部下载</div>
+{{/if}}
+{{#if (startWith(markUri + '/customer/loan/detail')) }}
+{{#if (vo.status >= 4 && vo.is_docking === 1) }}
+{{#if (verifyCode(1161))}}
+<a href="javascript:" id="viewDockingPADetail" data-id="{{finance_id}}" data-url="{{markUri}}/docking/pingan/detailHome" class="btn_item" lang="{{finance_id}}">
+    <div class="requestpayout_detail_btn view_docking_pingan_detail">查看详情</div>
+</a>
+{{/if}}
+{{/if}}
+{{/if}}
