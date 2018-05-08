@@ -362,6 +362,16 @@
                     rate_val.push(_this.find('.downpayment_rate_date').text());
                 }
             });
+            //融资期限
+            var term = $('.term');
+            var term_num = 0;
+            term.find('label').each(function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    term_num++;
+                    rates_arr.push(_this.text());
+                }
+            });
             //发布新产品时校验
             if(save == '1'){
                 //首付类型
@@ -451,16 +461,7 @@
                 } else {
                     financeamount_start.siblings('.formError').html('');
                 }
-                //融资期限
-                var term = $('.term');
-                var term_num = 0;
-                term.find('label').each(function () {
-                    var _this = $(this);
-                    if (_this.hasClass('checked')) {
-                        term_num++;
-                        rates_arr.push(_this.text());
-                    }
-                });
+
                 if (term_num == 0) {
                     term.find('.formError').html('请选择融资期限');
                     add_btn_y.attr('disabled',false);
