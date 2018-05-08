@@ -106,7 +106,7 @@
                                         <label for="new_car" class="checked">新车</label>
                                     </div>
                                     {{elseif (applyto_business === '1' )}}
-                                    <div class="radio" style="margin-left:13px;">
+                                    <div class="radio">
                                         <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
                                         <label for="old_car" class="old_car">二手车</label>
                                     </div>
@@ -166,17 +166,21 @@
                             </div>
                             <div class="column_val">
                                 <div class="form-control checkBox">
-                                    {{#if (vo.downpayment_rate) }}
-                                        {{set (downRate = vo.downpayment_rate.split(",")) }}
-                                    {{/if}}
+
                                     {{#each (list_downpaymentrate) }}
                                     <div class="check">
                                         <div class="check_img
-                                            {{#if (../downRate.indexOf(this.id.toString()) !== -1) }}
-                                                icon_check
+                                            {{#if (vo.downpayment_rate) }}
+                                                {{set (downRate = vo.downpayment_rate.split(',')) }}
+                                                {{#if (../downRate.indexOf(this.id.toString()) !== -1) }}
+                                                    icon_check
+                                                {{else}}
+                                                    icon_uncheck
+                                                {{/if}}
                                             {{else}}
                                                 icon_uncheck
-                                            {{/if}}"></div>
+                                            {{/if}}
+                                            "></div>
                                         <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
                                     </div>
                                     {{/each}}
