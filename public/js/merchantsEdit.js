@@ -815,7 +815,7 @@ function settingAddress () {
                 if (status === 'complete' && result.info === 'OK') {
                     //获得了有效的地址信息:
                     var cityCode = result.regeocode.addressComponent.citycode;      // 逆地理位置解析的城市code值（高德配置）
-                    // var selectCityCode = $("#businessCity option:selected").data("code");      // 获取后台传输的城市高德地图id
+                    var selectCityCode = $("#businessCity option:selected").data("code");      // 获取后台传输的城市高德地图id
                     if (geoCode.indexOf(cityCode) === -1) {
                         $alert("当前城市还未开通展业，请重新定位！");
                         isSuccess = false;
