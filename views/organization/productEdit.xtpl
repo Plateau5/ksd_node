@@ -77,26 +77,41 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用业务：</span>
                             </div>
                             <div id="applyto_business" class="column_val">
-                                <div class="radio">
-                                    {{#if (vo.applyto_business === 0) }}
-                                    <input type="hidden" class="applyto_business" name="applyto_business" value="0">
-                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
-                                    <label for="new_car" class="checked">新车</label>
-                                    {{else}}
-                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business">
-                                    <label for="new_car">新车</label>
+                                {{#if (applyto_business.indexOf(',') !== -1) }}
+                                    <div class="radio">
+                                        {{#if (vo.applyto_business === '0') }}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="0">
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                        <label for="new_car" class="checked">新车</label>
+                                        {{else}}
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business">
+                                        <label for="new_car">新车</label>
+                                        {{/if}}
+                                    </div>
+                                    <div class="radio" style="margin-left:13px;">
+                                        {{#if (vo.applyto_business === '1') }}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="1">
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                        <label for="old_car" class="checked">二手车</label>
+                                        {{else}}
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                        <label for="old_car">二手车</label>
+                                        {{/if}}
+                                    </div>
+                                {{else}}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                    {{#if (applyto_business === '0' ) }}
+                                    <div class="radio">
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                        <label for="new_car" class="checked">新车</label>
+                                    </div>
+                                    {{elseif (applyto_business === '1' )}}
+                                    <div class="radio" style="margin-left:13px;">
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                        <label for="old_car" class="old_car">二手车</label>
+                                    </div>
                                     {{/if}}
-                                </div>
-                                <div class="radio" style="margin-left:13px;">
-                                    {{#if (vo.applyto_business === 1) }}
-                                    <input type="hidden" class="applyto_business" name="applyto_business" value="1">
-                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
-                                    <label for="old_car" class="checked">二手车</label>
-                                    {{else}}
-                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                    <label for="old_car">二手车</label>
-                                    {{/if}}
-                                </div>
+                                {{/if}}
                                 <span class="formError"></span>
                             </div>
                         </div>
@@ -151,18 +166,20 @@
                             </div>
                             <div class="column_val">
                                 <div class="form-control checkBox">
-                                    {{set (downRate = vo.downpayment_rate.split(",")) }}
-                                    {{#each (list_downpaymentrate) }}
-                                    <div class="check">
-                                        <div class="check_img
-                                        {{#if (../downRate.indexOf(this.id.toString()) !== -1) }}
-                                            icon_check
-                                        {{else}}
-                                            icon_uncheck
-                                        {{/if}}"></div>
-                                        <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
-                                    </div>
-                                    {{/each}}
+                                    {{#if (vo.downpayment_rate) }}
+                                        {{set (downRate = vo.downpayment_rate.split(",")) }}
+                                        {{#each (list_downpaymentrate) }}
+                                        <div class="check">
+                                            <div class="check_img
+                                            {{#if (../downRate.indexOf(this.id.toString()) !== -1) }}
+                                                icon_check
+                                            {{else}}
+                                                icon_uncheck
+                                            {{/if}}"></div>
+                                            <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
+                                        </div>
+                                        {{/each}}
+                                    {{/if}}
                                 </div>
                             </div>
                             <span class="formError"></span>
@@ -179,9 +196,9 @@
                             {{#if (downpayment_money) }}
                                 <input type="hidden" id="downpayment_money" name="downpayment_money" value="{{downpayment_money.join(',')}}">
                                 {{#each (downpayment_money)}}
-                                    {{#if (xindex === interest_rate_list.length - 1) }}
+                                    {{#if (xindex === downpayment_money.length - 1) }}
                                         <div class="column_val downpayment_add" style="margin-top: 10px;">
-                                            <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money" value="{{this}}" style="width:90px;"/>
+                                            <input type="text" class="form-control" placeholder="请输入首付金额"  name="" value="{{this}}" style="width:90px;"/>
                                             <span>元</span>
                                             <span class="cursor downpayment_add_txt">添加</span>
                                             <span class="formError"></span>
@@ -189,7 +206,7 @@
                                     {{else}}
                                         <div class="downpayment_box">
                                             <div class="downpayment_add_ready" style="padding-top: 10px;">
-                                                <input type="text" readonly="readonly" id="" name="downpayment_money" value="{{this}}" style="width:90px;">
+                                                <input type="text" readonly="readonly" id="" name="" value="{{this}}" style="width:90px;">
                                                 <span>元</span>
                                                 <span class="cursor downpayment_add_del">删除</span>
                                             </div>
@@ -199,7 +216,7 @@
                             {{else}}
                                 <input type="hidden" id="downpayment_money" name="downpayment_money" value="">
                                 <div class="column_val downpayment_add" style="margin-top: 10px;">
-                                    <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width:90px;"/>
+                                    <input type="text" class="form-control" placeholder="请输入首付金额"  name="" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width:90px;"/>
                                     <span>元</span>
                                     <span class="cursor downpayment_add_txt">添加</span>
                                     <span class="formError"></span>
@@ -253,13 +270,13 @@
                                 {{#each (list_term) }}
                                 <div class="form_group">
                                     {{#if (vo.term.indexOf('6') === 0 && this.id === '6') }}
-                                    <input type="checkbox" class="rates" checked="checked" name="term" value="{{this.id}}" />
+                                    <input type="checkbox" class="rates" checked="checked" name="" value="{{this.id}}" />
                                     <label class="checked">{{this.id}}</label>
                                     {{elseif (vo.term.indexOf(this.id) !== -1 && this.id !== '6') }}
-                                    <input type="checkbox" class="rates" checked="checked" name="term" value="{{this.id}}" />
+                                    <input type="checkbox" class="rates" checked="checked" name="" value="{{this.id}}" />
                                     <label class="checked">{{this.id}}</label>
                                     {{else}}
-                                    <input type="checkbox" class="rates" name="term" value="{{this.id}}" />
+                                    <input type="checkbox" class="rates" name="" value="{{this.id}}" />
                                     <label>{{this.id}}</label>
                                     {{/if}}
                                 </div>
@@ -272,7 +289,7 @@
                                 <span class="options_name">评估描述：</span>
                             </div>
                             <div class="column_val">
-                                <textarea name="assess_desc" placeholder="请输入内容" id="assess_desc" maxlength="1000" class="form-control">{{vo.assess_desc }}</textarea>
+                                <textarea name="assess_desc" placeholder="请输入内容" id="assess_desc" maxlength="200" class="form-control">{{vo.assess_desc }}</textarea>
                             </div>
                         </div>
                         <div class="option_item">
@@ -280,7 +297,7 @@
                                 <span class="options_name">产品说明：</span>
                             </div>
                             <div class="column_val">
-                                <textarea name="product_explain" placeholder="请输入内容" id="product_explain" maxlength="1000" class="form-control">{{vo.product_explain }}</textarea>
+                                <textarea name="product_explain" placeholder="请输入内容" id="product_explain" maxlength="200" class="form-control">{{vo.product_explain }}</textarea>
                             </div>
                         </div>
                         <div class="option_item">

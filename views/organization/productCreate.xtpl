@@ -67,21 +67,36 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用业务：</span>
                             </div>
                             <div id="applyto_business" class="column_val">
-                                <input type="hidden" class="applyto_business" name="applyto_business" value="0">
-                                <div class="radio">
-                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
-                                    <label for="new_car" class="checked">新车</label>
-                                </div>
-                                <div class="radio" style="margin-left:13px;">
-                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                    <label for="old_car" class="old_car">二手车</label>
-                                </div>
+                                {{#if (applyto_business.indexOf(',') !== -1) }}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="0">
+                                    <div class="radio">
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                        <label for="new_car" class="checked">新车</label>
+                                    </div>
+                                    <div class="radio" style="margin-left:13px;">
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                        <label for="old_car" class="old_car">二手车</label>
+                                    </div>
+                                {{else}}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                    {{#if (applyto_business === 0 ) }}
+                                        <div class="radio">
+                                            <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                            <label for="new_car" class="checked">新车</label>
+                                        </div>
+                                    {{elseif (applyto_business === 1 )}}
+                                        <div class="radio" style="margin-left:13px;">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                            <label for="old_car" class="old_car">二手车</label>
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
                                 <span class="formError"></span>
                             </div>
                         </div>
                         <div id="applyto_city" class="option_item">
                             <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>适用省市：</span>
+                                <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val select_city_icon">
                                 <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
@@ -184,7 +199,7 @@
                                 <span class="options_name">评估描述：</span>
                             </div>
                             <div class="column_val">
-                                <textarea name="assess_desc" placeholder="请输入内容" id="assess_desc" maxlength="1000" class="form-control"></textarea>
+                                <textarea name="assess_desc" placeholder="请输入内容" id="assess_desc" maxlength="200" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="option_item">
@@ -192,7 +207,7 @@
                                 <span class="options_name">产品说明：</span>
                             </div>
                             <div class="column_val">
-                                <textarea name="product_explain" placeholder="请输入内容" id="product_explain" maxlength="1000" class="form-control"></textarea>
+                                <textarea name="product_explain" placeholder="请输入内容" id="product_explain" maxlength="200" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="option_item">
@@ -479,7 +494,7 @@
             var parameters = new FormData(document.getElementById('product_create'));
             $.ajax({
                 type:'post',
-                timeout:8000,
+                timeout:10000,
                 url : url,
                 data : parameters,
                 processData : false,      //序列化参数为String类型，默认：true。

@@ -77,26 +77,41 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用业务：</span>
                             </div>
                             <div id="applyto_business" class="column_val">
-                                <div class="radio">
-                                    {{#if (vo.applyto_business === 0) }}
-                                    <input type="hidden" class="applyto_business" name="applyto_business" value="0">
-                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
-                                    <label for="new_car" class="checked">新车</label>
-                                    {{else}}
-                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business">
-                                    <label for="new_car">新车</label>
+                                {{#if (applyto_business.indexOf(',') !== -1) }}
+                                    <div class="radio">
+                                        {{#if (vo.applyto_business === '0') }}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="0">
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                        <label for="new_car" class="checked">新车</label>
+                                        {{else}}
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business">
+                                        <label for="new_car">新车</label>
+                                        {{/if}}
+                                    </div>
+                                    <div class="radio" style="margin-left:13px;">
+                                        {{#if (vo.applyto_business === '1') }}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="1">
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                        <label for="old_car" class="checked">二手车</label>
+                                        {{else}}
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                        <label for="old_car">二手车</label>
+                                        {{/if}}
+                                    </div>
+                                {{else}}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                    {{#if (applyto_business === '0' ) }}
+                                    <div class="radio">
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                        <label for="new_car" class="checked">新车</label>
+                                    </div>
+                                    {{elseif (applyto_business === '1' )}}
+                                    <div class="radio" style="margin-left:13px;">
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                        <label for="old_car" class="old_car">二手车</label>
+                                    </div>
                                     {{/if}}
-                                </div>
-                                <div class="radio" style="margin-left:13px;">
-                                    {{#if (vo.applyto_business === 1) }}
-                                    <input type="hidden" class="applyto_business" name="applyto_business" value="1">
-                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
-                                    <label for="old_car" class="checked">二手车</label>
-                                    {{else}}
-                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                    <label for="old_car">二手车</label>
-                                    {{/if}}
-                                </div>
+                                {{/if}}
                                 <span class="formError"></span>
                             </div>
                         </div>
@@ -408,8 +423,8 @@
             }
 
             //适用业务
-            var applyto_business1 = $('#applyto_business input').eq(1).attr('checked');
-            var applyto_business2 = $('#applyto_business input').eq(2).attr('checked');
+            var applyto_business1 = $('#applyto_business input').eq(0).attr('checked');
+            var applyto_business2 = $('#applyto_business input').eq(1).attr('checked');
             if(!applyto_business1 && !applyto_business2){
                 $('#applyto_business').find('.formError').html('请选择产品的适用业务');
                 add_btn_y.attr('disabled',false);
