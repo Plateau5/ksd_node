@@ -9,11 +9,19 @@
             <div class="header_txt_top">{{vo.name}}</div>
             <div class="header_txt_bottom">
                 <input type="hidden" value="{{vo.applyto_business}}" id="supplier_car_type">
-                {{#if (vo.applyto_business.indexOf('0') !== -1) }}
-                <div class="header_txt_bottom1">新车</div>
-                {{/if}}
-                {{#if (vo.applyto_business.indexOf('1') !== -1) }}
-                <div class="header_txt_bottom2">二手车</div>
+                {{#if (vo.product_applyto_business !== '') }}
+                    {{#if (vo.product_applyto_business === 0) }}
+                        <div class="header_txt_bottom1">新车</div>
+                    {{elseif (vo.product_applyto_business === 1) }}
+                        <div class="header_txt_bottom2">二手车</div>
+                    {{/if}}
+                {{else}}
+                    {{#if (vo.applyto_business.indexOf('0') !== -1) }}
+                    <div class="header_txt_bottom1">新车</div>
+                    {{/if}}
+                    {{#if (vo.applyto_business.indexOf('1') !== -1) }}
+                    <div class="header_txt_bottom2">二手车</div>
+                    {{/if}}
                 {{/if}}
             </div>
         </div>
