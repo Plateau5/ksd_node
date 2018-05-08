@@ -86,8 +86,8 @@
                                         </div>
                                     {{elseif (applyto_business === '1' )}}
                                         <div class="radio">
-                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                            <label for="old_car" class="old_car">二手车</label>
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                            <label for="old_car" class="old_car checked">二手车</label>
                                         </div>
                                     {{/if}}
                                 {{/if}}
@@ -176,7 +176,6 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
                             </div>
                             <div class="column_val term" style="padding-left: 16px;">
-                                <input type="hidden" name="term" class="term_hd">
                                 {{#each (list_term) }}
                                 <div class="form_group">
                                     <input type="checkbox" class="rates" name="term" value="{{this.id}}" />
