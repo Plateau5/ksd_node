@@ -61,10 +61,12 @@
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
 </html>
 <script>
+    /*var emp_list = '{{emp_list}}';
+    emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));*/
     (function ($) {
         /**
          *  客户列表筛选逻辑
-         *  Created by Arley on 2018年5月7日14:24:40.
+         *  Created by 齐春梅 on 2018年5月8日16:21:14.
          */
         function searchCustomer () {
             var confirmBtn = $('.customer_search_confirm');
@@ -83,19 +85,79 @@
             });
         };
         //模糊查询
-        /*var sBox = $(".search_box");
+        var btn = $('#createName');
         var resBox = $(".search_result");
-        function searchManagers () {
-            sBox.off("click").on("click", function (e) {
-                var e = e || window.event;
+        var resItem = $(".res_item");
+        function fuzzySearch () {
+            btn.on('input', function () {
                 resBox.show();
-            })
-        }*/
+                var queryObj = fuzzyQuery(emp_list);
+                showSearchResult(queryObj);
+                selectedCreate();
+            });
+
+            // 订单所属人选中逻辑
+            var selectedCreate = function () {
+                resBox.resItem.on('click', function () {
+                    var _this = $(this);
+                    var createId = $.trim(_this.data('id'));
+                    var createName = $.trim(_this.data('name'));
+                    btn.val(createName).data('id', createId);
+                    resBox.hide();
+                });
+            }
+        }
+        // 订单所属人的模糊查询功能
+        function fuzzyQuery (res) {
+            var queryStr = $.trim($('#createName').val()),
+                queryArr = queryStr.split(""),
+                data = res,
+                resArr;
+            if(queryStr) {
+                for (var i = 0, len = queryArr.length; i < len; i++) {
+                    resArr = [];
+                    for (var k = 0; k < data.length; k++) {
+                        if (data[k].name.indexOf(queryArr[i]) != -1) {
+                            resArr.push(data[k]);
+                        }
+                    }
+                    data = resArr;
+                }
+                return resArr;
+            }
+        }
+        //创建模糊查询结果展示并绑定事件
+        function showSearchResult (res) {
+            var html = [];
+            if (res == undefined || res.length == 0 || res.length == undefined) {
+                return $('.user_list').html('<li class="res_item" style="text-align: center;">暂无数据</li>');
+            } else {
+                for (var i = 0, len = res.length; i < len; i++) {
+                    var str = '';
+                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '">\
+                                <div class="name nowrap">' + res[i].name + '</div>\
+                                <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '暂无部门') + '</div>\
+                            </li>'
+                    html.push(str);
+                    $('.search_list').html(html.join(""));
+                }
+            }
+        }
         $(function() {
-            initDateMinTodayForOrder('#filtrate_date');
+            //时间筛选 2018年5月8日15:39:35
+            datePicker('#filtrate_date',{
+                ishmsVal : false,
+                maxDate : $.nowDate({DD:0}),
+                choosefun : function () {return false;},
+                okfun : function () {return false;},
+                clearfun : function () {
+                    $('#filtrate_date').val('');
+                }
+            });
             searchCustomer();  //搜索
-            initDateStartEnd('#inpstart1','#inpend1');  //日期筛选
+            initDateStartEnd('#start_loan_time','#end_loan_time');  //日期筛选
             /*searchManagers();*/
+            fuzzySearch(); //模糊查询订单所属人
             toOrderDetail();
             paginationSwitch();     // 分页切换
         });
