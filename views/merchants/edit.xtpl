@@ -121,7 +121,7 @@
                             <span class="options_name"><span class="require_icon">*</span>城&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;市：</span>
                         </div>
                         <div class="column_val">
-                            <select name="city_id" id="businesssCity">
+                            <select name="city_id" id="businessCity">
                                 {{#each (cityList) }}
                                     {{#if (this.id === detail.city_id) }}
                                         <option value="{{this.id}}" data-code="{{this.code}}" selected>{{this.name}}</option>
@@ -669,7 +669,7 @@
     var empList = "{{empList}}";
     var geoCode = '{{geoCode}}';        // 已展业城市的高德地图code对应值
     geoCode = geoCode.split(',');
-    console.log(geoCode);
+//    console.log(geoCode);
     empList = JSON.parse(empList.replace(/&quot;/ig, '"'));
     var merchantId = $.trim($('#supplierId').val());
     // storeType：店面类型
@@ -683,6 +683,11 @@
         oldType : JSON.parse(storeType.oldType.replace(/&quot;/ig, '"')),
         allType : JSON.parse(storeType.allType.replace(/&quot;/ig, '"'))
     };
+
+    // 获取已选中城市的高德地图的城市code
+    var selectCityCode = $("#businessCity option:selected").data("code");      // 获取后台传输的城市高德地图id
+    var addrElem = $('#businessAddress');    // 地址查询点击区域
+    addrElem.data('geoCode', selectCityCode);       // 初始化设置选中城市的高德地图城市code。
     (function ($) {
 
         // 展示签约机构项
@@ -700,10 +705,25 @@
             });
         }
 
+        // 城市变化监听
+        function merchantsBusinessCityChange () {
+            var elem = $('#businessCity');
+            elem.on('change', function () {
+                var _this = $(this);
+                var v = _this.find('option:selected').data('code');
+                var addrGeoCode = addrElem.data('geoCode');
+                if (addrGeoCode != v) {
+                    $alert("详细地址与城市不匹配，请重新定位！");
+                    return false;
+                }
+            });
+        }
+
         $(function() {
             showSignOrg();      // 是否展示签约机构选项
             goMerchantDetail();     // 面包屑跳转详情页
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            merchantsBusinessCityChange();
         });
     })(jQuery,undefined);
 </script>
