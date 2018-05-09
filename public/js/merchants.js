@@ -69,7 +69,7 @@ function goLoanDetail () {
             var receipt = $.trim(_this.data('receipt_type'));
             var order = $.trim(_this.data('orderby_type'));
             var currentPage = $.trim(_this.data('current_page'));
-            var supplier_name = _this.data('supplier_name').trim();
+            var supplier_name = _this.data('supplier_name').toString().trim();
             var settlement_type = _this.data('settlement_type');
             locationTo({
                 action : contextPath + markUri + detailPath,
