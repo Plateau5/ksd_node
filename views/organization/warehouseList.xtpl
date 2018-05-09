@@ -130,14 +130,13 @@
                                     <span class="product_name">{{this.name}}</span>
                                     {{#if (this.downpayment_type) }}
                                         {{#if (this.downpayment_rate || this.downpayment_money) }}
-
+                                            {{#if (this.interest_rate === '' || this.financeamount_start === '' || this.financeamount_end === '' || this.term === '') }}
+                                                <span  class="shelves_name" style="color:#FB2741;">(信息未填写完整)</span>
+                                            {{/if}}
                                         {{else}}
                                             <span  class="shelves_name" style="color:#FB2741;">(信息未填写完整)</span>
                                         {{/if}}
                                     {{else}}
-                                        <span  class="shelves_name" style="color:#FB2741;">(信息未填写完整)</span>
-                                    {{/if}}
-                                    {{#if (this.interest_rate === '' || this.financeamount_start === '' || this.financeamount_end === '' || this.term === '') }}
                                         <span  class="shelves_name" style="color:#FB2741;">(信息未填写完整)</span>
                                     {{/if}}
                                 </div>
