@@ -78,39 +78,38 @@
                             </div>
                             <div id="applyto_business" class="column_val">
                                 {{#if (applyto_business.indexOf(',') !== -1) }}
-                                    <div class="radio">
-                                        {{#if (vo.applyto_business === '0') }}
-                                        <input type="hidden" class="applyto_business" name="applyto_business" value="0">
-                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
-                                        <label for="new_car" class="checked">新车</label>
-                                        {{else}}
-                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business">
-                                        <label for="new_car">新车</label>
-                                        {{/if}}
-                                    </div>
-                                    <div class="radio" style="margin-left:13px;">
-                                        {{#if (vo.applyto_business === '1') }}
-                                        <input type="hidden" class="applyto_business" name="applyto_business" value="1">
-                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
-                                        <label for="old_car" class="checked">二手车</label>
-                                        {{else}}
-                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                        <label for="old_car">二手车</label>
-                                        {{/if}}
-                                    </div>
-                                {{else}}
-                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
-                                    {{#if (applyto_business === '0' ) }}
-                                    <div class="radio">
-                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
-                                        <label for="new_car" class="checked">新车</label>
-                                    </div>
-                                    {{elseif (applyto_business === '1' )}}
-                                    <div class="radio" style="margin-left:13px;">
-                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                        <label for="old_car" class="old_car">二手车</label>
-                                    </div>
+                                <input type="hidden" class="applyto_business" name="applyto_business" value="{{vo.applyto_business}}">
+                                <div class="radio">
+                                    {{#if (vo.applyto_business === 0) }}
+                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                    <label for="new_car" class="checked">新车</label>
+                                    {{else}}
+                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business">
+                                    <label for="new_car">新车</label>
                                     {{/if}}
+                                </div>
+                                <div class="radio" style="margin-left:13px;">
+                                    {{#if (vo.applyto_business === 1) }}
+                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                    <label for="old_car" class="checked">二手车</label>
+                                    {{else}}
+                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                    <label for="old_car">二手车</label>
+                                    {{/if}}
+                                </div>
+                                {{else}}
+                                <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                {{#if (applyto_business === '0' ) }}
+                                <div class="radio">
+                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                    <label for="new_car" class="checked">新车</label>
+                                </div>
+                                {{elseif (applyto_business === '1' )}}
+                                <div class="radio">
+                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                    <label for="old_car" class="old_car checked">二手车</label>
+                                </div>
+                                {{/if}}
                                 {{/if}}
                                 <span class="formError"></span>
                             </div>
@@ -228,24 +227,33 @@
                                         <div class="column_name">
                                             <span class="options_name"><span class="require_icon">*</span>费率：</span>
                                         </div>
-                                        {{#each (interest_rate_list) }}
-                                        {{#if (xindex === interest_rate_list.length - 1) }}
-                                        <div class="column_val rate_add" style="margin-top: 10px;padding-left: 12%;">
-                                            <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" maxlength="5" name="interest_rate" value="{{this}}" style="width:90px;"/>
-                                            <span>%</span>
-                                            <span class="cursor rate_add_txt">添加</span>
-                                            <span class="formError"></span>
-                                        </div>
-                                        {{else}}
-                                        <div class="rate_box">
-                                            <div class="rate_add_ready" style="padding-top: 10px;">
-                                                <input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" name="interest_rate" value="{{this}}" style="width:90px;">
+                                        {{#if (interest_rate_list.length === 1) }}
+                                            <div class="column_val rate_add" style="margin-top: 10px;">
+                                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" maxlength="5" name="interest_rate" value="{{interest_rate_list[0]}}" style="width:90px;"/>
                                                 <span>%</span>
-                                                <span class="cursor rate_add_del">删除</span>
+                                                <span class="cursor rate_add_txt">添加</span>
+                                                <span class="formError"></span>
                                             </div>
-                                        </div>
+                                        {{else}}
+                                            {{#each (interest_rate_list) }}
+                                                {{#if (xindex === interest_rate_list.length - 1) }}
+                                                <div class="column_val rate_add" style="margin-top: 10px;padding-left: 12%;">
+                                                    <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" maxlength="5" name="interest_rate" value="{{this}}" style="width:90px;"/>
+                                                    <span>%</span>
+                                                    <span class="cursor rate_add_txt">添加</span>
+                                                    <span class="formError"></span>
+                                                </div>
+                                                {{else}}
+                                                <div class="rate_box">
+                                                    <div class="rate_add_ready" style="padding-top: 10px;">
+                                                        <input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" name="interest_rate" value="{{this}}" style="width:90px;">
+                                                        <span>%</span>
+                                                        <span class="cursor rate_add_del">删除</span>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+                                            {{/each}}
                                         {{/if}}
-                                        {{/each}}
                                     </div>
 
                                         <div class="option_item">
