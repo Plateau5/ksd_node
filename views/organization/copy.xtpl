@@ -620,6 +620,9 @@
                         });
                     } else {
                         $alert(res.error_msg, function () {
+                            $('#add_btn_y').attr('disabled',false);
+                            $('#add_btn_n').attr('disabled',false);
+                            save_ware();
                             send_product();
                         });
                     }
@@ -627,6 +630,9 @@
                 error : function () {
                     $('#loading').hide();
                     $alert("提交失败，请稍后重试");
+                    $('#add_btn_y').attr('disabled',false);
+                    $('#add_btn_n').attr('disabled',false);
+                    save_ware();
                     send_product();
                 }
             });
