@@ -100,7 +100,7 @@ exports.VIEW_CUSTOMER_HISTORY = function(req, res, next) {
         url : '/api/finance/customer',
         title : '客户-历史记录',
         page : './customer/customerHis',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -111,7 +111,7 @@ exports.VIEW_CUSTOMER_LOAN_PENDINGALLOT = function(req, res, next) {
         url : '/api/finance/getAllotList',
         title : '贷款管理-待分配',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -122,7 +122,7 @@ exports.VIEW_CUSTOMER_LOAN_ALREADYALLOT = function(req, res, next) {
         url : '/api/finance/getCheckInList',
         title : '贷款管理-已分配',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -133,7 +133,7 @@ exports.VIEW_CUSTOMER_LOAN_ENTERED = function(req, res, next) {
         url : '/api/finance/getReviewList',
         title : '贷款管理-已录入',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -144,7 +144,7 @@ exports.VIEW_CUSTOMER_LOAN_PASSED = function(req, res, next) {
         url : '/api/finance/getPassList',
         title : '贷款管理-已通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -155,7 +155,7 @@ exports.VIEW_CUSTOMER_LOAN_UNPASS = function(req, res, next) {
         url : '/api/finance/getUnPassList',
         title : '贷款管理-未通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -166,7 +166,7 @@ exports.VIEW_CUSTOMER_LOAN_ALLOT = function(req, res, next) {
         url : '/api/finance/toAllot',
         title : '客户-订单分配',
         page : './customer/allotEmp',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -177,7 +177,7 @@ exports.VIEW_CUSTOMER_LOAN_UNQUALIFIED = function(req, res, next) {
         url : '/api/finance/picture/reason',
         title : '客户-发送不合格通知',
         page : './customer/imgUnpass',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -188,7 +188,7 @@ exports.VIEW_CUSTOMER_LOAN_NOTIFYRESULT = function(req, res, next) {
         url : '/api/finance/toResult',
         title : '客户-通知审核结果',
         page : './customer/result',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -219,7 +219,7 @@ exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
         url : '/api/compact/pendingPass/list',
         title : '合同管理-待出合同',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -231,7 +231,7 @@ exports.VIEW_CUSTOMER_COMPACT_AGREE = function(req, res, next) {
         url : '/api/tocompact/agree',
         title : '合同管理-同意',
         page : './compact/agree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -242,7 +242,7 @@ exports.VIEW_CUSTOMER_COMPACT_DISAGREE = function(req, res, next) {
         url : '/api/tocompact/disagree',
         title : '合同管理-不同意',
         page : './compact/disagree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -254,7 +254,7 @@ exports.VIEW_CUSTOMER_COMPACT_PASS = function(req, res, next) {
         url : '/api/compact/pass/list',
         title : '合同管理-已通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -265,7 +265,7 @@ exports.VIEW_CUSTOMER_COMPACT_UNPASS = function(req, res, next) {
         url : '/api/compact/unpass/list',
         title : '合同管理-未通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -298,7 +298,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGDISPOSE = function(req, res, next) {
         url : '/api/requestPayout/pendingDispose/list',
         title : '请款管理-待请款',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -309,7 +309,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGPASS = function(req, res, next) {
         url : '/api/requestPayout/pendingPass/list',
         title : '请款管理-待通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -320,7 +320,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGAUDIT = function(req, res, next) {
         url : '/api/requestPayout/waitList',
         title : '请款管理-待审批',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -331,7 +331,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PASS = function(req, res, next) {
         url : '/api/requestPayout/pass/list',
         title : '请款管理-已通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -342,7 +342,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_UNPASS = function(req, res, next) {
         url : '/api/requestPayout/unpass/list',
         title : '请款管理-未通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -353,7 +353,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_AFFIRMSUBMIT = function(req, res, next) {
         url : '/api/requestPayout/affirm/tosubmit',
         title : '请款管理-确认提交',
         page : './requestpayout/submit',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -365,7 +365,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_DISAGREE = function(req, res, next) {
         url : '/api/requestPayout/toDisagree?' + searchParam,
         title : '请款管理-不同意',
         page : './requestpayout/disagree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -376,7 +376,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_AGREE = function(req, res, next) {
         url : '/api/requestPayout/toAgree',
         title : '请款管理-同意',
         page : './requestpayout/agree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -387,7 +387,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_TRANSFER = function(req, res, next) {
         url : '/api/requestPayout/transfer',
         title : '请款管理-转交他人',
         page : './requestpayout/transfer',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -420,6 +420,9 @@ exports.VIEW_CUSTOMER_APPROVAL_PENDINGAUDIT = function(req, res, next) {
         url : '/api/operation/waitList',
         title : '审批管理-待审批',
         page : './customer/customerList',
+        callback : function (data) {
+        formatOrderListData(data);
+    }
     }, req, res, next);
 };
 // 客户-审批管理-已通过
@@ -428,7 +431,7 @@ exports.VIEW_CUSTOMER_APPROVAL_PASS = function(req, res, next) {
         url : '/api/operation/pass/list',
         title : '审批管理-已通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -450,7 +453,7 @@ exports.VIEW_CUSTOMER_APPROVAL_RETURN = function(req, res, next) {
         url : '/api/operation/getReturnList',
         title : '审批管理-已回款',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -461,7 +464,7 @@ exports.VIEW_CUSTOMER_APPROVAL_AGREE = function(req, res, next) {
         url : '/api/operation/toAgree',
         title : '审批管理-同意',
         page : './approval/agree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -472,7 +475,7 @@ exports.VIEW_CUSTOMER_APPROVAL_DISAGREE = function(req, res, next) {
         url : '/api/operation/toDisagree',
         title : '审批管理-不同意',
         page : './approval/disagree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -491,7 +494,7 @@ exports.VIEW_CUSTOMER_APPROVAL_SUBMIT = function(req, res, next) {
         url : '/api/operation/affirm/tosubmit',
         title : '审批管理-确认提交',
         page : './approval/submit',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -531,7 +534,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_PENDINGRETURN = function(req, res, next) {
         url : '/api/financial/pendingDispose/list',
         title : '回款管理-待回款',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -544,7 +547,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_PENDINGAUDIT = function(req, res, next) {
         url : '/api/financial/getWaitList',
         title : '回款管理-待审批',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -557,7 +560,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_PASS = function(req, res, next) {
         url : '/api/financial/pass/list',
         title : '回款管理-已通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -570,7 +573,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_UNPASS = function(req, res, next) {
         url : '/api/financial/unpass/list',
         title : '回款管理-未通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -583,7 +586,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_RETURN = function(req, res, next) {
         url : '/api/financial/getReturnList',
         title : '回款管理-已回款',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -594,7 +597,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_RETURNRESULT = function(req, res, next) {
         url : '/api/financial/return/result',
         title : '回款管理-已回款',
         page : './financial/returnResult',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -605,7 +608,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_AGREE = function(req, res, next) {
         url : '/api/financial/toAgree',
         title : '回款管理-同意',
         page : './financial/agree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -616,7 +619,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_DISAGREE = function(req, res, next) {
         url : '/api/financial/toDisagree',
         title : '回款管理-不同意',
         page : './financial/disagree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -627,7 +630,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_TRANSFER = function(req, res, next) {
         url : '/api/financial/transfer',
         title : '回款管理-转交他人',
         page : './financial/transfer',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -712,7 +715,7 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_NOTIFYMATERIAL = function(req, res, next) {
         url : '/api/pigeonhole/toMaterial',
         title : '归档管理-通知所需材料',
         page : './pigeonhole/material',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -743,7 +746,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_PENDINGAUDIT = function(req, res, next) {
         url : '/api/otherfund/pending/list',
         title : '其他管理-待审核',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -754,7 +757,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_PASS = function(req, res, next) {
         url : '/api/otherfund/pass/list',
         title : '其他管理-已通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -765,7 +768,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_UNPASS = function(req, res, next) {
         url : '/api/otherfund/unpass/list',
         title : '其他管理-未通过',
         page : './customer/customerList',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -776,7 +779,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_AGREE = function(req, res, next) {
         url : '/api/otherfund/toagree',
         title : '其他管理-同意',
         page : './otherfund/agree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -787,7 +790,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_DISAGREE = function(req, res, next) {
         url : '/api/otherfund/todisagree',
         title : '其他管理-不同意',
         page : './otherfund/disagree',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -798,7 +801,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_TRANSFER = function(req, res, next) {
         url : '/api/otherfund/transfer',
         title : '其他管理-转交他人',
         page : './otherfund/transfer',
-        callback:function (data) {
+        callback : function (data) {
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -818,8 +821,8 @@ exports.VIEW_CUSTOMER_OTHERFUND_TRANSFER = function(req, res, next) {
 
 // 客户管理-详情页-贷款管理
 exports.VIEW_CUSTOMER_LOAN_DETAIL = function(req, res, next) {
-    var url = '/api/finance/getFile';
-    common.getCustomerDetail(url, req, res, next);
+    // var url = '/api/finance/getFile';
+    // common.getCustomerDetail(url, req, res, next);
     common.getPageData({
         url : '/api/finance/getFile',
         title : '客户-客户详情',
@@ -827,112 +830,7 @@ exports.VIEW_CUSTOMER_LOAN_DETAIL = function(req, res, next) {
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
             //所属商户弹出层的标签名
-            if(data.supplierDetail){
-                if(data.supplierDetail.label_name){
-                    if(data.supplierDetail.label_name.indexOf(",")!=-1){
-                        data.label_names = data.supplierDetail.label_name.split(",");
-                    }else{
-                        data.label_names = [data.supplierDetail.label_name];
-                    }
-                }
-            }
-
-            //所属商户弹出层的返点数据计算
-            /*data.rebatePolicy[i].rebate_type = 1为车款返点；2为gps返点；3为服务费返点；4为保险费返点
-            * 1.data.rebatePolicy[i].rebate_way=1时，返点为固定金额data.rebatePolicy[i].rebate_money
-            * 2.data.rebatePolicy[i].rebate_way=2时，返点为（固定金额 - 超出金额data.rebatePolicy[i].exceed_money）*超出金额的百分比data.rebatePolicy[i].rebate_money
-            * 3.data.rebatePolicy[i].rebate_way=3时，返点为超出金额的固定金额，即data.rebatePolicy[i].rebate_money;
-            * 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money
-            * */
-            if(data.rebatePolicy){
-                for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
-                    switch (data.rebatePolicy[i].rebate_type){
-                        case 1://车款返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_car = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_car = (data.vo.purchase_tax - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 3){
-                                if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_car = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_car = data.vo.purchase_tax * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                        case 2://gps返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_gps = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
-                                    data.rebate_gps = (data.vo.gps_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-
-                            }else if(data.rebatePolicy[i].rebate_way == 3) {
-                                if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
-                                    data.rebate_gps = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_gps = data.vo.gps_charge * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                        case 3://服务费返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_service = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_service = (data.vo.service_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 3){
-                                if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_service = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_service = data.vo.service_charge * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                        case 4://保险费返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_insurance = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_insurance = (data.vo.insurance - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 3){
-                                if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_insurance = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_insurance = data.vo.insurance * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                    }
-                }
-            }
-            //计算万元系数
-            function thousandRate (data) {
-                // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
-                var thoudsanData = parseInt((((data.vo.rate * 100 * (data.vo.pay_periods / 12)) + 10000) / data.vo.pay_periods) * 1000) / 1000;
-                // var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
-                if(thoudsanData.toString().indexOf(".")!=-1){
-                    var floatNum = Number(thoudsanData.toString().split(".")[1]);
-                    if (floatNum <= 0) {
-                        floatNum = 0;
-                    } else if (floatNum < 10) {
-                        floatNum *= 100;
-                    } else if (floatNum < 100) {
-                        floatNum *= 10;
-                    }
-                    if(floatNum < 445){
-                        thoudsanData = thoudsanData.toString().split(".")[0];
-                    }else{
-                        thoudsanData = Number(thoudsanData.toString().split(".")[0]) + 1;
-                    }
-                }
-                return thoudsanData;
-            }
+            supplierDetailTag(data);
         }
     }, req, res, next);
 };
@@ -947,140 +845,195 @@ exports.VIEW_CUSTOMER_COMPACT_DETAIL = function(req, res, next) {
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
             //所属商户弹出层的标签名
-            if(data.supplierDetail){
-                if(data.supplierDetail.label_name){
-                    if(data.supplierDetail.label_name.indexOf(",")!=-1){
-                        data.label_names = data.supplierDetail.label_name.split(",");
-                    }else{
-                        data.label_names = [data.supplierDetail.label_name];
-                    }
-                }
-            }
-
-            //所属商户弹出层的返点数据计算
-            /*data.rebatePolicy[i].rebate_type = 1为车款返点；2为gps返点；3为服务费返点；4为保险费返点
-            * 1.data.rebatePolicy[i].rebate_way=1时，返点为固定金额data.rebatePolicy[i].rebate_money
-            * 2.data.rebatePolicy[i].rebate_way=2时，返点为（固定金额 - 超出金额data.rebatePolicy[i].exceed_money）*超出金额的百分比data.rebatePolicy[i].rebate_money
-            * 3.data.rebatePolicy[i].rebate_way=3时，返点为超出金额的固定金额，即data.rebatePolicy[i].rebate_money;
-            * 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money
-            * */
-            if(data.rebatePolicy){
-                for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
-                    switch (data.rebatePolicy[i].rebate_type){
-                        case 1://车款返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_car = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_car = (data.vo.purchase_tax - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 3){
-                                if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_car = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_car = data.vo.purchase_tax * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                        case 2://gps返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_gps = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
-                                    data.rebate_gps = (data.vo.gps_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-
-                            }else if(data.rebatePolicy[i].rebate_way == 3) {
-                                if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
-                                    data.rebate_gps = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_gps = data.vo.gps_charge * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                        case 3://服务费返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_service = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_service = (data.vo.service_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 3){
-                                if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_service = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_service = data.vo.service_charge * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                        case 4://保险费返点
-                            if(data.rebatePolicy[i].rebate_way == 1){
-                                data.rebate_insurance = data.rebatePolicy[i].rebate_money;
-                            }else if(data.rebatePolicy[i].rebate_way == 2){
-                                if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_insurance = (data.vo.insurance - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 3){
-                                if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
-                                    data.rebate_insurance = data.rebatePolicy[i].rebate_money;
-                                }
-                            }else if(data.rebatePolicy[i].rebate_way == 4){
-                                data.rebate_insurance = data.vo.insurance * data.rebatePolicy[i].rebate_money;
-                            }
-                            break;
-                    }
-                }
-            }
-            //计算万元系数
-            function thousandRate (data) {
-                // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
-                var thoudsanData = parseInt((((data.vo.rate * 100 * (data.vo.pay_periods / 12)) + 10000) / data.vo.pay_periods) * 1000) / 1000;
-                // var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
-                if(thoudsanData.toString().indexOf(".")!=-1){
-                    var floatNum = Number(thoudsanData.toString().split(".")[1]);
-                    if (floatNum <= 0) {
-                        floatNum = 0;
-                    } else if (floatNum < 10) {
-                        floatNum *= 100;
-                    } else if (floatNum < 100) {
-                        floatNum *= 10;
-                    }
-                    if(floatNum < 445){
-                        thoudsanData = thoudsanData.toString().split(".")[0];
-                    }else{
-                        thoudsanData = Number(thoudsanData.toString().split(".")[0]) + 1;
-                    }
-                }
-                return thoudsanData;
-            }
+            supplierDetailTag(data)
         }
     }, req, res, next);
 };
 // 客户管理-详情页-请款管理
 exports.VIEW_CUSTOMER_REQUESTPAYOUT_DETAIL = function(req, res, next) {
-    var url = '/api/requestPayout/getFile';
-    common.getCustomerDetail(url, req, res, next);
+    // var url = '/api/requestPayout/getFile';
+    // common.getCustomerDetail(url, req, res, next);
+    common.getPageData({
+        url : '/api/requestPayout/getFile',
+        title : '客户-客户详情',
+        page : './customer/customerDetail',
+        callback : function (data) {
+            data.vo.thousandRate = thousandRate(data);
+            //所属商户弹出层的标签名
+            supplierDetailTag(data)
+        }
+    }, req, res, next);
 };
 // 客户管理-详情页-审批管理
 exports.VIEW_CUSTOMER_APPROVAL_DETAIL = function(req, res, next) {
-    var url = '/api/operation/getFile';
-    common.getCustomerDetail(url, req, res, next);
+    // var url = '/api/operation/getFile';
+    // common.getCustomerDetail(url, req, res, next);
+    common.getPageData({
+        url : '/api/operation/getFile',
+        title : '客户-客户详情',
+        page : './customer/customerDetail',
+        callback : function (data) {
+            data.vo.thousandRate = thousandRate(data);
+            //所属商户弹出层的标签名
+            supplierDetailTag(data)
+        }
+    }, req, res, next);
 };
 // 客户管理-详情页-款项管理
 exports.VIEW_CUSTOMER_FINANCIAL_DETAIL = function(req, res, next) {
-    var url = '/api/financial/getFile';
-    common.getCustomerDetail(url, req, res, next);
+    // var url = '/api/financial/getFile';
+    // common.getCustomerDetail(url, req, res, next);
+    common.getPageData({
+        url : '/api/financial/getFile',
+        title : '客户-客户详情',
+        page : './customer/customerDetail',
+        callback : function (data) {
+            data.vo.thousandRate = thousandRate(data);
+            //所属商户弹出层的标签名
+            supplierDetailTag(data)
+        }
+    }, req, res, next);
 };
 // 客户管理-详情页-归档管理
 exports.VIEW_CUSTOMER_PIGEONHOLE_DETAIL = function(req, res, next) {
-    var url = '/api/pigeonhole/getFile';
-    common.getCustomerDetail(url, req, res, next);
+    // var url = '/api/pigeonhole/getFile';
+    // common.getCustomerDetail(url, req, res, next);
+    common.getPageData({
+        url : '/api/pigeonhole/getFile',
+        title : '客户-客户详情',
+        page : './customer/customerDetail',
+        callback : function (data) {
+            data.vo.thousandRate = thousandRate(data);
+            //所属商户弹出层的标签名
+            supplierDetailTag(data)
+        }
+    }, req, res, next);
 };
 // 客户管理-详情页-其他管理
 exports.VIEW_CUSTOMER_OTHERFUND_DETAIL = function(req, res, next) {
-    var url = '/api/otherfund/getFile';
-    common.getCustomerDetail(url, req, res, next);
+    // var url = '/api/otherfund/getFile';
+    // common.getCustomerDetail(url, req, res, next);
+    common.getPageData({
+        url : '/api/otherfund/getFile',
+        title : '客户-客户详情',
+        page : './customer/customerDetail',
+        callback : function (data) {
+            data.vo.thousandRate = thousandRate(data);
+            //所属商户弹出层的标签名
+            supplierDetailTag(data)
+        }
+    }, req, res, next);
 };
+
+//所属商户弹出层的标签名
+function supplierDetailTag(data) {
+    if(data.supplierDetail){
+        if(data.supplierDetail.label_name){
+            if(data.supplierDetail.label_name.indexOf(",")!=-1){
+                data.label_names = data.supplierDetail.label_name.split(",");
+            }else{
+                data.label_names = [data.supplierDetail.label_name];
+            }
+        }
+    }
+
+    //所属商户弹出层的返点数据计算
+    /*data.rebatePolicy[i].rebate_type = 1为车款返点；2为gps返点；3为服务费返点；4为保险费返点
+    * 1.data.rebatePolicy[i].rebate_way=1时，返点为固定金额data.rebatePolicy[i].rebate_money
+    * 2.data.rebatePolicy[i].rebate_way=2时，返点为（固定金额 - 超出金额data.rebatePolicy[i].exceed_money）*超出金额的百分比data.rebatePolicy[i].rebate_money
+    * 3.data.rebatePolicy[i].rebate_way=3时，返点为超出金额的固定金额，即data.rebatePolicy[i].rebate_money;
+    * 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money
+    * */
+    if(data.rebatePolicy){
+        for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
+            switch (data.rebatePolicy[i].rebate_type){
+                case 1://车款返点
+                    if(data.rebatePolicy[i].rebate_way == 1){
+                        data.rebate_car = data.rebatePolicy[i].rebate_money;
+                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                        if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
+                            data.rebate_car = (data.vo.purchase_tax - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                        }
+                    }else if(data.rebatePolicy[i].rebate_way == 3){
+                        if(data.vo.purchase_tax > data.rebatePolicy[i].exceed_money){
+                            data.rebate_car = data.rebatePolicy[i].rebate_money;
+                        }
+                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                        data.rebate_car = data.vo.purchase_tax * data.rebatePolicy[i].rebate_money;
+                    }
+                    break;
+                case 2://gps返点
+                    if(data.rebatePolicy[i].rebate_way == 1){
+                        data.rebate_gps = data.rebatePolicy[i].rebate_money;
+                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                        if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
+                            data.rebate_gps = (data.vo.gps_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                        }
+
+                    }else if(data.rebatePolicy[i].rebate_way == 3) {
+                        if(data.vo.gps_charge > data.rebatePolicy[i].exceed_money) {
+                            data.rebate_gps = data.rebatePolicy[i].rebate_money;
+                        }
+                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                        data.rebate_gps = data.vo.gps_charge * data.rebatePolicy[i].rebate_money;
+                    }
+                    break;
+                case 3://服务费返点
+                    if(data.rebatePolicy[i].rebate_way == 1){
+                        data.rebate_service = data.rebatePolicy[i].rebate_money;
+                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                        if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
+                            data.rebate_service = (data.vo.service_charge - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                        }
+                    }else if(data.rebatePolicy[i].rebate_way == 3){
+                        if(data.vo.service_charge > data.rebatePolicy[i].exceed_money){
+                            data.rebate_service = data.rebatePolicy[i].rebate_money;
+                        }
+                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                        data.rebate_service = data.vo.service_charge * data.rebatePolicy[i].rebate_money;
+                    }
+                    break;
+                case 4://保险费返点
+                    if(data.rebatePolicy[i].rebate_way == 1){
+                        data.rebate_insurance = data.rebatePolicy[i].rebate_money;
+                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                        if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
+                            data.rebate_insurance = (data.vo.insurance - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money;
+                        }
+                    }else if(data.rebatePolicy[i].rebate_way == 3){
+                        if(data.vo.insurance > data.rebatePolicy[i].exceed_money){
+                            data.rebate_insurance = data.rebatePolicy[i].rebate_money;
+                        }
+                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                        data.rebate_insurance = data.vo.insurance * data.rebatePolicy[i].rebate_money;
+                    }
+                    break;
+            }
+        }
+    }
+}
+//计算万元系数
+function thousandRate (data) {
+    // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+    var thoudsanData = parseInt((((data.vo.rate * 100 * (data.vo.pay_periods / 12)) + 10000) / data.vo.pay_periods) * 1000) / 1000;
+    // var thoudsanData = data.vo.rate*1000*(data.vo.pay_periods/12)/data.vo.pay_periods;
+    if(thoudsanData.toString().indexOf(".")!=-1){
+        var floatNum = Number(thoudsanData.toString().split(".")[1]);
+        if (floatNum <= 0) {
+            floatNum = 0;
+        } else if (floatNum < 10) {
+            floatNum *= 100;
+        } else if (floatNum < 100) {
+            floatNum *= 10;
+        }
+        if(floatNum < 445){
+            thoudsanData = thoudsanData.toString().split(".")[0];
+        }else{
+            thoudsanData = Number(thoudsanData.toString().split(".")[0]) + 1;
+        }
+    }
+    return thoudsanData;
+}
 
 // 回显详情页访问路由方法
 function formatOrderListData (data) {

@@ -16,11 +16,11 @@
         <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
         <!---- Part of slide nav End ---->
-        <form action="/finance/file/download" id="finance_download" method="post">
-            <input id="finance_download_finance_id" value="{{finance_id}}" name="finance_id" type="hidden">
-            <input id="user_name" value="{{vo.user_name}}" name="user_name" type="hidden">
-            <input id="material_type" value="" name="material_type" type="hidden">
-        </form>
+        <!--<form action="/finance/file/download" id="finance_download" method="post">-->
+            <!--<input id="finance_download_finance_id" value="{{finance_id}}" name="finance_id" type="hidden">-->
+            <!--<input id="user_name" value="{{vo.user_name}}" name="user_name" type="hidden">-->
+            <!--<input id="material_type" value="" name="material_type" type="hidden">-->
+        <!--</form>-->
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
@@ -32,112 +32,44 @@
             <!-- 详情tab部分 开始 -->
             <div class="details_content">
                 <div class="tab">
-                    <ul class="tab_list inline_block">
-                        <li class="tab_item type_normal active" data-type="0" style="border-left:0;"><span></span>进件资料</li>
-                        <li class="tab_item type_others" data-type="1"><span></span>合同资料</li>
-                        <li class="tab_item type_others" data-type="2"><span></span>请款资料</li>
-                        <li class="tab_item type_others" data-type="3"><span></span>归档资料</li>
+                    <ul class="tab_list inline_block" id="query_tab">
+                        <li class="tab_item type_normal {{#if (reqParams.query_type === '1') }}active{{/if}}" data-queryType="1" style="border-left:0 ;"><span></span>进件资料</li>
+                        {{#if (vo.status > 5 && vo.compact_type === 1 ) }}
+                            <li class="tab_item type_others {{#if (reqParams.query_type === '2') }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
+                        {{/if}}
+                        {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
+                            <li class="tab_item type_others {{#if (reqParams.query_type === '3') }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                        {{/if}}
+                        {{#if (vo.status > 10 ) }}
+                            <li class="tab_item type_others {{#if (reqParams.query_type === '4') }}active{{/if}}" data-queryType="4"><span></span>归档资料</li>
+                        {{/if}}
                     </ul>
                 </div>
+
+                    <input type="hidden" name="finance_id" id="finance_id" value="{{finance_id}}">
+                    <input type="hidden" id="advance_id" name="advance_id" value="{{reqParams.advance_id}}">
+                    <input type="hidden" name="query_type" value="{{reqParams.query_type}}" id="query_type">
+                    <input type="hidden" name="photo_type" value="{{reqParams.photo_type}}" id="photo_type">
+
                 <div class="details_item base_info">
-                    <!-- 基本信息 Begin -->
-                    {{include ('./../inc/customerBasicInfo')}}
-                    <!-- 基本信息 End -->
+                    <!-- 进件资料 Begin -->
+                    {{#if (reqParams.query_type === '1') }}
+                        {{include ('./../inc/customerBasicInfo')}}
+                    {{/if}}
+                    <!-- 进件资料 End -->
                     <!-- 合同资料 Begin -->
-                    {{include ('./../inc/compactInfo')}}
+                    {{#if (reqParams.query_type === '2') }}
+                        {{include ('./../inc/compactInfo')}}
+                    {{/if}}
                     <!-- 合同资料 End -->
                     <!-- 请款资料部分 Begin -->
-                    <div class="detail_box" style="display: none">
-                        <div class="classify_item">
-                            <div class="classify_content">
-                                <div class="classify_title">车辆信息</div>
-                                <ul class="items_list">
-                                    <li class="item_row">
-                                        <div class="item_name">风险类型：</div>
-                                        <div class="item_value">2</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">车架号：</div>
-                                        <div class="item_value">自行安装</div>
-                                    </li>
-                                </ul>
-                                <div class="classify_title">车款审批</div>
-                                <ul class="items_list">
-                                    <li class="item_row">
-                                        <div class="item_name">总额：</div>
-                                        <div class="item_value">2018</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">账户用途：</div>
-                                        <div class="item_value">白海安</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">车架贷款额：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">账户类型：</div>
-                                        <div class="item_value">宝马5系</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">账户名：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">银行卡号：</div>
-                                        <div class="item_value">宝马5系</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">开户行：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">备注：</div>
-                                        <div class="item_value">宝马5系</div>
-                                    </li>
-                                </ul>
-                                <div class="classify_title">北京返点支出</div>
-                                <ul class="items_list">
-                                    <li class="item_row">
-                                        <div class="item_name">总额：</div>
-                                        <div class="item_value">2018</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">账户用途：</div>
-                                        <div class="item_value">白海安</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">GPS返点：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">账户类型：</div>
-                                        <div class="item_value">宝马5系</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">账户名：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">银行卡号：</div>
-                                        <div class="item_value">宝马5系</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">开户行：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">商户名称：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">备注：</div>
-                                        <div class="item_value">宝马5系</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    {{#if (reqParams.query_type === '3') }}
+                        {{include ('./../inc/requestpayoutInfo')}}
+                    {{/if}}
+                    <!-- 请款资料部分 End -->
+                    <!-- 归档资料部分 Begin -->
+
+                    <!-- 归档资料部分 End -->
                     <!-- 详情页按钮逻辑 Begin -->
                     {{include ('./../inc/customerDetailBtn')}}
                     <!-- 详情页按钮逻辑 End -->
@@ -147,17 +79,23 @@
             <!-- 详情图片附件 Begin -->
             <div class="details_content">
                 <div class="tab">
-                    <ul class="tab_list inline_block">
-                        <li class="tab_item type_normal active" data-type="0" style="border-left:0;"><span></span>进件附件</li>
-                        <li class="tab_item type_others" data-type="1"><span></span>合同附件</li>
-                        <li class="tab_item type_others" data-type="2"><span></span>请款附件</li>
-                        <li class="tab_item type_others" data-type="3"><span></span>归档附件</li>
+                    <ul class="tab_list inline_block" id="photo_tab">
+                        <li class="tab_item type_normal {{#if (reqParams.photo_type === '1') }}active{{/if}}" data-photoType="1" style="border-left:0;"><span></span>进件附件</li>
+                        {{#if (vo.status > 5 && vo.compact_type === 1 ) }}
+                            <li class="tab_item type_others {{#if (reqParams.photo_type === '2') }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
+                        {{/if}}
+                        {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
+                            <li class="tab_item type_others {{#if (reqParams.photo_type === '3') }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
+                        {{/if}}
+                        {{#if (vo.status > 10 ) }}
+                            <li class="tab_item type_others {{#if (reqParams.photo_type === '4') }}active{{/if}}" data-photoType="4"><span></span>归档附件</li>
+                        {{/if}}
                     </ul>
                 </div>
-                <!-- 附件部分 Begin -->
+                <!-- 附件图片部分 Begin -->
                 <div class="details_item">
+                    {{#if (file_list.length > 0) }}
                     <div class="detail_box">
-                        {{#if (file_list.length > 0) }}
                         <ul class="img_list" id="img_list">
                             {{#each (file_list) }}
                             <a href="javascript:;" target="_blank">
@@ -168,26 +106,15 @@
                                     <div class="img_desc nor_wrap">{{this.file_name}}</div>
                                 </div>
                             </a>
-                            <!--<div class="detailBox inline">-->
-                                    <!--<div class="list_item detailImgBox cursor">-->
-                                        <!--<a href="javascript:;" data-type="imgBox"><img data-original="{{this.thumbnail}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"></a>-->
-                                        <!--<div class="img_desc nor_wrap">{{this.file_name}}</div>-->
-                                    <!--</div>-->
-
-                            <!--</div>-->
-
                             {{/each}}
-                            <!--<li class="list_item">-->
-                                <!--<a href="javascript:;"><img src="../static/img/a.jpg" alt=""></a>-->
-                                <!--<div class="img_desc nor_wrap">身份证</div>-->
-                            <!--</li>-->
                         </ul>
-                        {{/if}}
                     </div>
                     <div class="detail_footer">
                         <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="4" lang="{{finance_id}}">全部下载</a>
-                        <!--<a href="javascript:" class="detail_high_btn">全部下载</a>-->
                     </div>
+                    {{else}}
+                        {{include ('./../inc/empty_data')}}
+                    {{/if}}
                 </div>
             </div>
             <!-- 详情图片附件 End -->
@@ -216,9 +143,42 @@
             currentPerson.innerHTML = currentTime;
         }
     })(window, undefined);
-        $(function () {
-            viewLargeImage('#img_list');       // 查看大图
-            viewLargeImage('.log_item');
+    $(function () {
+        viewLargeImage('#img_list');       // 查看大图
+        viewLargeImage('.log_item');
+        searchQueryType('#query_tab .tab_item');
+        searchQueryType('#photo_tab .tab_item');
+    });
+    //tab页切换
+    function searchQueryType(tab_item) {
+        var btn = $(tab_item);
+        btn.off("click").on('click', function () {
+            var _this = $(this);
+            _this.addClass('active');
+            if (_this.hasClass('type_normal')) {
+                _this.siblings('.type_others').removeClass('active');
+            } else {
+                _this.siblings('.type_normal').removeClass('active');
+            }
+            if( _this.parent().attr('id') == 'query_tab'){
+                $('#query_type').val(_this.attr('data-queryType'));
+            }else{
+                $('#photo_type').val(_this.attr('data-photoType'));
+            }
+            var finance_id = $.trim($('#finance_id').val());
+            var advance_id = $.trim($('#advance_id').val());
+            var query_type = $.trim($('#query_type').val());
+            var photo_type = $.trim($('#photo_type').val());
+            locationTo({
+                action : contextPath +'{{detailUrl}}',
+                param : {
+                    finance_id : finance_id,
+                    advance_id : advance_id,
+                    query_type : query_type,
+                    photo_type : photo_type
+                }
+            });
         });
+    }
 </script>
 </html>
