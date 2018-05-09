@@ -112,15 +112,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{#each (list) }}
+                        {{#if (count === 0) }}
+                            <tr>
+                                <td colspan="6" class="no_hover">
+                                    {{include('./../inc/empty_data')}}
+                                </td>
+                            </tr>
+                        {{else}}
+                            {{#each (list) }}
                             <tr>
                                 <td title="{{this.name}}">{{this.name}}</td>
                                 <td>
                                     {{#if (this.downpayment_type === 1) }}
-                                        {{this.downpayment_rate }}%
+                                    {{this.downpayment_rate }}%
                                     {{/if}}
                                     {{#if (this.downpayment_type === 2) }}
-                                        {{this.downpayment_money }}元
+                                    {{this.downpayment_money }}元
                                     {{/if}}
                                 </td>
                                 <td>{{this.interest_rate}}%</td>
@@ -128,26 +135,23 @@
                                 <td>{{this.pass_rate }}%</td>
                                 <td class="operate_btn">
                                     {{#if (root.verifyCode(1079)) }}
-                                        <a href="javascript:;" lang="{{this.id }}" data_num="0" title="查看" class="view view_detail"></a>
+                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="查看" class="view view_detail"></a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1087)) }}
-                                        <a href="javascript:;" lang="{{this.id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
+                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
                                     {{/if}}
-                                   <!-- {{#if (root.verifyCode(1193)) }}
-                                        <a href="javascript:;" lang="{{this.id }}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
-                                    {{/if}}-->
+                                    <!-- {{#if (root.verifyCode(1193)) }}
+                                         <a href="javascript:;" lang="{{this.id }}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
+                                     {{/if}}-->
                                 </td>
                             </tr>
-                        {{/each}}
+                            {{/each}}
+                        {{/if}}
                         </tbody>
                     </table>
                 </form>
-            {{#if (count === 0) }}
-                {{include('./../inc/empty_data')}}
-            {{/if}}
-            <div class="page_box">
-                {{include('./../inc/paginations')}}
-            </div>
+
+            {{include('./../inc/paginations')}}
         </div>
         <!---- Part of Main info End ---->
     </div>
