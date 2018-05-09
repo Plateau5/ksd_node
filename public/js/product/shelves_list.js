@@ -124,10 +124,10 @@ $(function(){
             $alert('未选中产品，请选择需要上架的产品！');
             return;
         }
-        var shelves_num = $('.icon_check').parent().parent().parent().find('.shelves_name').length;//未填写完整标识
+        var shelves_num = $('.icon_check').parents('.product_table').find('.shelves_name').length;//未填写完整标识
         if(shelves_num != "0"){
-            var product_name = $('.shelves_name').eq(0).prev().html();
-            $alert('您选择上架的产品中，' + product_name + '等' + shelves_num + '个产品必填信息填写不完整，导致其产品不能正常上架，请填写完整后再次上架！');
+            // var product_name = $('.shelves_name').eq(0).prev().html();
+            $alert('您选择了有信息填写不完整的产品，请先填写完整！');
             return;
         }
         var product_arr = [];
@@ -170,6 +170,8 @@ $(function(){
                             $alert('上架成功', function () {
                                 window.location.reload();
                             });
+                        } else if (res.error_code == 1013) {
+                            $alert('您选择了有信息填写不完整的产品，请先填写完整！');
                         } else {
                             $alert(res.error_msg);
                         }
