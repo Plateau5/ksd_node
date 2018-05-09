@@ -119,11 +119,10 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val">
-
                                 {{#each (list_city) }}
                                 <div class="radio">
                                     {{#if (vo.applyto_city === this.id) }}
-                                    <input type="hidden" class="have_city" value="{{this.id}}" name="city_ids">
+                                    <input type="hidden" class="have_city" value="{{this.id}}" name="applyto_city">
                                     <input id="applyto_city{{xindex}}" type="radio" name="have_city" value="{{this.id}}" checked="checked" >
                                     {{else}}
                                     <input id="applyto_city{{xindex}}" type="radio" name="have_city" value="{{this.id}}" >
@@ -131,8 +130,8 @@
                                     <label for="applyto_city{{xindex}}">{{this.name}}</label>
                                 </div>
                                 {{/each}}
+                                <span class="formError"></span>
                             </div>
-                            <span class="formError"></span>
                         </div>
                         <div class="option_item">
                             <div class="column_name">
