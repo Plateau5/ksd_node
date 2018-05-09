@@ -81,11 +81,11 @@ $(function(){
         if(num == ''){
             var error = $(this).parent().find('.formError').html('请填写首付金额');
             return;
+        } else {
+            $(this).parent().find('.formError').html('');
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
-
-
             var num = $('.downpayment_add input').val();
             var inner = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" readonly="readonly" id="" name="downpayment_money" value="' + num + '" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
             $('.downpayment_add').css('marginLeft',$('.column_name').width() + 'px');
@@ -154,10 +154,10 @@ $(function(){
         var num = $('.rate_add input').val();
         if(num == ''){
             //添加当前为空时状态的提示信息
-            $('.rate_add').find("input").focus().end().parent().find(".formError").text("请先输入当前费率");
+            $(this).parent().find('.formError').html("请先输入当前费率");
             return;
         } else {
-            $('.rate_add').find("input").focus().end().parent().find(".formError").text("");
+            $(this).parent().find('.formError').html("");
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){

@@ -250,32 +250,32 @@
                                     <span class="formError"></span>
                                 </div>
                                 {{elseif (interest_rate_list.length > 1) }}
-                                {{#each (interest_rate_list) }}
-                                {{#if (xindex === interest_rate_list.length - 1) }}
-                                <div class="column_val rate_add" style="margin-top: 10px;padding-left: 12%;">
-                                    <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" maxlength="5" name="interest_rate" value="{{this}}" style="width:90px;"/>
+                                    {{#each (interest_rate_list) }}
+                                        {{#if (xindex === interest_rate_list.length - 1) }}
+                                        <div class="column_val rate_add" style="margin-top: 10px;padding-left: 12%;">
+                                            <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" maxlength="5" name="interest_rate" value="{{this}}" style="width:90px;"/>
+                                            <span>%</span>
+                                            <span class="cursor rate_add_txt">添加</span>
+                                            <span class="formError"></span>
+                                        </div>
+                                        {{else}}
+                                        <div class="rate_box">
+                                            <div class="rate_add_ready" style="padding-top: 10px;">
+                                                <input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" name="interest_rate" value="{{this}}" style="width:90px;">
+                                                <span>%</span>
+                                                <span class="cursor rate_add_del">删除</span>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    {{/each}}
+                                {{/if}}
+                            {{else}}
+                                <div class="column_val rate_add" style="margin-top: 10px;">
+                                    <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" maxlength="5" name="interest_rate" value="" onpaste="return false;" onkeyup="clearNoNum(this)" style="width:90px;"/>
                                     <span>%</span>
                                     <span class="cursor rate_add_txt">添加</span>
                                     <span class="formError"></span>
                                 </div>
-                                {{else}}
-                                <div class="rate_box">
-                                    <div class="rate_add_ready" style="padding-top: 10px;">
-                                        <input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" name="interest_rate" value="{{this}}" style="width:90px;">
-                                        <span>%</span>
-                                        <span class="cursor rate_add_del">删除</span>
-                                    </div>
-                                </div>
-                                {{/if}}
-                                {{/each}}
-                                {{/if}}
-                            {{else}}
-                            <div class="column_val rate_add" style="margin-top: 10px;">
-                                <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" maxlength="5" name="interest_rate" value="" onpaste="return false;" onkeyup="clearNoNum(this)" style="width:90px;"/>
-                                <span>%</span>
-                                <span class="cursor rate_add_txt">添加</span>
-                                <span class="formError"></span>
-                            </div>
                             {{/if}}
                         </div>
 
@@ -322,7 +322,7 @@
                                 <textarea name="assess_desc" placeholder="请输入内容" id="assess_desc" maxlength="200" class="form-control">{{vo.assess_desc }}</textarea>
                             </div>
                         </div>
-                        <div class="option_item">
+                        <div class="option_item" style="margin-top: 10px;">
                             <div class="column_name" style="line-height: 20px;">
                                 <span class="options_name">产品说明：</span>
                             </div>
