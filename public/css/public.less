@@ -939,8 +939,8 @@ table.normal{
     }
     .filtrate_date{
         width: 190px;
-        height: 30px;
-        line-height: 30px;
+        height: 28px;
+        line-height: 28px;
         padding: 0 @date-right 0 10px;
         border: 1px solid #f2f2f2;
         //-webkit-border-radius: @normal-radius;
@@ -1014,6 +1014,15 @@ table.normal{
     .conditions_item.active,.conditions_item:hover{
         background-color: @active-color;
         color: #FFFFFF;
+    }
+    .customer_select_input{
+        margin-top: -5px;
+        border:1px solid @select-color;
+    }
+    .customer_select{
+        height:30px;
+        line-height: 30px;
+        border:1px solid @select-color;
     }
 }
 /********** 筛选条件部分样式 End ***********/
@@ -2841,16 +2850,16 @@ textarea{
 /***** 客户筛选搜索 Start ******/
 .search_box{
     position: relative;
-    width:130px;
-    height:30px;
-    line-height:30px;
+    width:128px;
+    height:28px;
+    line-height:28px;
     border:1px solid #cacaca;
     background:#fff;
     color:#999;
     &:before{
         position: absolute;
         right: 5px;
-        top: 10px;
+        top: 9px;
         display: block;
         content: '';
         width: 11px;
@@ -2859,7 +2868,7 @@ textarea{
     }
     .fuzzy_search{
         width: 100px;
-        height: 26px;
+        height: 24px;
         padding: 0 5px;
         border: none;
         vertical-align: inherit;
@@ -2871,7 +2880,7 @@ textarea{
         right:0;
         margin-top:10px;
         padding:20px 30px;
-        width:292px;
+        min-width:200px;
         max-height:142px;
         overflow-y: scroll;
         background: #fff;
@@ -2918,12 +2927,14 @@ textarea{
             color:#333;
             line-height: 24px;
             font-size:12px;
+            cursor: pointer;
             .name{
               display: inline-block;
               width:60px;
             }
             .p_dep{
               display:inline-block;
+              width:120px;
             }
             span:first-child{
                 margin-right: 20px;
@@ -2931,5 +2942,4 @@ textarea{
         }
     }
 }
-
 /***** 客户筛选搜索 End ******/

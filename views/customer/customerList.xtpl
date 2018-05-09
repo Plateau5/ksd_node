@@ -20,18 +20,21 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
-            <form action="{{originUrl}}" method="post" id="form_search" role="form"></form>
             {{include('./../inc/operationCategory')}}
-            {{include('./../inc/filtrate')}}
-            <input type="hidden" name="start" value="{{reqParams.settlement_type}}" id="start">
-            <input type="hidden" name="end" value="{{reqParams.settlement_type}}" id="end">
+            <form action="{{originUrl}}" method="post" id="form_search" role="form">
+                <input type="hidden" name="current_page" value="{{current_page}}" id="current_page">
+                {{include('./../inc/filtrate')}}
+            </form>
             <div class="business_list">
                 <form action="{{detailUrl}}" method="post" id="to_order_detail">
                     <input type="hidden" name="active" value="active">
                     <input type="hidden" name="finance_id" value="" id="financeId">
                     <input type="hidden" name="advance_id" value="" id="advanceId">
-                    <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
-                    <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
+                    <!--<input type="hidden" name="start_loan_time" value="" id="start_loan_time">
+                    <input type="hidden" name="end_loan_time" value="" id="end_loan_time">
+                    <input type="hidden" name="pigeonhole_status" value="" id="pigeonholeStatus">
+                    <input type="hidden" name="create_name" value="" id="createName">-->
+
                 </form>
                 {{#if (originUrl.indexOf( markUri + '/customer/otherfund') !== -1) }}
                     {{include('./../inc/otherfundOrderList')}}
@@ -61,50 +64,64 @@
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script src="{{markUri}}/static/js/customerService.js"></script>
 </html>
 <script>
-    /*var emp_list = '{{emp_list}}';
-    emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));*/
+    var emp_list = '{{emp_list}}';
+    if (emp_list.length > 0 ){
+        emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
+    }
     (function ($) {
         /**
-         *  客户列表筛选逻辑
-         *  Created by 齐春梅 on 2018年5月8日16:21:14.
+         *  客户列表筛选逻辑 2018年5月8日16:21:14.
          */
         function searchCustomer () {
             var confirmBtn = $('.customer_search_confirm');
             var cancelBtn = $('.customer_search_cancel');
+            var listForm = $('form[role="form"]');
             confirmBtn.off('click').on('click', function () {
                 var _this = $(this);
                 _this.off('click');
-                var checkedLetter = getCheckedFirstLetter();
-                searchBusinessList(checkedLetter);
+                var start_with = getCheckedFirstLetter();
+                (start_with == "全部") && (start_with = '');
+                start_with && listForm.append('<input type="hidden" class="filtrate_input" id="start_with" name="start_with" value="'+ start_with + '" />');
+                listForm.submit();
             });
             cancelBtn.off('click').on('click', function () {
                 var _this = $(this);
                 _this.off('click');
-                var form = $('form[role="form"]');
-                form.submit();
+                listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('');
+                listForm.submit();
             });
         };
         //模糊查询
+        var hideInput = $('#orderCreatorId');
         var btn = $('#createName');
         var resBox = $(".search_result");
         var resItem = $(".res_item");
         function fuzzySearch () {
             btn.on('input', function () {
-                resBox.show();
-                var queryObj = fuzzyQuery(emp_list);
-                showSearchResult(queryObj);
-                selectedCreate();
+                var _this = $(this);
+                if (_this.val() == ''){
+                    resBox.hide();
+                } else{
+                    resBox.show();
+                    var queryObj = fuzzyQuery(emp_list);
+                    showSearchResult(queryObj);
+                    selectedCreate();
+                }
             });
 
             // 订单所属人选中逻辑
             var selectedCreate = function () {
-                resBox.resItem.on('click', function () {
+                $('.search_result .res_item').on('click', function () {
                     var _this = $(this);
                     var createId = $.trim(_this.data('id'));
                     var createName = $.trim(_this.data('name'));
-                    btn.val(createName).data('id', createId);
+                    var orderCreatorId = $.trim(_this.data('id'));
+                    btn.val(createName);
+                    hideInput.val(orderCreatorId);
                     resBox.hide();
                 });
             }
@@ -132,7 +149,7 @@
         function showSearchResult (res) {
             var html = [];
             if (res == undefined || res.length == 0 || res.length == undefined) {
-                return $('.user_list').html('<li class="res_item" style="text-align: center;">暂无数据</li>');
+                return $('.search_list').html('<li class="res_item" style="text-align: center;">暂无数据</li>');
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var str = '';
@@ -142,6 +159,8 @@
                             </li>'
                     html.push(str);
                     $('.search_list').html(html.join(""));
+                    var orderId = '';
+
                 }
             }
         }
@@ -158,7 +177,6 @@
             });
             searchCustomer();  //搜索
             initDateStartEnd('#start_loan_time','#end_loan_time');  //日期筛选
-            /*searchManagers();*/
             fuzzySearch(); //模糊查询订单所属人
             toOrderDetail();
             paginationSwitch();     // 分页切换

@@ -3,19 +3,19 @@
         {{#if(startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/otherfund'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block">时间筛选：</div>
-            <input type="text" id="filtrate_date" class="filtrate_date" placeholder="请选择日期" value="{{condition.time}}" name="time" readonly="readonly" />
+            <input type="text" id="filtrate_date" class="filtrate_input filtrate_date customer_select_input" placeholder="请选择日期" value="{{condition.time}}" name="time" readonly="readonly" />
         </div>
         {{/if}}
-        {{#if(startWith(markUri + '/customer/pigeonhole/pending'))}}
+        {{#if(startWith(markUri + '/customer/pigeonhole/pending' + ' || ' + '/customer/pigeonhole/archived'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block">放款时间：</div>
-            <input type="text" id="start_loan_time" readonly class="filtrate_date archiving_time" value="" placeholder="请选择日期" /> <span style="color:#D8D8D8">—</span>
-            <input type="text" id="end_loan_time" readonly class="filtrate_date archiving_time"  value="" placeholder="请选择日期" />
+            <input type="text" id="start_loan_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input" value="{{condition.start_loan_time}}" placeholder="请选择日期" name="start_loan_time"/> <span style="color:#D8D8D8">—</span>
+            <input type="text" id="end_loan_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input"  value="{{condition.end_loan_time}}" placeholder="请选择日期"  name="end_loan_time"/>
         </div>
         {{/if}}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_city">地点筛选：</div>
-            <select name="city_id" class="filtrate_select city_select" id="city_id">
+            <select name="city_id" class="filtrate_select city_select customer_select" id="city_id">
                 <option value="">全部</option>
                 {{#each(city_list)}}
                 {{#if (this.id === city_id) }}
@@ -29,7 +29,7 @@
         {{#if(startWith(markUri + '/customer/pigeonhole/pending'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">状态：</div>
-            <select name="pigeonhole_status" class="filtrate_select" id="pigeonholeStatus">
+            <select name="pigeonhole_status" class="filtrate_select customer_select" id="pigeonholeStatus">
                 <option value="">全部</option>
                 {{#if(condition.pigeonhole_status === 1)}}
                 <option value="1" selected="selected">待处理</option>
@@ -43,10 +43,13 @@
                 {{/if}}
             </select>
         </div>
+        {{/if}}
+        {{#if(startWith(markUri + '/customer/pigeonhole/pending' + ' || ' + '/customer/pigeonhole/archived'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">订单所属人：</div>
             <div class="search_box inline_block">
-                <input type="text" id="createName" name="create_name" value="{{condition.create_name}}" placeholder="销售姓名" class="fuzzy_search">
+                <input type="hidden" name="create_id" value="{{condition.create_id}}" id="orderCreatorId" class="filtrate_input">
+                <input type="text" id="createName" name="create_name" value="{{condition.create_name}}" placeholder="销售姓名" class="filtrate_input fuzzy_search" autocomplete="off">
                 <div class="search_result" style="display: none;">
                     <ul class="search_list">
                     </ul>
@@ -58,7 +61,7 @@
         {{#if(startWith(markUri + '/customer/requestpayout/pass'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_requestpayout_type">类型筛选：</div>
-            <select name="already_request" class="filtrate_select req_type_select" id="request_type">
+            <select name="already_request" class="filtrate_select req_type_select customer_select" id="request_type">
                 <option value="">全部</option>
                 {{#if (condition.already_request === 0) }}
                 <option value="0">未请款</option>
@@ -73,7 +76,7 @@
         {{#if(startWith(markUri + '/customer/loan/passed'))}}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_order_status">状态筛选：</div>
-            <select name="status" class="filtrate_select order_status_select" id="order_status">
+            <select name="status" class="filtrate_select order_status_select customer_select" id="order_status">
                 <option value="">全部</option>
                 {{#if(condition.status === 5)}}
                 <option value="5" selected="selected">已通过</option>
@@ -117,7 +120,7 @@
         {{#if (risk_list.length >= 0) }}
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">风险类型：</div>
-            <select name="risk_type" class="filtrate_select risk_type_select" id="filtrate_audit_type" style="width: 200px;">
+            <select name="risk_type" class="filtrate_select risk_type_select customer_select" id="filtrate_audit_type" style="width: 200px;">
                 <option value="">全部</option>
                 {{#each (risk_list) }}
                 {{#if (this.index === condition.risk_type) }}
