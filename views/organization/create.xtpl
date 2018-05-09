@@ -242,39 +242,39 @@
                         <div class="column_val">
                             <input type="hidden" class="special" name="special">
                             <div class="form_group">
-                                <input id="org_feature1" type="checkbox" class="org_feature" name="special"  value="9" />
+                                <input id="org_feature1" type="checkbox" class="org_feature" name="special1"  value="9" />
                                 <label for="org_feature1">审批快</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature2" type="checkbox" class="org_feature" name="special" value="1" />
+                                <input id="org_feature2" type="checkbox" class="org_feature" name="special1" value="1" />
                                 <label for="org_feature2">材料少</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature3" type="checkbox" class="org_feature" name="special" value="2" />
+                                <input id="org_feature3" type="checkbox" class="org_feature" name="special1" value="2" />
                                 <label for="org_feature3">利息低</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature4" type="checkbox" class="org_feature" name="special" value="3" />
+                                <input id="org_feature4" type="checkbox" class="org_feature" name="special1" value="3" />
                                 <label for="org_feature4">利润大</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature5" type="checkbox" class="org_feature" name="special" value="4" />
+                                <input id="org_feature5" type="checkbox" class="org_feature" name="special1" value="4" />
                                 <label for="org_feature5">灵活</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature6" type="checkbox" class="org_feature" name="special" value="5" />
+                                <input id="org_feature6" type="checkbox" class="org_feature" name="special1" value="5" />
                                 <label for="org_feature6">首付低</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature7" type="checkbox" class="org_feature" name="special" value="6" />
+                                <input id="org_feature7" type="checkbox" class="org_feature" name="special1" value="6" />
                                 <label for="org_feature7">尺寸大</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature8" type="checkbox" class="org_feature" name="special" value="7" />
+                                <input id="org_feature8" type="checkbox" class="org_feature" name="special1" value="7" />
                                 <label for="org_feature8">可做黑户</label>
                             </div>
                             <div class="form_group">
-                                <input id="org_feature9" type="checkbox" class="org_feature" name="special" value="8" />
+                                <input id="org_feature9" type="checkbox" class="org_feature" name="special1" value="8" />
                                 <label for="org_feature9">无驾照</label>
                             </div>
                         </div>
@@ -283,30 +283,30 @@
                         <div class="column_name">
                             <span class="options_name">附加可融项目：</span>
                         </div>
-                        <div class="column_val">
+                        <div class="column_val addition_finances">
                             <input type="hidden" class="addition_finance" name="addition_finance">
                             <div class="form_group">
-                                <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance"  value="1" />
+                                <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance1"  value="1" />
                                 <label for="additional_project1">GPS</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance" value="2" />
+                                <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance1" value="2" />
                                 <label for="additional_project2">保险</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance" value="3" />
+                                <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance1" value="3" />
                                 <label for="additional_project3">服务费</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance" value="4" />
+                                <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance1" value="4" />
                                 <label for="additional_project4">人身意外险</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance" value="5" />
+                                <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance1" value="5" />
                                 <label for="additional_project5">购置税</label>
                             </div>
                             <div class="form_group">
-                                <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance" value="6" />
+                                <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance1" value="6" />
                                 <label for="additional_project6">金融方自营保险</label>
                             </div>
                         </div>
@@ -521,8 +521,26 @@
                 btn.attr('disabled',false);
                 return;
             }
-            $('.special').val(org_feature_arr.join(','));
-            $('.addition_finance').val(additional_project_arr.join(','));
+            //获取机构特点val
+            var org_features = [];
+            var org_feature = $('.org_feature');
+            org_feature.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    org_features.push(_cur.val());
+                }
+            });
+            $('.special').val(org_features.join(','));
+            //附加可融项目val
+            var additional_projects = [];
+            var additional_project = $('.additional_project');
+            additional_project.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    additional_projects.push(_cur.val());
+                }
+            });
+            $('.addition_finance').val(additional_projects.join(','));
             ajaxSubmit();
         }
 
@@ -573,8 +591,6 @@
             getBackDoor();
             getPartner();
             getPrincipal();
-            getOrgFeature();
-            getAdditionalProject();
             iconCity();
             selectCity(0);
             saveOrg();

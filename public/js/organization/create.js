@@ -400,49 +400,6 @@ function getBackDoor () {
         }
     });
 }
-//获取机构特点val
-var org_feature_arr = [];
-function getOrgFeature () {
-    var org_feature = $('.org_feature');
-    org_feature.each(function () {
-        var _cur = $(this);
-        _cur.off('click').on('click', function () {
-            var _this = $(this);
-            if (_this.siblings('label').hasClass('checked')) {
-                org_feature_arr.push(_this.val());
-            } else {
-                for(var i = 0,len = org_feature_arr.length;i < len;i++) {
-                    if (org_feature_arr[i] == _this.val()) {
-                        org_feature_arr.splice(i,1);
-                        break;
-                    }
-                }
-            }
-        });
-    });
-}
-//获取附加可融项目val
-var additional_project_arr = [];
-function getAdditionalProject () {
-    var additional_project = $('.additional_project');
-    additional_project.each(function () {
-        var _cur = $(this);
-        _cur.off('click').on('click', function () {
-            var _this = $(this);
-            if (_this.siblings('label').hasClass('checked')) {
-                additional_project_arr.push(_this.val());
-            } else {
-                for(var i = 0,len = additional_project_arr.length;i < len;i++) {
-                    if (additional_project_arr[i] == _this.val()) {
-                        additional_project_arr.splice(i,1);
-                        break;
-                    }
-                }
-            }
-        });
-    });
-}
-
 
 //起始—结束
 function num_check(obj1,obj2,reg,error_txt1,error_txt2){
