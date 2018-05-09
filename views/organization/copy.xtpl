@@ -7,6 +7,7 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/common/provinceCity.css"/>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -118,18 +119,10 @@
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
-                            <div class="column_val">
-                                {{#each (list_city) }}
-                                <div class="radio">
-                                    {{#if (vo.applyto_city === this.id) }}
-                                    <input type="hidden" class="have_city" value="{{this.id}}" name="applyto_city">
-                                    <input id="applyto_city{{xindex}}" type="radio" name="have_city" value="{{this.id}}" checked="checked" >
-                                    {{else}}
-                                    <input id="applyto_city{{xindex}}" type="radio" name="have_city" value="{{this.id}}" >
-                                    {{/if}}
-                                    <label for="applyto_city{{xindex}}">{{this.name}}</label>
-                                </div>
-                                {{/each}}
+                            <div class="column_val select_city_icon">
+                                <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择省市" readonly/>
+                                <em class="city_icon"></em>
                                 <span class="formError"></span>
                             </div>
                         </div>
@@ -355,7 +348,7 @@
 
 
 </div>
-
+{{include ('./../inc/provinceCity')}}
 <!--container end-->
 <div class="loading" id="loading"></div>
 </body>
@@ -364,6 +357,7 @@
 <script src="{{markUri}}/static/js/common/validate_form.js"></script>
 <script src="{{markUri}}/static/js/common/is_num.js"></script>
 <script src="{{markUri}}/static/js/product/create.js"></script>
+<script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
     (function ($) {
         //获取融资期限val
@@ -391,16 +385,9 @@
 
         //选择城市
         function selectCity () {
-            var select_citys = $('#applyto_city');
-            select_citys.find('.radio').each(function () {
-                var _this = $(this);
-                _this.find('input').on('click', function () {
-                    var _cur = $(this);
-                    if (_cur[0].checked == true) {
-                        $('.have_city').val(_cur.val());
-                    }
-                });
-
+            var btn = $('.select_city_input');
+            btn.off('click').on('click', function () {
+                $( ".province_city_box" ).css('display','block');
             });
         }
 
@@ -459,14 +446,16 @@
                 $('#applyto_business').find('.formError').html('');
             }
 
-            // if (select_citys == '') {
-            //     $('#applyto_city').find('.formError').html('请选择适用城市');
-            //     add_btn_y.attr('disabled',false);
-            //     add_btn_n.attr('disabled',false);
-            //     return;
-            // } else {
-            //     $('#applyto_city').find('.formError').html('');
-            // }
+            //适用城市
+            var select_citys = $('.select_city_input').val();
+            if (select_citys == '') {
+                $('#applyto_city').find('.formError').html('请选择适用城市');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            } else {
+                $('#applyto_city').find('.formError').html('');
+            }
 
             var rate_val = [];
             var check = $('.downpayment_rate .check');
@@ -795,12 +784,20 @@
                 img.click();
             })
         }
+        //城市icon点击
+        function iconCity () {
+            var btn = $('.city_icon');
+            btn.off('click').on('click', function () {
+                $('.select_city_input').click();
+            });
+        }
 
         $(function() {
             const TYPE = true;
             var PARENTID = '{{parent_id}}',
                 PARENTNAME = '{{parent_name}}';
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            iconCity();
             selectCity();
             send_product();
             save_ware();
