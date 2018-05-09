@@ -99,40 +99,76 @@ exports.VIEW_CUSTOMER_HISTORY = function(req, res, next) {
     common.getPageData({
         url : '/api/finance/customer',
         title : '客户-历史记录',
-        page : './customer/customerHis'
+        page : './customer/customerHis',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-待分配跳转
 exports.VIEW_CUSTOMER_LOAN_PENDINGALLOT = function(req, res, next) {
-    var url = '/api/finance/getAllotList';
-    common.getCustomerList(url, '待分配', req, res, next);
+    common.getPageData({
+        url : '/api/finance/getAllotList',
+        title : '贷款管理-待分配',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-已分配跳转
 exports.VIEW_CUSTOMER_LOAN_ALREADYALLOT = function(req, res, next) {
-    var url = '/api/finance/getCheckInList';
-    common.getCustomerList(url, '已分配', req, res, next);
+    common.getPageData({
+        url : '/api/finance/getCheckInList',
+        title : '贷款管理-已分配',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-已录入跳转
 exports.VIEW_CUSTOMER_LOAN_ENTERED = function(req, res, next) {
-    var url = '/api/finance/getReviewList';
-    common.getCustomerList(url, '已录入', req, res, next);
+    common.getPageData({
+        url : '/api/finance/getReviewList',
+        title : '贷款管理-已录入',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-已通过跳转
 exports.VIEW_CUSTOMER_LOAN_PASSED = function(req, res, next) {
-    var url = '/api/finance/getPassList';
-    common.getCustomerList(url, '已通过', req, res, next);
+    common.getPageData({
+        url : '/api/finance/getPassList',
+        title : '贷款管理-已通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-未通过跳转
 exports.VIEW_CUSTOMER_LOAN_UNPASS = function(req, res, next) {
-    var url = '/api/finance/getUnPassList';
-    common.getCustomerList(url, '未通过', req, res, next);
+    common.getPageData({
+        url : '/api/finance/getUnPassList',
+        title : '贷款管理-未通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户管理-订单分配页面跳转 1022
 exports.VIEW_CUSTOMER_LOAN_ALLOT = function(req, res, next) {
     common.getPageData({
         url : '/api/finance/toAllot',
         title : '客户-订单分配',
-        page : './customer/allotEmp'
+        page : './customer/allotEmp',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户管理-资料不合格页面跳转 1037
@@ -140,7 +176,10 @@ exports.VIEW_CUSTOMER_LOAN_UNQUALIFIED = function(req, res, next) {
     common.getPageData({
         url : '/api/finance/picture/reason',
         title : '客户-发送不合格通知',
-        page : './customer/imgUnpass'
+        page : './customer/imgUnpass',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户管理-通知审核结果-页面 1236
@@ -148,7 +187,10 @@ exports.VIEW_CUSTOMER_LOAN_NOTIFYRESULT = function(req, res, next) {
     common.getPageData({
         url : '/api/finance/toResult',
         title : '客户-通知审核结果',
-        page : './customer/result'
+        page : './customer/result',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 
@@ -173,8 +215,14 @@ exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {
 };
 // 客户-合同管理-待出合同
 exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
-    var url = '/api/compact/pendingPass/list';
-    common.getCustomerList(url, '待出合同', req, res, next);
+    common.getPageData({
+        url : '/api/compact/pendingPass/list',
+        title : '合同管理-待出合同',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 
 // 客户-合同管理-同意页面 1264
@@ -182,7 +230,10 @@ exports.VIEW_CUSTOMER_COMPACT_AGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/tocompact/agree',
         title : '合同管理-同意',
-        page : './compact/agree'
+        page : './compact/agree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-合同管理-不同意页面 1265
@@ -190,19 +241,34 @@ exports.VIEW_CUSTOMER_COMPACT_DISAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/tocompact/disagree',
         title : '合同管理-不同意',
-        page : './compact/disagree'
+        page : './compact/disagree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 
 // 客户-合同管理-已通过
 exports.VIEW_CUSTOMER_COMPACT_PASS = function(req, res, next) {
-    var url = '/api/compact/pass/list';
-    common.getCustomerList(url, '已通过', req, res, next);
+    common.getPageData({
+        url : '/api/compact/pass/list',
+        title : '合同管理-已通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-合同管理-未通过
 exports.VIEW_CUSTOMER_COMPACT_UNPASS = function(req, res, next) {
-    var url = '/api/compact/unpass/list';
-    common.getCustomerList(url, '未通过', req, res, next);
+    common.getPageData({
+        url : '/api/compact/unpass/list',
+        title : '合同管理-未通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 
 // 客户-请款管理-跳转
@@ -228,35 +294,68 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_SYSTEM = function(req, res, next) {
 };
 // 客户-请款管理-待请款
 exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGDISPOSE = function(req, res, next) {
-    var url = '/api/requestPayout/pendingDispose/list';
-    common.getCustomerList(url, '待请款', req, res, next);
+    common.getPageData({
+        url : '/api/requestPayout/pendingDispose/list',
+        title : '请款管理-待请款',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-请款管理-待通过
 exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGPASS = function(req, res, next) {
-    var url = '/api/requestPayout/pendingPass/list';
-    common.getCustomerList(url, '待通过', req, res, next);
+    common.getPageData({
+        url : '/api/requestPayout/pendingPass/list',
+        title : '请款管理-待通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-请款管理-待审批
 exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGAUDIT = function(req, res, next) {
-    var url = '/api/requestPayout/waitList';
-    common.getCustomerList(url, '待审批', req, res, next);
+    common.getPageData({
+        url : '/api/requestPayout/waitList',
+        title : '请款管理-待审批',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-请款管理-已通过
 exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PASS = function(req, res, next) {
-    var url = '/api/requestPayout/pass/list';
-    common.getCustomerList(url, '已通过', req, res, next);
+    common.getPageData({
+        url : '/api/requestPayout/pass/list',
+        title : '请款管理-已通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-请款管理-未通过
 exports.VIEW_CUSTOMER_RESQUESTPAYOUT_UNPASS = function(req, res, next) {
-    var url = '/api/requestPayout/unpass/list';
-    common.getCustomerList(url, '未通过', req, res, next);
+    common.getPageData({
+        url : '/api/requestPayout/unpass/list',
+        title : '请款管理-未通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-请款管理-待请款-确认提交页面 1220
 exports.VIEW_CUSTOMER_RESQUESTPAYOUT_AFFIRMSUBMIT = function(req, res, next) {
     common.getPageData({
         url : '/api/requestPayout/affirm/tosubmit',
         title : '请款管理-确认提交',
-        page : './requestpayout/submit'
+        page : './requestpayout/submit',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-请款管理-待请款-不同意页面 1116
@@ -265,7 +364,10 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_DISAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/requestPayout/toDisagree?' + searchParam,
         title : '请款管理-不同意',
-        page : './requestpayout/disagree'
+        page : './requestpayout/disagree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-请款管理-待审核-同意页面 1115
@@ -273,7 +375,10 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_AGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/requestPayout/toAgree',
         title : '请款管理-同意',
-        page : './requestpayout/agree'
+        page : './requestpayout/agree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-请款管理-待审核-转交他人页面 1184
@@ -281,7 +386,10 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_TRANSFER = function(req, res, next) {
     common.getPageData({
         url : '/api/requestPayout/transfer',
         title : '请款管理-转交他人',
-        page : './requestpayout/transfer'
+        page : './requestpayout/transfer',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 
@@ -308,30 +416,54 @@ exports.VIEW_CUSTOMER_APPROVAL_SYSTEM = function(req, res, next) {
 };
 // 客户-审批管理-待审批
 exports.VIEW_CUSTOMER_APPROVAL_PENDINGAUDIT = function(req, res, next) {
-    var url = '/api/operation/waitList';
-    common.getCustomerList(url, '待审批', req, res, next);
+    common.getPageData({
+        url : '/api/operation/waitList',
+        title : '审批管理-待审批',
+        page : './customer/customerList',
+    }, req, res, next);
 };
 // 客户-审批管理-已通过
 exports.VIEW_CUSTOMER_APPROVAL_PASS = function(req, res, next) {
-    var url = '/api/operation/pass/list';
-    common.getCustomerList(url, '已通过', req, res, next);
+    common.getPageData({
+        url : '/api/operation/pass/list',
+        title : '审批管理-已通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-审批管理-未通过
 exports.VIEW_CUSTOMER_APPROVAL_UNPASS = function(req, res, next) {
-    var url = '/api/operation/unpass/list';
-    common.getCustomerList(url, '未通过', req, res, next);
+    common.getPageData({
+        url : '/api/operation/unpass/list',
+        title : '审批管理-未通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-审批管理-已回款
 exports.VIEW_CUSTOMER_APPROVAL_RETURN = function(req, res, next) {
-    var url = '/api/operation/getReturnList';
-    common.getCustomerList(url, '已回款', req, res, next);
+    common.getPageData({
+        url : '/api/operation/getReturnList',
+        title : '审批管理-已回款',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-审批管理-待审核-同意页面 1168
 exports.VIEW_CUSTOMER_APPROVAL_AGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/operation/toAgree',
         title : '审批管理-同意',
-        page : './approval/agree'
+        page : './approval/agree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-审批管理-待审核-不同意页面 1168
@@ -339,7 +471,10 @@ exports.VIEW_CUSTOMER_APPROVAL_DISAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/operation/toDisagree',
         title : '审批管理-不同意',
-        page : './approval/disagree'
+        page : './approval/disagree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-审批管理-待审核-转交页面 1185
@@ -355,7 +490,10 @@ exports.VIEW_CUSTOMER_APPROVAL_SUBMIT = function(req, res, next) {
     common.getPageData({
         url : '/api/operation/affirm/tosubmit',
         title : '审批管理-确认提交',
-        page : './approval/submit'
+        page : './approval/submit',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 
@@ -366,7 +504,7 @@ exports.VIEW_CUSTOMER_APPROVAL_SUBMIT = function(req, res, next) {
 
 
 
-// 客户-款项管理-跳转
+// 客户-回款管理-跳转
 exports.VIEW_CUSTOMER_FINANCIAL_SYSTEM = function(req, res, next) {
     try {
         if (common.checkPrivilege(1208, req)) {
@@ -387,64 +525,114 @@ exports.VIEW_CUSTOMER_FINANCIAL_SYSTEM = function(req, res, next) {
         res.redirect(markUri + '/404');
     }
 };
-// 客户-款项管理-待回款
+// 客户-回款管理-待回款
 exports.VIEW_CUSTOMER_FINANCIAL_PENDINGRETURN = function(req, res, next) {
-    var url = '/api/financial/pendingDispose/list';
-    common.getCustomerList(url, '待回款', req, res, next);
+    common.getPageData({
+        url : '/api/financial/pendingDispose/list',
+        title : '回款管理-待回款',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
-// 客户-款项管理-待审批
+// 客户-回款管理-待审批
 exports.VIEW_CUSTOMER_FINANCIAL_PENDINGAUDIT = function(req, res, next) {
-    var url = '/api/financial/getWaitList';
-    common.getCustomerList(url, '待审批', req, res, next);
+    /*var url = '/api/financial/getWaitList';
+    common.getCustomerList(url, '待审批', req, res, next);*/
+    common.getPageData({
+        url : '/api/financial/getWaitList',
+        title : '回款管理-待审批',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
-// 客户-款项管理-已通过
+// 客户-回款管理-已通过
 exports.VIEW_CUSTOMER_FINANCIAL_PASS = function(req, res, next) {
-    var url = '/api/financial/pass/list';
-    common.getCustomerList(url, '已通过', req, res, next);
+    /*var url = '/api/financial/pass/list';
+    common.getCustomerList(url, '已通过', req, res, next);*/
+    common.getPageData({
+        url : '/api/financial/pass/list',
+        title : '回款管理-已通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
-// 客户-款项管理-未通过
+// 客户-回款管理-未通过
 exports.VIEW_CUSTOMER_FINANCIAL_UNPASS = function(req, res, next) {
-    var url = '/api/financial/unpass/list';
-    common.getCustomerList(url, '未通过', req, res, next);
+    /*var url = '/api/financial/unpass/list';
+    common.getCustomerList(url, '未通过', req, res, next);*/
+    common.getPageData({
+        url : '/api/financial/unpass/list',
+        title : '回款管理-未通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
-// 客户-款项管理-已回款
+// 客户-回款管理-已回款
 exports.VIEW_CUSTOMER_FINANCIAL_RETURN = function(req, res, next) {
-    var url = '/api/financial/getReturnList';
-    common.getCustomerList(url, '已回款', req, res, next);
+    /*var url = '/api/financial/getReturnList';
+    common.getCustomerList(url, '已回款', req, res, next);*/
+    common.getPageData({
+        url : '/api/financial/getReturnList',
+        title : '回款管理-已回款',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
-// 客户-款项管理-待回款-已回款标记 1214
+// 客户-回款管理-待回款-已回款标记 1214
 exports.VIEW_CUSTOMER_FINANCIAL_RETURNRESULT = function(req, res, next) {
     common.getPageData({
         url : '/api/financial/return/result',
-        title : '款项管理-已回款',
-        page : './financial/returnResult'
+        title : '回款管理-已回款',
+        page : './financial/returnResult',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
-// 客户-款项管理-待审批-同意页面 1175
+// 客户-回款管理-待审批-同意页面 1175
 exports.VIEW_CUSTOMER_FINANCIAL_AGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/financial/toAgree',
-        title : '款项管理-同意',
-        page : './financial/agree'
+        title : '回款管理-同意',
+        page : './financial/agree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-款项管理-待审批-同意页面 1176
 exports.VIEW_CUSTOMER_FINANCIAL_DISAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/financial/toDisagree',
-        title : '款项管理-不同意',
-        page : './financial/disagree'
+        title : '回款管理-不同意',
+        page : './financial/disagree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-款项管理-待审批-转交页面 1186
 exports.VIEW_CUSTOMER_FINANCIAL_TRANSFER = function(req, res, next) {
     common.getPageData({
         url : '/api/financial/transfer',
-        title : '款项管理-转交他人',
-        page : './financial/transfer'
+        title : '回款管理-转交他人',
+        page : './financial/transfer',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
-// 客户-款项管理-订单打印 1190
+// 客户-回款管理-订单打印 1190
 exports.VIEW_CUSTOMER_FINANCIAL_PRINT = function(req, res, next) {
     var searchParam = urlParse.parse(req.url).query;    // 获取查询参数
     var body = req.body;
@@ -496,20 +684,37 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_SYSTEM = function(req, res, next) {
 };
 // 客户-归档管理-待归档
 exports.VIEW_CUSTOMER_PIGEONHOLE_PENDING = function(req, res, next) {
-    var url = '/api/pigeonhole/getWaitList';
-    common.getCustomerList(url, '待归档', req, res, next);
+    common.getPageData({
+        url : '/api/pigeonhole/getWaitList',
+        title : '归档管理-待归档',
+        page : './customer/customerList',
+        callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-归档管理-已归档
 exports.VIEW_CUSTOMER_PIGEONHOLE_ARCHIVED = function(req, res, next) {
-    var url = '/api/pigeonhole/getPigeonholeList';
-    common.getCustomerList(url, '已归档', req, res, next);
+    common.getPageData({
+        url : '/api/pigeonhole/getPigeonholeList',
+        title : '归档管理-已归档',
+        page : './customer/customerList',
+        callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-归档管理-已归档-通知所需材料页面 1117
 exports.VIEW_CUSTOMER_PIGEONHOLE_NOTIFYMATERIAL = function(req, res, next) {
     common.getPageData({
         url : '/api/pigeonhole/toMaterial',
         title : '归档管理-通知所需材料',
-        page : './pigeonhole/material'
+        page : './pigeonhole/material',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 
@@ -534,25 +739,46 @@ exports.VIEW_CUSTOMER_OTHERFUND_SYSTEM = function(req, res, next) {
 };
 // 客户-其他管理-待审核
 exports.VIEW_CUSTOMER_OTHERFUND_PENDINGAUDIT = function(req, res, next) {
-    var url = '/api/otherfund/pending/list';
-    common.getCustomerList(url, '待审核', req, res, next);
+    common.getPageData({
+        url : '/api/otherfund/pending/list',
+        title : '其他管理-待审核',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-其他管理-已通过
 exports.VIEW_CUSTOMER_OTHERFUND_PASS = function(req, res, next) {
-    var url = '/api/otherfund/pass/list';
-    common.getCustomerList(url, '已通过', req, res, next);
+    common.getPageData({
+        url : '/api/otherfund/pass/list',
+        title : '其他管理-已通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-其他管理-未通过
 exports.VIEW_CUSTOMER_OTHERFUND_UNPASS = function(req, res, next) {
-    var url = '/api/otherfund/unpass/list';
-    common.getCustomerList(url, '未通过', req, res, next);
+    common.getPageData({
+        url : '/api/otherfund/unpass/list',
+        title : '其他管理-未通过',
+        page : './customer/customerList',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
 };
 // 客户-其他管理-待审批-同意页面 1334
 exports.VIEW_CUSTOMER_OTHERFUND_AGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/otherfund/toagree',
         title : '其他管理-同意',
-        page : './otherfund/agree'
+        page : './otherfund/agree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-其他管理-待审批-同意页面 1335
@@ -560,7 +786,10 @@ exports.VIEW_CUSTOMER_OTHERFUND_DISAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/otherfund/todisagree',
         title : '其他管理-不同意',
-        page : './otherfund/disagree'
+        page : './otherfund/disagree',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-其他管理-待审批-转交他人页面 1336
@@ -568,7 +797,10 @@ exports.VIEW_CUSTOMER_OTHERFUND_TRANSFER = function(req, res, next) {
     common.getPageData({
         url : '/api/otherfund/transfer',
         title : '其他管理-转交他人',
-        page : './otherfund/transfer'
+        page : './otherfund/transfer',
+        callback:function (data) {
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 
@@ -848,6 +1080,49 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DETAIL = function(req, res, next) {
 exports.VIEW_CUSTOMER_OTHERFUND_DETAIL = function(req, res, next) {
     var url = '/api/otherfund/getFile';
     common.getCustomerDetail(url, req, res, next);
+};
+
+// 回显详情页访问路由方法
+function formatOrderListData (data) {
+    var detailUrl = "";
+    var query_type = "";
+    var photo_type = "";
+    var originalUrl = data.originUrl;
+    // 回显详情页访问路由
+    if (originalUrl.indexOf( markUri + '/customer/loan') !== -1) {
+        detailUrl = markUri + '/customer/loan/detail';
+        query_type = 1;
+        photo_type = 1;
+    } else if (originalUrl.indexOf( markUri + '/customer/compact') !== -1) {
+        detailUrl =  markUri + '/customer/compact/detail';
+        query_type = 2;
+        photo_type = 2;
+    } else if (originalUrl.indexOf( markUri + '/customer/requestpayout') !== -1) {
+        detailUrl =  markUri + '/customer/requestpayout/detail';
+        query_type = 3;
+        photo_type = 3;
+    } else if (originalUrl.indexOf( markUri + '/customer/approval') !== -1) {
+        detailUrl =  markUri + '/customer/approval/detail';
+        query_type = 3;
+        photo_type = 3;
+    } else if (originalUrl.indexOf( markUri + '/customer/financial') !== -1) {
+        detailUrl =  markUri + '/customer/financial/detail';
+        query_type = 3;
+        photo_type = 3;
+    } else if (originalUrl.indexOf( markUri + '/customer/pigeonhole') !== -1) {
+        detailUrl =  markUri + '/customer/pigeonhole/detail';
+        query_type = 4;
+        photo_type = 4;
+    } else if (originalUrl.indexOf( markUri + '/customer/otherfund') !== -1) {
+        detailUrl =  markUri + '/customer/otherfund/detail';
+        query_type = 3;
+        photo_type = 3;
+    } else {
+        throw new Error(ERRORTYPES.Route + '："' + localUrl + '" is not defined.');
+    }
+    data.detailUrl = detailUrl;
+    data.query_type = query_type;
+    data.photo_type = photo_type;
 };
 
 
