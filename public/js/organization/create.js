@@ -186,11 +186,11 @@ $(function(){
     });
 
 
-    $('#mobile').blur(function(){
-        var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
-        var error_txt = '请输入正确格式的电话号码';
-        validate_form(0,$('#mobile'),reg,error_txt);
-    });
+    // $('#mobile').blur(function(){
+    //     var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
+    //     var error_txt = '请输入正确格式的电话号码';
+    //     validate_form(0,$('#mobile'),reg,error_txt);
+    // });
 
     $('#link_name').blur(function(){
         var reg = /^[\u4E00-\u9FA5a-zA-Z]+$/;
@@ -204,11 +204,11 @@ $(function(){
         validate_form(0,$('#link_phone'),reg,error_txt);
     });
 
-    $('#link_mobile').blur(function(){
-        var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
-        var error_txt = '请输入正确格式的电话号码';
-        validate_form(0,$('#link_mobile'),reg,error_txt);
-    });
+    // $('#link_mobile').blur(function(){
+    //     var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
+    //     var error_txt = '请输入正确格式的电话号码';
+    //     validate_form(0,$('#link_mobile'),reg,error_txt);
+    // });
     applyto_business_change($('#applyto_business_name'));
 });
 
