@@ -903,9 +903,11 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DETAIL = function(req, res, next) {
         title : '客户-客户详情',
         page : './customer/customerDetail',
         callback : function (data) {
-            data.vo.thousandRate = thousandRate(data);
-            //所属商户弹出层的标签名
-            supplierDetailTag(data)
+            if (data.reqParams.query_type !== '4') {
+                data.vo.thousandRate = thousandRate(data);
+                //所属商户弹出层的标签名
+                supplierDetailTag(data)
+            }
         }
     }, req, res, next);
 };
