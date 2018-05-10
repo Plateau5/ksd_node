@@ -1,33 +1,36 @@
 <div class="detail_footer">
-    <a href="javascript:" class="detail_high_btn mr_20">同意</a>
-    <a href="javascript:" class="detail_low_btn">不同意</a>
+    <!--<a href="javascript:" class="detail_high_btn mr_20">同意</a>-->
+    <!--<a href="javascript:" class="detail_low_btn">不同意</a>-->
+    {{#if (vo.status === 2) }}
+    {{#if (verifyCode(1031)) }}
+        <a href="javascript:" class="detail_high_btn toAllot" lang="{{finance_id}}">分配任务</a>
+    {{/if}}
+    {{/if}}
+
+    {{#if (vo.status === 3 && (vo.start_audit_time === 0 || (vo.is_docking === 1 && vo.loan_type === 1))) }}
+    {{#if (verifyCode(1161)) }}
+        <a href="javascript:" class="detail_high_btn" id="entering" data-loan_type="{{vo.loan_type}}" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" lang="{{finance_id}}">开始录入</a>
+    {{/if}}
+    {{/if}}
+
+    {{#if (vo.status === 3 && vo.start_audit_time !== 0) }}
+    {{#if (vo.is_docking !== 1 || vo.loan_type === 2) }}
+    {{#if (verifyCode(1032)) }}
+        <a href="javascript:" class="detail_high_btn requestpayout_apply" id="requestpayout_apply" lang="{{finance_id}}">确认申请</a>
+    {{/if}}
+    {{/if}}
+    {{#if (verifyCode(1037)) }}
+        <a href="javascript:" class="detail_low_btn requestpayout_apply"  alt="{{vo.user_name}}" create_name="{{vo.create_name}}" id="picture_reason" lang="{{finance_id}}">发送不合格通知</a>
+    {{/if}}
+    {{/if}}
+
+
+
+
+
+
+
 </div>
-{{#if (vo.status === 2) }}
-<div class="cursor requestpayout_detail_btn requestpayout_download download_file" alt="1" lang="{{finance_id}}">全部下载</div>
-{{#if (verifyCode(1031)) }}
-<div class="requestpayout_detail_btn toAllot btn_item assigning_task requestpayout_assigning" alt="" lang="{{finance_id}}">分配任务</div>
-{{/if}}
-{{/if}}
-
-{{#if (vo.status === 3 && vo.start_audit_time !== 0) }}
-<div class="cursor requestpayout_detail_btn requestpayout_download download_file"  alt="1" lang="{{finance_id}}">全部下载</div>
-{{#if (verifyCode(1037)) }}
-<a href="javascript:;" id="picture_reason" lang="{{finance_id}}"  alt="{{vo.user_name}}" create_name="{{create_name}}">
-    <div class="requestpayout_detail_btn requestpayout_his" lang="{{finance_id}}">发送不合格通知</div>
-</a>
-{{/if}}
-{{#if (vo.is_docking !== 1 || vo.loan_type === 2) }}
-{{#if (verifyCode(1032)) }}
-<div class="requestpayout_detail_btn requestpayout_apply" id="requestpayout_apply" lang="{{finance_id}}">确认申请</div>
-{{/if}}
-{{/if}}
-{{/if}}
-
-{{#if (vo.status === 3 && (vo.start_audit_time === 0 || (vo.is_docking === 1 && vo.loan_type === 1))) }}
-{{#if (verifyCode(1161)) }}
-<div class="requestpayout_detail_btn requestpayout_entering" data-loan_type="{{vo.loan_type}}" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" id="entering" lang="{{finance_id}}">开始录入</div>
-{{/if}}
-{{/if}}
 
 <!--<div class="requestpayout_detail_btn requestpayout_entering" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" id="entering" lang="{{finance_id}}">开始录入</div>-->
 

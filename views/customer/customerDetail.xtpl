@@ -16,11 +16,21 @@
         <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
         <!---- Part of slide nav End ---->
-        <!--<form action="/finance/file/download" id="finance_download" method="post">-->
-            <!--<input id="finance_download_finance_id" value="{{finance_id}}" name="finance_id" type="hidden">-->
-            <!--<input id="user_name" value="{{vo.user_name}}" name="user_name" type="hidden">-->
-            <!--<input id="material_type" value="" name="material_type" type="hidden">-->
-        <!--</form>-->
+        <!---- 全部下载提交表单 ---->
+        <form action="/finance/file/download" id="finance_download" method="post">
+            <input id="finance_download_finance_id" value="{{finance_id}}" name="finance_id" type="hidden">
+            <input id="user_name" value="{{vo.user_name}}" name="user_name" type="hidden">
+            <input id="material_type" value="" name="material_type" type="hidden">
+        </form>
+        <!---- 不合格通知提交表单 ---->
+        <form action="{{markUri}}/customer/loan/unqualified" id="picture_reason_form" method="post">
+            <input id="finance_id_picture_reason" value="{{finance_id}}" name="finance_id" type="hidden">
+            <input id="detail_supplier_id" value="{{vo.supplier_id}}" name="supplier_id" type="hidden">
+            <input value="{{vo.user_name}}" name="user_name" type="hidden">
+            <input value="{{vo.create_name}}" name="create_name" type="hidden">
+            <input type="hidden" id="reason_inner" name="reason_inner" value="">
+            <input type="hidden" id="carType" name="car_type" value="{{vo.car_type}}">
+        </form>
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
@@ -45,11 +55,17 @@
                         {{/if}}
                     </ul>
                 </div>
+                <!-- tab切换按钮所需隐藏域  -->
+                <input type="hidden" name="finance_id" id="finance_id" value="{{finance_id}}">
+                <input type="hidden" id="advance_id" name="advance_id" value="{{reqParams.advance_id}}">
+                <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
+                <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
 
-                    <input type="hidden" name="finance_id" id="finance_id" value="{{finance_id}}">
-                    <input type="hidden" id="advance_id" name="advance_id" value="{{reqParams.advance_id}}">
-                    <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
-                    <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
+                <!-- 开始录入按钮所需隐藏域  -->
+                <input type="hidden" id="request_status" value="{{vo.request_status }}">
+                <input type="hidden" id="userName" value="{{vo.user_name}}" >
+                <input type="hidden" id="navigation" value="{{navigation}}">
+                <input type="hidden" id="nodeUrl" value="{{url}}">
 
                 <div class="details_item base_info">
                     <!-- 进件资料 Begin -->
@@ -68,7 +84,9 @@
                     {{/if}}
                     <!-- 请款资料部分 End -->
                     <!-- 归档资料部分 Begin -->
-
+                    {{#if (query_type === 3) }}
+                        {{include ('./../inc/pigeonholeInfo')}}
+                    {{/if}}
                     <!-- 归档资料部分 End -->
                     <!-- 详情页按钮逻辑 Begin -->
                     {{include ('./../inc/customerDetailBtn')}}
@@ -110,7 +128,7 @@
                         </ul>
                     </div>
                     <div class="detail_footer">
-                        <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="4" lang="{{finance_id}}">全部下载</a>
+                        <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="{{photo_type}}" lang="{{finance_id}}">全部下载</a>
                     </div>
                     {{else}}
                         {{include ('./../inc/empty_data')}}
@@ -135,6 +153,8 @@
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/finance/img_detail.js"></script>
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/js/customerService.js"></script>
 <script>
     (function () {
         var currentTime = new Date().format('yyyy/MM/dd hh:mm');
@@ -146,10 +166,154 @@
     $(function () {
         viewLargeImage('#img_list');       // 查看大图
         viewLargeImage('.log_item');
-        searchQueryType('#query_tab .tab_item');
-        searchQueryType('#photo_tab .tab_item');
+        searchQueryType('#query_tab .tab_item'); //详情页资料tab页切换
+        searchQueryType('#photo_tab .tab_item'); //详情页图片tab页切换
+        detailAllot(); //分配任务按钮点击
+        detailRequestPayOut(); //确认申请按钮点击
+        detailEntering(); //开始录入按钮点击
+
+        //发送不合格通知
+        $("#picture_reason").off("click").on('click', function () {
+            var finance_id = $(this).attr('lang');
+            $("#finance_id_picture_reason").val(finance_id);
+            $("#picture_reason_form").submit();
+        });
     });
-    //tab页切换
+
+    //开始录入按钮点击
+    function detailEntering() {
+        var _this = $(this);
+        var is_docking = _this.data('is_docking');      // 是否对接
+        var loan_type = _this.data('loan_type');        // 进件类型 1-个人 2-企业
+        var finance_id = $('#finance_id').val();
+        var user_name = $('#userName').val().trim();
+        var locationUrl = LOCALURL;
+        var navigation = $('#navigation').val().trim();
+        var nodeUrl = $('#nodeUrl').val().trim();
+        var auditTime = $('#auditTime').val();
+        var carType = $.trim($('#carType').val());
+        var action = '';
+        $('#entering').off("click").on('click', function () {
+            if (is_docking == 1 && loan_type == 1) {
+                action  = contextPath + markUri + '/docking/pingan/home';
+                if (auditTime != 0) {
+                    locationTo({
+                        action : action,
+                        param : {
+                            finance_id : finance_id,
+                            active : 'active',
+                            url : locationUrl,
+                            userName : user_name,
+                            navigation : navigation,
+                            nodeUrl : nodeUrl,
+                            car_type : carType
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type:"post",
+                        url :contextPath + '/api/finance/startApplyloan',
+                        dataType:"json",
+                        data:{finance_id: finance_id},
+                        async:false,
+                        error:function(xhr,status,err){
+                            alert("系统异常");
+                        },
+                        success:function(data){
+                            if(data.error_code =='0'){
+                                locationTo({
+                                    action : action,
+                                    param : {
+                                        finance_id : finance_id,
+                                        active : 'active',
+                                        url : locationUrl,
+                                        userName : user_name,
+                                        navigation : navigation,
+                                        nodeUrl : nodeUrl,
+                                        car_type : carType
+                                    }
+                                })
+                            }else{
+                                alert(data.error_msg);
+                            }
+                        }
+                    });
+                }
+            } else {
+                action = contextPath + markUri + '/customer/loan/detail';
+                $.ajax({
+                    type:"post",
+                    url :contextPath + '/api/finance/startApplyloan',
+                    dataType:"json",
+                    data:{finance_id: finance_id},
+                    async:false,
+                    error:function(xhr,status,err){
+                        alert("系统异常");
+                    },
+                    success:function(data){
+                        if(data.error_code =='0'){
+                            locationTo({
+                                action : action,
+                                param : {
+                                    finance_id : finance_id,
+                                    active : 'active',
+                                    url : locationUrl,
+                                    userName : user_name,
+                                    navigation : navigation,
+                                    nodeUrl : nodeUrl,
+                                    car_type : carType
+                                }
+                            })
+                        }else{
+                            $alert(data.error_msg);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //分配任务按钮点击
+    function detailAllot() {
+        $(".toAllot").off("click").on('click', function () {
+            var finance_id = $(this).attr('lang');
+            locationTo({
+                action : contextPath + markUri + '/customer/loan/allot',
+                param : {
+                    finance_id : finance_id
+                }
+            });
+        });
+    }
+
+    //确认申请按钮点击
+    function detailRequestPayOut() {
+        $('#requestpayout_apply').off("click").on('click', function () {
+            $(this).attr("disabled", true);
+            var finance_id = $(this).attr('lang');
+            $.ajax({
+                type:"post",
+                url :contextPath + '/api/finance/applyloan',
+                dataType:"json",
+                data:{finance_id: finance_id},
+                async:false,
+                error:function(xhr,status,err){
+                    $(this).attr("disabled", false);
+                    $alert("系统异常");
+                },
+                success:function(data){
+                    if(data.error_code =='0'){
+                        window.location.href = contextPath + markUri + '/customer/loan/alreadyAllot';
+                    }else{
+                        $(this).attr("disabled", true);
+                        alert(data.error_msg);
+                    }
+                }
+            });
+        });
+    }
+
+    //详情页tab页切换
     function searchQueryType(tab_item) {
         var btn = $(tab_item);
         btn.off("click").on('click', function () {
