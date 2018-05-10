@@ -271,6 +271,7 @@ function validate_form(required,obj,reg,error_txt){
 function selectCity (flag) {
     var btn = $('.select_city_input');
     btn.off('click').on('click', function () {
+        $('.province_city_box .title').html('选择可抵押城市');
         if (flag == 1) {//编辑回显
             var select_province_ids = $('.select_province_ids');
             var pro_ids = select_province_ids.val();
