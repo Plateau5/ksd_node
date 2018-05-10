@@ -134,17 +134,21 @@ $(function(){
             }
         }
         $(this).parent().parent().remove();
-        var del = $('.downpayment_add_del').length;
-        if(del == '4'){
-            $('.downpayment_add').css('display','block');
-        }
+        var del = $('.downpayment_add_ready').length;
         if(del =='0'){
             $('.downpayment_add').css('marginLeft','0px');
             $('.downpayment_add').css('paddingLeft','20px');
             $('input[name="downpayment_money_add"]').css('border-color','#ccc');
             $('.downpayment_add').parent().find('.formError').html('');
+        } else if (del == '4') {
+            var last = '<div class="downpayment_box"><div class="downpayment_add_last" style="padding-left: 20px;"><input type="text" id="" name="downpayment_money" value="" placeholder="请输入首付金额" style="width: 95px;padding-right: 10px;margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+            $('.downpayment_add').before(last);
+        } else {
+            if ($('.downpayment_add_last').length != 0) {
+                $('.downpayment_add_last').parents('.downpayment_box').remove();
+            }
+            $('.downpayment_add').show();
         }
-        // $('.downpayment_box').eq(0).css('marginLeft','-40px');
     });
 
     //添加费率
@@ -210,18 +214,20 @@ $(function(){
             }
         }
         $(this).parent().parent().remove();
-        var del = $('.rate_add_del').length;
-        if(del == '4'){
-            $('.rate_add').css('display','block');
-        }
+        var del = $('.rate_add_ready').length;
         if(del =='0'){
             $('.rate_add').css('marginLeft','0px');
             $('.rate_add').css('paddingLeft','20px');
             // $('.rate_add').css('marginLeft','-40px');
             $('input[name="interest_rate_input"]').css('border-color','#ccc');
             $('.rate_add').parent().find('.formError').html('');
+        } else if (del == '4') {
+            var last = '<div class="rate_box"><div class="rate_add_last" style="padding-left: 20px;"><input type="text" class="form-control interest_rate_num interest_rate_txt" name="interest_rate" value="" placeholder="请输入费率" maxlength="5" style="width: 90px;margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+            $('.rate_add').before(last);
+        } else {
+            $('.rate_add_last').parents('.rate_box').remove();
+            $('.rate_add').show();
         }
-        // $('.rate_box').eq(0).css('marginLeft','-40px');
     });
 
     //表单校验
