@@ -33,37 +33,37 @@
             <div class="details_content">
                 <div class="tab">
                     <ul class="tab_list inline_block" id="query_tab">
-                        <li class="tab_item type_normal {{#if (reqParams.query_type === '1') }}active{{/if}}" data-queryType="1" style="border-left:0 ;"><span></span>进件资料</li>
+                        <li class="tab_item type_normal {{#if (query_type === 1) }}active{{/if}}" data-queryType="1" style="border-left:0 ;"><span></span>进件资料</li>
                         {{#if (vo.status > 5 && vo.compact_type === 1 ) }}
-                            <li class="tab_item type_others {{#if (reqParams.query_type === '2') }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
+                            <li class="tab_item type_others {{#if (query_type === 2) }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
                         {{/if}}
                         {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
-                            <li class="tab_item type_others {{#if (reqParams.query_type === '3') }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                            <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
-                            <li class="tab_item type_others {{#if (reqParams.query_type === '4') }}active{{/if}}" data-queryType="4"><span></span>归档资料</li>
+                            <li class="tab_item type_others {{#if (query_type === 4) }}active{{/if}}" data-queryType="4"><span></span>归档资料</li>
                         {{/if}}
                     </ul>
                 </div>
 
                     <input type="hidden" name="finance_id" id="finance_id" value="{{finance_id}}">
                     <input type="hidden" id="advance_id" name="advance_id" value="{{reqParams.advance_id}}">
-                    <input type="hidden" name="query_type" value="{{reqParams.query_type}}" id="query_type">
-                    <input type="hidden" name="photo_type" value="{{reqParams.photo_type}}" id="photo_type">
+                    <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
+                    <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
 
                 <div class="details_item base_info">
                     <!-- 进件资料 Begin -->
-                    {{#if (reqParams.query_type === '1') }}
+                    {{#if (query_type === 1) }}
                         {{include ('./../inc/customerBasicInfo')}}
                     {{/if}}
                     <!-- 进件资料 End -->
                     <!-- 合同资料 Begin -->
-                    {{#if (reqParams.query_type === '2') }}
+                    {{#if (query_type === 2) }}
                         {{include ('./../inc/compactInfo')}}
                     {{/if}}
                     <!-- 合同资料 End -->
                     <!-- 请款资料部分 Begin -->
-                    {{#if (reqParams.query_type === '3') }}
+                    {{#if (query_type === 3) }}
                         {{include ('./../inc/requestpayoutInfo')}}
                     {{/if}}
                     <!-- 请款资料部分 End -->
@@ -80,15 +80,15 @@
             <div class="details_content">
                 <div class="tab">
                     <ul class="tab_list inline_block" id="photo_tab">
-                        <li class="tab_item type_normal {{#if (reqParams.photo_type === '1') }}active{{/if}}" data-photoType="1" style="border-left:0;"><span></span>进件附件</li>
+                        <li class="tab_item type_normal {{#if (photo_type === 1) }}active{{/if}}" data-photoType="1" style="border-left:0;"><span></span>进件附件</li>
                         {{#if (vo.status > 5 && vo.compact_type === 1 ) }}
-                            <li class="tab_item type_others {{#if (reqParams.photo_type === '2') }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
+                            <li class="tab_item type_others {{#if (photo_type === 2) }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
                         {{/if}}
                         {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
-                            <li class="tab_item type_others {{#if (reqParams.photo_type === '3') }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
+                            <li class="tab_item type_others {{#if (photo_type === 3) }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
-                            <li class="tab_item type_others {{#if (reqParams.photo_type === '4') }}active{{/if}}" data-photoType="4"><span></span>归档附件</li>
+                            <li class="tab_item type_others {{#if (photo_type === 4) }}active{{/if}}" data-photoType="4"><span></span>归档附件</li>
                         {{/if}}
                     </ul>
                 </div>
