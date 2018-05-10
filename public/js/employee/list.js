@@ -145,7 +145,7 @@ $(function(){
     //字母查询
 
     $(".liC").click(function(){
-        $(".zimu>form>ul>li[class*='zimuLi']").css("color","#535E6A");
+        $(".zimu>form>ul>li[class*='zimuLi']").css("color","#333");
     });
 
 });
