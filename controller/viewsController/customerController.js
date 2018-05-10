@@ -1042,42 +1042,51 @@ function formatOrderListData (data) {
     var detailUrl = "";
     var query_type = "";
     var photo_type = "";
+    var description = "";
     var originalUrl = data.originUrl;
     // 回显详情页访问路由
     if (originalUrl.indexOf( markUri + '/customer/loan') !== -1) {
         detailUrl = markUri + '/customer/loan/detail';
         query_type = 1;
         photo_type = 1;
+        description = "贷款管理";
     } else if (originalUrl.indexOf( markUri + '/customer/compact') !== -1) {
         detailUrl =  markUri + '/customer/compact/detail';
         query_type = 2;
         photo_type = 2;
+        description = "合同管理";
     } else if (originalUrl.indexOf( markUri + '/customer/requestpayout') !== -1) {
         detailUrl =  markUri + '/customer/requestpayout/detail';
         query_type = 3;
         photo_type = 3;
+        description = "请款管理";
     } else if (originalUrl.indexOf( markUri + '/customer/approval') !== -1) {
         detailUrl =  markUri + '/customer/approval/detail';
         query_type = 3;
         photo_type = 3;
+        description = "审批管理";
     } else if (originalUrl.indexOf( markUri + '/customer/financial') !== -1) {
         detailUrl =  markUri + '/customer/financial/detail';
         query_type = 3;
         photo_type = 3;
+        description = "回款管理";
     } else if (originalUrl.indexOf( markUri + '/customer/pigeonhole') !== -1) {
         detailUrl =  markUri + '/customer/pigeonhole/detail';
         query_type = 4;
         photo_type = 4;
+        description = "归档管理";
     } else if (originalUrl.indexOf( markUri + '/customer/otherfund') !== -1) {
         detailUrl =  markUri + '/customer/otherfund/detail';
         query_type = 3;
         photo_type = 3;
+        description = "其他款项";
     } else {
         throw new Error(ERRORTYPES.Route + '："' + localUrl + '" is not defined.');
     }
     data.detailUrl = detailUrl;
     data.query_type = query_type;
     data.photo_type = photo_type;
+    data.description = description;
 };
 
 

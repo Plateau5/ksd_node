@@ -3,6 +3,7 @@
 <head>
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/css/orderDetails.css">
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
     <title>{{title}}</title>
 </head>
 <body>
@@ -34,7 +35,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
-                <a href="{markUri}}/customer/loan/system" class="crumbs_item">贷款管理</a>
+                <a href="{markUri}}/customer/loan/system" class="crumbs_item">{{description}}</a>
                 <a href="{{url}}" class="crumbs_item">{{navigation}}</a>
                 <a href="javascript:;" class="crumbs_item">{{vo.user_name }}</a>
                 <a href="javascript:;" class="crumbs_item">查看资料</a>
@@ -66,6 +67,9 @@
                 <input type="hidden" id="userName" value="{{vo.user_name}}" >
                 <input type="hidden" id="navigation" value="{{navigation}}">
                 <input type="hidden" id="nodeUrl" value="{{url}}">
+                <input type="hidden" id="auditTime" value="{{vo.start_audit_time}}">
+                <input type="hidden" id="is_docking" value="{{vo.is_docking }}">
+                <input type="hidden" id="loan_type" value="{{vo.loan_type}}" >
 
                 <div class="details_item base_info">
                     <!-- 进件资料 Begin -->
@@ -168,9 +172,17 @@
         viewLargeImage('.log_item');
         searchQueryType('#query_tab .tab_item'); //详情页资料tab页切换
         searchQueryType('#photo_tab .tab_item'); //详情页图片tab页切换
-        detailAllot(); //分配任务按钮点击
-        detailRequestPayOut(); //确认申请按钮点击
-        detailEntering(); //开始录入按钮点击
+        detailAllot();  //分配任务按钮跳转
+        detailRequestPayOut();  //确认申请按钮跳转
+        detailEntering();   //开始录入按钮跳转
+        pageJump("#sendAuditResult");   //通知审核结果按钮跳转
+        goDockingPADetail();    //跳转查看对接详情页
+        pageJump(".go_forward");   //同意不同意按钮跳转
+        complementDatumEvent();   // 补全资料按钮跳转
+        affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
+        requestpayoutPassed();     //请款通过按钮的点击逻辑
+        affirmSubmitEvent();    //提交按钮的点击逻辑
+        alreadyCashed();        //已回款点击逻辑
 
         //发送不合格通知
         $("#picture_reason").off("click").on('click', function () {
@@ -180,11 +192,243 @@
         });
     });
 
+
+    /*提交按钮的点击逻辑*/
+    function affirmSubmitEvent () {
+        var ele = $(".affirm_submit_event");
+        var finance_id = $.trim(ele.attr("lang"));
+        var advance_id = ele.data('advance_id');
+        if (ele.length != 0) {
+            ele.off("click").on("click", function () {
+                locationTo({
+                    action : contextPath + markUri + '/customer/approval/submit',
+                    param : {
+                        finance_id : finance_id,
+                        advance_id : advance_id
+                    }
+                });
+            });
+
+        }
+    }
+
+    /*已回款标记*/
+    function alreadyCashed () {
+        var btn = $(".already_cashed_check");
+        btn.on("click", function () {
+            var t = $(this);
+            var finance_id = $.trim(t.attr("lang"));
+            var advance_id = t.data('advance_id');
+            locationTo({
+                action : contextPath + markUri + "/customer/financial/returnResult",
+                param : {
+                    finance_id : finance_id,
+                    advance_id : advance_id
+                }
+            });
+            //window.location.href = contextPath + "/financial/return/result?finance_id=" + finance_id;
+        })
+    }
+
+    //确认回款按钮点击
+    bindEvents("click", ".affirm_return_money", function (e) {
+        var financeId = $(e.target).attr("lang");
+        var advance_id = $(e.target).data("advance_id");
+        dialog("open", {
+            closeBtn : false,
+            "title" : "确认回款",
+            "button" : ["确认","取消"],
+            "content" : "您确认将此订单已回款？",
+            onConfirm : function (dia) {
+                affirmReturnedMoney(dia, financeId, advance_id);
+            }
+        });
+    });
+    //确认回款逻辑
+    function affirmReturnedMoney (dialog, fid, advance_id) {
+        var url = contextPath + "/api/financial/return";
+        var data = {
+            finance_id : fid,
+            advance_id : advance_id
+        };
+        if (fid) {
+            $ajax("POST", url, data, function (res) {
+                var data = eval(res);
+                if (data.error_code == 0) {
+                    dialog.close();
+                    //window.location.href = document.referrer;
+                    window.location.href = contextPath + markUri + "/customer/financial/pendingReturn";
+                } else {
+                    dialog.close();
+                    $alert(res.error_msg);
+                }
+            }, function () {
+                $alert("操作失败，请重新尝试");
+            });
+        }
+    }
+    affirmReturnedMoney();
+
+    /*请款通过按钮的点击逻辑*/
+    function requestpayoutPassed () {
+        var ele = $(".requestpayout_passed");
+        var url = contextPath + "/api/requestPayout/affirm/pass";
+        ele.on("click", function (e) {
+            var e = e || window.event;
+            e.stopPropagation();    //阻断事件冒泡
+            e.preventDefault();     //阻断默认事件
+            passedEvent();
+        });
+        var passedEvent = function () {
+            ele.off("click");
+            var data = {
+                finance_id : $.trim(ele.attr("lang")),
+                advance_id : $.trim(ele.data("advance_id"))
+            };
+            $ajax("post", url, data, function (req) {
+                var res = eval(req);
+                if (res.error_code == 0) {
+                    //操作成功后跳转到待通过列表页
+                    window.location.href = contextPath +markUri + '/customer/requestpayout/pendingPass';
+                } else {
+                    //alert(res.error_msg);
+                    dialog("alert",{
+                        title : "提醒",
+                        content : res.error_msg,
+                        button : [],
+                        maskClose : false,
+                        //css : 'font-size: 16px',
+                        onConfirm : function () {
+                            window.location.href = contextPath + markUri + '/customer/requestpayout/pendingPass';
+                        }
+                    })
+                }
+            },function () {
+                $alert("网络异常，请重试");
+                ele.on("click", passedEvent);
+            });
+        }
+    }
+
+    /*确认提交按钮的点击逻辑*/
+    function affirmSubmitThirdparty () {
+        var ele = $(".affirm_submit_thirdparty");
+        var url = contextPath + "/api/requestPayout/affirm/submit";
+        //绑定事件
+        ele.on("click", function (e) {
+            var _this = $(this);
+            var e = e || window.event;
+            e.stopPropagation();    //阻断事件冒泡
+            e.preventDefault();     //阻断默认事件
+            var finance_id = $.trim(_this.attr("lang"));
+            var reqType = $.trim(_this.attr("type"));
+            var advance_id = $.trim(_this.data('advance_id'));
+            if (reqType == 2) {
+                $alert("是否将该订单确认请款", function () {
+                    affirmSubmitEvent(finance_id, reqType, advance_id);
+                });
+            } else {
+                locationTo({
+                    action : contextPath + markUri + "/customer/requestpayout/affirmSubmit",
+                    param : {
+                        finance_id : finance_id,
+                        type : reqType,
+                        advance_id : advance_id
+                    }
+                });
+            }
+        });
+
+        //确定请款的点击逻辑
+        var affirmSubmitEvent  = function (a, b, c) {
+            ele.off("click");
+            var datas = {
+                finance_id : a,
+                type : b,
+                advance_id : c
+            };
+            $.ajax({
+                type : "post",
+                url : url,
+                data : datas,
+                async : true,
+                success : function (req) {
+                    var res = eval(req);
+                    if (res.error_code == 0) {
+                        //更改显示按钮
+                        //t.hide().siblings(".requestpayout_passed").show();
+                        window.location.href = contextPath +"/customer/requestpayout/pass";
+                    } else {
+                        $alert(res.error_msg);
+                        ele.on("click", affirmSubmitEvent);
+                    }
+                },
+                error : function () {
+                    $alert("网络异常，请重试");
+                    ele.on("click", affirmSubmitEvent);
+                }
+            });
+        }
+
+    }
+
+    // 补全资料按钮跳转
+    function complementDatumEvent () {
+        var btn = $(".complement_datum");
+        btn.off("click").on("click", function () {
+            var _this = $(this);
+            var  financeId = $.trim(_this.attr("lang"));
+            var advanceId = $.trim(_this.data('advance_id'));
+            var url = contextPath + "/api/requestPayout/sendNotice";
+            var data = {
+                finance_id : financeId,
+                advance_id : advanceId
+            };
+            $ajax("POST", url, data, function (res) {
+                var datas = eval(res);
+                if (datas.error_code == 0) {
+                    //nothing to do
+                    $alert('已成功通知');
+                } else {
+                    $alert(datas.message);
+                }
+            }, function () {
+                $alert(datas.message);
+            })
+        });
+    }
+
+    // 跳转查看对接详情页
+    function goDockingPADetail () {
+        var btn = $('#viewDockingPADetail');
+        var userName = $('#userName').val();
+        var navigation = $('#navigation').val();
+        var nodeUrl = $('#nodeUrl').val();
+        if (btn.length > 0) {
+            btn.on('click', function () {
+                var _this = $(this);
+                var financeId = _this.data('id');
+                var url = _this.data('url').trim();
+                locationTo({
+                    action : contextPath + url,
+                    param : {
+                        finance_id : financeId,
+                        active : 'active',
+                        url : LOCALURL,
+                        userName : userName,
+                        navigation : navigation,
+                        nodeUrl : nodeUrl
+                    }
+                })
+            });
+        }
+    }
+
     //开始录入按钮点击
     function detailEntering() {
         var _this = $(this);
-        var is_docking = _this.data('is_docking');      // 是否对接
-        var loan_type = _this.data('loan_type');        // 进件类型 1-个人 2-企业
+        var is_docking = $('#is_docking').val().trim();   // 是否对接
+        var loan_type = $('#loan_type').val().trim();      // 进件类型 1-个人 2-企业
         var finance_id = $('#finance_id').val();
         var user_name = $('#userName').val().trim();
         var locationUrl = LOCALURL;
