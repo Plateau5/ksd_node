@@ -2,13 +2,12 @@
 $(function(){
 
     //二手车的隐藏域
-    var carage_form = $('.radio_applyto_business').eq(0).prop('checked');
+    // var carage_form = $('.radio_applyto_business').eq(0).prop('checked');
+    var carage_form = $('#old_car').siblings('label').hasClass('checked');
     if(carage_form){
-        $('#ssess_desc_form').css('display','none');
-        $('#carage_form').css('display','none');
-    }else{
         $('#ssess_desc_form').css('display','block');
-        $('#carage_form').css('display','block');
+    }else{
+        $('#ssess_desc_form').css('display','none');
     }
     //新车二手车
     $('#new_car').click(function(){

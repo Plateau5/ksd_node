@@ -184,10 +184,17 @@
                             <span class="options_name">车龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input id="carage_start" type="text" class="minCarAge wid_half" value="{{vo.carage_start }}" name="carage_start" placeholder="1">
-                            <span class="pad_lf_rt_8">-</span>
-                            <input id="carage_end" type="text" class="maxCarAge wid_half" value="{{vo.carage_end }}" name="carage_end" placeholder="9">
-                            <span class="pad_lf_rt_8">年</span>
+                            {{#if (vo.carage_start || vo.carage_end) }}
+                                <input id="carage_start" type="text" class="minCarAge wid_half" value="{{vo.carage_start }}" name="carage_start" placeholder="1">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="carage_end" type="text" class="maxCarAge wid_half" value="{{vo.carage_end }}" name="carage_end" placeholder="9">
+                                <span class="pad_lf_rt_8">年</span>
+                            {{else}}
+                                <input id="carage_start" type="text" class="minCarAge wid_half" value="1" name="carage_start" placeholder="1">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="carage_end" type="text" class="maxCarAge wid_half" value="9" name="carage_end" placeholder="9">
+                                <span class="pad_lf_rt_8">年</span>
+                            {{/if}}
                             <span class="formError"></span>
                         </div>
                     </div>
@@ -196,10 +203,17 @@
                             <span class="options_name">年龄限制：</span>
                         </div>
                         <div class="column_val">
-                            <input id="age_start" type="text" class="wid_half" name="age_start" value="{{vo.age_start }}" placeholder="请输入最低年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
-                            <span class="pad_lf_rt_8">-</span>
-                            <input id="age_end" type="text" class="wid_half" name="age_end" value="{{vo.age_end }}" placeholder="请输入最高年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
-                            <span class="pad_lf_rt_8">岁</span>
+                            {{#if (vo.age_start || vo.age_end ) }}
+                                <input id="age_start" type="text" class="wid_half" name="age_start" value="{{vo.age_start }}" placeholder="请输入最低年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="age_end" type="text" class="wid_half" name="age_end" value="{{vo.age_end }}" placeholder="请输入最高年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">岁</span>
+                            {{else}}
+                                <input id="age_start" type="text" class="wid_half" name="age_start" value="" placeholder="请输入最低年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="age_end" type="text" class="wid_half" name="age_end" value="" placeholder="请输入最高年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">岁</span>
+                            {{/if}}
                             <span class="remark_text add_txt">备注</span>
                             <span class="formError"></span>
                             <div class="remarks_box" style="display: none;">
@@ -677,7 +691,7 @@
                             <span class="options_name">官方电话：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" placeholder="请输入官方电话" maxlength="20" id="mobile" name="mobile" value=""/>
+                            <input type="text" placeholder="请输入官方电话" maxlength="20" id="mobile" name="mobile" value="{{vo.mobile}}"/>
                             <span class="formError"></span>
                         </div>
                     </div>
@@ -686,7 +700,7 @@
                             <span class="options_name">联系人：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" placeholder="请输入联系人姓名" maxlength="20" id="link_name" name="link_name" value=""/>
+                            <input type="text" placeholder="请输入联系人姓名" maxlength="20" id="link_name" name="link_name" value="{{vo.link_name}}"/>
                             <span class="formError"></span>
                         </div>
                     </div>
@@ -695,7 +709,7 @@
                             <span class="options_name">联系人手机：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="form-control" maxlength="11" placeholder="请输入联系人手机号" id="link_phone" name="link_phone" value=""/>
+                            <input type="text" class="form-control" maxlength="11" placeholder="请输入联系人手机号" id="link_phone" name="link_phone" value="{{vo.link_phone}}"/>
                             <span class="formError"></span>
                         </div>
                     </div>
@@ -704,7 +718,7 @@
                             <span class="options_name">联系人座机：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="form-control" maxlength="20" placeholder="请输入联系人座机电话" id="link_mobile" name="link_mobile" value=""/>
+                            <input type="text" class="form-control" maxlength="20" placeholder="请输入联系人座机电话" id="link_mobile" name="link_mobile" value="{{vo.link_mobile}}"/>
                             <span class="formError"></span>
                         </div>
                     </div>
@@ -755,8 +769,8 @@
             }
             //适用业务
             var applyto_business = $('#applyto_business');
-            var applyto_business1 = applyto_business.find('label').eq(1);
-            var applyto_business2 = applyto_business.find('label').eq(2);
+            var applyto_business1 = applyto_business.find('label').eq(0);
+            var applyto_business2 = applyto_business.find('label').eq(1);
             if (applyto_business1.hasClass('checked') || applyto_business2.hasClass('checked')) {
                 applyto_business.find('.formError').html('');
             } else {
