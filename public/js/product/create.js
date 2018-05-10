@@ -107,7 +107,7 @@ $(function(){
 
             var del = $('.downpayment_add_del').length;
             if (del == '4') {
-                var last = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" id="" name="downpayment_money" value="" placeholder="请输入首付金额" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
+                var last = '<div class="downpayment_box"><div class="downpayment_add_ready"><input type="text" id="" name="downpayment_money" value="" placeholder="请输入首付金额" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width: 95px;padding-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
                 $('.downpayment_add').before(last);
                 $('.downpayment_add').hide();
             }
@@ -173,7 +173,7 @@ $(function(){
 
             var del = $('.rate_add_del').length;
             if (del == '4') {
-                var last = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" name="interest_rate" value="" placeholder="请输入费率" maxlength="5" style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
+                var last = '<div class="rate_box"><div class="rate_add_ready"><input type="text" class="form-control interest_rate_num interest_rate_txt" name="interest_rate" value="" placeholder="请输入费率" maxlength="5" onpaste="return false;" onkeyup="clearNoNum(this)" style="width: 90px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
                 $('.rate_add').before(last);
                 $('.rate_add').hide();
             }
