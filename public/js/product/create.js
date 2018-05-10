@@ -131,21 +131,6 @@ $(function(){
             $('input[name="downpayment_money_add"]').css('border-color','#ccc');
             $('.downpayment_add').parent().find('.formError').html('');
         } else if (del == '4') {
-            var last = '<div class="downpayment_box"><div class="downpayment_add_last" style="padding-left: 20px;"><input type="text" id="" name="downpayment_money" value="" placeholder="请输入首付金额" style="width: 95px;padding-right: 10px;margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div></div>';
-            $('.downpayment_add').before(last);
-        } else {
-            if ($('.downpayment_add_last').length != 0) {
-                $('.downpayment_add_last').parents('.downpayment_box').remove();
-            }
-            $('.downpayment_add').show();
-        }
-
-        if(del =='0'){
-            $('.downpayment_add').css('marginLeft','0px');
-            $('.downpayment_add').css('paddingLeft','20px');
-            $('input[name="downpayment_money_add"]').css('border-color','#ccc');
-            $('.downpayment_add').parent().find('.formError').html('');
-        } else if (del == '4') {
             var cur_num = $('.downpayment_add_ready').eq(3).find('input').val();
             $('.downpayment_add_ready').eq(3).parents('.downpayment_box').remove();
             $('.downpayment_add').show();
