@@ -81,7 +81,20 @@ $(function(){
             var error = $(this).parent().find('.formError').html('请填写首付金额');
             return;
         } else {
-            $(this).parent().find('.formError').html('');
+            var downpayment_add_ready = $('.downpayment_add_ready');
+            if(num && downpayment_add_ready.length > 0){
+                for(var i = 0;i < downpayment_add_ready.length; i++){
+                    var val = $('.downpayment_add_ready').eq(i).find('input').val();
+                    if(num == val){
+                        $(this).parent().find('.formError').html('此首付金额已存在,请重新输入');
+                        return;
+                    } else {
+                        $(this).parent().find('.formError').html('');
+                    }
+                }
+            } else {
+                $(this).parent().find('.formError').html('');
+            }
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
@@ -99,29 +112,6 @@ $(function(){
                 $('.downpayment_add').hide();
             }
         }
-    });
-
-    $('input[name="downpayment_money_add"]').blur(function(){
-        var num = $(this).val();
-        if(parseFloat(num) > 10000000){
-            $('input[name="downpayment_money_add"]').css('border-color','#FB2741');
-            $(this).parent().parent().find('.formError').html('首付金额不能高于10000000元,请重新输入');
-            return;
-        }
-        var downpayment_add_ready = $('.downpayment_add_ready');
-        if(num && downpayment_add_ready.length > 0){
-            for(var i = 0;i < downpayment_add_ready.length; i++){
-                var val = $('.downpayment_add_ready').eq(i).find('input').val();
-                if(num == val){
-                    $('input[name="downpayment_money_add"]').css('border-color','#FB2741');
-                    $(this).parent().parent().find('.formError').html('此首付金额已存在,请重新输入');
-                    return;
-                }
-            }
-        }
-        $('#downpayment_money').val($('.downpayment_add input').val());
-        $('input[name="downpayment_money_add"]').css('border-color','#ccc');
-        $(this).parent().parent().find('.formError').html('');
     });
 
     //删除首付金额
@@ -149,6 +139,18 @@ $(function(){
             }
             $('.downpayment_add').show();
         }
+
+        if(del =='0'){
+            $('.downpayment_add').css('marginLeft','0px');
+            $('.downpayment_add').css('paddingLeft','20px');
+            $('input[name="downpayment_money_add"]').css('border-color','#ccc');
+            $('.downpayment_add').parent().find('.formError').html('');
+        } else if (del == '4') {
+            var cur_num = $('.downpayment_add_ready').eq(3).find('input').val();
+            $('.downpayment_add_ready').eq(3).parents('.downpayment_box').remove();
+            $('.downpayment_add').show();
+            $('.downpayment_add').find('input').val(cur_num);
+        }
     });
 
     //添加费率
@@ -160,7 +162,20 @@ $(function(){
             $(this).parent().find('.formError').html("请先输入当前费率");
             return;
         } else {
-            $(this).parent().find('.formError').html("");
+            var  interest_rate_num = $('.interest_rate_num');
+            if(interest_rate_num.length != '0'){
+                for(var i = 0; i <  interest_rate_num.length; i++){
+                    var rate_arr = Number($('.interest_rate_num').eq(i).val());
+                    if(num == rate_arr){
+                        $(this).parent().find('.formError').html('此费率已存在，请重新输入');
+                        return;
+                    } else {
+                        $(this).parent().find('.formError').html("");
+                    }
+                }
+            } else {
+                $(this).parent().find('.formError').html("");
+            }
         }
         var error = $(this).parent().find('.formError').html();
         if(error == ''){
@@ -180,30 +195,6 @@ $(function(){
         }
     });
 
-    $('input[name="interest_rate_input"]').blur(function(){
-        var num = Number($('.rate_add input').val());
-        var reg = /^\d{1,2}(\.\d{1,2})?$/;
-        if(num && !reg.test(num)){
-            $(this).parent().parent().find('.formError').html('请输入正确的费率');
-            $('input[name="interest_rate_input"]').css('border-color','#FB2741');
-            return;
-        }
-        var  interest_rate_num = $('.interest_rate_num');
-        if(interest_rate_num.length != '0'){
-            for(var i = 0; i <  interest_rate_num.length; i++){
-                var rate_arr = Number($('.interest_rate_num').eq(i).val());
-                if(num == rate_arr){
-                    $(this).parent().parent().find('.formError').html('此费率已存在，请重新输入');
-                    $('input[name="interest_rate_input"]').css('border-color','#FB2741');
-                    return;
-                }
-            }
-        }
-        $('input[name="interest_rate_input"]').css('border-color','#ccc');
-        $(this).parent().parent().find('.formError').html('');
-
-    });
-
     //删除年利率
     $(document).delegate(".rate_add_del","click",function(ev){
         ev.preventDefault();
@@ -218,15 +209,13 @@ $(function(){
         if(del =='0'){
             $('.rate_add').css('marginLeft','0px');
             $('.rate_add').css('paddingLeft','20px');
-            // $('.rate_add').css('marginLeft','-40px');
             $('input[name="interest_rate_input"]').css('border-color','#ccc');
             $('.rate_add').parent().find('.formError').html('');
         } else if (del == '4') {
-            var last = '<div class="rate_box"><div class="rate_add_last" style="padding-left: 20px;"><input type="text" class="form-control interest_rate_num interest_rate_txt" name="interest_rate" value="" placeholder="请输入费率" maxlength="5" style="width: 90px;margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div></div>';
-            $('.rate_add').before(last);
-        } else {
-            $('.rate_add_last').parents('.rate_box').remove();
+            var cur_num = $('.rate_add_ready').eq(3).find('input').val();
+            $('.rate_add_ready').eq(3).parents('.rate_box').remove();
             $('.rate_add').show();
+            $('.rate_add').find('input').val(cur_num);
         }
     });
 
@@ -236,20 +225,6 @@ $(function(){
         var error_txt = '产品名称不能包含特殊字符';
         validate_form(1,$('#name'),reg,error_txt);
     });
-
-    // $('#financeamount_start').blur(function(){
-    //     var reg = /^\d+(\.\d{1,2})?$/;
-    //     var error_txt1 = '请输入正确的融资金额数';
-    //     var error_txt2 = '请输入正确的融资金额范围';
-    //     num_check($('#financeamount_start'),$('#financeamount_end'),reg,error_txt1,error_txt2);
-    // });
-    //
-    // $('#financeamount_end').blur(function(){
-    //     var reg = /^\d+(\.\d{1,2})?$/;
-    //     var error_txt1 = '请输入正确的融资金额数';
-    //     var error_txt2 = '请输入正确的融资金额范围';
-    //     num_check($('#financeamount_start'),$('#financeamount_end'),reg,error_txt1,error_txt2);
-    // });
 
 });
 //文本框校验
