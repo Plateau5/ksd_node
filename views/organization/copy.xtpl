@@ -193,17 +193,23 @@
                                         <span class="cursor downpayment_add_txt">添加</span>
                                         <span class="formError"></span>
                                     </div>
-                            {{elseif (downpayment_money.length === 5)}}
-                                {{#each (downpayment_money)}}
-                                <div class="downpayment_box">
-                                    <div class="downpayment_add_ready" style="padding-top: 10px;">
-                                        <input type="text" readonly="readonly" id="" name="downpayment_money" value="{{this}}" style="width:90px;">
-                                        <span>元</span>
-                                        <span class="cursor downpayment_add_del">删除</span>
+                                {{elseif (downpayment_money.length === 5)}}
+                                    {{#each (downpayment_money)}}
+                                    <div class="downpayment_box">
+                                        <div class="downpayment_add_ready" style="padding-top: 10px;">
+                                            <input type="text" readonly="readonly" id="" name="downpayment_money" value="{{this}}" style="width:90px;">
+                                            <span>元</span>
+                                            <span class="cursor downpayment_add_del">删除</span>
+                                        </div>
                                     </div>
-                                </div>
-                                {{/each}}
-                            {{else}}
+                                    {{/each}}
+                                    <div class="column_val downpayment_add" style="margin-top: 10px;padding-left: 12%;display: none;">
+                                        <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width:90px;"/>
+                                        <span>元</span>
+                                        <span class="cursor downpayment_add_txt">添加</span>
+                                        <span class="formError"></span>
+                                    </div>
+                                {{else}}
                                     {{#each (downpayment_money)}}
                                         {{#if (xindex === downpayment_money.length - 1) }}
                                         <div class="column_val downpayment_add" style="margin-top: 10px;padding-left: 12%;">
@@ -255,6 +261,12 @@
                                     </div>
                                 </div>
                                 {{/each}}
+                                <div class="column_val rate_add" style="margin-top: 10px;padding-left: 12%;display: none">
+                                    <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" maxlength="5" name="interest_rate" value="" onpaste="return false;" onkeyup="clearNoNum(this)" style="width:90px;"/>
+                                    <span>%</span>
+                                    <span class="cursor rate_add_txt">添加</span>
+                                    <span class="formError"></span>
+                                </div>
                             {{else }}
                                 {{#each (interest_rate_list) }}
                                     {{#if (xindex === interest_rate_list.length - 1) }}
