@@ -526,10 +526,15 @@
                 //首付金额
                 if (downpayment_select.val() == 2) {
                     if ($('.downpayment_add input').val() == '') {
-                        $('.downpayment_add').find('.formError').html('请输入首付金额');
-                        add_btn_y.attr('disabled',false);
-                        add_btn_n.attr('disabled',false);
-                        return;
+                        var downpayment_box = $('.downpayment_money').find('.downpayment_box');
+                        if (downpayment_box.length == 0) {
+                            $('.downpayment_add').find('.formError').html('请输入首付金额');
+                            add_btn_y.attr('disabled',false);
+                            add_btn_n.attr('disabled',false);
+                            return;
+                        } else {
+                            $('.downpayment_add').find('.formError').html('');
+                        }
                     } else {
                         $('.downpayment_add').find('.formError').html('');
                     }
@@ -556,10 +561,15 @@
                 //费率
                 var rate_add = $('.rate_add');
                 if (rate_add.find('.interest_rate_data').val() == '') {
-                    rate_add.find('.formError').html('请输入费率');
-                    add_btn_y.attr('disabled',false);
-                    add_btn_n.attr('disabled',false);
-                    return;
+                    var rate_box = rate_add.parent().find('.rate_box');
+                    if (rate_box.length == 0) {
+                        rate_add.find('.formError').html('请输入费率');
+                        add_btn_y.attr('disabled',false);
+                        add_btn_n.attr('disabled',false);
+                        return;
+                    } else {
+                        rate_add.find('.formError').html('');
+                    }
                 } else {
                     rate_add.find('.formError').html('');
                 }
@@ -581,14 +591,6 @@
                     financeamount_start.siblings('.formError').html('');
                 }
                 //融资期限
-                var term = $('.term');
-                var term_num = 0;
-                term.each(function () {
-                    var _this = $(this);
-                    if (_this.find('label').hasClass('checked')) {
-                        term_num++
-                    }
-                });
                 if (term_num == 0) {
                     term.find('.formError').html('请选择融资期限');
                     add_btn_y.attr('disabled',false);
