@@ -1,0 +1,124 @@
+<!-- 同意 -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户-同意</title>
+    {{include ("./../inc/metaData")}}
+    <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/question/edit.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/requestpayout/agree.css">
+    <script src="{{markUri}}/static/js/question/submit_form.js"></script>
+    <style>
+        .file_item{
+            margin-left: 0;
+        }
+    </style>
+</head>
+<body>
+
+{{include ('./../inc/header')}}
+
+<!--container start-->
+
+<div class="container minWidth">
+    <div class="row section">
+        <!--navLeft start-->
+        {{include ('./../inc/sideNav')}}
+
+        <!--navLeft end-->
+
+
+        <!--listCon start-->
+        <div class=" listCon relative">
+            <div class="listConHeader inviteCon" style="line-height: normal;margin-top:32px;">
+                <ul>
+                    <li class="inline colorB"><a class="TS" href="{{markUri}}">归档管理</a></li>
+                    <li class="inline before"><a href="{{markUri}}/customer/requestpayout/pendingAudit">待审批</a></li>
+                    <li class="inline before"><a href="javascript:window.history.back();">{{vo.user_name}}</a></li>
+                    <li class="inline before"><a href="javascript:;" style="cursor:default">同意</a></li>
+                </ul>
+            </div>
+
+            <form class="formML" id="request_info_agree" enctype="multipart/form-data" method="post">
+                <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
+                <input type="hidden" name="request_status" value="{{vo.request_status}}">
+                <input type="hidden" name="advance_id" value="{{vo.advance_id}}">
+                <div class="form-item" style="height:100px;">
+                    <div>
+                        <textarea id="content" name="remark" placeholder="请输入备注，最多可输入200字" maxlength="200" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}"></textarea>
+                    </div>
+                </div>
+                {{#if (verifyCode(1118)) }}
+                <div class="form-item">
+                    <div class="create_btn" style="margin-left: 0">
+                        <input type="button" class="create_sub" id="agree_sub" value="确认" data-url="{{markUri}}/customer/pigeonhole/pending" />
+                        <a href="javascript:window.history.back();">
+                            <input type="button" class="cancel_btn" value="取消">
+                        </a>
+                    </div>
+                </div>
+                {{/if}}
+            </form>
+        </div>
+
+        <!--listCon end-->
+
+    </div>
+
+
+</div>
+
+<!--container end-->
+
+</body>
+<script src="{{markUri}}/static/js/requestpayout/agree.js"></script>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    //确认
+    $('#agree_sub').off("click").on("click", function(){
+        $('#agree_sub').attr('disabled',true);
+        var url = contextPath + '/api/pigeonhole/agree';
+        var vFD = new FormData(document.getElementById('request_info_agree'));
+        var location_url = $.trim($(this).data("url"));
+
+        if (isFinancial) {
+            $.ajax({
+                type : "post",
+                url : url,
+                data : vFD,
+                async : true,
+                processData: false,
+                contentType: false,
+                success : function (datas) {
+                    var res = eval(datas);
+                    if (res.error_code == "0") {
+                        window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
+                    } else {
+                        alert(res.error_msg);
+                        $('#agree_sub').attr('disabled',false);
+                    }
+                },
+                error : function () {
+                    alert("输入参数异常");
+                    $('#agree_sub').attr('disabled',false);
+                }
+            });
+        } else {
+            send_form(url,vFD,location_url,0,function(){
+                $('#agree_sub').attr('disabled',false);
+            });
+        }
+
+    });
+    $('.form-item').eq(0).css('marginTop','32px');
+
+    //取消按钮的点击逻辑
+    bindEvents("click", ".cancel_btn", function () {
+        window.history.back();
+    })
+
+    })(jQuery,undefined);
+</script>
+</html>

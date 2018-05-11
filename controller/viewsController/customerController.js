@@ -418,8 +418,8 @@ exports.VIEW_CUSTOMER_APPROVAL_PENDINGAUDIT = function(req, res, next) {
         title : '审批管理-待审批',
         page : './customer/customerList',
         callback : function (data) {
-        formatOrderListData(data);
-    }
+            formatOrderListData(data);
+        }
     }, req, res, next);
 };
 // 客户-审批管理-已通过
@@ -639,7 +639,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_PRINT = function(req, res, next) {
     var data = {};
     var localUrl = req.originalUrl;
     try {
-         common.httpRequest({
+        common.httpRequest({
             url : apiServerPath + '/api/financial/print?' + searchParam,
             formData : body
         }, function (result) {
@@ -717,7 +717,23 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_NOTIFYMATERIAL = function(req, res, next) {
         }
     }, req, res, next);
 };
+// 客户-归档管理-同意页面 1513
+exports.VIEW_CUSTOMER_PIGEONHOLE_AGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/pigeonhole/agree',
+        title : '归档管理-同意',
+        page : './customer/pigeonholeAgree',
+    }, req, res, next);
+};
 
+// 客户-归档管理-不同意页面 1513
+exports.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/pigeonhole/disagree',
+        title : '归档管理-不同意',
+        page : './customer/pigeonholeAgree',
+    }, req, res, next);
+};
 
 
 // 客户-其他管理-跳转
