@@ -129,12 +129,11 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
                         } else if (specialarr[j] == '7') {
                             specialstr += '可做黑户、'
                         } else if (specialarr[j] == '8') {
-                            specialstr += '无驾照'
+                            specialstr += '无驾照、'
                         } else if (specialarr[j] == '9') {
                             specialstr += '审批快、'
                         }
                     }
-
                     specialstr = specialstr.substring(0,specialstr.length-1);
                 } else {
                     if (special == '1') {
@@ -177,7 +176,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
                         } else if (addition_financearr[j] == '5') {
                             addition_financestr += '购置税、'
                         } else if (addition_financearr[j] == '6') {
-                            addition_financestr += '金融方自营保险'
+                            addition_financestr += '金融方自营保险、'
                         }
                     }
                     addition_financestr = addition_financestr.substring(0,addition_financestr.length-1);
