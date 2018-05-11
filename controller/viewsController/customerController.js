@@ -839,7 +839,7 @@ exports.VIEW_CUSTOMER_COMPACT_DETAIL = function(req, res, next) {
     // var url = '/api/compact/getFile';
     // common.getCustomerDetail(url, req, res, next);
     common.getPageData({
-        url : '/api/finance/getFile',
+        url : '/api/compact/getFile',
         title : '客户-客户详情',
         page : './customer/customerDetail',
         callback : function (data) {
