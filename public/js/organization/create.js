@@ -52,11 +52,12 @@ $(function(){
 
     //添加备注
     $('.add_txt').click(function(){
-        var remarks = $(this).parent().parent().find('.remarks_box').css('display');
+        var remarks = $(this).parents('.column_val').find('.remarks_box').css('display');
         if(remarks == 'block'){
-            return;
+            $(this).parents('.column_val').find('.remarks_box').css('display','none');
+        } else {
+            $(this).parents('.column_val').find('.remarks_box').css('display','block');
         }
-        $(this).parent().parent().find('.remarks_box').css('display','block');
     });
 
     //表单校验

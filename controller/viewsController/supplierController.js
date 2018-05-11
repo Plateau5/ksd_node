@@ -108,6 +108,96 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
                 data_flag = '';
             }
             data.data_flag = data_flag;
+            if (data.vo.special != '') {
+                var special = data.vo.special;
+                var specialstr = '';
+                if (special.indexOf(',') != -1) {
+                    var specialarr = special.split(',');
+                    for (var j = 0, len = specialarr.length;j < len;j++) {
+                        if (specialarr[j] == '1') {
+                            specialstr += '材料少、'
+                        } else if (specialarr[j] == '2') {
+                            specialstr += '利息低、'
+                        } else if (specialarr[j] == '3') {
+                            specialstr += '利润大、'
+                        } else if (specialarr[j] == '4') {
+                            specialstr += '灵活、'
+                        } else if (specialarr[j] == '5') {
+                            specialstr += '首付低、'
+                        } else if (specialarr[j] == '6') {
+                            specialstr += '尺寸大、'
+                        } else if (specialarr[j] == '7') {
+                            specialstr += '可做黑户、'
+                        } else if (specialarr[j] == '8') {
+                            specialstr += '无驾照'
+                        } else if (specialarr[j] == '9') {
+                            specialstr += '审批快、'
+                        }
+                    }
+
+                    specialstr = specialstr.substring(0,specialstr.length-1);
+                } else {
+                    if (special == '1') {
+                        specialstr = '材料少'
+                    } else if (special == '2') {
+                        specialstr = '利息低'
+                    } else if (special == '3') {
+                        specialstr = '利润大'
+                    } else if (special == '4') {
+                        specialstr = '灵活'
+                    } else if (special == '5') {
+                        specialstr = '首付低'
+                    } else if (special == '6') {
+                        specialstr = '尺寸大'
+                    } else if (special == '7') {
+                        specialstr = '可做黑户'
+                    } else if (special == '8') {
+                        specialstr = '无驾照'
+                    } else if (special == '9') {
+                        specialstr = '审批快'
+                    }
+                }
+                data.vo.specialstr = specialstr;
+            }
+
+            if (data.vo.addition_finance != '') {
+                var addition_finance = data.vo.addition_finance;
+                var addition_financestr = '';
+                if (addition_finance.indexOf(',') != -1) {
+                    var addition_financearr = addition_finance.split(',');
+                    for (var j = 0, len = addition_financearr.length;j < len;j++) {
+                        if (addition_financearr[j] == '1') {
+                            addition_financestr += 'GPS、'
+                        } else if (addition_financearr[j] == '2') {
+                            addition_financestr += '保险、'
+                        } else if (addition_financearr[j] == '3') {
+                            addition_financestr += '服务费、'
+                        } else if (addition_financearr[j] == '4') {
+                            addition_financestr += '人身意外险、'
+                        } else if (addition_financearr[j] == '5') {
+                            addition_financestr += '购置税、'
+                        } else if (addition_financearr[j] == '6') {
+                            addition_financestr += '金融方自营保险'
+                        }
+                    }
+                    addition_financestr = addition_financestr.substring(0,addition_financestr.length-1);
+                } else {
+                    if (addition_finance == '1') {
+                        addition_financestr = 'GPS'
+                    } else if (addition_finance == '2') {
+                        addition_financestr = '保险'
+                    } else if (addition_finance == '3') {
+                        addition_financestr = '服务费'
+                    } else if (addition_finance == '4') {
+                        addition_financestr = '人身意外险'
+                    } else if (addition_finance == '5') {
+                        addition_financestr = '购置税'
+                    } else if (addition_finance == '6') {
+                        addition_financestr = '金融方自营保险'
+                    }
+                }
+                data.vo.addition_financestr = addition_financestr;
+            }
         }
     }, req, res, next);
 };
