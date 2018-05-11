@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     {{include ("./../inc/cssSources")}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/orderDetails.css">
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/orderDetails.css">
     <title>{{title}}</title>
+    {{include ('./../inc/jsSources')}}
+    <script src="{{markUri}}/static/js/finance/img_detail.js"></script>
+    <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+    <script src="{{markUri}}/static/js/customerService.js"></script>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -36,7 +40,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
-                <a href="{markUri}}/customer/loan/system" class="crumbs_item">{{description}}</a>
+                <a href="{{markUri}}/customer/loan/system" class="crumbs_item">{{description}}</a>
                 <a href="{{url}}" class="crumbs_item">{{navigation}}</a>
                 <a href="javascript:;" class="crumbs_item">{{vo.user_name }}</a>
                 <a href="javascript:;" class="crumbs_item">查看资料</a>
@@ -156,10 +160,6 @@
 </div>
 <div class="mask" style="display: none;"></div>
 </body>
-{{include ('./../inc/jsSources')}}
-<!--<script src="{{markUri}}/static/js/finance/img_detail.js"></script>-->
-<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
-<script src="{{markUri}}/static/js/customerService.js"></script>
 <script>
     (function () {
         var currentTime = new Date().format('yyyy/MM/dd hh:mm');
@@ -169,7 +169,7 @@
         }
     })(window, undefined);
     $(function () {
-        toHistoryList();        // 跳转历史订单。
+        toHistoryList();        // 跳转历史订单
         viewLargeImage('#img_list');       // 查看大图
         viewLargeImage('.log_item');
         searchQueryType('#query_tab .tab_item'); //详情页资料tab页切换

@@ -5,7 +5,7 @@
     <div class="classify_item">
         <div class="classify_content">
             <div class="classify_title">车辆信息</div>
-            <ul class="items_list">
+            <ul class="items_list clearfix">
                 {{#if (vo.risk_type_value) }}
                 <li class="item_row">
                     <div class="item_name">风险类型：</div>
@@ -22,7 +22,7 @@
             {{#if (req_list.length !== 0) }}
                 {{#each (req_list) }}
                     <div class="classify_title">{{this.receipt_name}}</div>
-                    <ul class="items_list">
+                    <ul class="items_list clearfix">
                         {{#if (this.total_charge || this.total_charge === 0) }}
                         <li class="item_row">
                             <div class="item_name">收款总额：</div>
@@ -202,10 +202,10 @@
                         </li>
                         {{/if}}
                         {{#if (this.deduction_remark) }}
-                        <li class="item_row">
+                        <div class="item_remark clearfix">
                             <div class="item_name">备注：</div>
                             <div class="item_value">{{this.deduction_remark}}</div>
-                        </li>
+                        </div>
                         {{/if}}
                     </ul>
                 {{/each}}

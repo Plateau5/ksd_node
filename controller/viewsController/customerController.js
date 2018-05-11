@@ -99,10 +99,7 @@ exports.VIEW_CUSTOMER_HISTORY = function(req, res, next) {
     common.getPageData({
         url : '/api/finance/customer',
         title : '客户-历史记录',
-        page : './customer/customerHis',
-        callback : function (data) {
-            formatOrderListData(data);
-        }
+        page : './customer/customerHis'
     }, req, res, next);
 };
 // 客户-待分配跳转
@@ -1081,7 +1078,7 @@ function formatOrderListData (data) {
         photo_type = 3;
         description = "其他款项";
     } else {
-        throw new Error(ERRORTYPES.Route + '："' + localUrl + '" is not defined.');
+        throw new Error(ERRORTYPES.Route + '："' + data.originUrl + '" is not defined.');
     }
     data.detailUrl = detailUrl;
     data.query_type = query_type;

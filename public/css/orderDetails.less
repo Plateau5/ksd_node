@@ -22,7 +22,6 @@
             width:116px;
             height:40px;
             line-height: 40px;
-            /*transition:none;*/
             margin-right: 0;
             &:after{
                 height:4px;
@@ -65,7 +64,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    overflow: hidden;
+
     .detail_title{
         position: relative;
         height: 50px;
@@ -137,9 +136,12 @@
             line-height:30px;
             text-align: center;
             border-radius: 4px ;
-            margin-right:68px;
+            margin-right:20px;
             background: @active-color;
             color: #fff;
+            &:hover{
+                background: #0B9C94;
+            }
         }
         .detail_low_btn{
             display:inline-block;
@@ -154,10 +156,14 @@
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
-            margin-right:68px;
-        }
-        .mr_20{
             margin-right:20px;
+            &:hover{
+                color: #0B9C94;
+                border:1px solid #0B9C94;
+            }
+        }
+        a:last-child{
+            margin-right: 68px;
         }
     }
     .classify_title{
@@ -182,18 +188,35 @@
         .items_list{
             width: 100%;
             height: auto;
-            overflow: hidden;
+
+        }
+        .item_remark{
+            width: 100%;
+            line-height: 40px;
+            .item_name{
+                display: inline-block;
+                width: 10%;
+                vertical-align: top;
+                color: #666;
+            }
+            .item_value{
+                display: inline-block;
+                width: 86%;
+                padding: 0 1%;
+                color: #333;
+                -ms-word-wrap:break-word;
+                word-wrap:break-word;
+            }
         }
         .item_row{
             float: left;
             width: 50%;
-            height: 40px;
             line-height: 40px;
             box-sizing: border-box;
+            position: relative;
             .item_name{
                 display: inline-block;
                 width: 20%;
-                //text-align: right;
                 vertical-align: top;
                 color: #666;
             }
@@ -207,9 +230,8 @@
                 width: 74%;
                 padding: 0 2%;
                 vertical-align: top;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
+                -ms-word-wrap:break-word;
+                word-wrap:break-word;
                 color: #333;
                 .customer_name{
                     position: relative;
@@ -413,4 +435,81 @@
             }
         }
     }
+}
+.item_value_more{
+    line-height:24px;
+    margin-top:9px;
+}
+.border_none{
+    border:none;
+}
+/*商户及下拉样式*/
+.merchant_slidedown_arrow{
+    display: inline-block;
+    margin-left: 8px;
+    vertical-align: middle;
+    width:25px;
+    height:15px;
+    cursor: pointer;
+}
+.merchant_slidedown_arrow{
+    background: url(../img/slidedown_down_icon.png) no-repeat;
+}
+.merchant_slidedown_up_arrow{
+    background: url(../img/slidedown_up_icon.png) no-repeat;
+}
+.merchant_slidedown_arrow_detail{
+    z-index: 100;
+    width:392px;
+    line-height:20px;
+    position: absolute;
+    top:40px;
+    background: #ffffff;
+    box-shadow: 0 0 4px 0 rgba(192,192,192,0.5);
+    margin-bottom: 100px;
+    .merchant_slidedown_arrow_detail_title{
+        font-size: 20px;
+        color:#333;
+        padding:20px;
+    }
+    .merchant_remark{
+        font-size: 12px;
+        padding:5px 20px;
+        color:#1DC6BC;
+    }
+    .merchant_slidedown_arrow_detail_shoptype{
+        display: inline-block;
+        width:36%;
+        padding:5px 20px;
+        color:#333;
+        .merchant_slidedown_arrow_detail_shoptype_label,.merchant_slidedown_arrow_detail_shoptype_txt{
+            float: left;
+            font-size: 10px;
+        }
+        .merchant_label_txt{
+            padding-right: 10px;
+        }
+    }
+
+}
+.request-img-box{
+    width:60px;
+    margin-top:22px;
+    margin-right:38px;
+    display: inline-block;
+    .imgText{
+        width:100%;
+        line-height: 40px;
+        font-size: 14px;
+        color:#535E6A;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+#imgDetail_merchant img{
+    width: 60px;
+    height: 45px;
 }

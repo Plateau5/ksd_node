@@ -1,9 +1,9 @@
 <!-- 客户进件资料 -->
-<div class="detail_box" >
+<div class="detail_box clearfix" >
 	<div class="classify_item">
 			<div class="classify_title">客户信息</div>
 			<div class="classify_content">
-				<ul class="items_list">
+				<ul class="items_list clearfix">
 					{{#if (vo.user_name) }}
 					<li class="item_row">
 						<div class="item_name">客户：</div>
@@ -60,7 +60,7 @@
 					{{#if (vo.address) }}
 					<li class="item_row">
 						<div class="item_name">户籍所在地：</div>
-						<div class="item_value">{{vo.address}}</div>
+						<div class="item_value item_value_more">{{vo.address}}</div>
 					</li>
 					{{/if}}
 					{{#if (vo.id_num) }}
@@ -153,27 +153,61 @@
 						<div id="carbate_baseinfo" class="item_value">{{vo.real_loan_amount}}万元</div>
 					</li>
 					{{/if}}
-					{{#if (vo.remark) }}
+					{{#if (vo.supplier_name) }}
 					<li class="item_row">
-						<div class="item_name">备注：</div>
-						<div class="item_value">
-							{{vo.remark}}
+						<div class="item_name">所属商户：</div>
+						<div id="" class="item_value">{{vo.supplier_name}}<em class="merchant_slidedown_arrow merchant_details_btn"></em></div>
+						<div class="merchant_slidedown_arrow_detail clearfix" style="display: none;">
+							<div class="merchant_slidedown_arrow_detail_title">{{vo.supplier_name}}</div>
+							<div id="merchant_remark" class="merchant_remark"></div>
+
+							<div class="merchant_slidedown_arrow_detail_shoptype">
+								<div class="merchant_slidedown_arrow_detail_shoptype_label">店面类型：</div>
+								<div id="merchant_type" class="merchant_slidedown_arrow_detail_shoptype_txt"></div>
+							</div>
+							<div class="merchant_slidedown_arrow_detail_shoptype">
+								<div class="merchant_slidedown_arrow_detail_shoptype_label">商户状态：</div>
+								<div id="merchant_status" class="merchant_slidedown_arrow_detail_shoptype_txt"></div>
+							</div>
+
+							<div class="merchant_slidedown_arrow_detail_shoptype" style="width:100%;padding-bottom: 30px;">
+								<div class="merchant_slidedown_arrow_detail_shoptype_label" style="padding-right: 24px;">标签：</div>
+								<div id="merchant_label_names" class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt"></div>
+							</div>
+
+							<div id="imgDetail_merchant" class="imgDetail imgDetail_merchant" style="padding-left: 20px;">
+							</div>
+							<div class="merchant_remark">商户返佣政策（仅供参考）</div>
+							<div class="merchant_slidedown_arrow_detail_shoptype">
+								<div class="merchant_slidedown_arrow_detail_shoptype_label">融资额返点：</div>
+								<div id="financed_amount" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
+							</div>
+
+							<div class="merchant_slidedown_arrow_detail_shoptype">
+								<div class="merchant_slidedown_arrow_detail_shoptype_label">服务费返点：</div>
+								<div id="rebate_service" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
+							</div>
+
+							<div class="merchant_slidedown_arrow_detail_shoptype">
+								<div class="merchant_slidedown_arrow_detail_shoptype_label">GPS返点：</div>
+								<div id="gps_rebate" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
+							</div>
+
+							<div class="merchant_slidedown_arrow_detail_shoptype">
+								<div class="merchant_slidedown_arrow_detail_shoptype_label">保险返点：</div>
+								<div id="rebate_insurance" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
+							</div>
 						</div>
 					</li>
 					{{/if}}
+					{{#if (vo.remark) }}
+					<div class="item_remark clearfix">
+						<div class="item_name">备注：</div>
+						<div class="item_value item_value_more">{{vo.remark}}</div>
+					</div>
+					{{/if}}
 				</ul>
 			</div>
-		{{#if (vo.user_name) }}
-			<div class="detail_remarks requestpayout_detail_remarks">
-				<div class="requestpayout_detail_label">客户：</div>
-				<div class="requestpayout_detail_txt">
-					<!--
-					 --- @{description} 订单总量>1时间，添加‘customer_name’类，渲染‘em’元素
-					-->
-					<a href="javascript:" data-name="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="{{#if (vo.order_count > 0) }}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0)}}{{vo.order_count}}{{/if}}</em></a>
-				</div>
-			</div>
-		{{/if}}
 
 		<!--给基本资料新增列  begin-->
 		<input type="hidden" id="insurance" value="{{vo.insurance}}">
@@ -181,303 +215,197 @@
 		<input type="hidden" id="service_charge" value="{{vo.service_charge}}">
 		<input type="hidden" id="gps_charge" value="{{vo.gps_charge}}">
 		<!--给基本资料新增列  end-->
-
-		{{#if (vo.supplier_name) }}
-		<div class="detail_remarks requestpayout_detail_remarks payment_info_item">
-			<div class="requestpayout_detail_label">所属商户：</div>
-			<div class="requestpayout_detail_txt">{{vo.supplier_name}}<em class="merchant_slidedown_arrow merchant_details_btn"></em></div>
-			<div class="merchant_slidedown_arrow_detail" style="display: none;">
-				<div class="merchant_slidedown_arrow_detail_title">{{vo.supplier_name}}</div>
-				<!--<div class="merchant_remark">{{supplierDetail.flag_value}}</div>-->
-				<div id="merchant_remark" class="merchant_remark"></div>
-
-				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">店面类型：</div>
-					<div id="merchant_type" class="merchant_slidedown_arrow_detail_shoptype_txt"></div>
-                    <!--{{#if (supplierDetail.type_value) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{supplierDetail.type_value}}</div>
-                    {{else}}
-                    <div class="merchant_slidedown_arrow_detail_shoptype_txt">&#45;&#45;</div>
-                    {{/if}}-->
-				</div>
-				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">商户状态：</div>
-					<div id="merchant_status" class="merchant_slidedown_arrow_detail_shoptype_txt"></div>
-                    <!--{{#if (supplierDetail.status_value) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_txt">{{supplierDetail.status_value}}</div>
-                    {{else}}
-                    <div class="merchant_slidedown_arrow_detail_shoptype_txt">&#45;&#45;</div>
-                    {{/if}}-->
-				</div>
-
-				<div class="merchant_slidedown_arrow_detail_shoptype" style="width:100%;padding-bottom: 30px;">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label" style="padding-right: 24px;">标签：</div>
-					<div id="merchant_label_names" class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt"></div>
-					<!--{{#if (label_names) }}
-					{{#each (label_names) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt">{{this}}</div>
-					{{/each}}
-					{{else}}
-					<div class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt">&#45;&#45;</div>
-					{{/if}}-->
-				</div>
-
-				<div id="imgDetail_merchant" class="imgDetail" style="padding-left: 20px;">
-					<!--{{#each (fileList) }}
-					<a href="javascript:;" target="_blank">
-						<div class="request-img-box inline" style="margin-top:0;" title="{{this.file_name}}">
-							<div class="requestImgBox cursor">
-								<img src="{{this.thumbnail}}" alt=""/>
-							</div>
-							<div class="imgText">{{this.file_name}}</div>
-						</div>
-					</a>
-					{{/each}}-->
-				</div>
-				<div class="merchant_remark">商户返佣政策（仅供参考）</div>
-				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">融资额返点：</div>
-					<div id="financed_amount" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
-					<!--{{#if (rebate_car) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">
-						{{rebate_car}}元
-						{{#if (financed_charge_rebate) }}
-						(已请{{financed_charge_rebate}}元)
-						{{/if}}
-					</div>
-					{{else}}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">&#45;&#45;</div>
-					{{/if}}-->
-				</div>
-
-				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">服务费返点：</div>
-					<div id="rebate_service" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
-					<!--{{#if (rebate_service) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_service}}元</div>
-					{{else}}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">&#45;&#45;</div>
-					{{/if}}-->
-				</div>
-
-				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">GPS返点：</div>
-					<div id="gps_rebate" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
-					<!--{{#if (rebate_gps) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_gps}}元</div>
-					{{else}}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">&#45;&#45;</div>
-					{{/if}}-->
-				</div>
-
-				<div class="merchant_slidedown_arrow_detail_shoptype">
-					<div class="merchant_slidedown_arrow_detail_shoptype_label">保险返点：</div>
-					<div id="rebate_insurance" class="merchant_slidedown_arrow_detail_shoptype_text"></div>
-					<!--{{#if (rebate_insurance) }}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">{{rebate_insurance}}元</div>
-					{{else}}
-					<div class="merchant_slidedown_arrow_detail_shoptype_text">&#45;&#45;</div>
-					{{/if}}-->
-				</div>
-			</div>
-		</div>
-		{{/if}}
 	</div>
 </div>
-<!--<script type="text/javascript">-->
-	<!--(function ($, window) {-->
+<script type="text/javascript">
+        // 申请单的展开折叠效果
+        //含有子级权限的展开折叠效果
+        function slideDownList () {
+	        var count = 0;
+	        var btn = $('.merchant_details_btn');
+            btn.off('click').on("click", function () {
+                var t = $(this);
+                count++;
+                if (count < 2) {
+                    var url = contextPath + "/api/supplier/baseinfo";
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        dataType: "json",
+                        data: {finance_id:$('#finance_download_finance_id').val(),supplier_id:$('#detail_supplier_id').val()},
+                        async: false,
+                        success: function (data) {
+//							console.log(data);
+							if (data.error_code === 0) {
+                                    if (data.supplierDetail.flag_value) {
+                                        $('#merchant_remark').html(data.supplierDetail.flag_value);
+									} else {
+                                        $('#merchant_remark').html('--');
+									}
+                                    //所属商户弹出层的标签名
+                                    if(data.supplierDetail){
+                                        if (data.supplierDetail.type_value) {
+                                            $('#merchant_type').html(data.supplierDetail.type_value);
+										} else {
+                                            $('#merchant_type').html('--');
+										}
+										if (data.supplierDetail.status_value) {
+                                            $('#merchant_status').html(data.supplierDetail.status_value);
+										} else {
+                                            $('#merchant_status').html('--');
+										}
+                                        if(data.supplierDetail.label_name){
+                                            if(data.supplierDetail.label_name.indexOf(",")!=-1){
+                                                data.label_names = data.supplierDetail.label_name.split(",");
+                                                var str = "";
+                                                for (var i = 0,len = data.label_names.length;i < len;i++) {
+                                                    str += data.label_names[i] + "&nbsp;&nbsp";
+												}
+                                                $('#merchant_label_names').html(str);
+                                            }else{
+                                                $('#merchant_label_names').html(data.supplierDetail.label_name);
+                                            }
+                                        } else {
+                                            $('#merchant_label_names').html('--');
+										}
+                                    } else {
+                                        $('#merchant_type').html('--');
+                                        $('#merchant_status').html('--');
+                                        $('#merchant_label_names').html('--');
+									}
 
+                                    //图片
+									if (data.fileList.length !=0) {
+                                        var imgStr = "";
+                                        for (var j = 0,len = data.fileList.length;j < len;j++) {
+                                            imgStr += '<a href="javascript:;" target="_blank">\n' +
+                                                '\t\t\t\t\t\t<div class="request-img-box" style="margin-top:0;" title="'+data.fileList[j].file_name+'">\n' +
+                                                '\t\t\t\t\t\t\t<div class="requestImgBox cursor">\n' +
+                                                '\t\t\t\t\t\t\t\t<img class="img_item" data-original="'+ data.fileList[j].url +'" src="'+data.fileList[j].thumbnail+'" alt=""/>\n' +
+                                                '\t\t\t\t\t\t\t</div>\n' +
+                                                '\t\t\t\t\t\t\t<div class="imgText">'+data.fileList[j].file_name+'</div>\n' +
+                                                '\t\t\t\t\t\t</div>\n' +
+                                                '\t\t\t\t\t</a>'
+										}
+                                        $('#imgDetail_merchant').html(imgStr);
+                                        viewLargeImage('#imgDetail_merchant');       // 查看大图
+									}
 
-        <!--// 申请单的展开折叠效果-->
-        <!--//含有子级权限的展开折叠效果-->
-        <!--function slideDownList () {-->
-	        <!--var count = 0;-->
-	        <!--var btn = $('.merchant_details_btn');-->
-            <!--btn.off('click').on("click", function () {-->
-                <!--var t = $(this);-->
-                <!--count++;-->
-                <!--if (count < 2) {-->
-                    <!--var url = contextPath + "/api/supplier/baseinfo";-->
-                    <!--$.ajax({-->
-                        <!--type: "post",-->
-                        <!--url: url,-->
-                        <!--dataType: "json",-->
-                        <!--data: {finance_id:$('#finance_download_finance_id').val(),supplier_id:$('#detail_supplier_id').val()},-->
-                        <!--async: false,-->
-                        <!--success: function (data) {-->
-<!--//							console.log(data);-->
-							<!--if (data.error_code === 0) {-->
-                                    <!--if (data.supplierDetail.flag_value) {-->
-                                        <!--$('#merchant_remark').html(data.supplierDetail.flag_value);-->
-									<!--} else {-->
-                                        <!--$('#merchant_remark').html('&#45;&#45;');-->
-									<!--}-->
-                                    <!--//所属商户弹出层的标签名-->
-                                    <!--if(data.supplierDetail){-->
-                                        <!--if (data.supplierDetail.type_value) {-->
-                                            <!--$('#merchant_type').html(data.supplierDetail.type_value);-->
-										<!--} else {-->
-                                            <!--$('#merchant_type').html('&#45;&#45;');-->
-										<!--}-->
-										<!--if (data.supplierDetail.status_value) {-->
-                                            <!--$('#merchant_status').html(data.supplierDetail.status_value);-->
-										<!--} else {-->
-                                            <!--$('#merchant_status').html('&#45;&#45;');-->
-										<!--}-->
-                                        <!--if(data.supplierDetail.label_name){-->
-                                            <!--if(data.supplierDetail.label_name.indexOf(",")!=-1){-->
-                                                <!--data.label_names = data.supplierDetail.label_name.split(",");-->
-                                                <!--var str = "";-->
-                                                <!--for (var i = 0,len = data.label_names.length;i < len;i++) {-->
-                                                    <!--str += data.label_names[i] + "&nbsp;&nbsp";-->
-												<!--}-->
-                                                <!--$('#merchant_label_names').html(str);-->
-                                            <!--}else{-->
-                                                <!--$('#merchant_label_names').html(data.supplierDetail.label_name);-->
-                                            <!--}-->
-                                        <!--} else {-->
-                                            <!--$('#merchant_label_names').html('&#45;&#45;');-->
-										<!--}-->
-                                    <!--} else {-->
-                                        <!--$('#merchant_type').html('&#45;&#45;');-->
-                                        <!--$('#merchant_status').html('&#45;&#45;');-->
-                                        <!--$('#merchant_label_names').html('&#45;&#45;');-->
-									<!--}-->
+                                    //所属商户弹出层的返点数据计算
+                                    /*data.rebatePolicy[i].rebate_type = 1为车款返点；2为gps返点；3为服务费返点；4为保险费返点
+                                    * 1.data.rebatePolicy[i].rebate_way=1时，返点为固定金额data.rebatePolicy[i].rebate_money
+                                    * 2.data.rebatePolicy[i].rebate_way=2时，返点为（固定金额 - 超出金额data.rebatePolicy[i].exceed_money）*超出金额的百分比data.rebatePolicy[i].rebate_money
+                                    * 3.data.rebatePolicy[i].rebate_way=3时，返点为超出金额的固定金额，即data.rebatePolicy[i].rebate_money;
+                                    * 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money
+                                    * */
+                                    if(data.rebatePolicy.length !=0){
+                                        var carbate_baseinfo = Number($.trim($('#real_loan_amount').val())) * 10000;	// 单位为万元转化为元
+                                        var gsp_baseinfo = Number($.trim($('#gps_charge').val()));
+                                        var service_baseinfo = Number($.trim($('#service_charge').val()));
+                                        var insurance_baseinfo = Number($.trim($('#insurance').val()));
+                                        for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
+                                            switch (data.rebatePolicy[i].rebate_type){
+                                                case 1://车款返点
+                                                    if(data.rebatePolicy[i].rebate_way == 1){
+                                                        data.rebate_car = data.rebatePolicy[i].rebate_money;
+                                                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                                                        if( carbate_baseinfo > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_car = (carbate_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 3){
+                                                        if(carbate_baseinfo > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_car = data.rebatePolicy[i].rebate_money;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                                                        data.rebate_car = carbate_baseinfo * data.rebatePolicy[i].rebate_money / 100;
+                                                    }
+                                                    break;
+                                                case 2://gps返点
+                                                    if(data.rebatePolicy[i].rebate_way == 1){
+                                                        data.rebate_gps = data.rebatePolicy[i].rebate_money;
+                                                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                                                        if(gsp_baseinfo > data.rebatePolicy[i].exceed_money) {
+                                                            data.rebate_gps = (gsp_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;
+                                                        }
 
-                                    <!--//图片-->
-									<!--if (data.fileList.length !=0) {-->
-                                        <!--var imgStr = "";-->
-                                        <!--for (var j = 0,len = data.fileList.length;j < len;j++) {-->
-                                            <!--imgStr += '<a href="javascript:;" target="_blank">\n' +-->
-                                                <!--'\t\t\t\t\t\t<div class="request-img-box inline" style="margin-top:0;" title="'+data.fileList[j].file_name+'">\n' +-->
-                                                <!--'\t\t\t\t\t\t\t<div class="requestImgBox cursor">\n' +-->
-                                                <!--'\t\t\t\t\t\t\t\t<img class="img_item" data-original="'+ data.fileList[j].url +'" src="'+data.fileList[j].thumbnail+'" alt=""/>\n' +-->
-                                                <!--'\t\t\t\t\t\t\t</div>\n' +-->
-                                                <!--'\t\t\t\t\t\t\t<div class="imgText">'+data.fileList[j].file_name+'</div>\n' +-->
-                                                <!--'\t\t\t\t\t\t</div>\n' +-->
-                                                <!--'\t\t\t\t\t</a>'-->
-										<!--}-->
-                                        <!--$('#imgDetail_merchant').html(imgStr);-->
-                                        <!--viewLargeImage('#imgDetail_merchant');       // 查看大图-->
-									<!--}-->
-
-                                    <!--//所属商户弹出层的返点数据计算-->
-                                    <!--/*data.rebatePolicy[i].rebate_type = 1为车款返点；2为gps返点；3为服务费返点；4为保险费返点-->
-                                    <!--* 1.data.rebatePolicy[i].rebate_way=1时，返点为固定金额data.rebatePolicy[i].rebate_money-->
-                                    <!--* 2.data.rebatePolicy[i].rebate_way=2时，返点为（固定金额 - 超出金额data.rebatePolicy[i].exceed_money）*超出金额的百分比data.rebatePolicy[i].rebate_money-->
-                                    <!--* 3.data.rebatePolicy[i].rebate_way=3时，返点为超出金额的固定金额，即data.rebatePolicy[i].rebate_money;-->
-                                    <!--* 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money-->
-                                    <!--* */-->
-                                    <!--if(data.rebatePolicy.length !=0){-->
-                                        <!--var carbate_baseinfo = Number($.trim($('#real_loan_amount').val())) * 10000;	// 单位为万元转化为元-->
-                                        <!--var gsp_baseinfo = Number($.trim($('#gps_charge').val()));-->
-                                        <!--var service_baseinfo = Number($.trim($('#service_charge').val()));-->
-                                        <!--var insurance_baseinfo = Number($.trim($('#insurance').val()));-->
-                                        <!--for(var i = 0,len=data.rebatePolicy.length;i<len;i++){-->
-                                            <!--switch (data.rebatePolicy[i].rebate_type){-->
-                                                <!--case 1://车款返点-->
-                                                    <!--if(data.rebatePolicy[i].rebate_way == 1){-->
-                                                        <!--data.rebate_car = data.rebatePolicy[i].rebate_money;-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 2){-->
-                                                        <!--if( carbate_baseinfo > data.rebatePolicy[i].exceed_money){-->
-                                                            <!--data.rebate_car = (carbate_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;-->
-                                                        <!--}-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 3){-->
-                                                        <!--if(carbate_baseinfo > data.rebatePolicy[i].exceed_money){-->
-                                                            <!--data.rebate_car = data.rebatePolicy[i].rebate_money;-->
-                                                        <!--}-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 4){-->
-                                                        <!--data.rebate_car = carbate_baseinfo * data.rebatePolicy[i].rebate_money / 100;-->
-                                                    <!--}-->
-                                                    <!--break;-->
-                                                <!--case 2://gps返点-->
-                                                    <!--if(data.rebatePolicy[i].rebate_way == 1){-->
-                                                        <!--data.rebate_gps = data.rebatePolicy[i].rebate_money;-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 2){-->
-                                                        <!--if(gsp_baseinfo > data.rebatePolicy[i].exceed_money) {-->
-                                                            <!--data.rebate_gps = (gsp_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;-->
-                                                        <!--}-->
-
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 3) {-->
-                                                        <!--if(gsp_baseinfo  > data.rebatePolicy[i].exceed_money) {-->
-                                                            <!--data.rebate_gps = data.rebatePolicy[i].rebate_money;-->
-                                                        <!--}-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 4){-->
-                                                        <!--data.rebate_gps = gsp_baseinfo * data.rebatePolicy[i].rebate_money  / 100;-->
-                                                    <!--}-->
-                                                    <!--break;-->
-                                                <!--case 3://保险费返点-->
-                                                    <!--if(data.rebatePolicy[i].rebate_way == 1){-->
-                                                        <!--data.rebate_insurance = data.rebatePolicy[i].rebate_money;-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 2){-->
-                                                        <!--if(insurance_baseinfo > data.rebatePolicy[i].exceed_money){-->
-                                                            <!--data.rebate_insurance = (insurance_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;-->
-                                                        <!--}-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 3){-->
-                                                        <!--if(insurance_baseinfo > data.rebatePolicy[i].exceed_money){-->
-                                                            <!--data.rebate_insurance = data.rebatePolicy[i].rebate_money;-->
-                                                        <!--}-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 4){-->
-                                                        <!--data.rebate_insurance = insurance_baseinfo * data.rebatePolicy[i].rebate_money / 100;-->
-                                                    <!--}-->
-                                                    <!--break;-->
-                                                <!--case 4://服务费返点-->
-                                                    <!--if(data.rebatePolicy[i].rebate_way == 1){-->
-                                                        <!--data.rebate_service = data.rebatePolicy[i].rebate_money;-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 2){-->
-                                                        <!--if(service_baseinfo  > data.rebatePolicy[i].exceed_money){-->
-                                                            <!--data.rebate_service = (service_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;-->
-                                                        <!--}-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 3){-->
-                                                        <!--if(service_baseinfo > data.rebatePolicy[i].exceed_money){-->
-                                                            <!--data.rebate_service = data.rebatePolicy[i].rebate_money;-->
-                                                        <!--}-->
-                                                    <!--}else if(data.rebatePolicy[i].rebate_way == 4){-->
-                                                        <!--data.rebate_service = service_baseinfo * data.rebatePolicy[i].rebate_money / 100;-->
-                                                    <!--}-->
-                                                    <!--break;-->
-                                            <!--}-->
-                                        <!--}-->
-                                    <!--}-->
-                                    <!--if (data.rebate_car) {-->
-                                        <!--$('#financed_amount').html(data.rebate_car + '元');-->
-                                    <!--} else {-->
-                                        <!--$('#financed_amount').html('&#45;&#45;');-->
-                                    <!--}-->
-                                    <!--if (data.rebate_gps) {-->
-                                        <!--$('#gps_rebate').html(data.rebate_gps + '元');-->
-                                    <!--} else {-->
-                                        <!--$('#gps_rebate').html('&#45;&#45;');-->
-                                    <!--}-->
-                                    <!--if (data.rebate_service) {-->
-                                        <!--$('#rebate_service').html(data.rebate_service + '元');-->
-                                    <!--} else {-->
-                                        <!--$('#rebate_service').html('&#45;&#45;');-->
-                                    <!--}-->
-                                    <!--if (data.rebate_insurance) {-->
-                                        <!--$('#rebate_insurance').html(data.rebate_insurance + '元');-->
-                                    <!--} else {-->
-                                        <!--$('#rebate_insurance').html('&#45;&#45;');-->
-                                    <!--}-->
-							<!--} else {-->
-								<!--console.log(res.error_msg);-->
-							<!--}-->
-                        <!--}-->
-                    <!--});-->
-                <!--}-->
-                <!--var childPrivilege = t.parents(".detail_remarks").find(">.merchant_slidedown_arrow_detail");-->
-                <!--if (childPrivilege.is(":hidden")) {-->
-                    <!--childPrivilege.slideDown(300).parents(".detail_remarks").find(".merchant_slidedown_arrow").addClass("merchant_slidedown_up_arrow");-->
-                <!--} else {-->
-                    <!--childPrivilege.slideUp(300).parents(".detail_remarks").find(".merchant_slidedown_arrow").removeClass("merchant_slidedown_up_arrow");-->
-                <!--}-->
-			<!--});-->
-        <!--}-->
-
-		<!--$(function () {-->
-            <!--toHistoryList();-->
-            <!--slideDownList();-->
-
-		<!--})-->
-	<!--})(jQuery, window, undefined)-->
-<!--</script>-->
+                                                    }else if(data.rebatePolicy[i].rebate_way == 3) {
+                                                        if(gsp_baseinfo  > data.rebatePolicy[i].exceed_money) {
+                                                            data.rebate_gps = data.rebatePolicy[i].rebate_money;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                                                        data.rebate_gps = gsp_baseinfo * data.rebatePolicy[i].rebate_money  / 100;
+                                                    }
+                                                    break;
+                                                case 3://保险费返点
+                                                    if(data.rebatePolicy[i].rebate_way == 1){
+                                                        data.rebate_insurance = data.rebatePolicy[i].rebate_money;
+                                                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                                                        if(insurance_baseinfo > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_insurance = (insurance_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 3){
+                                                        if(insurance_baseinfo > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_insurance = data.rebatePolicy[i].rebate_money;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                                                        data.rebate_insurance = insurance_baseinfo * data.rebatePolicy[i].rebate_money / 100;
+                                                    }
+                                                    break;
+                                                case 4://服务费返点
+                                                    if(data.rebatePolicy[i].rebate_way == 1){
+                                                        data.rebate_service = data.rebatePolicy[i].rebate_money;
+                                                    }else if(data.rebatePolicy[i].rebate_way == 2){
+                                                        if(service_baseinfo  > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_service = (service_baseinfo - data.rebatePolicy[i].exceed_money) * data.rebatePolicy[i].rebate_money / 100;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 3){
+                                                        if(service_baseinfo > data.rebatePolicy[i].exceed_money){
+                                                            data.rebate_service = data.rebatePolicy[i].rebate_money;
+                                                        }
+                                                    }else if(data.rebatePolicy[i].rebate_way == 4){
+                                                        data.rebate_service = service_baseinfo * data.rebatePolicy[i].rebate_money / 100;
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                    if (data.rebate_car) {
+                                        $('#financed_amount').html(data.rebate_car + '元');
+                                    } else {
+                                        $('#financed_amount').html('--');
+                                    }
+                                    if (data.rebate_gps) {
+                                        $('#gps_rebate').html(data.rebate_gps + '元');
+                                    } else {
+                                        $('#gps_rebate').html('--');
+                                    }
+                                    if (data.rebate_service) {
+                                        $('#rebate_service').html(data.rebate_service + '元');
+                                    } else {
+                                        $('#rebate_service').html('--');
+                                    }
+                                    if (data.rebate_insurance) {
+                                        $('#rebate_insurance').html(data.rebate_insurance + '元');
+                                    } else {
+                                        $('#rebate_insurance').html('--');
+                                    }
+							} else {
+								console.log(res.error_msg);
+							}
+                        }
+                    });
+                }
+                var childPrivilege = $(".merchant_slidedown_arrow_detail");
+                if (childPrivilege.is(":hidden")) {
+                    childPrivilege.slideDown(300);
+                    $(".merchant_slidedown_arrow").addClass("merchant_slidedown_up_arrow");
+                } else {
+                    childPrivilege.slideUp(300);
+                    $(".merchant_slidedown_arrow").removeClass("merchant_slidedown_up_arrow");
+                }
+			});
+        }
+        $(function () {
+            slideDownList();
+        })
+</script>
