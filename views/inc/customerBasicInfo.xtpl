@@ -7,7 +7,10 @@
 					{{#if (vo.user_name) }}
 					<li class="item_row">
 						<div class="item_name">客户：</div>
-						<div class="item_value">{{vo.user_name}}</div>
+						<!--<div class="item_value">{{vo.user_name}}</div>-->
+						<div class="item_value">
+							<a href="javascript:" data-name="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="{{#if (vo.order_count > 0) }}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0)}}{{vo.order_count}}{{/if}}</em></a>
+						</div>
 					</li>
 					{{/if}}
 					{{#if (vo.business_name && vo.loan_type === 2) }}
@@ -161,15 +164,15 @@
 				</ul>
 			</div>
 		{{#if (vo.user_name) }}
-			<!--<div class="detail_remarks requestpayout_detail_remarks">-->
-				<!--<div class="requestpayout_detail_label">客户：</div>-->
-				<!--<div class="requestpayout_detail_txt">-->
-					<!--&lt;!&ndash;-->
-					<!-- -&#45;&#45; @{description} 订单总量>1时间，添加‘customer_name’类，渲染‘em’元素-->
-					<!--&ndash;&gt;-->
-					<!--<a href="javascript:" data-name="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="{{#if (vo.order_count > 0) }}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0)}}{{vo.order_count}}{{/if}}</em></a>-->
-				<!--</div>-->
-			<!--</div>-->
+			<div class="detail_remarks requestpayout_detail_remarks">
+				<div class="requestpayout_detail_label">客户：</div>
+				<div class="requestpayout_detail_txt">
+					<!--
+					 --- @{description} 订单总量>1时间，添加‘customer_name’类，渲染‘em’元素
+					-->
+					<a href="javascript:" data-name="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="{{#if (vo.order_count > 0) }}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0)}}{{vo.order_count}}{{/if}}</em></a>
+				</div>
+			</div>
 		{{/if}}
 
 		<!--给基本资料新增列  begin-->
@@ -283,34 +286,7 @@
 </div>
 <!--<script type="text/javascript">-->
 	<!--(function ($, window) {-->
-	    <!--// 跳转历史订单。-->
-	    <!--function toHistoryList() {-->
-	        <!--var btn = $('.customer_name');-->
-	        <!--var url = contextPath + markUri + '/customer/history';-->
-	        <!--btn.off('click').on('click', function () {-->
-	            <!--var _this = $(this);-->
-	            <!--var id = $.trim(_this.data('id'));-->
-                <!--var financeId = $.trim(_this.data('finance_id'));-->
-                <!--var name = $.trim(_this.data('name'));-->
-                <!--var crumbsNav = $('.crumbs_nav .first_nav');-->
-                <!--var url_first = $.trim(crumbsNav.find('a.TS').attr('href'));-->
-                <!--var navigation_first = $.trim(crumbsNav.find('a.TS').text());-->
-                <!--var url_second = $.trim(crumbsNav.siblings('.second_nav').find('a').attr('href'));-->
-                <!--var navigation_second = $.trim(crumbsNav.siblings('.second_nav').find('a').text());-->
-	            <!--locationTo({-->
-					<!--action : contextPath + url,-->
-					<!--param : {-->
-					    <!--customer_id : id,-->
-						<!--finance_id : financeId,-->
-						<!--user_name : name,-->
-                        <!--url_first : url_first,-->
-                        <!--navigation_first: navigation_first,-->
-                        <!--url_second : url_second,-->
-                        <!--navigation_second : navigation_second-->
-					<!--}-->
-				<!--})-->
-			<!--});-->
-		<!--}-->
+
 
         <!--// 申请单的展开折叠效果-->
         <!--//含有子级权限的展开折叠效果-->

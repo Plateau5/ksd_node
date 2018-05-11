@@ -22,6 +22,7 @@
             <input id="finance_download_finance_id" value="{{finance_id}}" name="finance_id" type="hidden">
             <input id="user_name" value="{{vo.user_name}}" name="user_name" type="hidden">
             <input id="material_type" value="" name="material_type" type="hidden">
+            <input id="detail_suppliered_id" value="{{vo.supplier_id}}" name="supplier_id" type="hidden">
         </form>
         <!---- 不合格通知提交表单 ---->
         <form action="{{markUri}}/customer/loan/unqualified" id="picture_reason_form" method="post">
@@ -156,7 +157,7 @@
 <div class="mask" style="display: none;"></div>
 </body>
 {{include ('./../inc/jsSources')}}
-<script src="{{markUri}}/static/js/finance/img_detail.js"></script>
+<!--<script src="{{markUri}}/static/js/finance/img_detail.js"></script>-->
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/customerService.js"></script>
 <script>
@@ -168,6 +169,7 @@
         }
     })(window, undefined);
     $(function () {
+        toHistoryList();        // 跳转历史订单。
         viewLargeImage('#img_list');       // 查看大图
         viewLargeImage('.log_item');
         searchQueryType('#query_tab .tab_item'); //详情页资料tab页切换
@@ -190,7 +192,43 @@
             $("#finance_id_picture_reason").val(finance_id);
             $("#picture_reason_form").submit();
         });
+
+        //下载
+        $(".download_file").click(function(){
+            var material_type = $(this).attr('alt');
+            $('#material_type').val(material_type);
+            $('#finance_download').submit();
+        });
     });
+
+    // 跳转历史订单。
+    function toHistoryList() {
+        var btn = $('.customer_name');
+        var url = contextPath + markUri + '/customer/history';
+        btn.off('click').on('click', function () {
+            var _this = $(this);
+            var id = $.trim(_this.data('id'));
+            var financeId = $.trim(_this.data('finance_id'));
+            var name = $.trim(_this.data('name'));
+            var crumbsNav = $('.crumbs_nav');
+            var url_first = $.trim(crumbsNav.find('a').eq(0).attr('href'));
+            var navigation_first = $.trim(crumbsNav.find('a').eq(0).text());
+            var url_second = $.trim(crumbsNav.find('a').eq(1).attr('href'));
+            var navigation_second = $.trim(crumbsNav.find('a').eq(1).text());
+            locationTo({
+                action : contextPath + url,
+                param : {
+                    customer_id : id,
+                    finance_id : financeId,
+                    user_name : name,
+                    url_first : url_first,
+                    navigation_first: navigation_first,
+                    url_second : url_second,
+                    navigation_second : navigation_second
+                }
+            })
+        });
+    }
 
 
     /*提交按钮的点击逻辑*/
