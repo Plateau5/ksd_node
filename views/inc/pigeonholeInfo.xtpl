@@ -16,78 +16,46 @@
                             <em class="pigeonhole_icon pigeonhole_icon_error"></em>
                             {{/if}}
                         </div>
-                        <div class="item_value">{{this.name}}<em class="pigeonhole_icon pigeonhole_icon_error"></em></div>
                         {{/each}}
                     </div>
                 </li>
                 {{#if (haveMaterial) }}
-                <li class="pigeonhole_item">
-                    <div class="item_name">本次提交材料：</div>
-                    {{set (marterialNames = haveMaterial.material_name.split(','))}}
-                    {{#each (marterialNames) }}
-                    <div class="item_value">{{this}}</div>
-                    {{/each}}
-                </li>
-                <li class="pigeonhole_item">
-                    <div class="item_name">交付方式：</div>
-                    <div class="item_value">
-                        {{#if (haveMaterial.deliver_way === 1) }}
-                        当面交付
-                        {{elseif (haveMaterial.deliver_way === 2) }}
-                        邮寄资料
-                        {{/if}}
-                    </div>
-                </li>
-                {{#if (haveMaterial.deliver_way === 2) }}
-                <li class="pigeonhole_item">
-                    <div class="item_name">快递公司：</div>
-                    <div class="item_value">{{haveMaterial.deliver_company}}</div>
-                </li>
-                <li class="pigeonhole_item">
-                    <div class="item_name">快递单号：</div>
-                    <div class="item_value">{{haveMaterial.deliver_no}}</div>
-                </li>
-                <li class="pigeonhole_item_history">
-                    <div class="item_name">历史快递信息：</div>
-                    <div class="item_value_box">
-                        {{#each (pig_list) }}
-                        <div class="item_value">{{this.deliver_company}}-{{deliver_no}}{{create_time}}</div>
+                    <li class="pigeonhole_item">
+                        <div class="item_name">本次提交材料：</div>
+                        {{set (marterialNames = haveMaterial.material_name.split(','))}}
+                        {{#each (marterialNames) }}
+                        <div class="item_value">{{this}}</div>
                         {{/each}}
-                    </div>
-                </li>
+                    </li>
+                    <li class="pigeonhole_item">
+                        <div class="item_name">交付方式：</div>
+                        <div class="item_value">
+                            {{#if (haveMaterial.deliver_way === 1) }}
+                            当面交付
+                            {{elseif (haveMaterial.deliver_way === 2) }}
+                            邮寄资料
+                            {{/if}}
+                        </div>
+                    </li>
+                    {{#if (haveMaterial.deliver_way === 2) }}
+                        <li class="pigeonhole_item">
+                            <div class="item_name">快递公司：</div>
+                            <div class="item_value">{{haveMaterial.deliver_company}}</div>
+                        </li>
+                        <li class="pigeonhole_item">
+                            <div class="item_name">快递单号：</div>
+                            <div class="item_value">{{haveMaterial.deliver_no}}</div>
+                        </li>
+                        <li class="pigeonhole_item_history">
+                            <div class="item_name">历史快递信息：</div>
+                            <div class="item_value_box">
+                                {{#each (pig_list) }}
+                                <div class="item_value">{{this.deliver_company}}-{{deliver_no}}{{create_time}}</div>
+                                {{/each}}
+                            </div>
+                        </li>
+                    {{/if}}
                 {{/if}}
-                {{#each (haveMaterial) }}
-                <li class="pigeonhole_item">
-                    <div class="item_name">本次提交材料：</div>
-                    <div class="item_value">{{this.material_name}}</div>
-                </li>
-                <li class="pigeonhole_item">
-                    <div class="item_name">交付方式：</div>
-                    <div class="item_value">
-                        {{#if (this.deliver_way === 1) }}
-                        当面交付
-                        {{elseif (this.deliver_way === 2) }}
-                        邮寄资料
-                        {{/if}}
-                    </div>
-                </li>
-                {{#if (this.deliver_way === 2) }}
-                <li class="pigeonhole_item">
-                    <div class="item_name">快递公司：</div>
-                    <div class="item_value">{{this.deliver_company}}</div>
-                </li>
-                <li class="pigeonhole_item">
-                    <div class="item_name">快递单号：</div>
-                    <div class="item_value">{{this.deliver_no}}</div>
-                </li>
-                <li class="pigeonhole_item_history">
-                    <div class="item_name">历史快递信息：</div>
-                    <div class="item_value_box">
-                        <div class="item_value">{{this.pig_list}}</div>
-                    </div>
-                </li>
-                {{/if}}
-                {{/each}}
             </ul>
         </div>
     </div>
