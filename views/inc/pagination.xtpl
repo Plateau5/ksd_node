@@ -23,7 +23,7 @@
                 {{set (end = totalPages) }}
                 {{#each(range(1,end+1))}}
                     {{#if(currentPage === this) }}
-                    <li class="page_item active">
+                    <li class="page_item active" currentPage="{{this}}" limit="{{limit}}">
                         <a href="javascript:">{{this}}</a>
                     </li>
                     {{/if}}
@@ -40,7 +40,7 @@
                 {{#if (currentPage <= 10) }}
                     {{#each (range(1, 11)) }}
                         {{#if (currentPage === this) }}
-                        <li class="page_item active">
+                        <li class="page_item active" currentPage="{{this}}" limit="{{limit}}">
                             <a href="javascript:">{{this}}</a>
                         </li>
                         {{/if}}
@@ -57,7 +57,7 @@
                     {{set ( begin = (totalPages - currentPage) > 9 ? currentPage : (totalPages - 9), end = (totalPages - currentPage) > 9 ? (currentPage + 9) : totalPages ) }}
                     {{#each (range(begin, end + 1)) }}
                         {{#if (currentPage === this) }}
-                            <li class="page_item active">
+                            <li class="page_item active" currentPage="{{this}}" limit="{{limit}}">
                                 <a href="javascript:">{{this}}</a>
                             </li>
                         {{/if}}
