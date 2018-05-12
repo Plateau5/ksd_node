@@ -10,7 +10,7 @@
                         {{#each (material) }}
                         <div class="item_value">
                             {{this.name}}
-                            {{#if (haveMaterial.material_ids.length > 0) }}
+                            {{#if (haveMaterial.material_ids.indexOf(this.id) !== -1) }}
                             <em class="pigeonhole_icon pigeonhole_icon_pass"></em>
                             {{else}}
                             <em class="pigeonhole_icon pigeonhole_icon_error"></em>
