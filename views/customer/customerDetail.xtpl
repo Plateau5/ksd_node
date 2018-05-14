@@ -626,5 +626,47 @@
             });
         });
     }
+    var $submitDom = $('#submit');
+    var $body = $('body');
+
+
+    function getData() {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            success: function (data) {
+
+                data = {
+                    material_ids: '3301,3304,3305',
+                    pass_material_ids: '3301,3304,3305'
+                };
+
+                if (data.material_ids === data.pass_material_ids) {
+                    $submitDom.hide();
+                }
+            },
+            fail: function () {
+
+            }
+        });
+    }
+
+    getData();
+
+
+    $submitDom.click(function() {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            success: function() {
+                location.href = contextPath + markUri + "/customer/pigeonhole/agree";
+            },
+            fail: function() {
+
+            }
+        });
+    })
 </script>
 </html>
