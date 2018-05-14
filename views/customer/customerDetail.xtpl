@@ -600,13 +600,9 @@
         var btn = $(tab_item);
         btn.off("click").on('click', function () {
             var _this = $(this);
+            $(tab_item).removeClass('active');
             _this.addClass('active');
-            if (_this.hasClass('type_normal')) {
-                _this.siblings('.type_others').removeClass('active');
-            } else {
-                _this.siblings('.type_normal').removeClass('active');
-            }
-            if( _this.parent().attr('id') == 'query_tab'){
+            if( _this.parent().attr('id') === 'query_tab'){
                 $('#query_type').val(_this.attr('data-queryType'));
             }else{
                 $('#photo_type').val(_this.attr('data-photoType'));
