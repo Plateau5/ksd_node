@@ -279,6 +279,7 @@ function selectCity (flag) {
             var select_city_ids = $('.select_city_ids');
             var citys_ids = select_city_ids.val();
             if (pro_ids && citys_ids) {
+                $('.display').removeClass('display');
                 //先选中城市
                 if (citys_ids.indexOf(',') != -1) {
                     var city_id_arr = citys_ids.split(',');
