@@ -127,6 +127,9 @@
                     hideInput.val(orderCreatorId);
                     resBox.hide();
                 });
+                $(document).bind('click',function(){
+                    resBox.hide();
+                });
             }
         }
         // 订单所属人的模糊查询功能
@@ -152,7 +155,7 @@
         function showSearchResult (res) {
             var html = [];
             if (res == undefined || res.length == 0 || res.length == undefined) {
-                return $('.search_list').html('<li class="res_item" style="text-align: center;">暂无数据</li>');
+                return $('.search_list').html('<li style="text-align: center;">暂无数据</li>');
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var str = '';
