@@ -104,16 +104,20 @@
         var resBox = $(".search_result");
         var resItem = $(".res_item");
         function fuzzySearch () {
-            btn.on('input', function () {
+            btn.off('click').on('click', function () {
                 var _this = $(this);
-                if (_this.val() == ''){
-                    resBox.hide();
-                } else{
-                    resBox.show();
-                    var queryObj = fuzzyQuery(emp_list);
-                    showSearchResult(queryObj);
-                    selectedCreate();
-                }
+                resBox.show();
+                $('.customer_search').focus();
+                $('.customer_search').on('input',function(e){
+                    var e = e || window.event;
+                    e.stopPropagation();
+                    var val = $.trim($(this).val());
+                    if (val) {
+                        var queryObj = fuzzyQuery(emp_list);
+                        showSearchResult(queryObj);
+                        selectedCreate();
+                    }
+                });
             });
 
             // 订单所属人选中逻辑
@@ -123,18 +127,16 @@
                     var createId = $.trim(_this.data('id'));
                     var createName = $.trim(_this.data('name'));
                     var orderCreatorId = $.trim(_this.data('id'));
+                    $('.customer_search').val(createName);
                     btn.val(createName);
                     hideInput.val(orderCreatorId);
-                    resBox.hide();
-                });
-                $(document).bind('click',function(){
                     resBox.hide();
                 });
             }
         }
         // 订单所属人的模糊查询功能
         function fuzzyQuery (res) {
-            var queryStr = $.trim($('#createName').val()),
+                var queryStr = $.trim($('.customer_search').val()),
                 queryArr = queryStr.split(""),
                 data = res,
                 resArr;
@@ -170,6 +172,13 @@
                 }
             }
         }
+        function delName () {
+            $('.del_icon').off('click').on('click', function () {
+                $('.customer_search').val('');
+                hideInput.val('');
+                btn.val('');
+            })
+        };
         $(function() {
             //时间筛选 2018年5月8日15:39:35
             datePicker('#filtrate_date',{
@@ -186,6 +195,7 @@
             fuzzySearch(); //模糊查询订单所属人
             toOrderDetail();
             paginationSwitch();     // 分页切换
+            delName (); // 删除订单所属人
         });
     })(jQuery,undefined);
 </script>

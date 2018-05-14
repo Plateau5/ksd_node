@@ -2854,16 +2854,6 @@ textarea{
     border:1px solid #f2f2f2;
     background:#fff;
     color:#999;
-    &:before{
-        position: absolute;
-        right: 5px;
-        top: 9px;
-        display: block;
-        content: '';
-        width: 11px;
-        height: 11px;
-        background: url(../img/manager_search_icon.png) no-repeat;
-    }
     .fuzzy_search{
         width: 100px;
         height: 24px;
@@ -2872,12 +2862,22 @@ textarea{
         border: none;
         vertical-align: inherit;
     }
+    .del_icon{
+        position: absolute;
+        right: 5px;
+        top:10px;
+        width:10px;
+        height:10px;
+        cursor: pointer;
+        background:url('/static/img/finance/close.png') center center no-repeat;
+    }
 
     .search_result{
         display:none;
         position: absolute;
         right:0;
         margin-top:10px;
+        padding:20px 0;
         background: #fff;
         border:1px solid #DCDCDC;
         -webkit-border-radius: 2px;
@@ -2887,7 +2887,7 @@ textarea{
         -moz-box-shadow: 0 4px 23px 5px rgba(83,94,106,.2), 0 2px 6px rgba(83,94,106,.15);
         box-shadow:  0 4px 23px 5px rgba(83,94,106,.2), 0 2px 6px rgba(83,94,106,.15);
         z-index:10;
-        &:after{
+        &:before{
             position: absolute;
             top: -5px;
             right: 16px;
@@ -2901,8 +2901,31 @@ textarea{
             transform: rotate(-45deg);
             -webkit-transform: rotate(-45deg);
         }
+        .search_input{
+            position: relative;
+            padding:0 20px;
+            width:200px;
+            height: 32px;
+            .customer_search{
+                width: 190px;
+                height: 24px;
+                border: 1px solid #f2f2f2;
+                padding: 0 5px;
+                vertical-align: inherit;
+            }
+            &:after{
+                position: absolute;
+                right: 28px;
+                top: 9px;
+                display: block;
+                content: '';
+                width: 11px;
+                height: 11px;
+                background: url(../img/manager_search_icon.png) no-repeat;
+            }
+        }
         .search_list{
-            padding:20px 10px;
+            padding:10px;
             min-width:200px;
             max-height:142px;
             overflow-y: scroll;
