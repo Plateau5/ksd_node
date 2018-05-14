@@ -1,5 +1,5 @@
 <!-- 归档资料 -->
-{{#if (material) }}
+{{#if (material.length !== 0) }}
 <div class="detail_box">
     <div class="classify_item">
         <div class="classify_content">
@@ -10,7 +10,7 @@
                         {{#each (material) }}
                         <div class="item_value">
                             {{this.name}}
-                            {{#if (haveMaterial.material_ids.indexOf(this.id) !== -1) }}
+                            {{#if (haveMaterial.material_ids && haveMaterial.material_ids.indexOf(this.id) !== -1) }}
                             <em class="pigeonhole_icon pigeonhole_icon_pass"></em>
                             {{else}}
                             <em class="pigeonhole_icon pigeonhole_icon_error"></em>
@@ -60,8 +60,9 @@
         </div>
     </div>
 </div>
+{{else}}
+{{include ('./../inc/empty_data')}}
 {{/if}}
-
 <!--{{#if (vo.pigeonhole_material) }}
 	<div class="img_detail_title" style="margin-top:15px;">
 		<div class="title_line"></div>
