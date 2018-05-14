@@ -842,8 +842,6 @@ exports.VIEW_CUSTOMER_LOAN_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
-            //所属商户弹出层的标签名
-            supplierDetailTag(data);
         }
     }, req, res, next);
 };
@@ -857,8 +855,6 @@ exports.VIEW_CUSTOMER_COMPACT_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
-            //所属商户弹出层的标签名
-            supplierDetailTag(data)
         }
     }, req, res, next);
 };
@@ -872,8 +868,6 @@ exports.VIEW_CUSTOMER_REQUESTPAYOUT_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
-            //所属商户弹出层的标签名
-            supplierDetailTag(data)
         }
     }, req, res, next);
 };
@@ -887,8 +881,6 @@ exports.VIEW_CUSTOMER_APPROVAL_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
-            //所属商户弹出层的标签名
-            supplierDetailTag(data)
         }
     }, req, res, next);
 };
@@ -902,8 +894,6 @@ exports.VIEW_CUSTOMER_FINANCIAL_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
-            //所属商户弹出层的标签名
-            supplierDetailTag(data)
         }
     }, req, res, next);
 };
@@ -918,8 +908,6 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DETAIL = function(req, res, next) {
         callback : function (data) {
             if (data.reqParams.query_type !== '4') {
                 data.vo.thousandRate = thousandRate(data);
-                //所属商户弹出层的标签名
-                supplierDetailTag(data)
             }
         }
     }, req, res, next);
@@ -934,8 +922,6 @@ exports.VIEW_CUSTOMER_OTHERFUND_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
-            //所属商户弹出层的标签名
-            supplierDetailTag(data)
         }
     }, req, res, next);
 };
