@@ -184,7 +184,7 @@
         requestpayoutPassed();     //请款通过按钮的点击逻辑
         affirmSubmitEvent();    //提交按钮的点击逻辑
         alreadyCashed();        //已回款点击逻辑
-
+        getData();//同意逻辑
         //发送不合格通知
         $("#picture_reason").off("click").on('click', function () {
             var finance_id = $(this).attr('lang');
@@ -621,47 +621,37 @@
             });
         });
     }
-    var $submitDom = $('#submit');
+    var $submitDom = $('#customerSubmit');
     var $body = $('body');
 
-
+//
     function getData() {
         $.ajax({
             type: 'POST',
-            url: url,
-            data: data,
+            url :contextPath + '/api/pigeonhole/getFile',
+            /*data: {finance_id:finance_id},*/
             success: function (data) {
-
-                data = {
-                    material_ids: '3301,3304,3305',
-                    pass_material_ids: '3301,3304,3305'
+                 data = {
+                    material_ids : materialIds,
+                    pass_material_ids : passMaterialIds
                 };
-
                 if (data.material_ids === data.pass_material_ids) {
                     $submitDom.hide();
                 }
-            },
-            fail: function () {
-
             }
         });
     }
 
-    getData();
-
 
     $submitDom.click(function() {
-        $.ajax({
+        /*$.ajax({
             type: 'POST',
-            url: url,
-            data: data,
+            url :contextPath + '/api/pigeonhole/getFile',
+            data: {finance_id:finance_id},
             success: function() {
                 location.href = contextPath + markUri + "/customer/pigeonhole/agree";
-            },
-            fail: function() {
-
             }
-        });
+        });*/
     })
 </script>
 </html>

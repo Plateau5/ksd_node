@@ -1,111 +1,111 @@
 <div class="detail_footer">
     <!--进件资料按钮-->
-    {{#if (startWith(markUri + '/customer' +  '/loan'))}}
+    {{#if (startWith(markUri + '/customer/loan'))}}
         {{#if (vo.status === 2) }}
-        {{#if (verifyCode(1031)) }}
-        <a href="javascript:;" class="detail_high_btn toAllot" lang="{{finance_id}}">分配任务</a>
-        {{/if}}
+            {{#if (verifyCode(1031)) }}
+            <a href="javascript:;" class="detail_high_btn toAllot" lang="{{finance_id}}">分配任务</a>
+            {{/if}}
         {{/if}}
 
         {{#if (vo.status === 3 && (vo.start_audit_time === 0 || (vo.is_docking === 1 && vo.loan_type === 1))) }}
-        {{#if (verifyCode(1161)) }}
-        <a href="javascript:;" class="detail_high_btn" id="entering" data-loan_type="{{vo.loan_type}}" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" lang="{{finance_id}}">开始录入</a>
-        {{/if}}
+            {{#if (verifyCode(1161)) }}
+            <a href="javascript:;" class="detail_high_btn" id="entering" data-loan_type="{{vo.loan_type}}" data-is_docking="{{vo.is_docking}}" data-sign_ids="{{vo.sign_ids}}" lang="{{finance_id}}">开始录入</a>
+            {{/if}}
         {{/if}}
 
         {{#if (vo.status === 3 && vo.start_audit_time !== 0) }}
-        {{#if (vo.is_docking !== 1 || vo.loan_type === 2) }}
-        {{#if (verifyCode(1032)) }}
-        <a href="javascript:;" class="detail_high_btn requestpayout_apply" id="requestpayout_apply" lang="{{finance_id}}">确认申请</a>
-        {{/if}}
-        {{/if}}
-        {{#if (verifyCode(1037)) }}
-        <a href="javascript:;" class="detail_low_btn requestpayout_apply"  alt="{{vo.user_name}}" create_name="{{vo.create_name}}" id="picture_reason" lang="{{finance_id}}">发送不合格通知</a>
-        {{/if}}
+            {{#if (vo.is_docking !== 1 || vo.loan_type === 2) }}
+                {{#if (verifyCode(1032)) }}
+                <a href="javascript:;" class="detail_high_btn requestpayout_apply" id="requestpayout_apply" lang="{{finance_id}}">确认申请</a>
+                {{/if}}
+            {{/if}}
+            {{#if (verifyCode(1037)) }}
+            <a href="javascript:;" class="detail_low_btn requestpayout_apply"  alt="{{vo.user_name}}" create_name="{{vo.create_name}}" id="picture_reason" lang="{{finance_id}}">发送不合格通知</a>
+            {{/if}}
         {{/if}}
 
         {{#if (vo.status === 4) }}
-        {{#if (verifyCode(1236)) }}
-        <a href="javascript:;" class="detail_high_btn" id="sendAuditResult" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/notifyResult" lang="{{finance_id}}">通知审核结果</a>
-        {{/if}}
+            {{#if (verifyCode(1236)) }}
+            <a href="javascript:;" class="detail_high_btn" id="sendAuditResult" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/notifyResult" lang="{{finance_id}}">通知审核结果</a>
+            {{/if}}
         {{/if}}
 
         {{#if (startWith(markUri + '/customer/loan/detail')) }}
-        {{#if (vo.status >= 4 && vo.is_docking === 1) }}
-        {{#if (verifyCode(1161))}}
-        <a href="javascript:;" class="detail_high_btn" id="viewDockingPADetail" data-id="{{finance_id}}" data-url="{{markUri}}/docking/pingan/detailHome" lang="{{finance_id}}">查看详情</a>
-        {{/if}}
-        {{/if}}
+            {{#if (vo.status >= 4 && vo.is_docking === 1) }}
+                {{#if (verifyCode(1161))}}
+                <a href="javascript:;" class="detail_high_btn" id="viewDockingPADetail" data-id="{{finance_id}}" data-url="{{markUri}}/docking/pingan/detailHome" lang="{{finance_id}}">查看详情</a>
+                {{/if}}
+            {{/if}}
         {{/if}}
     {{/if}}
 
     <!--合同资料按钮-->
-    {{#if (startWith(markUri + '/customer' +  '/compact'))}}
+    {{#if (startWith(markUri + '/customer/compact'))}}
         {{#if (url === markUri + '/customer/compact/pendingPass') }}
-        {{#if (verifyCode(1265)) }}
-        <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-advance_id="{{vo.advance_id}}">同意</a>
-        {{/if}}
-        {{#if (verifyCode(1264)) }}
-        <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
-        {{/if}}
+            {{#if (verifyCode(1265)) }}
+            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-advance_id="{{vo.advance_id}}">同意</a>
+            {{/if}}
+            {{#if (verifyCode(1264)) }}
+            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
+            {{/if}}
         {{/if}}
     {{/if}}
 
     <!--请款管理按钮-->
-    {{#if (startWith(markUri + '/customer' +  '/requestpayout'))}}
+    {{#if (startWith(markUri + '/customer/requestpayout'))}}
         {{#if (vo.receipt_id === 1) }}
             {{#if (url === markUri + '/customer/requestpayout/pendingAudit' && vo.advance_status === 10 && vo.present_id === present_id) }}
-            {{#if (verifyCode(1115)) }}
-            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/agree" data-advance_id="{{vo.advance_id}}">同意</a>
-            {{/if}}
-            {{#if (verifyCode(1116)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=2" data-advance_id="{{vo.advance_id}}">不同意</a>
-            {{/if}}
-            {{#if (verifyCode(1184)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
-            {{/if}}
+                {{#if (verifyCode(1115)) }}
+                <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/agree" data-advance_id="{{vo.advance_id}}">同意</a>
+                {{/if}}
+                {{#if (verifyCode(1116)) }}
+                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=2" data-advance_id="{{vo.advance_id}}">不同意</a>
+                {{/if}}
+                {{#if (verifyCode(1184)) }}
+                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
+                {{/if}}
             {{/if}}
 
             {{#if (url === markUri + '/customer/requestpayout/pendingAudit' || ((vo.risk_type === 1 || vo.risk_type === 2) && vo.already_request === 0 && url === '/customer/requestpayout/pass')) }}
-            {{#if (verifyCode(1187)) }}
-            <a href="javascript:;" class="detail_low_btn complement_datum" data-advance_id="{{vo.advance_id}}" lang="{{finance_id}}">补全资料</a>
-            {{/if}}
+                {{#if (verifyCode(1187)) }}
+                <a href="javascript:;" class="detail_low_btn complement_datum" data-advance_id="{{vo.advance_id}}" lang="{{finance_id}}">补全资料</a>
+                {{/if}}
             {{/if}}
 
             {{#if (url === markUri +  '/customer/requestpayout/pendingDispose') }}
-            {{#if (verifyCode(1220)) }}
-            <a href="javascript:;" class="detail_high_btn affirm_submit_thirdparty" lang="{{finance_id}}" type="1" data-advance_id="{{vo.advance_id}}">确认提交</a>
-            {{/if}}
-            {{#if (verifyCode(1116)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=1" data-advance_id="{{vo.advance_id}}">不同意</a>
-            {{/if}}
+                {{#if (verifyCode(1220)) }}
+                <a href="javascript:;" class="detail_high_btn affirm_submit_thirdparty" lang="{{finance_id}}" type="1" data-advance_id="{{vo.advance_id}}">确认提交</a>
+                {{/if}}
+                {{#if (verifyCode(1116)) }}
+                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=1" data-advance_id="{{vo.advance_id}}">不同意</a>
+                {{/if}}
             {{/if}}
 
             {{#if (url ===  markUri + '/customer/requestpayout/pass' && vo.already_request === 0) }}
-            {{#if (verifyCode(1220)) }}
-            <a href="javascript:;" class="detail_high_btn affirm_submit_thirdparty" lang="{{finance_id}}" type="2" data-advance_id="{{vo.advance_id}}">确认请款</a>
-            {{/if}}
+                {{#if (verifyCode(1220)) }}
+                <a href="javascript:;" class="detail_high_btn affirm_submit_thirdparty" lang="{{finance_id}}" type="2" data-advance_id="{{vo.advance_id}}">确认请款</a>
+                {{/if}}
             {{/if}}
 
             {{#if (url ===  markUri + '/customer/requestpayout/pendingPass' && vo.risk_type === 3 && vo.is_OperationCommit === 0) }}
-            {{#if (verifyCode(1212)) }}
-            <a href="javascript:;" class="detail_high_btn requestpayout_passed" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">请款通过</a>
-            {{/if}}
+                {{#if (verifyCode(1212)) }}
+                <a href="javascript:;" class="detail_high_btn requestpayout_passed" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">请款通过</a>
+                {{/if}}
             {{/if}}
         {{/if}}
     {{/if}}
 
     <!--审批管理按钮-->
-    {{#if (startWith(markUri + '/customer' +  '/approval'))}}
+    {{#if (startWith(markUri + '/customer/approval'))}}
         {{#if (vo.present_id === present_id && vo.receipt_id === 1) }}
             {{#if (vo.risk_type === 3 && vo.is_OperationCommit === 0) }}
-            {{#if (verifyCode(1221)) }}
-            <a href="javascript:;" class="detail_high_btn affirm_submit_event" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">确认提交</a>
-            {{/if}}
+                {{#if (verifyCode(1221)) }}
+                <a href="javascript:;" class="detail_high_btn affirm_submit_event" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">确认提交</a>
+                {{/if}}
             {{else}}
-            {{#if (verifyCode(1169)) }}
-            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/agree" data-advance_id="{{vo.advance_id}}">同意</a>
-            {{/if}}
+                {{#if (verifyCode(1169)) }}
+                <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/agree" data-advance_id="{{vo.advance_id}}">同意</a>
+                {{/if}}
             {{/if}}
             {{#if (verifyCode(1185)) }}
             <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
@@ -117,7 +117,7 @@
     {{/if}}
 
     <!--回款管理按钮-->
-    {{#if (startWith(markUri + '/customer' +  '/financial'))}}
+    {{#if (startWith(markUri + '/customer/financial'))}}
         <!--{{#if (url === markUri + '/customer/financial/pendingAudit' && vo.present_id === present_id && vo.receipt_id === 1) }}-->
             <!--{{#if (verifyCode(1186)) }}-->
             <!--<a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/financial/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>-->
@@ -131,9 +131,9 @@
         <!--{{/if}}-->
 
         {{#if (url ===  markUri + '/customer/financial/pendingReturn' && vo.status === 11) }}
-        {{#if (verifyCode(1158)) }}
-        <a href="javascript:;" class="detail_high_btn affirm_return_money" lang="{{finance_id}}" alt="2" data-advance_id="{{vo.advance_id}}">确认回款</a>
-        {{/if}}
+            {{#if (verifyCode(1158)) }}
+            <a href="javascript:;" class="detail_high_btn affirm_return_money" lang="{{finance_id}}" alt="2" data-advance_id="{{vo.advance_id}}">确认回款</a>
+            {{/if}}
         {{/if}}
 
         <!--{{#if (url ===  markUri + '/customer/financial/pendingReturn' && vo.receipt_id === 1 && vo.risk_type === 3 && vo.is_OperationCommit === 0) }}-->
@@ -143,16 +143,16 @@
         <!--{{/if}}-->
     {{/if}}
     <!--归档管理按钮-->
-    {{#if (startWith(markUri + '/customer' +  '/pigeonhole'))}}
+    {{#if (startWith(markUri + '/customer/pigeonhole'))}}
         {{#if (haveMaterial.material_ids.length > 0)}}
             {{#if (verifyCode(1513)) }}
-            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/agree" data-advance_id="{{vo.advance_id}}" id="submit">同意</a>
+            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/agree" data-advance_id="{{vo.advance_id}}" id="customerSubmit">同意</a>
             <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/disagree" data-advance_id="{{vo.advance_id}}" id="customerCancel">不同意</a>
             {{/if}}
         {{/if}}
     {{/if}}
     <!--其他款项按钮-->
-    {{#if (startWith(markUri + '/customer' +  '/otherfund'))}}
+    {{#if (startWith(markUri + '/customer/otherfund'))}}
         {{#if (url === markUri + '/customer/otherfund/pendingAudit' && vo.present_id === present_id  && vo.receipt_id !== 1) }}
             {{#if (verifyCode(1340)) }}
             <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/otherfund/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
@@ -165,7 +165,4 @@
             {{/if}}
         {{/if}}
     {{/if}}
-
-
-
 </div>
