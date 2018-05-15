@@ -5,7 +5,7 @@ $(function(){
         $(this).find("span").css("color","#fff");
     },function(){
         $(this).css("background","#F5F5F5");
-        $(this).find("span").css("color","#535E6A");
+        $(this).find("span").css("color","#333");
     });
 
     //未通过原因查看

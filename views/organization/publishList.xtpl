@@ -4,13 +4,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>快收单</title>
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
-    <title>快收单</title>
-    <style>
-        .dialog-layer .dialog-btn{margin-top: 20px;}
-    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -35,6 +32,8 @@
                 <form action="{{markUri}}/supplier/organization/publishedProducts" method="post" id="form_search" role='form'>
                     <input type="hidden" id="parent_id" name="parent_id" value="{{parent_id}}">
                     <input type="hidden" id="parent_name" name="parent_name" value="{{parent_name}}">
+                    <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
+                    <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
                     <div class="filtrate_item date_conditions">
                         <div class="inline_block">
                             <div class="conditions_name inline_block filtrate_business">适用业务：</div>
@@ -91,7 +90,6 @@
                 </div>
             </div>
             <!-- 产品操作按钮 End -->
-            {{#if (count >0) }}
                 <form action="{{markUri}}/supplier/organization/productMaterial" method="post" id="toProductEdit">
                     <input type="hidden" name="product_id" value="" id="product_edit_input">
                     <table class="org_product_list">
@@ -114,15 +112,22 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{#each (list) }}
+                        {{#if (count === 0) }}
+                            <tr>
+                                <td colspan="6" class="no_hover">
+                                    {{include('./../inc/empty_data')}}
+                                </td>
+                            </tr>
+                        {{else}}
+                            {{#each (list) }}
                             <tr>
                                 <td title="{{this.name}}">{{this.name}}</td>
                                 <td>
                                     {{#if (this.downpayment_type === 1) }}
-                                        {{this.downpayment_rate }}%
+                                    {{this.downpayment_rate }}%
                                     {{/if}}
                                     {{#if (this.downpayment_type === 2) }}
-                                        {{this.downpayment_money }}元
+                                    {{this.downpayment_money }}元
                                     {{/if}}
                                 </td>
                                 <td>{{this.interest_rate}}%</td>
@@ -130,27 +135,23 @@
                                 <td>{{this.pass_rate }}%</td>
                                 <td class="operate_btn">
                                     {{#if (root.verifyCode(1079)) }}
-                                        <a href="javascript:;" lang="{{this.id }}" data_num="0" title="查看" class="view view_detail"></a>
+                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="查看" class="view view_detail"></a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1087)) }}
-                                        <a href="javascript:;" lang="{{this.id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
+                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
                                     {{/if}}
-                                    {{#if (root.verifyCode(1193)) }}
-                                        <a href="javascript:;" lang="{{this.id }}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
-                                    {{/if}}
+                                    <!-- {{#if (root.verifyCode(1193)) }}
+                                         <a href="javascript:;" lang="{{this.id }}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
+                                     {{/if}}-->
                                 </td>
                             </tr>
-                        {{/each}}
+                            {{/each}}
+                        {{/if}}
                         </tbody>
                     </table>
                 </form>
-            {{/if}}
-            {{#if (count === 0) }}
-                {{include('./../inc/empty_data')}}
-            {{/if}}
-            <div class="page_box">
-                {{include('./../inc/pagination')}}
-            </div>
+
+            {{include('./../inc/paginations')}}
         </div>
         <!---- Part of Main info End ---->
     </div>
@@ -162,7 +163,6 @@
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
-<script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
@@ -180,7 +180,7 @@
                         parent_id : parentId
                     }
                 });
-            })
+            });
         }
 
         //仓库中的产品
@@ -225,7 +225,8 @@
                     action : contextPath + markUri + "/supplier/organization/productDetail",
                     param : {
                         id : productId,
-                        data_num : data_num
+                        data_num : data_num,
+                        page_flag : 1
                     }
                 });
             })
@@ -241,62 +242,63 @@
                 //var data_num = $.trim(t.attr("data_num"));
                 data.id = productId;
                 dialog("open", {
-                    title : "下架原因",
+                    title: "下架原因",
                     content: 'textarea',
-                    errorMsg : "请先填写下架原因",
-                    textarea : {
-                        show : true,
-                        name : 'unShelve_reason',
-                        placeholder : '请输入下架该产品的原因',
-                        height : 80 ,
-                        maxlength : 200
+                    errorMsg: "请先填写下架原因",
+                    textarea: {
+                        show: true,
+                        name: 'unShelve_reason',
+                        placeholder: '请输入下架该产品的原因',
+                        height: 80,
+                        maxlength: 200
                     },
-                    onConfirm : function (d) {
-                        onConfirmEvent(d, data);
+                    onConfirm: function (d) {
+                        onConfirmEvent(d, data, url);
                     }
                 });
             });
+        }
 
-            function onConfirmEvent (d, reqData) {
-                //d.close();
-                var unShelveReason = $("#dialog-layer #dialog-layer-textarea").val();
-                if (unShelveReason == '' || unShelveReason == undefined || unShelveReason == null) {
-                    $("#dialog-layer #errorMsg").show();
-                    dialogTextareaInput();
-                } else {
-                    var reason = $("#dialog-layer #dialog-layer-textarea").val();
-                    reqData.unShelve_reason = reason;
-                    d.close();
-                    $ajax('post', url, reqData, function (res) {
-                        if (res.error_code == 0) {
-                            $alert("产品下架成功", function () {
-                                window.location.reload();
-                            })
-                        } else {
-                            $alert("产品下架失败", function () {
-                                window.location.reload();
-                            })
-                        }
-                    });
-                }
-
-            }
-
-            //注册弹出层文本域的输入监听
-            function dialogTextareaInput () {
-                var target = $("#dialog-layer #dialog-layer-textarea");
-                target.off("input").on("input", function () {
-                    var $this = $(this);
-                    var val = $this.val();
-                    if (val != '') {
-                        $("#dialog-layer #errorMsg").hide();
+        function onConfirmEvent (d, reqData, url) {
+            //d.close();
+            var unShelveReason = $("#dialog-layer #dialog-layer-textarea").val();
+            if (unShelveReason == '' || unShelveReason == undefined || unShelveReason == null) {
+                $("#dialog-layer #errorMsg").show();
+                dialogTextareaInput();
+            } else {
+                var reason = $("#dialog-layer #dialog-layer-textarea").val();
+                reqData.unShelve_reason = reason;
+                d.close();
+                $ajax('post', url, reqData, function (res) {
+                    if (res.error_code == 0) {
+                        $alert("产品下架成功", function () {
+                            window.location.reload();
+                        })
                     } else {
-                        $("#dialog-layer #errorMsg").show();
+                        $alert("产品下架失败", function () {
+                            window.location.reload();
+                        })
                     }
                 });
             }
+
+        }
+
+        //注册弹出层文本域的输入监听
+        function dialogTextareaInput () {
+            var target = $("#dialog-layer #dialog-layer-textarea");
+            target.off("input").on("input", function () {
+                var $this = $(this);
+                var val = $this.val();
+                if (val != '') {
+                    $("#dialog-layer #errorMsg").hide();
+                } else {
+                    $("#dialog-layer #errorMsg").show();
+                }
+            });
         }
         $(function() {
+            paginationSwitch();// 分页切换
             selectChange();
             editProductsMaterial();
             viewProductDetail();

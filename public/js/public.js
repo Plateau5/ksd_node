@@ -2244,6 +2244,7 @@ function paginationSwitch () {
     var btn = $('.page .page-item');
     btn.off('click').on('click', function () {
         var _this = $(this);
+        _this.off('click');
         var form = $('form[role="form"]');
         var currentPage = _this.data('currentpage');
         var nextPage = null;

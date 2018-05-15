@@ -54,7 +54,7 @@
                                 <span class="business_type">适用业务：{{this.applyto_business_value}}</span>
                                 <span class="products_count rf">产品数：{{this.product_count}}个</span>
                             </div>
-                            <div class="org_mask" alt="{{this.name }}" data-name="{{this.name}}" lang="{{this.id }}"  data-business="{{this.applyto_business}}">
+                            <div class="org_mask" alt="{{this.name }}" data-name="{{this.name}}" lang="{{this.id }}" data-business="{{this.applyto_business}}">
                                 {{#if (root.verifyCode(1071)) }}
                                     <a href="javascript:;" title="查看" alt="{{this.name}}" lang="{{this.id}}" class="view_org icon_btn inline_block"></a>
                                 {{/if}}
@@ -142,11 +142,12 @@
         function goOrgDetail () {
             var btn = $(".org_mask .view_org");
             btn.off("click").on("click", function () {
-                var href = $.trim($(this).parents('.org_mask').attr("lang"));
+                var organization_id = $.trim($(this).parents('.org_mask').attr("lang"));
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/detail',
                     param : {
-                        id : href
+                        organization_id : organization_id,
+                        material_type : 0
                     }
                 });
             })

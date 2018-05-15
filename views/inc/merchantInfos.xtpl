@@ -1,0 +1,42 @@
+
+
+<div class="header_left">
+    <div class="header_left_img">
+        <img src="{{vo.image_url}}" alt="">
+    </div>
+    <div class="header_txt">
+        <div class="header_txt_name">
+            <div class="header_txt_top">{{vo.name}}</div>
+            <div class="header_txt_bottom">
+                <input type="hidden" value="{{vo.applyto_business}}" id="supplier_car_type">
+                {{#if (vo.product_applyto_business !== '') }}
+                    {{#if (vo.product_applyto_business === 0) }}
+                        <div class="header_txt_bottom1">新车</div>
+                    {{elseif (vo.product_applyto_business === 1) }}
+                        <div class="header_txt_bottom2">二手车</div>
+                    {{/if}}
+                {{else}}
+                    {{#if (vo.applyto_business.indexOf('0') !== -1) }}
+                    <div class="header_txt_bottom1">新车</div>
+                    {{/if}}
+                    {{#if (vo.applyto_business.indexOf('1') !== -1) }}
+                    <div class="header_txt_bottom2">二手车</div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="header_right org_create_info">
+            <div class="header_personal">
+                <span>创建人：</span>
+                <span>{{vo.create_name}}</span>
+            </div>
+        </div>
+        <div class="header_right org_create_info">
+            <div class="header_time">
+                <span>创建时间：</span>
+                <span>{{vo.create_time}}</span>
+            </div>
+        </div>
+    </div>
+</div>

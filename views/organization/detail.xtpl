@@ -3,180 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <title>机构详情</title>
-    {{include ("./../inc/metaData")}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
+    {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/organization/detail.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
 </head>
-<style>
-    .org_create_info{
-        height: 30px;
-        line-height: 30px;
-    }
-    .edit_org{
-        top: 45px;
-    }
-</style>
+
 <body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
 
-<!--header start-->
-{{include ('./../inc/header')}}
-<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
-<!--header end-->
-
-<!--container start-->
-
-<div class="container minWidth">
-    <div class="row section">
-        <!--navLeft start-->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
-        <!--navLeft end-->
+        <!---- Part of slide nav End ---->
 
-
-        <!--inviteCon start-->
-
-        <div class="listCon">
-            <div class="inviteCon">
-                <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/supplier/organization/system">机构管理</a></li>
-                    <li class="inline before"><a href="javascript:;">{{vo.name}}</a></li>
-                </ul>
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
+                <a href="javascript:;" class="crumbs_item">{{vo.name}}</a>
             </div>
-            <!--form start-->
-            <div class="col-sm-12 col-md-12 col-lg-12" style="padding:0;margin-bottom:80px;">
-                <div class="product_detail_header">
-                    <div class="header_left">
-                        <div class="header_left_img">
-                            <img src="{{vo.image_url}}" alt="">
-                        </div>
-                        <div class="header_txt">
+            <div class="product_detail_header">
+
+                <div class="header_left">
+                    <div class="header_left_img">
+                        <img src="{{vo.image_url}}" alt="">
+                    </div>
+                    <div class="header_txt">
+                        <div class="header_txt_name">
                             <div class="header_txt_top">{{vo.name}}</div>
                             <div class="header_txt_bottom">
+                                <input type="hidden" value="{{vo.applyto_business}}" id="supplier_car_type">
                                 {{#if (vo.applyto_business.indexOf('0') !== -1) }}
-                                    <div class="header_txt_bottom1">新车</div>
+                                <div class="header_txt_bottom1">新车</div>
                                 {{/if}}
                                 {{#if (vo.applyto_business.indexOf('1') !== -1) }}
-                                    <div class="header_txt_bottom2">二手车</div>
+                                <div class="header_txt_bottom2">二手车</div>
                                 {{/if}}
                             </div>
                         </div>
-                    </div>
-                    <div class="header_right org_create_info">
-                        <div class="header_time">{{vo.create_time}}</div>
-                        <div class="header_personal">
-                            创建人：<span>{{vo.create_name}}</span>
+
+                        <div class="header_right org_create_info">
+                            <div class="header_personal">
+                                <span>创建人：</span>
+                                <span>{{vo.create_name}}</span>
+                            </div>
+                        </div>
+                        <div class="header_right org_create_info">
+                            <div class="header_time">
+                                <span>创建时间：</span>
+                                <span>{{vo.create_time}}</span>
+                            </div>
                         </div>
                     </div>
-                    {{#if (verifyCode(1070)) }}
-                        <div class="inviteP cursor inline edit_org" id="editOrg" lang="{{vo.id}}">
-                            <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/edit_white_icon.png" alt="">
-                            <span>编辑机构</span>
+                </div>
+               <!-- {{include ('./../inc/merchantInfos')}}-->
+                {{#if (verifyCode(1073)) }}
+                <div class="inviteP cursor inline delete_org delete_agency" id="delete_org" lang="{{vo.id}}">
+                    <img  style="margin-right:5px;margin-top:-2px;vertical-align: middle;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
+                    <span>删除机构</span>
+                </div>
+                {{/if}}
+            </div>
+            <div class="tab">
+                <ul class="tab_list inline_block">
+                    <li class="tab_item type_normal {{#if (material_type === 0) }}active{{/if}}" data-type="0" {{#if (material_type === 0) }}style="border-left:0px;"{{/if}}><span></span>基本信息</li>
+                    <li class="tab_item type_others {{#if (material_type === 1) }}active{{/if}}" data-type="1"><span></span>进件资料</li>
+                    <li class="tab_item type_others {{#if (material_type === 2) }}active{{/if}}" data-type="2"><span></span>请款资料</li>
+                    <li class="tab_item type_others {{#if (material_type === 3) }}active{{/if}}" data-type="3"><span></span>归档资料</li>
+                </ul>
+            </div>
+            <form action="{{markUri}}/supplier/organization/detail" method="POST" id="form_search" role="form">
+                <input type="hidden" name="organization_id" value="{{vo.id}}">
+                <input type="hidden" name="material_type" value="{{material_type}}" id="flow_type">
+            </form>
+            <div class="product_detail_box">
+                <div class="rf_30">
+                    {{#if (material_type === 0) }}
+                        <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
+                    {{else}}
+                        {{#if (data_flag !== '' || data_flag.indexOf(',') !== -1) }}
+                            <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
+                        {{/if}}
+                    {{/if}}
+                </div>
+                <!--基本资料 start-->
+                {{#if (material_type === 0) }}
+                <div class="detail_about" style="display:block">
+                {{else}}
+                <div class="detail_about" style="display:none">
+                    {{/if}}
+                    {{#if (vo.type !== 0) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">机构类别：</div>
+                        <div class="detail_about_date">
+                            {{#if (vo.type === 1) }}融资租赁{{/if}}
+                            {{#if (vo.type === 2) }}银行{{/if}}
+                            {{#if (vo.type === 3) }}信托{{/if}}
+                            {{#if (vo.type === 4) }}汽车金融{{/if}}
+                            {{#if (vo.type === 5) }}担保公司{{/if}}
                         </div>
+                    </div>
+                    {{/if}}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">产品数量：</div>
+                        <div class="detail_about_date">{{vo.product_count}}</div>
+                    </div>
+                    {{#if (vo.system_url !== '') }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">系统地址：</div>
+                        <div class="detail_about_date">
+                            <a href="{{vo.system_url}}" target="_blank" style="color:#72ACE3;">{{vo.system_url}}</a>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.age_start && vo.age_end) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">年龄限制：</div>
+                        <div class="detail_about_date">
+                            {{vo.age_start}}-{{vo.age_end}}岁
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.carage_start && vo.carage_end) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">车龄限制：</div>
+                        <div class="detail_about_date">
+                            {{vo.carage_start}}-{{vo.carage_end}}年
+                        </div>
+                    </div>
+                    {{elseif (vo.carage_start === 0 && vo.carage_end === 0) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">车龄限制：</div>
+                        <div class="detail_about_date">
+                            1-9年
+                        </div>
+                    </div>
                     {{/if}}
 
-                    {{#if (verifyCode(1073)) }}
-                    <div class="inviteP cursor inline delete_org delete_agency" id="delete_org" lang="{{vo.id}}">
-                        <img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
-                        <span>删除机构</span>
+                    {{#if (vo.approve_speed === 0) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">审批速度：</div>
+                        <div class="detail_about_date">
+                            1-20分钟
+                        </div>
+                    </div>
+                    {{elseif (vo.approve_speed !== '') }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">审批速度：</div>
+                        <div class="detail_about_date">
+                            {{vo.approve_speed_value}}
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    {{#if (vo.outsettling_province_name !== null && vo.outsettling_province_name !== '' && vo.outsettling_province_name) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">可抵押省市：</div>
+                        <div class="detail_about_date">
+                            {{vo.outsettling_province_name }}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.borrower_credit !== null && vo.borrower_credit !== '' && vo.borrower_credit) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">主贷人征信：</div>
+                        <div class="detail_about_date">
+                            {{#if (vo.borrower_credit === 1 ) }}
+                            需要
+                            {{elseif (vo.borrower_credit === 2 ) }}
+                            不需要
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.spouse_credit !== null && vo.spouse_credit !== '' && vo.spouse_credit) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">配偶征信：</div>
+                        <div class="detail_about_date">
+                            {{#if (vo.spouse_credit === 1 ) }}
+                            需要
+                            {{elseif (vo.spouse_credit === 2 ) }}
+                            不需要
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.bei_hu !== null && vo.bei_hu !== '' && vo.bei_hu) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">背户情况：</div>
+                        <div class="detail_about_date">
+                            {{#if (vo.bei_hu === 1 ) }}
+                            可以
+                            {{elseif (vo.bei_hu === 2 ) }}
+                            不可以
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.specialstr !== null && vo.specialstr !== '' && vo.specialstr) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">机构特点：</div>
+                        <div class="detail_about_date">
+                            {{vo.specialstr}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.addition_financestr !== null && vo.addition_financestr !== '' && vo.addition_financestr) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">附加可融项目：</div>
+                        <div class="detail_about_date">
+                            {{vo.addition_financestr}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.addition_finance_explain !== null && vo.addition_finance_explain !== '' && vo.addition_finance_explain) }}
+                    <div class="detail_about_txt" style="height:auto;">
+                        <div class="detail_about_label" style="vertical-align: top;">附加可融项目说明：</div>
+                        <div class="detail_about_date" style="line-height: 20px;padding-top:12px;">
+                            {{vo.addition_finance_explain }}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.credit !== null && vo.credit !== '' && vo.credit) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">征信尺度：</div>
+                        <div class="detail_about_date">
+                            {{#if (vo.credit === 1 ) }}
+                            宽松
+                            {{elseif (vo.credit === 2 ) }}
+                            适中
+                            {{elseif (vo.credit === 3 ) }}
+                            严格
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.electricity !== null && vo.electricity !== '' && vo.electricity) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">电核尺度：</div>
+                        <div class="detail_about_date">
+                            {{#if (vo.electricity === 1 ) }}
+                            宽松
+                            {{elseif (vo.electricity === 2 ) }}
+                            适中
+                            {{elseif (vo.electricity === 3 ) }}
+                            严格
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.bigdata_review !== null && vo.bigdata_review !== '' && vo.bigdata_review) }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">大数据审查：</div>
+                        <div class="detail_about_date">
+                            {{#if (vo.bigdata_review === 1 ) }}
+                            宽松
+                            {{elseif (vo.bigdata_review === 2 ) }}
+                            适中
+                            {{elseif (vo.bigdata_review === 3 ) }}
+                            严格
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+
+
+
+                    {{#if (vo.mobile !== null && vo.mobile !== '') }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">官方电话：</div>
+                        <div class="detail_about_date">
+                            {{vo.mobile }}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.link_name !== null && vo.link_name !== '')}}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">联系人：</div>
+                        <div class="detail_about_date">
+                            {{vo.link_name }}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.link_phone !== null && vo.link_phone !== '') }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">联系人手机：</div>
+                        <div class="detail_about_date">
+                            {{vo.link_phone }}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if (vo.link_mobile !== null && vo.link_mobile !== '') }}
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">联系人座机：</div>
+                        <div class="detail_about_date">{{vo.link_mobile }}</div>
                     </div>
                     {{/if}}
                 </div>
-                <div class="product_detail_box">
-                    <div class="detail_title">
-                        <div class="detail_line"></div>
-                        <div class="detail_title_txt">机构信息</div>
-                    </div>
-                    <div class="detail_about">
-                        {{#if (vo.type !== null) }}
-                            <div class="detail_about_txt">
-                                <div class="detail_about_label">机构类别：</div>
-                                <div class="detail_about_date">
-                                    {{#if (vo.type === 1) }}融资租赁{{/if}}
-                                    {{#if (vo.type === 2) }}银行{{/if}}
-                                    {{#if (vo.type === 3) }}信托{{/if}}
-                                    {{#if (vo.type === 4) }}汽车金融{{/if}}
-                                    {{#if (vo.type === 5) }}担保公司{{/if}}
-                                </div>
-                            </div>
-                        {{/if}}
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">产品数量：</div>
-                            <div class="detail_about_date">{{vo.product_count}}</div>
-                        </div>
+                <!--基本资料 end-->
 
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">系统地址：</div>
-                            <div class="detail_about_date">
-                                {{#if (!vo.system_url && vo.system_url !== 0) }}
-                                --
-                                {{else}}
-                                    <a href="{{vo.system_url}}" target="_blank" style="color:#72ACE3;">{{vo.system_url}}</a>
+                {{#if (material_type === 1 || material_type === 2 || material_type === 3 ) }}
+                <div class="detail_about" style="display:block">
+                {{else}}
+                <div class="detail_about" style="display:none">
+                {{/if}}
+                    {{#if (data_flag !== '') }}
+                        {{#if (data_flag.indexOf('1') !== -1) }}
+                            <div class="detail_about_txt">
+                                <div class="detail_about_label supplier_cartype">新车</div>
+                            </div>
+                            {{#each(list) }}
+                                {{#if(this.car_type === 0) }}
+                                    {{#if (this.material_name) }}
+                                        <div class="detail_about_txt">
+                                            <div class="detail_about_label" style="width: auto;">{{this.type_value}}：</div>
+                                            <div class="detail_about_date">{{this.material_name}}</div>
+                                        </div>
+                                    {{/if}}
                                 {{/if}}
-                            </div>
-                        </div>
-                        {{#if (vo.mobile !== null && vo.mobile !== '') }}
+                            {{/each}}
+                        {{/if}}
+                        {{#if (data_flag.indexOf('2') !== -1) }}
                             <div class="detail_about_txt">
-                                <div class="detail_about_label">官方电话：</div>
-                                <div class="detail_about_date">
-                                    {{vo.mobile }}
+                                <div class="detail_about_label supplier_cartype">二手车</div>
+                            </div>
+                            {{#each(list) }}
+                                {{#if(this.car_type === 1) }}
+                                    {{#if (this.material_name) }}
+                                        <div class="detail_about_txt">
+                                            <div class="detail_about_label" style="width: auto;">{{this.type_value}}：</div>
+                                            <div class="detail_about_date">{{this.material_name}}</div>
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+                    {{else}}
+                        <ul class="todo_list">
+                            <li class="no_list_data">
+                                <div class="toast_img"></div>
+                                <div class="toast_text">目前暂无数据......</div>
+                                <div class="toast_btn">
+                                    <a href="javascript:;" id="editOrg_jump" class="btn orange_btn confirm edit_confirm edit_btn" lang="{{vo.id}}" style="border-radius: 3px;"><em></em>编辑</a>
                                 </div>
-                            </div>
-                        {{/if}}
-                        {{#if (vo.link_name !== null && vo.link_name !== '')}}
-                            <div class="detail_about_txt">
-                                <div class="detail_about_label">联系人：</div>
-                                <div class="detail_about_date">
-                                    {{vo.link_name }}
-                                </div>
-                            </div>
-                        {{/if}}
-                        {{#if (vo.link_phone !== null && vo.link_phone !== '') }}
-                            <div class="detail_about_txt">
-                                <div class="detail_about_label">联系人手机：</div>
-                                <div class="detail_about_date">
-                                    {{vo.link_phone }}
-                                </div>
-                            </div>
-                        {{/if}}
-                        {{#if (vo.link_mobile !== null && vo.link_mobile !== '') }}
-                            <div class="detail_about_txt">
-                                <div class="detail_about_label">联系人座机：</div>
-                                <div class="detail_about_date">{{vo.link_mobile }}</div>
-                            </div>
-                        {{/if}}
-                    </div>
+                            </li>
+                        </ul>
+                    {{/if}}
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    (function () {
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        // tab标签的切换
+        function switchTab () {
+            var btn = $('.tab_item');
+            btn.on('click', function () {
+                var _this = $(this);
+                _this.addClass('active');
+                if (_this.hasClass('type_normal')) {
+                    _this.siblings('.type_others').removeClass('active');
+                } else {
+                    _this.siblings('.type_normal').removeClass('active');
+                }
+                $('#flow_type').val(_this.attr('data-type'));
+                $('form[role="form"]').submit();
+            });
+        }
 
         //编辑机构
         function editOrg () {
-            var btn = $("#editOrg");
+            var btn = $("#editOrg_jump");
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var orgId = $.trim(t.attr("lang"));
-                locationTo({
-                    action : contextPath + markUri + "/supplier/organization/edit",
-                    param : {
+                var supplier_car_type = $('#supplier_car_type');
+                var car_type = $.trim(supplier_car_type.val());
+                var flow_type = $('#flow_type');
+                var material_type = $.trim(flow_type.val());
+                if (material_type == 0) {
+                    var url = "/supplier/organization/edit";//基本信息
+                    var paras = {
                         id : orgId
+                    };
+                } else {
+                    var applyto_business = car_type;
+                    var url = "/supplier/organization/intoPieces";
+                    if (car_type.indexOf(',') != -1) {
+                        car_type = 0;
                     }
+                    var paras = {
+                        organization_id : orgId,
+                        car_type : car_type.number(),
+                        applyto_business : applyto_business,
+                        material_type : material_type
+                    };
+                }
+                locationTo({
+                    action : contextPath + markUri + url,
+                    param : paras
                 });
             });
         }
-        $(function () {
-            editOrg();
-        });
 
         //删除机构按钮的点击事件
         function deleteOrg () {
-            var delBtn = $(".delete_org");
+            var delBtn = $("#delete_org");
             delBtn.each(function () {
                 var t = $(this);
                 t.off("click").on("click", function () {
@@ -217,9 +458,13 @@
                 });
             }
         }
+
         $(function() {
+            switchTab();
             deleteOrg();
+            editOrg();
         });
-    })(window, undefined);
+    })(jQuery,undefined);
 </script>
+
 </html>

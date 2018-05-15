@@ -123,6 +123,15 @@ exports.VIEW_MERCHANTS_EDIT = function(req, res, next) {
             data.supplierTypeNEWString = JSON.stringify(data.supplierTypeNEW);
             data.supplierTypeOLDString = JSON.stringify(data.supplierTypeOLD);
             data.supplierTypeString = JSON.stringify(data.supplierType);
+
+            // 获取所有展业城市的高德地图城市对应code值
+            var cityList = data.cityList;
+            var geoCode = [];
+            for (var i = 0, len = cityList.length; i < len; i++) {
+                geoCode.push(cityList[i].code);
+            }
+
+            data.geoCode = geoCode.join(',');
         }
     }, req, res, next);
 };

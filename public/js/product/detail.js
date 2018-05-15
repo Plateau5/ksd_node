@@ -7,7 +7,7 @@ $(function(){
         $('.header_right').css('display','none');
         $('a[class="TS"]').click(function(){
             //window.location.href=contextPath+"/product/warehouseList";
-            var parentId = $.trim($(this).data("id"));
+            var parentId = $.trim($(this).attr("data-id"));
             locationTo({
                 action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
                 param : {
@@ -18,7 +18,7 @@ $(function(){
     }else{
         $('a[class="TS"]').click(function(){
             //window.location.href=contextPath+"/product/publishList";
-            var parentId = $.trim($(this).data("id"));
+            var parentId = $.trim($(this).attr("data-id"));
             locationTo({
                 // action : contextPath + "/product/publishList",
                 action : contextPath + markUri + "/supplier/organization/publishedProducts",

@@ -77,6 +77,26 @@
                             <div class="column_val">
                                 <select name="carYear" id="carYear" class="brand car_year" data-query_type="2">
                                     <option value="">请选择</option>
+                                    {{#if (carInfo.carYear === '2005') }}
+                                    <option value="2005" selected>2005</option>
+                                    {{else}}
+                                    <option value="2005">2005</option>
+                                    {{/if}}
+                                    {{#if (carInfo.carYear === '2006') }}
+                                    <option value="2006" selected>2006</option>
+                                    {{else}}
+                                    <option value="2006">2006</option>
+                                    {{/if}}
+                                    {{#if (carInfo.carYear === '2007') }}
+                                    <option value="2007" selected>2007</option>
+                                    {{else}}
+                                    <option value="2007">2007</option>
+                                    {{/if}}
+                                    {{#if (carInfo.carYear === '2008') }}
+                                    <option value="2008" selected>2008</option>
+                                    {{else}}
+                                    <option value="2008">2008</option>
+                                    {{/if}}
                                     {{#if (carInfo.carYear === '2009') }}
                                         <option value="2009" selected>2009</option>
                                     {{else}}
@@ -622,29 +642,29 @@
         // 根据是否打包约定最小首付比例
         if (isWrap === 1) {
             minimumFirstScale = 20;
-            //  安心融346-A（新一证） || 安心融346-A（新两证）16
-            if (productId == 15 || productId == 16) {
+            //  安心融346-A（新一证）15、安心融346-A（新两证）16、 安心融347-A（新一证）23、安心融347-A（新两证）24
+            if (productId == 15 || productId == 16 || productId == 23 || productId == 24) {
                 minimumFirstScale = 30;
             }
         } else if (isWrap === 2) {
             minimumFirstScale = 10;
-            if (productId == 15 || productId == 16) {
+            // 安心融346-A（新一证）15、安心融346-A（新两证）16、 安心融347-A（新一证）23、安心融347-A（新两证）24
+            if (productId == 15 || productId == 16 || productId == 23 || productId == 24) {
                 minimumFirstScale = 20;
             }
         }
-        // 产品为14 安心融346-A、【20%首付】安心融346-A（新一证）17
-
-        if (productId == 14 || productId == 17) {
+        // 安心融346-A 14、【20%首付】安心融346-A（新一证）17、安心融347-A 22、【20%首付】安心融347-A（新一证）25
+        if (productId == 14 || productId == 17 || productId == 22 || productId == 25) {
             minimumFirstScale = 20;
         }
 
-        // 【12万】安心融346-A（新一证）18
-        if (productId == 18) {
+        // 【12万】安心融346-A（新一证）、【12万】安心融347-A（新一证）
+        if (productId == 18 || productId == 26) {
             minimumFirstScale = 30;
         }
 
-
-        if (productId == 2 || productId == 5 || productId == 8 || productId == 11  || productId == 14) {       // 【新车定制】C1-328 、【极致进店】329  【极致定制】新车融330-A 【极致进店】新车融330-A、安心融346-A
+        // 【新车定制】C1-328 、【极致进店】329、【极致定制】新车融330-A、【极致进店】新车融330-A、安心融346-A、安心融347-A
+        if (productId == 2 || productId == 5 || productId == 8 || productId == 11  || productId == 14 || productId == 22) {
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;
@@ -656,7 +676,8 @@
                 $alert('【首付比例】不能低于'+ minimumFirstScale +'%。');
                 return false;
             }
-        } else if (productId == 3 || productId == 6 || productId == 9 || productId == 12) {    // 【新车定制】C1-328（新一证）、【极致进店】329（新一证）、【极致定制】新车融330-A（新一证）、【极致进店】新车融330-A（新一证）
+        // 【新车定制】C1-328（新一证）、【极致进店】329（新一证）、【极致定制】新车融330-A（新一证）、【极致进店】新车融330-A（新一证）
+        } else if (productId == 3 || productId == 6 || productId == 9 || productId == 12) {
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;
@@ -679,7 +700,8 @@
                 $alert('【融资金额】不能高于150000元。');
                 return false;
             }
-        } else if (productId == 4 || productId == 7 || productId == 10 || productId == 13 || productId == 16 || productId == 21) {    // 【新车定制】C1-328（新两证）、【极致进店】329（新两证）、【极致定制】新车融330-A（新两证）、【极致进店】新车融330-A（新两证）、安心融346-A（新两证）、【LCV】新车融329-A（新两证）
+        // 【新车定制】C1-328（新两证）、【极致进店】329（新两证）、【极致定制】新车融330-A（新两证）、【极致进店】新车融330-A（新两证）、安心融346-A（新两证）、【LCV】新车融329-A（新两证）、安心融347-A（新两证）
+        } else if (productId == 4 || productId == 7 || productId == 10 || productId == 13 || productId == 16 || productId == 21 || productId == 24) {
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;
@@ -702,7 +724,8 @@
                 $alert('【融资金额】不能高于200000元。');
                 return false;
             }
-        } else if (productId == 15 || productId == 17  || productId == 20) {    // 安心融346-A（新一证）、【20%首付】安心融346-A（新一证）、【LCV】新车融329-A（新一证）
+        // 安心融346-A（新一证）、【20%首付】安心融346-A（新一证）、【LCV】新车融329-A（新一证）、安心融347-A（新一证）、【20%首付】安心融347-A（新一证）
+        } else if (productId == 15 || productId == 17  || productId == 20 || productId == 23 || productId == 25) {
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;
@@ -725,7 +748,8 @@
                 $alert('【融资金额】不能高于150000元。');
                 return false;
             }
-        } else if (productId == 18) {    // 【12万】安心融346-A（新一证）
+        // 【12万】安心融346-A（新一证）、【12万】安心融347-A（新一证）
+        } else if (productId == 18 || productId == 26) {
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;
@@ -743,7 +767,8 @@
                 $alert('【融资金额】不能高于150000元。');
                 return false;
             }
-        } else if (productId == 19) {   // 【LCV】新车融329-A
+        // 【LCV】新车融329-A
+        } else if (productId == 19) {
             if (financeAmount < 20000) {
                 $alert('【融资金额】不能低于20000元。');
                 return false;

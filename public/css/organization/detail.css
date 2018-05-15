@@ -1,26 +1,34 @@
 
 .product_detail_header{
-    width:100%;height:92px;
+    width:100%;
+    height:92px;
+    margin: 36px 0;
     position: relative;
 }
-.header_left,.header_right{
-    float:left;
-    position: absolute;
-    top:0;
-    height:92px;
+.header_left{
+    width:100%;
+    height:100%;
+}
+.header_txt_name{
+    width:100%;
+    height:50%;
 }
 .header_right{
     color:#B0B0B0;
     font-size: 12px;
-    line-height: 92px;
     right:0;
+    width:70%;
+    height:25px;
+    line-height: 25px;
 }
 .header_left_img{
-    width:112px;height:80px;
-    margin-top:6px;
-    margin-left:24px;
-    margin-right:38px;
-    background-color:#E4E4E4;
+    width:112px;
+    height:80px;
+    margin-top:5px;
+    /*margin-left:24px;*/
+    margin-right:24px;
+    border: 1px solid #E4E4E4;
+    padding: 2px;
 }
 .header_left_img img{
     width:100%;height:100%;
@@ -30,47 +38,97 @@
 .header_time,.header_personal{
     float:left;
 }
+.header_txt{
+    height:100%;
+    width:70%;
+}
 .header_txt_top{
-    height:50px;line-height: 50px;
+    float: left;
     font-size: 24px;
-    color:#535E6A;
+    color:#333;
+    margin-right: 14px;
 }
 .header_txt_bottom{
-    margin-top:6px;
+    float: left;
+    margin-top:5px;
 }
-.header_txt_bottom1,.header_txt_bottom2{
-    width:54px;height:30px;
-    line-height: 30px;
-    border:1px solid #1DC6BC;
+.header_txt_bottom1,.header_txt_bottom2 {
+    width: 46px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #1DC6BC;
     border-radius: 3px;
-    color:#1DC6BC;
+    color: #1DC6BC;
     text-align: center;
+    margin-right: 8px;
 }
-.header_txt_bottom1{
-    margin-right:20px;
+.inviteP,.delete_agency{
+    top:0;
 }
-.header_personal{
-    margin-left:20px;
+
+.tab{
+    height:42px;
+    line-height: 42px;
+    border-bottom: 0;
+}
+.tab_list{
+    overflow: visible;
+    width:100%;
+    padding-left: 0;
+    border:1px solid #e4e4e4 ;
+    background-color: #F9F9F9;
+}
+.tab_list .tab_item{
+    width:116px;
+    height:40px;
+    line-height: 40px;
+    /*transition:none;*/
+    margin-right: 0;
+}
+.tab_list .active span{
+    position: absolute;
+    width: 116px;
+    height: 6px;
+    left: 0;
+    bottom: -4px;
+    background-color: #fff;
+}
+.tab_list .active{
+    background-color: #fff;
+}
+.tab_list .tab_item:after{
+    height:4px;
+    top:-4px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+}
+.tab_list .tab_item:hover:after{
+    display: none;
+}
+.tab_list .active:hover:after{
+    display: block;
 }
 
 /*detail start*/
 .product_detail_box{
     width:100%;
     border:1px solid #e4e4e4;
+    border-top:0;
     background-color:#fff;
-    margin-top:15px;
+    position:relative;
+    /*margin-top:15px;*/
 }
 .detail_title{
     width:100%;height:60px;
     line-height: 60px;
-    color:#535E6A;
+    color:#333;
     font-size: 14px;
     border-bottom: 1px solid #e4e4e4;
     background-color:#fafafa;
 }
 .detail_line,.detail_title_txt,
 .detail_about_label,.detail_about_date{
-    float:left;
+    /*float:left;*/
 }
 .detail_line{
     width:4px;height:18px;
@@ -80,22 +138,75 @@
     margin-right:6px;
 }
 .detail_about_txt{
-    width:100%;height: 50px;
+    width:100%;
+    height: 50px;
 }
 .detail_about{
-    padding-left:29px;
-    padding-right:29px;
-    padding-bottom:20px;
+    padding: 10px 29px 20px 29px;
     font-size: 12px;
     line-height: 50px;
+    /*position: relative;*/
 }
 .detail_about_label{
+    display: inline-block;
+    width:12%;
     height:100%;
 }
 .detail_about_date{
     display:inline-block;
-    width:89%;
+    width:86%;
     color:#808891;
-    margin-left:5px;
     margin-top:0;
 }
+
+.rf_30{
+    position: absolute;
+    top:30px;
+    right:30px;
+}
+.supplier_cartype{
+    position: relative;
+    color:#1DC6BC;
+}
+.supplier_cartype:before{
+    content: '';
+    display: block;
+    position: absolute;
+    left: -12px;
+    top: 22px;
+    width:5px;
+    height:5px;
+    border-radius: 50%;
+    background-color: #1DC6BC;
+}
+
+
+.todo_list {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.no_list_data {
+    margin: 100px 0;
+    text-align: center;
+}
+.no_list_data .toast_img {
+    width: 121px;
+    height: 108px;
+    background: url('../../img/no-data.png') no-repeat center;
+    margin: auto;
+}
+.no_list_data .toast_text {
+    height: 60px;
+    line-height: 60px;
+    color: #c7c7c7;
+    font-size: 14px;
+}
+
+
+
+
+
+
+
