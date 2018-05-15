@@ -33,21 +33,22 @@
                         <div class="item_name">交付方式：</div>
                         <div class="item_value">
                             {{#if (haveMaterial.deliver_way === 1) }}
-                            当面交付
-                            {{elseif (haveMaterial.deliver_way === 2) }}
                             邮寄资料
+                            {{elseif (haveMaterial.deliver_way === 2) }}
+                            当面交付
                             {{/if}}
                         </div>
                     </li>
-                    {{#if (haveMaterial.deliver_way === 2) }}
+                    {{#if (haveMaterial.deliver_way === 1) }}
                         <li class="pigeonhole_item">
                             <div class="item_name">快递公司：</div>
                             <div class="item_value">{{haveMaterial.deliver_company}}</div>
                         </li>
                         <li class="pigeonhole_item">
                             <div class="item_name">快递单号：</div>
-                            <div class="item_value">{{haveMaterial.deliver_no}}</div>
+                            <div id="deliveryTitle" class="item_value" title="">{{haveMaterial.deliver_no}}</div>
                         </li>
+                        {{#if (pig_list.length > 0)}}
                         <li class="pigeonhole_item_history">
                             <div class="item_name">历史快递信息：</div>
                             <div class="item_value_box">
@@ -56,6 +57,7 @@
                                 {{/each}}
                             </div>
                         </li>
+                        {{/if}}
                     {{/if}}
                 {{/if}}
             </ul>

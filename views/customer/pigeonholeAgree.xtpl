@@ -34,11 +34,19 @@
             <div class="listConHeader inviteCon" style="line-height: normal;margin-top:32px;">
                 <ul>
                     <li class="inline colorB"><a class="TS" href="{{markUri}}">归档管理</a></li>
-                    <li class="inline before"><a href="{{markUri}}/customer/requestpayout/pendingAudit">待审批</a></li>
-                    <li class="inline before"><a href="javascript:window.history.back();">{{vo.user_name}}</a></li>
-                    <li class="inline before"><a href="javascript:;" style="cursor:default">同意</a></li>
-                </ul>
-            </div>
+                    <li class="inline before"><a href="{{reqParams.url}}">{{reqParams.navigation}}</a></li>
+            <li class="inline before"><a href="javascript:window.history.back();">{{reqParams.user_name}}</a></li>
+            <li class="inline before">
+                <a href="javascript:;" style="cursor:default">
+                {{#if (reqParams.agree_type === '1') }}
+                    同意
+                {{elseif (reqParams.agree_type === '0') }}
+                    不同意
+                {{/if}}
+                </a>
+            </li>
+            </ul>
+        </div>
 
             <form class="formML" id="request_info_agree" enctype="multipart/form-data" method="post">
                 <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
@@ -76,6 +84,7 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script>
+    (function () {
     //确认
     $('#agree_sub').off("click").on("click", function(){
         $('#agree_sub').attr('disabled',true);

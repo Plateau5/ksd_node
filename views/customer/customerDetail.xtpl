@@ -75,7 +75,7 @@
                 <input type="hidden" id="auditTime" value="{{vo.start_audit_time}}">
                 <input type="hidden" id="is_docking" value="{{vo.is_docking }}">
                 <input type="hidden" id="loan_type" value="{{vo.loan_type}}" >
-
+                <input type="hidden" id="deliver_no" value="{{haveMaterial.deliver_no}}" >
                 <div class="details_item base_info">
                         <!-- 进件资料 Begin -->
                         {{#if (query_type === 1) }}
@@ -168,6 +168,7 @@
         }
     })(window, undefined);
     $(function () {
+        deliveryNumber(); // 根据单号获取物流信息
         toHistoryList();        // 跳转历史订单
         viewLargeImage('#img_list');       // 查看大图
         viewLargeImage('.log_item');
@@ -184,7 +185,8 @@
         requestpayoutPassed();     //请款通过按钮的点击逻辑
         affirmSubmitEvent();    //提交按钮的点击逻辑
         alreadyCashed();        //已回款点击逻辑
-        getData();//同意逻辑
+        detailAgree();//同意点击逻辑
+        detailDisagree();//不同意点击逻辑
         //发送不合格通知
         $("#picture_reason").off("click").on('click', function () {
             var finance_id = $(this).attr('lang');
@@ -621,37 +623,61 @@
             });
         });
     }
-    var $submitDom = $('#customerSubmit');
-    var $body = $('body');
-
-//
-    function getData() {
-        $.ajax({
-            type: 'POST',
-            url :contextPath + '/api/pigeonhole/getFile',
-            /*data: {finance_id:finance_id},*/
-            success: function (data) {
-                 data = {
-                    material_ids : materialIds,
-                    pass_material_ids : passMaterialIds
-                };
-                if (data.material_ids === data.pass_material_ids) {
-                    $submitDom.hide();
+    function btnClick(btn,url) {
+        btn.off('click').on('click', function () {
+            var _this = $(this);
+            var financeId =$('#finance_id').val().trim();
+            var pigeonholeId =$('#pigeonhole_id').val().trim();
+            var agreeType =_this.data('agree_type');
+            var financeStatus =$('#finance_status').val().trim();
+            var materialIds =$('#material_ids').val().trim();
+            var materialName =$('#material_names').val().trim();
+            var userName =$('#user_name').val().trim();
+            var navigation = $('#navigation').val().trim();         // 列表页节点名称
+            locationTo({
+                action : contextPath + url,
+                param : {
+                    finance_id : financeId,
+                    pigeonhole_id : pigeonholeId,
+                    agree_type : agreeType,
+                    finance_status : financeStatus,
+                    material_ids: materialIds,
+                    material_names : materialName,
+                    user_name:userName,
+                    navigation:navigation
                 }
-            }
+            })
         });
     }
-
-
-    $submitDom.click(function() {
-        /*$.ajax({
-            type: 'POST',
-            url :contextPath + '/api/pigeonhole/getFile',
-            data: {finance_id:finance_id},
-            success: function() {
-                location.href = contextPath + markUri + "/customer/pigeonhole/agree";
+    // 同意按钮跳转。
+    function detailAgree() {
+        var btn = $('#customerSubmit');
+        var url = contextPath + markUri + '/customer/pigeonhole/agree';
+        btnClick(btn,url);
+    }
+    // 不同意按钮跳转。
+    function detailDisagree() {
+        var btn = $('#customerCancel');
+        var url = contextPath + markUri + '/customer/pigeonhole/disagree';
+        btnClick(btn,url);
+    }
+    //根据单号获取物流信息
+    function deliveryNumber() {
+        var deliverNo =$('#deliver_no').val().trim();
+        redefineAjax({
+            url : contextPath +  "/api/pigeonhole/express/list",
+            data:{
+                deliver_no : deliverNo
+            },
+            success : function(res) {
+                console.log(res);
+                var title = res.data[0].time + " " + res.data[0].status;
+                $("#deliveryTitle").attr("title",title);
+            },
+            error : function () {
+                $("#deliveryTitle").attr("title","获取物流信息失败！");
             }
-        });*/
-    })
+            });
+    }
 </script>
 </html>

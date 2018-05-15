@@ -167,7 +167,10 @@ router.all(markUri + '/customer/pigeonhole/archived', customerCtrl.VIEW_CUSTOMER
 router.post(markUri + '/customer/pigeonhole/detail', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_DETAIL);
 // 客户-归档管理-已归档-通知所需材料页面 1117
 router.post(markUri + '/customer/pigeonhole/notifyMaterial', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_NOTIFYMATERIAL);
-
+// 客户-归档管理--同意页面
+router.post(markUri + '/customer/pigeonhole/agree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_AGREE);
+// 客户-归档管理--不同意页面
+router.post(markUri + '/customer/pigeonhole/disagree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE);
 
 // 客户-其他管理-访问路径 1330
 router.get(markUri + '/customer/otherfund/system', customerCtrl.VIEW_CUSTOMER_OTHERFUND_SYSTEM);

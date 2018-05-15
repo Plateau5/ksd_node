@@ -144,12 +144,22 @@
     {{/if}}
     <!--归档管理按钮-->
     {{#if (startWith(markUri + '/customer/pigeonhole'))}}
-        {{#if (haveMaterial.material_ids.length > 0)}}
+    <input type="hidden" name="navigation" value="{{reqParams.navigation}}" id="navigation">
+    <input id="user_name" value="{{vo.user_name }}" name="user_name" type="hidden">
+    <input id="finance_id" value="1037561" name="finance_id" type="hidden">
+    <input id="pigeonhole_id" value="5" name="pigeonhole_id" type="hidden">
+    <input id="agree_type" value="1" name="agree_type" type="hidden">
+    <input id="finance_status" value="1" name="finance_status" type="hidden">
+    <input id="material_ids" value="3007,3008,3009,3010" name="material_ids" type="hidden">
+    <input id="material_names" value="身份证复印件,登记证原件,营业执照复印件盖章,挂靠协议" name="material_names" type="hidden">
+    <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-agree_type="1" data-url="{{markUri}}/customer/pigeonhole/agree" data-advance_id="{{vo.advance_id}}" id="customerSubmit">同意</a>
+    <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}"  data-agree_type="0" data-url="{{markUri}}/customer/pigeonhole/disagree" data-advance_id="{{vo.advance_id}}" id="customerCancel">不同意</a>
+        <!--{{#if (haveMaterial.material_ids.length > 0)}}
             {{#if (verifyCode(1513)) }}
             <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/agree" data-advance_id="{{vo.advance_id}}" id="customerSubmit">同意</a>
             <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/disagree" data-advance_id="{{vo.advance_id}}" id="customerCancel">不同意</a>
             {{/if}}
-        {{/if}}
+        {{/if}}-->
     {{/if}}
     <!--其他款项按钮-->
     {{#if (startWith(markUri + '/customer/otherfund'))}}

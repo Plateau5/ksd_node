@@ -729,7 +729,7 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_AGREE = function(req, res, next) {
 // 客户-归档管理-不同意页面 1513
 exports.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE = function(req, res, next) {
     common.getPageData({
-        url : '/api/pigeonhole/disagree',
+        url : '/api/pigeonhole/agree',
         title : '归档管理-不同意',
         page : './customer/pigeonholeAgree',
     }, req, res, next);
