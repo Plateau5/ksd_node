@@ -1,0 +1,45 @@
+
+
+<div class="province_city_box">
+    <div class="province_city_box_bg"></div>
+    <!--省市联动弹框-->
+    <div class="province_city_dia">
+        <!--<em class="close_btn">x</em>-->
+        <div class="title">选择可抵押城市</div>
+        <div class="middle">
+            <div class="province">
+                <div class="province_city">省份</div>
+                <ul class="province_ul">
+                    {{#each (list_city) }}
+                    <li class="province_ul_li form_group cursor">
+                        <input id="{{this.id }}" type="checkbox" name="" value="" checked="checked">
+                        <label for="{{this.id }}" class="cursor"></label>
+                        <span>{{this.name}}</span>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="city">
+                <div class="province_city">城市</div>
+                {{#each (list_city) }}
+                <div id="{{this.id }}" class="city_box">
+                    <div class="province_name">{{this.name}}</div>
+                    <ul class="city_ul">
+                        {{#each (this.city_list) }}
+                        <li class="city_ul_li form_group">
+                            <input id="{{this.id}}" type="checkbox" name="" value="{{this.id}}" checked="checked">
+                            <label for="{{this.id}}" title="{{this.name}}">{{this.name}}</label>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="province_bottom_btn">
+            <a href="javascript:;" class="province_confirm">确认</a>
+            <a href="javascript:;" class="province_cancle">取消</a>
+        </div>
+    </div>
+</div>
+

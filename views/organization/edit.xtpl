@@ -4,341 +4,942 @@
 <head>
     <meta charset="UTF-8">
     <title>机构管理</title>
-    {{include ("./../inc/metaData")}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/organization/create.css">
-    <script src="{{markUri}}/static/js/common/validate_form.js"></script>
-    <script src="{{markUri}}/static/js/organization/create.js"></script>
-    <style type="text/css">
-        body{overflow-x: hidden;}
-        .formML{margin-bottom:50px;margin-top:35px;padding-left:4%;}
-    </style>
+    <link rel="stylesheet" href="{{markUri}}/static/css/common/provinceCity.css"/>
 </head>
 <body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
 
-{{include ('./../inc/header')}}
-
-<!--container start-->
-
-<div class="container minWidth">
-    <div class="row section">
-        <!--navLeft start-->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
 
-        <!--navLeft end-->
-
-        <!--listCon start-->
-        <div class="listCon">
-            <div class="listConHeader inviteCon">
-                <ul style="margin-bottom:0;">
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/supplier/organization/system">机构管理</a></li>
-                    <li class="inline before"><a href="javascript:;">编辑</a></li>
-                </ul>
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
+                <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
-            <!--form start-->
-            <div class="inviteForm inviteConB formMT">
-                <form class="form-horizontal formML" id="organization_info_create">
+            <div class="create_options form_options" style="padding:0;">
+                <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="id" id="id" value="{{vo.id}}">
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>机构名称：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" maxlength="20" id="name" name="name" value="{{vo.name}}" placeholder="请输入机构名称" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='请输入机构名称';this.style.color='#A4A8AB';}"/>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">机构名称：</span>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
+                        <div class="column_val">
+                            <input type="text" id="name" class="workflow_name" name="name" value="{{vo.name}}" maxlength="20" placeholder="请输入机构名称" />
+                            <span class="tips_info" style="display: none;">(*最多二十个字)</span>
+                            <span class="formError"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>适用业务：</label>
-                        <div class="col-xs-3" style="margin-left:-40px;">
-                            <div class="form-control checkBox" id="applyto_business">
-                                <div class="check">
-                                    {{#if (vo.applyto_business.indexOf("0")!== -1) }}
-                                    <input type="checkbox" name="applyto_business" checked value="0" style="display:none;">
-                                    {{else}}
-                                    <input type="checkbox" name="applyto_business" value="0" style="display:none;">
-                                    {{/if}}
-                                    <div class="check_img
-                                     {{#if (vo.applyto_business.indexOf('0') !== -1)}}
-                                    icon_check
-                                    {{else}}
-                                        icon_uncheck
-                                    {{/if}}
-                                    "
-                                    ></div>
-                                <span>新车</span>
-                            </div>
-                            <div class="check" style="margin-left:30px;">
-                                {{#if (vo.applyto_business.indexOf("1")!== -1) }}
-                                <input type="checkbox" name="applyto_business" value="1" checked style="display:none;">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">适用业务：</span>
+                        </div>
+                        <div id="applyto_business" class="column_val">
+                            <input id="applyto_business_input" type="hidden" name="applyto_business" value="{{vo.applyto_business}}">
+                            <div class="form_group">
+                                {{#if (vo.applyto_business.indexOf("0")!== -1) }}
+                                <input id="newCars" type="checkbox" class="apply_scope" name="newCars" checked="checked" value="0" />
+                                <label for="newCars" class="checked">新车</label>
                                 {{else}}
-                                <input type="checkbox" name="applyto_business" value="1" style="display:none;">
+                                <input id="newCars" type="checkbox" class="apply_scope" name="newCars"  value="0" />
+                                <label for="newCars">新车</label>
                                 {{/if}}
-                                <div class="check_img
-                                    {{#if (vo.applyto_business.indexOf('1') !== -1)}}
-                                    icon_check
-                                    {{else}}
-                                        icon_uncheck
-                                    {{/if}}
-                                "></div>
-                            <span>二手车</span>
+                            </div>
+                            <div class="form_group">
+                                {{#if (vo.applyto_business.indexOf("1")!== -1) }}
+                                <input id="usedCars" type="checkbox" class="apply_scope" checked="checked" name="usedCars" value="1" />
+                                <label for="usedCars" class="checked">二手车</label>
+                                {{else}}
+                                <input id="usedCars" type="checkbox" class="apply_scope" name="usedCars" value="1" />
+                                <label for="usedCars">二手车</label>
+                                {{/if}}
+                            </div>
+                            <span class="formError"></span>
                         </div>
                     </div>
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-2 control-label inviteLabel">
-                <span class="need">*</span>机构类别：</label>
-            <div class="col-xs-5">
-                <select class="form-control"  id="type" name="type">
-                    {{#if (vo.type === 0 || !vo.type) }}
-                    <option value="0" selected>全部</option>
-                    {{else}}
-                    <option value="0">全部</option>
-                    {{/if}}
-                    {{#if (vo.type === 1) }}
-                    <option value="1" selected>融资租赁</option>
-                    {{else}}
-                    <option value="1">融资租赁</option>
-                    {{/if}}
-                    {{#if (vo.type === 2) }}
-                    <option value="2" selected>银行</option>
-                    {{else}}
-                    <option value="2">银行</option>
-                    {{/if}}
-                    {{#if (vo.type === 3) }}
-                    <option value="3" selected>信托</option>
-                    {{else}}
-                    <option value="3">信托</option>
-                    {{/if}}
-                    {{#if (vo.type === 4) }}
-                    <option value="4" selected>汽车金融</option>
-                    {{else}}
-                    <option value="4">汽车金融</option>
-                    {{/if}}
-                    {{#if (vo.type === 5) }}
-                    <option value="5" selected>担保公司</option>
-                    {{else}}
-                    <option value="5">担保公司</option>
-                    {{/if}}
-                </select>
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-        <div class="form-group" style="margin-bottom:0;">
-            <label class="col-xs-2 control-label inviteLabel"><span class="need">*</span>机构LOGO：</label>
-            <div class="col-xs-10" style="margin-left:-40px;">
-                {{#each (logo_list) }}
-                    <div class="organization_logo" id="image_url">
-                        {{#if (this.image_url === vo.image_url) }}
-                        <input type="radio" name="image_url" checked="checked" value="{{this.image_url}}" hidden="hidden">
-                        {{else}}
-                        <input type="radio" name="image_url" value="{{this.image_url}}" hidden="hidden">
-                        {{/if}}
-                        <img src="{{this.image_url}}" alt="">
-                        {{#if (this.image_url === vo.image_url) }}
-                            <div class="icon_check logo_check"></div>
-                        {{/if}}
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">机构类别：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="type" class="" id="org_type">
+                                {{#if (vo.type === 0 || !vo.type) }}
+                                <option value="0" selected>请选择</option>
+                                {{else}}
+                                <option value="0">请选择</option>
+                                {{/if}}
+                                {{#if (vo.type === 1) }}
+                                <option value="1" selected>融资租赁</option>
+                                {{else}}
+                                <option value="1">融资租赁</option>
+                                {{/if}}
+                                {{#if (vo.type === 2) }}
+                                <option value="2" selected>银行</option>
+                                {{else}}
+                                <option value="2">银行</option>
+                                {{/if}}
+                                {{#if (vo.type === 3) }}
+                                <option value="3" selected>信托</option>
+                                {{else}}
+                                <option value="3">信托</option>
+                                {{/if}}
+                                {{#if (vo.type === 4) }}
+                                <option value="4" selected>汽车金融</option>
+                                {{else}}
+                                <option value="4">汽车金融</option>
+                                {{/if}}
+                                {{#if (vo.type === 5) }}
+                                <option value="5" selected>担保公司</option>
+                                {{else}}
+                                <option value="5">担保公司</option>
+                                {{/if}}
+                            </select>
+                        </div>
                     </div>
-                {{/each}}
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-        </div>
-        <span class="formError logo_error"></span>
-        <div class="form-group">
-            <label class="col-xs-2 control-label inviteLabel">
-                <span class="need">*</span>有无系统：</label>
-            <div class="col-xs-3" style="margin-left:-40px;">
-                <div class="form-control" style="border:0;background:#F5F5F5;padding:0;" id="have_system">
-                    <div class="radio">
-                        {{#if (1 === vo.have_system) }}
-                        <input type="radio" checked="checked" name="have_system" value="1">
-                        {{else}}
-                        <input type="radio" name="have_system" value="1">
-                        {{/if}}
-                        <label>有</label>
+                    <div class="option_item" style="margin-top: 20px;">
+                        <div class="column_name" style="line-height: 20px;">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">机构logo：</span>
+                        </div>
+                        <div class="column_val">
+                            {{#each (logo_list) }}
+                            <div class="organization_logo" id="image_url">
+                                {{#if (this.image_url === vo.image_url) }}
+                                <input type="radio" name="image_url" checked="checked" value="{{this.image_url}}" hidden="hidden">
+                                {{else}}
+                                <input type="radio" name="image_url" value="{{this.image_url}}" hidden="hidden">
+                                {{/if}}
+                                <img src="{{this.image_url}}" alt="">
+                                {{#if (this.image_url === vo.image_url) }}
+                                <div class="icon_check logo_check"></div>
+                                {{/if}}
+                            </div>
+                            {{/each}}
+                        </div>
                     </div>
-                    <div class="radio">
-                        {{#if (0 === vo.have_system) }}
-                        <input type="radio" checked="checked" name="have_system" value="0">
-                        {{else}}
-                        <input type="radio" name="have_system" value="0">
-                        {{/if}}
-                        <label>无</label>
+                    <div class="option_item">
+                        <span class="formError logo_error"></span>
                     </div>
-                </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">有无系统：</span>
+                        </div>
+                        <div id="have_system" class="column_val">
+                            {{#if (vo.have_system === 1) }}
+                            <input id="have_sys_input" type="hidden" name="have_system" value="1">
+                            {{else}}
+                            <input id="have_sys_input" type="hidden" name="have_system" value="0">
+                            {{/if}}
+                            <div class="form_group mar6">
+                                {{#if (vo.have_system === 1) }}
+                                <input id="have_sys" type="radio" checked="checked" name="have_sys" value="1">
+                                <label for="have_sys" class="checked">有</label>
+                                {{else}}
+                                <input id="have_sys" type="radio" name="have_sys" value="1">
+                                <label for="have_sys">有</label>
+                                {{/if}}
+                            </div>
+                            <div class="form_group mar6">
+                                {{#if (vo.have_system === 0) }}
+                                <input id="nohave_system" type="radio" checked="checked" name="have_sys" value="0">
+                                <label for="nohave_system" class="checked">无</label>
+                                {{else}}
+                                <input id="nohave_system" type="radio" name="have_sys" value="0">
+                                <label for="nohave_system">无</label>
+                                {{/if}}
+                            </div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item have_system_url">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">系统地址：</span>
+                        </div>
+                        <div class="column_val">
+                            <input id="system_url" type="text" class="system_url" name="system_url" value="{{vo.system_url }}" placeholder="请输入系统地址">
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    {{#if (vo.applyto_business.indexOf("1")!== -1) }}
+                    <div class="option_item carage_limit">
+                    {{else}}
+                    <div class="option_item carage_limit" style="display: none;">
+                    {{/if}}
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">车龄限制：</span>
+                        </div>
+                        <div class="column_val">
+                            {{#if (vo.carage_start || vo.carage_end) }}
+                                <input id="carage_start" type="text" class="minCarAge wid_half" value="{{vo.carage_start }}" name="carage_start" placeholder="1">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="carage_end" type="text" class="maxCarAge wid_half" value="{{vo.carage_end }}" name="carage_end" placeholder="9">
+                                <span class="pad_lf_rt_8">年</span>
+                            {{else}}
+                                <input id="carage_start" type="text" class="minCarAge wid_half" value="1" name="carage_start" placeholder="1">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="carage_end" type="text" class="maxCarAge wid_half" value="9" name="carage_end" placeholder="9">
+                                <span class="pad_lf_rt_8">年</span>
+                            {{/if}}
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">年龄限制：</span>
+                        </div>
+                        <div class="column_val">
+                            {{#if (vo.age_start || vo.age_end ) }}
+                                <input id="age_start" type="text" class="wid_half" name="age_start" value="{{vo.age_start }}" placeholder="请输入最低年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="age_end" type="text" class="wid_half" name="age_end" value="{{vo.age_end }}" placeholder="请输入最高年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">岁</span>
+                            {{else}}
+                                <input id="age_start" type="text" class="wid_half" name="age_start" value="" placeholder="请输入最低年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">-</span>
+                                <input id="age_end" type="text" class="wid_half" name="age_end" value="" placeholder="请输入最高年龄" maxlength="2" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;">
+                                <span class="pad_lf_rt_8">岁</span>
+                            {{/if}}
+                            <span class="remark_text add_txt">备注</span>
+                            <span class="formError"></span>
+                            {{#if (vo.age_remark) }}
+                            <div class="remarks_box">
+                            {{else}}
+                            <div class="remarks_box" style="display: none;">
+                            {{/if}}
+                                <textarea placeholder="请输入内容" name="age_remark" id="age_remark" class="form-control" maxlength="200">{{vo.age_remark}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">审批速度：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="approve_speed" class="" id="approval">
+                                {{#if (vo.approve_speed === 1) }}
+                                <option value="1" selected="selected">1-20分钟</option>
+                                {{else}}
+                                <option value="1">1-20分钟</option>
+                                {{/if}}
+                                {{#if (vo.approve_speed === 2) }}
+                                <option value="2" selected="selected">1-3个小时</option>
+                                {{else}}
+                                <option value="2">1-3个小时</option>
+                                {{/if}}
+                                {{#if (vo.approve_speed === 3) }}
+                                <option value="3" selected>半个工作日</option>
+                                {{else}}
+                                <option value="3">半个工作日</option>
+                                {{/if}}
+                                {{#if (vo.approve_speed === 4) }}
+                                <option value="4" selected>1个工作日</option>
+                                {{else}}
+                                <option value="4">1个工作日</option>
+                                {{/if}}
+                                {{#if (vo.approve_speed === 5) }}
+                                <option value="5" selected>1-2个工作日</option>
+                                {{else}}
+                                <option value="5">1-2个工作日</option>
+                                {{/if}}
+                                {{#if (vo.approve_speed === 6) }}
+                                <option value="6" selected>3个工作日</option>
+                                {{else}}
+                                <option value="6">3个工作日</option>
+                                {{/if}}
+                            </select>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">可抵押省市：</span>
+                        </div>
+                        <div class="column_val select_city_icon">
+                            {{#if (vo.outsettling_province && vo.city_ids) }}
+                                <input type="hidden" class="select_province_ids" name="outsettling_province"  value="{{vo.outsettling_province}}"/>
+                                <input type="hidden" class="select_city_ids" name="city_ids"  value="{{vo.city_ids}}"/>
+                                {{#if (vo.outsettling_province.indexOf(',') !== -1) }}
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{vo.outsettling_province.split(',').length}}个省份" placeholder="请选择城市" readonly/>
+                                {{else}}
+                                    <input type="text" class="select_city_input cursor" name=""  value="1个省份" placeholder="请选择城市" readonly/>
+                                {{/if}}
+                            {{else}}
+                                <input type="hidden" class="select_province_ids" name="outsettling_province"/>
+                                <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">主贷人征信：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="hidden" class="borrower_credit" name="borrower_credit" value="{{vo.borrower_credit}}">
+                            <div class="form_group mar6">
+                                {{#if (vo.borrower_credit === 1) }}
+                                <input id="principal_need" type="radio" checked="checked" name="principal_need" value="1">
+                                <label for="principal_need" class="checked">需要</label>
+                                {{else}}
+                                <input id="principal_need" type="radio" name="principal_need" value="1">
+                                <label for="principal_need">需要</label>
+                                {{/if}}
+                            </div>
+                            <div class="form_group mar6">
+                                {{#if (vo.borrower_credit === 2) }}
+                                <input id="principal_noneed" type="radio" checked="checked" name="principal_need" value="2">
+                                <label for="principal_noneed" class="checked">不需要</label>
+                                {{else}}
+                                <input id="principal_noneed" type="radio" name="principal_need" value="2">
+                                <label for="principal_noneed">不需要</label>
+                                {{/if}}
+                            </div>
+                            <span class="remark_text add_txt">备注</span>
+                            {{#if (vo.borrower_credit_remark) }}
+                            <div class="remarks_box">
+                            {{else}}
+                            <div class="remarks_box" style="display: none;">
+                            {{/if}}
+                                <textarea placeholder="请输入内容" name="borrower_credit_remark" id="borrower_credit_remark" class="form-control" maxlength="200">{{vo.borrower_credit_remark }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">配偶征信：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="hidden" class="spouse_credit" name="spouse_credit" value="{{vo.spouse_credit}}">
+                            <div class="form_group mar6">
+                                {{#if (vo.spouse_credit === 1 ) }}
+                                <input id="partner_need" type="radio" checked="checked" name="partner_need" value="1">
+                                <label for="partner_need" class="checked">需要</label>
+                                {{else}}
+                                <input id="partner_need" type="radio" name="partner_need" value="1">
+                                <label for="partner_need">需要</label>
+                                {{/if}}
+                            </div>
+                            <div class="form_group mar6">
+                                {{#if (vo.spouse_credit === 2) }}
+                                <input id="partner_noneed" type="radio" checked="checked" name="partner_need" value="2">
+                                <label for="partner_noneed" class="checked">不需要</label>
+                                {{else}}
+                                <input id="partner_noneed" type="radio" name="partner_need" value="2">
+                                <label for="partner_noneed">不需要</label>
+                                {{/if}}
+                            </div>
+                            <span class="remark_text add_txt">备注</span>
+                            {{#if (vo.spouse_credit_remark) }}
+                            <div class="remarks_box">
+                            {{else}}
+                            <div class="remarks_box" style="display: none;">
+                            {{/if}}
+                                <textarea placeholder="请输入内容" name="spouse_credit_remark" id="spouse_credit_remark" class="form-control" maxlength="200">{{vo.spouse_credit_remark }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">背户情况：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="hidden" class="bei_hu" name="bei_hu" value="{{vo.bei_hu}}">
+                            <div class="form_group mar6">
+                                {{#if (vo.bei_hu === 1) }}
+                                <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
+                                <label for="back_door_need" class="checked">可以</label>
+                                {{else}}
+                                <input id="back_door_need" type="radio" name="back_door_need" value="1">
+                                <label for="back_door_need">可以</label>
+                                {{/if}}
+                            </div>
+                            <div class="form_group mar6">
+                                {{#if (vo.bei_hu === 2) }}
+                                <input id="back_door_noneed" type="radio" checked="checked" name="back_door_need" value="2">
+                                <label for="back_door_noneed" class="checked">不可以</label>
+                                {{else}}
+                                <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
+                                <label for="back_door_noneed">不可以</label>
+                                {{/if}}
+                            </div>
+                            <span class="remark_text add_txt">备注</span>
+                            {{#if (vo.bei_hu_remark) }}
+                            <div class="remarks_box">
+                            {{else}}
+                            <div class="remarks_box" style="display: none;">
+                            {{/if}}
+                                <textarea placeholder="请输入内容" name="bei_hu_remark" id="bei_hu_remark" class="form-control" maxlength="200">{{vo.bei_hu_remark}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">机构特点：</span>
+                        </div>
+                        <div class="column_val">
+                            {{#if (vo.special) }}
+                                <input type="hidden" class="special" name="special" value="{{vo.special}}">
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('9') !== -1 ) }}
+                                    <input id="org_feature1" type="checkbox" class="org_feature" checked="checked" name="special1"  value="9" />
+                                    <label for="org_feature1" class="checked">审批快</label>
+                                    {{else}}
+                                    <input id="org_feature1" type="checkbox" class="org_feature" name="special1"  value="9" />
+                                    <label for="org_feature1">审批快</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('1') !== -1 ) }}
+                                    <input id="org_feature2" type="checkbox" class="org_feature" checked="checked" name="special1" value="1" />
+                                    <label for="org_feature2" class="checked">材料少</label>
+                                    {{else}}
+                                    <input id="org_feature2" type="checkbox" class="org_feature" name="special1" value="1" />
+                                    <label for="org_feature2">材料少</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('2') !== -1 ) }}
+                                    <input id="org_feature3" type="checkbox" class="org_feature" checked="checked" name="special1" value="2" />
+                                    <label for="org_feature3" class="checked">利息低</label>
+                                    {{else}}
+                                    <input id="org_feature3" type="checkbox" class="org_feature" name="special1" value="2" />
+                                    <label for="org_feature3">利息低</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('3') !== -1 ) }}
+                                    <input id="org_feature4" type="checkbox" class="org_feature" checked="checked" name="special1" value="3" />
+                                    <label for="org_feature4" class="checked">利润大</label>
+                                    {{else}}
+                                    <input id="org_feature4" type="checkbox" class="org_feature" name="special1" value="3" />
+                                    <label for="org_feature4">利润大</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('4') !== -1 ) }}
+                                    <input id="org_feature5" type="checkbox" class="org_feature" checked="checked" name="special1" value="4" />
+                                    <label for="org_feature5" class="checked">灵活</label>
+                                    {{else}}
+                                    <input id="org_feature5" type="checkbox" class="org_feature" name="special1" value="4" />
+                                    <label for="org_feature5">灵活</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('5') !== -1 ) }}
+                                    <input id="org_feature6" type="checkbox" class="org_feature" checked="checked" name="special1" value="5" />
+                                    <label for="org_feature6" class="checked">首付低</label>
+                                    {{else}}
+                                    <input id="org_feature6" type="checkbox" class="org_feature" name="special1" value="5" />
+                                    <label for="org_feature6">首付低</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('6') !== -1 ) }}
+                                    <input id="org_feature7" type="checkbox" class="org_feature" checked="checked" name="special1" value="6" />
+                                    <label for="org_feature7" class="checked">尺寸大</label>
+                                    {{else}}
+                                    <input id="org_feature7" type="checkbox" class="org_feature" name="special1" value="6" />
+                                    <label for="org_feature7">尺寸大</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('7') !== -1 ) }}
+                                    <input id="org_feature8" type="checkbox" class="org_feature" checked="checked" name="special1" value="7" />
+                                    <label for="org_feature8" class="checked">可做黑户</label>
+                                    {{else}}
+                                    <input id="org_feature8" type="checkbox" class="org_feature" name="special1" value="7" />
+                                    <label for="org_feature8">可做黑户</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.special.indexOf('8') !== -1 ) }}
+                                    <input id="org_feature9" type="checkbox" class="org_feature" checked="checked" name="special1" value="8" />
+                                    <label for="org_feature9" class="checked">无驾照</label>
+                                    {{else}}
+                                    <input id="org_feature9" type="checkbox" class="org_feature" name="special1" value="8" />
+                                    <label for="org_feature9">无驾照</label>
+                                    {{/if}}
+                                </div>
+                            {{else}}
+                                <input type="hidden" class="special" name="special">
+                                <div class="form_group">
+                                    <input id="org_feature1" type="checkbox" class="org_feature" name="special1"  value="9" />
+                                    <label for="org_feature1">审批快</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature2" type="checkbox" class="org_feature" name="special1" value="1" />
+                                    <label for="org_feature2">材料少</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature3" type="checkbox" class="org_feature" name="special1" value="2" />
+                                    <label for="org_feature3">利息低</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature4" type="checkbox" class="org_feature" name="special1" value="3" />
+                                    <label for="org_feature4">利润大</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature5" type="checkbox" class="org_feature" name="special1" value="4" />
+                                    <label for="org_feature5">灵活</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature6" type="checkbox" class="org_feature" name="special1" value="5" />
+                                    <label for="org_feature6">首付低</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature7" type="checkbox" class="org_feature" name="special1" value="6" />
+                                    <label for="org_feature7">尺寸大</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature8" type="checkbox" class="org_feature" name="special1" value="7" />
+                                    <label for="org_feature8">可做黑户</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature9" type="checkbox" class="org_feature" name="special1" value="8" />
+                                    <label for="org_feature9">无驾照</label>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">附加可融项目：</span>
+                        </div>
+                        <div class="column_val">
+                            {{#if (vo.addition_finance)}}
+                                <input type="hidden" class="addition_finance" name="addition_finance" value="{{vo.addition_finance}}">
+                                <div class="form_group">
+                                    {{#if (vo.addition_finance.indexOf('1') !== -1) }}
+                                    <input id="additional_project1" type="checkbox" class="additional_project" checked="checked" name="addition_finance1"  value="1" />
+                                    <label for="additional_project1" class="checked">GPS</label>
+                                    {{else}}
+                                    <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance1"  value="1" />
+                                    <label for="additional_project1">GPS</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.addition_finance.indexOf('2') !== -1) }}
+                                    <input id="additional_project2" type="checkbox" class="additional_project" checked="checked" name="addition_finance1" value="2" />
+                                    <label for="additional_project2" class="checked">保险</label>
+                                    {{else}}
+                                    <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance1" value="2" />
+                                    <label for="additional_project2">保险</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.addition_finance.indexOf('3') !== -1) }}
+                                    <input id="additional_project3" type="checkbox" class="additional_project" checked="checked" name="addition_finance1" value="3" />
+                                    <label for="additional_project3" class="checked">服务费</label>
+                                    {{else}}
+                                    <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance1" value="3" />
+                                    <label for="additional_project3">服务费</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.addition_finance.indexOf('4') !== -1) }}
+                                    <input id="additional_project4" type="checkbox" class="additional_project" checked="checked" name="addition_finance1" value="4" />
+                                    <label for="additional_project4" class="checked">人身意外险</label>
+                                    {{else}}
+                                    <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance1" value="4" />
+                                    <label for="additional_project4">人身意外险</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.addition_finance.indexOf('5') !== -1) }}
+                                    <input id="additional_project5" type="checkbox" class="additional_project" checked="checked" name="addition_finance1" value="5" />
+                                    <label for="additional_project5" class="checked">购置税</label>
+                                    {{else}}
+                                    <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance1" value="5" />
+                                    <label for="additional_project5">购置税</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (vo.addition_finance.indexOf('6') !== -1) }}
+                                    <input id="additional_project6" type="checkbox" class="additional_project" checked="checked" name="addition_finance1" value="6" />
+                                    <label for="additional_project6" class="checked">金融方自营保险</label>
+                                    {{else}}
+                                    <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance1" value="6" />
+                                    <label for="additional_project6">金融方自营保险</label>
+                                    {{/if}}
+                                </div>
+                            {{else}}
+                                <input type="hidden" class="addition_finance" name="addition_finance">
+                                <div class="form_group">
+                                    <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance1"  value="1" />
+                                    <label for="additional_project1">GPS</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance1" value="2" />
+                                    <label for="additional_project2">保险</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance1" value="3" />
+                                    <label for="additional_project3">服务费</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance1" value="4" />
+                                    <label for="additional_project4">人身意外险</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance1" value="5" />
+                                    <label for="additional_project5">购置税</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance1" value="6" />
+                                    <label for="additional_project6">金融方自营保险</label>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="option_item" style="margin-top: 20px;">
+                        <div class="column_name" style="line-height: 20px;">
+                            <span class="options_name">附加可融项目说明：</span>
+                        </div>
+                        <div class="column_val">
+                            <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="200个字符（包含文字、字母、数字、符号），超出不可输入">{{vo.addition_finance_explain}}</textarea>
+                        </div>
+                    </div>
+                    <div class="option_item" style="margin-top: 20px;">
+                        <div class="column_name">
+                            <span class="options_name">征信尺度：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="credit" class="">
+                                {{#if (vo.credit) }}
+                                <option value="">请选择</option>
+                                {{else}}
+                                <option value="" selected="selected">请选择</option>
+                                {{/if}}
+                                {{#if (vo.credit === 1) }}
+                                <option value="1" selected="selected">宽松</option>
+                                {{else}}
+                                <option value="1">宽松</option>
+                                {{/if}}
+                                {{#if (vo.credit === 2) }}
+                                <option value="2" selected="selected">适中</option>
+                                {{else}}
+                                <option value="2">适中</option>
+                                {{/if}}
+                                {{#if (vo.credit === 3) }}
+                                <option value="3" selected="selected">严格</option>
+                                {{else}}
+                                <option value="3">严格</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">电核尺度：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="electricity" class="">
+                                {{#if (vo.electricity) }}
+                                <option value="">请选择</option>
+                                {{else}}
+                                <option value="" selected="selected">请选择</option>
+                                {{/if}}
+                                {{#if (vo.electricity === 1) }}
+                                <option value="1" selected="selected">宽松</option>
+                                {{else}}
+                                <option value="1">宽松</option>
+                                {{/if}}
+                                {{#if (vo.electricity === 2) }}
+                                <option value="2" selected="selected">适中</option>
+                                {{else}}
+                                <option value="2">适中</option>
+                                {{/if}}
+                                {{#if (vo.electricity === 3) }}
+                                <option value="3" selected="selected">严格</option>
+                                {{else}}
+                                <option value="3">严格</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">大数据审查：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="bigdata_review" class="">
+                                {{#if (vo.bigdata_review) }}
+                                <option value="">请选择</option>
+                                {{else}}
+                                <option value="" selected="selected">请选择</option>
+                                {{/if}}
+                                {{#if (vo.bigdata_review === 1) }}
+                                <option value="1" selected="selected">宽松</option>
+                                {{else}}
+                                <option value="1">宽松</option>
+                                {{/if}}
+                                {{#if (vo.bigdata_review === 2) }}
+                                <option value="2" selected="selected">适中</option>
+                                {{else}}
+                                <option value="2">适中</option>
+                                {{/if}}
+                                {{#if (vo.bigdata_review === 3) }}
+                                <option value="3" selected="selected">严格</option>
+                                {{else}}
+                                <option value="3">严格</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">官方电话：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" placeholder="请输入官方电话" maxlength="20" id="mobile" name="mobile" value="{{vo.mobile}}"/>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">联系人：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" placeholder="请输入联系人姓名" maxlength="20" id="link_name" name="link_name" value="{{vo.link_name}}"/>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">联系人手机：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="form-control" maxlength="11" placeholder="请输入联系人手机号" id="link_phone" name="link_phone" value="{{vo.link_phone}}"/>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">联系人座机：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="form-control" maxlength="20" placeholder="请输入联系人座机电话" id="link_mobile" name="link_mobile" value="{{vo.link_mobile}}"/>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="btn_box clearfix create_wf_btn_box" style="margin-bottom: 50px;padding-left: 10%;text-align: left;">
+                        <a id="add_btn_y" href="javascript:;" class="btn orange_btn confirm create_confirm" style="margin-left: 22px;">保存更新</a>
+                        <a id="add_btn_n" href="{{markUri}}/supplier/organization/system" class="btn bg_btn create_cancel">取消</a>
+                    </div>
+                </form>
             </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
+
         </div>
-        <div class="form-group have_system_url">
-            <label class="col-xs-2 control-label inviteLabel">
-                <span class="need">*</span>系统地址：</label>
-            <div class="col-xs-5">
-                <input class="form-control" type="text" placeholder="例如：http://www.zhihjf.com" maxlength="100" id="system_url" name="system_url" value="{{vo.system_url }}"/>
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-2 control-label inviteLabel">官方电话：</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control"placeholder="请输入官方电话"  maxlength="12" id="mobile" name="mobile" value="{{vo.mobile }}"/>
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-2 control-label inviteLabel">联系人：</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" placeholder="请输入联系人姓名" maxlength="20" id="link_name" name="link_name" value="{{vo.link_name }}"/>
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-2 control-label inviteLabel">联系人手机：</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" maxlength="11" placeholder="请输入联系人手机号" id="link_phone" name="link_phone" value="{{vo.link_phone }}"/>
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-2 control-label inviteLabel">联系人座机：</label>
-            <div class="col-xs-5">
-                <input type="text" class="form-control" maxlength="12" placeholder="请输入联系人座机电话" id="link_mobile" name="link_mobile" value="{{vo.link_mobile }}"/>
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-        </form>
+
+        <!---- Part of Main info End ---->
     </div>
-    <!--form end-->
+    <!-------- Part of main End -------->
+
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
 </div>
-{{#if (verifyCode(1072)) }}
-    <div class="form-group add_btn">
-        <div class="col-xs-10" style="margin-top:50px;margin-bottom:50px;margin-left:38.5555555%;">
-            <input type="button" id="add_btn_y" value="保存更新"/>
-            <a href="{{markUri}}/supplier/organization/system">
-                <input type="button" id="add_btn_n" value="取消"/>
-            </a>
-        </div>
-    </div>
-{{/if}}
-<!--listCon end-->
-
-</div>
-
-
-</div>
-
-<!--container end-->
-
+{{include ('./../inc/provinceCity')}}
+<div class="loading" id="loading"></div>
 </body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/organization/create.js"></script>
+<script src="{{markUri}}/static/js/common/provinceCity.js"></script>
+<script type="text/javascript">
+    (function ($) {
 
-<!--操作成功页  开始-->
-<div class="mask"></div>
-<div id="delS">
-    <div class="container">
-        <div class="row section">
+        //保存按钮
+        function saveOrg () {
+            var btn = $("#add_btn_y");
+            btn.off("click").on("click", function () {
+                send_organization_form(btn);
+            });
+        }
+        //保存更新函数
+        function send_organization_form(btn){
+            btn.attr('disabled',true);
 
-            <div class="col-xs-4 col-sm-offset-4 inviteBox delhtml">
-                <div class="col-sm-8 invSBox">
-                    <div class="col-sm-12 invSText">
-                        <div>操作成功</div>
-
-                        <img class="delSImg" src="{{markUri}}/static/img/employee/successIcon.png" alt=""/>
-                    </div>
-                </div>
-                <div class="col-sm-3 invSBtn cursor" id="delSBtn">确定</div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div id="delQ">
-    <div class="container">
-        <div class="row section">
-
-            <input type="hidden" id="applyto_business_name" value="">
-            <input type="hidden" id="applyto_business_new" value="">
-
-            <div class="col-xs-4 col-sm-offset-4 inviteBox delhtml" style="height:400px;">
-                <div class="col-sm-8 invSBox">
-                    <div class="col-sm-12 invSText" style="margin-top:20px;">
-                        <div style="line-height: 96px;">提醒</div>
-
-                        <img class="delQIMG" src="{{markUri}}/static/img/employee/failIcon.png" alt="" style="margin-top:0;"/>
-
-                    </div>
-                </div>
-                <div class="col-sm-12" style="margin-top:30px;">
-                    <div class="del_txt1" style="text-align: center;color:#535E6A;">
-                        所属机构的<span></span>产品将全部下架！
-                    </div>
-                </div>
-                <div class="col-sm-12" style="margin-top:25px;">
-                    <div class="col-sm-3 cursor inline delA" id="delQDBtn">确认</div>
-                    <div class="col-sm-3 cursor inline delM" id="delQXBtn">取消</div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!--操作成功页  结束-->
-<script>
-    var width = $('#organization_info_create').width();
-    var left = $('.col-xs-2').width();
-    $('.add_btn').css('marginLeft',-left - 95 + 'px');
-    $('.logo_error').css('marginLeft',left - 40 + 'px');
-    //点击保存更新
-    $('#add_btn_y').click(function(){
-        applyto_business_change($('#applyto_business_new'));
-        var name_str = $('#applyto_business_name').val();
-        var new_str = $('#applyto_business_new').val();
-        if(name_str == new_str || new_str == '01'){
-            send_organization_form(contextPath + "/api/organization/update");
-            return;
-        }else{
-            if(name_str != new_str){
-                var val = $('#applyto_business_new').val();
-                if(val == '0'){
-                    $('.del_txt1 span').html('二手车');
-                }else{
-                    $('.del_txt1 span').html('新车');
-                }
+            var name = $('#name');
+            if(!name.val()){
+                name.parent().find('.formError').html('机构名称不能为空');
+                name.css('border-color','#FB2741');
+                btn.attr('disabled',false);
+                return;
             }
-            porm_box();
-            return;
+            //适用业务
+            var applyto_business = $('#applyto_business');
+            var applyto_business1 = applyto_business.find('label').eq(0);
+            var applyto_business2 = applyto_business.find('label').eq(1);
+            if (applyto_business1.hasClass('checked') || applyto_business2.hasClass('checked')) {
+                applyto_business.find('.formError').html('');
+            } else {
+                applyto_business.find('.formError').html('请选择机构的适用业务');
+                btn.attr('disabled',false);
+                return;
+            }
+            //有无机构LOGO
+            var have_logo = $('#image_url .icon_check').length;
+            var logo_error = $('.logo_error');
+            if(have_logo == '0'){
+                logo_error.css('display','block');
+                logo_error.html('请选择机构LOGO');
+                btn.attr('disabled',false);
+                return;
+            } else {
+                logo_error.html('');
+            }
+            //有无系统
+            var have_system = $('#have_system');
+            var have_system1 = have_system.find('input[type="radio"]').eq(0).prop('checked');
+            var have_system2 = have_system.find('input[type="radio"]').eq(1).prop('checked');
+            if(!have_system1 && !have_system2){
+                have_system.find('.formError').html('请选择机构有无系统');
+                btn.attr('disabled',false);
+                return;
+            } else {
+                have_system.find('.formError').html('');
+            }
+            //有无系统地址
+            var have_system_url = $('.have_system_url').css('display');
+            var system_url = $('#system_url');
+            if(have_system_url == 'block'){
+                var have_system_url_val = system_url.val();
+                if(!have_system_url_val){
+                    system_url.parent().find('.formError').html('系统地址不能为空');
+                    btn.attr('disabled',false);
+                    return;
+                } else {
+                    system_url.parent().find('.formError').html('');
+                }
+            } else {
+                system_url.parent().find('.formError').html('');
+            }
+            //车龄限制--只针对二手车
+            var usedCar_status = $('#usedCars').attr('checked');
+            var minCarAge = $('.minCarAge');
+            var maxCarAge = $('.maxCarAge');
+            if (usedCar_status == 'checked') {
+                if (minCarAge.val() == '' || maxCarAge.val() == '') {
+                    minCarAge.parent().find('.formError').html('请输入车龄区间');
+                    btn.attr('disabled',false);
+                    return;
+                } else {
+                    minCarAge.parent().find('.formError').html('');
+                }
+            } else {
+                minCarAge.parent().find('.formError').html('');
+            }
+            //审批速度
+            var approval =$('.approval');
+            if (approval.val() == '') {
+                approval.parent().find('.formError').html('请选择审批速度');
+                btn.attr('disabled',false);
+                return;
+            } else {
+                approval.parent().find('.formError').html('');
+            }
+            //有无错误提示
+            var str = '';
+            var formError = $('.formError');
+            for(var i = 0; i < formError.length; i++){
+                var text = $('.formError').eq(i).text();
+                str += text;
+            }
+            if(str != ''){
+                btn.attr('disabled',false);
+                return;
+            }
+            //获取机构特点val
+            var org_features = [];
+            var org_feature = $('.org_feature');
+            org_feature.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    org_features.push(_cur.val());
+                }
+            });
+            $('.special').val(org_features.join(','));
+            //附加可融项目val
+            var additional_projects = [];
+            var additional_project = $('.additional_project');
+            additional_project.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    additional_projects.push(_cur.val());
+                }
+            });
+            $('.addition_finance').val(additional_projects.join(','));
+            ajaxSubmit();
         }
 
-    });
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('organization_info_create'));
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + "/api/organization/update",
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/list'
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            saveOrg();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    saveOrg();
+                }
+            });
+        }
+        //城市icon点击
+        function iconCity () {
+            var btn = $('.city_icon');
+            btn.off('click').on('click', function () {
+                $('.select_city_input').click();
+            });
+        }
 
-    $('#delQDBtn').click(function(){
-        send_organization_form(contextPath + "/api/organization/update");
-    });
-
-    $('#delQXBtn').click(function(){
-        $('.mask').css('display' , 'none');
-        $('#delQ').css('display','none');
-    });
+        $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            getBackDoor();
+            getPartner();
+            getPrincipal();
+            iconCity();
+            selectCity(1);
+            saveOrg();
+        });
+    })(jQuery,undefined);
 </script>
 </html>

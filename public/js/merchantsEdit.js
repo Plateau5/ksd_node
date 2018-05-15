@@ -107,7 +107,7 @@ function addOwnPerson () {
                 e.stopPropagation();
                 var val = $.trim($(this).val());
                 if (val) {
-                    var cityId = $.trim($('#businesssCity').find('option:selected').val());
+                    var cityId = $.trim($('#businessCity').find('option:selected').val());
                     var workCityList = jsonsql.query('select * from json where (work_city==' + cityId + ')', empList);  // 通过jsonsql查询匹配数据
                     var queryObj = fuzzyQuery(workCityList);
                     //var queryObj = emp_list;
@@ -773,7 +773,7 @@ function settingAddress () {
                         listBox.html(noDataEle).show();
                     }
 
-                } else if (status == 'error') {noDataEle
+                } else if (status == 'error') {
                     // $alert('获取数据失败');
                     mapBox.hide();
                     listBox.html(noDataEle).show();
@@ -788,11 +788,7 @@ function settingAddress () {
 
     });
 
-
-
-
     // 联想结果的点击事件
-
     listBox.off('click').on('click', '.addr_item', function (e) {
         var e = e || window.event;
         e.stopPropagation();
@@ -802,28 +798,54 @@ function settingAddress () {
         if (_this.hasClass('no_data')) {
             return false;
         }
+        var isSuccess = true;      // 是否匹配选中城市
         var name = _this.data('name');
         var lat = _this.data('lat');
         var lng = _this.data('lng');
         var addrResult = _this.find('.addr_desc').text();
-        addrElem.val(addrResult);   // 对地址输入进行赋值
-        searchTarget.val(name);   // 搜索框赋值
+        var newLocation = [lng, lat];    // 选中地址的location
+
         AMap.service('AMap.Geocoder',function(){//回调函数
             //实例化Geocoder
             geocoder = new AMap.Geocoder({
                 city: "",   //城市，默认：“全国”
                 map: kmap   //创建时直接赋予map属性
             });
-            // 设置选中位置地图回显展示
-            var newLocation = [lng, lat];    // 选中地址的location
-            $('#longitude').val(lng);
-            $('#latitude').val(lat);
-            mapBox.show();
-            listBox.hide();
-            //获得了有效的地址信息:
-            //即，result.regeocode.formattedAddress
-            marker.setPosition(newLocation);
-            kmap.setCenter(newLocation);
+            geocoder.getAddress(newLocation, function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    //获得了有效的地址信息:
+                    var cityCode = result.regeocode.addressComponent.citycode;      // 逆地理位置解析的城市code值（高德配置）
+                    var selectCityCode = $("#businessCity option:selected").data("code");      // 获取后台传输的城市高德地图id
+                    if (geoCode.indexOf(cityCode) === -1) {
+                        $alert("当前城市还未开通展业，请重新定位！");
+                        isSuccess = false;
+                        return;
+                    } else if (cityCode != selectCityCode) {
+                        $alert("详细地址与城市不匹配，请重新定位！");
+                        isSuccess = false;
+                        return;
+                    }
+                    // 当匹配成功时间更改页面地址数据
+                    if (isSuccess) {
+                        addrElem.val(addrResult).data('geoCode', cityCode);   // 对地址输入进行赋值
+                        searchTarget.val(name);   // 搜索框赋值
+                        // 设置选中位置地图回显展示
+                        // var newLocation = [lng, lat];    // 选中地址的location
+                        $('#longitude').val(lng);
+                        $('#latitude').val(lat);
+                        mapBox.show();
+                        listBox.hide();
+                        //获得了有效的地址信息:
+                        //即，result.regeocode.formattedAddress
+                        marker.setPosition(newLocation);
+                        kmap.setCenter(newLocation);
+                    }
+                }else{
+                    //获取地址失败
+                }
+            });
+
+
         })
 
     });
@@ -1082,6 +1104,14 @@ function validateEmpty () {
             isVerify = false;
             $alert('签约机构必须选择一个。');
         }
+    }
+
+    // 校验城市与地址是否匹配
+    var checkedCityGeoCode = $("#businessCity option:selected").data("code");      // 获取后台传输的城市高德地图id
+    var addrGeoCode = addrElem.data('geoCode');
+    if (checkedCityGeoCode != addrGeoCode) {
+        $alert("详细地址与城市不匹配，请重新定位！");
+        isVerify = false;
     }
 
     return isVerify;

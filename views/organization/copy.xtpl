@@ -1,868 +1,865 @@
+<!--新建机构页-->
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>产品管理</title>
-    {{include ("./../inc/metaData")}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/information.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css">
-    <script src="{{markUri}}/static/js/common/validate_form.js"></script>
-    <script src="{{markUri}}/static/js/product/create.js"></script>
-    <style type="text/css">
-        body{overflow-x: hidden;}
-        .formML{margin-bottom:50px;margin-top:35px;padding-left:4%;}
-        .col-xs-10,.col-xs-8,.col-xs-7,div[class*="col-xs-2"],div[class*="col-xs-3"]{margin-left:-40px;}
-        .col-xs-8 textarea{height:86px;resize: none;-webkit-scroll-y:auto;}
-        .mask{width:100%;position: absolute;z-index:1;display:none;left:0;top:0;}
-    </style>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/product/create.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/common/provinceCity.css"/>
 </head>
 <body>
-<div class="mask"></div>
-{{include ('./../inc/header')}}
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
 
-<!--container start-->
-
-<div class="container minWidth">
-    <div class="row section">
-        <!--navLeft start-->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
 
-        <!--navLeft end-->
-
-        <!--listCon start-->
-        <div class="" style="margin-left:0;padding-left:180px;">
-            <div class="listConHeader inviteCon">
-                <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/supplier/organization/system" style="cursor: pointer;">金融机构</a></li>
-                    <li class="inline colorB before"><a class="TS go_forward" data-url="{{markUri}}/supplier/organization/unpublishedProducts" style="cursor: pointer;">产品管理</a></li>
-                    <li class="inline before"><a href="javascript:;">发布新产品</a></li>
-                </ul>
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main product_new">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a data-id="{{vo.parent_id}}" class="TS crumbs_item go_forward" data-url="{{markUri}}/supplier/organization/publishedProducts" style="cursor: pointer;">产品管理</a>
+                <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
             <!--form start-->
-            <div class="inviteForm inviteConB formMT">
+            <div class="product_create">
 
-                <form class="form-horizontal formML" id="product_info_create">
-                    <input type="hidden" name="parent_id" value="{{vo.parent_id}}">
+                <form method="post" id="product_create">
+                    <input type="hidden" name="id" value="{{vo.id}}">
+                    <input type="hidden" name="parent_id" value="{{vo.parent_id}}" class="parent_id">
                     <input type="hidden" name="parent_name" value="{{vo.parent_name}}">
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>产品名称：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" id="name" name="name" value="{{vo.name}}" placeholder="请输入产品名称" maxlength="20" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='请输入产品名称';this.style.color='#A4A8AB';}"/>
+                    <div class="form_content form_options merchants_create">
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>产品名称：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" id="name" class="requireTrue" data-text="商户名称" maxlength="20" name="name"  value="" placeholder="请输入产品名称"  />
+                                <span class="tips_info">(*请输入产品名称)</span>
+                                <span class="formError"></span>
+                            </div>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">产品介绍：</label>
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" id="introduce" name="introduce" placeholder="请输入产品介绍(12字以内)" maxlength="12" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='请输入产品介绍(12字以内)';this.style.color='#A4A8AB';}"/>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>产品来源：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="hidden" class="product_source" name="product_origin" value="{{vo.product_origin}}">
+                                <div class="radio">
+                                    {{#if (vo.product_origin === 1) }}
+                                    <input id="product_source_other" type="radio" name="product_source_other" value="1" class="" checked="checked">
+                                    <label for="product_source_other" class="checked">金融方</label>
+                                    {{else}}
+                                    <input id="product_source_other" type="radio" name="product_source_other" value="1" class="">
+                                    <label for="product_source_other">金融方</label>
+                                    {{/if}}
+                                </div>
+                                <div class="radio">
+                                    {{#if (vo.product_origin === 2) }}
+                                    <input id="product_source_self" type="radio" name="product_source_other" value="2" class="" checked="checked">
+                                    <label for="product_source_self" class="checked">自营</label>
+                                    {{else}}
+                                    <input id="product_source_self" type="radio" name="product_source_other" value="2" class="">
+                                    <label for="product_source_self">自营</label>
+                                    {{/if}}
+                                </div>
+                                <span class="formError"></span>
+                            </div>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
-                    </div>
-                    <div class="form-group" id="applyto_business" style="margin-bottom:0;">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>适用业务：</label>
-                        <div class="col-xs-3">
-                            <div class="form-control" style="border:0;background:#F5F5F5;padding:0;margin-bottom:10px;">
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>适用业务：</span>
+                            </div>
+                            <div id="applyto_business" class="column_val">
+                                {{#if (applyto_business.indexOf(',') !== -1) }}
+                                <input type="hidden" class="applyto_business" name="applyto_business" value="{{vo.applyto_business}}">
                                 <div class="radio">
                                     {{#if (vo.applyto_business === 0) }}
-                                    <input type="radio" name="applyto_business" class="radio_applyto_business" value="0" checked >
+                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                    <label for="new_car" class="checked">新车</label>
                                     {{else}}
-                                    <input type="radio" name="applyto_business" class="radio_applyto_business" value="0" >
+                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business">
+                                    <label for="new_car">新车</label>
                                     {{/if}}
-                                    <label>新车</label>
                                 </div>
-                                <div class="radio">
+                                <div class="radio" style="margin-left:13px;">
                                     {{#if (vo.applyto_business === 1) }}
-                                    <input type="radio" name="applyto_business" class="radio_applyto_business" value="1" checked >
+                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                    <label for="old_car" class="checked">二手车</label>
                                     {{else}}
-                                    <input type="radio" name="applyto_business" class="radio_applyto_business" value="1" >
+                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                    <label for="old_car">二手车</label>
                                     {{/if}}
-                                    <label>二手车</label>
                                 </div>
-                            </div>
-                        </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
-                    </div>
-                    <!--<div class="form-group">
-                    <label class="col-xs-2 control-label inviteLabel">
-                        <span class="need">*</span>所属机构：</label>
-                    <div class="col-xs-5">
-                        <select name="parent_id" id="parent_id">
-                            <option value="-1" <c:if test="${vo.parent_id eq -1 }">selected</c:if> >全部</option>
-                            <c:forEach items="${apply_business }" var="bean">
-                                <option value="${bean.id}" <c:if test="${vo.parent_id eq bean.id }">selected</c:if> >${bean.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <span class="formProm"></span>
-                    <div class="trueImg"></div>
-                    <span class="formError"></span>
-                </div>-->
-                    <!--<c:if test="${fn:length(city_business) > 1 }">-->
-                    <div class="form-group" id="applyto_city" style="margin-bottom:0;">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>适用城市：</label>
-                        <div class="col-xs-8">
-                            <input type="hidden" name="city_ids" value="">
-                            <div class="form-control checkBox" id="cityIdsCont" style="border:0;background:#F5F5F5;margin-bottom:10px;">
-                                <!--<c:forEach items="${city_business}" var="bean">
+                                {{else}}
+                                <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                {{#if (applyto_business === '0' ) }}
                                 <div class="radio">
-                                    <input type="radio" name="applyto_city" value="${bean.id}">
-                                    <label>${bean.name}</label>
+                                    <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                    <label for="new_car" class="checked">新车</label>
                                 </div>
-                            </c:forEach>-->
-                                {{#each (city_business) }}
-                                <div class="check" data-id="{{this.id}}">
-                                    {{#if (vo.applyto_city === this.id) }}
-                                    <div class="check_img icon_check"></div>
-                                    {{else}}
-                                    <div class="check_img icon_uncheck"></div>
-                                    {{/if}}
-                                    <span>{{this.name}}</span>
+                                {{elseif (applyto_business === '1' )}}
+                                <div class="radio">
+                                    <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                    <label for="old_car" class="old_car checked">二手车</label>
                                 </div>
-                                {{/each}}
+                                {{/if}}
+                                {{/if}}
+                                <span class="formError"></span>
                             </div>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
-                    </div>
-                    <!--</c:if>-->
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label inviteLabel">
-                            <span class="need">*</span>首付类型：</label>
-                        <div class="col-xs-5">
-                            <select name="downpayment_type" id="downpayment_select">
-                                <option value="-1">全部</option>
-                                {{#if (vo.downpayment_type === 1) }}
-                                <option value="1" selected="selected">首付比例</option>
-                                {{else}}
-                                <option value="1">首付比例</option>
-                                {{/if}}
-                                {{#if (vo.downpayment_type === 2) }}
-                                <option value="2" selected="selected">首付金额</option>
-                                {{else}}
-                                <option value="2">首付金额</option>
-                                {{/if}}
-                            </select>
+                        <div id="applyto_city" class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
+                            </div>
+                            <div class="column_val select_city_icon">
+                                <input type="hidden" class="select_city_ids" name="city_ids"  value=""/>
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择省市" readonly/>
+                                <em class="city_icon"></em>
+                                <span class="formError"></span>
+                            </div>
                         </div>
-                        <span class="formProm"></span>
-                        <div class="trueImg"></div>
-                        <span class="formError"></span>
-                    </div>
-                    {{#if (vo.downpayment_type === 1) }}
-                    <div class="form-group downpayment_rate" style="margin-bottom:0; display:block;">
-                    {{else}}
-                    <div class="form-group downpayment_rate" style="margin-bottom:0; display:none;">
-                    {{/if}}
-                    <label class="col-xs-2 control-label inviteLabel">
-                        <span class="need">*</span>首付比例：</label>
-                    <div class="col-xs-8" style="margin-left:-40px;">
-                        <div class="form-control checkBox">
-                            <input type="hidden" id="downpayment_rate" name="downpayment_rate" value="">
-                            {{#each (list_downpaymentrate) }}
-                                <div class="check">
-                                    <div class="check_img
-	                                    {{#if (vo.downpayment_rate.indexOf('0') === 0 && this.id === '0') }}
-                                        icon_check
-                                        {{elseif (vo.downpayment_rate.indexOf(this.id) !== -1 && this.id !== '0') }}
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付类型：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="downpayment_type" id="downpayment_select">
+                                    <option value="-1">请选择</option>
+                                    {{#if (vo.downpayment_type === 1) }}
+                                    <option value="1" selected="selected">首付比例</option>
+                                    {{else}}
+                                    <option value="1">首付比例</option>
+                                    {{/if}}
+                                    {{#if (vo.downpayment_type === 2) }}
+                                    <option value="2" selected="selected">首付金额</option>
+                                    {{else}}
+                                    <option value="2">首付金额</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                            <span class="formError"></span>
+                        </div>
+                        {{#if (vo.downpayment_type === 1) }}
+                        <div class="option_item downpayment_rate" style="display: block;">
+                        {{else}}
+                        <div class="option_item downpayment_rate" style="display: none;">
+                        {{/if}}
+                            <input type="hidden" id="downpayment_rate" name="downpayment_rate" value="{{vo.downpayment_rate}}">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                            </div>
+                            <div class="column_val">
+                                <div class="form-control checkBox">
+                                    {{#if (vo.downpayment_rate) }}
+                                    {{set (downRate = vo.downpayment_rate.split(",")) }}
+                                    {{#each (list_downpaymentrate) }}
+                                    <div class="check">
+                                        <div class="check_img
+                                        {{#if (../downRate.indexOf(this.id.toString()) !== -1) }}
                                             icon_check
                                         {{else}}
                                             icon_uncheck
-                                        {{/if}}
-                                    ">
+                                        {{/if}}"></div>
+                                        <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
                                     </div>
-                                    <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
-                                </div>
-                            {{/each}}
-                        </div>
-
-            </div>
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-         {{#if (vo.downpayment_type === 2) }}
-            <div class="form-group downpayment_money" style="display:block;">
-         {{else}}
-            <div class="form-group downpayment_money" style="display:none;">
-         {{/if}}
-        <input type="hidden" id="downpayment_money" name="downpayment_money" value="">
-        <label class="col-xs-2 control-label inviteLabel">
-            <span class="need">*</span>首付金额：</label>
-        {{#each (downpayment_money) }}
-            <div class="col-xs-10 downpayment_box">
-                <div class="col-xs-6 downpayment_add_ready">
-                    <input type="text" class="form-control" readonly="readonly" id="" name="" value="{{this}}" />
-                    <span>元</span>
-                    <span class="cursor downpayment_add_del">删除</span>
-                </div>
-            </div>
-        {{/each}}
-        {{#if (downpayment_money_size >= 5) }}
-        <div class="col-xs-6 downpayment_add" style="margin-left:-40px;display:none;">
-        {{else}}
-            <div class="col-xs-6 downpayment_add" style="margin-left:-40px;display:block;">
-        {{/if}}
-            <input type="text" class="form-control" placeholder="请输入首付金额" id="" name="downpayment_money_add" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
-            <span>元</span>
-            <span class="cursor downpayment_add_txt">添加</span>
-        </div>
-        <div class="col-xs-5">
-            <span class="formProm"></span>
-            <div class="trueImg"></div>
-            <span class="formError"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <input type="hidden" id="interest_rate" name="interest_rate" value="">
-        <label class="col-xs-2 control-label inviteLabel">
-            <span class="need">*</span>费率：</label>
-        {{#each (interest_rate_list) }}
-            <div class="col-xs-10 rate_box">
-                <div class="col-xs-6 rate_add_ready">
-                    <input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" id="" name="interest_rate_date" value="{{this}}" />
-                    <span>%</span>
-                    <span class="cursor rate_add_del">删除</span>
-                </div>
-            </div>
-        {{/each}}
-        <!--该处原始为页面加载完成后直接JS计算-->
-        <!--<div class="col-xs-6 rate_add" style="margin-left:-40px;display:-->
-        {{#if (interest_rate_size >= 5) }}
-	    <div class="col-xs-6 rate_add" style="margin-left:-40px;display:none;">
-        {{else}}
-        <div class="col-xs-6 rate_add" style="margin-left:-40px;display:block;">
-        {{/if}}
-        <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" name="interest_rate_input" value="" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,interest_rate_input);"/>
-        <span>%</span>
-        <span class="cursor rate_add_txt">添加</span>
-    </div>
-    <div class="col-xs-5 e_tip_info" style="margin-left: 130px;">
-        <span class="formProm"></span>
-        <div class="trueImg"></div>
-        <span class="formError"></span>
-    </div>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        <span class="need">*</span>融资金额范围：</label>
-    <div class="col-xs-2" style="margin-right:-15px;">
-        <input type="text" class="form-control" id="financeamount_start" placeholder="请输入最小金额" value="{{vo.financeamount_start }}" name="financeamount_start" maxlength="5" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_start);"/>
-    </div>
-    <div class="col-xs-1" style="margin-left:-2.5%;line-height: 34px;text-align: center;padding:0;">—</div>
-    <div class="col-xs-2" style="margin-right:-15px;margin-left:-2.5%;padding-left:0">
-        <input type="text" class="form-control" id="financeamount_end" placeholder="请输入最大金额" value="{{vo.financeamount_end }}" name="financeamount_end"  maxlength="5" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,financeamount_end);"/>
-    </div>
-    <div class="col-xs-1" style="margin-left:0;line-height:34px;">
-        <span>万</span>
-    </div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group" id="term" style="margin-bottom:0;">
-    <input type="hidden" name="term" value="{{vo.term }}">
-    <label class="col-xs-2 control-label inviteLabel">
-        <span class="need">*</span>融资期限：</label>
-    <div class="col-xs-9" style="margin-left:-40px;">
-        <div class="form-control checkBox">
-            {{#each (list_term) }}
-                <div class="check">
-                    <div class="check_img
-	                {{#if (vo.term.indexOf('6') === 0 && this.id === '6') }}
-                    icon_check
-                    {{elseif (vo.term.indexOf(this.id) !== -1 && this.id !== '6') }}
-                        icon_check
-                    {{else}}
-                        icon_uncheck
-                    {{/if}}
-                    "></div>
-                <span>{{this.id}}</span>
-        </div>
-        {{/each}}
-    </div>
-</div>
-<span class="formProm"></span>
-<div class="trueImg"></div>
-<span class="formError"></span>
-</div>
-<div class="form-group" id="carage_form">
-    <label class="col-xs-2 control-label inviteLabel">
-        <span class="need">*</span>车龄限制：</label>
-    <div class="col-xs-2" style="margin-right:-15px;">
-        <input type="text" class="form-control" id="carage_start" placeholder="请输入最小车龄" name="carage_start" value="{{vo.carage_start }}" maxlength="4" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,carage_start);"/>
-    </div>
-    <div class="col-xs-1" style="margin-left:-2.5%;line-height: 34px;padding:0;text-align: center;">—</div>
-    <div class="col-xs-2" style="margin-right:-15px;margin-left:-2.5%;padding-left:0">
-        <input type="text" class="form-control" id="carage_end" placeholder="请输入最大车龄" name="carage_end" value="{{vo.carage_end }}" maxlength="4" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,carage_end);"/>
-    </div>
-    <div class="col-xs-1" style="margin-left:0;line-height:34px;">
-        <span>年</span>
-    </div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group" style="margin-bottom:0;">
-    <label class="col-xs-2 control-label inviteLabel" style="margin-bottom:20px;">
-        年龄限制范围：</label>
-    <div class="col-xs-2" style="margin-right:-15px;margin-bottom:20px;">
-        <input type="text" class="form-control" maxlength="2" id="age_start" value="{{vo.age_start }}" placeholder="请输入最小年龄" name="age_start" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,age_start);"/>
-    </div>
-    <div class="col-xs-1" style="margin-left:-2.5%;line-height: 34px;margin-bottom:20px;padding:0;text-align: center;">—</div>
-    <div class="col-xs-2" style="margin-right:-15px;margin-bottom:20px;margin-left:-2.5%;padding-left:0">
-        <input type="text" class="form-control" maxlength="2" id="age_end" value="{{vo.age_end }}" placeholder="请输入最大年龄" name="age_end" onfocus="this.placeholder='';this.style.color='#535E6A';" onblur="if(this.placeholder=='') {this.placeholder='';this.style.color='#A4A8AB';}" onkeypress="IsNum(event,age_end);"/>
-    </div>
-    <div class="col-xs-3" style="margin-left:0;line-height:34px;margin-bottom:20px;">
-        <span>岁</span>
-        <span class="cursor add_txt">备注</span>
-    </div>
-    <span class="formProm" style="margin-bottom:20px;"></span>
-    <div class="trueImg" style="margin-bottom:20px;"></div>
-    <span class="formError" style="margin-bottom:20px;"></span>
-    <div class="col-xs-8 remarks_box"><textarea name="age_remark" placeholder="请输入内容" id="age_remark" class="form-control" maxlength="400">{{vo.age_remark }}</textarea></div>
-</div>
-<div class="form-group" id="addition_finance" style="margin-bottom:0;">
-    <input type="hidden" name="addition_finance" value="">
-    <label class="col-xs-2 control-label inviteLabel">附加可融项目：</label>
-    <div class="col-xs-7">
-        <div class="form-control checkBox">
-            <div class="check">
-                <div class="check_img
-                {{#if (vo.addition_finance.indexOf('GPS') !== -1) }}
-                icon_check
-                {{else}}
-                    icon_uncheck
-                {{/if}}
-                "></div>
-            <span>GPS</span>
-        </div>
-        <div class="check">
-            <div class="check_img
-            {{#if (vo.addition_finance.indexOf('保险') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-            "></div>
-        <span>保险</span>
-    </div>
-    <div class="check">
-        <div class="check_img
-        {{#if (vo.addition_finance.indexOf('服务费') !== -1) }}
-            icon_check
-        {{else}}
-            icon_uncheck
-        {{/if}}
-        "></div>
-    <span>服务费</span>
-</div>
-<div class="check">
-    <div class="check_img
-    {{#if (vo.addition_finance.indexOf('人身意外险') !== -1) }}
-        icon_check
-    {{else}}
-        icon_uncheck
-    {{/if}}
-    "></div>
-<span>人身意外险</span>
-</div>
-<div class="check">
-    <div class="check_img
-    {{#if (vo.addition_finance.indexOf('购置税') !== -1) }}
-        icon_check
-    {{else}}
-        icon_uncheck
-    {{/if}}
-    "></div>
-<span>购置税</span>
-</div>
-</div>
-</div>
-<span class="formProm"></span>
-<div class="trueImg"></div>
-<span class="formError"></span>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        <span class="need">*</span>审批速度：</label>
-    <div class="col-xs-5">
-        <select id="approve_speed" name="approve_speed">
-            {{#if (vo.approve_speed === 1) }}
-            <option value="1" selected="selected">1-20分钟</option>
-            {{else}}
-            <option value="1">1-20分钟</option>
-            {{/if}}
-            {{#if (vo.approve_speed === 2) }}
-            <option value="2" selected="selected">1-3个小时</option>
-            {{else}}
-            <option value="2">1-3个小时</option>
-            {{/if}}
-            {{#if (vo.approve_speed === 3) }}
-            <option value="3" selected>半个工作日</option>
-            {{else}}
-            <option value="3">半个工作日</option>
-            {{/if}}
-            {{#if (vo.approve_speed === 4) }}
-            <option value="4" selected>1个工作日</option>
-            {{else}}
-            <option value="4">1个工作日</option>
-            {{/if}}
-            {{#if (vo.approve_speed === 5) }}
-            <option value="5" selected>1-2个工作日</option>
-            {{else}}
-            <option value="5">1-2个工作日</option>
-            {{/if}}
-            {{#if (vo.approve_speed === 6) }}
-            <option value="6" selected>3个工作日</option>
-            {{else}}
-            <option value="6">3个工作日</option>
-            {{/if}}
-        </select>
-    </div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group" id="material" style="margin-bottom:0;">
-    <input type="hidden" name="material" value="">
-    <label class="col-xs-2 control-label inviteLabel">
-        <span class="need">*</span>所需材料：</label>
-    <div class="col-xs-10">
-        <div class="form-control checkBox">
-            {{#each (list_material) }}
-                <div class="check" >
-                    <div class="check_img
-	                {{#if (vo.material.indexOf(this.id) !== -1) }}
-                        icon_check
-                    {{else}}
-                        icon_uncheck
-                    {{/if}}
-                    " id="{{this.id }}"></div>
-                <span>{{this.name}}</span>
-        </div>
-        {{/each}}
-    </div>
-</div>
-<div class="col-xs-10 form_left">
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-</div>
-
-<div class="form-group" id="outsettling">
-    <input type="hidden" name="outsettling_province" value="{{vo.outsettling_province }}">
-    <input type="hidden" name="outsettling_city" value="{{vo.outsettling_city }}">
-    <label class="col-xs-2 control-label inviteLabel">
-        可抵押城市：</label>
-    <div class="col-xs-5" style="position: relative;">
-        <input type="text"  class="form-control cursor city"
-            value="{{#if (vo.outsettling_province_count > 0) }}{{vo.outsettling_province_name }}等{{vo.outsettling_province_count }}个省份{{/if}}"
-            readonly="readonly" placeholder="请选择" style="background-color:#fff;">
-        <img class="city_img" src="/static/img/product/province.png" alt="">
-        <div class="select_city_box">
-            <div class="box_top">
-                <div class="box_top_left province_btn cur_city">省份</div>
-                <div class="box_top_right city_btn">城市</div>
-            </div>
-            <div class="box_middle">
-                <div class="box_middle_left_container display" id="outsettling_province" >
-                    {{#each (list_province) }}
-                        <div class="container_txt_box">
-                            <div class="check_img
-	                        {{#if (vo.outsettling_province.indexOf(this.id) !== -1) }}
-                                icon_check
-                            {{else}}
-                                icon_uncheck
-                            {{/if}}
-                            cursor select_province_img" id="{{this.id }}"></div>
-                        <div class="container_txt">{{this.name}}</div>
-                </div>
-                {{/each}}
-            </div>
-            <div class="box_middle_right_container" id="outsettling_city" >
-                <div class="container_city_box">
-                    {{#each (list_city) }}
-                        <div class="city_box
-                        {{#if (vo.outsettling_province.indexOf(this.id) !== -1) }}
-                        display
-                        {{/if}}
-                        " id="{{this.id }}">
-                        <div class="container_city_box_top">{{this.name}}</div>
-                        <div class="container_city_box_middle">
-                            {{#each (this.city_list) }}
-                                <div class="container_txt_box">
-                                    <div class="check_img
-                                    {{#if (vo.outsettling_city.indexOf(this.id) !== -1) }}
-                                        icon_check
-                                    {{else}}
-                                        icon_uncheck
+                                    {{/each}}
                                     {{/if}}
-                                    cursor select_province_img" id="{{this.id}}"></div>
-                                <div class="container_txt">{{this.name}}</div>
+                                </div>
+                            </div>
+                            <span class="formError"></span>
                         </div>
-                    {{/each}}
-                </div>
-                <div class="clear"></div>
-            </div>
-            {{/each}}
-        </div>
-    </div>
-</div>
-<div class="box_bottom">
-    <div class="box_bottom_n_btn">取消</div>
-    <div class="box_bottom_y_btn">确定</div>
-</div>
-</div>
-</div>
+                        {{#if (vo.downpayment_type === 2) }}
+                        <div class="option_item downpayment_money" style="display: block;">
+                        {{else}}
+                        <div class="option_item downpayment_money" style="display: none;">
+                        {{/if}}
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                            </div>
+                            {{#if (downpayment_money) }}
+                                <input type="hidden" id="downpayment_money" name="downpayment_money" value="{{downpayment_money.join(',')}}">
+                                {{#if (downpayment_money.length === 1) }}
+                                    <div class="column_val downpayment_add" style="margin-top: 10px;">
+                                        <input type="text" class="form-control" placeholder="请输入首付金额"  name="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" value="{{downpayment_money[0]}}" style="width:90px;"/>
+                                        <span>元</span>
+                                        <span class="cursor downpayment_add_txt">添加</span>
+                                        <span class="formError"></span>
+                                    </div>
+                                {{elseif (downpayment_money.length === 5)}}
+                                    {{#each (downpayment_money)}}
+                                    <div class="downpayment_box">
+                                        <div class="downpayment_add_ready" style="padding-top: 10px;">
+                                            <input type="text" readonly="readonly" id="" name="downpayment_money" value="{{this}}" style="width:90px;">
+                                            <span>元</span>
+                                            <span class="cursor downpayment_add_del">删除</span>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                    <div class="column_val downpayment_add" style="margin-top: 10px;padding-left: 12%;display: none;">
+                                        <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width:90px;"/>
+                                        <span>元</span>
+                                        <span class="cursor downpayment_add_txt">添加</span>
+                                        <span class="formError"></span>
+                                    </div>
+                                {{else}}
+                                    {{#each (downpayment_money)}}
+                                        {{#if (xindex === downpayment_money.length - 1) }}
+                                            <div class="column_val downpayment_add" style="margin-top: 10px;padding-left: 12%;">
+                                                <input type="text" class="form-control" placeholder="请输入首付金额"  name=""  maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" value="{{this}}" style="width:90px;"/>
+                                                <span>元</span>
+                                                <span class="cursor downpayment_add_txt">添加</span>
+                                                <span class="formError"></span>
+                                            </div>
+                                        {{else}}
+                                            <div class="downpayment_box">
+                                                <div class="downpayment_add_ready" style="padding-top: 10px;">
+                                                    <input type="text" readonly="readonly" id="" name="" value="{{this}}" style="width:90px;">
+                                                    <span>元</span>
+                                                    <span class="cursor downpayment_add_del">删除</span>
+                                                </div>
+                                            </div>
+                                        {{/if}}
+                                    {{/each}}
+                                {{/if}}
+                            {{else}}
+                                <input type="hidden" id="downpayment_money" name="downpayment_money" value="">
+                                <div class="column_val downpayment_add" style="margin-top: 10px;">
+                                    <input type="text" class="form-control" placeholder="请输入首付金额"  name="" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width:90px;"/>
+                                    <span>元</span>
+                                    <span class="cursor downpayment_add_txt">添加</span>
+                                    <span class="formError"></span>
+                                </div>
+                            {{/if}}
+                        </div>
 
-<span class="formProm"></span>
-<div class="trueImg"></div>
-<span class="formError"></span>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        审批宽松度：</label>
-    <div class="col-xs-5">
-        <select name="fitness" id="fitness">
-            <option value="-1">全部</option>
-            {{#if (vo.fitness === 1) }}
-            <option value="1" selected>宽松</option>
-            {{else}}
-            <option value="1">宽松</option>
-            {{/if}}
-            {{#if (vo.fitness === 2) }}
-            <option value="2" selected>适中</option>
-            {{else}}
-            <option value="2">适中</option>
-            {{/if}}
-            {{#if (vo.fitness === 3) }}
-            <option value="3" selected>严格</option>
-            {{else}}
-            <option value="3">严格</option>
-            {{/if}}
-        </select>
-    </div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        主贷人征信：</label>
-    <div class="col-xs-3">
-        <div class="form-control" style="border:0;background:#F5F5F5;padding:0;">
-            <div class="radio">
-                {{#if (vo.borrower_credit === 1) }}
-                <input type="radio" checked name="borrower_credit" value="1">
-                {{else}}
-                <input type="radio" name="borrower_credit" value="1">
-                {{/if}}
-                <label>需要</label>
-            </div>
-            <div class="radio">
-                {{#if (vo.borrower_credit === 0) }}
-                <input type="radio" checked name="borrower_credit" value="0">
-                {{else}}
-                <input type="radio" name="borrower_credit" value="0">
-                {{/if}}
-                <label>不需要</label>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-3" style="margin-left:-7%;height:34px;padding-top:7px;">
-        <span class="cursor add_txt" style="margin-left:0px;">备注</span>
-    </div>
-    <div class="col-xs-8 remarks_box"><textarea placeholder="请输入内容" name="borrower_credit_remark" id="borrower_credit_remark" class="form-control" maxlength="400">{{vo.borrower_credit_remark }}</textarea></div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        配偶征信：</label>
-    <div class="col-xs-3">
-        <div class="form-control" style="border:0;background:#F5F5F5;padding:0;">
-            <div class="radio">
-                {{#if (vo.spouse_credit === 1 ) }}
-                    <input type="radio" name="spouse_credit" checked value="1">
-                {{else}}
-                    <input type="radio" name="spouse_credit" value="1">
-                {{/if}}
-                <label>需要</label>
-            </div>
-            <div class="radio">
-                {{#if (vo.spouse_credit === 0) }}
-                <input type="radio" name="spouse_credit" checked value="0">
-                {{else}}
-                <input type="radio" name="spouse_credit" value="0">
-                {{/if}}
-                <label>不需要</label>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-3" style="margin-left:-7%;height:34px;padding-top:7px;">
-        <span class="cursor add_txt" style="margin-left:0px;">备注</span>
-    </div>
-    <div class="col-xs-8 remarks_box"><textarea placeholder="请输入内容" name="spouse_credit_remark" id="spouse_credit_remark" class="form-control" maxlength="400">{{vo.spouse_credit_remark }}</textarea></div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        GPS费用：</label>
-    <div class="col-xs-8">
-        <textarea name="gps" placeholder="请输入内容" id="gps" maxlength="400" class="form-control">{{vo.gps }}</textarea>
-    </div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        背户情况：</label>
-    <div class="col-xs-3">
-        <div class="form-control" style="border:0;background:#F5F5F5;padding:0;">
-            <div class="radio">
-                {{#if (vo.bei_hu === 1) }}
-                <input type="radio" name="bei_hu" checked value="1">
-                {{else}}
-                <input type="radio" name="bei_hu" value="1">
-                {{/if}}
-                <label>可以</label>
-            </div>
-            <div class="radio">
-                {{#if (vo.bei_hu === 0) }}
-                <input type="radio" name="bei_hu" checked value="0">
-                {{else}}
-                <input type="radio" name="bei_hu" value="0">
-                {{/if}}
-                <label>不可以</label>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-3" style="margin-left:-7%;height:34px;padding-top:7px;">
-        <span class="cursor add_txt" style="margin-left:0;">备注</span>
-    </div>
-    <div class="col-xs-8 remarks_box"><textarea placeholder="请输入内容" name="bei_hu_remark" id="bei_hu_remark" class="form-control" maxlength="400">{{vo.bei_hu_remark }}</textarea></div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group" style="margin-bottom:0;" id="special">
-    <input type="hidden" name="special" value="">
-    <label class="col-xs-2 control-label inviteLabel">
-        产品特点：</label>
-    <div class="col-xs-9" style="margin-left:-40px;">
-        <div class="form-control checkBox">
-            <div class="check">
-                <div class="check_img
-                {{#if (vo.special.indexOf('审批快') !== -1 ) }}
-                    icon_check
-                {{else}}
-                    icon_uncheck
-                {{/if}}
-                "></div>
-            <span>审批快</span>
-        </div>
-        <div class="check">
-            <div class="check_img
-            {{#if (vo.special.indexOf('材料少') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-            "></div>
-        <span>材料少</span>
-    </div>
-    <div class="check">
-        <div class="check_img
-            {{#if (vo.special.indexOf('利息低') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-        "></div>
-    <span>利息低</span>
-</div>
-<div class="check">
-    <div class="check_img
-        {{#if (vo.special.indexOf('利润大') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-    "></div>
-<span>利润大</span>
-</div>
-<div class="check">
-    <div class="check_img
-            {{#if (vo.special.indexOf('灵活') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-    "></div>
-<span>灵活</span>
-</div>
-<div class="check">
-    <div class="check_img
-            {{#if (vo.special.indexOf('首付低') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-    "></div>
-<span>首付低</span>
-</div>
-<div class="check">
-    <div class="check_img
-            {{#if (vo.special.indexOf('尺度大') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-    "></div>
-<span>尺度大</span>
-</div>
-<div class="check">
-    <div class="check_img
-            {{#if (vo.special.indexOf('可做黑户') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-    "></div>
-<span>可做黑户</span>
-</div>
-<div class="check">
-    <div class="check_img
-            {{#if (vo.special.indexOf('无驾照') !== -1) }}
-                icon_check
-            {{else}}
-                icon_uncheck
-            {{/if}}
-    "></div>
-<span>无驾照</span>
-</div>
-</div>
-</div>
-<span class="formProm"></span>
-<div class="trueImg"></div>
-<span class="formError"></span>
-</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>费率：</span>
+                            </div>
+                            {{#if (interest_rate_list.length === 1) }}
+                                <div class="column_val rate_add" style="margin-top: 10px;">
+                                    <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" maxlength="5" onpaste="return false;" onkeyup="clearNoNum(this)" name="interest_rate" value="{{interest_rate_list[0]}}" style="width:90px;"/>
+                                    <span>%</span>
+                                    <span class="cursor rate_add_txt">添加</span>
+                                    <span class="formError"></span>
+                                </div>
+                            {{elseif (interest_rate_list.length === 5) }}
+                                {{#each (interest_rate_list) }}
+                                <div class="rate_box">
+                                    <div class="rate_add_ready" style="padding-top: 10px;">
+                                        <input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" name="interest_rate" value="{{this}}" style="width:90px;">
+                                        <span>%</span>
+                                        <span class="cursor rate_add_del">删除</span>
+                                    </div>
+                                </div>
+                                {{/each}}
+                                <div class="column_val rate_add" style="margin-top: 10px;padding-left: 12%;display: none">
+                                    <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" id="" maxlength="5" name="interest_rate" value="" onpaste="return false;" onkeyup="clearNoNum(this)" style="width:90px;"/>
+                                    <span>%</span>
+                                    <span class="cursor rate_add_txt">添加</span>
+                                    <span class="formError"></span>
+                                </div>
+                            {{else }}
+                                {{#each (interest_rate_list) }}
+                                    {{#if (xindex === interest_rate_list.length - 1) }}
+                                    <div class="column_val rate_add" style="margin-top: 10px;padding-left: 12%;">
+                                        <input type="text" class="form-control interest_rate_data interest_rate_txt" placeholder="请输入费率" maxlength="5" onpaste="return false;" onkeyup="clearNoNum(this)" name="interest_rate" value="{{this}}" style="width:90px;"/>
+                                        <span>%</span>
+                                        <span class="cursor rate_add_txt">添加</span>
+                                        <span class="formError"></span>
+                                    </div>
+                                    {{else}}
+                                    <div class="rate_box">
+                                        <div class="rate_add_ready" style="padding-top: 10px;">
+                                            <input type="text" class="form-control interest_rate_num interest_rate_txt" readonly="readonly" name="interest_rate" value="{{this}}" style="width:90px;">
+                                            <span>%</span>
+                                            <span class="cursor rate_add_del">删除</span>
+                                        </div>
+                                    </div>
+                                    {{/if}}
+                                {{/each}}
+                            {{/if}}
+                        </div>
 
-<div class="form-group" id="ssess_desc_form">
-    <label class="col-xs-2 control-label inviteLabel">
-        评估描述：</label>
-    <div class="col-xs-8">
-        <textarea name="assess_desc" placeholder="请输入内容" id="assess_desc" maxlength="1000" class="form-control">{{vo.assess_desc }}</textarea>
-    </div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-<div class="form-group">
-    <label class="col-xs-2 control-label inviteLabel">
-        产品说明：</label>
-    <div class="col-xs-8">
-        <textarea name="product_explain" placeholder="请输入内容" id="product_explain" maxlength="1000" class="form-control">{{vo.product_explain }}</textarea>
-    </div>
-    <span class="formProm"></span>
-    <div class="trueImg"></div>
-    <span class="formError"></span>
-</div>
-</form>
-</div>
-
-<!--form end-->
-</div>
-<div class="form-group add_btn">
-    <div class="col-xs-10" style="margin-top:50px;margin-bottom:50px;margin-left:38.5555555%;">
-        <input type="button" id="add_btn_n" value="发布"/>
-        <input type="button" style="margin-left:30px;" id="add_btn_y" value="保存到仓库"/>
-
-    </div>
-</div>
-
-<!--listCon end-->
-
-</div>
-
-
-</div>
-
-<!--container end-->
-
-</body>
-
-<!--操作成功页  开始-->
-<div class="bg_mask"></div>
-<div id="delS">
-    <input type="hidden" id="url_flag" value="1">
-    <div class="container">
-        <div class="row section">
-
-            <div class="col-xs-4 col-sm-offset-4 inviteBox delhtml">
-                <div class="col-sm-8 invSBox">
-                    <div class="col-sm-12 invSText">
-                        <div>操作成功</div>
-
-                        <img class="delSImg" src="{{markUri}}/static/img/employee/successIcon.png" alt=""/>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="form-control" value="{{vo.financeamount_start}}" placeholder="请输入最小金额" id="financeamount_start" name="financeamount_start" maxlength="7" style="width:10%;" onpaste="return false;" onkeyup="clearNoNum3(this)"/>
+                                <span style="padding:0 8px;">-</span>
+                                <input type="text" class="form-control" value="{{vo.financeamount_end}}" placeholder="请输入最大金额" id="financeamount_end" name="financeamount_end"  maxlength="7" style="width:10%;margin-right: 10px;" onpaste="return false;" onkeyup="clearNoNum3(this)"/>
+                                <span>万</span>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
+                            </div>
+                            <div class="column_val term">
+                                <input type="hidden" name="term" class="term_hd">
+                                {{#each (list_term) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" checked="{{#if (vo.term) }}
+                                                    {{set (term = vo.term.split(',')) }}
+                                                    {{#if (term.indexOf(this.id.toString()) !== -1) }}
+                                                        checked
+                                                    {{/if}}
+                                                {{/if}}" name="term1" value="{{this.id}}" />
+                                        <label class="{{#if (vo.term) }}
+                                                    {{set (term = vo.term.split(',')) }}
+                                                    {{#if (term.indexOf(this.id.toString()) !== -1) }}
+                                                        checked
+                                                    {{/if}}
+                                                {{/if}}">{{this.id}}</label>
+                                    </div>
+                                {{/each}}
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        <div id="ssess_desc_form" class="option_item" style="margin:10px 0 20px 0;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">评估描述：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea name="assess_desc" placeholder="请输入内容" id="assess_desc" maxlength="1000" class="form-control">{{vo.assess_desc }}</textarea>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">产品说明：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea name="product_explain" placeholder="请输入内容" id="product_explain" maxlength="1000" class="form-control">{{vo.product_explain }}</textarea>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">上传图片：</span>
+                            </div>
+                            <div class="column_val">
+                                <div class="img_md_box file_upload" style="padding-left: 0px;">
+                                    <input type="hidden" class="file_ids" name="file_ids">
+                                    {{#each (vo.file_list) }}
+                                    <a href="javascript:;" class="img_item">
+                                        <img data-original="{{this.url}}" src="{{this.thumbnail}}">
+                                        <div class="img_md_operate_box">
+                                            <em class="img_md_operate_btn view" data-url="{{this.url}}" title="查看"></em>
+                                            <em class="img_md_operate_btn delete" data-id="{{this.file_id}}" title="删除"></em>
+                                        </div>
+                                    </a>
+                                    {{/each}}
+                                    {{#if (vo.file_list.length === 5) }}
+                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{vo.file_list.length}}" style="padding: 0px;display: none;"></a>
+                                    {{else}}
+                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{vo.file_list.length}}" style="padding: 0px;"></a>
+                                    {{/if}}
+                                    <input type="file" class="file_upload_btn"   value="上传图片" style="display: none" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-3 invSBtn cursor" id="delSBtn">确定</div>
+                    <div class="add_btn">
+                        <div style="margin-top:50px;margin-bottom:50px;margin-left:10%;">
+                            <input type="button" id="add_btn_n" class="submit_btn_n cursor" value="发布"/>
+                            <input type="button" style="margin-left:30px;" id="add_btn_y" class="submit_btn_y cursor" value="保存到仓库"/>
+                        </div>
+                    </div>
+                </form>
             </div>
 
+            <!--form end-->
         </div>
+
+        <!--listCon end-->
+
     </div>
+
+
 </div>
-<!--操作成功页  结束-->
-
-</html>
-
+{{include ('./../inc/provinceCity')}}
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/common/validate_form.js"></script>
+<script src="{{markUri}}/static/js/common/is_num.js"></script>
+<script src="{{markUri}}/static/js/product/create.js"></script>
+<script src="{{markUri}}/static/js/common/provinceCity.js"></script>
 <script>
-    const TYPE = true;
-    var PARENTID = '{{vo.parent_id}}',
-        PARENTNAME = '{{vo.parent_name}}';
-    var width = $('#product_info_create').width();
-    var left = $('.col-xs-2').width();
-    $('.add_btn').css('marginLeft',-left - 140 + 'px');
-    $('.remarks_box textarea').css('margin-left',left + 35 + 'px');
-    $('.form_left').css('margin-left',left - 5 + 'px');
-    $('#add_btn_n').click(function(){
-        send_product_form(contextPath + "/api/product/createAndPublish",1);
-    });
-    $('#add_btn_y').click(function(){
-        send_product_form(contextPath + "/api/product/create",0);
-    });
-    $('.rate_box').css('display','block');
-    var rate_length = $('.rate_box').length;
-    if(rate_length != '0'){
-        $('.rate_add').css('marginLeft',left - 5  + 'px');
-    }
-    $('.rate_box').css('marginLeft',left - 5 + 'px');
-    $('.rate_box').eq(0).css('marginLeft' , '');
-    $('.rate_add input').val("");
-    var downpayment_length = $('.downpayment_box').length;
-    if(downpayment_length != '0'){
-        $('.downpayment_add').css('marginLeft',left - 5  + 'px');
-    }
-    $('.downpayment_box').css('marginLeft',left - 5 + 'px');
-    $('.downpayment_box').eq(0).css('marginLeft' , '');
-    $('.downpayment_add input').val("");
-    pageJump(".go_forward", {
-        parent_id : PARENTID
-    });
+    (function ($) {
+        //获取融资期限val
+        var rates_arr = [];
+        function getRates () {
+            var rates = $('.term label');
+            rates.each(function () {
+                var _cur = $(this);
+                _cur.off('click').on('click', function () {
+                    var _this = $(this);
+                    if (!_this.hasClass('checked')) {
+                        rates_arr.push(_this.siblings('input').val());
+                    } else {
+                        for(var i = 0,len = rates_arr.length;i < len;i++) {
+                            if (rates_arr[i] == _this.siblings('input').val()) {
+                                rates_arr.splice(i,1);
+                                break;
+                            }
+                        }
+                    }
+                });
+            });
+        }
+        var file_ids = [];//上传图片ids
+
+        //选择城市
+        function selectCity () {
+            var btn = $('.select_city_input');
+            btn.off('click').on('click', function () {
+                $('.province_city_box .title').html('选择适用城市');
+                $( ".province_city_box" ).css('display','block');
+            });
+        }
+
+        //保存到仓库
+        function save_ware () {
+            var btn = $('#add_btn_y');
+            btn.off('click').on('click', function () {
+                send_product_form(contextPath + "/api/product/create",0);
+            });
+        }
+        //发布按钮
+        function send_product () {
+            var btn = $('#add_btn_n');
+            btn.off('click').on('click', function () {
+                send_product_form(contextPath + "/api/product/createAndPublish",1);
+            });
+        }
+
+        //按钮操作
+        function send_product_form(url,save){
+            var add_btn_y = $('#add_btn_y');
+            var add_btn_n = $('#add_btn_n');
+            add_btn_y.attr('disabled',true)
+            add_btn_n.attr('disabled',true);
+            var name = $('#name');
+            if(!name.val()){
+                name.parent().find('.formError').html('产品名称不能为空');
+                name.css('border-color','#FB2741');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            } else {
+                name.parent().find('.formError').html('');
+            }
+            //产品来源
+            var product_source_other = $('#product_source_other');
+            var product_source_self = $('#product_source_self');
+            if (product_source_other.attr('checked') == 'checked' || product_source_self.attr('checked') == 'checked') {
+                product_source_other.parents('.column_val').find('.formError').html('');
+            } else {
+                product_source_other.parents('.column_val').find('.formError').html('请选择一项产品来源');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            }
+
+            //适用业务
+            var applyto_business1 = $('#applyto_business input').eq(1).attr('checked');
+            var applyto_business2 = $('#applyto_business input').eq(2).attr('checked');
+            if(!applyto_business1 && !applyto_business2){
+                $('#applyto_business').find('.formError').html('请选择产品的适用业务');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            } else {
+                $('#applyto_business').find('.formError').html('');
+            }
+
+            //适用城市
+            var select_citys = $('.select_city_input').val();
+            if (select_citys == '') {
+                $('#applyto_city').find('.formError').html('请选择适用城市');
+                add_btn_y.attr('disabled',false);
+                add_btn_n.attr('disabled',false);
+                return;
+            } else {
+                $('#applyto_city').find('.formError').html('');
+            }
+
+            var rate_val = [];
+            var check = $('.downpayment_rate .check');
+            check.each(function () {
+                var _this = $(this);
+                if (_this.find('.check_img').hasClass('icon_check')) {
+                    rate_val.push(_this.find('.downpayment_rate_date').text());
+                }
+            });
+            //融资期限
+            var term = $('.term');
+            var term_num = 0;
+            term.find('label').each(function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    term_num++;
+                    rates_arr.push(_this.text());
+                }
+            });
+            //发布新产品时校验
+            if(save == '1'){
+                //首付类型
+                var downpayment_select = $('#downpayment_select');
+                if (downpayment_select.val() == -1) {
+                    downpayment_select.parents('.option_item').find('.formError').html('请选择首付类型');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                } else {
+                    downpayment_select.parents('.option_item').find('.formError').html('');
+                }
+
+                //首付金额
+                if (downpayment_select.val() == 2) {
+                    if ($('.downpayment_add input').val() == '') {
+                        var downpayment_box = $('.downpayment_money').find('.downpayment_box');
+                        if (downpayment_box.length == 0) {
+                            $('.downpayment_add').find('.formError').html('请输入首付金额');
+                            add_btn_y.attr('disabled',false);
+                            add_btn_n.attr('disabled',false);
+                            return;
+                        } else {
+                            $('.downpayment_add').find('.formError').html('');
+                        }
+                    } else {
+                        $('.downpayment_add').find('.formError').html('');
+                    }
+                }
+                //首付比例
+                if (downpayment_select.val() == 1) {
+                    var num = 0;
+                    var check = $('.downpayment_rate .check');
+                    check.each(function () {
+                        var _this = $(this);
+                        if (_this.find('.check_img').hasClass('icon_check')) {
+                            num++;
+                        }
+                    });
+                    if (num == 0) {
+                        $('.downpayment_rate').find('.formError').html('请选择首付比例');
+                        add_btn_y.attr('disabled',false);
+                        add_btn_n.attr('disabled',false);
+                        return;
+                    } else {
+                        $('.downpayment_rate').find('.formError').html('');
+                    }
+                }
+                //费率
+                var rate_add = $('.rate_add');
+                if (rate_add.find('.interest_rate_data').val() == '') {
+                    var rate_box = rate_add.parent().find('.rate_box');
+                    if (rate_box.length == 0) {
+                        rate_add.find('.formError').html('请输入费率');
+                        add_btn_y.attr('disabled',false);
+                        add_btn_n.attr('disabled',false);
+                        return;
+                    } else {
+                        rate_add.find('.formError').html('');
+                    }
+                } else {
+                    rate_add.find('.formError').html('');
+                }
+                //融资金额范围
+                var financeamount_start = $('#financeamount_start');
+                var financeamount_end = $('#financeamount_end');
+                if (financeamount_start == '') {
+                    financeamount_start.siblings('.formError').html('请输入融资金额的最小金额');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                }
+                if (financeamount_end == '') {
+                    financeamount_start.siblings('.formError').html('请输入融资金额的最大金额');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                } else {
+                    financeamount_start.siblings('.formError').html('');
+                }
+                //融资期限
+                if (term_num == 0) {
+                    term.find('.formError').html('请选择融资期限');
+                    add_btn_y.attr('disabled',false);
+                    add_btn_n.attr('disabled',false);
+                    return;
+                } else {
+                    term.find('.formError').html('');
+                }
+
+                //有无错误提示
+                var str = '';
+                var formError = $('.formError');
+                for(var i = 0; i < formError.length; i++){
+                    var text = $('.formError').eq(i).text();
+                    str += text;
+                }
+                if(str != ''){
+                    $('#add_btn_y').attr('disabled',false);
+                    $('#add_btn_n').attr('disabled',false);
+                    return;
+                }
+            }
+            //获取上传图片id
+            var file_upload = $('.file_upload .img_item');
+            var img_ids = [];
+            file_upload.each(function () {
+                var _this = $(this);
+                var id = _this.find('em').eq(1).data('id');
+                img_ids.push(id);
+            });
+            $('#downpayment_rate').val(rate_val.join(','));
+            $('.file_ids').val(img_ids.join(','));
+            $('.term_hd').val(rates_arr.join(','));
+            ajaxSubmit(url);
+        }
+
+
+        //ajax提交參數
+        function ajaxSubmit (url) {
+            var parameters = new FormData(document.getElementById('product_create'));
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            var parent_id = $('.parent_id').val();
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/publishedProducts',
+                                param : {
+                                    parent_id : parent_id
+                                }
+                            });
+                        });
+                    } else {
+                        $alert(res.error_msg, function () {
+                            $('#add_btn_y').attr('disabled',false);
+                            $('#add_btn_n').attr('disabled',false);
+                            save_ware();
+                            send_product();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    $('#add_btn_y').attr('disabled',false);
+                    $('#add_btn_n').attr('disabled',false);
+                    save_ware();
+                    send_product();
+                }
+            });
+        }
+        /**
+         * 图片上传功能
+         * @author Plateau 2018年4月26日17:37:41
+         */
+        function uploadImage () {
+            fileUpload({
+                maxCount : 1,
+                filesSize : 5,
+                imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
+                needThumbnails : false,
+                callback : function (btn) {
+                    onChoose(btn);
+                }
+            });
+            // 上传逻辑
+            var onChoose = function (btn) {
+                var type = $.trim(btn.data('type'));
+                var data = (btn.parents('.file_upload').find('.file_upload_btn')[0]).files[0];
+                var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
+                var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
+                var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
+                var fileName = filingName + '_' + (fileCount + 1) + fileExtension;
+                var merchantId = $.trim($('#supplierId').val());
+                var form = new FormData();
+                form.append("file", data);
+                form.append("file_type", type);
+                form.append("supplier_id", merchantId);
+                form.append("file_name", fileName);     // 用于后台重命名图片物理名字
+                var url = contextPath + '/api/product/uploadfile';
+                $.ajax({
+                    type : "post",
+                    url : url,
+                    data : form,
+                    async : false,
+                    timeout : 300000,
+                    processData: false,
+                    contentType: false,
+                    beforeSend : function () {
+                        //elem.loading.show();
+                        btn.removeClass('disabled');
+                        btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
+                    },
+                    success : function (res) {
+                        //elem.loading.hide();
+                        if (res.error_code == 0) {
+                            btn.data('type',type.number() + 1);
+                            file_ids.push(res.file_id);
+                            $alert('图片上传成功');
+                            var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
+                                '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
+                                '             <div class="img_md_operate_box">\n' +
+                                '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" style="margin-right: 0" title="查看"></em>\n' +
+                                ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
+                                '             </div>\n' +
+                                '             </a>';
+                            if (type == 4) {
+                                btn.hide();
+                            }
+                            btn.before(imgEle);
+                            /* 赋予新图片查看的实例属性 */
+                            var parents = btn.parents('.img_md_box');
+                            /*var count = parents.find('img').length;
+                            var newImgEle = parents.find('img').eq(count - 1)[0];
+                            parents[0].viewer.images.push(newImgEle);*/
+                            // 销毁父元素
+                            var img = parents.find('.img_item');
+                            if (img.length > 1) {
+                                parents[0].viewer.destroy();
+                            }
+                            viewLargeImage(parents[0]);
+                            /*var viewer = new Viewer(parents[0], {
+                                url: 'data-original',
+                                interval : 2000,
+                                loop : true
+                            });*/
+                        } else {
+                            $alert('图片上传失败，请重试');
+                        }
+                    },
+                    error : function () {
+                        $alert('图片上传失败，请重试');
+                    }
+                });
+            }
+        }
+        /**
+         * 删除图片
+         * @author Plateau 2018年4月26日17:37:41
+         */
+        function deleteImages () {
+            var imagesParents = $('.product_new');
+            imagesParents.on('click', '.img_md_operate_box .delete', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var id  = $.trim(_this.data('id'));
+                /*var ids = [];
+                ids.push(id);
+                ids = JSON.stringify(ids);*/
+                redefineAjax({
+                    data : {
+                        file_ids : id
+                    },
+                    url : contextPath + '/api/supplier/file/delete',
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            for (var i = 0,len = file_ids.length;i<len;i++) {
+                                if (file_ids[i] == id) {
+                                    file_ids.splice(i,1);
+                                }
+                            }
+                            $alert('图片删除成功', function () {
+                                var btn = $('.add_img_md_btn');
+                                var type = $.trim(btn.data('type'));
+                                btn.data('type',type.number() - 1);
+                                if (btn.data('type') == 4) {
+                                    btn.show();
+                                }
+                                // 获取父元素
+                                var parents = _this.parents('.img_md_box');
+                                // 销毁父元素的viewer实例
+                                parents[0].viewer.destroy();
+                                _this.parents('.img_item').remove();
+                                // 删除图片后从新实例化
+                                /*var viewer = new Viewer(parents[0], {
+                                    url: 'data-original',
+                                    interval : 2000,
+                                    loop : true
+                                });*/
+                                viewLargeImage(parents[0]);
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('图片删除异常，请稍后重试');
+                    }
+                })
+            })
+        }
+        /**
+         * 查看图片跳转
+         * @author Plateau 2018年4月26日17:37:41
+         */
+        function viewImages () {
+            var imagesParents = $('.product_new');
+            imagesParents.on('click', '.img_md_operate_box .view', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                /*var url  = $.trim(_this.data('url'));
+                window.open(url);*/
+                var img = _this.parents('.img_md_operate_box').siblings('img');
+                img.click();
+            })
+        }
+        //城市icon点击
+        function iconCity () {
+            var btn = $('.city_icon');
+            btn.off('click').on('click', function () {
+                $('.select_city_input').click();
+            });
+        }
+
+        $(function() {
+            const TYPE = true;
+            var PARENTID = '{{parent_id}}',
+                PARENTNAME = '{{parent_name}}';
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            iconCity();
+            selectCity();
+            send_product();
+            save_ware();
+            viewImages();       // 查看大图
+            viewLargeImage('.img_md_box');
+            deleteImages();     // 图片删除
+            uploadImage();      // 图片上传注册
+            pageJump(".go_forward", {
+                parent_id : "{{parent_id}}"
+            });
+        });
+    })(jQuery,undefined);
 </script>
+</html>

@@ -261,7 +261,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 data.markUri = markUri;
                 data.vo.thousandRate = thousandRate(data);
                 //所属商户弹出层的标签名
-                if(data.supplierDetail){
+                /*if(data.supplierDetail){
                     if(data.supplierDetail.label_name){
                         if(data.supplierDetail.label_name.indexOf(",")!=-1){
                             data.label_names = data.supplierDetail.label_name.split(",");
@@ -269,7 +269,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                             data.label_names = [data.supplierDetail.label_name];
                         }
                     }
-                }
+                }*/
 
                 //所属商户弹出层的返点数据计算
                 /*data.rebatePolicy[i].rebate_type = 1为车款返点；2为gps返点；3为服务费返点；4为保险费返点
@@ -278,7 +278,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                 * 3.data.rebatePolicy[i].rebate_way=3时，返点为超出金额的固定金额，即data.rebatePolicy[i].rebate_money;
                 * 4.data.rebatePolicy[i].rebate_way=4时，返点为固定金额data.vo.purchase_tax的百分比，即data.vo.purchase_tax * data.rebatePolicy[i].rebate_money
                 * */
-                if(data.rebatePolicy){
+                /*if(data.rebatePolicy){
                     for(var i = 0,len=data.rebatePolicy.length;i<len;i++){
                         switch (data.rebatePolicy[i].rebate_type){
                             case 1://车款返点
@@ -344,7 +344,7 @@ exports.getCustomerDetail = function(url, req, res, next) {
                                 break;
                         }
                     }
-                }
+                }*/
 
                 if (localUrl.indexOf( markUri + '/customer/loan') !== -1) {
                     res.render('./customer/customerDetail', data);

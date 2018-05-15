@@ -20,195 +20,195 @@
                 {{/if}}
             </ul>
             {{#if (req_list.length !== 0) }}
-                {{#each (req_list) }}
-                    <div class="classify_list_title">{{this.receipt_name}}</div>
-                    <ul class="items_list clearfix">
-                        {{#if (this.total_charge || this.total_charge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">收款总额：</div>
-                            <div class="item_value">{{this.total_charge}}&nbsp;元 ({{this.cn_totalCharge}})</div>
-                        </li>
+            {{#each (req_list) }}
+            <div class="classify_list_title">{{this.receipt_name}}</div>
+            <ul class="items_list clearfix">
+                {{#if (this.total_charge || this.total_charge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">收款总额：</div>
+                    <div class="item_value">{{this.total_charge}}&nbsp;元 ({{this.cn_totalCharge}})</div>
+                </li>
+                {{/if}}
+                {{#if (this.account_use_value) }}
+                <li class="item_row">
+                    <div class="item_name">账户用途：</div>
+                    <div class="item_value">{{this.account_use_value}}</div>
+                </li>
+                {{/if}}
+                {{#if (this.car_loan_charge || this.car_loan_charge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">车价贷款额：</div>
+                    <div class="item_value">{{this.car_loan_charge}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.account_type) }}
+                <li class="item_row">
+                    <div class="item_name">账户类型：</div>
+                    <div class="item_value">
+                        {{#if (this.account_type === 1) }}
+                        公户
+                        {{elseif (this.account_type === 2) }}
+                        法人
+                        {{elseif (this.account_type === 3) }}
+                        其他股东
+                        {{elseif (this.account_type === 4) }}
+                        其他
                         {{/if}}
-                        {{#if (this.account_use_value) }}
-                        <li class="item_row">
-                            <div class="item_name">账户用途：</div>
-                            <div class="item_value">{{this.account_use_value}}</div>
-                        </li>
+                    </div>
+                </li>
+                {{/if}}
+                {{#if (this.pledge_type) }}
+                <li class="item_row">
+                    <div class="item_name">抵押方：</div>
+                    <div class="item_value">
+                        {{#if (this.pledge_type === 1) }}
+                        经销商
+                        {{elseif (this.pledge_type === 2) }}
+                        我司
+                        {{elseif (this.pledge_type === 3) }}
+                        产品方
                         {{/if}}
-                        {{#if (this.car_loan_charge || this.car_loan_charge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">车价贷款额：</div>
-                            <div class="item_value">{{this.car_loan_charge}}&nbsp;元</div>
-                        </li>
+                    </div>
+                </li>
+                {{/if}}
+                {{#if (this.pledge_city) }}
+                <li class="item_row">
+                    <div class="item_name">抵押城市：</div>
+                    <div class="item_value">
+                        {{#if (this.pledge_province) }}
+                        {{this.pledge_province }}
                         {{/if}}
-                        {{#if (this.account_type) }}
-                        <li class="item_row">
-                            <div class="item_name">账户类型：</div>
-                            <div class="item_value">
-                                {{#if (this.account_type === 1) }}
-                                公户
-                                {{elseif (this.account_type === 2) }}
-                                法人
-                                {{elseif (this.account_type === 3) }}
-                                其他股东
-                                {{elseif (this.account_type === 4) }}
-                                其他
-                                {{/if}}
-                            </div>
-                        </li>
+                        {{this.pledge_city}}
+                        {{#if (this.pledge_county) }}
+                        {{this.pledge_county }}
                         {{/if}}
-                        {{#if (this.pledge_type) }}
-                        <li class="item_row">
-                            <div class="item_name">抵押方：</div>
-                            <div class="item_value">
-                                {{#if (this.pledge_type !== 1) }}
-                                经销商
-                                {{elseif (this.pledge_type !== 2) }}
-                                我司
-                                {{elseif (this.pledge_type !== 3) }}
-                                产品方
-                                {{/if}}
-                            </div>
-                        </li>
+                    </div>
+                </li>
+                {{/if}}
+                {{#if (this.regist_type) }}
+                <li class="item_row">
+                    <div class="item_name">上牌方：</div>
+                    <div class="item_value">
+                        {{#if (this.regist_type === 1) }}
+                        经销商
+                        {{elseif (this.regist_type === 2) }}
+                        我司
+                        {{elseif (this.regist_type === 3) }}
+                        产品方
                         {{/if}}
-                        {{#if (this.pledge_city) }}
-                        <li class="item_row">
-                            <div class="item_name">抵押城市：</div>
-                            <div class="item_value">
-                                {{#if (this.pledge_province) }}
-                                {{this.pledge_province }}
-                                {{/if}}
-                                {{this.pledge_city}}
-                                {{#if (this.pledge_county) }}
-                                {{this.pledge_county }}
-                                {{/if}}
-                            </div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.regist_type) }}
-                        <li class="item_row">
-                            <div class="item_name">上牌方：</div>
-                            <div class="item_value">
-                                {{#if (this.regist_type !== 1) }}
-                                经销商
-                                {{elseif (this.regist_type !== 2) }}
-                                我司
-                                {{elseif (this.regist_type !== 3) }}
-                                产品方
-                                {{/if}}
-                            </div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.pay_name) }}
-                        <li class="item_row">
-                            <div class="item_name">收款户名：</div>
-                            <div class="item_value">{{this.pay_name}}</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.pay_open_bank) }}
-                        <li class="item_row">
-                            <div class="item_name">收款开户行：</div>
-                            <div class="item_value">{{this.pay_open_bank}}</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.pay_account) }}
-                        <li class="item_row">
-                            <div class="item_name">收款账号：</div>
-                            <div class="item_value">{{this.pay_account}}</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.collection_charge || this.collection_charge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">代商户收取费用：</div>
-                            <div class="item_value">{{this.collection_charge}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.gps_installCharge || this.gps_installCharge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">GPS安装费用：</div>
-                            <div class="item_value">{{this.gps_installCharge}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.gps_rebate || this.gps_rebate === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">GPS返点：</div>
-                            <div class="item_value">{{this.gps_rebate}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.service_charge_rebate || this.service_charge_rebate === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">服务费返点：</div>
-                            <div class="item_value">{{this.service_charge_rebate}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.purchase_tax || this.purchase_tax === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">购置税：</div>
-                            <div class="item_value">{{this.purchase_tax}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.insurance_rebate || this.insurance_rebate === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">保险返点：</div>
-                            <div class="item_value">{{this.insurance_rebate}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.insurance || this.insurance === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">保险费：</div>
-                            <div class="item_value">{{this.insurance}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.financed_charge_rebate || this.financed_charge_rebate === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">融资返点：</div>
-                            <div class="item_value">{{this.financed_charge_rebate}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.pledge_charge || this.pledge_charge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">抵押费：</div>
-                            <div class="item_value">{{this.pledge_charge}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.unpack_charge || this.unpack_charge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">解压费：</div>
-                            <div class="item_value">{{this.unpack_charge}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.refund_charge || this.refund_charge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">退款：</div>
-                            <div class="item_value">{{this.refund_charge}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.car_credit_charge || this.car_credit_charge === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">车价贷款(反贷)：</div>
-                            <div class="item_value">{{this.car_credit_charge}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.pre_interest || this.pre_interest === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">前置利息：</div>
-                            <div class="item_value">{{this.pre_interest }}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.deduction || this.deduction === 0) }}
-                        <li class="item_row">
-                            <div class="item_name">扣款：</div>
-                            <div class="item_value">{{this.deduction}}&nbsp;元</div>
-                        </li>
-                        {{/if}}
-                        {{#if (this.deduction_remark) }}
-                        <div class="item_remark clearfix">
-                            <div class="item_name">备注：</div>
-                            <div class="item_value">{{this.deduction_remark}}</div>
-                        </div>
-                        {{/if}}
-                    </ul>
-                {{/each}}
+                    </div>
+                </li>
+                {{/if}}
+                {{#if (this.pay_name) }}
+                <li class="item_row">
+                    <div class="item_name">收款户名：</div>
+                    <div class="item_value">{{this.pay_name}}</div>
+                </li>
+                {{/if}}
+                {{#if (this.pay_open_bank) }}
+                <li class="item_row">
+                    <div class="item_name">收款开户行：</div>
+                    <div class="item_value">{{this.pay_open_bank}}</div>
+                </li>
+                {{/if}}
+                {{#if (this.pay_account) }}
+                <li class="item_row">
+                    <div class="item_name">收款账号：</div>
+                    <div class="item_value">{{this.pay_account}}</div>
+                </li>
+                {{/if}}
+                {{#if (this.collection_charge || this.collection_charge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">代商户收取费用：</div>
+                    <div class="item_value">{{this.collection_charge}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.gps_installCharge || this.gps_installCharge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">GPS安装费用：</div>
+                    <div class="item_value">{{this.gps_installCharge}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.gps_rebate || this.gps_rebate === 0) }}
+                <li class="item_row">
+                    <div class="item_name">GPS返点：</div>
+                    <div class="item_value">{{this.gps_rebate}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.service_charge_rebate || this.service_charge_rebate === 0) }}
+                <li class="item_row">
+                    <div class="item_name">服务费返点：</div>
+                    <div class="item_value">{{this.service_charge_rebate}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.purchase_tax || this.purchase_tax === 0) }}
+                <li class="item_row">
+                    <div class="item_name">购置税：</div>
+                    <div class="item_value">{{this.purchase_tax}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.insurance_rebate || this.insurance_rebate === 0) }}
+                <li class="item_row">
+                    <div class="item_name">保险返点：</div>
+                    <div class="item_value">{{this.insurance_rebate}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.insurance || this.insurance === 0) }}
+                <li class="item_row">
+                    <div class="item_name">保险费：</div>
+                    <div class="item_value">{{this.insurance}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.financed_charge_rebate || this.financed_charge_rebate === 0) }}
+                <li class="item_row">
+                    <div class="item_name">融资返点：</div>
+                    <div class="item_value">{{this.financed_charge_rebate}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.pledge_charge || this.pledge_charge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">抵押费：</div>
+                    <div class="item_value">{{this.pledge_charge}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.unpack_charge || this.unpack_charge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">解压费：</div>
+                    <div class="item_value">{{this.unpack_charge}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.refund_charge || this.refund_charge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">退款：</div>
+                    <div class="item_value">{{this.refund_charge}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.car_credit_charge || this.car_credit_charge === 0) }}
+                <li class="item_row">
+                    <div class="item_name">车价贷款(反贷)：</div>
+                    <div class="item_value">{{this.car_credit_charge}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.pre_interest || this.pre_interest === 0) }}
+                <li class="item_row">
+                    <div class="item_name">前置利息：</div>
+                    <div class="item_value">{{this.pre_interest }}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.deduction || this.deduction === 0) }}
+                <li class="item_row">
+                    <div class="item_name">扣款：</div>
+                    <div class="item_value">{{this.deduction}}&nbsp;元</div>
+                </li>
+                {{/if}}
+                {{#if (this.deduction_remark) }}
+                <li class="item_row item_remark clearfix">
+                    <div class="item_name">备注：</div>
+                    <div class="item_value">{{this.deduction_remark}}</div>
+                </li>
+                {{/if}}
+            </ul>
+            {{/each}}
             {{/if}}
         </div>
     </div>

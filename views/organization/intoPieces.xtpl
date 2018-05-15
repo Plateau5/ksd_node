@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>机构编辑-进件资料</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/organization/intoPieces.css"/>
+</head>
+
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">机构管理</a>
+                <a href="javascript:;" class="crumbs_item">
+                    {{#if (material_type === 1)}}
+                    编辑进件资料
+                    {{elseif (material_type === 2) }}
+                    编辑请款资料
+                    {{else}}
+                    编辑归档资料
+                    {{/if}}
+                </a>
+            </div>
+            <div class="tab">
+                <ul class="tab_list inline_block">
+                    {{#if (reqParams.applyto_business.indexOf(',') !== -1 ) }}
+                        <li class="tab_item type_normal {{#if (reqParams.car_type === '0') }}active{{/if}}" data-type="{{reqParams.applyto_business.split(',')[0]}}" {{#if (reqParams.car_type === '0') }}style="border-left:0px;"{{/if}}><span></span>新车</li>
+                        <li class="tab_item type_others {{#if (reqParams.car_type === '1') }}active{{/if}}" data-type="{{reqParams.applyto_business.split(',')[1]}}"><span></span>二手车</li>
+                    {{else}}
+                        {{#if (reqParams.applyto_business === '1')}}
+                            <li class="tab_item type_normal active" data-type="{{reqParams.applyto_business}}"><span></span>二手车</li>
+                        {{else}}
+                            <li class="tab_item type_normal active" data-type="{{reqParams.applyto_business}}" style="border-left:0px;"><span></span>新车</li>
+                        {{/if}}
+                    {{/if}}
+                </ul>
+            </div>
+            <form action="{{markUri}}/supplier/organization/intoPieces" method="POST" id="form_search" role="form">
+                <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="organization_id">
+                <input type="hidden" name="car_type" value="{{reqParams.car_type}}" id="car_type">
+                <input type="hidden" name="applyto_business" value="{{reqParams.applyto_business}}">
+                <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
+            </form>
+            <form action="" method="POST" id="form_category">
+                <div class="product_detail_box">
+                    <div class="detail_about">
+                        <!--start-->
+                        {{#each (materialList) }}
+                            {{#if (materialList.length - 1 === xindex ) }}
+                            <div class="data_use detail_about_txt_last clearfix">
+                            {{else}}
+                            <div class="data_use detail_about_txt clearfix">
+                            {{/if}}
+                               <!-- <input type="hidden" name="org_mid" value="{{this.org_mid}}" class="org_mid">-->
+                                <div class="detail_about_lf check_all_box">
+                                    <div class="form_group">
+                                        {{#if (this.data_ids) }}
+                                            {{#if (this.mlist.length === this.data_ids.split(',').length) }}
+                                                <input type="checkbox" class="check_all" checked="checked" name="" value="{{this.type}}">
+                                                <label class="check_all checked">{{this.type_value}}</label>
+                                            {{else}}
+                                                <input type="checkbox" class="check_all" name="" value="{{this.type}}">
+                                                <label class="check_all">{{this.type_value}}</label>
+                                            {{/if}}
+                                        {{else}}
+                                            <input type="checkbox" class="check_all" name="" value="{{this.type}}">
+                                            <label class="check_all">{{this.type_value}}</label>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <div class="detail_about_rt form_container">
+                                    <div class="detail_about_rt_top">
+                                        {{#if (this.is_must === 1 ||this.is_must === 0) }}
+                                            <div class="form_group sentflag mar40">
+                                                <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" {{#if (this.is_must === 1) }}checked="checked"{{/if}}>
+                                                <label for="must_send{{xindex}}" {{#if (this.is_must === 1) }}class="checked"{{/if}}>必传</label>
+                                            </div>
+                                            <div class="form_group sentflag">
+                                                <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0" {{#if (this.is_must === 0) }}checked="checked"{{/if}}>
+                                                <label for="must_nosend{{xindex}}" {{#if (this.is_must === 0) }}class="checked"{{/if}}>非必传</label>
+                                            </div>
+                                        {{else}}
+                                            <div class="form_group sentflag mar40">
+                                                <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1">
+                                                <label for="must_send{{xindex}}">必传</label>
+                                            </div>
+                                            <div class="form_group sentflag">
+                                                <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0" checked="checked">
+                                                <label for="must_nosend{{xindex}}" class="checked">非必传</label>
+                                            </div>
+                                        {{/if}}
+                                    </div>
+                                    <div class="detail_about_rt_bot">
+                                        {{#each (this.mlist) }}
+                                            <div class="sentflag mar20 form_group">
+                                                {{#if (../data_ids) }}
+                                                    {{#if (../data_ids.indexOf(this.material_id) !== -1) }}
+                                                        <input id="{{this.material_id}}" type="checkbox" class="data_ids" name="data_ids" value="{{this.material_id}}" checked="checked">
+                                                        <label for="{{this.material_id}}" class="checked">{{this.material_name}}</label>
+                                                    {{else}}
+                                                        <input id="{{this.material_id}}" type="checkbox" class="data_ids" name="data_ids" value="{{this.material_id}}">
+                                                        <label for="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                {{else}}
+                                                    <input id="{{this.material_id}}" type="checkbox" class="data_ids" name="data_ids" value="{{this.material_id}}">
+                                                    <label for="{{this.material_id}}">{{this.material_name}}</label>
+                                                {{/if}}
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                        <!--end-->
+                    </div>
+                </div>
+                <div class="btn_box clearfix create_wf_btn_box" style="text-align: left;">
+                    <a href="javascript:;" class="btn orange_btn confirm create_confirm category_edit_btn">保存</a>
+                    <a href="javascript:;" class="btn bg_btn create_cancel category_cancel">取消</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+
+<script>
+    (function ($) {
+        //radio事件
+        // function clickRadio () {
+        //     var is_must = $('.must_send');
+        // }
+
+        // tab标签的切换
+        function switchTab () {
+            var btn = $('.tab_item');
+            btn.on('click', function () {
+                var _this = $(this);
+                _this.addClass('active');
+                if (_this.hasClass('type_normal')) {
+                    _this.siblings('.type_others').removeClass('active');
+                } else {
+                    _this.siblings('.type_normal').removeClass('active');
+                }
+                $('#car_type').val(_this.attr('data-type'));
+                $('form[role="form"]').submit();
+            });
+        }
+        //取消按钮
+        function categoryCancel () {
+            var organization_id = $('#organization_id').val();
+            var material_type = $('#material_type').val();
+            var btn = $('.category_cancel');
+            btn.off("click").on("click", function () {
+                var id = $.trim($('#orgId').val());
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detail',
+                    param : {
+                        organization_id : organization_id,
+                        material_type : material_type
+                    }
+                });
+            });
+        }
+
+        //编辑保存
+        function onUpdate () {
+            var savebtn = $('.category_edit_btn');
+            savebtn.off("click").on("click", function () {
+                submitEvent(savebtn);
+            });
+        }
+
+        //提交保存
+        var isVerify = false;//提交的标志位
+        function submitEvent (btn) {
+            btn.off('click');
+            validateEmpty();
+            if (isVerify) {
+                var data_use = $('.data_use');
+                var organization_id = $('#organization_id').val();
+                var car_type = $('#car_type').val();
+                var material_type = $('#material_type').val();
+                var jsonData = [];
+                data_use.each(function () {
+                    var _this = $(this);
+                   /* var org_mid = _this.find('.org_mid').val();*/
+                    var type = _this.find('.detail_about_lf').find('input').val();
+                    var must_send = _this.find('input.must_send[type="radio"]:checked');
+                    var must_nosend = _this.find('input.must_nosend[type="radio"]:checked');
+                    if (must_send.length != 0) {
+                        var is_must = _this.find('.must_send').val();
+                    }
+                    if (must_nosend.length != 0) {
+                        var is_must = _this.find('.must_nosend').val();
+                    }
+                    var material_ids = _this.find('.detail_about_rt_bot').find('.data_ids');
+                    var data_ids = [];
+                    material_ids.each(function () {
+                        var cur_id = $(this);
+                        if (cur_id.attr('checked') == 'checked') {
+                            data_ids.push(cur_id.val());
+                        }
+                    });
+                    if (data_ids.length != 0 ) {
+                        var obj = {
+                            'type' : type,
+                            /*'org_mid' : org_mid,*/
+                            'data_ids' : data_ids.join(','),
+                            'is_must' : is_must
+                        };
+                        jsonData.push(obj);
+                    }
+                });
+                var parameters = {
+                    organization_id : organization_id,
+                    car_type : car_type,
+                    material_type : material_type,
+                    jsonData : JSON.stringify(jsonData)
+                };
+                ajaxSubmit(parameters);
+            } else {
+                onUpdate();
+            }
+        }
+
+        //ajax提交參數
+        function ajaxSubmit (parameters) {
+            redefineAjax({
+                url : contextPath + '/api/organization/material/save ',
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/detail',
+                                param : {
+                                    organization_id : parameters.organization_id,
+                                    material_type : parameters.material_type
+                                }
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            onUpdate();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    onUpdate();
+                }
+            });
+        }
+
+        //判断类别是否选中
+        function validateEmpty () {
+            var detail_about_rt = $('.detail_about_rt ');
+            var is_must = detail_about_rt.find('.detail_about_rt_top').find('input.must_send[type="radio"]:checked');
+            var checks = detail_about_rt.find('.detail_about_rt_bot').find('input.data_ids[type="checkbox"][checked="checked"]');
+            var flag = false;
+            is_must.each(function () {
+                var _this = $(this);
+                if (_this.val() == 1) {
+                    var cur_nums = _this.parents('.detail_about_rt').find('.detail_about_rt_bot').find('input.data_ids[type="checkbox"][checked="checked"]');
+                    if (cur_nums.length <= 0) {
+                        flag = true;
+                        isVerify = true;
+                        var detail_about_txt = _this.parents('.detail_about_txt ').find('.detail_about_lf  label').text();
+                        $alert('请选择'+detail_about_txt+'里面对应的资料。');
+                        return false;
+                    } else {
+                        isVerify = false;
+                    }
+                }
+            });
+            if (!flag) {
+                if (checks.length > 0) {
+                    isVerify = true;
+                } else {
+                    isVerify = false;
+                    $alert('请至少选中一项类别资料。');
+                    return false;
+                }
+            }
+        }
+
+        //监听是否全选
+        function monitorSelectAll () {
+            var singleCheck = $('.detail_about_rt_bot label');
+            singleCheck.on('click', function () {
+                var _this = $(this);
+                var checkAll = _this.parents('.detail_about_txt').find('.check_all_box label');
+                var categoryCheck = _this.parents('.detail_about_rt_bot').find('label');
+                if (!_this.hasClass('checked')) {
+                    var labels = _this.parents('.detail_about_rt_bot').find('label');
+                    var count = 0;
+                    for (var i = 0,len = labels.length;i < len;i++) {
+                        if (labels[i].className == 'checked') {
+                            count++;
+                        }
+                    }
+                    if (count == categoryCheck.length -1) {
+                        checkAll.addClass('checked');
+                    } else {
+                        if (checkAll.hasClass('checked')) {
+                            checkAll.removeClass('checked');
+                        }
+                    }
+                } else {
+                    if (checkAll.hasClass('checked')) {
+                        checkAll.removeClass('checked');
+                    }
+                }
+            });
+        }
+
+        $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            switchTab();
+            checkAll(".check_all");
+            monitorSelectAll();
+            onUpdate();
+            categoryCancel();
+        });
+    })(jQuery,undefined);
+</script>
+
+</html>

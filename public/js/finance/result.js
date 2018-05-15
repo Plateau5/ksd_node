@@ -104,7 +104,7 @@ $(function(){
         $('.file_btn').css('color', '#1DC6BC');
         $('.file_btn').css('background', 'url(/static/img/question/upload_icon_hover.png) left center no-repeat');
     }, function() {
-        $('.file_btn').css('color', '#535E6A');
+        $('.file_btn').css('color', '#333');
         $('.file_btn').css('background', 'url(/static/img/question/upload_icon.png) left center no-repeat');
     });
 

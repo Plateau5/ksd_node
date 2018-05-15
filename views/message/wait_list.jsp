@@ -45,10 +45,10 @@
         <div class=" listCon relative" style="padding-bottom:200px;">
             <div class="inviteCon messageCon" style="margin-bottom:0;">
                 <ul style="position:relative;">
-                    <li class="count_message inline"><a href="javascript:;" style="color:#535E6A;">
+                    <li class="count_message inline"><a href="javascript:;" style="color:#333;">
                         全部
                     </a></li>
-                    <li class="count_message inline messageRight"><a href="javascript:;" style="color:#535E6A;">
+                    <li class="count_message inline messageRight"><a href="javascript:;" style="color:#333;">
                         共
                         <span>${count}</span>
                         个通知
