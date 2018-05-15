@@ -46,7 +46,7 @@
                         </li>
                         <li class="pigeonhole_item">
                             <div class="item_name">快递单号：</div>
-                            <div id="deliveryTitle" class="item_value cursor" title="">{{haveMaterial.deliver_no}}</div>
+                            <div id="newDeliveryInfo" class="item_value cursor" title="">{{haveMaterial.deliver_no}}</div>
                         </li>
                         {{#if (pig_list.length > 0)}}
                         <li class="pigeonhole_item_history">
@@ -67,83 +67,3 @@
 {{else}}
 {{include ('./../inc/empty_data')}}
 {{/if}}
-<!--{{#if (vo.pigeonhole_material) }}
-	<div class="img_detail_title" style="margin-top:15px;">
-		<div class="title_line"></div>
-		<span>归档资料</span>
-	</div>
-	&lt;!&ndash; 归档资料 &ndash;&gt;
-	<div class="requestpayout_detail_container">
-		{{#if (file_list5.length > 0) }}
-			<div class="imgDetail" style="padding-top: 30px;">
-				{{#each (file_list5) }}
-				<div class="detailBox inline" style="margin-top:0;">
-					<div class="detailImgBox cursor">
-						<a href="{{this.thumbnail}}" target="_blank">
-							<img src="{{this.thumbnail_120_90}}" alt=""/>
-						</a>
-					</div>
-					<div class="imgText">{{this.file_name}}</div>
-				</div>
-				{{/each}}
-			</div>
-		{{/if}}
-		<div class="filed-detail">
-			<div class="datum_desc">
-				{{#each (pigeonhole_material) }}
-					<span>{{this}}</span>
-				{{/each}}
-			</div>
-		</div>
-		{{#if (vo.express_type === 2 || vo.express_type === 1) }}
-			<div class="detail_remarks requestpayout_detail_remarks" style="margin-bottom:20px;">
-				<div class="requestpayout_detail_label">交付方式：</div>
-				<div class="requestpayout_detail_txt mask_color">
-					{{#if (vo.express_type === 1) }}
-						当面交付
-					{{elseif (vo.express_type === 2) }}
-						邮寄资料
-					{{/if}}
-				</div>
-			</div>
-			{{#if (vo.express_type === 2) }}
-				<div class="detail_remarks requestpayout_detail_remarks">
-					<div style="float: left;">
-						<div class="requestpayout_detail_label">快递公司：</div>
-						<div class="requestpayout_detail_txt" style="width:auto;">{{vo.express_name}}</div>
-					</div>
-				</div>
-				<div class="detail_remarks requestpayout_detail_remarks">
-					<div style="float: left;">
-						<div class="requestpayout_detail_label">快递单号：</div>
-						<div class="requestpayout_detail_txt" style="width:auto;">{{vo.express_num}}</div>
-					</div>
-				</div>
-			{{/if}}
-		{{/if}}
-		<div class="requestpayout_detail_btn_box" style="clear: both;">
-			<div class="cursor requestpayout_detail_btn requestpayout_download download_file" alt="5" lang="{{finance_id}}">全部下载</div>
-			{{#if (vo.status === 12) }}
-				{{#if (vo.is_pigeonhole === 0) }}
-					{{#if (verifyCode(1121)) }}
-						<div class="cursor requestpayout_detail_btn requestpayout_flied" id="flied_btn" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">确认归档</div>
-					{{/if}}
-				{{/if}}
-				{{#if (vo.pigeonhole_material && vo.express_type === 0 && day > 0) }}
-					{{#if (verifyCode(1124)) }}
-						<div class="cursor requestpayout_detail_btn requestpayout_time" id="term_btn" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">期限提醒</div>
-					{{/if}}
-				{{/if}}
-				{{#if (vo.pigeonhole_material.length <= 0) }}
-					{{#if (verifyCode(1117)) }}
-						<a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/notifyMaterial" data-advance_id="{{vo.advance_id}}">
-							<div class="cursor requestpayout_detail_btn requestpayout_material" id="" lang="{{finance_id}}">通知所需材料</div>
-						</a>
-					{{/if}}
-				{{/if}}
-			{{/if}}
-		</div>
-	</div>
-{{/if}}-->
-
-
