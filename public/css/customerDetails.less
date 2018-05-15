@@ -51,10 +51,6 @@
 
     }
 }
-.details_item{
-    margin-bottom: 20px;
-    overflow:hidden;
-}
 .img_info{
     margin-top: 10px;
 }
@@ -62,11 +58,15 @@
     width: 100%;
     height: auto;
     border: 1px solid @border-color;
-    border-top:none;
+    margin-bottom: 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-
+    &:after,&:before{
+      content: '';
+      display: block;
+      clear: both;
+    }
     .detail_title{
         position: relative;
         height: 50px;
