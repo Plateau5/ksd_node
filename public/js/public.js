@@ -737,6 +737,117 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
     return true;
 }
 
+function resetCheckboxAndRadioNew (type, selector, checkedSelector, callback) {
+    if (!type && !selector && !checkedSelector) {
+        return;
+    } else if (typeof type != 'string' && typeof selector != 'string' &&  typeof checkedSelector != 'string') {
+        return;
+    }
+    if (callback && typeof callback != 'function') {
+        return;
+    }
+
+    var tp,         //选中状态选择器的类型
+        target = $(selector),
+        reg = /\.|\[(.*?)\]/ig,
+        b = checkedSelector.match(reg)[0],
+        attr = b.replace(/\[|\]/ig, "");
+    if ( b.indexOf(".") != -1) {
+        tp = "class";
+        var c = checkedSelector.replace(/\.|\#|\[(.*?)\]/g, "");
+    } else if (b.indexOf("[") != -1) {
+        tp = "attr";
+        var attrName = attr.split("=")[0],
+            attrValue = attr.split("=")[1].replace(/\"|\'/ig, "");
+    } else {
+        alert("The parameters of checkedSelector if no defined.");
+    }
+
+    if(type == 'radio') {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+        $('body').on('click', selector, function (e) {
+            var ev = e || window.event;
+            ev.stopPropagation();
+            ev.preventDefault();
+            var t = $(this);
+            if (!t.hasClass("disabled")) {
+                if (tp == 'class') {
+                    if (t.hasClass(c)) {
+                        t.siblings(selector).removeClass(c).end().removeClass(c).siblings("input[type='radio']").prop('checked', false);
+                        callback && callback();
+                    } else {
+                        t.siblings(selector).removeClass(c).end().addClass(c).siblings("input[type='radio']").prop('checked', true);
+                        callback && callback();
+                    }
+
+                } else if (tp == 'attr') {
+                    if (!!t.attr(attrName)) {
+                        t.siblings(selector).attr(attrName).end().attr(attrName, '').end().siblings("input[type='radio']").prop('checked', false);
+                        callback && callback();
+                    } else {
+                        t.siblings(selector).attr(attrName).end().attr(attrName, attrValue).end().siblings("input[type='radio']").prop('checked', true);
+                        callback && callback();
+                    }
+
+                }
+            } else {
+                return false;
+            }
+        })
+        //})
+    } else if (type == 'checkbox') {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+        $('body').on('click', selector, function () {
+            var t = $(this);
+            if (!t.hasClass("disabled")) {
+                if (tp == 'class') {
+                    if (t.hasClass(c)) {
+                        t.removeClass(c).siblings("input[type='checkbox']").prop("checked", false);
+                        //console.log(t.siblings("input[type='checkbox']:checked").val());
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    } else {
+                        t.addClass(c).siblings("input[type='checkbox']").prop('checked', true);
+                        //console.log(t.siblings("input[type='checkbox']:checked").val());
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    }
+                } else if (tp == 'attr') {
+                    if (!!t.attr(attrName)) {
+                        t.attr(attrName, "").siblings("input[type='checkbox']").prop('checked', false);
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    } else {
+                        t.attr(attrName, attrValue).siblings("input[type='checkbox']").prop('checked', true);
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    }
+                }
+            } else {
+                return false;
+            }
+        })
+        // })
+    } else {
+        return false;
+    }
+    return true;
+}
+
 
 /**
  * 复选框全选功能

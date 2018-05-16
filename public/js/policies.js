@@ -136,7 +136,8 @@ function submitEvent (form, btn) {
     submitIds.val(checkedCity.cityIds);
     submitNames.val(checkedCity.cityName);
 
-    var data = new FormData(form[0]);
+    var formId = form.attr('id');
+    var data = new FormData(document.getElementById(formId));
     $.ajax({
         type : 'post',
         url : EDITAPI,
@@ -393,6 +394,9 @@ function createNewPolicy () {
     var createBtn = $('.create_policy_btn');
     var submitBtn = $('.edit_confirm');
     createBtn.off('click').on('click', function () {
+        var newPolicy = temp;
+        var time = new Date().getTime();
+        newPolicy.find('form.policy_form').attr('id', 'policyForm'+time);
         firstPolicy.before(temp);
         var newPolicy = $('.policies_temp').eq(0);
         newPolicy.show();
