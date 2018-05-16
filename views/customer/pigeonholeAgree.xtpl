@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>客户-同意</title>
     {{include ("./../inc/metaData")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/question/edit.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/requestpayout/agree.css">
@@ -104,12 +105,12 @@
                     if (res.error_code == "0") {
                         window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
                     } else {
-                        alert(res.error_msg);
+                        $alert(res.error_msg);
                         $('#agree_sub').attr('disabled',false);
                     }
                 },
                 error : function () {
-                    alert("输入参数异常");
+                    $alert("提交失败，请稍后重试");
                     $('#agree_sub').attr('disabled',false);
                 }
             });
