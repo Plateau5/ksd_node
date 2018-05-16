@@ -84,28 +84,28 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script>
-    (function () {
-    //确认
-    $('#agree_sub').off("click").on("click", function(){
-        $('#agree_sub').attr('disabled',true);
-        var url = contextPath + '/api/pigeonhole/agree';
-        var vFD = new FormData(document.getElementById('request_info_agree'));
-        var location_url = $.trim($(this).data("url"));
 
-        if (isFinancial) {
+    (function () {
+        //确认
+        $('#agree_sub').off("click").on("click", function(){
+            $('#agree_sub').attr('disabled',true);
+            var url = contextPath + '/api/pigeonhole/agree';
+            var data = new FormData(document.getElementById('request_info_agree'));
+            var location_url = $.trim($(this).data("url"));
+
             $.ajax({
                 type : "post",
                 url : url,
-                data : vFD,
+                data : data,
                 async : true,
                 processData: false,
                 contentType: false,
-                success : function (datas) {
-                    var res = eval(datas);
-                    if (res.error_code == "0") {
+                success : function (res) {
+                    var result = eval(res);
+                    if (result.error_code == "0") {
                         window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
                     } else {
-                        $alert(res.error_msg);
+                        $alert(result.error_msg);
                         $('#agree_sub').attr('disabled',false);
                     }
                 },
@@ -114,19 +114,13 @@
                     $('#agree_sub').attr('disabled',false);
                 }
             });
-        } else {
-            send_form(url,vFD,location_url,0,function(){
-                $('#agree_sub').attr('disabled',false);
-            });
-        }
 
-    });
-    $('.form-item').eq(0).css('marginTop','32px');
+        });
 
-    //取消按钮的点击逻辑
-    bindEvents("click", ".cancel_btn", function () {
-        window.history.back();
-    })
+        //取消按钮的点击逻辑
+        bindEvents("click", ".cancel_btn", function () {
+            window.history.back();
+        })
 
     })(jQuery,undefined);
 </script>
