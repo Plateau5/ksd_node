@@ -170,14 +170,14 @@ function submitEvent (form, btn) {
  */
 function validatePolicyEmpty (form) {
     // 融资期限模块
-    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"][checked="checked"]');
+    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"]:checked');
     if (checkedPeirods.length <= 0) {
         $alert('请选择融资期限');
         return false;
     }
 
     // 费率模块
-    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"][checked="checked"]');
+    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"]:checked');
     if (checkedRates.length <= 0) {
         $alert('请选择费率');
         return false;

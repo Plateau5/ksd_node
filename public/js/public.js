@@ -736,7 +736,7 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
     }
     return true;
 }
-
+// 切换事件绑定方式  2018年5月16日16:05:45
 function resetCheckboxAndRadioNew (type, selector, checkedSelector, callback) {
     if (!type && !selector && !checkedSelector) {
         return;
