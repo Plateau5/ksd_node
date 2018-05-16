@@ -112,16 +112,18 @@
                 var _this = $(this);
                 resBox.show();
                 $('.customer_search').focus();
-                resList.show();
                 $('.customer_search').on('input',function(e){
                     var ev = e || window.event;
                     ev.stopPropagation();
                     var val = $.trim($(this).val());
-                    $('.search_list').html('');
+                    resList.html('');
                     if (val) {
+                        resList.show();
                         var queryObj = fuzzyQuery(emp_list);
                         showSearchResult(queryObj);
                         selectedCreate();
+                    } else{
+                        resList.hide();
                     }
                 });
                 $(document).on('click',function (e) {
