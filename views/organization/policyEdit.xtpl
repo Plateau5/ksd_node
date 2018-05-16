@@ -41,7 +41,7 @@
                 {{#if (rebatePolicy.length > 0) }}
                     {{#each (rebatePolicy) }}
                         <div class="form_options {{#if (xindex === 0) }}first_policy{{/if}} policies_item" data-id="{{this.rebate_id}}" data-edit_type="1">
-                            <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form" data-policy_index="{{xindex}}">
+                            <form action="{{contextPath}}/api/organization/rebate/save" method="post" class="policy_form" id="policyForm{{xindex}}" data-policy_index="{{xindex}}">
                                 <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
                                 <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
                                 <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
@@ -67,8 +67,8 @@
                                             {{set (periodsArr = ../rebate_period.split(','))}}
                                         <div class="form_group">
                                             {{#if (periodsArr.indexOf(this) !== -1) }}
-                                            <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this}}" />
-                                            <label class="checked">{{this}}</label>
+                                                <input type="checkbox" class="rates" checked="checked" name="rebate_period" value="{{this}}" />
+                                                <label class="checked">{{this}}</label>
                                             {{else}}
                                             <input type="checkbox" class="rates" name="rebate_period" value="{{this}}" />
                                             <label class="">{{this}}</label>
@@ -264,7 +264,7 @@
                 {{else}}
                     <div class="form_options policies_temp none policies_item" data-edit_type="0">
                 {{/if}}
-                        <form action="{{contextPath}}/api/organization/rebate/save" method="post"  class="policy_form">
+                        <form action="{{contextPath}}/api/organization/rebate/save" method="post" id="policyFormTemp" class="policy_form">
                             <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" class="orgId">
                             <input type="hidden" name="car_type" value="{{reqParams.car_type}}" class="carType">
                             <input type="hidden" name="organization_name" value="{{reqParams.orgName}}" class="orgName">
@@ -567,7 +567,6 @@
             citySelect({}, function (btn) {
                 addCheckedCityData(btn);
             });
-            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             addCity();      // 添加城市点击事件
             changeRebateType();     // 更改返佣类型视图切换
             bindPolicySubmit();     // 编辑/创建保存提交
@@ -577,6 +576,7 @@
             toHistoryList();        // 跳转历史政策页面
             deletePolicy();     // 删除政策
             backToPoliciesList();       // 面包屑跳转回列表页
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
         });
     })(jQuery,undefined);
 </script>

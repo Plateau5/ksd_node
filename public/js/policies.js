@@ -46,8 +46,10 @@ function initDisabledOrReset (policy) {
  * @return {}
  */
 function bindPolicySubmit () {
-    var body = $('body');
-    body.on('click', '.edit_confirm', function (e) {
+    var submitBtn = $('.edit_confirm');
+    // var body = $('body');
+    // body.on('click', '.edit_confirm', function (e) {
+    submitBtn.off('click').on('click', function (e) {
         var ev = e || window.event;
         ev.stopPropagation();
         ev.preventDefault();
@@ -59,6 +61,7 @@ function bindPolicySubmit () {
         if (editType === 0) {
             verify = validatePolicyEmpty(parentForm);
             if (verify) {
+                _this.off('click');
                 submitEvent(parentForm, _this);
             }
         } else if (editType === 1) {
@@ -78,11 +81,13 @@ function bindPolicySubmit () {
                 verify = validatePolicyEmpty(parentForm);
                 if (ISMERCHANT) {
                     if (verify) {
+                        _this.off('click');
                         submitEvent(parentForm, _this);
                     }
                 } else {
                     var unrepeat = checkPoliciesRepeat(parentForm);     // 是否重复
                     if (verify && unrepeat) {
+                        _this.off('click');
                         submitEvent(parentForm, _this);
                     }
                 }
@@ -131,7 +136,8 @@ function submitEvent (form, btn) {
     submitIds.val(checkedCity.cityIds);
     submitNames.val(checkedCity.cityName);
 
-    var data = new FormData(form[0]);
+    var formId = form.attr('id');
+    var data = new FormData(document.getElementById(formId));
     $.ajax({
         type : 'post',
         url : EDITAPI,
@@ -164,14 +170,14 @@ function submitEvent (form, btn) {
  */
 function validatePolicyEmpty (form) {
     // 融资期限模块
-    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"][checked="checked"]');
+    var checkedPeirods = form.find('.financing_period').find('input[type="checkbox"]:checked');
     if (checkedPeirods.length <= 0) {
         $alert('请选择融资期限');
         return false;
     }
 
     // 费率模块
-    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"][checked="checked"]');
+    var checkedRates = form.find('.policy_rates').find('input[type="checkbox"]:checked');
     if (checkedRates.length <= 0) {
         $alert('请选择费率');
         return false;
@@ -386,11 +392,17 @@ function createNewPolicy () {
     var firstPolicy = $('.first_policy');
 
     var createBtn = $('.create_policy_btn');
+    var submitBtn = $('.edit_confirm');
     createBtn.off('click').on('click', function () {
+        var newPolicy = temp;
+        var time = new Date().getTime();
+        newPolicy.find('form.policy_form').attr('id', 'policyForm'+time);
         firstPolicy.before(temp);
         var newPolicy = $('.policies_temp').eq(0);
         newPolicy.show();
         newPolicy.find('.edit_delete').show();
+        submitBtn.off('click');
+        bindPolicySubmit();
     });
 }
 

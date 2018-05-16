@@ -736,6 +736,117 @@ function resetCheckboxAndRadio (type, selector, checkedSelector, callback) {
     }
     return true;
 }
+// 切换事件绑定方式  2018年5月16日16:05:45
+function resetCheckboxAndRadioNew (type, selector, checkedSelector, callback) {
+    if (!type && !selector && !checkedSelector) {
+        return;
+    } else if (typeof type != 'string' && typeof selector != 'string' &&  typeof checkedSelector != 'string') {
+        return;
+    }
+    if (callback && typeof callback != 'function') {
+        return;
+    }
+
+    var tp,         //选中状态选择器的类型
+        target = $(selector),
+        reg = /\.|\[(.*?)\]/ig,
+        b = checkedSelector.match(reg)[0],
+        attr = b.replace(/\[|\]/ig, "");
+    if ( b.indexOf(".") != -1) {
+        tp = "class";
+        var c = checkedSelector.replace(/\.|\#|\[(.*?)\]/g, "");
+    } else if (b.indexOf("[") != -1) {
+        tp = "attr";
+        var attrName = attr.split("=")[0],
+            attrValue = attr.split("=")[1].replace(/\"|\'/ig, "");
+    } else {
+        alert("The parameters of checkedSelector if no defined.");
+    }
+
+    if(type == 'radio') {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+        $('body').on('click', selector, function (e) {
+            var ev = e || window.event;
+            ev.stopPropagation();
+            ev.preventDefault();
+            var t = $(this);
+            if (!t.hasClass("disabled")) {
+                if (tp == 'class') {
+                    if (t.hasClass(c)) {
+                        t.siblings(selector).removeClass(c).end().removeClass(c).siblings("input[type='radio']").prop('checked', false);
+                        callback && callback();
+                    } else {
+                        t.siblings(selector).removeClass(c).end().addClass(c).siblings("input[type='radio']").prop('checked', true);
+                        callback && callback();
+                    }
+
+                } else if (tp == 'attr') {
+                    if (!!t.attr(attrName)) {
+                        t.siblings(selector).attr(attrName).end().attr(attrName, '').end().siblings("input[type='radio']").prop('checked', false);
+                        callback && callback();
+                    } else {
+                        t.siblings(selector).attr(attrName).end().attr(attrName, attrValue).end().siblings("input[type='radio']").prop('checked', true);
+                        callback && callback();
+                    }
+
+                }
+            } else {
+                return false;
+            }
+        })
+        //})
+    } else if (type == 'checkbox') {
+        //target.each(function (i, obj) {
+        //     $(obj).off('click').on('click', function () {
+        $('body').on('click', selector, function () {
+            var t = $(this);
+            if (!t.hasClass("disabled")) {
+                if (tp == 'class') {
+                    if (t.hasClass(c)) {
+                        t.removeClass(c).siblings("input[type='checkbox']").prop("checked", false);
+                        //console.log(t.siblings("input[type='checkbox']:checked").val());
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    } else {
+                        t.addClass(c).siblings("input[type='checkbox']").prop('checked', true);
+                        //console.log(t.siblings("input[type='checkbox']:checked").val());
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    }
+                } else if (tp == 'attr') {
+                    if (!!t.attr(attrName)) {
+                        t.attr(attrName, "").siblings("input[type='checkbox']").prop('checked', false);
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    } else {
+                        t.attr(attrName, attrValue).siblings("input[type='checkbox']").prop('checked', true);
+                        //监听是否有全选按钮并处理选中逻辑
+                        if (!t.hasClass("check_all")) {
+                            checkboxMonitor(t);
+                        }
+                        callback && callback();
+                    }
+                }
+            } else {
+                return false;
+            }
+        })
+        // })
+    } else {
+        return false;
+    }
+    return true;
+}
 
 
 /**
@@ -1173,6 +1284,11 @@ function searchBusinessList (firstLetter) {
     var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
     var settlementType = $("select#settlementType option:selected").val();   // 商户-结算方式
 
+    /*var CustomerStart = $("#start_loan_time").val() || '';  // 客户-放款时间开始
+    var CustomerEnd = $("#end_loan_time").val() || '';   // 客户-放款时间结束
+    var pigeonholeStatus = $("select#pigeonholeStatus option:selected").val();   // 客户-状态筛选
+    var createName = $("#createName").val();   // 客户-订单所属人*/
+
     /*var timeorder_type = $("select#timeorder_type option:selected").val();   // 商户-放款时间
     var receipt_type = $("select#receipt_type option:selected").val();   // 商户-款项类型
     var orderby_type = $("select#orderby_type option:selected").val();   // 商户-放款排序方式
@@ -1194,6 +1310,11 @@ function searchBusinessList (firstLetter) {
     merchantsStatus && $("#"+id).append('<input type="hidden" id="status" name="status" value="'+ merchantsStatus +'" />');
     ownType && $("#"+id).append('<input type="hidden" id="own_type" name="own_type" value="'+ ownType +'" />');
     settlementType && $("#"+id).append('<input type="hidden" id="settlement_type" name="settlement_type" value="'+ settlementType +'" />');
+
+    /*CustomerStart && $("#"+id).append('<input type="hidden" id="start_loan_time" name="start_loan_time" value="'+ CustomerStart + '" />');
+    CustomerEnd && $("#"+id).append('<input type="hidden" id="end_loan_time" name="end_loan_time" value="'+ CustomerEnd + '" />');
+    pigeonholeStatus && $("#"+id).append('<input type="hidden" id="pigeonholeStatus" name="pigeonhole_status" value="'+ pigeonholeStatus +'" />');
+    createName && $("#"+id).append('<input type="hidden" id="createName" name="create_name" value="'+ createName + '" />');*/
 
     /*timeorder_type && $("#"+id).append('<input type="hidden" id="timeorder_type" name="timeorder_type" value="'+ timeorder_type +'" />');
     receipt_type && $("#"+id).append('<input type="hidden" id="receipt_type" name="receipt_type" value="'+ receipt_type +'" />');
@@ -1230,6 +1351,10 @@ function pageChange (e, firstLetter) {
         var carType = $("select#typeBusiness option:selected").val();   // 商户-业务类型
         var merchantsStatus = $("select#merchantsState option:selected").val();   // 商户-状态
         var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
+        var CustomerStart = $("#start_loan_time").val() || '';  // 客户-放款时间开始
+        var CustomerEnd = $("#end_loan_time").val() || '';   // 客户-放款时间结束
+        var pigeonholeStatus = $("select#pigeonholeStatus option:selected").val();   // 客户-状态筛选
+        var createName = $("#createName").val();   // 客户-订单所属人
 
 
         label_id && $("#"+id).append('<input type="hidden" id="label_id" name="label_id" value="'+ label_id + '" />');
@@ -1251,6 +1376,10 @@ function pageChange (e, firstLetter) {
         carType && $("#"+id).append('<input type="hidden" id="car_type" name="car_type" value="'+ carType +'" />');
         merchantsStatus && $("#"+id).append('<input type="hidden" id="status" name="status" value="'+ merchantsStatus +'" />');
         ownType && $("#"+id).append('<input type="hidden" id="own_type" name="own_type" value="'+ ownType +'" />');
+        CustomerStart && $("#"+id).append('<input type="hidden" id="start_loan_time" name="start_loan_time" value="'+ CustomerStart + '" />');
+        CustomerEnd && $("#"+id).append('<input type="hidden" id="end_loan_time" name="end_loan_time" value="'+ CustomerEnd + '" />');
+        pigeonholeStatus && $("#"+id).append('<input type="hidden" id="pigeonholeStatus" name="pigeonhole_status" value="'+ pigeonholeStatus +'" />');
+        createName && $("#"+id).append('<input type="hidden" id="createName" name="create_name" value="'+ createName + '" />');
         $("#"+id).submit();
     }
 }
@@ -2264,10 +2393,11 @@ function paginationSwitch () {
             }
             _this.data('currentpage', nextPage).siblings('.prev').data('currentpage', nextPage);
             var start_with = getCheckedFirstLetter();
+            (start_with == "全部") && (start_with = '');
             if (start_with) {
                 var firstLetter = form.find('#start_with');
                 if (firstLetter.length <= 0) {
-                    form.append('<input type="hidden" id="start_with" name="start_with" value="'+ start_with + '" />');
+                    form.append('<input type="hidden" class="filtrate_input" id="start_with" name="start_with" value="'+ start_with + '" />');
                 } else {
                     firstLetter.val(start_with);
                 }
