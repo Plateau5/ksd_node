@@ -592,13 +592,22 @@
         }
         function btnClick(btn,url) {
             btn.off('click').on('click', function () {
+                var pigeonhole_icon = $('.pigeonhole_icon');
                 var _this = $(this);
                 var financeId =$('#finance_id').val().trim();
                 var pigeonholeId =$('#pigeonhole_id').val().trim();
                 var agreeType =_this.data('agree_type');
                 var financeStatus =$('#finance_status').val().trim();
-                var materialIds =$('#material_ids').val().trim();
-                var materialName =$('#material_names').val().trim();
+                var material_ids = [];
+                var material_names = [];
+                pigeonhole_icon.each(function () {
+                    var _cur = $(this);
+                    material_ids.push(_cur.data('material_id'));
+                    material_names.push(_cur.data('material_name'));
+                });
+                // $('#material_ids').val(material_ids.join(','));
+                var materialIds = material_ids.join(',');
+                var materialName =material_names.join(',');
                 var userName =$('#user_name').val().trim();
                 var navigation = $('#navigation').val().trim();         // 列表页节点名称
                 locationTo({

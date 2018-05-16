@@ -7,13 +7,16 @@
                 <li class="pigeonhole_item">
                     <div class="item_name">归档所需资料：</div>
                     <div class="item_value_box">
+                        {{#if (pass_material_ids)}}
+                            {{set (passMaterialIds = pass_material_ids.split(','))}}
+                        {{/if}}
                         {{#each (material) }}
                         <div class="item_value">
                             {{this.name}}
-                            {{#if ((haveMaterial.material_ids && haveMaterial.material_ids.indexOf(this.id) !== -1) || (haveMaterial.pass_material_ids && haveMaterial.pass_material_ids.indexOf(this.id) !== -1)) }}
-                            <em class="pigeonhole_icon pigeonhole_icon_pass"></em>
+                            {{#if ((passMaterialIds && passMaterialIds.indexOf(this.id.toString()) !== -1)) }}
+                            <em class="pigeonhole_icon pigeonhole_icon_pass" data-material_id="{{this.id}}" data-material_name="{{this.name}}"></em>
                             {{else}}
-                            <em class="pigeonhole_icon pigeonhole_icon_error"></em>
+                            <em class="pigeonhole_icon pigeonhole_icon_error" data-material_id="{{this.id}}" data-material_name="{{this.name}}"></em>
                             {{/if}}
                         </div>
                         {{/each}}
