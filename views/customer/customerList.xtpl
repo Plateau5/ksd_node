@@ -182,13 +182,13 @@
         function showSearchResult (res) {
             var html = [];
             if (res == undefined || res.length == 0 || res.length == undefined) {
-                return $('.search_list').html('<li style="text-align: center;">暂无数据</li>');
+                return $('.search_list').html('<li style="text-align: center;">没有匹配到任何结果</li>');
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var str = '';
                     str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '">\
                                 <div class="name nowrap">' + res[i].name + '</div>\
-                                <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '暂无部门') + '</div>\
+                                <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
                             </li>'
                     html.push(str);
                     $('.search_list').html(html.join(""));
