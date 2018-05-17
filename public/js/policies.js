@@ -137,7 +137,8 @@ function submitEvent (form, btn) {
     submitNames.val(checkedCity.cityName);
 
     var formId = form.attr('id');
-    var data = new FormData(document.getElementById(formId));
+    // var data = new FormData(document.getElementById(formId));
+    var data = new FormData(form[0]);
     $.ajax({
         type : 'post',
         url : EDITAPI,
