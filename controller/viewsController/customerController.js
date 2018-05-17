@@ -719,20 +719,40 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_NOTIFYMATERIAL = function(req, res, next) {
 };
 // 客户-归档管理-同意页面 1513
 exports.VIEW_CUSTOMER_PIGEONHOLE_AGREE = function(req, res, next) {
-    common.getPageData({
+    /*common.getPageData({
         url : '/api/pigeonhole/agree',
         title : '归档管理-同意',
         page : './customer/pigeonholeAgree',
-    }, req, res, next);
+    }, req, res, next);*/
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '客户-同意';
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    var body = req.body;
+    data.reqParams = body;
+    res.render('./customer/pigeonholeAgree', data);
 };
 
 // 客户-归档管理-不同意页面 1513
 exports.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE = function(req, res, next) {
-    common.getPageData({
+    /*common.getPageData({
         url : '/api/pigeonhole/agree',
         title : '归档管理-不同意',
         page : './customer/pigeonholeAgree',
-    }, req, res, next);
+    }, req, res, next);*/
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '归档管理-不同意';
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    var body = req.body;
+    data.reqParams = body;
+    res.render('./customer/pigeonholeAgree', data);
 };
 
 
