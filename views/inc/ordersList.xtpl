@@ -43,7 +43,13 @@
                             <dd class="nor_wrap font14">{{this.car_price}} 万</dd>
                         </dl>
                         {{/if}}
-                        {{#if ( root.startWith(markUri + '/customer/pigeonhole')) }}
+                        {{#if ( root.startWith(markUri + '/customer/pigeonhole/pending')) }}
+                        <dl class="effect_two">
+                            <dt class="font12">未归档天数（天）</dt>
+                            <dd class="nor_wrap font14">{{this.nopig_day}}</dd>
+                        </dl>
+                        {{/if}}
+                        {{#if ( root.startWith(markUri + '/customer/pigeonhole/archived')) }}
                         <dl class="effect_two">
                             <dt class="font12">归档天数（天）</dt>
                             <dd class="nor_wrap font14">{{this.nopig_day}}</dd>
