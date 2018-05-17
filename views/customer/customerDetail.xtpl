@@ -646,9 +646,17 @@
                     deliver_no : deliverNo
                 },
                 success : function(res) {
-                    if( res.data && res.data.length > 0){
-                        var title = res.data[0].time + " " + res.data[0].status;
-                        $("#newDeliveryInfo").attr("title",title);
+                    if (res.error_code == 0) {
+                        if( res.data && res.data.length > 0){
+                            var title = res.data[0].time + " " + res.data[0].status;
+                            $("#newDeliveryInfo").attr("title",title);
+                        } else {
+                            $("#newDeliveryInfo").attr("title","获取物流信息失败！");
+                        }
+                    } else if (res.error_code == 1002) {
+                        $("#newDeliveryInfo").attr("title","获取物流信息失败！");
+                    } else {
+                        $("#newDeliveryInfo").attr("title","获取物流信息失败！");
                     }
                 },
                 error : function () {
