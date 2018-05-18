@@ -51,17 +51,17 @@
                             <div class="item_name">快递单号：</div>
                             <div id="newDeliveryInfo" class="item_value cursor" title="">{{haveMaterial.deliver_no}}</div>
                         </li>
-                        {{#if (pig_list.length > 0)}}
-                        <li class="pigeonhole_item_history">
-                            <div class="item_name">历史快递信息：</div>
-                            <div class="item_value_box">
-                                {{#each (pig_list) }}
-                                <div class="item_value">{{this.deliver_company}}-{{deliver_no}}{{create_time}}</div>
-                                {{/each}}
-                            </div>
-                        </li>
-                        {{/if}}
                     {{/if}}
+                {{/if}}
+                {{#if (pig_list.length > 0)}}
+                <li class="pigeonhole_item_history">
+                    <div class="item_name">历史快递信息：</div>
+                    <div class="item_value_box">
+                        {{#each (pig_list) }}
+                        <div class="item_value">{{this.deliver_company}}-{{deliver_no}}{{create_time}}</div>
+                        {{/each}}
+                    </div>
+                </li>
                 {{/if}}
             </ul>
         </div>
