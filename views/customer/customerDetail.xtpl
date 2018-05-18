@@ -67,6 +67,7 @@
                 <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
                 <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
 
+
                 <!-- 开始录入按钮所需隐藏域  -->
                 <input type="hidden" id="request_status" value="{{vo.request_status }}">
                 <input type="hidden" id="userName" value="{{vo.user_name}}" >
@@ -579,11 +580,15 @@
                 var advance_id = $.trim($('#advance_id').val());
                 var query_type = $.trim($('#query_type').val());
                 var photo_type = $.trim($('#photo_type').val());
+                var navigation = $.trim($('#navigation').val());
+                var url = "{{url}}";
                 locationTo({
                     action : contextPath +'{{detailUrl}}',
                     param : {
                         finance_id : finance_id,
                         advance_id : advance_id,
+                        navigation : navigation,
+                        url:url,
                         query_type : query_type,
                         photo_type : photo_type
                     }
