@@ -733,7 +733,7 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_AGREE = function(req, res, next) {
     data.domain = domain;
     var body = req.body;
     data.reqParams = body;
-    res.render('./customer/pigeonholeAgree', data);
+    res.render('./customer/pigeonholeAudit', data);
 };
 
 // 客户-归档管理-不同意页面 1513
@@ -752,7 +752,7 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE = function(req, res, next) {
     data.domain = domain;
     var body = req.body;
     data.reqParams = body;
-    res.render('./customer/pigeonholeAgree', data);
+    res.render('./customer/pigeonholeAudit', data);
 };
 
 

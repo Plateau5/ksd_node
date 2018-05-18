@@ -603,6 +603,9 @@
                 var pigeonholeId =$('#pigeonhole_id').val().trim();
                 var agreeType =_this.data('agree_type');
                 var financeStatus =$('#finance_status').val().trim();
+                var advance_id = $.trim($('#advance_id').val());
+                var query_type = $.trim($('#query_type').val());
+                var photo_type = $.trim($('#photo_type').val());
                 var material_ids = [];
                 var material_names = [];
                 pigeonhole_icon.each(function () {
@@ -625,7 +628,10 @@
                         material_ids: materialIds,
                         material_names : materialName,
                         user_name:userName,
-                        navigation:navigation
+                        advance_id : advance_id,
+                        navigation:navigation,
+                        query_type : query_type,
+                        photo_type : photo_type
                     }
                 })
             });
