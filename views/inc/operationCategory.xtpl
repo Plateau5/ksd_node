@@ -89,16 +89,16 @@
         {{/if}}
     {{/if}}
         <!-- 请款客服主操作分类 End -->
-        <!-- 归档客服主操作分类 Begin -->
+        <!-- 归档主操作分类 Begin -->
     {{#if (active === 'pigeonhole') }}
             {{#if (verifyCode(1177)) }}
-                <a href="{{markUri}}/customer/pigeonhole/pending" class="category_item wait_dispose
+                <a href="{{markUri}}/customer/pigeonhole/pending" class="category_item pending_audit
                 {{#if (startWith(markUri + '/customer/pigeonhole/pending')) }}active
         {{/if}}
         ">待归档<!-- <span class="count_num">({{countvo.already_return}})</span>--></a>
         {{/if}}
         {{#if (verifyCode(1178)) }}
-            <a href="{{markUri}}/customer/pigeonhole/archived" class="category_item archived
+            <a href="{{markUri}}/customer/pigeonhole/archived" class="category_item audit_pass
                 {{#if (startWith(markUri + '/customer/pigeonhole/archived')) }}active
             {{/if}}
             ">已归档<!-- <span class="count_num">({{countvo.already_pigeonhole}})</span>--></a>
