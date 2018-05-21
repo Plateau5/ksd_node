@@ -196,8 +196,8 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
             var policiesList = data.data;
             for (var i = 0, len = policiesList.length; i < len; i++) {
                 // -- 计算每个政策的万元系数
-                var rate = Number(policiesList[i].rebate_period);    // 当前政策的费率
-                var periods = Number(policiesList[i].rate);    // 当前政策的融资期限
+                var rate = Number(policiesList[i].rate);    // 当前政策的费率
+                var periods = Number(policiesList[i].rebate_period);    // 当前政策的融资期限
                 // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
                 var millionCoefficient = parseInt((((rate * 100 * (periods / 12)) + 10000) / periods) * 1000) / 1000;
                 if (millionCoefficient.toString().indexOf('.') !== -1) {
