@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>客户-同意</title>
+    <title>{{title}}</title>
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
@@ -26,7 +26,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/customer/pigeonhole/pending" class="crumbs_item">归档管理</a>
                 <a href="{{markUri}}/customer/pigeonhole/pending" class="crumbs_item">待归档</a>
-                <a href="javascript:;" class="crumbs_item go_loan_detail">{{reqParams.user_name}}</a>
+                <a href="javascript:;" class="crumbs_item go_loan_detail returnDetails">{{reqParams.user_name}}</a>
                 <a href="javascript:;" class="crumbs_item last_child">
                     {{#if (reqParams.agree_type === '1') }}
                     同意
@@ -112,7 +112,11 @@
         bindEvents("click", ".cancel_btn", function () {
             var form = $("#to_order_detail");
             form.submit();
-        })
+        });
+        bindEvents("click", ".returnDetails", function () {
+            var form = $("#to_order_detail");
+            form.submit();
+        });
 
     })(jQuery,undefined);
 </script>
