@@ -1353,6 +1353,8 @@ function pageChange (e, firstLetter) {
         var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
         var CustomerStart = $("#start_loan_time").val() || '';  // 客户-放款时间开始
         var CustomerEnd = $("#end_loan_time").val() || '';   // 客户-放款时间结束
+        var CustomerArchivedStart = $("#start_pigeonhole_time").val() || '';  // 客户-归档时间开始
+        var CustomerArchivedEnd = $("#end_pigeonhole_time").val() || '';   // 客户-归档时间结束
         var pigeonholeStatus = $("select#pigeonholeStatus option:selected").val();   // 客户-状态筛选
         var createName = $("#createName").val();   // 客户-订单所属人
 
@@ -1378,6 +1380,8 @@ function pageChange (e, firstLetter) {
         ownType && $("#"+id).append('<input type="hidden" id="own_type" name="own_type" value="'+ ownType +'" />');
         CustomerStart && $("#"+id).append('<input type="hidden" id="start_loan_time" name="start_loan_time" value="'+ CustomerStart + '" />');
         CustomerEnd && $("#"+id).append('<input type="hidden" id="end_loan_time" name="end_loan_time" value="'+ CustomerEnd + '" />');
+        CustomerArchivedStart && $("#"+id).append('<input type="hidden" id="start_pigeonhole_time" name="start_pigeonhole_time" value="'+ CustomerArchivedStart + '" />');
+        CustomerArchivedEnd && $("#"+id).append('<input type="hidden" id="end_pigeonhole_time" name="end_pigeonhole_time" value="'+ CustomerArchivedEnd + '" />');
         pigeonholeStatus && $("#"+id).append('<input type="hidden" id="pigeonholeStatus" name="pigeonhole_status" value="'+ pigeonholeStatus +'" />');
         createName && $("#"+id).append('<input type="hidden" id="createName" name="create_name" value="'+ createName + '" />');
         $("#"+id).submit();
