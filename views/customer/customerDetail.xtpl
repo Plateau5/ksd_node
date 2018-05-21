@@ -137,7 +137,15 @@
                         </ul>
                     </div>
                     <div class="detail_footer">
-                        <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="{{photo_type}}" lang="{{finance_id}}">全部下载</a>
+                        {{#if (startWith(markUri + '/customer/loan/detail'))}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="1" lang="{{finance_id}}">全部下载</a>
+                        {{elseif (startWith(markUri + '/customer/compact/detail'))}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="4" lang="{{finance_id}}">全部下载</a>
+                        {{elseif (startWith(markUri + '/customer/pigeonhole/detail'))}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="5" lang="{{finance_id}}">全部下载</a>
+                        {{else}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="2" lang="{{finance_id}}">全部下载</a>
+                        {{/if}}
                     </div>
                     {{else}}
                         {{include ('./../inc/empty_data')}}
