@@ -407,6 +407,14 @@ exports.getCustomerDetail = function(url, req, res, next) {
  */
 exports.getPageData = function(options, req, res, next) {
     var body = req.body;
+    // Format the params send to java api.
+    // If the param's value is empty, delete this attr and not send.
+    // Todo Search somewhere is useful.
+    for (var key in body) {
+        if (!body[key] && (body[key] !== 0 || body[key] !== '0')) {
+            delete body[key];
+        }
+    }
     var data = {};
     var localUrl = req.originalUrl;
     try {

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+	<link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/statistics.css"/>
+	<link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <title>数据统计-人效统计</title>
+	<style>
+		.no_hover:hover{
+			background: #FBFBFB !important;
+			cursor: default !important;
+		}
+		table.normal{
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main personal_detail">
+			<div class="statistics_list">
+				<form action="{{markUri}}/statistics/operating/list" id="operat_list" method="post" role='form'>
+					<input type="hidden" name="limit" value="{{limit}}" class="limit">
+					<input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+					<div class="filtrate border_filtrate">
+						<div class="filtrate_item select_item  inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">状态：</div>
+							<select name="status" class="filtrate_select filtrate_select_report" id="data_status">
+								<option value="1">进件</option>
+								<option value="2">通过</option>
+								<option value="3">放款</option>
+								<option value="4">回款</option>
+								<option value="5">归档</option>
+								<option value="6">拒绝</option>
+							</select>
+						</div>
+						<div class="filtrate_item date_conditions inline_block">
+							<div class="conditions_name inline_block">时间范围：</div>
+							<input type="text" id="queryStartDate" readonly class="filtrate_date" name="time_start" value="{{condition.time_start}}" /> —
+							<input type="text" id="queryEndDate" readonly class="filtrate_date" name="time_end" value="{{condition.time_end}}" />
+						</div>
+						<div class="filtrate_item inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">业务类型：</div>
+							<select name="car_type" class="filtrate_select filtrate_select_report" id="type_business">
+								<option value="">全部</option>
+								<option value="0">新车</option>
+								<option value="1">二手车</option>
+							</select>
+						</div>
+						<div class="filtrate_item select_city_div inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">城市：</div>
+							<input type="hidden" name="city_ids" class="city_ids">
+							<input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+							<em class="city_icon"></em>
+						</div>
+						<div class="filtrate_item select_item inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">机构类型：</div>
+							<select name="organization_id" class="filtrate_select filtrate_select_report have_type" id="organization_type">
+								<option value="">全部</option>
+								{{#each (org_list) }}
+								<option value="{{this.id}}">{{this.name}}</option>
+								{{/each}}
+							</select>
+						</div>
+						<div class="btn_box text_right">
+							<a href="javascript:" class="btn orange_btn search_btn confirm">筛选</a>
+						</div>
+					</div>
+				</form>
+
+				<div class="detail_btn_box left">
+					<span>共{{count}}条数据</span>
+					<div class="rf">
+						<a href="javascript:" id="download_btn" class="detail_title_btn download_btn">下载</a>
+					</div>
+				</div>
+				<table class="normal">
+					<colgroup style="width: 100%;">
+						<col style="width: 10%;" />
+						<col style="width: 15%;" />
+						<col style="width: 10%;" />
+						<col style="width: 15%;" />
+						<col style="width: 10%;" />
+						<col style="width: 15%;" />
+						<col style="width: 10%;" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>状态</th>
+						<th>时间</th>
+						<th>业务类型</th>
+						<th>城市</th>
+						<th>机构</th>
+						<th>贷前</th>
+						<th>客户</th>
+						<th>商户</th>
+					</tr>
+					{{#if (count === 0) }}
+					<tr>
+						<td colspan="8" class="no_hover">
+							{{include('./../inc/empty_data')}}
+						</td>
+					</tr>
+					{{else}}
+						{{#each (list) }}
+							<tr>
+								<td title="{{this.status_name}}">{{this.status_name}}</td>
+								<td title="{{this.time}}">{{this.time}}</td>
+								<td title="">
+									{{#if (this.car_type === 0) }}
+										新车
+									{{elseif (this.car_type === 1) }}
+										二手车
+									{{/if}}
+								</td>
+								<td title="{{this.city_name}}">{{this.city_name}}</td>
+								<td title="{{this.organization_name}}">{{this.organization_name}}</td>
+								<td title="{{this.create_name}}">{{this.create_name}}</td>
+								<td title="{{this.user_name}}">{{this.user_name}}</td>
+								<td title="{{this.supplier_name}}">{{this.supplier_name}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</table>
+				{{include('./../inc/paginations')}}
+			</div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<div class="download_report_box">
+	<div class="download_report_bg"></div>
+	<div class="download_report_dia">
+		<!--<em class="close_btn">x</em>-->
+		<div class="title">请勾选下载字段</div>
+		<div class="middle">
+			<div class="selectAll form_group">
+				<input id="selectAll" type="checkbox" class="select_all" name="" value="" checked="checked">
+				<label for="selectAll" class="checked">全选</label>
+			</div>
+			<div class="column_data">
+				{{#each (column_data) }}
+					<div class="form_group inline_block">
+						<input id="{{this.id}}" type="checkbox" name="" value="{{this.id}}" checked="checked">
+						<label for="{{this.id}}" class="checked">{{this.name}}</label>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+		<div class="download_report_bottom_btn">
+			<a href="javascript:" class="btn orange_btn download_confirm confirm">下载</a>
+		</div>
+	</div>
+</div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script>
+    (function ($) {
+
+        //筛选
+		function getListByCondtions () {
+			var btn = $('.search_btn');
+            btn.off('click').on('click', function () {
+                $('#operat_list').submit();
+            });
+		}
+        // 下载的弹出层
+        function downloadField () {
+            var btn = $('#download_btn');
+            btn.off('click').on('click', function () {
+                $( ".download_report_box" ).css('display','block');
+            });
+        }
+
+
+        //全选
+        $('.selectAll label').on('click',function () {
+            var _this = $(this);
+            var cur_citys = $('.column_data label');
+
+            if (_this.hasClass('checked')) {
+                cur_citys.each(function () {
+                    var _cur = $(this);
+                    if (_cur.hasClass('checked')) {
+                        _cur.removeClass('checked');
+                    }
+                });
+            } else {
+                cur_citys.each(function () {
+                    var _cur = $(this);
+                    if (!_cur.hasClass('checked')) {
+                        _cur.addClass('checked');
+                    }
+                });
+			}
+        });
+
+		//单选
+        $('.column_data label').on('click',function () {
+            var _this = $(this);
+            var province_id = _this.parents('.city_box').attr('id');
+            var cur_province = $('.province_ul input[id="'+province_id+'"]').next();
+            var cur_citys = _this.parents('.city_ul').find('label');
+            var nums = 0;
+            cur_citys.each(function () {
+                var _cur_city = $(this);
+                if (_cur_city.hasClass('checked')) {
+                    nums++;
+                }
+            });
+            if (cur_province.hasClass('part')) {
+                cur_province.removeClass('part');
+            }
+            if (!_this.hasClass('checked')) {
+                if (nums == cur_citys.length - 1) {//全选
+                    cur_province.addClass('checked');
+                } else {//部分选
+                    cur_province.addClass('part');
+                }
+            } else {
+                if (nums != 1) {//部分选
+                    cur_province.addClass('part');
+                } else {//全没选
+                    cur_province.removeClass('checked');
+                }
+            }
+        });
+
+        $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            initDateStartEnd('#queryStartDate','#queryEndDate');
+            paginationSwitch();// 分页切换
+            getListByCondtions();
+            downloadField();
+        });
+    })(jQuery,undefined);
+</script>
+</html>

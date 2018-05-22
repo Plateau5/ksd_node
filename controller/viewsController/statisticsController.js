@@ -276,3 +276,15 @@ exports.VIEW_STATISTICS_MERCHANTS_DETAIL = function(req, res, next) {
     }, req, res, next);
     // res.render('./dataStatistics/merchantDetail', { title : '数据统计-商户主页', markUri : markUri});
 };
+
+// 数据统计-运营报表-报表列表页跳转
+exports.VIEW_STATISTICS_OPERATING_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/reportForm/finance/list',
+        title : '数据统计-运营报表列表',
+        page : './dataStatistics/operatingReportList',
+        callback : function (data) {
+            data.merchants = req.body;
+        }
+    }, req, res, next);
+};
