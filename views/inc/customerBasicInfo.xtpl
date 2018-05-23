@@ -371,7 +371,12 @@
                                     }
                                     if (data.rebate_car) {
                                         data.rebate_car = data.rebate_car.toFixed(2).number();
-                                        $('#financed_amount').html(data.rebate_car + '元');
+                                        if (data.financed_charge_rebate) {
+                                            $('#financed_amount').html(data.rebate_car + '元(已请' + data.financed_charge_rebate + '元)');
+										} else {
+                                            $('#financed_amount').html(data.rebate_car + '元');
+										}
+
                                     } else {
                                         $('#financed_amount').html('--');
                                     }
