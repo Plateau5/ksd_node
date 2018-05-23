@@ -73,7 +73,8 @@
 						</div>
 						<div class="filtrate_item date_conditions inline_block">
 							<div class="conditions_name inline_block">时间范围：</div>
-							<input type="text" id="queryStartDate" readonly class="filtrate_date" name="time_start" value="{{condition.time_start}}" /> —
+							<input type="text" id="queryStartDate" readonly class="filtrate_date" name="time_start" value="{{condition.time_start}}" />
+                            <span class="inline_block"> — </span>
 							<input type="text" id="queryEndDate" readonly class="filtrate_date" name="time_end" value="{{condition.time_end}}" />
 						</div>
 						<div class="filtrate_item inline_block">
@@ -99,11 +100,11 @@
 						<div class="filtrate_item select_city_div inline_block">
 							<div class="conditions_name inline_block" style="vertical-align: top;">城市：</div>
 							<input type="hidden" name="city_ids" class="city_ids">
-							<input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+							<input type="text" class="select_city_input cursor" name=""  value="" placeholder="全部" readonly/>
 							<em class="city_icon"></em>
 						</div>
 						<div class="filtrate_item select_item inline_block">
-							<div class="conditions_name inline_block" style="vertical-align: top;">机构类型：</div>
+							<div class="conditions_name inline_block" style="vertical-align: top;">机构：</div>
 							<select name="organization_id" class="filtrate_select filtrate_select_report have_type" id="organization_type">
 								{{#if (condition.organization_id === '' && condition.organization_id !== 0) }}
 									<option value="" selected>全部</option>
@@ -143,10 +144,10 @@
 				</div>
 				<table class="normal">
 					<colgroup style="width: 100%;">
+						<col style="width: 18%;" />
+						<col style="width: 12%;" />
 						<col style="width: 15%;" />
-						<col style="width: 10%;" />
 						<col style="width: 15%;" />
-						<col style="width: 10%;" />
 						<col style="width: 15%;" />
 						<col style="width: 10%;" />
 						<col />
