@@ -320,9 +320,13 @@
                 }
             });
             if (!_this.hasClass('checked')) {
-                selectAll_label.addClass('checked');
+                if (nums == column_datas.length - 1) {//全选
+                    selectAll_label.addClass('checked');
+                } else {//部分选
+                    selectAll_label.removeClass('checked');
+                }
             } else {
-                selectAll_label.removeClass('checked');
+				selectAll_label.removeClass('checked');
             }
         });
 
