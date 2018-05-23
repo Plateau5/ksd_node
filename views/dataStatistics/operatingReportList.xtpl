@@ -255,30 +255,35 @@
                 if (select_flag) {
                     $('.download_report_dia .form_error').hide();
                     $( ".download_report_box" ).hide();
-                    var status = $('#status').val();
-                    var time_start = $('#time_start').val();
-                    var time_end = $('#time_end').val();
-                    var car_type = $('#car_type').val();
-                    var city_ids = $('#city_ids').val();
-                    var organization_id = $('#organization_id').val();
-                    var column_ids = column_ids.join(',');
-                    locationTo({
-                        action : contextPath + "/reportForm/finance/export/excel",
-                        param : {
-                            status : status,
-                            time_start : time_start,
-                            time_end : time_end,
-                            car_type : car_type,
-                            city_ids : city_ids,
-                            organization_id : organization_id,
-                            column_ids : column_ids
-                        }
-                    });
+                    resDownload(column_ids);
                 } else {
                     $('.download_report_dia .form_error').show();
                 }
             });
         }
+
+        //下载请求
+		function resDownload (column_ids) {
+            var status = $('#status').val();
+            var time_start = $('#time_start').val();
+            var time_end = $('#time_end').val();
+            var car_type = $('#car_type').val();
+            var city_ids = $('#city_ids').val();
+            var organization_id = $('#organization_id').val();
+            var column_ids = column_ids.join(',');
+            locationTo({
+                action : contextPath + "/reportForm/finance/export/excel",
+                param : {
+                    status : status,
+                    time_start : time_start,
+                    time_end : time_end,
+                    car_type : car_type,
+                    city_ids : city_ids,
+                    organization_id : organization_id,
+                    column_ids : column_ids
+                }
+            });
+		}
 
         //全选/全不选
         $('.selectAll label').on('click',function () {
