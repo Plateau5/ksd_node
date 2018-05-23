@@ -1691,7 +1691,9 @@ function locationTo (opt) {
     var inputEles = '', //form表单内部input元素
         arr = options.param;
     for (var key in arr) {
-        inputEles += '<input type="hidden" name="'+ key +'" value="'+ arr[key] +'" />';
+        if (arr[key] != '') {
+            inputEles += '<input type="hidden" name="'+ key +'" value="'+ arr[key] +'" />';
+        }
     }
     var thisForm = document.getElementById(formId);
     thisForm.innerHTML = inputEles;

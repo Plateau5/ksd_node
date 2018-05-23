@@ -401,9 +401,8 @@ router.all(markUri + '/statistics/merchants/synthesize', statisticsCtrl.VIEW_STA
 router.post(markUri + '/statistics/merchants/typeList', statisticsCtrl.VIEW_STATISTICS_MERCHANTS_TYPELIST);
 // 数据统计-商户统计-商户详情页跳转
 router.post(markUri + '/statistics/merchants/detail', statisticsCtrl.VIEW_STATISTICS_MERCHANTS_DETAIL);
-// 数据统计-运营报表-报表列表页跳转
+// 数据统计-运营报表-报表列表页跳转1514
 router.all(markUri + '/statistics/operating/list', statisticsCtrl.VIEW_STATISTICS_OPERATING_LIST);
-
 
 
 
