@@ -714,7 +714,7 @@
             });
 
             //下载
-            $(".download_file").click(function(){
+            $(".download_file").off("click").on('click', function () {
                 var material_type = $(this).attr('alt');
                 $('#material_type').val(material_type);
                 $('#finance_download').submit();
