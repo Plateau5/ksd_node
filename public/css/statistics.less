@@ -104,40 +104,6 @@
         background: #0B9C94;
     }
 }
-/*运营报表 start*/
-.report_list{
-    .filtrate{
-        padding: 10px 0px 8px 0px;
-        .filtrate_date {
-            width: 90px;
-            color:#999;
-        }
-        .select_city_div{
-            position: relative;
-            .city_icon{
-                top:15px;
-                left: 180px;
-            }
-        }
-        .filtrate_item {
-            margin-top: 0;
-            span.inline_block{
-                padding:0 5px;
-            }
-        }
-    }
-    .detail_btn_box{
-        padding: 20px 0;
-        .total_count{
-            color:#999;
-        }
-    }
-    .search_btn{
-        margin-right: 20px;
-        border-radius: 4px;
-    }
-}
-/*运营报表  end*/
 /******* 人效统计 start ******/
 .personal_info{
     float: left;
@@ -492,23 +458,8 @@
     .filtrate_select{
         width: 230px;
     }
-    .filtrate_select_report{
-        width: 130px;
-    }
-    .select_city_div{
-        .select_city_input{
-            width: 112px;
-            height: 28px;
-            padding: 0 8px;
-            color: #333;
-            vertical-align: inherit;
-            cursor: auto;
-            border: 1px solid #e4e4e4;
-        }
-    }
     .conditions_name{
         margin-right: 16px;
-        margin-left: 20px;
     }
     .sub_item{
         margin-right: 15px;
@@ -555,7 +506,80 @@
     }
 }
 /******* 人效统计 end ******/
-
+/*运营报表 start*/
+.report_list{
+    .filtrate{
+        padding: 10px 0px;
+        .filtrate_date {
+            width: 90px;
+            color:#999;
+        }
+        .select_city_div{
+            position: relative;
+            .city_icon{
+                top:15px;
+                left: 180px;
+            }
+        }
+        .filtrate_item {
+            margin-top: 0;
+            span.inline_block{
+                padding:0 5px;
+            }
+            .filtrate_select_report{
+                width: 130px;
+            }
+            .conditions_name{
+                margin-right: 16px;
+                margin-left: 20px;
+            }
+            .select_city_input{
+                width: 112px;
+                height: 28px;
+                padding: 0 8px;
+                color: #333;
+                vertical-align: inherit;
+                cursor: auto;
+                border: 1px solid #e4e4e4;
+            }
+        }
+    }
+    .detail_btn_box{
+        padding: 20px 0;
+        .total_count{
+            color:#999;
+        }
+    }
+    .search_btn{
+        margin-right: 20px;
+        border-radius: 4px;
+    }
+    table.normal{
+        //margin-top: 5px;
+        tr{
+            height: 48px;
+            line-height: 48px;
+            border: none;
+        }
+        thead{
+            tr{
+                background: @th-bg-color;
+            }
+        }
+        tbody{
+            tr:nth-child(even){
+                background: @tr-odd;
+            }
+            tr{
+                &:hover{
+                    cursor: pointer;
+                    background: @tr-hover;
+                }
+            }
+        }
+    }
+}
+/*运营报表  end*/
 /*运营报表下载  start*/
 .download_report_box{
     display: none;
@@ -617,6 +641,4 @@
         text-align: center;
     }
 }
-
-
 /*运营报表  end*/

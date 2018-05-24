@@ -30,7 +30,7 @@
         <!---- Part of slide nav End ---->
 
         <!---- Part of Main info Begin ---->
-        <div id="main" class="main personal_detail report_list">
+        <div id="main" class="main report_list">
 			<div class="statistics_list">
 				<form action="{{markUri}}/statistics/operating/list" id="operat_list" method="post" role='form'>
 					<input type="hidden" name="limit" value="{{limit}}" class="limit">
@@ -103,12 +103,12 @@
                             {{#if (condition.city_ids) }}
                                 {{#if (condition.city_ids.indexOf(',') !== -1) }}
                                     {{set (city_arrs = condition.city_ids.split(','))}}
-                                    <input type="text" class="select_city_input cursor" name=""  value="{{city_arrs.length}}个等城市" placeholder="全部" readonly/>
+                                    <input type="text" class="select_city_input cursor" name=""  value="XX等{{city_arrs.length}}个城市" placeholder="全部" readonly/>
                                 {{else}}
-                                    <input type="text" class="select_city_input cursor" name=""  value="1个城市" placeholder="全部" readonly/>
+                                    <input type="text" class="select_city_input cursor" name=""  value="XX" placeholder="全部" readonly/>
                                 {{/if}}
                             {{else}}
-                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="全部" readonly/>
+                                <input type="text" class="select_city_input cursor" name=""  value="XX" placeholder="全部" readonly/>
                             {{/if}}
 							<em class="city_icon"></em>
 						</div>
