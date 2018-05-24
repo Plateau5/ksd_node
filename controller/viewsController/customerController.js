@@ -929,20 +929,20 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DETAIL = function(req, res, next) {
             if (data.reqParams.query_type !== '4') {
                 data.vo.thousandRate = thousandRate(data);
             }
-            // var material_ids = [];
-            // var material_names = [];
-            // var material = data.material;
-            // //计算万元系数
-            // if(material){
-            //     for(var i = 0;i < material.length;i++){
-            //         material_ids.push(material[i].id);
-            //         material_names.push(material[i].name);
-            //     }
-            //     var materialIds = material_ids.join(',');
-            //     var materialName =material_names.join(',');
-            //     data.materialIds = materialIds;
-            //     data.materialName = materialName;
-            // }
+            var material_ids = [];
+            var material_names = [];
+            var material = data.material;
+            //本次提交材料
+            if(material){
+                for(var i = 0;i < material.length;i++){
+                    material_ids.push(material[i].id);
+                    material_names.push(material[i].name);
+                }
+                var materialIds = material_ids.join(',');
+                var materialName =material_names.join(',');
+                data.materialIds = materialIds;
+                data.materialName = materialName;
+            }
         }
     }, req, res, next);
 };
