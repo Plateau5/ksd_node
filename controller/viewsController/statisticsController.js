@@ -290,6 +290,12 @@ exports.VIEW_STATISTICS_OPERATING_LIST = function(req, res, next) {
                     data.cityName = data.condition_city_list[0].city_list[0].name;
                 }
             }
+            if (data.city_list) {
+                data.city_list = JSON.stringify(data.city_list);
+            }
+            if (data.condition_city_list) {
+                data.condition_city_list = JSON.stringify(data.condition_city_list);
+            }
         }
     }, req, res, next);
 };

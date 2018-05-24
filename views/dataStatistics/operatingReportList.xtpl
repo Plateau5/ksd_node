@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     {{include('./../inc/cssSources')}}
 	<link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/statistics.css"/>
-	<link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
     <title>数据统计-人效统计</title>
 </head>
 <body>
@@ -221,8 +222,17 @@
 </body>
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
 <script>
+    var city_list = '{{city_list}}';
+    city_list = JSON.parse(city_list.replace(/&quot;/ig, '"'));
+    var condition_city_list = '{{condition_city_list}}';
+    if (condition_city_list == '') {
+        condition_city_list = [];
+    } else {
+        condition_city_list = JSON.parse(condition_city_list.replace(/&quot;/ig, '"'));
+    }
     (function ($) {
         //筛选
 		function getListByCondtions () {
@@ -332,6 +342,34 @@
         });
 
         $(function() {
+            $('.select_city_input').citySelect({
+                data : city_list,
+                defaultData : condition_city_list,
+                dataType : 1,
+                type : 2
+            }, function (data) {
+                console.log(data);
+                var cityArr = [];
+                var cityName = '';
+                if (data) {
+                    for (var i = 0,leni = data.length;i < leni;i++) {
+                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                            if (i == 0 && j == 0) {
+                                cityName = data[i].city_list[j].name;
+                            }
+                            cityArr.push(data[i].city_list[j].id);
+                        }
+                    }
+                    if (cityArr.length != 0) {
+                        $('.city_ids').val(cityArr.join(','));
+                        if (cityArr.length == 1){
+                            $('.select_city_input').val(cityName);
+                        } else {
+                            $('.select_city_input').val(cityName + '等' + cityArr.length + '个城市');
+                        }
+                    }
+                }
+            });
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");//复选框操作
             initDateStartEnd('#queryStartDate','#queryEndDate');//日期插件
             paginationSwitch();// 分页切换
