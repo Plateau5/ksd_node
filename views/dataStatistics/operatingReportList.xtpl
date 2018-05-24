@@ -103,12 +103,12 @@
                             {{#if (condition.city_ids) }}
                                 {{#if (condition.city_ids.indexOf(',') !== -1) }}
                                     {{set (city_arrs = condition.city_ids.split(','))}}
-                                    <input type="text" class="select_city_input cursor" name=""  value="XX等{{city_arrs.length}}个城市" placeholder="全部" readonly/>
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}等{{city_arrs.length}}个城市" placeholder="全部" readonly/>
                                 {{else}}
-                                    <input type="text" class="select_city_input cursor" name=""  value="XX" placeholder="全部" readonly/>
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" placeholder="全部" readonly/>
                                 {{/if}}
                             {{else}}
-                                <input type="text" class="select_city_input cursor" name=""  value="XX" placeholder="全部" readonly/>
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="全部" readonly/>
                             {{/if}}
 							<em class="city_icon"></em>
 						</div>
