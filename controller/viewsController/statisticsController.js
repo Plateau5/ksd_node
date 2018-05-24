@@ -285,9 +285,10 @@ exports.VIEW_STATISTICS_OPERATING_LIST = function(req, res, next) {
         page : './dataStatistics/operatingReportList',
         callback : function (data) {
             data.merchants = req.body;
-            var city_list = data.condition_city_list;
-            if (city_list.length != 0) {
-                data.cityName = city_list[0].city_list[0].name;
+            if (data.condition_city_list) {
+                if (data.condition_city_list.length != 0) {
+                    data.cityName = data.condition_city_list[0].city_list[0].name;
+                }
             }
         }
     }, req, res, next);
