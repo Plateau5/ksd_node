@@ -99,8 +99,17 @@
 						</div>
 						<div class="filtrate_item select_city_div inline_block">
 							<div class="conditions_name inline_block" style="vertical-align: top;">城市：</div>
-							<input type="hidden" name="city_ids" class="city_ids">
-							<input type="text" class="select_city_input cursor" name=""  value="" placeholder="全部" readonly/>
+							<input type="hidden" name="city_ids" class="city_ids" value="{{condition.city_ids}}">
+                            {{#if (condition.city_ids) }}
+                                {{#if (condition.city_ids.indexOf(',') !== -1) }}
+                                    {{set (city_arrs = condition.city_ids.split(','))}}
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{city_arrs.length}}个等城市" placeholder="全部" readonly/>
+                                {{else}}
+                                    <input type="text" class="select_city_input cursor" name=""  value="1个城市" placeholder="全部" readonly/>
+                                {{/if}}
+                            {{else}}
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="全部" readonly/>
+                            {{/if}}
 							<em class="city_icon"></em>
 						</div>
 						<div class="filtrate_item select_item inline_block">
