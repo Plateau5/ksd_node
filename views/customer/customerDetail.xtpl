@@ -67,6 +67,11 @@
                 <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
                 <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
 
+                <!--本次提交材料-->
+                <input type="hidden" id="materialIds" value="{{haveMaterial.material_ids }}">
+                <input type="hidden" id="passMaterialIds" value="{{haveMaterial.pass_material_ids}}" >
+                <input type="hidden" id="materialIdTotal" value="{{materialIds }}">
+                <input type="hidden" id="materialName" value="{{materialName}}" >
 
                 <!-- 开始录入按钮所需隐藏域  -->
                 <input type="hidden" id="request_status" value="{{vo.request_status }}">
@@ -589,6 +594,9 @@
                 var query_type = $.trim($('#query_type').val());
                 var photo_type = $.trim($('#photo_type').val());
                 var navigation = $.trim($('#navigation').val());
+                var thisMaterialIds = $.trim($('#materialIds').val());
+                var materialIds = $.trim($('#materialIdTotal').val());
+                var materialName = $.trim($('#materialName').val());
                 var url = "{{url}}";
                 locationTo({
                     action : contextPath +'{{detailUrl}}',
@@ -598,7 +606,10 @@
                         navigation : navigation,
                         url:url,
                         query_type : query_type,
-                        photo_type : photo_type
+                        photo_type : photo_type,
+                        material_ids: materialIds,
+                        material_names : materialName,
+                        this_material_ids: thisMaterialIds
                     }
                 });
             });
@@ -615,16 +626,18 @@
                 var query_type = $.trim($('#query_type').val());
                 var photo_type = $.trim($('#photo_type').val());
                 var thisMaterialIds = $.trim($('#materialIds').val());
-                var material_ids = [];
+                var materialIds = $.trim($('#materialIdTotal').val());
+                var materialName = $.trim($('#materialName').val());
+                /*var material_ids = [];
                 var material_names = [];
                 pigeonhole_icon.each(function () {
                     var _cur = $(this);
                     material_ids.push(_cur.data('material_id'));
                     material_names.push(_cur.data('material_name'));
-                });
+                });*/
                 // $('#material_ids').val(material_ids.join(','));
-                var materialIds = material_ids.join(',');
-                var materialName =material_names.join(',');
+                /*var materialIds = material_ids.join(',');
+                var materialName =material_names.join(',');*/
                 var userName =$('#user_name').val().trim();
                 var navigation = $('#navigation').val().trim();         // 列表页节点名称
                 var pigeonholeUrl = '{{url}}';
