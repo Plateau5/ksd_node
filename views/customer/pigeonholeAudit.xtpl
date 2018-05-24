@@ -81,7 +81,6 @@
     (function () {
         //确认
         $('.agree_sub').off("click").on("click", function(){
-            $('.agree_sub').attr('disabled',true);
             var url = contextPath + '/api/pigeonhole/audit';
             var data = new FormData(document.getElementById('request_info_agree'));
             var location_url = $.trim($(this).data("url"));
@@ -99,12 +98,10 @@
                         window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
                     } else {
                         $alert(result.error_msg);
-                        $('.agree_sub').attr('disabled',false);
                     }
                 },
                 error : function () {
                     $alert("提交失败，请稍后重试");
-                    $('.agree_sub').attr('disabled',false);
                 }
             });
 
