@@ -50,7 +50,7 @@
                 <div class="tab">
                     <ul class="tab_list inline_block" id="query_tab">
                         <li class="tab_item type_normal {{#if (query_type === 1) }}active{{/if}}" data-queryType="1" style="border-left:0 ;"><span></span>进件资料</li>
-                        {{#if (vo.status > 5 && vo.compact_type === 1 ) }}
+                        {{#if (vo.status > 5 ) }}
                             <li class="tab_item type_others {{#if (query_type === 2) }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
                         {{/if}}
                         {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
@@ -113,7 +113,7 @@
                 <div class="tab">
                     <ul class="tab_list inline_block" id="photo_tab">
                         <li class="tab_item type_normal {{#if (photo_type === 1) }}active{{/if}}" data-photoType="1" style="border-left:0;"><span></span>进件附件</li>
-                        {{#if (vo.status > 5 && vo.compact_type === 1 ) }}
+                        {{#if (vo.status > 5 ) }}
                             <li class="tab_item type_others {{#if (photo_type === 2) }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
                         {{/if}}
                         {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
