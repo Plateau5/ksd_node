@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
     {{include ("./../inc/cssSources")}}
-    <link rel="stylesheet" href="../static/css/orderDetails.css">
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerDetails.css">
     <title>{{title}}</title>
+    {{include ('./../inc/jsSources')}}
+    <script src="{{markUri}}/static/js/finance/img_detail.js"></script>
+    <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+    <script src="{{markUri}}/static/js/customerService.js"></script>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -16,624 +21,146 @@
         <!---- Part of slide nav Begin ---->
         {{include ('./../inc/sideNav')}}
         <!---- Part of slide nav End ---->
+        <!---- 全部下载提交表单 ---->
+        <form action="/finance/file/download" id="finance_download" method="post">
+            <input id="finance_download_finance_id" value="{{finance_id}}" name="finance_id" type="hidden">
+            <input id="user_name" value="{{vo.user_name}}" name="user_name" type="hidden">
+            <input id="material_type" value="" name="material_type" type="hidden">
+            <input id="detail_suppliered_id" value="{{vo.supplier_id}}" name="supplier_id" type="hidden">
+        </form>
+        <!---- 不合格通知提交表单 ---->
+        <form action="{{markUri}}/customer/loan/unqualified" id="picture_reason_form" method="post">
+            <input id="finance_id_picture_reason" value="{{finance_id}}" name="finance_id" type="hidden">
+            <input id="detail_supplier_id" value="{{vo.supplier_id}}" name="supplier_id" type="hidden">
+            <input value="{{vo.user_name}}" name="user_name" type="hidden">
+            <input value="{{vo.create_name}}" name="create_name" type="hidden">
+            <input type="hidden" id="reason_inner" name="reason_inner" value="">
+            <input type="hidden" id="carType" name="car_type" value="{{vo.car_type}}">
+        </form>
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
-                <a href="javascript:;" class="crumbs_item">贷款管理</a>
-                <a href="javascript:;" class="crumbs_item">已录入</a>
-                <a href="javascript:;" class="crumbs_item">刘洋</a>
-                <a href="javascript:;" class="crumbs_item">查看详情</a>
+                <a href="{{url}}" class="crumbs_item">{{description}}</a>
+                <a href="{{url}}" class="crumbs_item">{{navigation}}</a>
+                <a href="javascript:;" class="crumbs_item">{{vo.user_name }}</a>
+                <a href="javascript:;" class="crumbs_item">查看资料</a>
             </div>
+            <!-- 详情tab部分 开始 -->
             <div class="details_content">
-                <!-- 进件资料部分 Begin -->
-                <div class="details_item img_info">
-                    <div class="detail_title">进件资料</div>
-                    <div class="detail_box">
-                        <ul class="img_list">
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证身份证身份证身份证身份证身份证身份证身份证</div>
-                            </li>
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证</div>
-                            </li>
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证</div>
-                            </li>
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证</div>
-                            </li>
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证</div>
-                            </li>
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证</div>
-                            </li>
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证</div>
-                            </li>
-                            <li class="list_item">
-                                <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                <div class="img_desc nor_wrap">身份证</div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="detail_footer">
-                        <a href="javascript:" class="detail_title_btn download_btn">全部下载</a>
-                    </div>
+                <div class="tab">
+                    <ul class="tab_list inline_block" id="query_tab">
+                        <li class="tab_item type_normal {{#if (query_type === 1) }}active{{/if}}" data-queryType="1" style="border-left:0 ;"><span></span>进件资料</li>
+                        {{#if (vo.status > 5 ) }}
+                            <li class="tab_item type_others {{#if (query_type === 2) }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
+                        {{/if}}
+                        {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
+                            <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                        {{/if}}
+                        {{#if (vo.status > 10 ) }}
+                            <li class="tab_item type_others {{#if (query_type === 4) }}active{{/if}}" data-queryType="4"><span></span>归档资料</li>
+                        {{/if}}
+                    </ul>
                 </div>
-                <!-- 进件资料部分 End -->
-                <!-- 基本资料部分 Begin -->
+                <!-- tab切换按钮所需隐藏域  -->
+                <input type="hidden" name="finance_id" id="finance_id" value="{{finance_id}}">
+                <input type="hidden" id="advance_id" name="advance_id" value="{{reqParams.advance_id}}">
+                <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
+                <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
+
+                <!--本次提交材料-->
+                <input type="hidden" id="materialIds" value="{{haveMaterial.material_ids }}">
+                <input type="hidden" id="passMaterialIds" value="{{haveMaterial.pass_material_ids}}" >
+                <input type="hidden" id="materialIdTotal" value="{{materialIds }}">
+                <input type="hidden" id="materialName" value="{{materialName}}" >
+
+                <!-- 开始录入按钮所需隐藏域  -->
+                <input type="hidden" id="request_status" value="{{vo.request_status }}">
+                <input type="hidden" id="userName" value="{{vo.user_name}}" >
+                <input type="hidden" id="navigation" value="{{navigation}}">
+                <input type="hidden" id="nodeUrl" value="{{url}}">
+                <input type="hidden" id="auditTime" value="{{vo.start_audit_time}}">
+                <input type="hidden" id="is_docking" value="{{vo.is_docking }}">
+                <input type="hidden" id="loan_type" value="{{vo.loan_type}}" >
+                <input type="hidden" id="deliver_no" value="{{haveMaterial.deliver_no}}" >
                 <div class="details_item base_info">
-                    <div class="detail_title">基本资料</div>
-                    <div class="detail_box">
-                        <div class="classify_item">
-                            <div class="classify_title">客户信息</div>
-                            <div class="classify_content">
-                                <ul class="items_list">
-                                    <li class="item_row">
-                                        <!-- If the text of 'item_name' is too long, add 'long_text' class to it. -->
-                                        <div class="item_name">贷款人：</div>
-                                        <div class="item_value">张三</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">手机：</div>
-                                        <div class="item_value">13800000000</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">城市：</div>
-                                        <div class="item_value">北京</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">贷前：</div>
-                                        <div class="item_value">白海安</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">业务类型：</div>
-                                        <div class="item_value">新车、二手车</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">车系：</div>
-                                        <div class="item_value">宝马5系</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">金融产品：</div>
-                                        <div class="item_value">汇通租赁 新易融</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">车价贷款总额：</div>
-                                        <div class="item_value"><span>50</span> 万元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">所属商户：</div>
-                                        <div class="item_value">本浮</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- 进件资料 Begin -->
+                        {{#if (query_type === 1) }}
+                            {{include ('./../inc/customerBasicInfo')}}
+                        {{/if}}
+                        <!-- 进件资料 End -->
+                        <!-- 合同资料 Begin -->
+                        {{#if (query_type === 2) }}
+                            {{include ('./../inc/compactInfo')}}
+                        {{/if}}
+                        <!-- 合同资料 End -->
+                        <!-- 请款资料部分 Begin -->
+                        {{#if (query_type === 3) }}
+                            {{include ('./../inc/requestpayoutInfo')}}
+                        {{/if}}
+                        <!-- 请款资料部分 End -->
+                        <!-- 归档资料部分 Begin -->
+                        {{#if (query_type === 4) }}
+                            {{include ('./../inc/pigeonholeInfo')}}
+                        {{/if}}
+                        <!-- 归档资料部分 End -->
+                        <!-- 详情页按钮逻辑 Begin -->
+                            {{include ('./../inc/customerDetailBtn')}}
+                        <!-- 详情页按钮逻辑 End -->
                 </div>
-                <!-- 基本资料部分 End -->
-                <!-- 请款资料部分 Begin -->
-                <div class="details_item req_info">
-                    <div class="detail_title">请款资料</div>
-                    <div class="detail_box">
-                        <!-- 贷款人及车辆信息 Begin -->
-                        <div class="classify_item">
-                            <div class="classify_title">贷款人及车辆信息</div>
-                            <div class="classify_content">
-                                <ul class="items_list">
-                                    <li class="item_row">
-                                        <!-- If the text of 'item_name' is too long, add 'long_text' class to it. -->
-                                        <div class="item_name">放款类型：</div>
-                                        <div class="item_value">风险类型A（第三方收款）</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">车架号：</div>
-                                        <div class="item_value">1564546483454847</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">上牌抵押城市：</div>
-                                        <div class="item_value">北京</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">保险是否完成：</div>
-                                        <div class="item_value">是</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">上牌是否完成：</div>
-                                        <div class="item_value">是</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">上牌方：</div>
-                                        <div class="item_value">经销商</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">抵押方：</div>
-                                        <div class="item_value">经销商</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 贷款人及车辆信息 End -->
-                        <!-- 付款明细 Begin -->
-                        <div class="classify_item">
-                            <div class="classify_title">付款明细</div>
-                            <div class="classify_content">
-                                <ul class="items_list">
-                                    <li class="item_row">
-                                        <!-- If the text of 'item_name' is too long, add 'long_text' class to it. -->
-                                        <div class="item_name">车间贷款总额：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">金融服务费：</div>
-                                        <div class="item_value"><span>100000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">保险费：</div>
-                                        <div class="item_value"><span>1000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">购置税：</div>
-                                        <div class="item_value"><span>2000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">GPS费：</div>
-                                        <div class="item_value"><span>5000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">GPS安装费：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">上牌抵押费：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">抵押费：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">征信查询费：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">服务费返点：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">保险返点：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">续保押金：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">前置利息：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">商户返点：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">代商户收取费：</div>
-                                        <div class="item_value"><span>300000.4</span> 元</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 付款明细 End -->
-                        <!-- 商户收款信息 Begin -->
-                        <div class="classify_item">
-                            <div class="classify_title">商户收款信息</div>
-                            <div class="classify_content">
-                                <ul class="items_list">
-                                    <li class="item_row">
-                                        <!-- If the text of 'item_name' is too long, add 'long_text' class to it. -->
-                                        <div class="item_name">收款总额：</div>
-                                        <div class="item_value"><span>435600.00</span> 元(肆拾叁万伍仟陆佰元整)</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">收款户名：</div>
-                                        <div class="item_value">蒋金勇</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">收款开户行：</div>
-                                        <div class="item_value">成都招商银行小天支行</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">收款账号：</div>
-                                        <div class="item_value">622147415446454554</div>
-                                    </li>
-                                    <li class="item_row">
-                                        <div class="item_name">商户名称：</div>
-                                        <div class="item_value">昊鑫</div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="classify_img">
-                                <ul class="img_list">
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                    <li class="img_item">
-                                        <a href="javascript:">
-                                            <img src="../static/img/a.jpg" alt="">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 商户收款信息 End -->
-                        <!-- 备注部分 Begin -->
-                        <div class="classify_item">
-                            <div class="classify_title">备注</div>
-                            <div class="classify_content">
-                                <div class="remark_desc">这个极乐空间锋利的解放路给付对价安萨里法德发</div>
-                            </div>
-                        </div>
-                        <!-- 备注部分 End -->
-                        <!-- 请款材料部分 Begin -->
-                        <div class="classify_item requestpayout_img">
-                            <div class="classify_title">请款材料</div>
-                            <div class="classify_content">
-                                <ul class="img_list">
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证身份证身份证身份证身份证身份证身份证身份证</div>
-                                    </li>
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                    <li class="list_item">
-                                        <a href=""><img src="../static/img/a.jpg" alt=""></a>
-                                        <div class="img_desc nor_wrap">身份证</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- 请款材料部分 End -->
-                    </div>
-                    <!-- 该类别下的操作按钮部分 Begin -->
-                    <div class="detail_footer">
-                        <a href="javascript:" class="detail_title_btn download_btn">全部下载</a>
-                    </div>
-                    <!-- 该类别下的操作按钮部分 End -->
+            </div>
+            <!-- 详情图片附件 Begin -->
+            <div class="details_content">
+                <div class="tab">
+                    <ul class="tab_list inline_block" id="photo_tab">
+                        <li class="tab_item type_normal {{#if (photo_type === 1) }}active{{/if}}" data-photoType="1" style="border-left:0;"><span></span>进件附件</li>
+                        {{#if (vo.status > 5 ) }}
+                            <li class="tab_item type_others {{#if (photo_type === 2) }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
+                        {{/if}}
+                        {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
+                            <li class="tab_item type_others {{#if (photo_type === 3) }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
+                        {{/if}}
+                        {{#if (vo.status > 10 ) }}
+                            <li class="tab_item type_others {{#if (photo_type === 4) }}active{{/if}}" data-photoType="4"><span></span>归档附件</li>
+                        {{/if}}
+                    </ul>
                 </div>
-                <!-- 请款资料部分 End -->
-                <!-- 归档资料部分 Begin -->
-                <div class="details_item pigeonhole_info">
-                    <div class="detail_title">归档资料</div>
+                <!-- 附件图片部分 Begin -->
+                <div class="details_item">
+                    {{#if (file_list.length > 0) }}
                     <div class="detail_box">
-                        <div class="datum_desc">
-                            <span>身份证复印件</span>
-                            <span>身份证复印件</span>
-                            <span>身份证复印件</span>
-                            <span>身份证复印件</span>
-                            <span>身份证复印件</span>
-                            <span>身份证复印件</span>
-                        </div>
-                        <div class="delivery_type">
-                            <span>交付方式：</span>
-                            <span class="type">当面交付</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- 归档资料部分 End -->
-                <!-- 操作记录部分 Begin -->
-                <div class="details_item operate_info">
-                    <div class="detail_title">操作记录</div>
-                    <div class="detail_box operate_logs">
-                        <ul class="log_list">
-                            <!--第一个为当前审批人-->
-                            <li class="list_item current_audit_p">
-                                <div class="log_item_info">
-                                    <div class="date">2016年05月16日&nbsp;09:30</div>
-                                    <div class="text">请款结果/已同意 &nbsp;&nbsp;请款客服：辛颖 &nbsp;&nbsp; 材料不齐/备注：刷卡缴费和会计同时出看见了吉林省发送到积刷卡缴费和会计同时出看见了吉林省发送到积分看电视发的撒附近的萨芬分看电视发的撒附近的萨芬</div>
-                                </div>
-                            </li>
-                            <!--操作记录列表-->
-                            <li class="list_item">
-                                <div class="log_item_info">
-                                    <div class="date">2016年05月16日&nbsp;09:30</div>
-                                    <div class="text">请款结果/已同意 &nbsp;&nbsp;请款客服：辛颖 &nbsp;&nbsp; 材料不齐/备注：刷卡缴费和会计同时出看见了吉林省发送到积刷卡缴费和会计同时出看见了吉林省发送到积分看电视发的撒附近的萨芬分看电视发的撒附近的萨芬</div>
-                                    <!--是否有图片-->
-                                    <div class="classify_img">
-                                        <ul class="img_list">
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
+                        <ul class="img_list" id="img_list">
+                            {{#each (file_list) }}
+                            <a href="javascript:;" target="_blank">
+                                <div class="list_item imgDetail" style="margin-top:0;" title="">
+                                    <div class="detailBox img_item">
+                                        <img class=" detailImgBox" data-original="{{this.thumbnail}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
                                     </div>
+                                    <div class="img_desc nor_wrap">{{this.file_name}}</div>
                                 </div>
-                            </li>
-                            <li class="list_item">
-                                <div class="log_item_info">
-                                    <div class="date">2016年05月16日&nbsp;09:30</div>
-                                    <div class="text">请款结果/已同意 &nbsp;&nbsp;请款客服：辛颖 &nbsp;&nbsp; 材料不齐/备注：刷卡缴费和会计同时出看见了吉林省发送到积刷卡缴费和会计同时出看见了吉林省发送到积分看电视发的撒附近的萨芬分看电视发的撒附近的萨芬</div>
-                                    <!--是否有图片-->
-                                    <div class="classify_img">
-                                        <ul class="img_list">
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list_item">
-                                <div class="log_item_info">
-                                    <div class="date">2016年05月16日&nbsp;09:30</div>
-                                    <div class="text">请款结果/已同意 &nbsp;&nbsp;请款客服：辛颖 &nbsp;&nbsp; 材料不齐/备注：刷卡缴费和会计同时出看见了吉林省发送到积刷卡缴费和会计同时出看见了吉林省发送到积分看电视发的撒附近的萨芬分看电视发的撒附近的萨芬</div>
-                                    <!--是否有图片-->
-                                    <div class="classify_img">
-                                        <ul class="img_list">
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list_item">
-                                <div class="log_item_info">
-                                    <div class="date">2016年05月16日&nbsp;09:30</div>
-                                    <div class="text">请款结果/已同意 &nbsp;&nbsp;请款客服：辛颖 &nbsp;&nbsp; 材料不齐/备注：刷卡缴费和会计同时出看见了吉林省发送到积刷卡缴费和会计同时出看见了吉林省发送到积分看电视发的撒附近的萨芬分看电视发的撒附近的萨芬</div>
-                                    <!--是否有图片-->
-                                    <div class="classify_img">
-                                        <ul class="img_list">
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list_item">
-                                <div class="log_item_info">
-                                    <div class="date">2016年05月16日&nbsp;09:30</div>
-                                    <div class="text">请款结果/已同意 &nbsp;&nbsp;请款客服：辛颖 &nbsp;&nbsp; 材料不齐/备注：刷卡缴费和会计同时出看见了吉林省发送到积刷卡缴费和会计同时出看见了吉林省发送到积分看电视发的撒附近的萨芬分看电视发的撒附近的萨芬</div>
-                                    <!--是否有图片-->
-                                    <div class="classify_img">
-                                        <ul class="img_list">
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list_item">
-                                <div class="log_item_info">
-                                    <div class="date">2016年05月16日&nbsp;09:30</div>
-                                    <div class="text">请款结果/已同意 &nbsp;&nbsp;请款客服：辛颖 &nbsp;&nbsp; 材料不齐/备注：刷卡缴费和会计同时出看见了吉林省发送到积刷卡缴费和会计同时出看见了吉林省发送到积分看电视发的撒附近的萨芬分看电视发的撒附近的萨芬</div>
-                                    <!--是否有图片-->
-                                    <div class="classify_img">
-                                        <ul class="img_list">
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                            <li class="img_item">
-                                                <a href="javascript:">
-                                                    <img src="../static/img/a.jpg" alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
+                            </a>
+                            {{/each}}
                         </ul>
                     </div>
+                    <div class="detail_footer">
+                        {{#if (photo_type === 1)}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="1" lang="{{finance_id}}">全部下载</a>
+                        {{elseif (photo_type === 2)}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="4" lang="{{finance_id}}">全部下载</a>
+                        {{elseif (photo_type === 4)}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="5" lang="{{finance_id}}">全部下载</a>
+                        {{else}}
+                            <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="2" lang="{{finance_id}}">全部下载</a>
+                        {{/if}}
+                    </div>
+                    {{else}}
+                        {{include ('./../inc/empty_data')}}
+                    {{/if}}
                 </div>
-                <!-- 操作记录部分 End -->
             </div>
-
-
+            <!-- 详情图片附件 End -->
+            <!-- 操作记录 Begin -->
+            {{include ('./../inc/operateLogs')}}
+            <!-- 操作记录 End -->
 
         </div>
         <!---- Part of Main info End ---->
@@ -646,14 +173,574 @@
 </div>
 <div class="mask" style="display: none;"></div>
 </body>
-{{include ('./../inc/jsSources')}}
 <script>
-    (function ($) {
+    var queryType = '{{query_type}}';
+    queryType = queryType.number();
+    (function () {
+        var currentTime = new Date().format('yyyy/MM/dd hh:mm');
+        var currentPerson = document.getElementById("currentTime");
+        if (currentPerson != null || currentPerson != undefined) {
+            currentPerson.innerHTML = currentTime;
+        }
+
+        // 跳转历史订单。
+        function toHistoryList() {
+            var btn = $('.customer_name');
+            var url = contextPath + markUri + '/customer/history';
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                var financeId = $.trim(_this.data('finance_id'));
+                var name = $.trim(_this.data('name'));
+                var crumbsNav = $('.crumbs_nav');
+                var url_first = $.trim(crumbsNav.find('a').eq(0).attr('href'));
+                var navigation_first = $.trim(crumbsNav.find('a').eq(0).text());
+                var url_second = $.trim(crumbsNav.find('a').eq(1).attr('href'));
+                var navigation_second = $.trim(crumbsNav.find('a').eq(1).text());
+                locationTo({
+                    action : contextPath + url,
+                    param : {
+                        customer_id : id,
+                        finance_id : financeId,
+                        user_name : name,
+                        url_first : url_first,
+                        navigation_first: navigation_first,
+                        url_second : url_second,
+                        navigation_second : navigation_second
+                    }
+                })
+            });
+        }
 
 
-        $(function() {
+        /*提交按钮的点击逻辑*/
+        function affirmSubmitEvent () {
+            var ele = $(".affirm_submit_event");
+            var finance_id = $.trim(ele.attr("lang"));
+            var advance_id = ele.data('advance_id');
+            if (ele.length != 0) {
+                ele.off("click").on("click", function () {
+                    locationTo({
+                        action : contextPath + markUri + '/customer/approval/submit',
+                        param : {
+                            finance_id : finance_id,
+                            advance_id : advance_id
+                        }
+                    });
+                });
 
+            }
+        }
+
+        /*已回款标记*/
+        function alreadyCashed () {
+            var btn = $(".already_cashed_check");
+            btn.on("click", function () {
+                var t = $(this);
+                var finance_id = $.trim(t.attr("lang"));
+                var advance_id = t.data('advance_id');
+                locationTo({
+                    action : contextPath + markUri + "/customer/financial/returnResult",
+                    param : {
+                        finance_id : finance_id,
+                        advance_id : advance_id
+                    }
+                });
+                //window.location.href = contextPath + "/financial/return/result?finance_id=" + finance_id;
+            })
+        }
+
+        //确认回款按钮点击
+        bindEvents("click", ".affirm_return_money", function (e) {
+            var financeId = $(e.target).attr("lang");
+            var advance_id = $(e.target).data("advance_id");
+            dialog("open", {
+                closeBtn : false,
+                "title" : "确认回款",
+                "button" : ["确认","取消"],
+                "content" : "您确认将此订单已回款？",
+                onConfirm : function (dia) {
+                    affirmReturnedMoney(dia, financeId, advance_id);
+                }
+            });
         });
-    })(jQuery,undefined);
+        //确认回款逻辑
+        function affirmReturnedMoney (dialog, fid, advance_id) {
+            var url = contextPath + "/api/financial/return";
+            var data = {
+                finance_id : fid,
+                advance_id : advance_id
+            };
+            if (fid) {
+                $ajax("POST", url, data, function (res) {
+                    var data = eval(res);
+                    if (data.error_code == 0) {
+                        dialog.close();
+                        //window.location.href = document.referrer;
+                        window.location.href = contextPath + markUri + "/customer/financial/pendingReturn";
+                    } else {
+                        dialog.close();
+                        $alert(res.error_msg);
+                    }
+                }, function () {
+                    $alert("操作失败，请重新尝试");
+                });
+            }
+        }
+        affirmReturnedMoney();
+
+        /*请款通过按钮的点击逻辑*/
+        function requestpayoutPassed () {
+            var ele = $(".requestpayout_passed");
+            var url = contextPath + "/api/requestPayout/affirm/pass";
+            ele.on("click", function (e) {
+                var e = e || window.event;
+                e.stopPropagation();    //阻断事件冒泡
+                e.preventDefault();     //阻断默认事件
+                passedEvent();
+            });
+            var passedEvent = function () {
+                ele.off("click");
+                var data = {
+                    finance_id : $.trim(ele.attr("lang")),
+                    advance_id : $.trim(ele.data("advance_id"))
+                };
+                $ajax("post", url, data, function (req) {
+                    var res = eval(req);
+                    if (res.error_code == 0) {
+                        //操作成功后跳转到待通过列表页
+                        window.location.href = contextPath +markUri + '/customer/requestpayout/pendingPass';
+                    } else {
+                        //alert(res.error_msg);
+                        dialog("alert",{
+                            title : "提醒",
+                            content : res.error_msg,
+                            button : [],
+                            maskClose : false,
+                            //css : 'font-size: 16px',
+                            onConfirm : function () {
+                                window.location.href = contextPath + markUri + '/customer/requestpayout/pendingPass';
+                            }
+                        })
+                    }
+                },function () {
+                    $alert("网络异常，请重试");
+                    ele.on("click", passedEvent);
+                });
+            }
+        }
+
+        /*确认提交按钮的点击逻辑*/
+        function affirmSubmitThirdparty () {
+            var ele = $(".affirm_submit_thirdparty");
+            var url = contextPath + "/api/requestPayout/affirm/submit";
+            //绑定事件
+            ele.on("click", function (e) {
+                var _this = $(this);
+                var e = e || window.event;
+                e.stopPropagation();    //阻断事件冒泡
+                e.preventDefault();     //阻断默认事件
+                var finance_id = $.trim(_this.attr("lang"));
+                var reqType = $.trim(_this.attr("type"));
+                var advance_id = $.trim(_this.data('advance_id'));
+                if (reqType == 2) {
+                    $alert("是否将该订单确认请款", function () {
+                        affirmSubmitEvent(finance_id, reqType, advance_id);
+                    });
+                } else {
+                    locationTo({
+                        action : contextPath + markUri + "/customer/requestpayout/affirmSubmit",
+                        param : {
+                            finance_id : finance_id,
+                            type : reqType,
+                            advance_id : advance_id
+                        }
+                    });
+                }
+            });
+
+            //确定请款的点击逻辑
+            var affirmSubmitEvent  = function (a, b, c) {
+                ele.off("click");
+                var datas = {
+                    finance_id : a,
+                    type : b,
+                    advance_id : c
+                };
+                $.ajax({
+                    type : "post",
+                    url : url,
+                    data : datas,
+                    async : true,
+                    success : function (req) {
+                        var res = eval(req);
+                        if (res.error_code == 0) {
+                            //更改显示按钮
+                            //t.hide().siblings(".requestpayout_passed").show();
+                            window.location.href = contextPath +"/customer/requestpayout/pass";
+                        } else {
+                            $alert(res.error_msg);
+                            ele.on("click", affirmSubmitEvent);
+                        }
+                    },
+                    error : function () {
+                        $alert("网络异常，请重试");
+                        ele.on("click", affirmSubmitEvent);
+                    }
+                });
+            }
+
+        }
+
+        // 补全资料按钮跳转
+        function complementDatumEvent () {
+            var btn = $(".complement_datum");
+            btn.off("click").on("click", function () {
+                var _this = $(this);
+                var  financeId = $.trim(_this.attr("lang"));
+                var advanceId = $.trim(_this.data('advance_id'));
+                var url = contextPath + "/api/requestPayout/sendNotice";
+                var data = {
+                    finance_id : financeId,
+                    advance_id : advanceId
+                };
+                $ajax("POST", url, data, function (res) {
+                    var datas = eval(res);
+                    if (datas.error_code == 0) {
+                        //nothing to do
+                        $alert('已成功通知');
+                    } else {
+                        $alert(datas.message);
+                    }
+                }, function () {
+                    $alert(datas.message);
+                })
+            });
+        }
+
+        // 跳转查看对接详情页
+        function goDockingPADetail () {
+            var btn = $('#viewDockingPADetail');
+            var userName = $('#userName').val();
+            var navigation = $('#navigation').val();
+            var nodeUrl = $('#nodeUrl').val();
+            if (btn.length > 0) {
+                btn.on('click', function () {
+                    var _this = $(this);
+                    var financeId = _this.data('id');
+                    var url = _this.data('url').trim();
+                    locationTo({
+                        action : contextPath + url,
+                        param : {
+                            finance_id : financeId,
+                            active : 'active',
+                            url : LOCALURL,
+                            userName : userName,
+                            navigation : navigation,
+                            nodeUrl : nodeUrl
+                        }
+                    })
+                });
+            }
+        }
+
+        //开始录入按钮点击
+        function detailEntering() {
+            var _this = $(this);
+            var is_docking = $('#is_docking').val().trim();   // 是否对接
+            var loan_type = $('#loan_type').val().trim();      // 进件类型 1-个人 2-企业
+            var finance_id = $('#finance_id').val();
+            var user_name = $('#userName').val().trim();
+            var locationUrl = LOCALURL;
+            var navigation = $('#navigation').val().trim();
+            var nodeUrl = $('#nodeUrl').val().trim();
+            var auditTime = $('#auditTime').val();
+            var carType = $.trim($('#carType').val());
+            var action = '';
+            $('#entering').off("click").on('click', function () {
+                if (is_docking == 1 && loan_type == 1) {
+                    action  = contextPath + markUri + '/docking/pingan/home';
+                    if (auditTime != 0) {
+                        locationTo({
+                            action : action,
+                            param : {
+                                finance_id : finance_id,
+                                active : 'active',
+                                url : locationUrl,
+                                userName : user_name,
+                                navigation : navigation,
+                                nodeUrl : nodeUrl,
+                                car_type : carType
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            type:"post",
+                            url :contextPath + '/api/finance/startApplyloan',
+                            dataType:"json",
+                            data:{finance_id: finance_id},
+                            async:false,
+                            error:function(xhr,status,err){
+                                alert("系统异常");
+                            },
+                            success:function(data){
+                                if(data.error_code =='0'){
+                                    locationTo({
+                                        action : action,
+                                        param : {
+                                            finance_id : finance_id,
+                                            active : 'active',
+                                            url : locationUrl,
+                                            userName : user_name,
+                                            navigation : navigation,
+                                            nodeUrl : nodeUrl,
+                                            car_type : carType
+                                        }
+                                    })
+                                }else{
+                                    alert(data.error_msg);
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    action = contextPath + markUri + '/customer/loan/detail';
+                    $.ajax({
+                        type:"post",
+                        url :contextPath + '/api/finance/startApplyloan',
+                        dataType:"json",
+                        data:{finance_id: finance_id},
+                        async:false,
+                        error:function(xhr,status,err){
+                            alert("系统异常");
+                        },
+                        success:function(data){
+                            if(data.error_code =='0'){
+                                locationTo({
+                                    action : action,
+                                    param : {
+                                        finance_id : finance_id,
+                                        active : 'active',
+                                        url : locationUrl,
+                                        userName : user_name,
+                                        navigation : navigation,
+                                        nodeUrl : nodeUrl,
+                                        car_type : carType
+                                    }
+                                })
+                            }else{
+                                $alert(data.error_msg);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        //分配任务按钮点击
+        function detailAllot() {
+            $(".toAllot").off("click").on('click', function () {
+                var finance_id = $(this).attr('lang');
+                locationTo({
+                    action : contextPath + markUri + '/customer/loan/allot',
+                    param : {
+                        finance_id : finance_id
+                    }
+                });
+            });
+        }
+
+        //确认申请按钮点击
+        function detailRequestPayOut() {
+            $('#requestpayout_apply').off("click").on('click', function () {
+                $(this).attr("disabled", true);
+                var finance_id = $(this).attr('lang');
+                $.ajax({
+                    type:"post",
+                    url :contextPath + '/api/finance/applyloan',
+                    dataType:"json",
+                    data:{finance_id: finance_id},
+                    async:false,
+                    error:function(xhr,status,err){
+                        $(this).attr("disabled", false);
+                        $alert("系统异常");
+                    },
+                    success:function(data){
+                        if(data.error_code =='0'){
+                            window.location.href = contextPath + markUri + '/customer/loan/alreadyAllot';
+                        }else{
+                            $(this).attr("disabled", true);
+                            alert(data.error_msg);
+                        }
+                    }
+                });
+            });
+        }
+
+        //详情页tab页切换
+        function searchQueryType(tab_item) {
+            var btn = $(tab_item);
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                $(tab_item).removeClass('active');
+                _this.addClass('active');
+                if( _this.parent().attr('id') === 'query_tab'){
+                    $('#query_type').val(_this.attr('data-queryType'));
+                }else{
+                    $('#photo_type').val(_this.attr('data-photoType'));
+                }
+                var finance_id = $.trim($('#finance_id').val());
+                var advance_id = $.trim($('#advance_id').val());
+                var query_type = $.trim($('#query_type').val());
+                var photo_type = $.trim($('#photo_type').val());
+                var navigation = $.trim($('#navigation').val());
+                var thisMaterialIds = $.trim($('#materialIds').val());
+                var materialIds = $.trim($('#materialIdTotal').val());
+                var materialName = $.trim($('#materialName').val());
+                var url = "{{url}}";
+                locationTo({
+                    action : contextPath +'{{detailUrl}}',
+                    param : {
+                        finance_id : finance_id,
+                        advance_id : advance_id,
+                        navigation : navigation,
+                        url:url,
+                        query_type : query_type,
+                        photo_type : photo_type,
+                        material_ids: materialIds,
+                        material_names : materialName,
+                        this_material_ids: thisMaterialIds
+                    }
+                });
+            });
+        }
+        function btnClick(btn,url) {
+            btn.off('click').on('click', function () {
+                var pigeonhole_icon = $('.pigeonhole_icon');
+                var _this = $(this);
+                var financeId =$('#finance_id').val().trim();
+                var pigeonholeId =$('#pigeonhole_id').val().trim();
+                var agreeType =_this.data('agree_type');
+                var financeStatus =$('#finance_status').val().trim();
+                var advance_id = $.trim($('#advance_id').val());
+                var query_type = $.trim($('#query_type').val());
+                var photo_type = $.trim($('#photo_type').val());
+                var thisMaterialIds = $.trim($('#materialIds').val());
+                var materialIds = $.trim($('#materialIdTotal').val());
+                var materialName = $.trim($('#materialName').val());
+                /*var material_ids = [];
+                var material_names = [];
+                pigeonhole_icon.each(function () {
+                    var _cur = $(this);
+                    material_ids.push(_cur.data('material_id'));
+                    material_names.push(_cur.data('material_name'));
+                });*/
+                // $('#material_ids').val(material_ids.join(','));
+                /*var materialIds = material_ids.join(',');
+                var materialName =material_names.join(',');*/
+                var userName =$('#user_name').val().trim();
+                var navigation = $('#navigation').val().trim();         // 列表页节点名称
+                var pigeonholeUrl = '{{url}}';
+                locationTo({
+                    action : url,
+                    param : {
+                        finance_id : financeId,
+                        pigeonhole_id : pigeonholeId,
+                        agree_type : agreeType,
+                        finance_status : financeStatus,
+                        material_ids: materialIds,
+                        material_names : materialName,
+                        this_material_ids: thisMaterialIds,
+                        user_name:userName,
+                        advance_id : advance_id,
+                        url : pigeonholeUrl,
+                        navigation:navigation,
+                        query_type : query_type,
+                        photo_type : photo_type
+                    }
+                })
+            });
+        }
+        // 同意按钮跳转
+        function detailAgree() {
+            var btn = $('#customerSubmit');
+            var url = contextPath + markUri + '/customer/pigeonhole/agree';
+            btnClick(btn,url);
+        }
+        // 不同意按钮跳转
+        function detailDisagree() {
+            var btn = $('#customerCancel');
+            var url = contextPath + markUri + '/customer/pigeonhole/disagree';
+            btnClick(btn,url);
+        }
+        //根据单号获取物流信息
+        function deliveryNumber() {
+            var deliverNo =$('#deliver_no').val().trim();
+            redefineAjax({
+                url : contextPath +  "/api/pigeonhole/express/list",
+                data:{
+                    deliver_no : deliverNo
+                },
+                success : function(res) {
+                    if (res.error_code == 0) {
+                        if( res.data && res.data.length > 0){
+                            var title = res.data[0].time + " " + res.data[0].status;
+                            $("#newDeliveryInfo").attr("title",title);
+                        } else {
+                            $("#newDeliveryInfo").attr("title","获取物流信息失败！");
+                        }
+                    } else if (res.error_code == 1002) {
+                        $("#newDeliveryInfo").attr("title","获取物流信息失败！");
+                    } else {
+                        $("#newDeliveryInfo").attr("title","获取物流信息失败！");
+                    }
+                },
+                error : function () {
+                    $("#newDeliveryInfo").attr("title","获取物流信息失败！");
+                }
+            });
+        }
+
+        $(function () {
+            if( queryType === 4 ){
+                deliveryNumber(); // 根据单号获取物流信息
+            }
+            toHistoryList();        // 跳转历史订单
+            viewLargeImage('#img_list');       // 查看大图
+            viewLargeImage('.log_item');
+            searchQueryType('#query_tab .tab_item'); //详情页资料tab页切换
+            searchQueryType('#photo_tab .tab_item'); //详情页图片tab页切换
+            detailAllot();  //分配任务按钮跳转
+            detailRequestPayOut();  //确认申请按钮跳转
+            detailEntering();   //开始录入按钮跳转
+            pageJump("#sendAuditResult");   //通知审核结果按钮跳转
+            goDockingPADetail();    //跳转查看对接详情页
+            pageJump(".go_forward");   //同意不同意按钮跳转
+            complementDatumEvent();   // 补全资料按钮跳转
+            affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
+            requestpayoutPassed();     //请款通过按钮的点击逻辑
+            affirmSubmitEvent();    //提交按钮的点击逻辑
+            alreadyCashed();        //已回款点击逻辑
+            detailAgree();//同意点击逻辑
+            detailDisagree();//不同意点击逻辑
+            //发送不合格通知
+            $("#picture_reason").off("click").on('click', function () {
+                var finance_id = $(this).attr('lang');
+                $("#finance_id_picture_reason").val(finance_id);
+                $("#picture_reason_form").submit();
+            });
+
+            //下载
+            $(".download_file").off("click").on('click', function () {
+                var material_type = $(this).attr('alt');
+                $('#material_type').val(material_type);
+                $('#finance_download').submit();
+            });
+
+            if($(".detail_inline_footer").find("a").length === 0){
+                $(".detail_inline_footer").css("border-top","none");
+            }
+        });
+    })(window, undefined);
 </script>
 </html>

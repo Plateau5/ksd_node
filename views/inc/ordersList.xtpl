@@ -3,7 +3,15 @@
     <ul class="finance_list">
         {{#each (list) }}
             <li class="list_item"  lang="{{this.finance_id}}" data-advance_id="{{advance_id}}">
+                {{#if(root.startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/otherfund'))}}
                 <div class="create_date">进件时间：{{this.create_time }} / {{this.city_name}}</div>
+                {{/if}}
+                {{#if ( root.startWith(markUri + '/customer/pigeonhole/pending')) }}
+                <div class="create_date">放款时间：{{this.loan_time }} / {{this.city_name}}</div>
+                {{/if}}
+                {{#if ( root.startWith(markUri + '/customer/pigeonhole/archived')) }}
+                <div class="create_date">归档时间：{{this.pigeonhole_time }} / {{this.city_name}}</div>
+                {{/if}}
                 <div class="list_item_detail">
                     <div class="shake_box">
                         {{#if (this.is_throw === 1) }}
@@ -16,7 +24,7 @@
                         {{/if}}
                     </div>
                     <div class="user_info">
-                        <div class="user_photo" style="margin-top: 20px;">
+                        <div class="user_photo" style="margin-top: 18px;">
                             <div class="lender name_color{{xindex + 1}}">{{this.user_name.substring(0,1)}}</div>
                         </div>
                         <div class="user_name nor_wrap">{{this.user_name}}</div>
@@ -32,17 +40,31 @@
                                 {{#if (this.car_type === 0)}}新车{{elseif (this.car_type === 1) }}二手车{{/if}}  / {{this.series_name}}
                             </dd>
                         </dl>
+                        {{#if(root.startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/otherfund'))}}
                         <dl class="effect_two">
-                            <dt class="font12">购车价格</dt>
-                            <dd class="nor_wrap font14">{{this.car_price}} 万</dd>
+                            <dt class="font12">购车价格（万）</dt>
+                            <dd class="nor_wrap font14">{{this.car_price}}</dd>
+                        </dl>
+                        {{/if}}
+                        {{#if ( root.startWith(markUri + '/customer/pigeonhole/pending')) }}
+                        <dl class="effect_two">
+                            <dt class="font12">未归档天数（天）</dt>
+                            <dd class="nor_wrap font14">{{this.nopig_day}}</dd>
+                        </dl>
+                        {{/if}}
+                        {{#if ( root.startWith(markUri + '/customer/pigeonhole/archived')) }}
+                        <dl class="effect_two">
+                            <dt class="font12">归档天数（天）</dt>
+                            <dd class="nor_wrap font14">{{this.nopig_day}}</dd>
+                        </dl>
+                        {{/if}}
+                        <dl class="effect_two">
+                            <dt class="font12">申请贷款（万）</dt>
+                            <dd class="font14">{{this.loan_amount}}</dd>
                         </dl>
                         <dl class="effect_two">
-                            <dt class="font12">申请贷款</dt>
-                            <dd class="font14">{{this.loan_amount}} 万</dd>
-                        </dl>
-                        <dl class="effect_two">
-                            <dt class="font12">期数（月）</dt>
-                            <dd class="font14">{{this.pay_periods}} 期</dd>
+                            <dt class="font12">期数（期）</dt>
+                            <dd class="font14">{{this.pay_periods}}</dd>
                         </dl>
                         <dl  class="effect_two">
                             <dt class="font12">{{this.position_desc}}</dt>
@@ -51,9 +73,9 @@
                         <div class="operate_btn clearfix">
                             {{#if (show_time === '1' && root.startWith(markUri + '/customer/loan')) }}
                                 {{#if (this.status >= 5 && this.status !== 7) }}
-                                    <span class="remark">审核时间：<span>{{this.audit_name}}/{{this.check_time }}</span></span>
+                                    <span class="remark">审核用时：<span>{{this.audit_name}}/{{this.check_time }}</span></span>
                                 {{/if}}
-                                <span class="remark">录单时间：<span>{{this.ocm_name}}/{{this.audit_time }}</span></span>
+                                <span class="remark">录单用时：<span>{{this.ocm_name}}/{{this.audit_time }}</span></span>
                             {{/if}}
                         </div>
                     </div>

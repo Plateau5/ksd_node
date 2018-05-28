@@ -1,0 +1,122 @@
+<!-- 同意 -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/customer/pigeonhole/pending" class="crumbs_item">归档管理</a>
+                <a href="{{url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_loan_detail returnDetails">{{reqParams.user_name}}</a>
+                <a href="javascript:;" class="crumbs_item last_child">
+                    {{#if (reqParams.agree_type === '1') }}
+                    同意
+                    {{elseif (reqParams.agree_type === '0') }}
+                    不同意
+                    {{/if}}
+                </a>
+            </div>
+            <div class="cashed_mark">
+                <form action="{{markUri}}/customer/pigeonhole/detail" method="post" id="to_order_detail">
+                    <input type="hidden" name="active" value="active">
+                    <input type="hidden" name="finance_id" value="{{reqParams.finance_id}}" id="financeId">
+                    <input type="hidden" name="advance_id" value="{{reqParams.advance_id}}" id="advanceId">
+                    <input type="hidden" name="query_type" value="{{reqParams.query_type}}" id="query_type">
+                    <input type="hidden" name="photo_type" value="{{reqParams.photo_type}}" id="photo_type">
+                    <input type="hidden" name="description" value="" id="description">
+                    <input type='hidden' value="{{markUri}}/customer/pigeonhole/pending"  name='url' />
+                </form>
+                <form action="" method="post" id="request_info_agree">
+                    <input type="hidden" id="finance_id" name="finance_id" value="{{reqParams.finance_id}}">
+                    <input type="hidden" name="pigeonhole_id" value="{{reqParams.pigeonhole_id}}">
+                    <input type="hidden" name="agree_type" value="{{reqParams.agree_type}}">
+                    <input type="hidden" name="finance_status" value="{{reqParams.finance_status}}">
+                    <input type="hidden" name="material_ids" value="{{reqParams.material_ids}}">
+                    <input type="hidden" name="material_names" value="{{reqParams.material_names}}">
+                    <input type="hidden" name="this_material_ids" value="{{reqParams.this_material_ids}}">
+                    <div class="form_row textarea_container">
+                        <div class="column_r">
+                            <textarea name="remark" id="remark" maxlength="200" placeholder="请输入备注，最多可输入200字"></textarea>
+                        </div>
+                    </div>
+                </form>
+                {{#if (verifyCode(1513)) }}
+                <div>
+                    <a href="javascript:" class="btn orange_btn confirm agree_sub">确认</a>
+                    <a href="javascript:" class="btn bg_btn go_loan_detail cancel_btn">取消</a>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        <!--!---- Part of Main info End ---->
+    </div>
+
+<!--container end-->
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+
+<script>
+
+    (function () {
+        //确认
+        $('.agree_sub').off("click").on("click", function(){
+            var url = contextPath + '/api/pigeonhole/audit';
+            var data = new FormData(document.getElementById('request_info_agree'));
+            var location_url = $.trim($(this).data("url"));
+
+            $.ajax({
+                type : "post",
+                url : url,
+                data : data,
+                async : true,
+                processData: false,
+                contentType: false,
+                success : function (res) {
+                    var result = eval(res);
+                    if (result.error_code == "0") {
+                        window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
+                    } else {
+                        $alert(result.error_msg);
+                    }
+                },
+                error : function () {
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+
+        });
+
+        //取消按钮的点击逻辑
+        bindEvents("click", ".cancel_btn", function () {
+            var form = $("#to_order_detail");
+            form.submit();
+        });
+        bindEvents("click", ".returnDetails", function () {
+            var form = $("#to_order_detail");
+            form.submit();
+        });
+
+    })(jQuery,undefined);
+</script>
+</html>

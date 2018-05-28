@@ -140,7 +140,7 @@
                 var _this = $(this);
                 var checkBox = _this.siblings('input[type="checkbox"]');
                 var snId = $.trim(checkBox.val());
-                if (!_this.hasClass('checked')) {   // 此时已经取消了checked属性
+                if (_this.hasClass('checked')) {
                     delResult.push(snId);
                     finalResult.remove(snId);
                 } else {
