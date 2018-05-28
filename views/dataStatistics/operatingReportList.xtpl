@@ -102,7 +102,7 @@
                             {{else}}
                                 <input type="text" class="select_city_input cursor" name=""  value="" placeholder="全部" readonly/>
                             {{/if}}
-							<em class="city_icon"></em>
+							<!--<em class="city_icon"></em>-->
 						</div>
 						<div class="filtrate_item select_item inline_block">
 							<div class="conditions_name inline_block" style="vertical-align: top;">机构：</div>
@@ -351,13 +351,6 @@
 				$('.download_report_box').hide();
             });
 		}
-        //城市icon点击
-        /*function iconCity () {
-            var btn = $('.city_icon');
-            btn.off('click').on('click', function () {
-                getSelectedCitys();
-            });
-        }*/
 
         //城市选中
 		function getSelectedCitys () {
@@ -394,7 +387,6 @@
 
         $(function() {
             getSelectedCitys();
-//            iconCity();
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");//复选框操作
             initDateStartEnd('#queryStartDate','#queryEndDate');//日期插件
             paginationSwitch();// 分页切换
