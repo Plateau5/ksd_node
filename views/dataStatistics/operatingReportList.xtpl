@@ -95,12 +95,12 @@
                             {{#if (condition.city_ids) }}
                                 {{#if (condition.city_ids.indexOf(',') !== -1) }}
                                     {{set (cityArrs = condition.city_ids.split(',')) }}
-                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}等{{cityArrs.length}}个城市" placeholder="全部" readonly/>
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}等{{cityArrs.length}}个城市" readonly/>
                                 {{else}}
-                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" placeholder="全部" readonly/>
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" readonly/>
                                 {{/if}}
                             {{else}}
-                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="全部" readonly/>
+                                <input type="text" class="select_city_input cursor" name=""  value="全部" readonly/>
                             {{/if}}
 							<!--<em class="city_icon"></em>-->
 						</div>
@@ -171,17 +171,17 @@
 					{{else}}
 						{{#each (list) }}
 							<tr>
-								<td title="{{this.time}}">{{this.time}}</td>
-								<td title="">
+								<td>{{this.time}}</td>
+								<td>
 									{{#if (this.car_type === 0) }}
 										新车
 									{{elseif (this.car_type === 1) }}
 										二手车
 									{{/if}}
 								</td>
-								<td title="{{this.city_name}}">{{this.city_name}}</td>
+								<td>{{this.city_name}}</td>
 								<td title="{{this.organization_name}}">{{this.organization_name}}</td>
-								<td title="{{this.create_name}}">{{this.create_name}}</td>
+								<td>{{this.create_name}}</td>
 								<td title="{{this.user_name}}">{{this.user_name}}</td>
 								<td title="{{this.supplier_name}}">{{this.supplier_name}}</td>
 							</tr>
@@ -238,6 +238,7 @@
 		function getListByCondtions () {
 			var btn = $('.search_btn');
             btn.off('click').on('click', function () {
+                $('.currentPage').val('1');
                 $('#operat_list').submit();
             });
 		}
@@ -379,7 +380,8 @@
                             $('.select_city_input').val(cityName + '等' + cityArr.length + '个城市');
                         }
                     } else {
-                        $('.select_city_input').val('');
+                        $('.city_ids').val('');
+                        $('.select_city_input').val('全部');
                     }
                 }
             });
