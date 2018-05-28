@@ -1695,7 +1695,7 @@ function locationTo (opt) {
     var inputEles = '', //form表单内部input元素
         arr = options.param;
     for (var key in arr) {
-        if (arr[key] != '' && (arr[key] !== 0 || arr[key] !== '0')) {
+        if (arr[key] != '' || (arr[key] === 0 || arr[key] === '0')) {
             inputEles += '<input type="hidden" name="'+ key +'" value="'+ arr[key] +'" />';
         }
     }
