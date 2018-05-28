@@ -136,7 +136,7 @@
 					<input id="column_ids" value="" name="column_ids" type="hidden">
 				</form>
 				<div class="detail_btn_box left">
-					<span class="total_count">共{{count}}条数据</span>
+					<span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
 					<div class="rf">
 						{{#if (verifyCode(1515)) }}
 							<a href="javascript:" id="download_btn" class="detail_title_btn download_btn">下载</a>
@@ -246,7 +246,11 @@
         function downloadField () {
             var btn = $('#download_btn');
             btn.off('click').on('click', function () {
-                $( ".download_report_box" ).show();
+                if ($('.total_count').data('count') != 0) {
+                    $( ".download_report_box" ).show();
+                } else {
+                    $alert('当前列表内数据为空，不能下载');
+				}
             });
         }
         //下载选中字段的事件
@@ -378,13 +382,13 @@
                     }
                 }
             });
-            closeDownDia();
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");//复选框操作
             initDateStartEnd('#queryStartDate','#queryEndDate');//日期插件
             paginationSwitch();// 分页切换
             getListByCondtions();
             downloadField();
             downloadSelectField();
+            closeDownDia();
         });
     })(jQuery,undefined);
 </script>
