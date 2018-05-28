@@ -19,6 +19,8 @@ exports.VIEW_STATISTICS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/statistics/person/system');
         } else if (common.checkPrivilege(1464, req)) {
             res.redirect(markUri + '/statistics/merchants/synthesize');
+        } else if (common.checkPrivilege(1514, req)) {
+            res.redirect(markUri + '/statistics/operating/system');
         } else {
             throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1327 | 1328 is not defined.');
         }
@@ -277,6 +279,19 @@ exports.VIEW_STATISTICS_MERCHANTS_DETAIL = function(req, res, next) {
     // res.render('./dataStatistics/merchantDetail', { title : '数据统计-商户主页', markUri : markUri});
 };
 
+// 数据统计-运营报表-报表列表页跳转1514
+exports.VIEW_STATISTICS_OPERATING_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1514, req)) {
+            res.redirect(markUri + '/statistics/operating/list');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1514 is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
 // 数据统计-运营报表-报表列表页跳转
 exports.VIEW_STATISTICS_OPERATING_LIST = function(req, res, next) {
     common.getPageData({
