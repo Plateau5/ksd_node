@@ -351,8 +351,16 @@
 				$('.download_report_box').hide();
             });
 		}
+        //城市icon点击
+        function iconCity () {
+            var btn = $('.city_icon');
+            btn.off('click').on('click', function () {
+                getSelectedCitys();
+            });
+        }
 
-        $(function() {
+        //城市选中
+		function getSelectedCitys () {
             $('.select_city_input').citySelect({
                 data : city_list,
                 defaultData : condition_city_list,
@@ -382,6 +390,11 @@
                     }
                 }
             });
+		}
+
+        $(function() {
+            getSelectedCitys();
+            iconCity();
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");//复选框操作
             initDateStartEnd('#queryStartDate','#queryEndDate');//日期插件
             paginationSwitch();// 分页切换
