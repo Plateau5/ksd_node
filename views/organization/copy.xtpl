@@ -159,18 +159,25 @@
                             <div class="column_val">
                                 <div class="form-control checkBox">
                                     {{#if (vo.downpayment_rate) }}
-                                    {{set (downRate = vo.downpayment_rate.split(",")) }}
-                                    {{#each (list_downpaymentrate) }}
-                                    <div class="check">
-                                        <div class="check_img
-                                        {{#if (../downRate.indexOf(this.id.toString()) !== -1) }}
-                                            icon_check
-                                        {{else}}
-                                            icon_uncheck
-                                        {{/if}}"></div>
-                                        <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
-                                    </div>
-                                    {{/each}}
+                                        {{set (downRate = vo.downpayment_rate.split(",")) }}
+                                        {{#each (list_downpaymentrate) }}
+                                        <div class="check">
+                                            <div class="check_img
+                                            {{#if (../downRate.indexOf(this.id.toString()) !== -1) }}
+                                                icon_check
+                                            {{else}}
+                                                icon_uncheck
+                                            {{/if}}"></div>
+                                            <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
+                                        </div>
+                                        {{/each}}
+                                    {{else}}
+                                        {{#each (list_downpaymentrate) }}
+                                        <div class="check">
+                                            <div class="check_img icon_uncheck"></div>
+                                            <span><span class="downpayment_rate_date">{{this.id}}</span>%</span>
+                                        </div>
+                                        {{/each}}
                                     {{/if}}
                                 </div>
                             </div>
@@ -185,10 +192,10 @@
                                 <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
                             </div>
                             {{#if (downpayment_money) }}
-                                <input type="hidden" id="downpayment_money" name="downpayment_money" value="{{downpayment_money.join(',')}}">
+                                <!--<input type="hidden" id="downpayment_money" name="downpayment_money" value="{{downpayment_money.join(',')}}">-->
                                 {{#if (downpayment_money.length === 1) }}
                                     <div class="column_val downpayment_add" style="margin-top: 10px;">
-                                        <input type="text" class="form-control" placeholder="请输入首付金额"  name="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" value="{{downpayment_money[0]}}" style="width:90px;"/>
+                                        <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" value="{{downpayment_money[0]}}" style="width:90px;"/>
                                         <span>元</span>
                                         <span class="cursor downpayment_add_txt">添加</span>
                                         <span class="formError"></span>
@@ -213,7 +220,7 @@
                                     {{#each (downpayment_money)}}
                                         {{#if (xindex === downpayment_money.length - 1) }}
                                             <div class="column_val downpayment_add" style="margin-top: 10px;padding-left: 12%;">
-                                                <input type="text" class="form-control" placeholder="请输入首付金额"  name=""  maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" value="{{this}}" style="width:90px;"/>
+                                                <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money"  maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" value="{{this}}" style="width:90px;"/>
                                                 <span>元</span>
                                                 <span class="cursor downpayment_add_txt">添加</span>
                                                 <span class="formError"></span>
@@ -221,7 +228,7 @@
                                         {{else}}
                                             <div class="downpayment_box">
                                                 <div class="downpayment_add_ready" style="padding-top: 10px;">
-                                                    <input type="text" readonly="readonly" id="" name="" value="{{this}}" style="width:90px;">
+                                                    <input type="text" readonly="readonly" id="" name="downpayment_money" value="{{this}}" style="width:90px;">
                                                     <span>元</span>
                                                     <span class="cursor downpayment_add_del">删除</span>
                                                 </div>
@@ -230,9 +237,9 @@
                                     {{/each}}
                                 {{/if}}
                             {{else}}
-                                <input type="hidden" id="downpayment_money" name="downpayment_money" value="">
+                                <!--<input type="hidden" id="downpayment_money" name="downpayment_money" value="">-->
                                 <div class="column_val downpayment_add" style="margin-top: 10px;">
-                                    <input type="text" class="form-control" placeholder="请输入首付金额"  name="" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width:90px;"/>
+                                    <input type="text" class="form-control" placeholder="请输入首付金额"  name="downpayment_money" value="" maxlength="7" onKeyPress="if ((event.keyCode <48 || event.keyCode>57)) event.returnValue=false" onpaste="return false;" style="width:90px;"/>
                                     <span>元</span>
                                     <span class="cursor downpayment_add_txt">添加</span>
                                     <span class="formError"></span>
