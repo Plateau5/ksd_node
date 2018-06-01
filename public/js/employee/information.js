@@ -201,7 +201,7 @@ $(function(){
 	});
 	$("#phone").blur(function(){
 		var val=$("#phone").val();
-		var reg=/^1[3|4|5|8|7]\d{9}$/;
+		var reg=/^1[3|4|5|8|7|6|9]\d{9}$/;
 		if(val==''){
 			$("#phone").parent().next().next().next().html("请输入11位数字的手机号");
 			$("#phone").parent().next().next().css("display","none");
@@ -471,7 +471,7 @@ $(function(){
 	});
 	$("#emergency_phone").blur(function(){
 		var val=$("#emergency_phone").val();
-		var reg=/^1[3|4|5|8|7]\d{9}$/;
+		var reg=/^1[3|4|5|8|7|6|9]\d{9}$/;
 		if(val==""){
 			$("#emergency_phone").parent().next().next().next().html("");
 			$("#emergency_phone").parent().next().html("");
