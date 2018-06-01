@@ -159,7 +159,7 @@ router.all(markUri + '/customer/financial/print', customerCtrl.VIEW_CUSTOMER_FIN
 
 // 客户-归档管理-访问路径 1228
 router.get(markUri + '/customer/pigeonhole/system', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_SYSTEM);
-// 客户-归档管理-待处理 1177
+// 客户-归档管理-待归档 1177
 router.all(markUri + '/customer/pigeonhole/pending', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_PENDING);
 // 客户-归档管理-已归档 1178
 router.all(markUri + '/customer/pigeonhole/archived', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_ARCHIVED);
@@ -167,7 +167,10 @@ router.all(markUri + '/customer/pigeonhole/archived', customerCtrl.VIEW_CUSTOMER
 router.post(markUri + '/customer/pigeonhole/detail', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_DETAIL);
 // 客户-归档管理-已归档-通知所需材料页面 1117
 router.post(markUri + '/customer/pigeonhole/notifyMaterial', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_NOTIFYMATERIAL);
-
+// 客户-归档管理--同意页面
+router.post(markUri + '/customer/pigeonhole/agree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_AGREE);
+// 客户-归档管理--不同意页面
+router.post(markUri + '/customer/pigeonhole/disagree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE);
 
 // 客户-其他管理-访问路径 1330
 router.get(markUri + '/customer/otherfund/system', customerCtrl.VIEW_CUSTOMER_OTHERFUND_SYSTEM);
@@ -401,8 +404,10 @@ router.all(markUri + '/statistics/merchants/synthesize', statisticsCtrl.VIEW_STA
 router.post(markUri + '/statistics/merchants/typeList', statisticsCtrl.VIEW_STATISTICS_MERCHANTS_TYPELIST);
 // 数据统计-商户统计-商户详情页跳转
 router.post(markUri + '/statistics/merchants/detail', statisticsCtrl.VIEW_STATISTICS_MERCHANTS_DETAIL);
-
-
+// 数据统计-运营报表-报表列表页跳转1514
+router.all(markUri + '/statistics/operating/system', statisticsCtrl.VIEW_STATISTICS_OPERATING_SYSTEM);
+// 数据统计-运营报表-报表列表页跳转1514
+router.all(markUri + '/statistics/operating/list', statisticsCtrl.VIEW_STATISTICS_OPERATING_LIST);
 
 
 

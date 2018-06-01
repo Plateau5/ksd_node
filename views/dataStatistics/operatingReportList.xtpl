@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+	<link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/statistics.css"/>
+    <title>数据统计-人效统计</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main report_list">
+			<div class="statistics_list">
+				<form action="{{markUri}}/statistics/operating/list" id="operat_list" method="post" role='form'>
+					<input type="hidden" name="limit" value="{{limit}}" class="limit">
+					<input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+					<div class="filtrate border_filtrate">
+						<div class="filtrate_item select_item  inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">状态：</div>
+							<select name="status" class="filtrate_select filtrate_select_report" id="data_status">
+								{{#if (condition.status === 1) }}
+									<option value="1" selected>进件</option>
+								{{else}}
+									<option value="1">进件</option>
+								{{/if}}
+								{{#if (condition.status === 2) }}
+									<option value="2" selected>通过</option>
+								{{else}}
+									<option value="2">通过</option>
+								{{/if}}
+								{{#if (condition.status === 3) }}
+									<option value="3" selected>放款</option>
+								{{else}}
+									<option value="3">放款</option>
+								{{/if}}
+								{{#if (condition.status === 4) }}
+									<option value="4" selected>回款</option>
+								{{else}}
+									<option value="4">回款</option>
+								{{/if}}
+								{{#if (condition.status === 5) }}
+									<option value="5" selected>归档</option>
+								{{else}}
+									<option value="5">归档</option>
+								{{/if}}
+								{{#if (condition.status === 6) }}
+									<option value="6" selected>拒绝</option>
+								{{else}}
+									<option value="6">拒绝</option>
+								{{/if}}
+							</select>
+						</div>
+						<div class="filtrate_item date_conditions inline_block">
+							<div class="conditions_name inline_block">时间范围：</div>
+							<input type="text" id="queryStartDate" readonly class="filtrate_date" name="time_start" value="{{condition.time_start}}" />
+                            <span class="inline_block"> — </span>
+							<input type="text" id="queryEndDate" readonly class="filtrate_date" name="time_end" value="{{condition.time_end}}" />
+						</div>
+						<div class="filtrate_item inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">业务类型：</div>
+							<select name="car_type" class="filtrate_select filtrate_select_report" id="type_business">
+								{{#if (condition.car_type === '' && condition.car_type !== 0) }}
+									<option value="" selected>全部</option>
+								{{else}}
+									<option value="">全部</option>
+								{{/if}}
+								{{#if (condition.car_type === 0) }}
+									<option value="0" selected>新车</option>
+								{{else}}
+									<option value="0">新车</option>
+								{{/if}}
+								{{#if (condition.car_type === 1) }}
+									<option value="1" selected>二手车</option>
+								{{else}}
+									<option value="1">二手车</option>
+								{{/if}}
+							</select>
+						</div>
+						<div class="filtrate_item select_city_div inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">城市：</div>
+							<input type="hidden" name="city_ids" class="city_ids" value="{{condition.city_ids}}">
+                            {{#if (condition.city_ids) }}
+                                {{#if (condition.city_ids.indexOf(',') !== -1) }}
+                                    {{set (cityArrs = condition.city_ids.split(',')) }}
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}等{{cityArrs.length}}个城市" readonly/>
+                                {{else}}
+                                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" readonly/>
+                                {{/if}}
+                            {{else}}
+                                <input type="text" class="select_city_input cursor" name=""  value="全部" readonly/>
+                            {{/if}}
+							<!--<em class="city_icon"></em>-->
+						</div>
+						<div class="filtrate_item select_item inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">机构：</div>
+							<select name="organization_id" class="filtrate_select filtrate_select_report have_type" id="organization_type">
+								{{#if (condition.organization_id === '' && condition.organization_id !== 0) }}
+									<option value="" selected>全部</option>
+								{{else}}
+									<option value="">全部</option>
+								{{/if}}
+								{{#each (org_list) }}
+									{{#if (root.condition.organization_id === this.id) }}
+										<option value="{{this.id}}" selected>{{this.name}}</option>
+									{{else}}
+										<option value="{{this.id}}">{{this.name}}</option>
+									{{/if}}
+								{{/each}}
+							</select>
+						</div>
+						<div class="btn_box text_right">
+							<a href="javascript:" class="btn orange_btn search_btn confirm">搜索</a>
+						</div>
+					</div>
+				</form>
+				<form action="" id="fields_download" method="">
+					<input id="status" value="{{condition.status}}" name="status" type="hidden">
+					<input id="time_start" value="{{condition.time_start}}" name="time_start" type="hidden">
+					<input id="time_end" value="{{condition.time_end}}" name="time_end" type="hidden">
+					<input id="car_type" value="{{condition.car_type}}" name="car_type" type="hidden">
+					<input id="city_ids" value="{{condition.city_ids}}" name="city_ids" type="hidden">
+					<input id="organization_id" value="{{condition.organization_id}}" name="organization_id" type="hidden">
+					<input id="column_ids" value="" name="column_ids" type="hidden">
+				</form>
+				<div class="detail_btn_box left">
+					<span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
+					<div class="rf">
+						{{#if (verifyCode(1515)) }}
+							<a href="javascript:" id="download_btn" class="detail_title_btn download_btn">下载</a>
+						{{/if}}
+					</div>
+				</div>
+				<table class="normal">
+					<colgroup style="width: 100%;">
+						<col style="width: 18%;" />
+						<col style="width: 12%;" />
+						<col style="width: 15%;" />
+						<col style="width: 15%;" />
+						<col style="width: 15%;" />
+						<col style="width: 10%;" />
+						<col />
+					</colgroup>
+					<tr>
+						<th>时间</th>
+						<th>业务类型</th>
+						<th>城市</th>
+						<th>机构</th>
+						<th>贷前</th>
+						<th>客户</th>
+						<th>商户</th>
+					</tr>
+					{{#if (count === 0) }}
+					<tr>
+						<td colspan="7" class="no_hover">
+							{{include('./../inc/empty_data')}}
+						</td>
+					</tr>
+					{{else}}
+						{{#each (list) }}
+							<tr>
+								<td>{{this.time}}</td>
+								<td>
+									{{#if (this.car_type === 0) }}
+										新车
+									{{elseif (this.car_type === 1) }}
+										二手车
+									{{/if}}
+								</td>
+								<td>{{this.city_name}}</td>
+								<td title="{{this.organization_name}}">{{this.organization_name}}</td>
+								<td>{{this.create_name}}</td>
+								<td title="{{this.user_name}}">{{this.user_name}}</td>
+								<td title="{{this.supplier_name}}">{{this.supplier_name}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</table>
+				{{include('./../inc/paginations')}}
+			</div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<div class="download_report_box">
+	<div class="download_report_bg"></div>
+	<div class="download_report_dia">
+		<div class="title">请勾选下载字段</div>
+		<div class="middle">
+			<div class="selectAll form_group">
+				<input id="selectAll" type="checkbox" class="select_all" name="" value="" checked="checked">
+				<label for="selectAll" class="checked">全选</label>
+			</div>
+			<div class="column_data">
+				{{#each (column_data) }}
+					<div class="form_group inline_block">
+						<input id="{{this.id}}" type="checkbox" name="" value="{{this.id}}" checked="checked">
+						<label for="{{this.id}}" class="checked">{{this.name}}</label>
+					</div>
+				{{/each}}
+			</div>
+			<div class="form_error">至少勾选一个字段</div>
+		</div>
+		<div class="download_report_bottom_btn">
+			<a href="javascript:" class="btn orange_btn download_confirm confirm">下载</a>
+		</div>
+	</div>
+</div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script>
+    var city_list = '{{city_list}}';
+    city_list = JSON.parse(city_list.replace(/&quot;/ig, '"'));
+    var condition_city_list = '{{condition_city_list}}';
+    if (condition_city_list == '') {
+        condition_city_list = [];
+    } else {
+        condition_city_list = JSON.parse(condition_city_list.replace(/&quot;/ig, '"'));
+    }
+    (function ($) {
+        //筛选
+		function getListByCondtions () {
+			var btn = $('.search_btn');
+            btn.off('click').on('click', function () {
+                $('.currentPage').val('1');
+                $('#operat_list').submit();
+            });
+		}
+
+        // 下载的弹出层
+        function downloadField () {
+            var btn = $('#download_btn');
+            btn.off('click').on('click', function () {
+                if ($('.total_count').data('count') != 0) {
+                    $( ".download_report_box" ).show();
+                } else {
+                    $alert('当前列表内数据为空，不能下载');
+				}
+            });
+        }
+        //下载选中字段的事件
+        function downloadSelectField () {
+		    var btn = $('.download_confirm');
+            btn.off('click').on('click', function () {
+                var fields = $('.column_data label');
+                var select_flag = false;
+                var column_ids = [];
+				fields.each(function () {
+                    var _this = $(this);
+                    if (_this.hasClass('checked')) {
+                        select_flag = true;
+                        column_ids.push(_this.siblings('input').attr('id'));
+                    }
+                });
+                if (select_flag) {
+                    $('.download_report_dia .form_error').hide();
+                    $( ".download_report_box" ).hide();
+                    resDownload(column_ids);
+                } else {
+                    $('.download_report_dia .form_error').show();
+                }
+            });
+        }
+
+        //下载请求
+		function resDownload (column_ids) {
+            var status = $('#status').val();
+            var time_start = $('#time_start').val();
+            var time_end = $('#time_end').val();
+            var car_type = $('#car_type').val();
+            var city_ids = $('#city_ids').val();
+            var organization_id = $('#organization_id').val();
+            var column_ids = column_ids.join(',');
+            locationTo({
+                action : contextPath + "/reportForm/finance/export/excel",
+                param : {
+                    status : status,
+                    time_start : time_start,
+                    time_end : time_end,
+                    car_type : car_type,
+                    city_ids : city_ids,
+                    organization_id : organization_id,
+                    column_ids : column_ids
+                }
+            });
+		}
+
+        //全选/全不选
+        $('.selectAll label').on('click',function () {
+            var _this = $(this);
+            var download_datas = $('.column_data label');
+
+            if (_this.hasClass('checked')) {
+                download_datas.each(function () {
+                    var _cur = $(this);
+                    if (_cur.hasClass('checked')) {
+                        _cur.removeClass('checked');
+                    }
+                });
+            } else {
+                download_datas.each(function () {
+                    var _cur = $(this);
+                    if (!_cur.hasClass('checked')) {
+                        _cur.addClass('checked');
+                    }
+                });
+			}
+        });
+
+		//单选
+        $('.column_data label').on('click',function () {
+            var _this = $(this);
+            var selectAll_label = $('.selectAll label');
+            var column_datas = $('.column_data label');
+            var nums = 0;
+            column_datas.each(function () {
+                var _cur_data = $(this);
+                if (_cur_data.hasClass('checked')) {
+                    nums++;
+                }
+            });
+            if (!_this.hasClass('checked')) {
+                if (nums == column_datas.length - 1) {//全选
+                    selectAll_label.addClass('checked');
+                } else {//部分选
+                    selectAll_label.removeClass('checked');
+                }
+            } else {
+				selectAll_label.removeClass('checked');
+            }
+        });
+        //关闭下载弹框
+		function closeDownDia () {
+            var download_report_bg = $('.download_report_bg');
+            download_report_bg.off('click').on('click', function () {
+				$('.download_report_box').hide();
+            });
+		}
+
+        //城市选中
+		function getSelectedCitys () {
+            $('.select_city_input').citySelect({
+                data : city_list,
+                defaultData : condition_city_list,
+                dataType : 1,
+                type : 2
+            }, function (data) {
+                var cityArr = [];
+                var cityName = '';
+                if (data) {
+                    for (var i = 0,leni = data.length;i < leni;i++) {
+                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                            if (i == 0 && j == 0) {
+                                cityName = data[i].city_list[j].name;
+                            }
+                            cityArr.push(data[i].city_list[j].id);
+                        }
+                    }
+                    if (cityArr.length != 0) {
+                        $('.city_ids').val(cityArr.join(','));
+                        if (cityArr.length == 1){
+                            $('.select_city_input').val(cityName);
+                        } else {
+                            $('.select_city_input').val(cityName + '等' + cityArr.length + '个城市');
+                        }
+                    } else {
+                        $('.city_ids').val('');
+                        $('.select_city_input').val('全部');
+                    }
+                }
+            });
+		}
+
+        $(function() {
+            getSelectedCitys();
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");//复选框操作
+            initDateStartEnd('#queryStartDate','#queryEndDate');//日期插件
+            paginationSwitch();// 分页切换
+            getListByCondtions();
+            downloadField();
+            downloadSelectField();
+            closeDownDia();
+        });
+    })(jQuery,undefined);
+</script>
+</html>

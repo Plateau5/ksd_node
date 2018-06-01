@@ -1,86 +1,64 @@
 <!-- 合同资料 -->
 {{#if (vo.status >= 8) }}
-	<div class="img_detail_title">
-		<div class="title_line"></div>
-		<span>合同资料</span>
-	</div>
-	<div class="requestpayout_detail_container">
-		<div class="cars_info_box clearfix">
-			<div class="requestpayout_detail_title">GPS信息</div>
-			{{#if (vo.gps_install_type === 0) }}
-				<div class="detail_remarks requestpayout_detail_remarks">
-					<div class="requestpayout_detail_label">是否安装GPS：</div>
-					<div class="requestpayout_detail_txt">否</div>
-				</div>
-			{{/if}}
-			{{#if (vo.gps_install_type !== 0) }}
-				{{#if (vo.gps_count) }}
-					<div class="detail_remarks requestpayout_detail_remarks">
-						<div class="requestpayout_detail_label">安装数量：</div>
-						<div class="requestpayout_detail_txt">{{vo.gps_count}}</div>
-					</div>
+<div class="detail_box" >
+	<div class="classify_item">
+		<div class="classify_title">GPS信息</div>
+		<div class="classify_content">
+			<ul class="items_list clearfix">
+				{{#if (vo.gps_install_type === 0) }}
+				<li class="item_row">
+					<div class="item_name">是否安装GPS：</div>
+					<div class="item_value">否</div>
+				</li>
 				{{/if}}
-				<div class="detail_remarks requestpayout_detail_remarks">
-					<div class="requestpayout_detail_label">安装方式：</div>
-					<div class="requestpayout_detail_txt">
+				{{#if (vo.gps_install_type !== 0) }}
+				{{#if (vo.gps_count) }}
+				<li class="item_row">
+					<div class="item_name">安装数量：</div>
+					<div class="item_value">{{vo.gps_count}}</div>
+				</li>
+				{{/if}}
+				<li class="item_row">
+					<div class="item_name">安装方式：</div>
+					<div class="item_value">
 						{{#if (vo.gps_install_type === 1) }}
-							自行安装
+						自行安装
 						{{/if}}
 						{{#if (vo.gps_install_type === 2) }}
-							厂商安装
+						厂商安装
 						{{/if}}
 					</div>
-				</div>
+				</li>
 				{{#if (vo.gps_install_time) }}
-					<div class="detail_remarks requestpayout_detail_remarks">
-						<div class="requestpayout_detail_label">安装时间：</div>
-						<div class="requestpayout_detail_txt">{{vo.gps_install_time}}</div>
-					</div>
+				<li class="item_row">
+					<div class="item_name">安装时间：</div>
+					<div class="item_value">{{vo.gps_install_time}}</div>
+				</li>
 				{{/if}}
 				{{#if (vo.gps_install_area || vo.gps_install_address) }}
-					<div class="detail_remarks requestpayout_detail_remarks">
-						<div class="requestpayout_detail_label">安装地点：</div>
-						<div class="requestpayout_detail_txt">{{vo.gps_install_area}}{{vo.gps_install_address}}</div>
-					</div>
+				<li class="item_row">
+					<div class="item_name">安装地点：</div>
+					<div class="item_value long_text">{{vo.gps_install_area}}{{vo.gps_install_address}}</div>
+				</li>
 				{{/if}}
-			{{/if}}
-			{{#if (vo.vin) }}
-				<div class="detail_remarks requestpayout_detail_remarks">
-					<div class="requestpayout_detail_label">车架号：</div>
-					<div class="requestpayout_detail_txt">{{vo.vin}}</div>
-				</div>
-			{{/if}}
-				<!-- 以下为图片展示区 -->
-			{{#if (file_list4.length > 0) }}
-				<div class="imgDetail">
-					{{#each (file_list4) }}
-						<div class="detailBox inline" style="margin-top:0;">
-							<div class="detailImgBox cursor">
-								<a href="javascript:;" data-type="imgBox">
-									<img data-original="{{this.thumbnail}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
-								</a>
-							</div>
-							<div class="imgText">{{this.file_name}}</div>
-						</div>
-					{{/each}}
-				</div>
+				{{/if}}
+				{{#if (vo.sn_codes) }}
+				<li class="item_row">
+					<div class="item_name">SN号：</div>
+					<div class="item_value">{{vo.sn_codes}}</div>
+				</li>
+				{{/if}}
+				{{#if (vo.vin) }}
+				<li class="item_row">
+					<div class="item_name">车架号：</div>
+					<div class="item_value">{{vo.vin}}</div>
+				</li>
+				{{/if}}
 
-			{{/if}}
-			<div class="requestpayout_detail_btn_box clearfix">
-				<div class="cursor requestpayout_detail_btn requestpayout_download download_file" alt="4" lang="{{finance_id}}">全部下载</div>
-				{{#if (url === markUri + '/customer/compact/pendingPass') }}
-				{{#if (verifyCode(1265)) }}
-				<a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree">
-					<div class="cursor requestpayout_detail_btn requestpayout_disagree">不同意</div>
-				</a>
-				{{/if}}
-				{{#if (verifyCode(1264)) }}
-				<a href="javascript:" class="go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
-					<div class="cursor requestpayout_detail_btn requestpayout_agree" lang="{{finance_id}}">同意</div>
-				</a>
-				{{/if}}
-				{{/if}}
-			</div>
+			</ul>
 		</div>
 	</div>
+</div>
+{{else}}
+	{{include ('./../inc/empty_data')}}
 {{/if}}

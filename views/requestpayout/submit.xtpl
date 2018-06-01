@@ -36,7 +36,7 @@
                 <ul>
                     <li class="inline colorB"><a class="TS" href="{{markUri}}/customer/requestpayout/system">请款管理</a></li>
                     <li class="inline before"><a href="{{markUri}}/customer/requestpayout/pendingDispose">待请款</a></li>
-                    <li class="inline before"><a class="backOrderDetail" data-id="{{finance_id}}" href="javascript:">{{vo.user_name}}</a></li>
+                    <li class="inline before"><a class="backOrderDetail" data-id="{{finance_id}}" data-advance_id="{{vo.advance_id}}" href="javascript:;">{{vo.user_name}}</a></li>
                     <li class="inline before"><a href="javascript:;" style="cursor:default">确认提交</a></li>
                 </ul>
             </div>
@@ -95,11 +95,15 @@
             backBtn.off("click").on("click", function () {
                 var _this = $(this);
                 var financeId = $.trim(_this.data("id"));
+                var advanceId = $.trim(_this.data("advance_id"));
                 locationTo({ //{{markUri}}/requestPayout/getFile?finance_id={{finance_id}}&url=/requestPayout/pendingDispose/list&active=wait
-                    action : contextPath + "/requestPayout/getFile",
+                    action : contextPath + markUri +"/customer/requestpayout/detail",
                     param : {
                         finance_id : financeId,
-                        url : markUri + "/customer/requestpayout/pendingDispose",
+                        advance_id : advanceId,
+                        url : contextPath + markUri + "/customer/requestpayout/pendingDispose",
+                        query_type : 3,
+                        photo_type : 3,
                         active : 'wait'
                     }
                 });

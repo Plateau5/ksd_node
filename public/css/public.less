@@ -886,12 +886,12 @@ table.normal{
 /********** Tab切换部分样式 End ***********/
 /********** 筛选条件部分样式 Begin ***********/
 .filtrate{
-    color: @normal-color;
+    color: #999;
     //margin-top: 14px;
     .conditions_name{
         //float: left;
-        margin-right: 20px;
-        color: #666666;
+        margin-right: 4px;
+        color: @label-color;
     }
     .filtrate_box{
         //float: left;
@@ -911,18 +911,28 @@ table.normal{
             margin-top: 13px;
             cursor: pointer;
         }
+        .city_icon {
+            display: block;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: 22px;
+            left: 266px;
+            background: url('../img/icon_city.png');
+            cursor: pointer;
+        }
     }
     .date_conditions .conditions_item{
         margin-top: 13px;
     }
     .filtrate_audit_type,.filtrate_city{
-        margin-left: 30px;
+        margin-left: 20px;
     }
     .filtrate_audit_type,.filtrate_order_status{
-        margin-left: 30px;
+        margin-left: 20px;
     }
     .filtrate_audit_type,.filtrate_requestpayout_type{
-        margin-left: 30px;
+        margin-left: 20px;
     }
     .filtrate_date{
         width: 190px;
@@ -933,10 +943,15 @@ table.normal{
         //-webkit-border-radius: @normal-radius;
         //-moz-border-radius: @normal-radius;
         //border-radius: @normal-radius;
-        color: @normal-color;
+        color: #333;
         cursor: default;
 
     }
+    /***** 客户归档时间框 Start ******/
+    .archiving_time{
+        width:90px;
+    }
+    /***** 客户归档时间框 End ******/
     .filtrate_select{
         width:100px;
         height: 28px;
@@ -996,6 +1011,26 @@ table.normal{
     .conditions_item.active,.conditions_item:hover{
         background-color: @active-color;
         color: #FFFFFF;
+    }
+    .customer_select_input{
+        margin-top: -5px;
+    }
+    .customer_select{
+        height:30px;
+        line-height: 30px;
+    }
+}
+.border_filtrate{
+    padding:16px 15px 8px 15px;
+    margin-top: 15px;
+    border: 1px dashed #CFCFCF;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    .btn_box{
+        margin: 0;
+        height: 50px;
+        line-height: 50px;
     }
 }
 /********** 筛选条件部分样式 End ***********/
@@ -1243,21 +1278,23 @@ table.normal{
 }
 .finance_list .list_item {
     position: relative;
-    height: 160px;
-    padding: 10px 0;
+    height: 180px;
+    padding: 14px 0;
     /*margin-bottom: 20px;*/
     //overflow: hidden;
     .create_date{
         height: 30px;
         line-height: 30px;
         text-align: left;
+        font-size:10px;
         color: #999;
         //opacity: .5;
     }
     .list_item_detail{
         position: relative;
         height: 120px;
-        padding: 10px 0;
+        padding:15px 0;
+        background:#F8F8F8;
         -webkit-border-radius: @normal-radius;
         -moz-border-radius: @normal-radius;
         border-radius: @normal-radius;
@@ -1284,13 +1321,14 @@ table.normal{
 }
 .finance_list .list_item .user_info img,
 .finance_list .list_item .user_info .lender{
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: 1px solid #ddd;
     margin: 10px auto 5px;
     text-align: center;
-    line-height: 40px;
+    line-height: 50px;
+    font-size:24px;
 }
 .finance_list .list_item .user_info .lender,
 .finance_list .list_item .user_info .shake-lender{
@@ -1305,10 +1343,11 @@ table.normal{
 }
 .finance_list .list_item .user_info .user_name,
 .finance_list .list_item .user_info .user_position {
-    height: 30px;
-    line-height: 30px;
+    height: 24px;
+    line-height: 24px;
     padding: 0 12px;
-    font-size: 12px;
+    font-size: 14px;
+    color:#333;
 }
 .finance_list .list_item .user_info .user_position {
     line-height: 15px;
@@ -1318,10 +1357,10 @@ table.normal{
     content: "";
     display: block;
     position: absolute;
-    top: 15px;
+    top: 0;
     right: 0;
-    height: 86px;
-    border-right: 1px solid #D8D8D8;
+    height: 120px;
+    border-right: 1px solid #DCDCDC;
 }
 .finance_list .finance_desc {
     margin-left: 30px;
@@ -1329,13 +1368,12 @@ table.normal{
 }
 .finance_list .finance_desc dl {
     float: left;
-    height: 100px;
+    padding-top:38px;
 }
 
 .finance_list .finance_desc dl dd {
-    height: 45px;
-    line-height: 45px;
     padding: 0 8px;
+    color:#333;
     font-weight: normal;
     overflow: hidden;
     -ms-text-overflow: ellipsis;
@@ -1343,10 +1381,8 @@ table.normal{
     white-space: nowrap;
 }
 .finance_list .finance_desc dl dt {
-    height: 55px;
-    line-height: 70px;
-    font-size: 12px;
-    color: #666666;
+    color: #666;
+    padding-bottom:18px;
 }
 .finance_list .finance_desc .effect_one {
     width: 20%;
@@ -1364,8 +1400,9 @@ table.normal{
     display: inline-block;
     float: right;
     font-size: 12px;
+    line-height: 22px;
     color: #808891;
-    margin: 0 30px 0;
+    margin: 10px 30px 0;
 }
 .finance_list .operate_btn .create_date{
     opacity: .5;
@@ -1448,7 +1485,7 @@ table.normal{
     height: 30px;
     position: absolute;
     right: 60px;
-    top: 0;
+    top: 15px;
 }
 .shake {
     float: left;
@@ -2089,7 +2126,7 @@ input[type='checkbox'] + label.checked{
         padding-left:30px;
         margin: 40px 0;
         .list_item {
-            border-left: 1px solid #CCCCCC;
+            border-left: 1px solid #F0F0F0;
             padding: 8px  0 30px 30px;
             position: relative;
             height:auto;
@@ -2126,7 +2163,7 @@ input[type='checkbox'] + label.checked{
                     -webkit-border-radius: 50%;
                     -moz-border-radius: 50%;
                     border-radius: 50%;
-                    background: #dadada;
+                    background: #bbb;
                     position: absolute;
                     left: -37px;
                     top: 7px;
@@ -2819,3 +2856,135 @@ textarea{
     text-overflow: ellipsis;
 }
 /***** 商户详细内容弹出层 End ******/
+
+/***** 客户筛选搜索 Start ******/
+.order_search_box{
+    position: relative;
+    width:128px;
+    height:28px;
+    line-height:28px;
+    border:1px solid #f2f2f2;
+    background:#fff;
+    color:#999;
+    .fuzzy_search{
+        width: 100px;
+        height: 24px;
+        padding: 0 5px;
+        color: #333;
+        border: none;
+        vertical-align: inherit;
+        cursor: auto;
+    }
+    .del_icon{
+        position: absolute;
+        right: 5px;
+        top:10px;
+        width:10px;
+        height:10px;
+        cursor: pointer;
+        background:url('/static/img/finance/close.png') center center no-repeat;
+    }
+
+    .search_result{
+        display:none;
+        position: absolute;
+        right:0;
+        margin-top:10px;
+        padding:20px 0;
+        background: #fff;
+        border:1px solid #DCDCDC;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        -webkit-box-shadow: 0 4px 23px 5px rgba(83,94,106,.2), 0 2px 6px rgba(83,94,106,.15);
+        -moz-box-shadow: 0 4px 23px 5px rgba(83,94,106,.2), 0 2px 6px rgba(83,94,106,.15);
+        box-shadow:  0 4px 23px 5px rgba(83,94,106,.2), 0 2px 6px rgba(83,94,106,.15);
+        z-index:10;
+        &:before{
+            position: absolute;
+            top: -5px;
+            right: 16px;
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-top: 1px solid #DCDCDC;
+            border-right: 1px solid #DCDCDC;
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+        }
+        .search_input{
+            position: relative;
+            padding:0 20px;
+            width:200px;
+            height: 30px;
+            .customer_search{
+                width: 190px;
+                height: 28px;
+                border: 1px solid #f2f2f2;
+                padding: 0 5px;
+                vertical-align: inherit;
+            }
+            &:after{
+                position: absolute;
+                right: 28px;
+                top: 10px;
+                display: block;
+                content: '';
+                width: 11px;
+                height: 11px;
+                background: url(../img/manager_search_icon.png) no-repeat;
+            }
+        }
+        .search_list{
+            display:none;
+            padding:10px 10px 0 10px;
+            min-width:200px;
+            max-height:138px;
+            overflow-y: scroll;
+            &::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+                background-color: #fff;
+            }
+            /*定义滚动条轨道 内阴影+圆角*/
+            &::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px #fff;
+                border-radius: 10px;
+                background-color: #fff;
+            }
+            /*定义滑块 内阴影+圆角*/
+            &::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px #fff;
+                background-color: #f1f1f1;
+            }
+        }
+        .res_item{
+            color:#333;
+            padding:0 10px;
+            height: 28px;
+            line-height: 28px;
+            font-size:12px;
+            cursor: pointer;
+            &:hover{
+                background-color: #1DC6BC;
+                color: #FFFFFF;
+            }
+            .name{
+              display: inline-block;
+              width:60px;
+            }
+            .p_dep{
+              display:inline-block;
+              width:108px;
+            }
+            span:first-child{
+                margin-right: 20px;
+            }
+        }
+    }
+}
+/***** 客户筛选搜索 End ******/
+
