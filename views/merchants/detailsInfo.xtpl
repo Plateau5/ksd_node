@@ -82,12 +82,12 @@
                                     <div class="account_row"><div class="account_name">开户行：</div>
                                         <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                     </div>
-                                    <div class="account_row">
-                                        <div class="account_name">总金额：</div>
-                                        {{#if (this.total_charge || this.total_charge === 0) }}
-                                        <div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}} 元</div>
-                                        {{/if}}
-                                    </div>
+                                    <!--<div class="account_row">-->
+                                        <!--<div class="account_name">总金额：</div>-->
+                                        <!--{{#if (this.total_charge || this.total_charge === 0) }}-->
+                                        <!--<div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}} 元</div>-->
+                                        <!--{{/if}}-->
+                                    <!--</div>-->
                                     <input type="hidden" id="totalCharge" value="{{this.total_charge}}">
                                 </li>
                             {{/if}}
@@ -280,15 +280,16 @@
                     </div>
                 </form>
 
+                <!--待审批列表-->
                 <div class="order_list">
                     {{#if (reqParams.list_type === '1') }}
                     <div class="loan_order_btn">
-                        <div class="total_btn clearfix">
-                            <div id="selectedAll" class="form_group lf">
+                        <div class="total_btn">
+                            <div id="selectedAll" class="form_group inline_block">
                                 <input type="checkbox" class="" name="" value="" />
                                 <label class="nor_wrap">全选</label>
                             </div>
-                            <div class="total_operate_btn text_right">
+                            <div class="total_operate_btn text_right clearfix">
                                 {{#if (verifyCode(1493)) }}
                                 <a href="javascript:" data-btn_type="1" class="go_forward audit_btn agree_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     同意
@@ -309,22 +310,49 @@
                         </div>
                     </div>
                     {{/if}}
+                    {{#if (reqParams.list_type === '1') }}
+                    <a href="javascript:" class="batch_btn rf" style="">批量放款</a>
+                    {{/if}}
                     {{#if (list.length > 0) }}
                     <input type="hidden" id="haveOrderList" value="1">
-                    <ul class="loan_order_list">
+                    <ul class="loan_order_list clearfix">
                         {{#each (list) }}
                         <li class="list_item" data-id="{{this.advance_id}}">
                             <div class="loan_time">
-                                <div class="form_group lf loan_checkbox">
+                                <div class="form_group lf loan_checkbox" style="height:46px;line-height:56px;">
                                     <input type="checkbox" class="" name="" value="{{this.advance_id}}">
                                     <label class="order_label" data-total_charge="{{this.total_charge}}" data-deduction="{{this.deduction}}"></label>
                                 </div>
-                                <span>{{this.create_time}}</span>
-                                {{#if (xindex === 0) }}
-                                    {{#if (root.reqParams.list_type === '1') }}
-                                    <a href="javascript:" class="batch_btn rf">批量放款</a>
-                                    {{/if}}
+                                <div class="loan_time_detail mar_left_20">{{this.create_time}}</div>
+                                {{#if (this.total_charge || this.total_charge === 0) }}
+                                <div class="total_receipts">
+                                    <div class="receipt_name">收款总额：</div>
+                                    <div class="amount">{{this.total_charge}}&nbsp;元</div>
+                                    <div class="capital_amount">({{this.cn_totalCharge}})</div>
+                                </div>
                                 {{/if}}
+
+
+                                <div class="order_btn_box pay_operate_btn text_right">
+                                    {{#if (reqParams.list_type === '1') }}
+                                    {{#if (root.verifyCode(1493)) }}
+                                    <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn">同意</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1494)) }}
+                                    <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn">不同意</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1495)) }}
+                                    <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn">转交他人</a>
+                                    {{/if}}
+                                    {{/if}}
+                                    {{#if (reqParams.list_type === '2' && this.is_pass === 1) }}
+                                    {{#if (root.verifyCode(1190)) }}
+                                    <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}"  class="cursor loan_detail_btn print_btn" id="print_btn" target="_blank">打印</a>
+                                    {{/if}}
+                                    {{/if}}
+                                </div>
+
+
                             </div>
                             <div class="loan_list clearfix">
                                 <div class="loan_row" title="{{this.user_name}}">
@@ -448,31 +476,6 @@
                                     <div class="loan_value">{{this.deduction}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
-                                {{#if (this.total_charge || this.total_charge === 0) }}
-                                <div class="total_receipts clearfix">
-                                    <div class="receipt_name">收款总额：</div>
-                                    <div class="amount">{{this.total_charge}}&nbsp;元</div>
-                                    <div class="capital_amount">({{this.cn_totalCharge}})</div>
-                                </div>
-                                {{/if}}
-                                <div class="order_btn_box pay_operate_btn text_right">
-                                    {{#if (reqParams.list_type === '1') }}
-                                        {{#if (root.verifyCode(1493)) }}
-                                        <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn">同意</a>
-                                        {{/if}}
-                                        {{#if (root.verifyCode(1494)) }}
-                                        <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn">不同意</a>
-                                        {{/if}}
-                                        {{#if (root.verifyCode(1495)) }}
-                                        <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn">转交他人</a>
-                                        {{/if}}
-                                    {{/if}}
-                                    {{#if (reqParams.list_type === '2' && this.is_pass === 1) }}
-                                        {{#if (root.verifyCode(1190)) }}
-                                            <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}"  class="cursor loan_detail_btn print_btn" id="print_btn" target="_blank">打印</a>
-                                        {{/if}}
-                                    {{/if}}
-                                </div>
                             </div>
                         </li>
                         {{/each}}
@@ -483,11 +486,7 @@
                     {{/if}}
                 </div>
                 <!--分页部分 Begin-->
-
-
-
             </div>
-
 
             <!--分页部分 End-->
         </div>
@@ -591,6 +590,7 @@
         }
         function batch (){
             $(".batch_btn").click(function(){
+                $('.loan_time_detail').removeClass('mar_left_20');
                 $(".batch_btn").hide();
                 $(".total_btn").show();
                 $(".total_btn").addClass('space');
@@ -600,6 +600,7 @@
         };
         function cancelBatchAudit(){
             $(".cancel_batch_btn").on('click', function(){
+                $('.loan_time_detail').addClass('mar_left_20');
                 $(".total_btn").hide();
                 $(".loan_checkbox").hide();
                 $('.batch_btn').show();
@@ -851,10 +852,10 @@
         }
 
         $(function () {
-            selectedAll();
-            down_menu();
-            batch();
-            slideDownList();
+            selectedAll();//全选/全不选
+            down_menu();//賬戶下拉展示
+            batch();//批量放款
+            slideDownList();//含有子级权限的展开折叠效果
             accountId();
             cancelBatchAudit();
             toAuditPage();      // 跳转审核的三级页面

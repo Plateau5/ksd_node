@@ -318,6 +318,16 @@ exports.VIEW_LOAN_AGREE = function(req, res, next) {
     }, req, res, next);
 };
 
+// 商户-放款管理-待审核-同意页面跳转(放款)
+exports.VIEW_LOAN_TOLOANAGREE = function(req, res, next) {
+    // common.getPageData({
+    //     url : '/api/loan/toAgree',
+    //     title : '放款管理-审核通过',
+    //     page : './merchants/to_loan_agree'
+    // }, req, res, next);
+    res.render('./merchants/to_loan_agree', {title : '放款管理-审核通过'});
+};
+
 // 商户-商户管理-待审核-不同意页面跳转 1502
 exports.VIEW_LOAN_BATCH_DISAGREE = function(req, res, next) {
     common.getPageData({
