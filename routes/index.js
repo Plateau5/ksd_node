@@ -228,6 +228,8 @@ router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
 router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);
 // 商户-放款管理-已审批 1488
 router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
+// 商户-放款管理-查询交易列表
+router.all(markUri + '/loan/transRecordsList', merchantsCtrl.VIEW_LOAN_TRANSRECORDSLIST);
 // 商户-放款管理-商户打款结算详情 1497
 router.post(markUri + '/loan/pending/list', merchantsCtrl.VIEW_LOAN_PENDING_LIST);
 // 商户-放款管理-商户打款结算详情 1498

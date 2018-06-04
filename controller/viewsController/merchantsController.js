@@ -271,15 +271,25 @@ exports.VIEW_LOAN_PASS = function(req, res, next) {
         }
     }, req, res, next);
 };
+
+//商户-放款管理-交易查询列表 1488
+exports.VIEW_LOAN_TRANSRECORDSLIST = function(req, res, next) {
+    // common.getPageData({
+    //     url: '/api/loan/already/list',
+    //     title: '商户-放款管理-查询列表',
+    //     page: './merchants/trans_records_list'
+    // }, req, res, next);
+    res.render('./merchants/trans_records_list', {title : '商户-放款管理-查询列表'});
+};
+
 // 商户-放款管理-商户打款结算详情 1498
 exports.VIEW_LOAN_PASS_LIST = function(req, res, next) {
     common.getPageData({
-        url: '/api/loan/already/list',
+        url : '/api/loan/wait/list',
         title: '商户-放款管理-已审批',
         page: './merchants/detailsInfo'
     }, req, res, next);
 };
-
 
 //商户-放款管理-详情 1497
 exports.VIEW_LOAN_PENDING_LIST = function(req, res, next) {

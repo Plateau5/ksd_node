@@ -1,0 +1,139 @@
+<!-- 商户列表页 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <title>交易查询列表</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
+                <a href="" class="crumbs_item last_child">查询交易</a>
+            </div>
+            <div class="filtrate merchants_filtrate">
+                <div class="filtrate_item date_conditions inline_block">
+                    <div class="conditions_name inline_block">选择日期：</div>
+                    <input type="text" id="filtrate_date_start2" readonly class="filtrate_date archiving_time laydate-icon" value="2016-08-01" /> —
+                    <input type="text" id="filtrate_date_end2" readonly class="filtrate_date archiving_time laydate-icon"  value="请选择日期" />
+                </div>
+                <div class="filtrate_item select_item inline_block">
+                    <div class="conditions_name inline_block" style="vertical-align: top;margin-left:18px;">业务类型：</div>
+                    <select name=""  class="filtrate_select city_select" id="cityeSelect">
+                        <option value="">代发</option>
+                    </select>
+                </div>
+                <div class="filtrate_item select_item inline_block">
+                    <div class="conditions_name inline_block" style="vertical-align: top;">打印状态：</div>
+                    <select name=""  class="filtrate_select merchants_state" id="merchantsState">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="filtrate_item date_conditions inline_block">
+                    <div class="conditions_name inline_block">金额：</div>
+                    <input type="text" class="filtrate_date archiving_time" value="" /> —
+                    <input type="text" class="filtrate_date archiving_time"  value="" />
+                    <div class="conditions_name inline_block">元</div>
+                </div>
+                <div class="filtrate_item select_item inline_block">
+                    <div class="conditions_name inline_block" style="vertical-align: top;margin-left:18px;">付方账户：</div>
+                    <select name=""  class="filtrate_select merchants_tags" id="merchantsTags">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="btn_box text_right">
+                    <a href="javascript:;" class="btn bg_btn cancel">清空</a>
+                    <a href="javascript:" class="btn orange_btn confirm">筛选</a>
+                </div>
+            </div>
+            <div class="merchants_list records_list" id="records_list">
+                <table class="normal">
+                    <colgroup>
+                        <col style="width: 10%;" />
+                        <col style="width: 25%;" />
+                        <col style="width: 12%;" />
+                        <col style="width: 12%;" />
+                        <col style="width: 15%;" />
+                        <col style="width: 15%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 15%;" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>业务类型</th>
+                        <th>付方账户</th>
+                        <th>总金额 (元)</th>
+                        <th>日期 (经办日)</th>
+                        <th>用途</th>
+                        <th>业务请求结果</th>
+                        <th>打印状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-id="1">
+                        <td title="">代代发发</td>
+                        <td>北京，11241335432546，人民币</td>
+                        <td>3545566.55</td>
+                        <td>2018.04.23</td>
+                        <td title="">广东车款垫款</td>
+                        <td title="">银行处理中</td>
+                        <td>未打印</td>
+                        <td>
+                            <a href="javascript:;" class="trans_print_btn trans_detail" title="查询详情" target="_blank"></a>
+                            <a href="javascript:;" class="trans_print_btn print_btn" title="打印" target="_blank"></a>
+                        </td>
+                    </tr>
+                    <tr data-id="2">
+                        <td title="">代代发发</td>
+                        <td>北京，11241335432546，人民币</td>
+                        <td>3545566.55</td>
+                        <td>2018.04.23</td>
+                        <td title="">广东车款垫款</td>
+                        <td title="">银行处理中</td>
+                        <td>未打印</td>
+                        <td>
+                            <a href="javascript:;" class="trans_print_btn trans_detail" title="查询详情" target="_blank">12</a>
+                            <a href="javascript:;" class="trans_print_btn print_btn" title="打印" target="_blank">34</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        $(function() {
+
+        });
+    })(jQuery,undefined);
+
+</script>
+</html>
