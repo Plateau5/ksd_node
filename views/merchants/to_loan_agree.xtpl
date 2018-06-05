@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
     <title>商户管理-通过</title>
 </head>
 <body>
@@ -25,8 +25,161 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
                 <a href="{{markUri}}/merchants/pendingAudit" class="crumbs_item">待审批</a>
-                <a href="javascript:window.history.back();" class="crumbs_item">{{name}}</a>
                 <a href="javascript:;" class="crumbs_item">通过</a>
+            </div>
+            <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
+                <form action="" class="basic_info_edit"  role="saveForm">
+                    <!--<input type="hidden" name="finance_id" value="{{finance_id}}" id="financeId">-->
+                    <!--<input type="hidden" name="query_type" value="{{query_type}}" id="queryType">-->
+                    <!--<input type="hidden" name="id" value="{{sponsorInfo.id}}" id="PAOrderId">-->
+                    <!--<input type="hidden" name="nextQueryType" value="{{nextQueryType}}" id="nextQueryType">-->
+                    <!--<input type="hidden" id="navigation" value="{{navigation}}">-->
+                    <!--<input type="hidden" id="nodeUrl" value="{{nodeUrl}}">-->
+                    <!--<input type="hidden" id="userName" value="{{userName}}">-->
+                    <!--<input type="hidden" id="preCode" value="{{preCode}}">-->
+                    <!-- 基本信息 Begin -->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">业务类型：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="firmType" id="firmType">
+                                <option value="1" selected="selected">代发</option>
+                                <option value="2">直接支付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 金额总笔数 -->
+                    <input type="hidden" name="" value="" id="">
+
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">付方账户：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="1" selected="selected">北京，234324324，人民币</option>
+                                <option value="2">直接支付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">付方开户地区：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="1" selected="selected">北京市</option>
+                                <option value="2">直接支付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">交易金额：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" readonly data-tips="" name="name" value="2141414" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="pad_lf_rt_8">元</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方账号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" readonly data-tips="收方账号不能为空" name="name" value="2141414" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方账户名：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="62" data-tips="收方账户名" name="name" value="水电费水电费水电费" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item gender">
+                        <div class="column_name">
+                            <span class="options_name">银行类别：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group mar6 v_middle">
+                                <input type="radio"  id="gender1" class="gender male" name="sex" value="1"  checked="checked"  />
+                                <label for="gender1">招行</label>
+                            </div>
+                            <div class="form_group v_middle">
+                                <input type="radio"  id="gender2" class="gender female" name="sex" value="2" />
+                                <label for="gender2">其他银行</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方开户行：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" data-tips="收方开户行" name="name" value="水电费水电费水电费" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方开户地区：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="1" selected="selected">北京，234324324，人民币</option>
+                                <option value="2">直接支付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收款方手机号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required phone" maxlength="11" data-tips="手机号码不能为空" name="cellphone" value="" placeholder="请输入手机号" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">交易类型：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="1" selected="selected">北京，234324324，人民币</option>
+                                <option value="2">直接支付</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">用途：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required phone" style="width:612px;" maxlength="40" data-tips="" name="cellphone" value="" placeholder="请输入用途" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">摘要：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required phone" style="width:612px;" maxlength="40" data-tips="" name="cellphone" value="" placeholder="请输入备注内容（非必填）" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
+                <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm edit_confirm" data-url="" data-next="">提交</a>
+                <a href="javascript:" class="btn bg_btn edit_cancel go_docking_home">取消</a>
             </div>
 
 

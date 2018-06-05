@@ -279,13 +279,22 @@ exports.VIEW_LOAN_TRANSRECORDSLIST = function(req, res, next) {
     //     title: '商户-放款管理-查询列表',
     //     page: './merchants/trans_records_list'
     // }, req, res, next);
-    res.render('./merchants/trans_records_list', {title : '商户-放款管理-查询列表'});
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '商户-放款管理-查询列表';
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    var body = req.body;
+    data.reqParams = body;
+    res.render('./merchants/trans_records_list', data);
 };
 
 // 商户-放款管理-商户打款结算详情 1498
 exports.VIEW_LOAN_PASS_LIST = function(req, res, next) {
     common.getPageData({
-        url : '/api/loan/wait/list',
+        url : '/api/loan/already/list',
         title: '商户-放款管理-已审批',
         page: './merchants/detailsInfo'
     }, req, res, next);
@@ -325,7 +334,16 @@ exports.VIEW_LOAN_TOLOANAGREE = function(req, res, next) {
     //     title : '放款管理-审核通过',
     //     page : './merchants/to_loan_agree'
     // }, req, res, next);
-    res.render('./merchants/to_loan_agree', {title : '放款管理-审核通过'});
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '放款管理-审核通过';
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    var body = req.body;
+    data.reqParams = body;
+    res.render('./merchants/to_loan_agree', data);
 };
 
 // 商户-商户管理-待审核-不同意页面跳转 1502

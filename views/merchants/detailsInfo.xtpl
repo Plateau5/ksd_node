@@ -174,14 +174,14 @@
                                     <select name="is_pass" class="filtrate_select adjust_width" id="is_pass">
                                         <option value="">全部</option>
                                         {{#if (vo.is_pass === 1) }}
-                                        <option selected value="1">已通过</option>
+                                        <option selected value="1">同意</option>
                                         {{else}}
-                                        <option value="1">已通过</option>
+                                        <option value="1">同意</option>
                                         {{/if}}
                                         {{#if (vo.is_pass === 0) }}
-                                        <option selected value="0">未通过</option>
+                                        <option selected value="0">不同意</option>
                                         {{else}}
-                                        <option value="0">未通过</option>
+                                        <option value="0">不同意</option>
                                         {{/if}}
                                     </select>
                                 </div>
@@ -312,6 +312,8 @@
                     {{/if}}
                     {{#if (reqParams.list_type === '1') }}
                     <a href="javascript:" class="batch_btn rf" style="">批量放款</a>
+                    {{else}}
+                    <div style="display: block;width:100%;height:20px;"></div>
                     {{/if}}
                     {{#if (list.length > 0) }}
                     <input type="hidden" id="haveOrderList" value="1">
@@ -331,7 +333,6 @@
                                     <div class="capital_amount">({{this.cn_totalCharge}})</div>
                                 </div>
                                 {{/if}}
-
 
                                 <div class="order_btn_box pay_operate_btn text_right">
                                     {{#if (reqParams.list_type === '1') }}

@@ -58,6 +58,7 @@
     tr,td{
       height: 50px;
       line-height: 50px;
+
     }
     tr:hover{
       background: @tr-hover;
@@ -1127,11 +1128,18 @@
     }
     .batch_btn{
       float:right;
-      color:#1DC6BC;
+      color:#666;
       display: block;
-      height:40px;
-      line-height:30px;
-      margin-top:16px;
+      height:22px;
+      line-height:22px;
+      padding:0 5px;
+      margin:16px 0 14px 0;
+      border-radius:2px;
+      border:1px solid #666;
+      &:hover{
+        color:@active-color;
+        border:1px solid @active-color;
+      }
     }
     .print_btn{
       color: @active-color;
@@ -1316,8 +1324,8 @@
     float: right;
   }
   .loan_detail_btn{
-    height:32px;
-    line-height:32px;
+    //height:32px;
+    //line-height:32px;
     float:right;
     color:#1DC6BC;
     font-size: 12px;
@@ -1374,7 +1382,7 @@
     }
   }
   .space{
-    margin:16px 0 0 0;
+    margin:14px 0 0 0;
     .total_operate_btn{
       width:400px;
       display: inline-block;
@@ -1400,6 +1408,83 @@
     }
     .account_value{
       width:66%;
+    }
+  }
+}
+
+/***** 请款管理查询交易列表页 ******/
+.recordsNormal{
+  .trans_print_btn{
+    height:32px;
+    line-height:32px;
+    float:left;
+    padding-left:22px;
+    margin-left:20px;
+  }
+  .print_btn{
+    color: #1DC6BC;
+    background:url('../img/print_icon.png') left center no-repeat;
+    &:hover{
+      color: #0B9C94;
+      background:url('../img/print_hover_icon.png') left center no-repeat;
+    }
+  }
+  .trans_detail{
+    background:url('../img/view_docking_detail.png') left center no-repeat;
+    &:hover{
+      background:url('../img/view_docking_detail_h.png') left center no-repeat;
+    }
+  }
+  .details_item {
+    border:1px solid transparent;
+  }
+}
+.merchants_list table.recordsNormal tr:hover{
+  background:#FFF;
+  cursor: default;
+}
+/***** 放款管理同意放款 ******/
+.loan_form_options{
+  background: transparent;
+  padding:0;
+  .pad_lf_rt_8 {
+   padding: 0 7px;
+  }
+  .column_name {
+    width: 12%;
+    padding-right: 10px;
+  }
+  .column_val {
+    width: 88%;
+    padding-left: 0;
+    input[type='text'],input[type='number']{
+      width: 193px;
+      padding-right: 20px;
+    }
+    input[readonly] {
+      background: #f1f1f1;
+    }
+    select {
+      width: 230px;
+      font-size: 12px;
+    }
+    select[disabled] {
+      background: #f1f1f1;
+    }
+    .value_text {
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+    }
+    .unit {
+      margin-left: -20px;
+      vertical-align: middle;
+    }
+    .v_middle {
+      padding-top: 7px;
+    }
+    input[readonly].birthday {
+      background: #FFFFFF;
     }
   }
 }
