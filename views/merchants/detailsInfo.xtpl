@@ -61,6 +61,7 @@
                 <div class="account_item clearfix">
                     <div class="account_list_name merchant_name">账户<!--{{xindex + 1}}-->{{#if (accountList.length > 1) }}<em class="drop_down">切换账户</em>{{/if}}</div>
                     <input type="hidden"  id="listLength" value="{{accountList.length}}">
+                    <input type="hidden"  id="uid" value="{{uid}}">
                     <ul class="account_list cont_list" id="defaultAccount">
                         {{#each (accountList) }}
                             {{#if (vo.pay_account === this.pay_account) }}
@@ -337,7 +338,7 @@
                                 <div class="order_btn_box pay_operate_btn text_right">
                                     {{#if (reqParams.list_type === '1') }}
                                     {{#if (root.verifyCode(1493)) }}
-                                    <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn">同意</a>
+                                    <a href="javascript:" data-btn_type="1" data-responsible="{{this.responsible}}"  class="go_forward audit_btn agree_btn">同意</a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1494)) }}
                                     <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn">不同意</a>
@@ -346,11 +347,11 @@
                                     <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn">转交他人</a>
                                     {{/if}}
                                     {{/if}}
-                                    {{#if (reqParams.list_type === '2' && this.is_pass === 1) }}
-                                    {{#if (root.verifyCode(1190)) }}
-                                    <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}"  class="cursor loan_detail_btn print_btn" id="print_btn" target="_blank">打印</a>
-                                    {{/if}}
-                                    {{/if}}
+                                    <!--{{#if (reqParams.list_type === '2' && this.is_pass === 1) }}-->
+                                    <!--{{#if (root.verifyCode(1190)) }}-->
+                                    <!--<a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}"  class="cursor loan_detail_btn print_btn" id="print_btn" target="_blank">打印</a>-->
+                                    <!--{{/if}}-->
+                                    <!--{{/if}}-->
                                 </div>
 
 
@@ -512,6 +513,7 @@
     var payAccount = $('#pay_account').val().trim();        // 默认账户
     var settlementType =$('#settlement_type').val().trim();       // 结算方式
     var isPass =$('#isPass').val().trim();       // 审批结果
+    var uid = $('#uid').val().trim();
     (function ($, window) {
         paginationSwitch();     // 分页切换
 
@@ -757,6 +759,12 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
+                var responsible = _this.data('responsible');
+                var index = responsible .lastIndexOf(",");
+                var str  = responsible .substring(index + 1, responsible .length);
+                if(str === uid){
+                    alert(str);
+                }
                 var ids = '';
                 var nextUrl = '';
                 if (btnType === 1) {

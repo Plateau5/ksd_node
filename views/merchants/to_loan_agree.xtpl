@@ -52,6 +52,7 @@
                     <!-- 金额总笔数 -->
                     <input type="hidden" name="" value="" id="">
 
+
                     <div class="option_item">
                         <div class="column_name">
                             <span class="options_name">付方账户：</span>
@@ -63,17 +64,20 @@
                             </select>
                         </div>
                     </div>
-                    <div class="option_item">
-                        <div class="column_name">
-                            <span class="options_name">付方开户地区：</span>
-                        </div>
-                        <div class="column_val">
-                            <select name="" id="">
-                                <option value="1" selected="selected">北京市</option>
-                                <option value="2">直接支付</option>
-                            </select>
-                        </div>
-                    </div>
+                    <!-- 付方开户地区-->
+                    <input type="hidden" id="preCode" value="{{preCode}}">
+                    <!--<div class="option_item">-->
+                        <!--<div class="column_name">-->
+                            <!--<span class="options_name">付方开户地区：</span>-->
+                        <!--</div>-->
+                        <!--<div class="column_val">-->
+                            <!--<select name="" id="">-->
+                                <!--<option value="1" selected="selected">北京市</option>-->
+                                <!--<option value="2">直接支付</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
                     <div class="option_item">
                         <div class="column_name">
                             <span class="options_name">交易金额：</span>
@@ -102,7 +106,18 @@
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                         </div>
                     </div>
-                    <div class="option_item gender">
+                    <div class="option_item set_account">
+                        <div class="column_name">
+                            <span class="options_name">结算方式：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="1" selected="selected">普通</option>
+                                <option value="2">快速</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item bank_type">
                         <div class="column_name">
                             <span class="options_name">银行类别：</span>
                         </div>
@@ -117,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="option_item">
+                    <div class="option_item payee_bank hide">
                         <div class="column_name">
                             <span class="options_name">收方开户行：</span>
                         </div>
@@ -126,15 +141,47 @@
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                         </div>
                     </div>
-                    <div class="option_item">
+                    <div class="option_item payee_address1 hide">
                         <div class="column_name">
                             <span class="options_name">收方开户地区：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" id="">
-                                <option value="1" selected="selected">北京，234324324，人民币</option>
-                                <option value="2">直接支付</option>
+                            <input type="text" class="required" maxlength="30" data-tips="收方开户行" name="name" value="水电费水电费水电费" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item payee_address2 hide">
+                        <div class="column_name">
+                            <span class="options_name">收方开户地区：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="" style="width:102px;">
+                                <option value="1" selected="selected">北京</option>
+                                <option value="2">北京</option>
                             </select>
+                            <span class="pad_lf_rt_8">-</span>
+                            <select name="" id="" style="width:102px;">
+                                <option value="1" selected="selected">北京市</option>
+                                <option value="2">北京市</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item payee_bank_address hide">
+                        <div class="column_name">
+                            <span class="options_name">收方行地址：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" data-tips="收方行地址" name="name" value="收方行地址" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item payee_bank_num hide">
+                        <div class="column_name">
+                            <span class="options_name">收方行号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" data-tips="收方行号" name="name" value="收方行号" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
                         </div>
                     </div>
                     <div class="option_item">
@@ -146,17 +193,8 @@
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                         </div>
                     </div>
-                    <div class="option_item">
-                        <div class="column_name">
-                            <span class="options_name">交易类型：</span>
-                        </div>
-                        <div class="column_val">
-                            <select name="" id="">
-                                <option value="1" selected="selected">北京，234324324，人民币</option>
-                                <option value="2">直接支付</option>
-                            </select>
-                        </div>
-                    </div>
+                    <!-- 交易类型 -->
+                    <input type="hidden" name="" value="代发个人贷款" id="">
                     <div class="option_item">
                         <div class="column_name">
                             <span class="options_name">用途：</span>
@@ -190,4 +228,36 @@
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+        $(function() {
+            $('#firmType').change(function(){
+                if($(this).val() === '1'){
+                    $('.set_account').hide();
+                }else{
+                    $('.set_account').show();
+                }
+            });
+            $('.bank_type input').off('click').on('click', function () {
+                var checked = $('.bank_type').find('input[type="radio"]').eq(1).prop('checked');
+                if(checked){
+                    $('.payee_bank').show();
+                    if($('#firmType').val() === '1'){
+                        $('.payee_address1').show();
+                    }else{
+                        $('.payee_address2').show();
+                        $('.payee_bank_address').show();
+                        $('.payee_bank_num').show();
+                    }
+                }else{
+                    $('.payee_bank').hide();
+                    $('.payee_address1').hide();
+                    $('.payee_address2').hide();
+                    $('.payee_bank_address').hide();
+                    $('.payee_bank_num').hide();
+                }
+            });
+        });
+    })(jQuery,undefined);
+</script>
 </html>

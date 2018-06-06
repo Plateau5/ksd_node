@@ -22,7 +22,7 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main merchants">
-            <a href="{{markUri}}/loan/transRecordsList" class="toRecordsList">查询交易记录</a>
+            <a href="javascript:;" class="toRecordsList">查询交易记录</a>
             {{include('./../inc/operationCategory')}}
             <form action="{{originUrl}}" method="post" id="form_search" role="form">
                 <div class="filtrate">
@@ -115,6 +115,16 @@
 <script>
     var listType = $('#listType').val().trim().number();
     (function ($) {
+        function toRecordsList() {
+            var toRecordsList = $(".toRecordsList");
+            var url = contextPath + markUri +'/loan/transRecordsList';
+            toRecordsList.off('click').on('click', function (){
+                locationTo({
+                    action : url,
+                    param : {}
+                });
+            });
+        }
 
 
         $(function() {
@@ -122,6 +132,7 @@
             searchMerchants();
             goMerchantDetail();
             paginationSwitch();     // 分页切换
+            toRecordsList();    //跳转交易记录查询列表
         });
     })(jQuery,undefined);
 </script>

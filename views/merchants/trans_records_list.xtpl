@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
-    <title>查询交易列表</title>
+    <title>交易记录查询列表</title>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -24,51 +24,63 @@
                 <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
                 <a href="" class="crumbs_item last_child">查询交易</a>
             </div>
-            <div class="filtrate merchants_filtrate">
-                <div class="filtrate_item date_conditions inline_block">
-                    <div class="conditions_name inline_block">选择日期：</div>
-                    <input type="text" id="start_loan_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input" value="" placeholder="请选择日期" name="start_loan_time"/> <span style="color:#D8D8D8">—</span>
-                    <input type="text" id="end_loan_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input"  value="" placeholder="请选择日期"  name="end_loan_time"/>
+            <form action="{{originUrl}}" method="post" id="form_search" role="form">
+                <input type="hidden" name="current_page" value="{{current_page}}" id="current_page">
+                <div class="filtrate merchants_filtrate">
+                    <div class="filtrate_item date_conditions inline_block">
+                        <div class="conditions_name inline_block">选择日期：</div>
+                        <input type="text" id="start_loan_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input" value="{{condition.time_start}}" placeholder="请选择日期" name="start_time"/> <span style="color:#D8D8D8">—</span>
+                        <input type="text" id="end_loan_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input"  value="{{condition.time_end}}" placeholder="请选择日期"  name="end_time"/>
+                    </div>
+                    <!--<div class="filtrate_item select_item inline_block">-->
+                    <!--<div class="conditions_name inline_block" style="vertical-align: top;margin-left:18px;">打印状态：</div>-->
+                    <!--<select name=""  class="filtrate_select" id="merchantsState">-->
+                    <!--<option value="">全部</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <div class="filtrate_item date_conditions inline_block">
+                        <div class="conditions_name inline_block" style="margin-left:18px;">金额：</div>
+                        <input type="number" class="filtrate_date archiving_time" name="start_amount" value="{{condition.start_amount}}" placeholder="请输入" /> —
+                        <input type="number" class="filtrate_date archiving_time" name="end_amount" value="{{condition.end_amount}}" placeholder="请输入" />
+                        <div class="conditions_name inline_block">元</div>
+                    </div>
+                    <div class="filtrate_item select_item inline_block">
+                        <div class="conditions_name inline_block" style="vertical-align: top;">付方账户：</div>
+                        <select name=""  class="filtrate_select" id="merchantsTags" style="width:280px;">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                    <div class="filtrate_item select_item inline_block">
+                        <div class="conditions_name inline_block" style="vertical-align: top;">业务类型：</div>
+                        <select name="type"  class="filtrate_select" id="typeSelect">
+                            {{#if(condition.type === 1)}}
+                            <option value="1" selected="selected">代发</option>
+                            {{else}}
+                            <option value="1">代发</option>
+                            {{/if}}
+                            {{#if(condition.type === 2)}}
+                            <option value="2" selected="selected">直接支付</option>
+                            {{else}}
+                            <option value="2">直接支付</option>
+                            {{/if}}
+                        </select>
+                    </div>
+                    <div class="btn_box text_right">
+                        <a href="javascript:;" class="btn bg_btn cancel recordsList_search_cancel">清空</a>
+                        <a href="javascript:;" class="btn orange_btn confirm recordsList_search_confirm">筛选</a>
+                    </div>
                 </div>
-                <div class="filtrate_item select_item inline_block">
-                    <div class="conditions_name inline_block" style="vertical-align: top;margin-left:18px;">打印状态：</div>
-                    <select name=""  class="filtrate_select" id="merchantsState">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="filtrate_item date_conditions inline_block">
-                    <div class="conditions_name inline_block">金额：</div>
-                    <input type="text" class="filtrate_date archiving_time" value="" placeholder="请输入" /> —
-                    <input type="text" class="filtrate_date archiving_time"  value="" placeholder="请输入" />
-                    <div class="conditions_name inline_block">元</div>
-                </div>
-                <div class="filtrate_item select_item inline_block">
-                    <div class="conditions_name inline_block" style="vertical-align: top;">付方账户：</div>
-                    <select name=""  class="filtrate_select" id="merchantsTags" style="width:280px;">
-                        <option value="">全部</option>
-                    </select>
-                </div>
-                <div class="filtrate_item select_item inline_block">
-                    <div class="conditions_name inline_block" style="vertical-align: top;">业务类型：</div>
-                    <select name=""  class="filtrate_select" id="cityeSelect">
-                        <option value="">代发</option>
-                    </select>
-                </div>
-                <div class="btn_box text_right">
-                    <a href="javascript:;" class="btn bg_btn cancel">清空</a>
-                    <a href="javascript:" class="btn orange_btn confirm">筛选</a>
-                </div>
-            </div>
+            </form>
+
             <div class="merchants_list records_list" id="records_list">
                 <table class="normal recordsNormal">
                     <colgroup>
-                        <col style="width: 10%;" />
+                        <col style="width: 12%;" />
                         <col style="width: 25%;" />
                         <col style="width: 12%;" />
                         <col style="width: 12%;" />
                         <col style="width: 15%;" />
                         <col style="width: 15%;" />
-                        <col style="width: 10%;" />
                         <col style="width: 15%;" />
                     </colgroup>
                     <thead>
@@ -79,41 +91,47 @@
                         <th>日期 (经办日)</th>
                         <th>用途</th>
                         <th>业务请求结果</th>
-                        <th>打印状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-id="1">
-                        <td title="">代代发发</td>
-                        <td>北京，11241335432546，人民币</td>
-                        <td>3545566.55</td>
-                        <td>2018.04.23</td>
-                        <td title="">广东车款垫款</td>
-                        <td title="">银行处理中</td>
-                        <td>未打印</td>
-                        <td>
-                            <a href="javascript:;" class="trans_print_btn trans_detail" title="查询详情" target="_blank"></a>
-                            <a href="javascript:;" class="trans_print_btn print_btn" title="打印" target="_blank"></a>
-                        </td>
-                    </tr>
-                    <tr data-id="2">
-                        <td title="">代代发发</td>
-                        <td>北京，11241335432546，人民币</td>
-                        <td>3545566.55</td>
-                        <td>2018.04.23</td>
-                        <td title="">广东车款垫款</td>
-                        <td title="">银行处理中</td>
-                        <td>未打印</td>
-                        <td>
-                            <a href="javascript:;" class="trans_print_btn trans_detail" title="查询详情"></a>
-                            <a href="javascript:;" class="trans_print_btn print_btn" title="打印"></a>
-                        </td>
-                    </tr>
+                    {{#if (list.length !== 0) }}
+                        {{#each (list) }}
+                            <tr data-id="{{this.id }}">
+                                <td>
+                                    {{#if (this.type === 1) }}
+                                    代发
+                                    {{elseif (this.type === 2) }}
+                                    直接支付
+                                    {{else}}
+                                    全部
+                                    {{/if}}
+                                </td>
+                                <td>{{payment_account}}</td>
+                                <td>{{amount}}</td>
+                                <td>{{submit_date}}</td>
+                                <td title="">{{financial_use}}</td>
+                                <td title="">{{payment_result_value}}</td>
+                                <td>
+                                    <a href="javascript:;" class="trans_print_btn trans_detail" title="查询详情" target="_blank"></a>
+                                    <a href="javascript:;" class="trans_print_btn print_btn" title="打印" target="_blank"></a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <tr class="no_data">
+                            <td colspan="7">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
+                    {{/if}}
                     </tbody>
                 </table>
             </div>
 
+            <!--分页部分 Begin-->
+
+            {{include('./../inc/paginations')}}
 
             <!--分页部分 End-->
         </div>
@@ -128,8 +146,32 @@
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
     (function ($) {
+        //交易记录查询列表页筛选
+        function searchCustomer () {
+            var confirmBtn = $('.recordsList_search_confirm');
+            var cancelBtn = $('.recordsList_search_cancel');
+            var listForm = $('form[role="form"]');
+            confirmBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                var start_with = getCheckedFirstLetter();
+                (start_with == "全部") && (start_with = '');
+                start_with && listForm.append('<input type="hidden" class="filtrate_input" id="start_with" name="start_with" value="'+ start_with + '" />');
+                $("#current_page").val(1);
+                listForm.submit();
+            });
+            cancelBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('');
+                listForm.submit();
+            });
+        }
         $(function() {
             initDateStartEnd('#start_loan_time','#end_loan_time');  //日期筛选
+            searchCustomer();    //交易记录查询列表页筛选
+            paginationSwitch();     // 分页切换
         });
     })(jQuery,undefined);
 </script>
