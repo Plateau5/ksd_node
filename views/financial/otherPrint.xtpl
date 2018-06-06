@@ -16,122 +16,140 @@
 </head>
 <body>
 <div class="wrapper" id="wrapper">
-	<div class="detail_content">
-		<div class="title">
-			<span class="title_name">{{vo.city_name}}{{vo.car_type_value}}</span><span>请款审批</span>
-		</div>
-		<div class="title_info">
-			<div class="company">{{company_name}}</div>
-			<div class="apply_time">
-				<span>申请日期：</span>
-				<span class="time">{{vo.create_time}}</span>
-			</div>
-		</div>
-		<table class="content_box">
-			<tbody>
-			<tr>
-				<td colspan="2">订单编号</td>
-				<td colspan="10">{{vo.order_no}}</td>
-			</tr>
-			<tr>
-				<td colspan="2">申请人</td>
-				<td colspan="4">{{vo.create_name}}</td>
-				<td colspan="2">上牌抵押城市</td>
-				<td colspan="4">{{vo.pledge_city}}</td>
-			</tr>
-			<tr>
-				<td colspan="2">申请人部门</td>
-				<td colspan="4">{{vo.dpartment_name}}</td>
-				<td colspan="2">上牌方</td>
-				<td colspan="4">{{vo.regist_type_value}}</td>
-				<!-- <c:if test="${vo.car_type eq 0 }">
-				</c:if>
-				<c:if test="${vo.car_type eq 1 }">
-					<td>保险是否完成</td>
-					<td colspan="3"><c:if test="${vo.insurance_isfinish eq 1 }">是</c:if><c:if test="${vo.insurance_isfinish eq 0 }">否</c:if></td>
-				</c:if> -->
-			</tr>
-			<tr>
-				<td colspan="2">客户姓名</td>
-				<td colspan="4">{{vo.user_name}}</td>
-				<td colspan="2">抵押方</td>
-				<td colspan="4">{{vo.pledge_type_value}}</td>
-				<!-- <c:if test="${vo.car_type eq 0 }">
-				</c:if>
-				<c:if test="${vo.car_type eq 1 }">
-					<td>上牌是否完成</td>
-					<td colspan="3"><c:if test="${vo.regist_isfinish eq 1 }">是</c:if><c:if test="${vo.regist_isfinish eq 0 }">否</c:if></td>
-				</c:if> -->
-			</tr>
-			<tr>
-				<td colspan="2">放款类型</td>
-				<td colspan="4">{{vo.risk_type_value }}</td>
-				<td colspan="2">车辆款型</td>
-				<td colspan="4">{{vo.brand_name }}{{vo.series_name }}</td>
-			</tr>
-			<tr>
-				<td colspan="2">车架号</td>
-				<td colspan="10">{{vo.vin }}</td>
-			</tr>
+	{{#each (data) }}
+		<div class="page_item" style="page-break-before: always">
+			<div class="detail_content">
+				<div class="title">
+					<span class="title_name">{{this.city_name}}{{this.car_type_value}}</span><span>请款审批</span>
+				</div>
+				<div class="title_info">
+					<div class="company">{{root.company_name}}</div>
+					<div class="apply_time">
+						<span>申请日期：</span>
+						<span class="time">{{this.create_time}}</span>
+					</div>
+				</div>
+				<table class="content_box">
+					<tbody>
+					<tr>
+						<td colspan="2">订单编号</td>
+						<td colspan="10">{{this.order_no}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">申请人</td>
+						<td colspan="4">{{this.create_name}}</td>
+						<td colspan="2">上牌抵押城市</td>
+						<td colspan="4">{{this.pledge_city}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">申请人部门</td>
+						<td colspan="4">{{this.dpartment_name}}</td>
+						<td colspan="2">上牌方</td>
+						<td colspan="4">{{this.regist_type_value}}</td>
+						<!-- <c:if test="${this.car_type eq 0 }">
+                        </c:if>
+                        <c:if test="${this.car_type eq 1 }">
+                            <td>保险是否完成</td>
+                            <td colspan="3"><c:if test="${this.insurance_isfinish eq 1 }">是</c:if><c:if test="${this.insurance_isfinish eq 0 }">否</c:if></td>
+                        </c:if> -->
+					</tr>
+					<tr>
+						<td colspan="2">客户姓名</td>
+						<td colspan="4">{{this.user_name}}</td>
+						<td colspan="2">抵押方</td>
+						<td colspan="4">{{this.pledge_type_value}}</td>
+						<!-- <c:if test="${this.car_type eq 0 }">
+                        </c:if>
+                        <c:if test="${this.car_type eq 1 }">
+                            <td>上牌是否完成</td>
+                            <td colspan="3"><c:if test="${this.regist_isfinish eq 1 }">是</c:if><c:if test="${this.regist_isfinish eq 0 }">否</c:if></td>
+                        </c:if> -->
+					</tr>
+					<tr>
+						<td colspan="2">放款类型</td>
+						<td colspan="4">{{this.risk_type_value }}</td>
+						<td colspan="2">车辆款型</td>
+						<td colspan="4">{{this.brand_name }}{{this.series_name }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">车架号</td>
+						<td colspan="10">{{this.vin }}</td>
+					</tr>
 
-			<tr>
-				<td colspan="2">金融产品</td>
-				<td colspan="10">{{vo.product_name}}</td>
-			</tr>
-			<!--收款信息 begin-->
-			<tr>
-				<td colspan="3">收款名称</td>
-				<td colspan="3">付款名称</td>
-				<td colspan="3">开户行</td>
-				<td colspan="3">付款账号</td>
-			</tr>
-			<tr>
-				<td colspan="3">{{vo.receipt_name}}</td>
-				<td colspan="3">{{vo.pay_name}}</td>
-				<td colspan="3">{{vo.pay_open_bank}}</td>
-				<td colspan="3">{{vo.pay_account}}</td>
-			</tr>
-			{{#each (vo.data) }}
-				<tr>
-					<td colspan="6">{{this.name }}(元)</td>
-					<td colspan="6">{{this.amount }}</td>
-				</tr>
-			{{/each}}
-			<tr>
-				<td colspan="6">付款总额(元)</td>
-				<td colspan="6">{{vo.total_charge }}({{total_charge_cn}})</td>
-			</tr>
-			<!--付款信息 end-->
-			<tr>
-				<td colspan="2">备注说明</td>
-				<td colspan="10">{{vo.request_payout_remark }}</td>
-			</tr>
-			<!--审批流程 begin-->
-			<tr class="approval_box">
-				<td rowspan="1000" colspan="2">审批人</td>
-				<td colspan="10" class="approval_flow">
-					<table class="flow_lists">
-						<tbody>
-						{{#each (list) }}
-							<tr>
-								<td colspan="10">{{this.modify_name }} {{this.status_value}} {{#if (this.remark || this.remark !== '' || this.remark.length > 0) }}添加评论 ({{this.remark}}){{/if}} {{this.modify_time}}</td>
-							</tr>
-						{{/each}}
-						</tbody>
-					</table>
-				</td>
-			</tr>
-			<!--审批流程 begin-->
-			</tbody>
-		</table>
-		<div class="title_info">
-			<div class="company"><span>打印日期：</span><span>{{date}}</span></div>
-			<div class="apply_time">
-				<span>打印人：</span>
-				<span class="time">{{user_name}}</span>
+					<tr>
+						<td colspan="2">金融产品</td>
+						<td colspan="10">{{this.product_name}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">商户名称</td>
+						<td colspan="10">{{this.supplier_name}}</td>
+					</tr>
+					<!--收款信息 begin-->
+					<tr>
+						<td colspan="3">收款名称</td>
+						<td colspan="3">付款名称</td>
+						<td colspan="3">开户行</td>
+						<td colspan="3">付款账号</td>
+					</tr>
+					<tr>
+						<td colspan="3">{{this.receipt_name}}</td>
+						<td colspan="3">{{this.pay_name}}</td>
+						<td colspan="3">{{this.pay_open_bank}}</td>
+						<td colspan="3">{{this.pay_account}}</td>
+					</tr>
+					{{#each (this.data) }}
+					<tr>
+						<td colspan="6">{{this.name }}(元)</td>
+						<td colspan="6">{{this.amount }}</td>
+					</tr>
+					{{/each}}
+					<tr>
+						<td colspan="6">付款总额(元)</td>
+						<td colspan="6">{{this.total_charge }}({{this.total_charge_cn}})</td>
+					</tr>
+					<!--付款信息 end-->
+					<tr>
+						<td colspan="2">备注说明</td>
+						<td colspan="10">
+							{{#if (this.request_payout_remark) }}
+								{{this.request_payout_remark }}
+							{{else}}
+							无
+							{{/if}}
+						</td>
+					</tr>
+					<!--审批流程 begin-->
+					<tr class="approval_box">
+						<td rowspan="1000" colspan="2">审批人</td>
+						<td colspan="10" class="approval_flow">
+							<table class="flow_lists">
+								<tbody>
+								{{#each (this.data_his) }}
+								<tr>
+									<td colspan="10">{{this.modify_name }} {{this.status_value}} {{#if (this.remark || this.remark !== '' || this.remark.length > 0) }}添加评论 ({{this.remark}}){{/if}} {{this.modify_time}}</td>
+								</tr>
+								{{/each}}
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<!--审批流程 begin-->
+					</tbody>
+				</table>
+				<div class="title_info">
+					<div class="company"><span>打印日期：</span><span>{{date}}</span></div>
+					<div class="apply_time">
+						<span>打印人：</span>
+						<span class="time">{{user_name}}</span>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
+		<div class="page_item detail_content" style="page-break-before: always">
+			<img src="{{root.image_url}}" alt="">
+		</div>
+	{{/each}}
+
 </div>
 <input type="hidden" name="supplier_name" value="{{supplier_name}}" id="supplier_name">
 <input type="hidden" name="supplier_id" value="{{supplier_id}}" id="supplier_id">

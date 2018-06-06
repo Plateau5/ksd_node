@@ -644,11 +644,12 @@ exports.VIEW_CUSTOMER_FINANCIAL_PRINT = function(req, res, next) {
             formData : body
         }, function (result) {
             data = result;
-            if (data.vo.receipt_id !== 1) {
+            /*if (data.data.receipt_id !== 1) {
                 var page = './financial/otherPrint';
             } else {
                 var page = './financial/print';
-            }
+            }*/
+            var page = './financial/otherPrint';
             if (data.error_code === 0) {
                 data.title = '打印';
                 data.originUrl = localUrl;
