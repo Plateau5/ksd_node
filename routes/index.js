@@ -241,7 +241,7 @@ router.post(markUri + '/loan/batch/agree', merchantsCtrl.VIEW_LOAN_BATCH_AGREE);
 // 商户-放款管理-待审核-同意页面(批量) 1501
 router.post(markUri + '/loan/agree', merchantsCtrl.VIEW_LOAN_AGREE);
 // 商户-放款管理-待审核-同意页面(放款)
-router.all(markUri + '/loan/toLoanAgree', merchantsCtrl.VIEW_LOAN_TOLOANAGREE);
+router.post(markUri + '/loan/toLoanAgree', merchantsCtrl.VIEW_LOAN_TOLOANAGREE);
 
 // 商户-放款管理-待请款-不同意页面 1502
 router.post(markUri + '/loan/batch/disagree', merchantsCtrl.VIEW_LOAN_BATCH_DISAGREE);

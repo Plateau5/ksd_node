@@ -320,7 +320,7 @@
                     <input type="hidden" id="haveOrderList" value="1">
                     <ul class="loan_order_list clearfix">
                         {{#each (list) }}
-                        <li class="list_item" data-id="{{this.advance_id}}">
+                        <li class="list_item" data-id="{{this.advance_id}}" data-responsible="{{this.responsible}}">
                             <div class="loan_time">
                                 <div class="form_group lf loan_checkbox" style="height:46px;line-height:56px;">
                                     <input type="checkbox" class="" name="" value="{{this.advance_id}}">
@@ -753,20 +753,15 @@
             });
         }
 
-        // 跳转同意页面
-        function toAuditPage () {
-            var btn = $('.audit_btn');
-            btn.off('click').on('click', function () {
+        // 单个放款跳转同意不同意页面
+        function toOneAuditPage() {
+            var agreeBtn = $('.pay_operate_btn .audit_btn');
+            agreeBtn.off('click').on('click', function () {
                 var _this = $(this);
                 var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
-                var responsible = _this.data('responsible');
-                var index = responsible .lastIndexOf(",");
-                var str  = responsible .substring(index + 1, responsible .length);
-                if(str === uid){
-                    alert(str);
-                }
                 var ids = '';
                 var nextUrl = '';
+                var toAgreeUrl = '';
                 if (btnType === 1) {
                     nextUrl = '/loan/agree';
                 } else if (btnType === 2) {
@@ -774,17 +769,21 @@
                 } else if (btnType === 3) {
                     nextUrl = '/loan/turnover';
                 }
-                if (_this.hasClass('batch_all')) {
-                    ids = getBatchOrderIds();
+                var responsible = _this.data('responsible');
+                var index = responsible .lastIndexOf(",");
+                var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
+                ids = _this.parents('.list_item').data('id').toString();
+                if (str === uid) {
+                    toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
                 } else {
-                    ids = _this.parents('.list_item').data('id').toString();
+                    toAgreeUrl = contextPath + markUri + nextUrl;
                 }
                 if (ids == '') {
                     $alert('最少选择一个订单后再做处理');
                     return false;
                 } else {
                     locationTo({
-                        action : contextPath + markUri + nextUrl,
+                        action : toAgreeUrl,
                         param : {
                             advance_ids : ids,
                             url : listUrl,
@@ -802,6 +801,131 @@
                             is_pass : isPass
                         }
                     })
+                }
+            });
+        }
+
+        // 批量放款跳转同意不同意页面
+        function toBatchAuditPage () {
+            var batchAgreeBtn = $('.batch_all');
+            batchAgreeBtn.off('click').on('click', function () {
+                var _this = $(this);
+                var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
+                var ids = '';
+                var nextUrl = '';
+                var toAgreeUrl = '';
+                if (btnType === 1) {
+                    nextUrl = '/loan/agree';
+                } else if (btnType === 2) {
+                    nextUrl = '/loan/disagree';
+                } else if (btnType === 3) {
+                    nextUrl = '/loan/turnover';
+                }
+                var orderList = $('.loan_order_list .list_item');      // 订单列表
+                var loanIdArr = [];     // 存储选中的订单的放款ID
+                var approvalIdArr = []; // 存储选中的订单的审批ID
+                orderList.each(function () {
+                    var _this = $(this);
+                    var _label = _this.find('label.order_label');       // 当前订单的复选框
+                    var orderId = _this.data('id');
+                    if (_label.hasClass('checked')) {
+                        var responsible = _this.data('responsible');
+                        var index = responsible .lastIndexOf(",");
+                        var str  = responsible .substring(index + 1, responsible .length);
+                        if (str === uid) {
+                            loanIdArr.push(orderId);
+                        }else {
+                            approvalIdArr.push(orderId);
+                        }
+                    }
+                });
+                loanIdArr = loanIdArr.join(',');
+                approvalIdArr = approvalIdArr.join(',');
+                // ids = getBatchOrderIds();
+                if (loanIdArr === '' && approvalIdArr === '') {
+                    $alert('最少选择一个订单后再做处理');
+                    return false;
+                }else if (loanIdArr !== '' && approvalIdArr !== '') {
+                    dialog("open", {
+                        closeBtn : false,
+                        "title" : "提醒",
+                        "button" : ["去审批","去放款"],
+                        "content" : "您当前选择的订单包含'审批'、'放款'两种类型，请先选择一种进行操作！",
+                        "maskClose" : false,
+                        onConfirm : function (d) {
+                            d.close();
+                            toAgreeUrl = contextPath + markUri + nextUrl;
+                            locationTo({
+                                action : toAgreeUrl,
+                                param : {
+                                    advance_ids : approvalIdArr,
+                                    url : listUrl,
+                                    navigation : navigation,
+                                    type : btnType,
+                                    supplier_id : merchantId,
+                                    supplier_name : merchantName,
+                                    timeorder_type: timeorderType,
+                                    receipt_type: receiptType,
+                                    orderby_type: orderbyType,
+                                    start_with : start_with,
+                                    list_type : listType,
+                                    pay_account : payAccount,
+                                    settlement_type: settlementType,
+                                    is_pass : isPass
+                                }
+                            })
+                        },
+                        onCancel : function (d) {
+                            d.close();
+                            toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
+                            locationTo({
+                                action : toAgreeUrl,
+                                param : {
+                                    advance_ids : loanIdArr,
+                                    url : listUrl,
+                                    navigation : navigation,
+                                    type : btnType,
+                                    supplier_id : merchantId,
+                                    supplier_name : merchantName,
+                                    timeorder_type: timeorderType,
+                                    receipt_type: receiptType,
+                                    orderby_type: orderbyType,
+                                    start_with : start_with,
+                                    list_type : listType,
+                                    pay_account : payAccount,
+                                    settlement_type: settlementType,
+                                    is_pass : isPass
+                                }
+                            })
+                        }
+                    });
+                } else {
+                    if (loanIdArr === '' && approvalIdArr !== '') {
+                        toAgreeUrl = contextPath + markUri + nextUrl;
+                        ids = approvalIdArr;
+                    }else if(loanIdArr !== '' && approvalIdArr === ''){
+                        toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
+                        ids = loanIdArr;
+                    }
+                    locationTo({
+                        action : toAgreeUrl,
+                        param : {
+                            advance_ids : ids,
+                            url : listUrl,
+                            navigation : navigation,
+                            type : btnType,
+                            supplier_id : merchantId,
+                            supplier_name : merchantName,
+                            timeorder_type: timeorderType,
+                            receipt_type: receiptType,
+                            orderby_type: orderbyType,
+                            start_with : start_with,
+                            list_type : listType,
+                            pay_account : payAccount,
+                            settlement_type: settlementType,
+                            is_pass : isPass
+                        }
+                    });
                 }
             });
         }
@@ -867,7 +991,8 @@
             slideDownList();//含有子级权限的展开折叠效果
             accountId();
             cancelBatchAudit();
-            toAuditPage();      // 跳转审核的三级页面
+            toOneAuditPage(); // 单个放款跳转同意不同意页面
+            toBatchAuditPage();     // 批量放款跳转同意不同意页面
         })
     })(jQuery, window, undefined)
 </script>

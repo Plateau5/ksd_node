@@ -348,21 +348,21 @@ exports.VIEW_LOAN_AGREE = function(req, res, next) {
 
 // 商户-放款管理-待审核-同意页面跳转(放款)
 exports.VIEW_LOAN_TOLOANAGREE = function(req, res, next) {
-    // common.getPageData({
-    //     url : '/api/loan/toAgree',
-    //     title : '放款管理-审核通过',
-    //     page : './merchants/to_loan_agree'
-    // }, req, res, next);
-    var data = {};
-    var localUrl = req.originalUrl;
-    data.title = '放款管理-审核通过';
-    data.originUrl = localUrl;
-    data.markUri = markUri;
-    data.apiServerPath = apiServerPath;
-    data.domain = domain;
-    var body = req.body;
-    data.reqParams = body;
-    res.render('./merchants/to_loan_agree', data);
+    common.getPageData({
+        url : '/api/loan/to/payment',
+        title : '放款管理-审核通过',
+        page : './merchants/to_loan_agree'
+    }, req, res, next);
+    // var data = {};
+    // var localUrl = req.originalUrl;
+    // data.title = '放款管理-审核通过';
+    // data.originUrl = localUrl;
+    // data.markUri = markUri;
+    // data.apiServerPath = apiServerPath;
+    // data.domain = domain;
+    // var body = req.body;
+    // data.reqParams = body;
+    // res.render('./merchants/to_loan_agree', data);
 };
 
 // 商户-商户管理-待审核-不同意页面跳转 1502
