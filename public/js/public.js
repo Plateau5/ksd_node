@@ -3,7 +3,7 @@
  */
 
 //'use strict';
-// const VERSION = '2.1.0';
+// var VERSION = '2.1.0';
 // var contextPath = '';
 // var LOCALURL = window.location;
 // var DOMAIN = '';
@@ -151,8 +151,8 @@ $.fn.onlyNumAlpha = function () {
  * GLOBAL PATTERN FOR REGEXP
  * *************** START ****************
  */
-const PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
-const IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
+var PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
+var IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
 
 /**
  * **************** END ****************
@@ -2263,7 +2263,7 @@ function viewLargeImage (selector) {
                     flipHorizontal : true,
                     flipVertical : true,
                     download: function() {
-                        const a = document.createElement('a');
+                        var a = document.createElement('a');
                         a.href = viewer.image.src;
                         a.download = viewer.image.alt;
                         document.body.appendChild(a);
@@ -2455,10 +2455,6 @@ $(function () {
     loading();
     disabledFormAutoSubmit();
 });
-
-
-
-
 
 
 
