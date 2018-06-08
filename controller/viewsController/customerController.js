@@ -191,7 +191,17 @@ exports.VIEW_CUSTOMER_LOAN_NOTIFYRESULT = function(req, res, next) {
     }, req, res, next);
 };
 
-
+// 客户管理-重新通知审核结果-页面 1522
+exports.VIEW_CUSTOMER_LOAN_RENEWNOTIFYRESULT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/finance/again/result',
+        title : '客户-重新通知审核结果',
+        page : './customer/result',
+        callback : function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
+};
 
 // 客户-合同管理-跳转
 exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {

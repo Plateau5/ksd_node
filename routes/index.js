@@ -64,6 +64,8 @@ router.post(markUri + '/customer/loan/allot', customerCtrl.VIEW_CUSTOMER_LOAN_AL
 router.post(markUri + '/customer/loan/unqualified', customerCtrl.VIEW_CUSTOMER_LOAN_UNQUALIFIED);
 // 客户管理-通知审核结果-页面 1236
 router.post(markUri + '/customer/loan/notifyResult', customerCtrl.VIEW_CUSTOMER_LOAN_NOTIFYRESULT);
+// 客户管理-重新通知审核结果-页面 1522
+router.post(markUri + '/customer/loan/renewNotifyResult', customerCtrl.VIEW_CUSTOMER_LOAN_RENEWNOTIFYRESULT);
 
 
 // 客户-合同管理-访问路径 1260

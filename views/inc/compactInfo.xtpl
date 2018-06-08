@@ -1,7 +1,30 @@
 <!-- 合同资料 -->
 {{#if (vo.status >= 8) }}
 <div class="detail_box" >
-	<div class="classify_item">
+	<div class="classify_item location">
+		<div class="classify_title">合同信息</div>
+		{{#if (vo.status >= 8) }}
+		<div class="btn_box customer_btn_box">
+			<a href="javascript:" class="customer_btn renew_send_contract_gray">重新发送合同</a>
+		</div>
+		{{/if}}
+		{{#if(startWith(markUri + '/customer/loan/passed'))}}
+		<div class="btn_box customer_btn_box">
+			<a href="javascript:" class="customer_btn renew_send_contract">重新发送合同</a>
+		</div>
+		{{/if}}
+		<div class="classify_content">
+			<ul class="items_list clearfix">
+				<li class="item_row">
+					<div class="item_name">是否出合同：</div>
+					{{#if (vo.compact_type === 1) }}
+						<div class="item_value">是</div>
+					{{else}}
+						<div class="item_value">否</div>
+					{{/if}}
+				</li>
+			</ul>
+		</div>
 		<div class="classify_title">GPS信息</div>
 		<div class="classify_content">
 			<ul class="items_list clearfix">
@@ -54,7 +77,12 @@
 					<div class="item_value">{{vo.vin}}</div>
 				</li>
 				{{/if}}
-
+				{{#if (vo.remark) }}
+				<li class="item_row item_remark clearfix">
+					<div class="item_name">备注：</div>
+					<div class="item_value">{{vo.compact_remark}}</div>
+				</li>
+				{{/if}}
 			</ul>
 		</div>
 	</div>
