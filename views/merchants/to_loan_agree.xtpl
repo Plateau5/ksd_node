@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
     <title>商户管理-通过</title>
 </head>
@@ -28,8 +29,8 @@
                 <a href="javascript:;" class="crumbs_item">通过</a>
             </div>
             <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
-                <form action="" class="basic_info_edit"  role="saveForm">
-                    <!--<input type="hidden" name="finance_id" value="{{finance_id}}" id="financeId">-->
+                <form action="" id="to_loan_agree_form" class="basic_info_edit" method="post">
+                    <input type="hidden" name="advance_ids" value="{{reqParams.advance_ids}}" id="advance_ids">
                     <!--<input type="hidden" name="query_type" value="{{query_type}}" id="queryType">-->
                     <!--<input type="hidden" name="id" value="{{sponsorInfo.id}}" id="PAOrderId">-->
                     <!--<input type="hidden" name="nextQueryType" value="{{nextQueryType}}" id="nextQueryType">-->
@@ -50,7 +51,7 @@
                         </div>
                     </div>
                     <!-- 金额总笔数 -->
-                    <input type="hidden" name="payment_count" value="1" id="payment_count">
+                    <!--<input type="hidden" name="payment_count" value="1" id="payment_count">-->
 
                     <div class="option_item">
                         <div class="column_name">
@@ -63,9 +64,9 @@
                                 <option value="{{this.bank_no}}" data-id="{{this.bank_code}}">{{this.bank_name}}，{{this.bank_no}}</option>
                                 {{/each}}
                             </select>
+                            <span class="formError"></span>
                         </div>
                     </div>
-
                     <!-- 付方开户地区城市id -->
                     <input type="hidden" name="payment_city" value="" id="payment_city">
 
@@ -139,7 +140,7 @@
                             <span class="options_name">收方开户地：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" data-tips="收方开户地" name="name" value="" placeholder="请输入收方开户地" />
+                            <input type="text" class="required" maxlength="30" data-tips="收方开户地" id="receipt_bank_address" name="receipt_bank_address" value="" placeholder="请输入收方开户地" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -149,15 +150,11 @@
                             <span class="options_name">收方开户地区：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" id="" style="width:102px;">
-                                <option value="1" selected="selected">北京</option>
-                                <option value="2">北京</option>
-                            </select>
-                            <span class="pad_lf_rt_8">-</span>
-                            <select name="" id="" style="width:102px;">
-                                <option value="1" selected="selected">北京市</option>
-                                <option value="2">北京市</option>
-                            </select>
+                            <input type="hidden" name="receipt_city" id="receipt_city" value="">
+                            <input type="hidden" name="receipt_province_city" id="receipt_province_city" value="">
+                            <input type="text" class="select_city_input cursor" name=""  value="请选择" readonly/>
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
                         </div>
                     </div>
                     <div class="option_item payee_bank_address hide">
@@ -175,7 +172,7 @@
                             <span class="options_name">收方行号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" data-tips="收方行号" name="name" value="" placeholder="请输入收方行号" />
+                            <input type="text" class="required" maxlength="30" id="receipt_bank_no" data-tips="收方行号" name="receipt_bank_no" value="" placeholder="请输入收方行号(非必填)" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -191,7 +188,7 @@
                         </div>
                     </div>
                     <!-- 交易类型 -->
-                    <input type="hidden" name="" value="代发个人贷款" id="">
+                    <!--<input type="hidden" name="transaction_type"  value="1" id="transaction_type">-->
                     <div class="option_item">
                         <div class="column_name">
                             <span class="options_name">用途：</span>
@@ -212,25 +209,147 @@
                             <span class="formError"></span>
                         </div>
                     </div>
+                    <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
+                        <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm to_agree_confirm" data-url="" data-next="">提交</a>
+                        <a href="javascript:" class="btn bg_btn edit_cancel go_docking_home">取消</a>
+                    </div>
                 </form>
             </div>
-            <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
-                <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm edit_confirm" data-url="" data-next="">提交</a>
-                <a href="javascript:" class="btn bg_btn edit_cancel go_docking_home">取消</a>
-            </div>
+
         </div>
         <!---- Part of Main info End ---->
     </div>
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/citySelect/citySelect.min.js"></script>
 <script src="{{markUri}}/static/js/merchantsToLoanAgree.js"></script>
 <script>
-    (function ($) {
-        $(function() {
+    var city_list = '{{city_list}}';
+    city_list = JSON.parse(city_list.replace(/&quot;/ig, '"'));
 
+    (function ($) {
+        //提交按钮
+        function saveOrg () {
+            var btn = $(".to_agree_confirm");
+            var firmType = $('#firmType');
+            var receipt_account_name = $('#receipt_account_name');
+            var financial_use = $('#financial_use');
+            var payment_account = $('#payment_account');
+            var receipt_bank = $('#receipt_bank');
+            var receipt_address = $('#receipt_address');
+            var checked = $('.bank_type').find('input[type="radio"]').eq(1).prop('checked');
+
+            btn.off("click").on("click", function () {
+                if(!receipt_account_name.val()){
+                    receipt_account_name.parent().find('.formError').html('收方账户名不能为空');
+                    receipt_account_name.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+                // if(!payment_account.val()){
+                //     payment_account.parent().find('.formError').html('付方账户不能为空');
+                //     payment_account.css('border-color','#FB2741');
+                //     btn.attr('disabled',false);
+                //     return;
+                // }
+                if (firmType.val() === "1" && checked ) {
+                    if(!receipt_bank.val()){
+                        receipt_bank.parent().find('.formError').html('开户行不能为空');
+                        receipt_bank.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+                }
+                if (firmType.val() === "2" && checked) {
+                    if(!receipt_address.val()){
+                        receipt_address.parent().find('.formError').html('开户行不能为空');
+                        receipt_address.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+                }
+                if(!financial_use.val()){
+                    financial_use.parent().find('.formError').html('用途不能为空');
+                    financial_use.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+                ajaxSubmit();
+                /*dialog("open", {
+                    closeBtn : false,
+                    "title" : "提醒",
+                    "button" : ["确认","取消"],
+                    "content" : "您确认提交至银行？",
+                    "maskClose" : false,
+                    onConfirm : function (d) {
+                        d.close();
+                        ajaxSubmit();
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });*/
+            });
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('to_loan_agree_form'));
+            // var parameters ={
+            //     advance_ids:'111',
+            //     type:1,
+            //     payment_account	:'111',
+            //     payment_city:'111',
+            //     amount:'111',
+            //     settle_type:1,
+            //     bank_type:1,
+            //     receipt_account:'111',
+            //     receipt_account_name:'111',
+            //     receipt_province_city:'111',
+            //     receipt_city:'111',
+            //     receipt_bank:'111',
+            //     receipt_address:'111',
+            //     financial_use:'111',
+            //     summary:'111'
+            // };
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + "/api/loan/submit",
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            // locationTo({
+                            //     action : contextPath + markUri + '/supplier/organization/list'
+                            // });
+                            alert("123");
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+
+        $(function() {
+            saveOrg();
+            getSelectedCitys();
         });
     })(jQuery,undefined);
+
 </script>
 </html>

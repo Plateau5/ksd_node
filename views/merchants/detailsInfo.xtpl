@@ -341,10 +341,10 @@
                                     <a href="javascript:" data-btn_type="1" data-responsible="{{this.responsible}}"  class="go_forward audit_btn agree_btn">同意</a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1494)) }}
-                                    <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn">不同意</a>
+                                    <a href="javascript:" data-btn_type="2"  data-responsible="{{this.responsible}}" class="go_forward audit_btn disagree_btn">不同意</a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1495)) }}
-                                    <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn">转交他人</a>
+                                    <a href="javascript:" data-btn_type="3"  data-responsible="{{this.responsible}}" class="go_forward audit_btn transfer_btn">转交他人</a>
                                     {{/if}}
                                     {{/if}}
                                     <!--{{#if (reqParams.list_type === '2' && this.is_pass === 1) }}-->
@@ -762,22 +762,22 @@
                 var ids = '';
                 var nextUrl = '';
                 var toAgreeUrl = '';
+                var responsible = _this.data('responsible');
+                var index = responsible .lastIndexOf(",");
+                var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
                 if (btnType === 1) {
-                    nextUrl = '/loan/agree';
+                    if (str === uid) {
+                        nextUrl = '/loan/toLoanAgree';
+                    } else {
+                        nextUrl = '/loan/agree';
+                    }
                 } else if (btnType === 2) {
                     nextUrl = '/loan/disagree';
                 } else if (btnType === 3) {
                     nextUrl = '/loan/turnover';
                 }
-                var responsible = _this.data('responsible');
-                var index = responsible .lastIndexOf(",");
-                var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
                 ids = _this.parents('.list_item').data('id').toString();
-                if (str === uid) {
-                    toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
-                } else {
-                    toAgreeUrl = contextPath + markUri + nextUrl;
-                }
+                toAgreeUrl = contextPath + markUri + nextUrl;
                 if (ids == '') {
                     $alert('最少选择一个订单后再做处理');
                     return false;
@@ -904,7 +904,14 @@
                         toAgreeUrl = contextPath + markUri + nextUrl;
                         ids = approvalIdArr;
                     }else if(loanIdArr !== '' && approvalIdArr === ''){
-                        toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
+                        if (btnType === 1) {
+                            nextUrl = '/loan/toLoanAgree';
+                        } else if (btnType === 2) {
+                            nextUrl = '/loan/disagree';
+                        } else if (btnType === 3) {
+                            nextUrl = '/loan/turnover';
+                        }
+                        toAgreeUrl = contextPath + markUri + nextUrl;
                         ids = loanIdArr;
                     }
                     locationTo({

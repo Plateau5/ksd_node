@@ -9,6 +9,12 @@ $(function(){
     var payee_bank_num = $('.payee_bank_num');
     var payment_account = $("#payment_account");
     var payment_city = $("#payment_city");
+    var receipt_account_name = $("#receipt_account_name");
+    var receipt_bank = $("#receipt_bank");
+    var receipt_bank_address = $("#receipt_bank_address");
+    var receipt_address = $("#receipt_address");
+    var financial_use = $("#financial_use");
+    var receipt_phone = $("#receipt_phone");
 
     //付方账户切换
     payment_account.change(function (){
@@ -58,73 +64,43 @@ $(function(){
         }
     });
 
-    //添加备注
-    $('.add_txt').click(function(){
-        var remarks = $(this).parents('.column_val').find('.remarks_box').css('display');
-        if(remarks == 'block'){
-            $(this).parents('.column_val').find('.remarks_box').css('display','none');
-        } else {
-            $(this).parents('.column_val').find('.remarks_box').css('display','block');
-        }
-    });
-
     //表单校验
-    $('#receipt_account_name').blur(function(){
+    receipt_account_name.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '机构名称不能包含特殊字符';
-        validate_form(1,$('#receipt_account_name'),reg,error_txt);
+        var error_txt = '收方账户名不能包含特殊字符';
+        validate_form(1,receipt_account_name,reg,error_txt);
     });
 
-    $('#receipt_bank').blur(function(){
+    receipt_bank.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '机构名称不能包含特殊字符';
-        validate_form(1,$('#receipt_bank'),reg,error_txt);
+        var error_txt = '收方开户行不能包含特殊字符';
+        validate_form(1,receipt_bank,reg,error_txt);
     });
 
-    $('#receipt_address').blur(function(){
+    receipt_bank_address.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '机构名称不能包含特殊字符';
-        validate_form(1,$('#receipt_address'),reg,error_txt);
+        var error_txt = '收方开户地不能包含特殊字符';
+        validate_form(1,receipt_bank_address,reg,error_txt);
     });
 
-    $('#financial_use').blur(function(){
+    receipt_address.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '机构名称不能包含特殊字符';
-        validate_form(1,$('#financial_use'),reg,error_txt);
+        var error_txt = '收方行地址不能包含特殊字符';
+        validate_form(1,receipt_address,reg,error_txt);
     });
 
-    $('#receipt_address').blur(function(){
+    financial_use.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '机构名称不能包含特殊字符';
-        validate_form(1,$('#receipt_address'),reg,error_txt);
+        var error_txt = '用途不能包含特殊字符';
+        validate_form(1,financial_use,reg,error_txt);
     });
 
-    $('#receipt_phone').blur(function(){
+    receipt_phone.blur(function(){
         // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
         var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
         var error_txt = '请输入正确格式的电话号码';
-        validate_form(0,$('#receipt_phone'),reg,error_txt);
+        validate_form(0,receipt_phone,reg,error_txt);
     });
-
-    $('#link_name').blur(function(){
-        var reg = /^[\u4E00-\u9FA5a-zA-Z]+$/;
-        var error_txt = "请输入中文、英文、中文+英文字符";
-        validate_form(0,$('#link_name'),reg,error_txt);
-    });
-
-    $('#link_phone').blur(function(){
-        var reg = /^1[3|4|5|6|9|8|7]\d{9}$/;
-        var error_txt = "请输入11位数字";
-        validate_form(0,$('#link_phone'),reg,error_txt);
-    });
-
-    $('#link_mobile').blur(function(){
-        // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
-        var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
-        var error_txt = '请输入正确格式的电话号码';
-        validate_form(0,$('#link_mobile'),reg,error_txt);
-    });
-    applyto_business_change($('#applyto_business_name'));
 });
 
 //校验函数
@@ -153,6 +129,25 @@ function validate_form(required,obj,reg,error_txt){
     obj.css('border-color','#ccc');
 }
 
+
+//城市选中
+function getSelectedCitys () {
+    $('.select_city_input').citySelect({
+        data : city_list,
+        defaultData : [],
+        dataType : 1,
+        type : 1
+    }, function (data) {
+        console.log(data);
+        var provinceName = data[0].name;
+        var cityNmae = data[0].city_list.name;
+        var receipt_city =  data[0].city_list.code;
+        var receipt_province_city = provinceName + cityNmae;
+        $("#receipt_province_city").val(receipt_province_city);
+        $(".select_city_input").val(receipt_province_city);
+        $("#receipt_city").val(receipt_city);
+    });
+}
 
 
 

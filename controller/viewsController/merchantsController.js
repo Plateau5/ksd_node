@@ -351,7 +351,13 @@ exports.VIEW_LOAN_TOLOANAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/to/payment',
         title : '放款管理-审核通过',
-        page : './merchants/to_loan_agree'
+        page : './merchants/to_loan_agree',
+        callback : function (data) {
+            data.merchants = req.body;
+            if (data.city_list) {
+                data.city_list = JSON.stringify(data.city_list);
+            }
+        }
     }, req, res, next);
     // var data = {};
     // var localUrl = req.originalUrl;
