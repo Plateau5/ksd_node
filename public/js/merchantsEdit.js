@@ -108,8 +108,8 @@ function addOwnPerson () {
                 var val = $.trim($(this).val());
                 if (val) {
                     var cityId = $.trim($('#businessCity').find('option:selected').val());
-                    var workCityList = jsonsql.query('select * from json where (work_city==' + cityId + ')', empList);  // 通过jsonsql查询匹配数据
-                    var queryObj = fuzzyQuery(workCityList);
+                    //var workCityList = jsonsql.query('select * from json where (work_city==' + cityId + ')', empList);  // 通过jsonsql查询匹配数据
+                    var queryObj = fuzzyQuery(empList);
                     //var queryObj = emp_list;
                     //console.log(queryObj);
                     showSearchResult(queryObj);
