@@ -31,10 +31,8 @@
             <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
                 <form action="" id="to_loan_agree_form" class="basic_info_edit" method="post">
                     <input type="hidden" name="advance_ids" value="{{reqParams.advance_ids}}" id="advance_ids">
-                    <!--<input type="hidden" name="query_type" value="{{query_type}}" id="queryType">-->
-                    <!--<input type="hidden" name="id" value="{{sponsorInfo.id}}" id="PAOrderId">-->
-                    <!--<input type="hidden" name="nextQueryType" value="{{nextQueryType}}" id="nextQueryType">-->
-                    <!--<input type="hidden" id="navigation" value="{{navigation}}">-->
+                    <input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
+                    <input type="hidden" id="receipt_type" value="{{reqParams.receipt_type}}">
                     <!--<input type="hidden" id="nodeUrl" value="{{nodeUrl}}">-->
                     <!--<input type="hidden" id="userName" value="{{userName}}">-->
                     <!--<input type="hidden" id="preCode" value="{{preCode}}">-->
@@ -50,6 +48,7 @@
                             </select>
                         </div>
                     </div>
+
                     <!-- 金额总笔数 -->
                     <!--<input type="hidden" name="payment_count" value="1" id="payment_count">-->
 
@@ -277,8 +276,8 @@
                     btn.attr('disabled',false);
                     return;
                 }
-                ajaxSubmit();
-                /*dialog("open", {
+
+                dialog("open", {
                     closeBtn : false,
                     "title" : "提醒",
                     "button" : ["确认","取消"],
@@ -291,30 +290,13 @@
                     onCancel : function (d) {
                         d.close();
                     }
-                });*/
+                });
             });
         }
 
         //ajax提交參數
         function ajaxSubmit () {
             var parameters = new FormData(document.getElementById('to_loan_agree_form'));
-            // var parameters ={
-            //     advance_ids:'111',
-            //     type:1,
-            //     payment_account	:'111',
-            //     payment_city:'111',
-            //     amount:'111',
-            //     settle_type:1,
-            //     bank_type:1,
-            //     receipt_account:'111',
-            //     receipt_account_name:'111',
-            //     receipt_province_city:'111',
-            //     receipt_city:'111',
-            //     receipt_bank:'111',
-            //     receipt_address:'111',
-            //     financial_use:'111',
-            //     summary:'111'
-            // };
             $.ajax({
                 type:'post',
                 timeout:5000,
@@ -328,12 +310,26 @@
                 success : function (res) {
                     $('#loading').hide();
                     if (res.error_code == 0) {
-                        $alert('操作成功', function () {
-                            // locationTo({
-                            //     action : contextPath + markUri + '/supplier/organization/list'
-                            // });
-                            alert("123");
-                        })
+                        $alert('提交成功', function () {
+                            dialog("open", {
+                                closeBtn : false,
+                                "title" : "打印提醒",
+                                "button" : ["确认","取消"],
+                                "content" : "是否立即打印该车请款审批材料与电子回单？？",
+                                "maskClose" : false,
+                                onConfirm : function (d) {
+                                    d.close();
+                                    var orderNo = $("#orderNo").val();
+                                    var receiptType = $("#receiptType").val();
+                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&receipt_type=' + receiptType;
+                                    window.location.replace(printPage);
+                                },
+                                onCancel : function (d) {
+                                    d.close();
+                                }
+                            });
+
+                        });
                     } else {
                         $alert(res.error_msg);
                     }
