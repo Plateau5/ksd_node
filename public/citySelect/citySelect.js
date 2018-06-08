@@ -115,7 +115,7 @@
         var that = this;
         var provinceDom = '';
         for (var i = 0, provinceLen = data.length; i < provinceLen; i++) {
-            provinceDom += '<li class="list-item '+ (((that.options.type === 1 || that.options.type === "single") && data[i].checked === 2 ) ? 'active' : '') +'" data-type="province" data-checked="'+ data[i].checked +'" data-id="'+ data[i].id +'" data-name="'+ data[i].name +'">\n' +
+            provinceDom += '<li class="list-item '+ (((that.options.type === 1 || that.options.type === "single") && data[i].checked === 2 ) ? 'active' : '') +'" data-type="province" data-checked="'+ data[i].checked +'" data-code="'+ data[i].code +'" data-id="'+ data[i].id +'" data-name="'+ data[i].name +'">\n' +
                 '                            <input id="" type="checkbox" name="" value="'+ data[i].id +'" '+ (data[i].checked !== 0 ? "checked" : "") +'>\n' +
                 ((that.options.type === 1 || that.options.type === "single") ? '' : '') +
                 ((that.options.type === 2 || that.options.type === "multiple") ? ('<label for="" class="'+ (data[i].checked === 0 ? "" : (data[i].checked === 1 ? "check" : "checked")) +'"></label>\n') : '') +
@@ -130,7 +130,7 @@
         function createCitiesDom (citiesData, pid, pname, pcode) {
             var citiesDom = '<ul id="city'+ pid +'" class="city-select-list" style="display: none;" data-pid="'+ pid +'" data-pname="'+ pname +'" data-pcode="'+ pcode +'">';
             for (var j = 0, citiesLen = citiesData.length; j < citiesLen; j++) {
-                citiesDom += '<li class="list-item '+ (((that.options.type === 1 || that.options.type === "single") && citiesData[j].checked === 2 ) ? 'active' : '') +'" data-type="city" data-checked="'+ citiesData[j].checked +'" data-id="'+ citiesData[j].id +'" data-name="'+ citiesData[j].name +'">\n' +
+                citiesDom += '<li class="list-item '+ (((that.options.type === 1 || that.options.type === "single") && citiesData[j].checked === 2 ) ? 'active' : '') +'" data-type="city"  data-code="'+ citiesData[j].code +'" data-checked="'+ citiesData[j].checked +'" data-id="'+ citiesData[j].id +'" data-name="'+ citiesData[j].name +'">\n' +
                     '                            <input id="" type="checkbox" name="" value="'+ citiesData[j].id +'" '+ (citiesData[j].checked !== 0 ? "checked" : "") +'>\n' +
                     ((that.options.type === 1 || that.options.type === "single") ? '' : '') +
                     ((that.options.type === 2 || that.options.type === "multiple") ? ('<label for="" class="'+ (citiesData[j].checked === 0 ? "" : (citiesData[j].checked === 1 ? "check" : "checked")) +'"></label>\n') : '') +
@@ -148,7 +148,7 @@
         function createCountiesDom (countiesData, cid, cname, ccode, pid, pname, pcode) {
             var countiesDom = '<ul id="county'+ cid +'" class="city-select-list" style="display: none;" data-cid="'+ cid +'" data-cname="'+ cname +'" data-ccode="'+ ccode +'" data-pid="'+ pid +'" data-pname="'+ pname +'" data-pcode="'+ pcode +'">';
             for (var k = 0, countiesLen = countiesData.length; k < countiesLen; k++) {
-                countiesDom += '<li class="list-item '+ (((that.options.type === 1 || that.options.type === "single") && countiesData[k].checked === 2 ) ? 'active' : '') +'" data-type="county" data-checked="'+ countiesData[k].checked +'" data-id="'+ countiesData[k].id +'" data-name="'+ countiesData[k].name +'">\n' +
+                countiesDom += '<li class="list-item '+ (((that.options.type === 1 || that.options.type === "single") && countiesData[k].checked === 2 ) ? 'active' : '') +'" data-type="county" data-code="'+ countiesData[k].code +'" data-checked="'+ countiesData[k].checked +'" data-id="'+ countiesData[k].id +'" data-name="'+ countiesData[k].name +'">\n' +
                     '                            <input id="" type="checkbox" name="" value="'+ countiesData[k].id +'" '+ (countiesData[k].checked !== 0 ? "checked" : "") +'>\n' +
                     ((that.options.type === 1 || that.options.type === "single") ? '' : '') +
                     ((that.options.type === 2 || that.options.type === "multiple") ? ('<label for="" class="'+ (countiesData[k].checked === 0 ? "" : (countiesData[k].checked === 1 ? "check" : "checked")) +'"></label>\n') : '') +
@@ -499,7 +499,7 @@
      */
     CSP.getCheckedData = function () {
         var checkedProvinces, checkedCities, checkedCounty, parentItem,
-            pid, pname, cid, cname, countiesId, countiesName, checked;
+            pid, pname, pcode, cid, cname, ccode, countiesId, countiesName, countiesCode, checked;
         var data = [];
         //  单选类型
         if (this.options.type === 1 || this.options.type === 'single') {
@@ -508,16 +508,26 @@
                 if (checkedCities.length > 0) {
                     pid = checkedCities.parents('.city-select-list').data('pid');       // 省份ID
                     pname = checkedCities.parents('.city-select-list').data('pname');       // 省份名称
+                    pcode = checkedCities.parents('.city-select-list').data('pcode');       // 省份code
                     cid = checkedCities.data('id');       // 城市ID
                     cname = checkedCities.data('name');       // 城市名称
+                    ccode = checkedCities.data('code');       // 城市code
+                    if (pcode === 'undefined') {
+                        pcode = '';
+                    }
+                    if (ccode === 'undefined') {
+                        ccode = '';
+                    }
                     data = [
                         {
                             id : pid,
                             name : pname,
+                            code : pcode,
                             checked : 2,
                             city_list : {
                                 id : cid,
                                 name : cname,
+                                code : ccode,
                                 checked : 2
                             }
                         }
@@ -532,22 +542,37 @@
                     parentItem = checkedCounty.parents('.city-select-list');
                     countiesId = checkedCounty.data('id');       // 县区ID
                     countiesName = checkedCounty.data('name');       // 县区名称
+                    countiesCode = checkedCounty.data('code');       // 县区名称
                     pid = parentItem.data('pid');       // 省份ID
                     pname = parentItem.data('pname');       // 省份名称
+                    pcode = parentItem.data('pcode');       // 省份code
                     cid = parentItem.data('cid');       // 城市ID
                     cname = parentItem.data('cname');       // 城市名称
+                    ccode = parentItem.data('ccode');       // 城市code
+                    if (pcode === 'undefined') {
+                        pcode = '';
+                    }
+                    if (ccode === 'undefined') {
+                        ccode = '';
+                    }
+                    if (countiesCode === 'undefined') {
+                        countiesCode = '';
+                    }
                     data = [
                         {
                             id : pid,
                             name : pname,
-                            checked : 1,
+                            code : pcode,
+                            checked : 2,
                             city_list : {
                                 id : cid,
                                 name : cname,
-                                checked : 1,
+                                code : ccode,
+                                checked : 2,
                                 city_list : {
                                     id : countiesId,
                                     name : countiesName,
+                                    code : countiesCode,
                                     checked : 2
                                 }
                             }
@@ -558,7 +583,7 @@
                     return false;
                 }
             }
-        // 复选类型
+            // 复选类型
         } else if (this.options.type === 2 || this.options.type === 'multiple') {
             var that = this;
             checkedProvinces = this.options.provinces.find('.list-item').find('label.checked, label.check');        // 当前省份数据
@@ -566,15 +591,20 @@
                 var _this = $(this);
                 var _parent = _this.parents('.list-item');
                 var pObject = {};       // 存储省份数据
-                pid = _parent.data('id');
-                pname = _parent.data('name');
+                pid = _parent.data('id');       // 省份id
+                pname = _parent.data('name');       // 省份名称
+                pcode = _parent.data('code');       // 省份code
                 if (_this.hasClass('check')) {
                     checked = 1;
                 } else if (_this.hasClass('checked')) {
                     checked = 2;
                 }
+                if (pcode === 'undefined') {
+                    pcode = '';
+                }
                 pObject.id = pid;
                 pObject.name = pname;
+                pObject.code = pcode;
                 pObject.checked = checked;
                 pObject.city_list = [];
 
@@ -585,15 +615,20 @@
                     var target = $(this);
                     var targetParent = target.parents('.list-item');
                     var cObject = {};       // 存储城市数据
-                    cid = targetParent.data('id');
-                    cname = targetParent.data('name');
+                    cid = targetParent.data('id');      // 城市id
+                    cname = targetParent.data('name');      // 城市名称
+                    ccode = targetParent.data('code');      // 城市code
                     if (target.hasClass('check')) {
                         checked = 1;
                     } else if (target.hasClass('checked')) {
                         checked = 2;
                     }
+                    if (ccode === 'undefined') {
+                        ccode = '';
+                    }
                     cObject.id = cid;
                     cObject.name = cname;
+                    cObject.code = ccode;
                     cObject.checked = checked;
                     if (that.options.dataType === 2) {
                         cObject.city_list = [];
@@ -604,15 +639,20 @@
                             var $this = $(this);
                             var $Parent = $this.parents('.list-item');
                             var countyObject = {};       // 存储县区数据
-                            countiesId = $Parent.data('id');
-                            countiesName = $Parent.data('name');
+                            countiesId = $Parent.data('id');        // 县区id
+                            countiesName = $Parent.data('name');        // 县区名称
+                            countiesCode = $Parent.data('code');        // 县区code
                             if ($this.hasClass('check')) {
                                 checked = 1;
                             } else if ($this.hasClass('checked')) {
                                 checked = 2;
                             }
+                            if (countiesCode === 'undefined') {
+                                countiesCode = '';
+                            }
                             countyObject.id = countiesId;
                             countyObject.name = countiesName;
+                            countyObject.code = countiesCode;
                             countyObject.checked = checked;
                             cObject.city_list.push(countyObject);
                         });
