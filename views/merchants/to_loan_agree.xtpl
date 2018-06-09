@@ -25,15 +25,30 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
-                <a href="{{markUri}}/merchants/pendingAudit" class="crumbs_item">待审批</a>
+                <a href="{{merchants.url}}" class="crumbs_item">{{merchants.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_loan_detail">{{merchants.supplier_name}}</a>
                 <a href="javascript:;" class="crumbs_item">通过</a>
             </div>
+
+            <!---- 跳转结算详情隐藏域 ---->
+            <input type="hidden" id="supplier_id" value="{{merchants.supplier_id}}">
+            <input type="hidden" id="supplier_name" value="{{merchants.supplier_name}}">
+            <input type="hidden" id="navigation" value="{{merchants.navigation}}">
+            <input type="hidden" id="list_type" value="{{merchants.list_type}}">
+            <input type="hidden" id="receiptType" value="{{merchants.receipt_type}}">
+            <input type="hidden" id="settlement_type" value="{{merchants.settlement_type}}">
+            <input type="hidden" id="start_with" value="{{reqParams.start_with}}">
+            <input type="hidden" id="pay_account" value="{{merchants.pay_account}}">
+            <input type="hidden" id="orderbyType" value="{{merchants.orderby_type}}">
+            <input type="hidden" id="timeorderType" value="{{merchants.timeorder_type}}">
+            <input type="hidden" id="url" value="{{merchants.url}}">
+
+
             <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
                 <form action="" id="to_loan_agree_form" class="basic_info_edit" method="post">
                     <input type="hidden" name="advance_ids" value="{{reqParams.advance_ids}}" id="advance_ids">
                     <input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
                     <input type="hidden" id="receipt_type" value="{{reqParams.receipt_type}}">
-                    <!--<input type="hidden" id="nodeUrl" value="{{nodeUrl}}">-->
                     <!--<input type="hidden" id="userName" value="{{userName}}">-->
                     <!--<input type="hidden" id="preCode" value="{{preCode}}">-->
                     <!-- 基本信息 Begin -->
@@ -224,10 +239,23 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/citySelect/citySelect.min.js"></script>
+<script src="{{markUri}}/static/js/merchants.js"></script>
 <script src="{{markUri}}/static/js/merchantsToLoanAgree.js"></script>
 <script>
     var city_list = '{{city_list}}';
     city_list = JSON.parse(city_list.replace(/&quot;/ig, '"'));
+
+    var listType = $('#list_type').val().trim();        // 列表页类型
+    var listUrl = $('#url').val().trim();           // 列表页路径
+    var navigation = $('#navigation').val().trim();         // 列表页节点名称
+    var merchantId = $('#supplier_id').val().trim();        // 商户ID
+    var merchantName = $('#supplier_name').val().trim();     // 商户名称
+    var timeorderType = $('#timeorderType').val().trim();     // 时间
+    var receiptType = $('#receiptType').val().trim();     // 款项类型
+    var orderbyType = $('#orderbyType').val().trim();     //    订单排序
+    var start_with = $('#start_with').val().trim();     // 首字母
+    var payAccount = $('#pay_account').val().trim();        // 默认账户
+    var settlementType = $('#settlement_type').val().trim();       // 结算方式
 
     (function ($) {
         //提交按钮
@@ -326,6 +354,22 @@
                                 },
                                 onCancel : function (d) {
                                     d.close();
+                                    var detailPath = '/loan/pending/list';
+                                    locationTo({
+                                        action : contextPath + markUri + detailPath,
+                                        param : {
+                                            supplier_id : merchantId,
+                                            pay_account: payAccount,
+                                            timeorder_type: timeorderType,
+                                            receipt_type: receiptType,
+                                            orderby_type: orderbyType,
+                                            supplier_name : merchantName,
+                                            url : listUrl,
+                                            navigation : navigation,
+                                            list_type : listType,
+                                            settlement_type: settlementType
+                                        }
+                                    });
                                 }
                             });
 
@@ -344,6 +388,7 @@
         $(function() {
             saveOrg();
             getSelectedCitys();
+            goLoanOrderList();   // 跳转打款结算详情
         });
     })(jQuery,undefined);
 

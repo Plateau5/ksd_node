@@ -252,7 +252,7 @@ exports.VIEW_LOAN_SYSTEM = function(req, res, next) {
 exports.VIEW_LOAN_PENDING = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/waitList',
-        title : '商户-放款管理-待审批',
+        title : '放款管理-待审批',
         page : './merchants/pending',
         callback : function (data) {
             data.list_type = 1;
@@ -264,7 +264,7 @@ exports.VIEW_LOAN_PENDING = function(req, res, next) {
 exports.VIEW_LOAN_PASS = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/passList',
-        title: '商户-放款管理-已审批',
+        title: '放款管理-已审批',
         page: './merchants/pending',
         callback : function (data) {
             data.list_type = 2;
@@ -276,7 +276,7 @@ exports.VIEW_LOAN_PASS = function(req, res, next) {
 exports.VIEW_LOAN_TRANSRECORDSLIST = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/dealList',
-        title: '商户-放款管理-查询列表',
+        title: '放款管理-查询列表',
         page: './merchants/trans_records_list'
     }, req, res, next);
     // var data = {};
