@@ -34,109 +34,124 @@
                                 <li class="item_row">
                                     <!-- If the text of 'item_name' is too long, add 'long_text' class to it. -->
                                     <div class="item_name">业务类型：</div>
-                                    <div class="item_value">张三</div>
+                                    <div class="item_value">
+                                        {{#if (data.type === 1) }}
+                                            代发
+                                        {{elseif (data.type === 2) }}
+                                            直接支付
+                                        {{/if}}
+                                    </div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">付方账号：</div>
-                                    <div class="item_value">店长</div>
+                                    <div class="item_value">{{data.payment_account}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">交易金额：</div>
-                                    <div class="item_value">1983-01-01</div>
+                                    <div class="item_value">{{data.amount}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">经办日：</div>
-                                    <div class="item_value">baiha@jizhicar.com</div>
+                                    <div class="item_value">{{data.create_time}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">收方账户名：</div>
-                                    <div class="item_value">baiha@jizhicar.com</div>
+                                    <div class="item_value">{{data.receipt_account_name}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">收方账号：</div>
-                                    <div class="item_value">100以上</div>
+                                    <div class="item_value">{{data.receipt_account_name}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">请求状态：</div>
-                                    <div class="item_value">100以上</div>
+                                    <div class="item_value">
+                                        {{#if (data.payment_status === 1) }}
+                                            完成
+                                        {{elseif (data.payment_status === 2 || data.payment_status === 0) }}
+                                            银行处理中
+                                        {{elseif (data.payment_status === 3) }}
+                                            数据接收中(代发)
+                                        {{/if}}
+                                    </div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">用途：</div>
-                                    <div class="item_value">baiha@jizhicar.com</div>
+                                    <div class="item_value">{{data.financial_use}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">保留字：</div>
-                                    <div class="item_value">1983-01-01</div>
+                                    <div class="item_value">{{data.reserve_word}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">业务处理结果：</div>
-                                    <div class="item_value">13800000000</div>
+                                    <div class="item_value">
+                                        {{#if (data.payment_result === 1) }}
+                                            银行支付成功
+                                        {{elseif (data.payment_result === 2) }}
+                                            银行支付失败
+                                        {{elseif (data.payment_result === 3) }}
+                                            银行支付被退票
+                                        {{/if}}
+                                    </div>
                                 </li>
                                 <li class="item_row item_remark">
                                     <div class="item_name">错误描述：</div>
-                                    <div class="item_value long_text">1983-01-01错误描错误</div>
+                                    <div class="item_value long_text">{{data.error_description}}</div>
                                 </li>
                             </ul>
                         </div>
                     </div>
+                    <!-- 重新提交跳转隐藏域 -->
+                    <input type="hidden" id="financialReceipt_id" value="{{reqParams.financialReceipt_id}}">
+
                     <!-- 关联账号 Begin -->
                     <div class="relevance_order clearfix">
                         <div class="relevance_title">关联账号</div>
-                        <div class="order_content">
+                        <div class="order_content hide">
                             <div class="merch_title">
                                 <div class="merch_name inline">商户名称：</div>
-                                <div class="merch_value inline">北京4s店</div>
+                                <div class="merch_value inline">{{advance_list[0].supplier_name}}</div>
                             </div>
                             <ul class="order_main_list">
+                                {{#if (advance_list.length !== 0) }}
+                                {{#each (advance_list) }}
                                 <li>
                                     <div class="cust_main inline ml_20">
                                         <div class="cust_name inline">客户：</div>
-                                        <div class="cust_value inline">齐春梅</div>
+                                        <div class="cust_value inline">{{this.user_name}}</div>
                                     </div>
                                     <div class="loan_main inline ml_30">
                                         <div class="loan_name inline">贷前：</div>
-                                        <div class="loan_value inline">齐春梅</div>
+                                        <div class="loan_value inline">{{this.emp_name}}</div>
                                     </div>
                                     <div class="collect_total inline">
                                         <div class="collect_name inline">收款总额：</div>
-                                        <div class="collect_value inline">6330033.44 元 (陆万叁仟叁佰圆整)</div>
+                                        <div class="collect_value inline">{{this.total_charge}}&nbsp;元 ({{this.cn_totalCharge}})</div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="cust_main inline ml_20">
-                                        <div class="cust_name inline">客户：</div>
-                                        <div class="cust_value inline">齐春梅</div>
-                                    </div>
-                                    <div class="loan_main inline ml_30">
-                                        <div class="loan_name inline">贷前：</div>
-                                        <div class="loan_value inline">齐春梅</div>
-                                    </div>
-                                    <div class="collect_total inline">
-                                        <div class="collect_name inline">收款总额：</div>
-                                        <div class="collect_value inline">6330033.44 元 (陆万叁仟叁佰圆整)</div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="cust_main inline ml_20">
-                                        <div class="cust_name inline">客户：</div>
-                                        <div class="cust_value inline">齐春梅</div>
-                                    </div>
-                                    <div class="loan_main inline ml_30">
-                                        <div class="loan_name inline">贷前：</div>
-                                        <div class="loan_value inline">齐春梅</div>
-                                    </div>
-                                    <div class="collect_total inline">
-                                        <div class="collect_name inline">收款总额：</div>
-                                        <div class="collect_value inline">6330033.44 元 (陆万叁仟叁佰圆整)</div>
-                                    </div>
-                                </li>
+                                {{/each}}
+                                {{/if}}
+                                <!--<li>-->
+                                    <!--<div class="cust_main inline ml_20">-->
+                                        <!--<div class="cust_name inline">客户：</div>-->
+                                        <!--<div class="cust_value inline">齐春梅</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="loan_main inline ml_30">-->
+                                        <!--<div class="loan_name inline">贷前：</div>-->
+                                        <!--<div class="loan_value inline">齐春梅</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="collect_total inline">-->
+                                        <!--<div class="collect_name inline">收款总额：</div>-->
+                                        <!--<div class="collect_value inline">6330033.44 元 (陆万叁仟叁佰圆整)</div>-->
+                                    <!--</div>-->
+                                <!--</li>-->
                             </ul>
                         </div>
                     </div>
                 </div>
                 <!-- 提交按钮 Begin -->
                 <div class="detail_footer" style="margin-top:42px;">
-                    <a href="javascript:" class="detail_high_btn mr_20">重新提交</a>
+                    <a href="javascript:;" class="detail_high_btn mr_20 again_loan_agree">重新提交</a>
                     <a href="javascript:" class="detail_low_btn" style="margin-right:30px;">预览电子回单</a>
                 </div>
             </div>
@@ -153,9 +168,34 @@
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
     (function ($) {
+        function againLoanAgree (){
+            var btn = $(".again_loan_agree");
+            btn.off('click').on('click', function () {
+                var financialReceipt_id = $("#financialReceipt_id").val();
+                var url = contextPath + markUri + '/loan/againLoanAgree';
+                    locationTo({
+                    action : url,
+                    param : {
+                        financialReceipt_id : financialReceipt_id
+                    }
+                })
+            });
+        }
 
         $(function() {
-
+            againLoanAgree();
+            var btn = $(".relevance_title");
+            var order_content = $(".order_content");
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                if(order_content.is(":hidden")){
+                    order_content.slideDown();
+                    _this.addClass('relevance_title_down');
+                } else{
+                    order_content.slideUp();
+                    _this.removeClass('relevance_title_down');
+                }
+            })
         });
     })(jQuery,undefined);
 </script>

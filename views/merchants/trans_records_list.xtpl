@@ -112,13 +112,13 @@
                                     全部
                                     {{/if}}
                                 </td>
-                                <td>{{payment_account}}</td>
-                                <td>{{amount}}</td>
-                                <td>{{submit_date}}</td>
-                                <td title="">{{financial_use}}</td>
-                                <td title="">{{payment_result_value}}</td>
+                                <td>{{this.payment_account}}</td>
+                                <td>{{this.amount}}</td>
+                                <td>{{this.submit_date}}</td>
+                                <td title="">{{this.financial_use}}</td>
+                                <td title="">{{this.payment_result_value}}</td>
                                 <td>
-                                    <a href="javascript:;" class="trans_print_btn trans_detail" title="查询详情" target="_blank"></a>
+                                    <a href="javascript:;" class="trans_print_btn trans_records_detail" data-id="{{this.financialReceipt_id}}"  data-advanceIds="{{this.advance_ids}}"  title="查询详情"></a>
                                     <a href="javascript:;" class="trans_print_btn print_btn" title="打印" target="_blank"></a>
                                 </td>
                             </tr>
@@ -173,10 +173,28 @@
                 listForm.submit();
             });
         }
+
+        function toRecordsDetail () {
+            var Btn = $(".trans_records_detail");
+            var recordsDetailUrl = '/loan/transRecordsDetail';
+            Btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = _this.data("id");
+                var advanceIds = _this.data("advanceIds");
+                locationTo({
+                    action : contextPath + markUri + recordsDetailUrl,
+                    param : {
+                        financialReceipt_id : id,
+                        advance_ids : advanceIds
+                    }
+                })
+            });
+        }
         $(function() {
             initDateStartEnd('#start_loan_time','#end_loan_time');  //日期筛选
             searchCustomer();    //交易记录查询列表页筛选
             paginationSwitch();     // 分页切换
+            toRecordsDetail();  //跳转交易记录查询详情
         });
     })(jQuery,undefined);
 </script>

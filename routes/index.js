@@ -228,10 +228,6 @@ router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
 router.all(markUri + '/loan/pending', merchantsCtrl.VIEW_LOAN_PENDING);
 // 商户-放款管理-已审批 1488
 router.all(markUri + '/loan/pass', merchantsCtrl.VIEW_LOAN_PASS);
-// 商户-放款管理-查询交易列表
-router.post(markUri + '/loan/transRecordsList', merchantsCtrl.VIEW_LOAN_TRANSRECORDSLIST);
-// 商户-放款管理-查询交易详情
-router.all(markUri + '/loan/transRecordsDetail', merchantsCtrl.VIEW_LOAN_TRANSRECORDSDETAIL);
 // 商户-放款管理-商户打款结算详情 1497
 router.post(markUri + '/loan/pending/list', merchantsCtrl.VIEW_LOAN_PENDING_LIST);
 // 商户-放款管理-商户打款结算详情 1498
@@ -242,6 +238,12 @@ router.post(markUri + '/loan/batch/agree', merchantsCtrl.VIEW_LOAN_BATCH_AGREE);
 router.post(markUri + '/loan/agree', merchantsCtrl.VIEW_LOAN_AGREE);
 // 商户-放款管理-待审核-同意页面(放款)
 router.post(markUri + '/loan/toLoanAgree', merchantsCtrl.VIEW_LOAN_TOLOANAGREE);
+// 商户-放款管理-查询交易列表
+router.post(markUri + '/loan/transRecordsList', merchantsCtrl.VIEW_LOAN_TRANSRECORDSLIST);
+// 商户-放款管理-查询交易详情
+router.post(markUri + '/loan/transRecordsDetail', merchantsCtrl.VIEW_LOAN_TRANSRECORDSDETAIL);
+// 商户-放款管理-待审核-重新提交(放款)
+router.post(markUri + '/loan/againLoanAgree', merchantsCtrl.VIEW_LOAN_AGAINLOANAGREE);
 
 // 商户-放款管理-待请款-不同意页面 1502
 router.post(markUri + '/loan/batch/disagree', merchantsCtrl.VIEW_LOAN_BATCH_DISAGREE);
