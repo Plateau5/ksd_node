@@ -26,19 +26,16 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
                 <a href="javascript:;" class="crumbs_item back_to_list">查询交易记录</a>
-                <a href="javascript:;" class="crumbs_item">记录详情</a>
+                <a href="javascript:;" class="crumbs_item trans_records_detail">记录详情</a>
                 <a href="javascript:;" class="crumbs_item">重新提交</a>
             </div>
-
-            <!---- 跳转结算详情隐藏域 ---->
-
 
             <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
                 <form action="" id="to_loan_agree_form" class="basic_info_edit" method="post">
                     <input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
                     <input type="hidden" id="receipt_type" value="{{reqParams.receipt_type}}">
-                    <!--<input type="hidden" id="userName" value="{{userName}}">-->
-                    <!--<input type="hidden" id="preCode" value="{{preCode}}">-->
+                    <input type="hidden" id="financialReceipt_id" name="financialReceipt_id" value="{{detail.financialReceipt_id}}">
+
                     <!-- 基本信息 Begin -->
                     <div class="option_item">
                         <div class="column_name">
@@ -46,6 +43,16 @@
                         </div>
                         <div class="column_val">
                             <select name="type" id="firmType">
+                                {{#if (detail.type === 1) }}
+                                <option value="1" selected>代发</option>
+                                {{else}}
+                                <option value="1">代发</option>
+                                {{/if}}
+                                {{#if (detail.type === 2) }}
+                                <option value="2" selected>直接支付</option>
+                                {{else}}
+                                <option value="2">直接支付</option>
+                                {{/if}}
 
                             </select>
                         </div>
@@ -83,7 +90,7 @@
                             <span class="options_name">收方账号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" readonly data-tips="收方账号不能为空" id="receipt_account" name="receipt_account" value="{{detail.pay_account}}" />
+                            <input type="text" class="required" maxlength="30" data-tips="收方账号不能为空" id="receipt_account" name="receipt_account" value="{{detail.receipt_account}}" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                         </div>
                     </div>
@@ -92,7 +99,7 @@
                             <span class="options_name">收方账户名：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required form-control" maxlength="62" data-tips="收方账户名" id="receipt_account_name" name="receipt_account_name" value="{{detail.pay_name}}" />
+                            <input type="text" class="required form-control" maxlength="62" data-tips="收方账户名" id="receipt_account_name" name="receipt_account_name" value="{{detail.receipt_account_name}}" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -128,7 +135,7 @@
                             <span class="options_name">收方开户行：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" data-tips="收方开户行" id="receipt_bank" name="receipt_bank" value="{{detail.pay_open_bank}}" />
+                            <input type="text" class="required" maxlength="30" data-tips="收方开户行" id="receipt_bank" name="receipt_bank" value="{{detail.receipt_bank}}" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -192,7 +199,7 @@
                             <span class="options_name">用途：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" style="width:612px;" maxlength="40" data-tips="" id="financial_use" name="financial_use" value="" placeholder="请输入用途" />
+                            <input type="text" class="required" style="width:612px;" maxlength="40" data-tips="" id="financial_use" name="financial_use" value="{{detail.financial_use}}" placeholder="请输入用途" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -202,14 +209,14 @@
                             <span class="options_name">摘要：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required phone" style="width:612px;" maxlength="40" data-tips="" id="summary" name="summary" value="" placeholder="请输入备注内容（非必填）" />
+                            <input type="text" class="required phone" style="width:612px;" maxlength="40" data-tips="" id="summary" name="summary" value="{{detail.summary}}" placeholder="请输入备注内容（非必填）" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
                     </div>
                     <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
                         <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm to_agree_confirm" data-url="" data-next="">提交</a>
-                        <a href="javascript:" class="btn bg_btn edit_cancel go_docking_home">取消</a>
+                        <a href="javascript:" class="btn bg_btn edit_cancel trans_records_detail">取消</a>
                     </div>
                 </form>
             </div>
@@ -226,6 +233,162 @@
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script src="{{markUri}}/static/js/merchantsToLoanAgree.js"></script>
 <script>
+    var city_list = '{{city_list}}';
+    city_list = JSON.parse(city_list.replace(/&quot;/ig, '"'));
+
+    (function ($) {
+        //提交按钮
+        function saveOrg () {
+            var btn = $(".to_agree_confirm");
+            var firmType = $('#firmType');
+            var receipt_account_name = $('#receipt_account_name');
+            var financial_use = $('#financial_use');
+            var payment_account = $('#payment_account');
+            var receipt_bank = $('#receipt_bank');
+            var receipt_address = $('#receipt_address');
+            var checked = $('.bank_type').find('input[type="radio"]').eq(1).prop('checked');
+
+            btn.off("click").on("click", function () {
+                if(!receipt_account_name.val()){
+                    receipt_account_name.parent().find('.formError').html('收方账户名不能为空');
+                    receipt_account_name.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+                // if(!payment_account.val()){
+                //     payment_account.parent().find('.formError').html('付方账户不能为空');
+                //     payment_account.css('border-color','#FB2741');
+                //     btn.attr('disabled',false);
+                //     return;
+                // }
+                if (firmType.val() === "1" && checked ) {
+                    if(!receipt_bank.val()){
+                        receipt_bank.parent().find('.formError').html('开户行不能为空');
+                        receipt_bank.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+                }
+                if (firmType.val() === "2" && checked) {
+                    if(!receipt_address.val()){
+                        receipt_address.parent().find('.formError').html('开户行不能为空');
+                        receipt_address.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+                }
+                if(!financial_use.val()){
+                    financial_use.parent().find('.formError').html('用途不能为空');
+                    financial_use.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+
+                dialog("open", {
+                    closeBtn : false,
+                    "title" : "提醒",
+                    "button" : ["确认","取消"],
+                    "content" : "您确认提交至银行？",
+                    "maskClose" : false,
+                    onConfirm : function (d) {
+                        d.close();
+                        ajaxSubmit();
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('to_loan_agree_form'));
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + "/api/loan/submit/again",
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('提交成功', function () {
+                            dialog("open", {
+                                closeBtn : false,
+                                "title" : "打印提醒",
+                                "button" : ["确认","取消"],
+                                "content" : "是否立即打印该车请款审批材料与电子回单？？",
+                                "maskClose" : false,
+                                onConfirm : function (d) {
+                                    d.close();
+                                    var orderNo = $("#orderNo").val();
+                                    var receiptType = $("#receiptType").val();
+                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&receipt_type=' + receiptType;
+                                    window.location.replace(printPage);
+                                },
+                                onCancel : function (d) {
+                                    d.close();
+                                    var recordsDetailUrl = '/loan/transRecordsDetail';
+                                    var id = $("#financialReceipt_id").val();
+                                    locationTo({
+                                        action : contextPath + markUri + recordsDetailUrl,
+                                        param : {
+                                            financialReceipt_id : id
+                                        }
+                                    })
+
+                                }
+                            });
+
+                        });
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+
+        function backToList (){
+            var btn = $(".back_to_list");
+            var url = contextPath + markUri +'/loan/transRecordsList';
+            btn.off('click').on('click', function (){
+                locationTo({
+                    action : url,
+                    param : {}
+                });
+            });
+        }
+
+        function toRecordsDetail () {
+            var Btn = $(".trans_records_detail");
+            var recordsDetailUrl = '/loan/transRecordsDetail';
+            Btn.off('click').on('click', function () {
+                var id = $("#financialReceipt_id").val();
+                locationTo({
+                    action : contextPath + markUri + recordsDetailUrl,
+                    param : {
+                        financialReceipt_id : id
+                    }
+                })
+            });
+        }
+
+        $(function() {
+            saveOrg();
+            getSelectedCitys();
+            backToList();  //返回交易列表
+            toRecordsDetail(); //返回交易记录详情
+        });
+    })(jQuery,undefined);
 
 </script>
 </html>

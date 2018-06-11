@@ -40,14 +40,24 @@
                     <!--</div>-->
                     <div class="filtrate_item date_conditions inline_block">
                         <div class="conditions_name inline_block" style="margin-left:18px;">金额：</div>
-                        <input type="number" class="filtrate_date archiving_time" name="start_amount" value="{{condition.start_amount}}" placeholder="请输入" /> —
-                        <input type="number" class="filtrate_date archiving_time" name="end_amount" value="{{condition.end_amount}}" placeholder="请输入" />
+                        <input type="number" class="filtrate_input filtrate_date archiving_time" name="start_amount" value="{{condition.start_amount}}" placeholder="请输入" /> —
+                        <input type="number" class="filtrate_input filtrate_date archiving_time" name="end_amount" value="{{condition.end_amount}}" placeholder="请输入" />
                         <div class="conditions_name inline_block">元</div>
                     </div>
                     <div class="filtrate_item select_item inline_block">
                         <div class="conditions_name inline_block" style="vertical-align: top;">付方账户：</div>
-                        <select name=""  class="filtrate_select" id="merchantsTags" style="width:280px;">
+                        <input type="hidden" value="{{condition.payment_account}}" id="paymentAccount">
+                        <select name="payment_account"  class="filtrate_select" id="payment_account" style="width:280px;">
                             <option value="">全部</option>
+                            {{#each (bank_list) }}
+                                <option value="{{this.bank_no}}">{{this.bank_name}}，{{this.bank_no}}</option>
+                            {{/each}}
+                            <!--{{#if (condition.payment_accounts)}}-->
+                                <!--{{set (payment_account_list = condition.payment_accounts.split(','))}}-->
+                                <!--{{#each (payment_account_list) }}-->
+                                <!--<option value="{{this}}">{{this}}</option>-->
+                                <!--{{/each}}-->
+                            <!--{{/if}}-->
                         </select>
                     </div>
                     <div class="filtrate_item select_item inline_block">
@@ -86,7 +96,7 @@
                         <col style="width: 12%;" />
                         <col style="width: 15%;" />
                         <col style="width: 15%;" />
-                        <col style="width: 15%;" />
+                        <col style="width: 14%;" />
                     </colgroup>
                     <thead>
                     <tr>
@@ -112,14 +122,14 @@
                                     全部
                                     {{/if}}
                                 </td>
-                                <td>{{this.payment_account}}</td>
+                                <td title="{{this.bank_name}}，{{this.payment_account}}">{{this.bank_name}}，{{this.payment_account}}</td>
                                 <td>{{this.amount}}</td>
                                 <td>{{this.submit_date}}</td>
-                                <td title="">{{this.financial_use}}</td>
-                                <td title="">{{this.payment_result_value}}</td>
+                                <td title="{{this.financial_use}}">{{this.financial_use}}</td>
+                                <td title="{{this.payment_result_value}}">{{this.payment_result_value}}</td>
                                 <td>
                                     <a href="javascript:;" class="trans_print_btn trans_records_detail" data-id="{{this.financialReceipt_id}}"  data-advanceIds="{{this.advance_ids}}"  title="查询详情"></a>
-                                    <a href="javascript:;" class="trans_print_btn print_btn" title="打印" target="_blank"></a>
+                                    <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}" class="trans_print_btn print_btn" title="打印" target="_blank"></a>
                                 </td>
                             </tr>
                         {{/each}}
@@ -180,14 +190,23 @@
             Btn.off('click').on('click', function () {
                 var _this = $(this);
                 var id = _this.data("id");
-                var advanceIds = _this.data("advanceIds");
                 locationTo({
                     action : contextPath + markUri + recordsDetailUrl,
                     param : {
-                        financialReceipt_id : id,
-                        advance_ids : advanceIds
+                        financialReceipt_id : id
                     }
                 })
+            });
+        }
+
+        function selectPaymentAccount () {
+            var paymentAccount = $("#paymentAccount").val();
+            $("#payment_account option").each(function() {
+                if($(this).val() === paymentAccount) {
+                    $(this).attr("selected","selected");
+                }else {
+                    $(this).removeAttr("selected")
+                }
             });
         }
         $(function() {
@@ -195,6 +214,7 @@
             searchCustomer();    //交易记录查询列表页筛选
             paginationSwitch();     // 分页切换
             toRecordsDetail();  //跳转交易记录查询详情
+            selectPaymentAccount();  //下拉取值和回显
         });
     })(jQuery,undefined);
 </script>

@@ -25,6 +25,7 @@
                 <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
                 <a href="javascript:;" class="crumbs_item back_to_list">查询交易记录</a>
                 <a href="javascript:;" class="crumbs_item last_child">记录详情</a>
+                <a href="javascript:;" class="icon_back_to_list back_to_list"></a>
             </div>
             <div class="details_item">
                 <div class="detail_box">
@@ -78,10 +79,10 @@
                                     <div class="item_name">用途：</div>
                                     <div class="item_value">{{data.financial_use}}</div>
                                 </li>
-                                <li class="item_row">
-                                    <div class="item_name">保留字：</div>
-                                    <div class="item_value">{{data.reserve_word}}</div>
-                                </li>
+                                <!--<li class="item_row">-->
+                                    <!--<div class="item_name">保留字：</div>-->
+                                    <!--<div class="item_value">{{data.reserve_word}}</div>-->
+                                <!--</li>-->
                                 <li class="item_row">
                                     <div class="item_name">业务处理结果：</div>
                                     <div class="item_value">
@@ -96,7 +97,7 @@
                                 </li>
                                 <li class="item_row item_remark">
                                     <div class="item_name">错误描述：</div>
-                                    <div class="item_value long_text">{{data.error_description}}</div>
+                                    <div class="item_value long_text">{{data.result_description}}</div>
                                 </li>
                             </ul>
                         </div>
@@ -152,7 +153,7 @@
                 <!-- 提交按钮 Begin -->
                 <div class="detail_footer" style="margin-top:42px;">
                     <a href="javascript:;" class="detail_high_btn mr_20 again_loan_agree">重新提交</a>
-                    <a href="javascript:" class="detail_low_btn" style="margin-right:30px;">预览电子回单</a>
+                    <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{data.orderNo}}" class="detail_low_btn" target="_blank" style="margin-right:30px;">预览电子回单</a>
                 </div>
             </div>
 
@@ -197,10 +198,10 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 if(order_content.is(":hidden")){
-                    order_content.slideDown();
+                    order_content.slideDown(200);
                     _this.addClass('relevance_title_down');
                 } else{
-                    order_content.slideUp();
+                    order_content.slideUp(200);
                     _this.removeClass('relevance_title_down');
                 }
             });
