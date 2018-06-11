@@ -25,8 +25,8 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
-                <!--<a href="{{merchants.url}}" class="crumbs_item">{{merchants.navigation}}</a>-->
-                <!--<a href="javascript:;" class="crumbs_item go_loan_detail">{{merchants.supplier_name}}</a>-->
+                <a href="javascript:;" class="crumbs_item back_to_list">查询交易记录</a>
+                <a href="javascript:;" class="crumbs_item">记录详情</a>
                 <a href="javascript:;" class="crumbs_item">重新提交</a>
             </div>
 
@@ -34,7 +34,184 @@
 
 
             <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
-                123
+                <form action="" id="to_loan_agree_form" class="basic_info_edit" method="post">
+                    <input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
+                    <input type="hidden" id="receipt_type" value="{{reqParams.receipt_type}}">
+                    <!--<input type="hidden" id="userName" value="{{userName}}">-->
+                    <!--<input type="hidden" id="preCode" value="{{preCode}}">-->
+                    <!-- 基本信息 Begin -->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">业务类型：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="type" id="firmType">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">付方账户：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="payment_account" id="payment_account">
+                                <option value="">请选择</option>
+                                {{#each (bank_list) }}
+                                <option value="{{this.bank_no}}" data-id="{{this.bank_code}}">{{this.bank_name}}，{{this.bank_no}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <!-- 付方开户地区城市id -->
+                    <input type="hidden" name="payment_city" value="" id="payment_city">
+
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">交易金额：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" readonly data-tips="" id="amount" name="amount" value="{{detail.amount}}" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="pad_lf_rt_8">元</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方账号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" readonly data-tips="收方账号不能为空" id="receipt_account" name="receipt_account" value="{{detail.pay_account}}" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方账户名：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required form-control" maxlength="62" data-tips="收方账户名" id="receipt_account_name" name="receipt_account_name" value="{{detail.pay_name}}" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item set_account hide">
+                        <div class="column_name">
+                            <span class="options_name">结算方式：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="settle_type" id="settle_type">
+                                <option value="1" selected="selected">普通</option>
+                                <option value="2">快速</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item bank_type">
+                        <div class="column_name">
+                            <span class="options_name">银行类别：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group mar6 v_middle">
+                                <input type="radio"  id="gender1" class="gender male" name="bank_type" value="1"  checked="checked"  />
+                                <label for="gender1">招行</label>
+                            </div>
+                            <div class="form_group v_middle">
+                                <input type="radio"  id="gender2" class="gender female" name="bank_type" value="2" />
+                                <label for="gender2">其他银行</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item payee_bank hide">
+                        <div class="column_name">
+                            <span class="options_name">收方开户行：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" data-tips="收方开户行" id="receipt_bank" name="receipt_bank" value="{{detail.pay_open_bank}}" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item payee_address1 hide">
+                        <div class="column_name">
+                            <span class="options_name">收方开户地：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" data-tips="收方开户地" id="receipt_bank_address" name="receipt_bank_address" value="" placeholder="请输入收方开户地" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item payee_address2 hide">
+                        <div class="column_name">
+                            <span class="options_name">收方开户地区：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="hidden" name="receipt_city" id="receipt_city" value="">
+                            <input type="hidden" name="receipt_province_city" id="receipt_province_city" value="">
+                            <input type="text" class="select_city_input cursor" name=""  value="请选择" readonly/>
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item payee_bank_address hide">
+                        <div class="column_name">
+                            <span class="options_name">收方行地址：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" data-tips="收方行地址" id="receipt_address" name="receipt_address" value="" placeholder="请输入收方行地址" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item payee_bank_num hide">
+                        <div class="column_name">
+                            <span class="options_name">收方行号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" id="receipt_bank_no" data-tips="收方行号" name="receipt_bank_no" value="" placeholder="请输入收方行号(非必填)" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收款方手机号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="number" class="required phone" maxlength="11" data-tips="手机号码不能为空" id="receipt_phone" name="receipt_phone" value="" placeholder="请输入手机号 (非必填)" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <!-- 交易类型 -->
+                    <!--<input type="hidden" name="transaction_type"  value="1" id="transaction_type">-->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">用途：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" style="width:612px;" maxlength="40" data-tips="" id="financial_use" name="financial_use" value="" placeholder="请输入用途" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">摘要：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required phone" style="width:612px;" maxlength="40" data-tips="" id="summary" name="summary" value="" placeholder="请输入备注内容（非必填）" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
+                        <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm to_agree_confirm" data-url="" data-next="">提交</a>
+                        <a href="javascript:" class="btn bg_btn edit_cancel go_docking_home">取消</a>
+                    </div>
+                </form>
             </div>
 
         </div>
