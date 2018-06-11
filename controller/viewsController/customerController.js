@@ -196,7 +196,7 @@ exports.VIEW_CUSTOMER_LOAN_RENEWNOTIFYRESULT = function(req, res, next) {
     common.getPageData({
         url : '/api/finance/again/result',
         title : '客户-重新通知审核结果',
-        page : './customer/result',
+        page : './customer/renewResult',
         callback : function (data) {
             formatOrderListData(data);
         }

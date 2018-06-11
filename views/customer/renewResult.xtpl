@@ -1,0 +1,210 @@
+<!--照片不合格-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    {{include ("./../inc/metaData")}}
+    <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/question/edit.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/requestpayout/disagree.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/finance/review_result.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/finance/imgUnpass.css">
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="{{markUri}}/static/js/finance/img_unpass.js"></script>
+    <script src="{{markUri}}/static/js/finance/get_file.js"></script>
+    <script src="{{markUri}}/static/js/finance/result.js"></script>
+</head>
+<style>
+    body{
+        overflow-x: hidden;
+    }
+</style>
+<body>
+
+<!--header start-->
+{{include ('./../inc/header')}}
+<!--header end-->
+
+<!--container start-->
+
+<div class="container minWidth">
+    <div class="row section">
+        <!--navLeft start-->
+        {{include ('./../inc/sideNav')}}
+        <!--navLeft end-->
+        <form action="{{markUri}}/customer/loan/detail" id="getFile" method="post">
+			<input id="finance_id_file" value="" name="finance_id" type="hidden">
+			<input id="active" value="" name="active" type="hidden">
+			<input id="url" value="" name="url" type="hidden">
+			<input id="navigation" value="" name="navigation" type="hidden">
+            <input id="showButton" value="" name="showButton" type="hidden">
+		</form>
+        <!--listCon start-->
+        <div class=" listCon relative">
+            <div class="listConHeader inviteCon" style="margin-bottom: 0;">
+                <ul>
+                    <li class="inline colorB"><a class="TS" href="{{markUri}}/customer/loan/system">贷款管理</a></li>
+                    <li class="inline before"><a class="TS"  href="{{markUri}}/customer/loan/entered" lang="{{finance_id}}">已录入</a></li>
+                    <li class="inline before"><a class="TS"  href="javascript:;" id="goDetail" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail" lang="{{finance_id}}">{{vo.user_name}}</a></li>
+                    <li class="inline before"><a href="javascript:;" style="cursor:default">重新通知结果</a></li>
+                </ul>
+            </div>
+            <form class="formML" id="review_info" enctype="multipart/form-data" method="post">
+                <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
+                <input type="hidden" id="is_change" name="is_change" value="">
+                <input type="hidden" id="loan_amount" name="loan_amount" value="{{vo.loan_amount}}">
+                <input type="hidden" id="purchase_tax" name="purchase_tax" value="{{vo.purchase_tax}}">
+                <input type="hidden" id="gps_charge" name="gps_charge" value="{{vo.gps_charge}}">
+                <input type="hidden" id="insurance" name="insurance" value="{{vo.insurance}}">
+                <input type="hidden" id="service_charge" name="service_charge" value="{{vo.service_charge}}">
+                <div class="form-item" style="height:30px;">
+                    <label>
+                        <span class="need">*</span>是否通过：</label>
+                        <input  class="select_status_noClick" readonly="readonly" value="通过"/>
+                </div>
+                <div class="form-item customer_check" style="height:30px;clear: both;margin-bottom: 0;">
+                    <label class="bold">费用情况</label>
+                </div>
+                <div class="form-item customer_check" style="height:30px;clear: both;margin-bottom: 0;">
+                    <label>
+                        <span class="need">*</span>车价贷款额：</label>
+                    <div>
+                        <input type="text" name="purchase_tax" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.loan_amount}}">
+                        <span class="contribution">
+                            <span>&nbsp;元</span><em class="contribution_icon"></em>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-item customer_check" style="height:30px;clear: both;margin-bottom: 0;">
+                    <label>
+                        <span class="need">*</span>购置税：</label>
+                    <div>
+                        <input type="text" name="purchase_tax" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.purchase_tax}}">
+                        <span class="contribution">
+                            <span>&nbsp;元</span><em class="contribution_icon"></em>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-item customer_check" style="height:30px;">
+                    <label>
+                        <span class="need">*</span>GPS费：</label>
+                    <div>
+                        <input type="text" name="gps_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.gps_charge}}">
+                        <span class="contribution">
+                            <span>&nbsp;元</span><em class="contribution_icon"></em>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-item customer_check" style="height:30px;">
+                    <label>
+                        <span class="need">*</span>保险费：</label>
+                    <div>
+                        <input type="text" name="insurance" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.insurance}}">
+                        <span class="contribution">
+                            <span>&nbsp;元</span><em class="contribution_icon"></em>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-item customer_check" style="height:30px;">
+                    <label>
+                        <span class="need">*</span>服务费：</label>
+                    <div>
+                        <input type="text" name="service_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.service_charge}}">
+                        <span class="contribution">
+                            <span>&nbsp;元</span><em class="contribution_icon"></em>
+                            <span class="tips">如果有融资时请填写，不需要时填写0</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-item" style="height:20px;">
+                    <div class="img_item updata_img">
+                        <div class="file_btn">上传图片</div>
+                        <input type="file" id="file_select1" class="cursor file_input" name="file" onchange="select_allow(this);" accept="image/jpeg,image/jpg,image/png"/>
+                        <span class="file_prom">(最多5张图片，每张大小不超过5M)</span>
+                    </div>
+                </div>
+                <div class="form-item" style="margin-top:0;">
+                    <div class="file_box">
+
+
+                    </div>
+                </div>
+                <div class="error_prom error_msg" style="margin-left: 80px;"></div>
+                {{#if (verifyCode(1523)) }}
+                <div class="form-item">
+                    <div class="create_btn">
+                        <input type="button" class="create_sub" id="renew_review_sub" value="确认"/>
+                        <a href="javascript:" class="go_detail" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail">
+                            <input type="button" class="cancel_btn" value="取消">
+                        </a>
+                    </div>
+                </div>
+                {{/if}}
+            </form>
+        </div>
+
+        <!--listCon end-->
+
+    </div>
+
+
+</div>
+
+<!--container end-->
+
+
+</body>
+<script type="text/javascript">
+    // OPERATIONTYPE：1：请款客服；2：合同客服；3：商户审核
+    var OPERATIONTYPE = 1;
+</script>
+<script>
+    (function () {
+        //确认
+        $('#renew_review_sub').off("click").on("click", function(){
+            var url = contextPath + '/api/finance/again/pass';
+            if ($('#loan_amount').val()==$('.loan_money').val()){
+                $('#is_change').val("0")
+            } else{
+                $('#is_change').val("1")
+            }
+            var data = new FormData(document.getElementById('review_info'));
+            var location_url = $.trim($(this).data("url"));
+            $.ajax({
+                type : "post",
+                url : url,
+                data : data,
+                async : true,
+                processData: false,
+                contentType: false,
+                success : function (res) {
+                    var result = eval(res);
+                    if (result.error_code == "0") {
+                        window.location.href = contextPath + markUri + "/customer/loan/entered";
+                    } else {
+                        $alert(result.error_msg);
+                    }
+                },
+                error : function () {
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+
+        });
+
+        pageJump("#goDetail, .go_detail");
+
+    })(jQuery,undefined);
+
+
+</script>
+
+</html>
