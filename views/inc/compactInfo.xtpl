@@ -3,22 +3,19 @@
 <div class="detail_box" >
 	<div class="classify_item location">
 		<div class="classify_title">合同信息</div>
-            <div class="btn_box customer_btn_box">
-                <a href="javascript:;" class="customer_btn renew_send_contract" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-advance_id="{{vo.advance_id}}">重新发送合同</a>
-            </div>
-		{{#if (startWith(markUri + '/customer/compact')) }}
-			{{#if (verifyCode(1265)) }}
-				{{#if(vo.status === 9 || vo.status === 10)}}
-					<div class="btn_box customer_btn_box">
-						<a href="javascript:;" class="customer_btn renew_send_contract" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-advance_id="{{vo.advance_id}}">重新发送合同</a>
-					</div>
-				{{else}}
-					<div class="btn_box customer_btn_box">
-						<a href="javascript:;" class="customer_btn renew_send_contract_gray">重新发送合同</a>
-					</div>
-				{{/if}}
-			{{/if}}
-		{{/if}}
+            {{#if (startWith(markUri + '/customer/compact')) }}
+                {{#if (verifyCode(1265)) }}
+                    {{#if(vo.status === 9 || vo.status === 10)}}
+                        <div class="btn_box customer_btn_box">
+                            <a href="javascript:;" class="customer_btn renew_send_contract" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-advance_id="{{vo.advance_id}}">重新发送合同</a>
+                        </div>
+                    {{else}}
+                        <div class="btn_box customer_btn_box">
+                            <a href="javascript:;" class="customer_btn renew_send_contract_gray">重新发送合同</a>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
 		<div class="classify_content">
 			<ul class="items_list clearfix">
 				<li class="item_row">
