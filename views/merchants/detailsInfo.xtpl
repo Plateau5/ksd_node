@@ -846,59 +846,83 @@
                     $alert('最少选择一个订单后再做处理');
                     return false;
                 }else if (loanIdArr !== '' && approvalIdArr !== '') {
-                    dialog("open", {
-                        closeBtn : false,
-                        "title" : "提醒",
-                        "button" : ["去审批","去放款"],
-                        "content" : "您当前选择的订单包含'审批'、'放款'两种类型，请先选择一种进行操作！",
-                        "maskClose" : false,
-                        onConfirm : function (d) {
-                            d.close();
-                            toAgreeUrl = contextPath + markUri + nextUrl;
-                            locationTo({
-                                action : toAgreeUrl,
-                                param : {
-                                    advance_ids : approvalIdArr,
-                                    url : listUrl,
-                                    navigation : navigation,
-                                    type : btnType,
-                                    supplier_id : merchantId,
-                                    supplier_name : merchantName,
-                                    timeorder_type: timeorderType,
-                                    receipt_type: receiptType,
-                                    orderby_type: orderbyType,
-                                    start_with : start_with,
-                                    list_type : listType,
-                                    pay_account : payAccount,
-                                    settlement_type: settlementType,
-                                    is_pass : isPass
-                                }
-                            })
-                        },
-                        onCancel : function (d) {
-                            d.close();
-                            toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
-                            locationTo({
-                                action : toAgreeUrl,
-                                param : {
-                                    advance_ids : loanIdArr,
-                                    url : listUrl,
-                                    navigation : navigation,
-                                    type : btnType,
-                                    supplier_id : merchantId,
-                                    supplier_name : merchantName,
-                                    timeorder_type: timeorderType,
-                                    receipt_type: receiptType,
-                                    orderby_type: orderbyType,
-                                    start_with : start_with,
-                                    list_type : listType,
-                                    pay_account : payAccount,
-                                    settlement_type: settlementType,
-                                    is_pass : isPass
-                                }
-                            })
-                        }
-                    });
+                    if (btnType === 1) {
+                        dialog("open", {
+                            closeBtn : false,
+                            "title" : "提醒",
+                            "button" : ["去审批","去放款"],
+                            "content" : "您当前选择的订单包含'审批'、'放款'两种类型，请先选择一种进行操作！",
+                            "maskClose" : false,
+                            onConfirm : function (d) {
+                                d.close();
+                                toAgreeUrl = contextPath + markUri + nextUrl;
+                                locationTo({
+                                    action : toAgreeUrl,
+                                    param : {
+                                        advance_ids : approvalIdArr,
+                                        url : listUrl,
+                                        navigation : navigation,
+                                        type : btnType,
+                                        supplier_id : merchantId,
+                                        supplier_name : merchantName,
+                                        timeorder_type: timeorderType,
+                                        receipt_type: receiptType,
+                                        orderby_type: orderbyType,
+                                        start_with : start_with,
+                                        list_type : listType,
+                                        pay_account : payAccount,
+                                        settlement_type: settlementType,
+                                        is_pass : isPass
+                                    }
+                                })
+                            },
+                            onCancel : function (d) {
+                                d.close();
+                                toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
+                                locationTo({
+                                    action : toAgreeUrl,
+                                    param : {
+                                        advance_ids : loanIdArr,
+                                        url : listUrl,
+                                        navigation : navigation,
+                                        type : btnType,
+                                        supplier_id : merchantId,
+                                        supplier_name : merchantName,
+                                        timeorder_type: timeorderType,
+                                        receipt_type: receiptType,
+                                        orderby_type: orderbyType,
+                                        start_with : start_with,
+                                        list_type : listType,
+                                        pay_account : payAccount,
+                                        settlement_type: settlementType,
+                                        is_pass : isPass
+                                    }
+                                })
+                            }
+                        });
+                    } else {
+                        toAgreeUrl = contextPath + markUri + nextUrl;
+                        var totalIds = loanIdArr + ',' +approvalIdArr;
+                        locationTo({
+                            action : toAgreeUrl,
+                            param : {
+                                advance_ids : totalIds,
+                                url : listUrl,
+                                navigation : navigation,
+                                type : btnType,
+                                supplier_id : merchantId,
+                                supplier_name : merchantName,
+                                timeorder_type: timeorderType,
+                                receipt_type: receiptType,
+                                orderby_type: orderbyType,
+                                start_with : start_with,
+                                list_type : listType,
+                                pay_account : payAccount,
+                                settlement_type: settlementType,
+                                is_pass : isPass
+                            }
+                        });
+                    }
                 } else {
                     if (loanIdArr === '' && approvalIdArr !== '') {
                         toAgreeUrl = contextPath + markUri + nextUrl;
@@ -936,8 +960,6 @@
                 }
             });
         }
-
-
 
         // 获取选中的订单的ID
         function getBatchOrderIds () {
