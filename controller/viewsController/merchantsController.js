@@ -285,7 +285,7 @@ exports.VIEW_LOAN_TRANSRECORDSLIST = function(req, res, next) {
 exports.VIEW_LOAN_TRANSRECORDSDETAIL = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/payment/detail',
-        title: '商户-放款管理-查询记录详情',
+        title: '商户-放款管理-交易详情',
         page: './merchants/transRecordsDetail'
     }, req, res, next);
 };
