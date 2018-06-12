@@ -246,9 +246,11 @@
             var payment_account = $('#payment_account');
             var receipt_bank = $('#receipt_bank');
             var receipt_address = $('#receipt_address');
-            var checked = $('.bank_type').find('input[type="radio"]').eq(1).prop('checked');
+            var receipt_bank_address = $('#receipt_bank_address');
 
             btn.off("click").on("click", function () {
+                var checked = $('.bank_type').find('input[type="radio"]').eq(1).prop('checked'); //银行类型
+
                 if(!receipt_account_name.val()){
                     receipt_account_name.parent().find('.formError').html('收方账户名不能为空');
                     receipt_account_name.css('border-color','#FB2741');
@@ -268,14 +270,27 @@
                         btn.attr('disabled',false);
                         return;
                     }
+                    if(!receipt_bank_address.val()){
+                        receipt_bank_address.parent().find('.formError').html('开户地不能为空');
+                        receipt_bank_address.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
                 }
                 if (firmType.val() === "2" && checked) {
+                    if(!receipt_bank.val()){
+                        receipt_bank.parent().find('.formError').html('开户行不能为空');
+                        receipt_bank.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
                     if(!receipt_address.val()){
-                        receipt_address.parent().find('.formError').html('开户行不能为空');
+                        receipt_address.parent().find('.formError').html('收方行地址不能为空');
                         receipt_address.css('border-color','#FB2741');
                         btn.attr('disabled',false);
                         return;
                     }
+
                 }
                 if(!financial_use.val()){
                     financial_use.parent().find('.formError').html('用途不能为空');
