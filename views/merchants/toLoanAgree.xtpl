@@ -351,6 +351,7 @@
                 },
                 success : function (res) {
                     $('#loading').hide();
+                    var financialReceipt_no = "";
                     if (res.error_code == 0) {
                         $alert('提交成功', function () {
                             dialog("open", {
@@ -363,7 +364,7 @@
                                     d.close();
                                     var orderNo = $("#orderNo").val();
                                     var receiptType = $("#receiptType").val();
-                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&receipt_type=' + receiptType;
+                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&financialReceipt_no=' + financialReceipt_no + '&receipt_type=' + receiptType;
                                     window.location.replace(printPage);
                                 },
                                 onCancel : function (d) {
