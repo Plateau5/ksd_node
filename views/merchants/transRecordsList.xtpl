@@ -40,8 +40,8 @@
                     <!--</div>-->
                     <div class="filtrate_item date_conditions inline_block">
                         <div class="conditions_name inline_block" style="margin-left:18px;">金额：</div>
-                        <input type="number" class="filtrate_input filtrate_date archiving_time" name="start_amount" value="{{condition.start_amount}}" placeholder="请输入" /> —
-                        <input type="number" class="filtrate_input filtrate_date archiving_time" name="end_amount" value="{{condition.end_amount}}" placeholder="请输入" />
+                        <input type="number" class="filtrate_input filtrate_date archiving_time" id="start_amount" name="start_amount" value="{{condition.start_amount}}" placeholder="请输入" /> —
+                        <input type="number" class="filtrate_input filtrate_date archiving_time" id="end_amount" name="end_amount" value="{{condition.end_amount}}" placeholder="请输入" />
                         <div class="conditions_name inline_block">元</div>
                     </div>
                     <div class="filtrate_item select_item inline_block">
@@ -186,18 +186,26 @@
 
         function toRecordsDetail () {
             var Btn = $(".trans_records_detail");
-            var strat_time = $('#start_loan_time').val().trim();
-            var end_time = $("#end_loan_time").val().trim();
-
-
-            var recordsDetailUrl = '/loan/transRecordsList/detail';
             Btn.off('click').on('click', function () {
+                var start_time = $('#start_loan_time').val().trim();
+                var end_time = $("#end_loan_time").val().trim();
+                var start_amount = $('#start_amount').val().trim();
+                var end_amount = $('#end_amount').val().trim();
+                var payment_account = $('#payment_account').val().trim();
+                var typeSelect = $('#typeSelect').val().trim();
+                var recordsDetailUrl = '/loan/transRecordsList/detail';
                 var _this = $(this);
                 var id = _this.data("id");
                 locationTo({
                     action : contextPath + markUri + recordsDetailUrl,
                     param : {
-                        financialReceipt_id : id
+                        financialReceipt_id : id,
+                        start_time : start_time,
+                        end_time : end_time,
+                        start_amount : start_amount,
+                        end_amount : end_amount,
+                        payment_account : payment_account,
+                        typeSelect : typeSelect
                     }
                 })
             });
