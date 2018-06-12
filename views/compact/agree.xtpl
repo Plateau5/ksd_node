@@ -6,7 +6,7 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
-    <title>客户-同意</title>
+    <title>{{title}}</title>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -29,9 +29,11 @@
             </div>
             <div class="email_content">
                 <form id="send_email">
-                    <input type="hidden" value="{{finance_id}}" name="finance_id">
+                    <input type="hidden" value="{{finance_id}}" name="finance_id" id="financeId">
                     <input type="hidden" value="{{vo.account}}" id="account" name="email">
                     <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject">
+                    <input type="hidden" value="{{vo.vin}}" id="vin" name="vin">
+                    <input type="hidden" value="{{vo.file_ids}}" id="file_ids" name="file_ids">
                     <div class="recipient">
                         <span class="item_key">收件人：</span>
                         <span style="background: #f5f5f5;padding-left:10px;width: 300px;" class="item_val inline_block">{{vo.create_name }} 【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】 </span>
@@ -57,20 +59,39 @@
                         <span class="item_key">主题：</span>
                         <span class="item_val" style="background: none;">关于客户<span>{{vo.user_name}}</span>的贷款合同资料</span>
                     </div>
-                    <div class="file_upload">
-                        <div class="file_upload_layer"><span class="text">上传附件</span><span class="text_tip">（20M以内）</span></div>
+
+                    <!--<div class="file_upload">
+                        <div class="file_upload_layer"  data-type="1"><span class="text">上传附件</span><span class="text_tip">(最多5个附件，单个100M以内)</span></div>
                         <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
                         <div class="error_msg">请使用正确格式的文件</div>
                         <div class="file_box">
-                            <!--<div class="file_item">
+                            &lt;!&ndash;<div class="file_item">
                                 <img src="" alt="">
                                 <span class="file_name">shenfenzheng.jpg</span>
                                 <span class="file_size">0.27M</span>
                                 <div class="remove_mask">
                                     <em class="remove_btn"></em>
                                 </div>
-                            </div>-->
+                            </div>&ndash;&gt;
 
+                         </div>
+                    </div>-->
+                    <div class="option_item">
+                        <div class="column_name" style="display: none" >
+                            <span class="options_name">上传附件</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="img_md_box file_upload" style="padding-left: 60px;">
+                                <input type="hidden" class="file_ids" name="file_ids">
+                                <a href="javascript:;" class="file_upload_layer" data-type="0">
+                                    <span class="text">上传附件</span>
+                                    <span class="text_tip">(最多5个附件，单个100M以内)</span>
+                                </a>
+                                <div class="file_box">
+
+                                </div>
+                                <input type="file" class="file_upload_btn" value="上传附件" style="display: none" />
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -78,6 +99,10 @@
                     {{#if (verifyCode (1266)) }}
                         <a href="javascript:" class="btn orange_btn confirm send_compact">确认</a>
                         <a href="javascript:window.history.back();" class="btn bg_btn send_cancel">取消</a>
+                    {{/if}}
+                    {{#if (verifyCode (1524)) }}
+                    <a href="javascript:" class="btn orange_btn confirm renew_send_compact">确认</a>
+                    <a href="javascript:window.history.back();" class="btn bg_btn send_cancel">取消</a>
                     {{/if}}
                 </div>
             </div>
@@ -126,6 +151,99 @@
                 sendEmailEvent ();
             })
         }
+
+        var file_ids = [];//上传图片ids
+
+        //上传附件
+        function uploadAnnex () {
+            fileUpload({
+                maxCount : 1,
+                filesSize : 100,
+                fileFormat : ['pages', 'doc', 'docx', 'dot', 'dotx', 'docm', 'dotm', 'pdf', 'bmp', 'jpg', 'png', 'jpeg', 'rar', 'zip', 'tar', 'cab', 'gif', 'svg', '7z'],
+                //imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
+                needThumbnails : true, // 是否需要缩略图
+                callback : function (btn) {
+                    onChoose(btn);
+                }
+            });
+            // 上传逻辑
+            var onChoose = function (btn) {
+                var type = $.trim(btn.data('type'));
+                var data = (btn.parents('.file_upload').find('.file_upload_btn')[0]).files[0];
+                var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
+                var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
+                var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
+                var fileName = filingName + '_' + (fileCount + 1) + fileExtension;
+                var finance_id = $.trim($('#financeId').val());
+                var form = new FormData();
+                form.append("file", data);
+                elem.loading.show();
+                //form.append("file_type", type);
+                //form.append("finance_id", finance_id);
+                //form.append("file_name", fileName);     // 用于后台重命名图片物理名字
+                var url = contextPath + '/api/file/upload';
+                $.ajax({
+                    type : "post",
+                    url : url,
+                    data : form,
+                    async : false,
+                    timeout : 1200000,
+                    processData: false,
+                    contentType: false,
+                    beforeSend : function () {
+                        elem.loading.show();
+                        btn.removeClass('disabled');
+                        btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />');
+                    },
+                    success : function (res) {
+                        elem.loading.hide();
+                        if (res.error_code == 0) {
+                            btn.data('type',type.number() + 1);
+                            file_ids.push(res.file_id);
+                            //$alert('图片上传成功');
+                            // var imgEle = '<div class="file_item">'
+                            //     +     '<img src="'+ result +'" alt="">'
+                            //     +     '<span class="file_name nor_wrap">'+ fileName +'</span>'
+                            //     +     '<span class="file_size">'+ filesSize.toFixed(2) +'M</span>'
+                            //     +     '<div class="remove_mask">'
+                            //     +         '<em class="remove_btn"></em>'
+                            //     +     '</div>'
+                            //     + '</div>';
+                            if (type == 4) {
+                                btn.hide();
+                            }
+                            // btn.after(imgEle);
+                            /* 赋予新图片查看的实例属性 */
+                            var parents = btn.parents('.img_md_box');
+                            /*var count = parents.find('img').length;
+                            var newImgEle = parents.find('img').eq(count - 1)[0];
+                            parents[0].viewer.images.push(newImgEle);*/
+                            // 销毁父元素
+                            var img = parents.find('.img_item');
+                            if (img.length > 1) {
+                                parents[0].viewer.destroy();
+                            }
+                            viewLargeImage(parents[0]);
+                            /*var viewer = new Viewer(parents[0], {
+                                url: 'data-original',
+                                interval : 2000,
+                                loop : true
+                            });*/
+                        } else {
+                            $alert('文件上传失败，请重试');
+                        }
+                    },
+                    error : function () {
+                        $alert('文件上传失败，请重试');
+                    }
+                });
+            }
+        }
+
+        $(function() {
+            uploadAnnex();      // 图片上传
+        });
+
         //提交逻辑
         function sendEmailEvent () {
             var vinE = $('#carVin');        // 车架号元素
@@ -183,14 +301,6 @@
             }
         }
 
-        $(function() {
-            fileUpload({
-                maxCount : 5,
-                filesSize : 20,
-                fileFormat : ['pages', 'doc', 'docx', 'dot', 'dotx', 'docm', 'dotm', 'pdf', 'bmp', 'jpg', 'png', 'jpeg', 'rar', 'zip', 'tar', 'cab', 'gif', 'svg', '7z']
-            });
-            sendEmail();
-        });
     })(jQuery,undefined);
 
     //校验输入车架号是否是数字或英文，17位
@@ -209,5 +319,32 @@
             $('.agree_vin_tip').html('');
         }
     }
+
+    //重新发送合同-提交
+    $('#renew_send_compact').off("click").on("click", function(){
+        var url = contextPath + '/api/compact/again/agree';
+        var data = new FormData(document.getElementById('send_email'));
+        var location_url = $.trim($(this).data("url"));
+        $.ajax({
+            type : "post",
+            url : url,
+            data : data,
+            async : true,
+            processData: false,
+            contentType: false,
+            success : function (res) {
+                var result = eval(res);
+                if (result.error_code == "0") {
+                    window.location.href = contextPath + markUri + "/customer/loan/entered";
+                } else {
+                    $alert(result.error_msg);
+                }
+            },
+            error : function () {
+                $alert("提交失败，请稍后重试");
+            }
+        });
+
+    });
 </script>
 </html>
