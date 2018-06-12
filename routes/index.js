@@ -241,7 +241,7 @@ router.post(markUri + '/loan/toLoanAgree', merchantsCtrl.VIEW_LOAN_TOLOANAGREE);
 // 商户-放款管理-查询交易列表 1517
 router.post(markUri + '/loan/transRecordsList', merchantsCtrl.VIEW_LOAN_TRANSRECORDSLIST);
 // 商户-放款管理-查询交易详情
-router.post(markUri + '/loan/transRecordsDetail', merchantsCtrl.VIEW_LOAN_TRANSRECORDSDETAIL);
+router.post(markUri + '/loan/transRecordsList/detail', merchantsCtrl.VIEW_LOAN_TRANSRECORDSDETAIL);
 // 商户-放款管理-待审核-重新提交(放款)
 router.post(markUri + '/loan/againLoanAgree', merchantsCtrl.VIEW_LOAN_AGAINLOANAGREE);
 
