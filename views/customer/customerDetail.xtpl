@@ -717,8 +717,9 @@
             detailRequestPayOut();  //确认申请按钮跳转
             detailEntering();   //开始录入按钮跳转
             pageJump("#sendAuditResult");   //通知审核结果按钮跳转
-            renewSendContractClick("#RenewSendAuditResult");   //重新通知审核结果按钮跳转
+            renewSendResult("#RenewSendAuditResult");   //重新通知审核结果按钮跳转
             goDockingPADetail();    //跳转查看对接详情页
+            renewSendContractClick(".renew_send_contract");   //重新发送合同按钮跳转
             pageJump(".go_forward");   //同意不同意按钮跳转
             complementDatumEvent();   // 补全资料按钮跳转
             affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
@@ -746,7 +747,7 @@
             }
         });
         //重新通知结果
-        function  renewSendContractClick (selector, opt) {
+            function  renewSendResult (selector, opt) {
             var options = {};
             if (opt) {
                 options = $.extend({}, opt);
@@ -757,6 +758,26 @@
                 var financeId = $.trim(target.data("id"));
                 var url = $.trim(target.data("url"));
                 var btnType = $('#showButton').val();
+                financeId && (options.finance_id = financeId);
+                options.type = btnType;
+                locationTo({
+                    action : url,
+                    param : options
+                });
+            });
+        };
+        //重新发送合同
+        function  renewSendContractClick (selector, opt) {
+            var options = {};
+            if (opt) {
+                options = $.extend({}, opt);
+            }
+            var btn = $(selector);
+            btn.off("click").on("click", function () {
+                var target = $(this);
+                var financeId = $.trim(target.data("id"));
+                var url = $.trim(target.data("url"));
+                var btnType = target.data('btn_type');      // 按钮的状态类型
                 financeId && (options.finance_id = financeId);
                 options.type = btnType;
                 locationTo({
