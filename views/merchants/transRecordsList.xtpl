@@ -186,6 +186,10 @@
 
         function toRecordsDetail () {
             var Btn = $(".trans_records_detail");
+            var strat_time = $('#start_loan_time').val().trim();
+            var end_time = $("#end_loan_time").val().trim();
+
+
             var recordsDetailUrl = '/loan/transRecordsList/detail';
             Btn.off('click').on('click', function () {
                 var _this = $(this);

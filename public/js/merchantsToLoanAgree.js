@@ -97,7 +97,7 @@ $(function(){
 
     receipt_phone.blur(function(){
         // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
-        var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
+        var reg = PHONEPATTERN;
         var error_txt = '请输入正确格式的电话号码';
         validate_form(0,receipt_phone,reg,error_txt);
     });

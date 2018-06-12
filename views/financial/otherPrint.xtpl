@@ -15,12 +15,12 @@
 																																																																																																																																																																																																																																																																																																																																   width: 100%;
 																																																																																																																																																																																																																																																																																																																																   color: #333333;
 																																																																																																																																																																																																																																																																																																																															   }
-		.wrapper .main {
+		.main {
 			width: 596px;
 			margin: 0 auto;
 			position: relative;
 		}
-		.wrapper .main .title {
+		.main .title {
 			font-size: 20px;
 			width: 530px;
 			margin: 0 auto;
@@ -30,42 +30,42 @@
 			line-height: 50px;
 			text-align: center;
 		}
-		.wrapper .main table {
+		.main table {
 			font-size: 12px;
 			width: 530px;
 			margin: 20px auto;
 			border-collapse: collapse;
 		}
-		.wrapper .main table .bold {
+		.main table .bold {
 			font-weight: bold;
 		}
-		.wrapper .main table .ml_20 {
+		.main table .ml_20 {
 			margin-left: 20px;
 		}
-		.wrapper .main table .ml_40 {
+		.main table .ml_40 {
 			margin-left: 40px;
 		}
-		.wrapper .main table .ml_80 {
+		.main table .ml_80 {
 			margin-left: 180px;
 		}
-		.wrapper .main table tr {
+		.main table tr {
 			height: 30px;
 			line-height: 30px;
 		}
-		.wrapper .main table tr td {
+		.main table tr td {
 			border: 1px solid #D3D3D3;
 			box-sizing: border-box;
 		}
-		.wrapper .main table tr .receipt_name {
+		.receipt_name {
 			width: 96px;
 			text-align: center;
 			font-weight: bold;
 			background: #F5F5F5;
 		}
-		.wrapper .main table tr .receipt_value {
+		.receipt_value {
 			padding-left: 24px;
 		}
-		.wrapper .main table .head_list {
+		.main table .head_list {
 			height: 40px;
 			line-height: 40px;
 		}
@@ -211,6 +211,10 @@
 					付款回单
 				</div>
 				<table  cellspacing="0">
+					<colgroup>
+						<col style="width: 30%;" />
+						<col style="width: 70%;" />
+					</colgroup>
 					<tbody>
 					<tr class="head_list">
 						<td colspan="2">
@@ -265,8 +269,8 @@
 					<tr class="head_list">
 						<td colspan="2">
 							<span class="bold ml_20">业务参考号：</span>
-							<span>{{financial.bank_business_no}}</span>
-							<span class="bold ml_80">打印时间：</span>
+							<span style="display: inline-block;width:260px;">{{financial.bank_business_no}}213124</span>
+							<span class="bold">打印时间：</span>
 							<span>{{date}}</span>
 						</td>
 					</tr>
