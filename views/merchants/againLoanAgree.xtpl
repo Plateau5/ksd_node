@@ -318,33 +318,11 @@
                     $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('提交成功', function () {
-                            dialog("open", {
-                                closeBtn : false,
-                                "title" : "打印提醒",
-                                "button" : ["确认","取消"],
-                                "content" : "是否立即打印该车请款审批材料与电子回单？？",
-                                "maskClose" : false,
-                                onConfirm : function (d) {
-                                    d.close();
-                                    var orderNo = $("#orderNo").val();
-                                    var receiptType = $("#receiptType").val();
-                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&receipt_type=' + receiptType;
-                                    window.location.replace(printPage);
-                                },
-                                onCancel : function (d) {
-                                    d.close();
-                                    var recordsDetailUrl = '/loan/transRecordsDetail';
-                                    var id = $("#financialReceipt_id").val();
-                                    locationTo({
-                                        action : contextPath + markUri + recordsDetailUrl,
-                                        param : {
-                                            financialReceipt_id : id
-                                        }
-                                    })
-
-                                }
+                            var url = contextPath + markUri +'/loan/transRecordsList';
+                            locationTo({
+                                action : url,
+                                param : {}
                             });
-
                         });
                     } else {
                         $alert(res.error_msg);

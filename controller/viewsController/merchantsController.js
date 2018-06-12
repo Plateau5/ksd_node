@@ -272,12 +272,12 @@ exports.VIEW_LOAN_PASS = function(req, res, next) {
     }, req, res, next);
 };
 
-//商户-放款管理-交易查询列表 1488
+//商户-放款管理-交易查询列表 1517
 exports.VIEW_LOAN_TRANSRECORDSLIST = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/dealList',
         title: '放款管理-查询列表',
-        page: './merchants/trans_records_list'
+        page: './merchants/transRecordsList'
     }, req, res, next);
 };
 
@@ -286,7 +286,7 @@ exports.VIEW_LOAN_TRANSRECORDSDETAIL = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/payment/detail',
         title: '商户-放款管理-查询记录详情',
-        page: './merchants/trans_records_detail'
+        page: './merchants/transRecordsDetail'
     }, req, res, next);
 };
 
@@ -295,7 +295,7 @@ exports.VIEW_LOAN_AGAINLOANAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/tosubmit/again',
         title : '放款管理-重新提交',
-        page : './merchants/again_loan_agree',
+        page : './merchants/againLoanAgree',
         callback : function (data) {
             data.merchants = req.body;
             if (data.city_list) {
@@ -303,16 +303,6 @@ exports.VIEW_LOAN_AGAINLOANAGREE = function(req, res, next) {
             }
         }
     }, req, res, next);
-    // var data = {};
-    // var localUrl = req.originalUrl;
-    // data.title = '商户-放款管理-重新提交';
-    // data.originUrl = localUrl;
-    // data.markUri = markUri;
-    // data.apiServerPath = apiServerPath;
-    // data.domain = domain;
-    // var body = req.body;
-    // data.reqParams = body;
-    // res.render('./merchants/again_loan_agree', data);
 };
 
 // 商户-放款管理-商户打款结算详情 1498
@@ -351,12 +341,12 @@ exports.VIEW_LOAN_AGREE = function(req, res, next) {
     }, req, res, next);
 };
 
-// 商户-放款管理-待审核-同意页面跳转(放款)
+// 商户-放款管理-待审核-同意页面跳转(放款) 1519
 exports.VIEW_LOAN_TOLOANAGREE = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/to/payment',
         title : '放款管理-审核通过',
-        page : './merchants/to_loan_agree',
+        page : './merchants/toLoanAgree',
         callback : function (data) {
             data.merchants = req.body;
             if (data.city_list) {
