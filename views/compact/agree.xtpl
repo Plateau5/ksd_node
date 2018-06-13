@@ -32,7 +32,6 @@
                     <input type="hidden" value="{{finance_id}}" name="finance_id" id="financeId">
                     <input type="hidden" value="{{vo.account}}" id="account" name="email">
                     <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject">
-                    <input type="hidden" value="{{vo.vin}}" id="vin" name="vin">
                     <input type="hidden" value="{{vo.file_ids}}" id="file_ids" name="file_ids">
                     <div class="recipient">
                         <span class="item_key">收件人：</span>
@@ -41,7 +40,7 @@
 
                     <div class="recipient">
                         <span class="item_key"><span class="need" style="color: #EA4B5F;vertical-align: middle;">*</span>车架号：</span>
-                        <span style="width: 374px;" class="item_val inline_block">
+                        <span style="width: 400px;" class="item_val inline_block">
                             <input type="text" name="vin" class="agree_vin" id="carVin" placeholder="请输入车架号" maxlength="17" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" onblur="checkNumOrEng()">
                             <span class="agree_vin_tip" style="color: #EA4B5F;"></span>
                         </span>
@@ -240,9 +239,6 @@
             }
         }
 
-        $(function() {
-            uploadAnnex();      // 图片上传
-        });
 
         //提交逻辑
         function sendEmailEvent () {
@@ -262,45 +258,27 @@
                     url : url,
                     data : data,
                     async : true,
-                    timeout : 300000,
                     processData: false,
                     contentType: false,
-                    beforeSend : function () {
-                        elem.loading.show();
-                    },
                     success : function (res) {
-                        elem.loading.hide();
-                        if (res.error_code == 0) {
-                            $alert('合同发送成功', function () {
-                                window.location.href = contextPath + markUri + '/customer/compact/pendingPass';
-                            });
+                        var result = eval(res);
+                        if (result.error_code == 0) {
+                            window.location.href = contextPath + markUri + "/customer/compact/pendingPass";
                         } else {
-                            console.log(res.error_msg);
-                            dialog('open', {
-                                title : '提醒',
-                                content: '发送失败，是否继续发送',
-                                onConfirm : function () {
-                                    sendEmail();
-                                    elem.confirm.click();
-                                },
-                                onCancel : function (d) {
-                                    // window.location.href = contextPath + markUri +  '/customer/compact/agree';
-                                    // window.location.href = contextPath + markUri + '/customer/compact/pendingPass';
-                                    d.close();
-                                }
-                            })
+                            $alert(result.error_msg);
                         }
                     },
                     error : function () {
-                        $alert('发送失败，重新发送', function () {
-                            sendEmail();
-                            elem.confirm.click();
-                        });
+                        $alert("提交失败，请稍后重试");
                     }
                 });
             }
         }
 
+        $(function() {
+            uploadAnnex();      // 图片上传
+            sendEmail();
+        });
     })(jQuery,undefined);
 
     //校验输入车架号是否是数字或英文，17位
