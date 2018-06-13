@@ -3,7 +3,7 @@
 	<div class="classify_item location">
 			<div class="classify_title">客户信息</div>
 			<div class="btn_box customer_btn_box">
-				{{#if (startWith(markUri + '/customer/loan'))}}
+				{{#if (startWith(url === markUri + '/customer/loan/passed'))}}
 					{{#if (verifyCode(1522)) }}
 						{{#if (show_button === 1) }}
 							<a href="javascript:;" class="customer_btn renew_notify_result" id="RenewSendAuditResult" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/renewNotifyResult" lang="{{finance_id}}">重新通知结果</a>

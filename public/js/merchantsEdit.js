@@ -177,11 +177,18 @@ function addOwnPerson () {
                 setObj.input.val("");
                 setObj.resBox.html("");
                 setObj.sBox.hide();
-                // 创建拥有者展示数据
-                var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn"></em></li>';
-                setObj.personList.find('.choose_box').before(ownStr);
-                var endPerson = getFollowPeople().join(',');
-                $('#ownPersonInput').val(endPerson);
+                var oldOwner = getFollowPeople();
+                if (oldOwner.indexOf(lId) != -1) {
+                    $alert('"' + pName + '"已拥有此商户');
+                }
+                else{
+                    // 创建拥有者展示数据
+                    var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn"></em></li>';
+                    setObj.personList.find('.choose_box').before(ownStr);
+                    var endPerson = getFollowPeople().join(',');
+                    $('#ownPersonInput').val(endPerson);
+                }
+
             });
         });
     }
