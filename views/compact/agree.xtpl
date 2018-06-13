@@ -32,7 +32,6 @@
                     <input type="hidden" value="{{finance_id}}" name="finance_id" id="financeId">
                     <input type="hidden" value="{{vo.account}}" id="account" name="email">
                     <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject">
-                    <input type="hidden" value="{{vo.file_ids}}" id="file_ids" name="file_ids">
                     <div class="recipient">
                         <span class="item_key">收件人：</span>
                         <span style="background: #f5f5f5;padding-left:10px;width: 220px;" class="item_val inline_block">{{vo.create_name }} 【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】 </span>
@@ -59,39 +58,21 @@
                         <span class="item_val" style="background: none;padding:0;">关于客户<span>{{vo.user_name}}</span>的贷款合同资料</span>
                     </div>
 
-                    <!--<div class="file_upload">
+                    <div class="file_upload">
                         <div class="file_upload_layer"  data-type="1"><span class="text">上传附件</span><span class="text_tip">(最多5个附件，单个100M以内)</span></div>
                         <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
                         <div class="error_msg">请使用正确格式的文件</div>
                         <div class="file_box">
-                            &lt;!&ndash;<div class="file_item">
+                            <!--<div class="file_item">
                                 <img src="" alt="">
                                 <span class="file_name">shenfenzheng.jpg</span>
                                 <span class="file_size">0.27M</span>
                                 <div class="remove_mask">
                                     <em class="remove_btn"></em>
                                 </div>
-                            </div>&ndash;&gt;
+                            </div>-->
 
                          </div>
-                    </div>-->
-                    <div class="option_item">
-                        <div class="column_name" style="display: none" >
-                            <span class="options_name">上传附件</span>
-                        </div>
-                        <div class="column_val">
-                            <div class="img_md_box file_upload" style="padding-left: 60px;">
-                                <input type="hidden" class="file_ids" name="file_ids">
-                                <a href="javascript:;" class="file_upload_layer" data-type="0">
-                                    <span class="text">上传附件</span>
-                                    <span class="text_tip">(最多5个附件，单个100M以内)</span>
-                                </a>
-                                <div class="file_box">
-
-                                </div>
-                                <input type="file" class="file_upload_btn" value="上传附件" style="display: none" />
-                            </div>
-                        </div>
                     </div>
                 </form>
                 <div class="btn_box clearfix text_left">
@@ -118,7 +99,7 @@
         // 校验是否有附件
         function  verify () {
             var elem = $('.file_box');
-            var files = elem.find('.file_item');
+            var file_ids = elem.find('.file_item');
             var vin = $('#carVin').val().trim().toUpperCase();
             var email = $.trim($('#emailAccount').text());
             var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ig;
@@ -134,7 +115,7 @@
                 $alert('车架号不足17位');
                 return false;
             }
-            if (files.length <= 0) {
+            if (file_ids.length <= 0) {
                 $alert('附件不能为空');
                 return false;
             }
@@ -163,6 +144,7 @@
             });
             // 上传逻辑
             var onChoose = function (btn) {
+                elem.loading.show();
                 var type = $.trim(btn.data('type'));
                 var data = (btn.parents('.file_upload').find('.file_upload_btn')[0]).files[0];
                 var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
@@ -172,7 +154,6 @@
                 var finance_id = $.trim($('#financeId').val());
                 var form = new FormData();
                 form.append("file", data);
-                elem.loading.show();
                 //form.append("file_type", type);
                 //form.append("finance_id", finance_id);
                 //form.append("file_name", fileName);     // 用于后台重命名图片物理名字
@@ -181,7 +162,7 @@
                     type : "post",
                     url : url,
                     data : form,
-                    async : false,
+                    async : true,
                     timeout : 1200000,
                     processData: false,
                     contentType: false,
