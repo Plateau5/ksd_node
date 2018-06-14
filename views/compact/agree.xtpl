@@ -213,13 +213,12 @@
                 });
             }
         }
-
-
         //提交逻辑
         function sendEmailEvent () {
             var vinE = $('#carVin');        // 车架号元素
             var valid = verify();
             if (valid) {
+                elem.loading.show();
                 elem.confirm.off("click");
                 var email = $.trim($('#emailAccount').text());
                 $('#account').val(email);
@@ -236,6 +235,7 @@
                     processData: false,
                     contentType: false,
                     success : function (res) {
+                        elem.loading.hide();
                         var result = eval(res);
                         if (result.error_code == 0) {
                             window.location.href = contextPath + markUri + "/customer/compact/pendingPass";
@@ -250,25 +250,11 @@
             }
         }
 
-        //校验输入车架号是否是数字或英文，17位
-        function checkNumOrEng () {
-            var reg = /^[0-9a-zA-Z]+$/;
-            var str = $(".agree_vin").val();
-            if(!reg.test(str)){
-                $('.agree_vin_tip').html('你输入的不是数字或者字母');
-                return;
-            }else{
-                $('.agree_vin_tip').html('');
-            }
-            if(str.length<17){
-                $('.agree_vin_tip').html('不足17位');
-            }else{
-                $('.agree_vin_tip').html('');
-            }
-        }
+
 
         //重新发送合同-提交
         $('#renew_send_compact').off("click").on("click", function(){
+            elem.loading.show();
             var url = contextPath + '/api/compact/again/agree';
             var data = new FormData(document.getElementById('send_email'));
             var location_url = $.trim($(this).data("url"));
@@ -280,6 +266,7 @@
                 processData: false,
                 contentType: false,
                 success : function (res) {
+                    elem.loading.hide();
                     var result = eval(res);
                     if (result.error_code == "0") {
                         window.location.href = contextPath + markUri + "/customer/loan/entered";
@@ -300,6 +287,23 @@
         });
     })(jQuery,undefined);
 
+
+    //校验输入车架号是否是数字或英文，17位
+    function checkNumOrEng () {
+        var reg = /^[0-9a-zA-Z]+$/;
+        var str = $(".agree_vin").val();
+        if(!reg.test(str)){
+            $('.agree_vin_tip').html('你输入的不是数字或者字母');
+            return;
+        }else{
+            $('.agree_vin_tip').html('');
+        }
+        if(str.length<17){
+            $('.agree_vin_tip').html('不足17位');
+        }else{
+            $('.agree_vin_tip').html('');
+        }
+    }
 
 </script>
 </html>
