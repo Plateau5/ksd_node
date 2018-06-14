@@ -244,15 +244,15 @@
                     url : url,
                     data : data,
                     async : true,
-                    processData: false,
-                    contentType: false,
                     success : function (res) {
                         elem.loading.hide();
                         var result = eval(res);
                         if (result.error_code == 0) {
                             window.location.href = contextPath + markUri + "/customer/compact/pendingPass";
                         } else {
-                            $alert(result.error_msg);
+                            $alert(result.error_msg, function () {
+                                sendEmail();
+                            });
                         }
                     },
                     error : function () {
@@ -276,15 +276,15 @@
                 url : url,
                 data : data,
                 async : true,
-                processData: false,
-                contentType: false,
                 success : function (res) {
                     elem.loading.hide();
                     var result = eval(res);
                     if (result.error_code == "0") {
                         window.location.href = contextPath + markUri + "/customer/loan/entered";
                     } else {
-                        $alert(result.error_msg);
+                        $alert(result.error_msg, function () {
+                            sendEmail();
+                        });
                     }
                 },
                 error : function () {
