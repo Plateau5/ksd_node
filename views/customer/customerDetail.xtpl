@@ -775,11 +775,11 @@
             var btn = $(selector);
             btn.off("click").on("click", function () {
                 var target = $(this);
+                var dataType =$.trim(target.data("type"));
                 var financeId = $.trim(target.data("id"));
                 var url = $.trim(target.data("url"));
-                var btnType = target.data('btn_type');      // 按钮的状态类型
                 financeId && (options.finance_id = financeId);
-                options.type = btnType;
+                options.dataType = dataType;
                 locationTo({
                     action : url,
                     param : options

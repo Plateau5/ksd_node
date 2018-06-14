@@ -54,16 +54,16 @@
             </div>
             <form class="formML" id="review_info" enctype="multipart/form-data" method="post">
                 <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
-                <input type="hidden" id="is_change" name="is_change" value="">
-                <input type="hidden" id="loan_amount" name="loan_amount" value="{{vo.loan_amount}}">
+                <input type="hidden" id="is_change" name="is_change" value="1">
+                <!--<input type="hidden" id="loan_amount" name="loan_amount" value="{{vo.loan_amount}}">
                 <input type="hidden" id="purchase_tax" name="purchase_tax" value="{{vo.purchase_tax}}">
                 <input type="hidden" id="gps_charge" name="gps_charge" value="{{vo.gps_charge}}">
                 <input type="hidden" id="insurance" name="insurance" value="{{vo.insurance}}">
-                <input type="hidden" id="service_charge" name="service_charge" value="{{vo.service_charge}}">
+                <input type="hidden" id="service_charge" name="service_charge" value="{{vo.service_charge}}">-->
                 <div class="form-item" style="height:30px;">
                     <label>
                         <span class="need">*</span>是否通过：</label>
-                        <input  class="select_status_noClick" readonly="readonly" value="通过"/>
+                        <input  class="select_status_noClick" name="" readonly="readonly" value="通过"/>
                 </div>
                 <div class="form-item customer_check" style="height:30px;clear: both;margin-bottom: 0;">
                     <label class="bold">费用情况</label>
@@ -72,7 +72,7 @@
                     <label>
                         <span class="need">*</span>车价贷款额：</label>
                     <div>
-                        <input type="text" name="purchase_tax" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.loan_amount}}">
+                        <input type="text"  id="loan_amount" name="loan_amount" class="real_loan_amount loan_money"  maxlength="8" placeholder="请输入金额" onkeypress="IsNum(event,loan_amount);" onkeyup="value=value.replace(/[^\d.]/g,'')" onpaste="return false;" value="{{vo.loan_amount}}">
                         <span class="contribution">
                             <span>&nbsp;万元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写，不需要时填写0</span>
@@ -83,7 +83,7 @@
                     <label>
                         <span class="need">*</span>购置税：</label>
                     <div>
-                        <input type="text" name="purchase_tax" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.purchase_tax}}">
+                        <input type="text" id="purchase_tax" name="purchase_tax" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.purchase_tax}}">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写，不需要时填写0</span>
@@ -94,7 +94,7 @@
                     <label>
                         <span class="need">*</span>GPS费：</label>
                     <div>
-                        <input type="text" name="gps_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.gps_charge}}">
+                        <input type="text" name="gps_charge" id="gps_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.gps_charge}}">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写，不需要时填写0</span>
@@ -105,7 +105,7 @@
                     <label>
                         <span class="need">*</span>保险费：</label>
                     <div>
-                        <input type="text" name="insurance" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.insurance}}">
+                        <input type="text" name="insurance" id="insurance" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.insurance}}">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写，不需要时填写0</span>
@@ -116,7 +116,7 @@
                     <label>
                         <span class="need">*</span>服务费：</label>
                     <div>
-                        <input type="text" name="service_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.service_charge}}">
+                        <input type="text" name="service_charge" id="service_charge" class="loan_money" maxlength="10" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" value="{{vo.service_charge}}">
                         <span class="contribution">
                             <span>&nbsp;元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写，不需要时填写0</span>
@@ -141,10 +141,8 @@
                 {{#if (verifyCode(1523)) }}
                 <div class="form-item">
                     <div class="create_btn">
-                        <input type="button" class="create_sub" id="renew_review_sub" value="确认"/>
-                        <a href="javascript:" class="go_detail" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail">
-                            <input type="button" class="cancel_btn" value="取消">
-                        </a>
+                        <input type="button" class="detail_high_btn go_forward" id="renew_review_sub" value="确认"/>
+                        <input type="button" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail" value="取消"/>
                     </div>
                 </div>
                 {{/if}}
@@ -198,18 +196,51 @@
             }
         }
     }
+    //保证小数点后有四位
+    function checkMoney_point(obj){
+        if(obj.value.indexOf(".")!=-1){
+
+        }else{
+            if(obj.value != ''){
+                obj.value = obj.value + ".0000";
+            }
+        }
+    }
     (function () {
         var elem = {
             loading : $('#loading')
         };
         //确认
         $('#renew_review_sub').off("click").on("click", function(){
-            elem.loading.show();
+            // elem.loading.show();
             var url = contextPath + '/api/finance/again/pass';
             if ($('#loan_amount').val()==$('.loan_money').val()){
                 $('#is_change').val("0")
             } else{
                 $('#is_change').val("1")
+            }
+            var loan_amount = $("#loan_amount").val().trim();
+            var purchase_tax = $("#purchase_tax").val().trim();
+            var gps_charge = $("#gps_charge").val().trim();
+            var insurance = $("#insurance").val().trim();
+            var service_charge = $("#service_charge").val().trim();
+
+            for (var i = 0;i < $('.loan_money').length;i++) {
+                if($('.loan_money')[i].value==""){
+                    if (i == 0) {
+                        $alert('请输入车价贷款额');
+                    } else if (i == 1) {
+                        $alert('请输入购置税');
+                    } else if (i == 2) {
+                        $alert('请输入GPS费');
+                    } else if (i == 3) {
+                        $alert('请输入保险费');
+                    } else if (i == 4) {
+                        $alert('请输入服务费');
+                    }
+                    $('#renew_review_sub').attr('disabled',false);
+                    return;
+                }
             }
             var data = new FormData(document.getElementById('review_info'));
             var location_url = $.trim($(this).data("url"));
