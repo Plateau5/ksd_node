@@ -167,13 +167,19 @@
             var cancelBtn = $('.recordsList_search_cancel');
             var listForm = $('form[role="form"]');
             confirmBtn.off('click').on('click', function () {
-                var _this = $(this);
-                _this.off('click');
-                var start_with = getCheckedFirstLetter();
-                (start_with == "全部") && (start_with = '');
-                start_with && listForm.append('<input type="hidden" class="filtrate_input" id="start_with" name="start_with" value="'+ start_with + '" />');
-                $("#current_page").val(1);
-                listForm.submit();
+                var start_amount = $('#start_amount').val().trim().number();
+                var end_amount = $('#end_amount').val().trim().number();
+                if (start_amount > end_amount) {
+                    $alert("请输入正确金额范围");
+                } else {
+                    var _this = $(this);
+                    _this.off('click');
+                    var start_with = getCheckedFirstLetter();
+                    (start_with == "全部") && (start_with = '');
+                    start_with && listForm.append('<input type="hidden" class="filtrate_input" id="start_with" name="start_with" value="'+ start_with + '" />');
+                    $("#current_page").val(1);
+                    listForm.submit();
+                }
             });
             cancelBtn.off('click').on('click', function () {
                 var _this = $(this);
