@@ -1799,40 +1799,48 @@ function fileUpload (opt) {
             }
             fileBtn.eq(fileCount).on("change", function () {
                 var targetFile = $(this);
+                var fileValue = targetFile[0].files[0];
                 var success = chooseFile(targetFile);
                 //计算文件个数并校验,同时校验通过后创建新的input
-                fileCount++;
+                if (success) {
+                    fileCount++;
+                } else {
+                    return;
+
+                }
                 if (options.maxCount) {
                     if (fileCount >= options.maxCount) {
                         if (success) {
                             btn.addClass("disabled");
-                            options.callback && options.callback(t);    // 回传点击的按钮
+                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                         } else {
-                            // Todo do something here.
+                            // fileCount--;
                         }
-                        fileCount--;
+                        // btn.addClass("disabled");
+                        // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        // fileCount--;
                     } else {
                         btn.removeClass("disabled");
                         if (success) {
                             that.append(inputFile);
-                            options.callback && options.callback(t);    // 回传点击的按钮
+                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                         } else {
                             targetFile.remove();
                             that.append(inputFile);
                             fileCount--;
-                            options.callback && options.callback(t);    // 回传点击的按钮
+                            // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                         }
                     }
                 } else {
                     btn.removeClass("disabled");
                     if (success) {
                         that.append(inputFile);
-                        options.callback && options.callback(t);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                     } else {
                         targetFile.remove();
                         that.append(inputFile);
                         fileCount--;
-                        options.callback && options.callback(t);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                     }
                 }
             });
@@ -1875,11 +1883,12 @@ function fileUpload (opt) {
             if ( isNeedFormat == -1) {
                 //alert('请使用正确格式的文件');
                 f.parents(".file_upload").find(".error_msg").text("(请使用正确格式的文件)").show();
-                if(f.outerHTML){
+                /*if(f.outerHTML){
                     f.outerHTML = f.outerHTML;
                 } else{      //FF
                     f.value="";
-                }
+                }*/
+                f.replaceWith(inputFile);
                 return false;
             }
         }

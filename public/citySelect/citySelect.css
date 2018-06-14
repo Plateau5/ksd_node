@@ -1,1 +1,215 @@
-.city-select-container{z-index:99999;display:block;width:0;height:0;position:fixed;left:50%;top:0;font-size:12px}.city-select-container input[type='checkbox']{display:none}.city-select-container input[type='checkbox']+label{padding-left:16px}.city-select-container input[type='checkbox']+label:before{top:0;left:-4px}.city-select-container input[type='checkbox']+label.check:before{background-position:0 -100px}.city-select-container .mask-layer{width:100%;height:100%;background:#000;position:fixed;left:0;top:0;opacity:.6}.city-select-container .city-select-wrapper{width:600px;height:470px;position:fixed;top:0;left:0;right:0;bottom:0;margin:auto;background-color:#FFFFFF;border-radius:4px}.city-select-container .title{padding:40px 0 24px 0;text-align:center;font-size:18px;color:#2B3C4A}.city-select-container .content{width:520px;height:284px;margin:0 auto}.city-select-container .item-name{margin:10px;color:#1DC6BC;text-align:left;font-size:12px}.city-select-container .selected-name{height:30px;line-height:30px;margin-left:10px;color:#666;font-size:12px}.city-select-container .city-select-item{float:left;width:33%;height:100%;border:1px solid #E6E6E6;overflow:hidden;border-left:0}.city-select-container .province-list-item{border-left:1px solid #E6E6E6}.city-select-container .city-select-list{height:85%;padding:0 10px 0 0;overflow:auto}.city-select-container .city-select-list::-webkit-scrollbar{width:8px;height:8px;background-color:#fff}.city-select-container .city-select-list::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px #fff;border-radius:10px;background-color:#fff}.city-select-container .city-select-list::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px #fff;background-color:#f1f1f1}.city-select-container .province-item{padding:5px 0}.city-select-container .province-item:hover{background-color:#EFEFEF}.city-select-container .list-item{box-sizing:border-box;width:163px;height:30px;line-height:20px;padding:5px 5px 5px 10px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.city-select-container .list-item:hover{background:#EFEFEF}.city-select-container .list-item.active{background:#E2F7F6}.city-select-container .province-item span,.city-select-container .list-item span{color:#333;font-size:12px;display:inline-block;vertical-align:top;cursor:default}.city-select-container .city-select-btn{width:100%;height:68px;line-height:48px;text-align:center}.city-select-container .city-select-btn .btn{display:inline-block;width:110px;height:30px;line-height:30px;padding:0;color:#fff;border-radius:4px;font-size:12px}.city-select-container .city-select-btn .city-select-confirm{margin-right:60px}.city-select-container .city-select-btn .city-select-confirm{background:#1DC6BC}.city-select-container .city-select-btn .city-select-cancel{background:#A0A0A0}.city-select-container .p-c .city-list-item{width:66%}.city-select-container .p-c .city-list-item .list-item{float:left;width:31%}.city-select-container .p-c .city-list-item.multiple .list-item.active{background:#FFFFFF}.city-select-container .p-c .city-list-item.multiple .list-item:hover{background:#FFFFFF}.city-select-container .p-c .county-list-item{display:none}.city-select-container .error-tips{width:520px;height:30px;line-height:30px;margin:auto;visibility:hidden;color:red;text-align:left}.city-select-container .error-tips.show{visibility:visible}.city-select-container .error-tips.hide{visibility:hidden}
+/*Created by Arley Joe on 2018-5-11 13:29:06*/
+/** { -ms-word-wrap: break-word; word-wrap: break-word; }
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,
+td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}*/
+.city-select-container {
+  z-index: 99999;
+  display: block;
+  width: 0;
+  height: 0;
+  position: fixed;
+  left: 50%;
+  top: 0;
+  font-size: 12px;
+  /*.close_btn{
+        width:16px;
+        height:16px;
+        position: absolute;
+        top:12px;
+        right:12px;
+    }*/
+  /*.children-container{
+        height: 85%;
+        display:block;
+    }*/
+  /*.display{
+        display:block;
+    }*/
+}
+.city-select-container input[type='checkbox'] {
+  display: none;
+}
+.city-select-container input[type='checkbox'] + label {
+  padding-left: 16px;
+}
+.city-select-container input[type='checkbox'] + label:before {
+  top: 0;
+  left: -4px;
+}
+.city-select-container input[type='checkbox'] + label.check:before {
+  background-position: 0 -100px;
+}
+.city-select-container .mask-layer {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  opacity: 0.6;
+}
+.city-select-container .city-select-wrapper {
+  width: 600px;
+  height: 470px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+}
+.city-select-container .title {
+  padding: 40px 0 24px 0;
+  text-align: center;
+  font-size: 18px;
+  color: #2B3C4A;
+}
+.city-select-container .content {
+  width: 520px;
+  height: 284px;
+  margin: 0 auto;
+}
+.city-select-container .item-name {
+  margin: 10px;
+  color: #1DC6BC;
+  text-align: left;
+  font-size: 12px;
+}
+.city-select-container .selected-name {
+  height: 30px;
+  line-height: 30px;
+  margin-left: 10px;
+  color: #666;
+  font-size: 12px;
+}
+.city-select-container .city-select-item {
+  float: left;
+  width: 33%;
+  height: 100%;
+  border: 1px solid #E6E6E6;
+  overflow: hidden;
+  border-left: 0;
+}
+.city-select-container .province-list-item {
+  border-left: 1px solid #E6E6E6;
+}
+.city-select-container .city-select-list {
+  height: 85%;
+  padding: 0 10px 0 0;
+  overflow: auto;
+}
+.city-select-container .city-select-list {
+  /*定义滚动条轨道 内阴影+圆角*/
+  /*定义滑块 内阴影+圆角*/
+}
+.city-select-container .city-select-list::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+}
+.city-select-container .city-select-list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.city-select-container .city-select-list::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  background-color: #f1f1f1;
+}
+.city-select-container .province-item {
+  padding: 5px 0;
+}
+.city-select-container .province-item:hover {
+  background-color: #EFEFEF;
+}
+.city-select-container .list-item {
+  box-sizing: border-box;
+  width: 163px;
+  height: 30px;
+  line-height: 20px;
+  padding: 5px 5px 5px 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.city-select-container .list-item:hover {
+  background: #EFEFEF;
+}
+.city-select-container .list-item.active {
+  background: #E2F7F6;
+}
+.city-select-container .province-item span,
+.city-select-container .list-item span {
+  color: #333;
+  font-size: 12px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: default;
+}
+.city-select-container .city-select-btn {
+  width: 100%;
+  height: 68px;
+  line-height: 48px;
+  text-align: center;
+}
+.city-select-container .city-select-btn .btn {
+  display: inline-block;
+  width: 110px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.city-select-container .city-select-btn .city-select-confirm {
+  margin-right: 60px;
+}
+.city-select-container .city-select-btn .city-select-confirm {
+  background: #1DC6BC;
+}
+.city-select-container .city-select-btn .city-select-cancel {
+  background: #A0A0A0;
+}
+.city-select-container .p-c .city-list-item {
+  width: 66%;
+}
+.city-select-container .p-c .city-list-item .list-item {
+  float: left;
+  width: 31%;
+}
+.city-select-container .p-c .city-list-item.multiple .list-item.active {
+  background: #FFFFFF;
+}
+.city-select-container .p-c .city-list-item.multiple .list-item:hover {
+  background: #FFFFFF;
+}
+.city-select-container .p-c .county-list-item {
+  display: none;
+}
+.city-select-container .error-tips {
+  width: 520px;
+  height: 30px;
+  line-height: 30px;
+  margin: auto;
+  visibility: hidden;
+  color: red;
+  text-align: left;
+}
+.city-select-container .error-tips.show {
+  visibility: visible;
+}
+.city-select-container .error-tips.hide {
+  visibility: hidden;
+}
