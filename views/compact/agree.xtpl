@@ -31,7 +31,7 @@
                 <form id="send_email">
                     <input type="hidden" value="{{finance_id}}" name="finance_id" id="financeId">
                     <input type="hidden" value="{{vo.account}}" id="account" name="email">
-                    <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject">
+                    <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject" id="subject">
                     <div class="recipient">
                         <span class="item_key">收件人：</span>
                         <span style="background: #f5f5f5;padding-left:10px;width: 220px;" class="item_val inline_block">{{vo.create_name }} 【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】 </span>
@@ -97,6 +97,7 @@
             confirm : $(".send_compact"),
             loading : $('#loading')
         };
+        var file_ids = [];//上传图片ids
        var imgFormat = ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],       // 常见图片格式
             wordFormat = ['doc', 'docx', 'dot', 'dotx', 'docm', 'dotm'],     // 所有word文档后缀格式
             excelFormat = ['xls', 'xlsx', 'xlsm'];      // 常用excel文档后缀格式。
@@ -132,7 +133,6 @@
             })
         }
 
-        var file_ids = [];//上传图片ids
 
         //上传附件
         function uploadAnnex () {
@@ -213,20 +213,32 @@
                 });
             }
         }
+        //参数
+        function getSubmitData (){
+            var data = {};
+            var vinE = $('#carVin');// 车架号元素
+            data.finance_id = $.trim($('#financeId').val());
+            data.account = $.trim($('#account').val());
+            data.subject = $.trim($('#subject').val());
+            var email = $.trim($('#emailAccount').text());
+            $('#account').val(email);
+            data.email = email;
+            // 转化输入车架号为大写字母
+            var vin = vinE.val().trim().toUpperCase();
+            vinE.val(vin);
+            data.vin = vin;
+            data.file_ids = file_ids.join(',');
+            return data;
+        }
         //提交逻辑
         function sendEmailEvent () {
-            var vinE = $('#carVin');        // 车架号元素
             var valid = verify();
             if (valid) {
                 elem.loading.show();
                 elem.confirm.off("click");
-                var email = $.trim($('#emailAccount').text());
-                $('#account').val(email);
-                // 转化输入车架号为大写字母
-                var vin = vinE.val().trim().toUpperCase();
-                vinE.val(vin);
-                var data = new FormData($('#send_email')[0]);
+                //var data = new FormData($('#send_email')[0]);
                 var url = contextPath + '/api/compact/agree';
+                var data= getSubmitData();
                 $.ajax({
                     type : "post",
                     url : url,
@@ -258,6 +270,7 @@
             var url = contextPath + '/api/compact/again/agree';
             var data = new FormData(document.getElementById('send_email'));
             var location_url = $.trim($(this).data("url"));
+            var data= getSubmitData();
             $.ajax({
                 type : "post",
                 url : url,
