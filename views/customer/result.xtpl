@@ -51,7 +51,6 @@
                     <li class="inline before"><a href="javascript:;" style="cursor:default">通知审核结果</a></li>
                 </ul>
             </div>
-
             <form class="formML" id="review_info" enctype="multipart/form-data" method="post">
                 <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
                 <input type="hidden" id="request_status" name="request_status" value="{{vo.request_status}}">
@@ -188,8 +187,8 @@
                 {{#if (verifyCode(1034)) }}
                 <div class="form-item">
                     <div class="create_btn">
-                        <input type="button" class="detail_high_btn go_forward" id="review_sub" value="确认"/>
-                        <a href="javascript:" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail">
+                        <input type="button" class="create_sub" id="review_sub" value="确认"/>
+                        <a href="javascript:" class="go_detail" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail">
                             <input type="button" class="cancel_btn" value="取消">
                         </a>
                     </div>
