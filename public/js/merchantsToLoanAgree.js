@@ -9,6 +9,7 @@ $(function(){
     var payee_bank_num = $('.payee_bank_num');
     var payment_account = $("#payment_account");
     var payment_city = $("#payment_city");
+    var payment_account_name = $("#payment_account_name");
     var receipt_account_name = $("#receipt_account_name");
     var receipt_bank = $("#receipt_bank");
     var receipt_bank_address = $("#receipt_bank_address");
@@ -20,6 +21,9 @@ $(function(){
     payment_account.change(function (){
         var payment_account = $("#payment_account option:selected").data('id');
         payment_city.val(payment_account);
+        var bankName = $("#payment_account option:selected").data('bank_name');
+        payment_account_name.val(bankName);
+
     });
     //业务类型切换
     firmType.change(function(){
