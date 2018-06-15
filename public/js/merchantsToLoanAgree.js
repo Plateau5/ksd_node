@@ -17,6 +17,7 @@ $(function(){
     var receipt_address = $("#receipt_address");
     var financial_use = $("#financial_use");
     var receipt_phone = $("#receipt_phone");
+    var summary = $("#summary");
 
     //付方账户切换
     payment_account.change(function (){
@@ -73,32 +74,32 @@ $(function(){
 
     //表单校验
     receipt_account_name.blur(function(){
-        var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '收方账户名不能包含特殊字符';
+        var reg = /^[a-zA-Z\u4e00-\u9fa5]+$/;
+        var error_txt = '请输入正确的收方账户名';
         validate_form(1,receipt_account_name,reg,error_txt);
     });
 
     receipt_bank.blur(function(){
-        var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '收方开户行不能包含特殊字符';
+        var reg = /^[a-zA-Z\u4e00-\u9fa5]+$/;
+        var error_txt = '请输入正确的收方开户行';
         validate_form(1,receipt_bank,reg,error_txt);
     });
 
     receipt_bank_address.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '收方开户地不能包含特殊字符';
+        var error_txt = '请输入正确的收方开户地';
         validate_form(1,receipt_bank_address,reg,error_txt);
     });
 
     receipt_address.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '收方行地址不能包含特殊字符';
+        var error_txt = '请输入正确的收方行地址';
         validate_form(1,receipt_address,reg,error_txt);
     });
 
     financial_use.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
-        var error_txt = '用途不能包含特殊字符';
+        var error_txt = '请输入正确的用途';
         validate_form(1,financial_use,reg,error_txt);
     });
 
@@ -108,15 +109,22 @@ $(function(){
         var error_txt = '请输入正确格式的电话号码';
         validate_form(0,receipt_phone,reg,error_txt);
     });
+    summary.blur(function(){
+        var reg = /^[\u4E00-\u9FA5\w]+$/;
+        var error_txt = '请输入正确的摘要';
+        validate_form(0,summary,reg,error_txt);
+        return false;
+    });
 });
 
 //校验函数
 function validate_form(required,obj,reg,error_txt){
     var val = obj.val();
     var reg = reg;
+    var tipText = obj.data('tips');
     if(required == '1'){
         if(!val){
-            obj.parent().find('.formError').html('此项内容不能为空');
+            obj.parent().find('.formError').html(tipText);
             obj.css('border-color','#FB2741');
             return;
         }

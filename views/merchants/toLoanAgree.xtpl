@@ -82,9 +82,9 @@
                         </div>
                     </div>
                     <!-- 付款银行 -->
-                    <input type="hidden" name="payment_open_bank" value="" id="payment_open_bank">
+                    <input type="hidden" name="payment_open" value="" id="payment_open_bank">
                     <!-- 付款账户名 -->
-                    <input type="hidden" name="payment_account_name" value="" id="payment_account_name">
+                    <input type="hidden" name="payment_name" value="" id="payment_account_name">
                     <!-- 付方开户地区城市id -->
                     <input type="hidden" name="payment_city" value="" id="payment_city">
 
@@ -103,7 +103,7 @@
                             <span class="options_name">收方账号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" readonly data-tips="收方账号不能为空" id="receipt_account" name="receipt_account" value="{{pay_account}}" />
+                            <input type="text" class="required" maxlength="30" readonly id="receipt_account" name="receipt_account" value="{{pay_account}}" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                             <span class="options_name">收方账户名：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required form-control" maxlength="62" data-tips="收方账户名"  id="receipt_account_name" name="receipt_account_name" value="{{pay_name}}"  placeholder="请输入收方账户名"/>
+                            <input type="text" class="required form-control" maxlength="30" data-tips="请输入收方账户名"  id="receipt_account_name" name="receipt_account_name" value="{{pay_name}}"  placeholder="请输入收方账户名"/>
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -148,7 +148,7 @@
                             <span class="options_name">收方开户行：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" data-tips="收方开户行" id="receipt_bank" name="receipt_bank" value="{{pay_open_bank}}" placeholder="请输入收方开户行" />
+                            <input type="text" class="required" maxlength="30" data-tips="请输入收方开户行" id="receipt_bank" name="receipt_bank" value="{{pay_open_bank}}" placeholder="请输入收方开户行" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -158,7 +158,7 @@
                             <span class="options_name">收方开户地：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" data-tips="收方开户地" id="receipt_bank_address" name="receipt_bank_address" value="" placeholder="请输入收方开户地" />
+                            <input type="text" class="required" maxlength="30" data-tips="请输入收方开户地" id="receipt_bank_address" name="receipt_bank_address" value="" placeholder="请输入收方开户地" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -180,7 +180,7 @@
                             <span class="options_name">收方行地址：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" maxlength="30" data-tips="收方行地址" id="receipt_address" name="receipt_address" value="" placeholder="请输入收方行地址" />
+                            <input type="text" class="required" maxlength="62" data-tips="请输入收方行地址" id="receipt_address" name="receipt_address" value="" placeholder="请输入收方行地址" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -190,7 +190,7 @@
                             <span class="options_name">收方行号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="number" class="required" maxlength="30" id="receipt_bank_no" data-tips="收方行号" name="receipt_bank_no" value="" placeholder="请输入收方行号(非必填)" />
+                            <input type="number" class="required" maxlength="30" id="receipt_bank_no" data-tips="请输入收方行号" name="receipt_bank_no" value="" placeholder="请输入收方行号(非必填)" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -200,7 +200,7 @@
                             <span class="options_name">收款方手机号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="number" class="required phone" maxlength="11" data-tips="手机号码不能为空" id="receipt_phone" name="receipt_phone" value="" placeholder="请输入手机号 (非必填)" />
+                            <input type="number" class="required phone" maxlength="11" data-tips="请输入手机号码" id="receipt_phone" name="receipt_phone" value="" placeholder="请输入手机号 (非必填)" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -212,7 +212,7 @@
                             <span class="options_name">用途：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required" style="width:612px;" maxlength="40" data-tips="" id="financial_use" name="financial_use" value="" placeholder="请输入用途" />
+                            <input type="text" class="required" style="width:612px;" maxlength="40" data-tips="请输入用途" id="financial_use" name="financial_use" value="" placeholder="请输入用途" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -222,7 +222,7 @@
                             <span class="options_name">摘要：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="required phone" style="width:612px;" maxlength="40" data-tips="" id="summary" name="summary" value="" placeholder="请输入备注内容（非必填）" />
+                            <input type="text" class="required summary" style="width:612px;" maxlength="40" data-tips="" id="summary" name="summary" value="" placeholder="请输入备注内容（非必填）" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
