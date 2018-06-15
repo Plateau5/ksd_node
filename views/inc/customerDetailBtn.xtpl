@@ -107,11 +107,11 @@
                 <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/agree" data-advance_id="{{vo.advance_id}}">同意</a>
                 {{/if}}
             {{/if}}
-            {{#if (verifyCode(1185)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
-            {{/if}}
             {{#if (verifyCode(1168)) }}
             <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
+            {{/if}}
+            {{#if (verifyCode(1185)) }}
+            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
             {{/if}}
         {{/if}}
     {{/if}}
@@ -163,14 +163,14 @@
     <!--其他款项按钮-->
     {{#if (startWith(markUri + '/customer/otherfund'))}}
         {{#if (url === markUri + '/customer/otherfund/pendingAudit' && vo.present_id === present_id  && vo.receipt_id !== 1) }}
-            {{#if (verifyCode(1340)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/otherfund/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
-            {{/if}}
             {{#if (verifyCode(1338)) }}
             <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/otherfund/agree" data-advance_id="{{vo.advance_id}}">同意</a>
             {{/if}}
             {{#if (verifyCode(1339)) }}
             <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/otherfund/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
+            {{/if}}
+            {{#if (verifyCode(1340)) }}
+            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/otherfund/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
             {{/if}}
         {{/if}}
     {{/if}}
