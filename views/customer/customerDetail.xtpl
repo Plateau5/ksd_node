@@ -66,6 +66,9 @@
                 <input type="hidden" id="advance_id" name="advance_id" value="{{reqParams.advance_id}}">
                 <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
                 <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
+                <input type="hidden" name="present_id" value="{{present_id}}" id="present_id">
+                <input type="hidden" name="responsible" value="{{vo.responsible}}" id="responsible">
+
 
                 <!--本次提交材料-->
                 <input type="hidden" id="materialIds" value="{{haveMaterial.material_ids }}">
@@ -702,6 +705,36 @@
             });
         }
 
+        function  pageJumpCheck (selector, opt) {
+            var options = {};
+            if (opt) {
+                options = $.extend({}, opt);
+            }
+            var btn = $(selector);
+            btn.off("click").on("click", function () {
+                var present_id = $("#present_id").val().trim();
+                var responsible = $("#responsible").val().trim();
+                var index = responsible .lastIndexOf(",");
+                var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
+                if (str === present_id) {
+                    $alert("请到 '商户' - '放款管理' 下进行放款审批");
+                } else {
+                    var target = $(this);
+                    var financeId = $.trim(target.data("id"));
+                    var workflowId = $.trim(target.data("flow_id"));
+                    var url = $.trim(target.data("url"));
+                    var advanceId = $.trim(target.data("advance_id"));
+                    financeId && (options.finance_id = financeId);
+                    workflowId && (options.id = workflowId);
+                    advanceId && (options.advance_id = advanceId);
+                    locationTo({
+                        action : url,
+                        param : options
+                    });
+                }
+            });
+        }
+
         $(function () {
             if( queryType === 4 ){
                 deliveryNumber(); // 根据单号获取物流信息
@@ -716,6 +749,7 @@
             detailEntering();   //开始录入按钮跳转
             pageJump("#sendAuditResult");   //通知审核结果按钮跳转
             goDockingPADetail();    //跳转查看对接详情页
+            pageJumpCheck(".go_forward_check");
             pageJump(".go_forward");   //同意不同意按钮跳转
             complementDatumEvent();   // 补全资料按钮跳转
             affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
