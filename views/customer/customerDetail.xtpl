@@ -778,8 +778,12 @@
                 var dataType =$.trim(target.data("type"));
                 var financeId = $.trim(target.data("id"));
                 var url = $.trim(target.data("url"));
+                var list_url = "{{url}}";
+                var navigation = "{{navigation}}";
                 financeId && (options.finance_id = financeId);
                 options.dataType = dataType;
+                options.list_url = list_url;
+                options.navigation = navigation;
                 locationTo({
                     action : url,
                     param : options

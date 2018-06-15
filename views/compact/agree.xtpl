@@ -6,7 +6,7 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
-    <title>{{title}}</title>
+    <title>合同管理-发送合同</title>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -24,13 +24,14 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/customer/compact/system" class="crumbs_item">合同管理</a>
-                <a href="{{markUri}}/customer/compact/pendingPass" class="crumbs_item">
+                <!--<a href="{{reqParams.url}}" class="crumbs_item">
                     {{#if (reqParams.dataType ==="1")}}
                     已通过
                     {{else}}
                     待出合同
                     {{/if}}
-                </a>
+                </a>-->
+                <a href="{{reqParams.list_url}}" class="crumbs_item">{{reqParams.navigation}}</a>
                 <a href="javascript:;" class="crumbs_item">邮件</a>
             </div>
             <div class="email_content">

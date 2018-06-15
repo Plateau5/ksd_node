@@ -1752,9 +1752,13 @@ function  pageJump (selector, opt) {
         var workflowId = $.trim(target.data("flow_id"));
         var url = $.trim(target.data("url"));
         var advanceId = $.trim(target.data("advance_id"));
+        var listUrl = $.trim(target.data("list_url"));
+        var navigation = $.trim(target.data("navigation"));
         financeId && (options.finance_id = financeId);
         workflowId && (options.id = workflowId);
         advanceId && (options.advance_id = advanceId);
+        listUrl && (options.list_url = listUrl);
+        navigation && (options.navigation = navigation);
         locationTo({
             action : url,
             param : options
