@@ -66,12 +66,14 @@
                             <select name="payment_account" id="payment_account">
                                 <option value="">请选择</option>
                                 {{#each (bank_list) }}
-                                <option value="{{this.bank_no}}" data-id="{{this.bank_code}}" data-bank_name="{{this.bank_name}}">{{this.bank_name}}，{{this.bank_no}}</option>
+                                <option value="{{this.bank_no}}" data-id="{{this.bank_code}}" data-bank_open="{{this.bank_open}}" data-bank_name="{{this.bank_name}}">{{this.bank_name}}，{{this.bank_no}}</option>
                                 {{/each}}
                             </select>
                             <span class="formError"></span>
                         </div>
                     </div>
+                    <!-- 付款银行 -->
+                    <input type="hidden" name="payment_open_bank" value="" id="payment_open_bank">
                     <!-- 付款账户名 -->
                     <input type="hidden" name="payment_account_name" value="" id="payment_account_name">
                     <!-- 付方开户地区城市id -->
