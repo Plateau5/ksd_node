@@ -1,0 +1,110 @@
+/**
+ * Created by Plateau on 2018年6月15日14:57:19
+ */
+
+var fs = require('fs');
+var path=require("path");
+var common = require('./../common');
+var qs = require('querystring');
+var urlParse = require('url');
+var LOGERROR = require('./../../util/logger').logError;   // 错误日志打印
+var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类型配置
+
+// 培训-主导航跳转
+exports.VIEW_SCHOOL_SYSTEM = function(req, res, next) {
+    try {
+        res.redirect(markUri + '/school/course/category/system');
+        // if (common.checkPrivilege(1067, req)) {
+        // } else if (common.checkPrivilege(1328, req)) {
+        //     res.redirect(markUri + '/school/course/lists/system');
+        // } else if (common.checkPrivilege(1328, req)) {
+        //     res.redirect(markUri + '/school/teacher/system');
+        // } else {
+        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
+        // }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 培训-课程分类-侧导航跳转
+exports.VIEW_SCHOOL_COURSE_CATEGORY_SYSTEM = function(req, res, next) {
+    try {
+        res.redirect(markUri + '/school/course/category/home');
+        // if (common.checkPrivilege(1067, req)) {
+        // }else {
+        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
+        // }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 培训-课程分类-侧导航跳转
+exports.VIEW_SCHOOL_COURSE_CATEGORY_HOME = function(req, res, next) {
+    common.getPageData({
+        url : '/api/school/classify/getclassify',
+        title : '培训-培训列表页',
+        page : './school/courseClassify'
+    }, req, res, next);
+    //res.render('./school/courseClassify',{markUri : '/ksd'});
+};
+// 培训-课程列表-侧导航跳转
+exports.VIEW_SCHOOL_COURSE_LISTS_SYSTEM = function(req, res, next) {
+    try {
+        res.redirect(markUri + '/school/course/lists/home');
+        // if (common.checkPrivilege(1067, req)) {
+        // }else {
+        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
+        // }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 培训-课程列表-侧导航跳转
+exports.VIEW_SCHOOL_COURSE_LISTS_HOME = function(req, res, next) {
+    // common.getPageData({
+    //     url : '/api/organization/getList',
+    //     title : '培训-课程列表页',
+    //     page : './school/courseList'
+    // }, req, res, next);
+    res.render('./school/courseList',{markUri : '/ksd'});
+};
+// 培训-培训讲师-侧导航跳转
+exports.VIEW_SCHOOL_TEACHER_SYSTEM = function(req, res, next) {
+    try {
+        res.redirect(markUri + '/school/teacher/list');
+        // if (common.checkPrivilege(1067, req)) {
+        // }else {
+        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
+        // }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 培训-培训讲师-侧导航跳转
+exports.VIEW_SCHOOL_TEACHER_LIST = function(req, res, next) {
+    // common.getPageData({
+    //     url : '/api/organization/getList',
+    //     title : '培训-培训列表页',
+    //     page : './school/teacherList'
+    // }, req, res, next);
+    res.render('./school/teacherList',{markUri : '/ksd'});
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

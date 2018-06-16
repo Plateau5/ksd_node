@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/cropper/cropper.min.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
+    <title>新建讲师</title>
+</head>
+<body>
+    <div id="wrapper" class="wrapper">
+        <!-------- Part of header Begin -------->
+        {{include('./../inc/header')}}
+        <!-------- Part of header End -------->
+
+        <!-------- Part of main Begin -------->
+        <div id="section" class="section normal_width">
+            <!---- Part of slide nav Begin ---->
+            {{include('./../inc/sideNav')}}
+            <!---- Part of slide na End ---->
+
+            <!---- Part of Main info Begin ---->
+            <div id="main" class="main pad_btm_100 teacher_create">
+                <div class="crumbs_nav">
+                    <a href="javascript:;" class="crumbs_item">培训讲师</a>
+                    <a href="javascript:;" class="crumbs_item">新增讲师</a>
+                </div>
+                <div class="form_options create_options">
+                    <form action="" class="workflow_create">
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">讲师类型：</span>
+                            </div>
+                            <div class="column_val">
+                                <div class="form_group mar6">
+                                    <input id="internal" type="radio" class="internal" name="teacher_type" value="0" checked/>
+                                    <label for="internal">内部</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="external" type="radio" class="external" name="teacher_type" value="1" />
+                                    <label for="external">外部</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">讲师姓名：</span>
+                            </div>
+                            <div class="column_val internal_teacher order_search_box">
+                                <input type="text" class="teacher_name search_name fuzzy_search" name="" placeholder="搜索讲师姓名" readonly/>
+                                <span class="tips_info">(*请先选择讲师姓名)</span>
+                                <div class="search_result" style="display: none;">
+                                    <div class="search_input">
+                                        <input class="customer_search" type="text">
+                                    </div>
+                                    <ul class="search_list">
+                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                            <div class="name nowrap">王聚全聚全</div>
+                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                        </li>
+                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                            <div class="name nowrap">王聚全聚全</div>
+                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                        </li>
+                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                            <div class="name nowrap">王聚全聚全</div>
+                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                        </li>
+                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                            <div class="name nowrap">王聚全聚全</div>
+                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="column_val external_teacher">
+                                <input type="text" class="teacher_name" name="" placeholder="请输入讲师姓名" />
+                                <span class="tips_info">(*请先输入讲师姓名)</span>
+                            </div>
+                        </div>
+                        <div class="option_item external_teacher">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">讲师手机：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="teacher_telphone" name="" placeholder="请输入讲师手机号" />
+                                <span class="tips_info">(*请先输入讲师手机号)</span>
+                            </div>
+                        </div>
+
+                        <div class="option_item user_photo_row external_teacher">
+                            <div class="column_name">讲师头像：</div>
+                            <div class="column_val">
+                                <div class="photo_box">
+                                    <img src="../static/img/personIcon.png" id="user_photo" class="user_photo img_responsive" alt="">
+                                </div>
+                                <a href="javascript:;" class="detail_title_btn create_btn" id="upload_photo_btn">上传头像</a>
+                                <input type="file" style="display: none;" name="user_photo" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">讲师简介：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea class="teacher_intro" name="" id="" cols="30" rows="11" placeholder="请输入讲师简介"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="btn_box clearfix create_wf_btn_box">
+                    <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
+                    <a href="javascript:;" class="create_cancel">取消</a>
+                </div>
+                <div id="upload_photo_dialog" class="upload_photo_dialog" style="display:none;">
+                    <div class="upload_photo_title bold">讲师头像</div>
+                    <div class="content">
+                        <div class="original_photo">
+                            <div class="large_photo">
+                                <img src="" class="img_responsive" alt="">
+                            </div>
+                            <div class="tips_msg">仅支持JPG/PNG/GIF图片文件，且文件大熊啊小于5M</div>
+                            <div class="upload_btn_box">
+                                <a href="javascript:" class="btn btn_border_orange orange_font choose_img">重新上传</a>
+                            </div>
+                        </div>
+                        <div class="thumbnail_photo">
+                            <div class="small_photo" id="small_photo">
+                                <img src="" alt="">
+                            </div>
+                            <div class="thumbnail_text">效果预览</div>
+                        </div>
+                    </div>
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="create_cancel ">取消</a>
+                        <a href="javascript:" class="btn orange_btn confirm submit_upload">确认</a>
+                    </div>
+                </div>
+            </div>
+            <!---- Part of Main info End ---->
+        </div>
+        <!-------- Part of main End -------->
+
+        <!-------- Part of footer Begin -------->
+        <!--<div id="footer" class="footer"></div>-->
+        <!-------- Part of footer End -------->
+    </div>
+    <div class="mask" style="display: none;"></div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/cropper/cropper.js"></script>
+<script>
+    (function ($) {
+        var RESETPHOTO = false;
+        var elem = {
+            internal : $('#internal'),//内部
+            external : $('#external'),//外部
+            userPhoto : $('#user_photo'),
+            uploadBtn : $("#upload_photo_btn"),
+            fileInput : $("#upload_photo_file"),
+            uploadDia : $('#upload_photo_dialog'),
+            mask : $(".mask"),
+            photo : $(".large_photo>img"),
+            cancel : $(".btn_box .cancel_upload"),
+            confirm : $(".btn_box .submit_upload"),
+            reChooseImg : $(".choose_img"),
+            search_name : $('.search_name')
+        };
+        //上传图片按钮的点击事件
+        function uploadPhoto (ele) {
+            ele.off("click").on("click", function () {
+                elem.fileInput.click();
+            });
+        }
+        //重新上传图片
+        uploadPhoto(elem.reChooseImg);
+        elem.photo.cropper({
+            zoomable: true,
+            viewMode: 1,
+            preview: '#small_photo', //不同尺寸预览区
+            aspectRatio: 1, //裁剪比例，NaN-自由选择区域
+            autoCropArea: 0.8, //初始裁剪区域占图片比例
+            modal : false
+        });
+        //选择图片后的事件
+        elem.fileInput.on('change', function () {
+            var file = this.files[0];
+            fileName = file.name;
+            var reader = new FileReader();
+            //reader回调，重新初始裁剪区
+            reader.onload = function(){
+                // 通过 reader.result 来访问生成的 DataURL
+                var url = reader.result;
+                //选择图片后重新初始裁剪区
+                elem.photo.cropper('reset', true).cropper('replace', url);
+            };
+            reader.readAsDataURL(file);
+            elem.uploadDia.show();
+            elem.mask.show();
+        });
+
+        //取消按钮的点击事件
+        elem.cancel.off("click").on("click", function () {
+            elem.uploadDia.hide();
+            elem.mask.hide();
+        });
+        //确定按钮的点击事件
+        elem.confirm.off("click").on("click", function () {
+            elem.uploadDia.hide();
+            elem.mask.hide();
+            var canVas = elem.photo.cropper("getCroppedCanvas", {});
+            //将裁剪的图片加载到face_image
+            elem.userPhoto.attr('src', canVas.toDataURL());
+            RESETPHOTO = true;
+        });
+        //内部-讲师类型切换
+        elem.internal.off("click").on("click", function () {
+            if (this.checked) {
+                $('.internal_teacher').show();
+                $('.external_teacher').hide();
+            }
+        });
+        //外部-讲师类型切换
+        elem.external.off("click").on("click", function () {
+            if (this.checked) {
+                $('.internal_teacher').hide();
+                $('.external_teacher').show();
+            }
+        });
+        //搜索讲师姓名
+        //模糊查询
+        var hideInput = $('#orderCreatorId');
+        var btn = $('#createName');
+        var resBox = $(".search_result");
+        var resList = $(".search_list");
+        function searchTeacher () {
+            elem.search_name.off("click").on("click", function (e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                resBox.show();
+                $('.customer_search').focus();
+                $('.customer_search').on('input',function(e){
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var val = $.trim($(this).val());
+                    resList.html('');
+                    if (val) {
+                        resList.show();
+                        var queryObj = fuzzyQuery(emp_list);
+                        showSearchResult(queryObj);
+                        selectedCreate();
+                    } else{
+                        resList.hide();
+                    }
+                });
+                $(document).on('click',function (e) {
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var target = $(ev.target);
+                    var parent = target.parents('.search_result');
+                    if (target.hasClass('search_result')) {
+                        return false;
+                    } else if (parent.length <= 0) {
+                        resBox.hide().find('.search_list').html('').end().find('.customer_search').val('');
+                        resList.hide();
+                        return true;
+                    } else {
+                        return true;
+                    }
+                });
+            });
+            // 订单所属人选中逻辑
+            var selectedCreate = function () {
+                $('.search_result .res_item').on('click', function () {
+                    var _this = $(this);
+                    var createName = $.trim(_this.data('name'));
+                    var orderCreatorId = $.trim(_this.data('id'));
+                    $('.customer_search').val(createName);
+                    btn.val(createName);
+                    hideInput.val(orderCreatorId);
+                    resBox.hide();
+
+                });
+            }
+        }
+        // 讲师的模糊查询功能
+        function fuzzyQuery (res) {
+            var queryStr = $.trim($('.customer_search').val()),
+                queryArr = queryStr.split(""),
+                data = res,
+                resArr;
+            if(queryStr) {
+                for (var i = 0, len = queryArr.length; i < len; i++) {
+                    resArr = [];
+                    for (var k = 0; k < data.length; k++) {
+                        if (data[k].name.indexOf(queryArr[i]) != -1) {
+                            resArr.push(data[k]);
+                        }
+                    }
+                    data = resArr;
+                }
+                return resArr;
+            }
+        }
+        //创建模糊查询结果展示并绑定事件
+        function showSearchResult (res) {
+            var html = [];
+            if (res == undefined || res.length == 0 || res.length == undefined) {
+                return $('.search_list').html('<li style="text-align: center;">没有匹配到任何结果</li>');
+            } else {
+                for (var i = 0, len = res.length; i < len; i++) {
+                    var str = '';
+                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '">\
+                                <div class="name nowrap">' + res[i].name + '</div>\
+                                <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
+                            </li>'
+                    html.push(str);
+                    $('.search_list').html(html.join(""));
+                    var orderId = '';
+
+                }
+            }
+        }
+        $(function() {
+            uploadPhoto(elem.uploadBtn);//重新上传图片
+            searchTeacher(); //模糊查询讲师
+        });
+    })(jQuery,undefined);
+</script>
+</html>

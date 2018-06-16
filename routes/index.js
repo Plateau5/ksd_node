@@ -17,6 +17,7 @@ var settingsCtrl = require('../controller/viewsController/settingsController');
 var privilegeCtrl = require('../controller/viewsController/privilegeController');
 var merchantsCtrl = require('../controller/viewsController/merchantsController');
 var dockingCtrl = require('../controller/viewsController/dockingController');
+var schoolCtrl = require('../controller/viewsController/schoolController');
 
 
 var markUri = '/ksd';
@@ -408,6 +409,22 @@ router.post(markUri + '/statistics/merchants/detail', statisticsCtrl.VIEW_STATIS
 router.all(markUri + '/statistics/operating/system', statisticsCtrl.VIEW_STATISTICS_OPERATING_SYSTEM);
 // 数据统计-运营报表-报表列表页跳转1514
 router.all(markUri + '/statistics/operating/list', statisticsCtrl.VIEW_STATISTICS_OPERATING_LIST);
+
+
+// 培训主导航跳转
+router.get(markUri + '/school/system', schoolCtrl.VIEW_SCHOOL_SYSTEM);
+// 培训-课程分类-侧导航跳转
+router.all(markUri + '/school/course/category/system', schoolCtrl.VIEW_SCHOOL_COURSE_CATEGORY_SYSTEM);
+// 培训-课程分类-课程分类页
+router.all(markUri + '/school/course/category/home', schoolCtrl.VIEW_SCHOOL_COURSE_CATEGORY_HOME);
+// 培训-课程列表-侧导航跳转
+router.all(markUri + '/school/course/lists/system', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_SYSTEM);
+// 培训-课程列表-课程列表页
+router.all(markUri + '/school/course/lists/home', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_HOME);
+// 培训-培训讲师-侧导航跳转
+router.all(markUri + '/school/teacher/system', schoolCtrl.VIEW_SCHOOL_TEACHER_SYSTEM);
+// 培训-培训讲师-培训讲师页
+router.all(markUri + '/school/teacher/list', schoolCtrl.VIEW_SCHOOL_TEACHER_LIST);
 
 
 
