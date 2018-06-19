@@ -411,6 +411,7 @@ router.all(markUri + '/statistics/operating/system', statisticsCtrl.VIEW_STATIST
 router.all(markUri + '/statistics/operating/list', statisticsCtrl.VIEW_STATISTICS_OPERATING_LIST);
 
 
+
 // 培训主导航跳转
 router.get(markUri + '/school/system', schoolCtrl.VIEW_SCHOOL_SYSTEM);
 // 培训-课程分类-侧导航跳转
@@ -423,8 +424,14 @@ router.all(markUri + '/school/course/lists/system', schoolCtrl.VIEW_SCHOOL_COURS
 router.all(markUri + '/school/course/lists/home', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_HOME);
 // 培训-培训讲师-侧导航跳转
 router.all(markUri + '/school/teacher/system', schoolCtrl.VIEW_SCHOOL_TEACHER_SYSTEM);
-// 培训-培训讲师-培训讲师页
+// 培训-培训讲师-培训讲师列表页
 router.all(markUri + '/school/teacher/list', schoolCtrl.VIEW_SCHOOL_TEACHER_LIST);
+// 培训-培训讲师-新建讲师页
+router.all(markUri + '/school/teacher/create', schoolCtrl.VIEW_SCHOOL_TEACHER_CREATE);
+// 培训-培训讲师-编辑讲师页
+router.all(markUri + '/school/teacher/edit', schoolCtrl.VIEW_SCHOOL_TEACHER_EDIT);
+// 培训-培训讲师-培训讲师详情页
+router.all(markUri + '/school/teacher/detail', schoolCtrl.VIEW_SCHOOL_TEACHER_DETAIL);
 
 
 

@@ -22,18 +22,10 @@
 
             <!---- Part of Main info Begin ---->
             <div id="main" class="main teacher_list">
-                <!--没有讲师情况-->
-                <div class="no_workflow">
-                    <div class="toast_text">目前暂无数据......</div>
-                    <div class="new_btn_box">
-                        <a href="teacherCreate.xtpl" class="btn blue_btn add_btn"><em></em>新建讲师</a>
-                    </div>
-                </div>
-                <!--已有讲师列表-->
                 <div class="teacher_content">
                     <div class="new_btn_box">
                        <!-- <a href="./workflow-create.html" class="btn blue_btn add_btn"><em></em>新建讲师</a>-->
-                        <a href="teacherCreate.xtpl" class="detail_title_btn create_btn">新增讲师</a>
+                        <a href="javascript:;" class="detail_title_btn create_btn create_teacher">新增讲师</a>
                     </div>
                     <table class="table_list">
                         <colgroup style="width: 100%;">
@@ -55,6 +47,11 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td colspan="6" class="no_hover">
+                                    {{include('./../inc/empty_data')}}
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>
                                     <div class="inline_block">
                                         <img src="{{markUri}}/static/img/personIcon.png" alt="" style="width:48px;height:48px;vertical-align: middle;">
@@ -65,15 +62,15 @@
                                 <td>12</td>
                                 <td></td>
                                 <td class="operate_btn operate_lf">
-                                    <a href="javascript:;" title="查看" class="view"></a>
-                                    <a href="javascript:;" title="编辑" class="edit"></a>
-                                    <a href="javascript:;" title="删除" class="delete"></a>
+                                    <a href="javascript:;" title="查看" class="view view_detail" data-id=""></a>
+                                    <a href="javascript:;" title="编辑" class="edit edit_teacher" data-id=""></a>
+                                    <a href="javascript:;" title="删除" class="delete" data-id=""></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <!--分页部分 Begin-->
-
+                    {{include('./../inc/paginations')}}
                     <!--分页部分 End-->
                 </div>
 
@@ -81,23 +78,101 @@
             <!---- Part of Main info End ---->
         </div>
         <!-------- Part of main End -------->
-
-        <!-------- Part of footer Begin -------->
-        <!--<div id="footer" class="footer"></div>-->
-        <!-------- Part of footer End -------->
     </div>
 </body>
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script>
     (function ($) {
-
-
-
-
+        //删除讲师
+        function deleteTeacher () {
+            var btn = $('.delete');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                deleteEvent(_this);
+            });
+        }
+        // 删除的提交事件
+        function deleteEvent (t) {
+            t.off('click');
+            var id = $.trim(t.data('flow_id'));
+            var url = contextPath + '/api/workflow/delete';
+            var data = {
+                id : id
+            };
+            dialog('open',{
+                closeBtn : false,
+                title : '删除提醒',
+                content : '确认删除此讲师？',
+                "button" : ["确认","取消"],
+                "maskClose" : false,
+                onConfirm : function (d) {
+                    onDeleteConfirm(d);
+                },
+                onCancel : function (d) {
+                    deleteTeacher(d);
+                    d.close();
+                }
+            });
+            var onDeleteConfirm = function (d) {
+                $ajax('post', url, data, function (res) {
+                    if (res.error_code == 0) {
+                        d.close();
+                        window.location.reload();
+                    } else {
+                        d.close();
+                        deleteTeacher();
+                        $alert(res.error_msg);
+                    }
+                }, function () {
+                    d.close();
+                    deleteTeacher();
+                    $alert('删除讲师失败，请稍后重试');
+                })
+            }
+        }
+        //查看讲师详情
+        function viewTeacherDetail () {
+            var btn = $(".view_detail");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var productId = $.trim(t.attr("lang"));
+                // var data_num = $.trim(t.attr("data_num"));
+                locationTo({
+                    action : contextPath + markUri + "/school/teacher/detail",
+                    param : {}
+                });
+            })
+        }
+        //新增讲师
+        function createTeacher () {
+            var btn = $(".create_teacher");
+            btn.off("click").on("click", function () {
+                locationTo({
+                    action : contextPath + markUri + "/school/teacher/create",
+                    param : {}
+                });
+            })
+        }
+        //编辑讲师
+        function editTeacher () {
+            var btn = $(".edit_teacher");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                // var productId = $.trim(t.attr("lang"));
+                // var data_num = $.trim(t.attr("data_num"));
+                locationTo({
+                    action : contextPath + markUri + "/school/teacher/edit",
+                    param : {}
+                });
+            })
+        }
 
         $(function() {
-
+            deleteTeacher();//删除讲师
+            viewTeacherDetail();//查看讲师详情
+            createTeacher();//新增讲师
+            editTeacher();//编辑讲师
         });
     })(jQuery,undefined);
 </script>
