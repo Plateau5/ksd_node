@@ -1860,7 +1860,7 @@ function fileUpload (opt) {
             var thisIndex = t.parents(".file_item").index(); //存储当前文件的索引值
             //console.log(thisIndex);
             t.parents(".file_item").remove();
-            that.find(".file_upload_btn").eq(thisIndex).remove();
+            /*that.find(".file_upload_btn").eq(thisIndex).remove();*/
             var a = [];
             that.find(".file_upload_btn").each(function () {
                 var file = $(this)[0].files[0] && $(this)[0].files[0].name;
