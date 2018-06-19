@@ -268,6 +268,23 @@
             });
 
         });
+        // 上传图片按钮
+        $(document).delegate('.updata_img_mask', 'mouseover', function(e) {
+            e.preventDefault();
+            var count = $(".file_item").length;  //已上传的图片的个数
+            if(count != 5) {
+                $(this).css("cursor","pointer");
+                $('.file_btn').css('color', '#1DC6BC');
+                $('.file_btn').css('background', 'url(/static/img/question/upload_icon_hover.png) left center no-repeat');
+            } else {
+                $(this).css("cursor","default");
+            }
+        });
+        $(document).delegate('.updata_img_mask', 'mouseout', function(e) {
+            e.preventDefault();
+            $('.file_btn').css('color', '#333');
+            $('.file_btn').css('background', 'url(/static/img/question/upload_icon.png) left center no-repeat');
+        });
 
         pageJump("#goDetail, .go_detail");
 
