@@ -185,9 +185,33 @@
                 });
             });
         }
+        //筛选分类
+        function filterClass () {
+            var level_li = $('.level_li');
+            level_li.each(function () {
+                var _this = $(this).find('a');
+                filterEvent(_this);
+            });
+        }
+        //筛选事件
+        function filterEvent (level_li) {
+            level_li.off("click").on("click", function () {
+                var _this = $(this);
+                filterResult(_this);
+            });
+        }
+        //筛选结果
+        function filterResult (_this) {
+            // _this.find('.level_ul')
+            locationTo({
+                action : contextPath + markUri + "/school/course/lists/detail",
+                param : {}
+            });
+        }
 
         $(function() {
             courseDetail();//课程详情
+            filterClass();//筛选分类
         });
     })(jQuery,undefined);
 </script>

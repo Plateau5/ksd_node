@@ -42,6 +42,7 @@
                                     <input id="external" type="radio" class="external" name="teacher_type" value="1" />
                                     <label for="external">外部</label>
                                 </div>
+                                <span class="tips_info">(*请先选择讲师类型)</span>
                             </div>
                         </div>
                         <div class="option_item">
@@ -146,6 +147,7 @@
         <!-------- Part of main End -------->
     </div>
     <div class="mask" style="display: none;"></div>
+    <div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -332,11 +334,12 @@
                 saveTeacherForm();
             });
         }
-        //
+        //保存校验
         function saveTeacherForm () {
             var internal = $('#internal');//内部单选按钮
             var external = $('#external');//外部单选按钮
             if (internal[0].checked) {
+                internal.parents('.column_val').find('.tips_info').hide();
                 var internal_name_val = elem.internal_name.val();
                 if (internal_name_val) {
                     elem.internal_name.parents('.internal_teacher').find('.tips_info').hide();
@@ -345,6 +348,7 @@
                     return;
                 }
             } else if (external[0].checked) {
+                internal.parents('.column_val').find('.tips_info').hide();
                 var external_name_val = elem.external_name.val();
                 if (external_name_val) {
                     elem.external_name.parents('.external_teacher').find('.tips_info').hide();
@@ -354,13 +358,53 @@
                 }
                 var teacher_telphone = $('.teacher_telphone');
                 if (teacher_telphone.val() == '') {
+                    teacher_telphone.siblings('.tips_info').show();
                     return;
                 } else {
-
+                    teacher_telphone.siblings('.tips_info').hide();
                 }
             } else {
-
+                internal.parents('.column_val').find('.tips_info').show();
+                return;
             }
+            ajaxSubmit();
+        }
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('teacher_create'));
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/school/teacher/system',
+                                param : {}
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            $('.create_confirm').attr('disabled',false);
+                            $('.create_cancel').attr('disabled',false);
+                            saveTeacher();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    saveTeacher();
+                }
+            });
         }
         $(function() {
             uploadPhoto(elem.uploadBtn);//重新上传图片
