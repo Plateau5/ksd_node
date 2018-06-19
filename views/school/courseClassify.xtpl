@@ -26,31 +26,35 @@
                     <div class="text_right">
                         <a href="javascript:" id="createClassify" class="detail_title_btn create_btn add_parent_btn">新增分类</a>
                     </div>
-                    <div class="modules">
-                        {{#each(list)}}
-                        <div class="modules_title">
-                            <span>{{this.parent_name}}</span>
-                            <div class="btn_box">
-                                <a href="javascript:" class="detail_title_btn create_btn add_child_btn" data-id="{{this.parent_id}}">新增子分类</a>
-                                <a href="javascript:" class="detail_title_btn edit_btn update_name" data-id="{{this.parent_id}}" data-name="{{this.parent_name}}">重命名</a>
-                                <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除分类</a>
+                    {{#each(list)}}
+                        <div class="modules">
+                            <div class="modules_title">
+                                <span>{{this.parent_name}}</span>
+                                <div class="btn_box">
+                                    <a href="javascript:" class="detail_title_btn create_btn add_child_btn" data-id="{{this.parent_id}}">新增子分类</a>
+                                    <a href="javascript:" class="detail_title_btn edit_btn update_name" data-id="{{this.parent_id}}" data-name="{{this.parent_name}}">重命名</a>
+                                    <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除分类</a>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <ul class="course_classify_list" data-id="{{this.parent_id}}">
+                                    {{#each(this.child_list) }}
+                                    <li class="list_item">
+                                        <span>{{this.course_classify}}</span>
+                                        <div class="course_btns">
+                                            <em class="course_btn edit_btn update_child_name" data-id="{{this.id}}" data-name="{{this.course_classify}}"></em>
+                                            {{#if (../child_list.length > 1) }}
+                                                <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: inline-block"></em>
+                                            {{else}}
+                                                <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: none"></em>
+                                            {{/if}}
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
                             </div>
                         </div>
-                        <div class="content">
-                            <ul class="course_classify_list" data-id="{{this.parent_id}}">
-                                {{#each(this.child_list) }}
-                                <li class="list_item">
-                                    <span>{{this.course_classify}}</span>
-                                    <div class="course_btns">
-                                        <em class="course_btn edit_btn" data-id="{{this.id}}" data-name="{{this.course_classify}}"></em>
-                                        <em class="course_btn remove_btn" data-id="{{this.id}}"></em>
-                                    </div>
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </div>
-                        {{/each}}
-                    </div>
+                    {{/each}}
                 {{else}}
                     <div class="no_list_data">
                         <div class="toast_img"></div>
@@ -73,12 +77,7 @@
         </div>
         <!-------- Part of main End -------->
 
-        <!-------- Part of footer Begin -------->
-        <!--<div id="footer" class="footer"></div>-->
-        <!-------- Part of footer End -------->
     </div>
-    <!-- 新建弹出层 -->
-
 </body>
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -105,7 +104,7 @@
                     onConfirm : function (d) {
                         var oneLevelName = $.trim($('#oneLevelName').val());
                         var secondLevelName = $.trim($('#secondLevelName').val());
-                        onCreate(d, oneLevelName, secondLevelName);
+                        onCreate(oneLevelName, secondLevelName, d);
                     }
                 });
             });
@@ -119,7 +118,7 @@
             });
 
 
-            var onCreate = function (d, oneName, secondName) {
+            var onCreate = function (oneName, secondName, d) {
                 if (oneName == '') {
                     $('.oneLevelErrorTips').text('课程分类不能为空');
                     return;
@@ -147,7 +146,7 @@
                                 window.location.reload();
                             });
                         } else {
-                            $alert(res.error_msg);
+                            $('.oneLevelErrorTips').text(res.error_msg);
                         }
                     },
                     error : function () {
@@ -155,9 +154,24 @@
                     }
                 });
             };
+            // 输入框的输入监听
+            $('body').on('blur', '#one_classify, #oneLevelName', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('.oneLevelErrorTips').text('课程分类不能为空');
+                }
+            });
+            $('body').on('blur', '#second_classify, #secondLevelName', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('.secondLevelErrorTips').text('课程子分类不能为空');
+                }
+            });
         }
 
-        /* 删除问题分类 */
+        /* 删除课程分类 */
         function deleteClassify () {
             var btn = $('.delete_btn');
             btn.off('click').on('click', function () {
@@ -238,7 +252,7 @@
                                     window.location.reload();
                                 });
                             } else {
-                                $alert(res.error_msg);
+                                $('#createErrorTips').text(res.error_msg);
                             }
                         },
                         error : function () {
@@ -249,8 +263,8 @@
             };
         }
 
-        /*新建问题*/
-        function createQuestionDetail () {
+        /*新建子分类*/
+        function createChildCourse () {
             var btn = $('.add_child_btn');
             btn.off('click').on('click', function (){
                 var _this = $(this);
@@ -260,12 +274,12 @@
                     content : '<input type="text" name="" style="width: 230px;\n' +
                     '                height: 30px;\n' +
                     '                border: 1px solid #e4e4e4;\n' +
-                    '                text-indent: .8em;" class="new_field" id="newQuestion" placeholder="请输入课程子分类名称" maxlength="20" />' +
+                    '                text-indent: .8em;" class="new_field" id="newChildCourse" placeholder="请输入课程子分类名称" maxlength="20" />' +
                     '<div class="error-tips" style="padding-left: 86px;" id="createErrorTips"></div>',
                     maskClose : false,
                     onConfirm : function (d) {
-                        var newQuestion = $.trim($('#newQuestion').val());
-                        onCreate(d, newQuestion, parentId);
+                        var newChildCourse = $.trim($('#newChildCourse').val());
+                        onCreate(newChildCourse, parentId, d);
                     },
                     onCancel : function (d) {
                         d.close();
@@ -273,7 +287,7 @@
                 });
             });
 
-            var onCreate = function (d, title, parentId) {
+            var onCreate = function (title, parentId, d) {
                 if (title == '' || title.length == 0) {
                     $('#createErrorTips').text('请输入课程子分类名称');
                     return;
@@ -293,7 +307,7 @@
                                     window.location.reload();
                                 });
                             } else {
-                                $alert(res.error_msg);
+                                $('#createErrorTips').text(res.error_msg);
                             }
                         },
                         error : function () {
@@ -304,8 +318,8 @@
             };
         }
 
-        /*删除问题*/
-        function deleteQuestion () {
+        /*删除子分类*/
+        function deleteChildCourse () {
             var btn = $('.remove_btn');
             btn.off('click').on('click', function () {
                 var _this = $(this);
@@ -344,9 +358,9 @@
             });
         }
 
-        /*重命名问题*/
-        function renameQuestion () {
-            var btn = $('.edit_btn');
+        /*重命名子分类*/
+        function renameChildCourse () {
+            var btn = $('.update_child_name');
             btn.off('click').on('click', function (){
                 var _this = $(this);
                 var name = $.trim(_this.data('name'));
@@ -357,11 +371,11 @@
                     content : '<input type="text" name="" style="width: 230px;\n' +
                     '                height: 30px;\n' +
                     '                border: 1px solid #e4e4e4;\n' +
-                    '                text-indent: .8em;" class="new_field" id="renameQuestion" value="'+ name +'" placeholder="请输入课程子分类名称" maxlength="20" />' +
+                    '                text-indent: .8em;" class="new_field" id="renameChildCourse" value="'+ name +'" placeholder="请输入课程子分类名称" maxlength="20" />' +
                     '<div class="error-tips" style="padding-left: 86px;" id="createErrorTips"></div>',
                     maskClose : false,
                     onConfirm : function (d) {
-                        var newClassify = $.trim($('#renameQuestion').val());
+                        var newClassify = $.trim($('#renameChildCourse').val());
                         onCreate(d, newClassify, id, pid);
                     },
                     onCancel : function (d) {
@@ -376,7 +390,7 @@
                 } else {
                     var data = {
                         id : id,
-                        classify_value : newName,
+                        course_classify : newName,
                         parent_id : pid
                     };
                     var url = contextPath + '/api/school/lowclassify/update';
@@ -390,7 +404,7 @@
                                     window.location.reload();
                                 });
                             } else {
-                                $alert(res.error_msg);
+                                $('#createErrorTips').text(res.error_msg);
                             }
                         },
                         error : function () {
@@ -403,12 +417,12 @@
 
 
         $(function() {
-            createClassify();   // 创建问题分类
-            deleteClassify();   // 删除问题分类
-            createQuestionDetail();     // 创建问题详情
-            deleteQuestion();     // 删除问题
+            createClassify();   // 创建课程分类
+            deleteClassify();   // 删除课程分类
+            createChildCourse();     // 创建子分类
+            deleteChildCourse();     // 删除子分类
             renameClassify();   // 重命名分类
-            renameQuestion();   // 重命名问题
+            renameChildCourse();   // 重命名子分类
         });
     })(jQuery,undefined);
 </script>
