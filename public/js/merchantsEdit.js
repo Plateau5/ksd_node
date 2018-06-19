@@ -620,18 +620,18 @@ function deleteImages () {
  */
 function uploadImage () {
     fileUpload({
-        maxCount : 1,
+        maxCount : 100,
         filesSize : 2,
         imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
         needThumbnails : false,
-        callback : function (btn) {
-            onChoose(btn);
+        callback : function (btn, file) {
+            onChoose(btn, file);
         }
     });
     // 上传逻辑
-    var onChoose = function (btn) {
+    var onChoose = function (btn, file) {
         var type = $.trim(btn.data('type'));
-        var data = (btn.parents('.file_upload').find('.file_upload_btn')[0]).files[0];
+        var data = file;
         var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
         var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
         var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
@@ -664,7 +664,7 @@ function uploadImage () {
                         '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
                         '             <div class="img_md_operate_box">\n' +
                         '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" style="margin-right: 0" title="查看"></em>\n' +
-                        ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
+                        ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
                         '             </div>\n' +
                         '             </a>';
                     if (type == '99') {

@@ -1798,6 +1798,9 @@ function fileUpload (opt) {
         btn.off("click").on("click", function () {
             var fileBtn = that.find(".file_upload_btn");//type为file的input元素组
             var t = $(this);
+            var fileNum = t.data('file_num');
+            fileNum = fileNum ? fileNum : 0;
+            fileCount = fileNum;
             if (!t.hasClass("disabled")) {
                 fileBtn.eq(fileCount).click();
             }
@@ -1807,7 +1810,9 @@ function fileUpload (opt) {
                 var success = chooseFile(targetFile);
                 //计算文件个数并校验,同时校验通过后创建新的input
                 if (success) {
-                    fileCount++;
+                    fileNum++;
+                    /*fileCount++;*/
+                    t.data('file_num' , fileNum);
                 } else {
                     return;
 
@@ -1861,7 +1866,7 @@ function fileUpload (opt) {
                 var file = $(this)[0].files[0] && $(this)[0].files[0].name;
                 a.push(file);
             });
-            console.log(a);
+            // console.log(a);
             if (options.maxCount) {
                 if (fileCount >= options.maxCount) {
                     that.append(inputFile);
