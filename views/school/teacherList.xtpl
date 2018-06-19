@@ -45,27 +45,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="6" class="no_hover">
-                                    {{include('./../inc/empty_data')}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="inline_block">
-                                        <img src="{{markUri}}/static/img/personIcon.png" alt="" style="width:48px;height:48px;vertical-align: middle;">
-                                    </div>
-                                </td>
-                                <td>李一国</td>
-                                <td>内部</td>
-                                <td>12</td>
-                                <td></td>
-                                <td class="operate_btn operate_lf">
-                                    <a href="javascript:;" title="查看" class="view view_detail" data-id=""></a>
-                                    <a href="javascript:;" title="编辑" class="edit edit_teacher" data-id=""></a>
-                                    <a href="javascript:;" title="删除" class="delete" data-id=""></a>
-                                </td>
-                            </tr>
+                            {{#if (count === 0) }}
+                                <tr>
+                                    <td colspan="6" class="no_hover">
+                                        {{include('./../inc/empty_data')}}
+                                    </td>
+                                </tr>
+                            {{else}}
+                                {{#each (list) }}
+                                    <tr>
+                                        <td>
+                                            <div class="inline_block">
+                                                <img src="{{#if (this.img_url) }}
+                                                            {{this.img_url}}
+                                                          {{else}}
+                                                            {{markUri}}/static/img/personIcon.png
+                                                          {{/if}}" alt="" style="width:48px;height:48px;border-radius:50%;vertical-align: middle;" />
+                                            </div>
+                                        </td>
+                                        <td>{{this.name}}</td>
+                                        <td>
+                                            {{#if (this.type === 1) }}
+                                                内部
+                                            {{else}}
+                                                外部
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            {{#if (this.class_count)}}
+                                                {{this.class_count}}
+                                            {{else}}
+                                                0
+                                            {{/if}}
+                                        </td>
+                                        <td></td>
+                                        <td class="operate_btn operate_lf">
+                                            <a href="javascript:;" title="查看" class="view view_detail" data-id="{{this.lecturer_id}}"></a>
+                                            <a href="javascript:;" title="编辑" class="edit edit_teacher" data-id="{{this.lecturer_id}}"></a>
+                                            <a href="javascript:;" title="删除" class="delete" data-id="{{this.lecturer_id}}"></a>
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            {{/if}}
                         </tbody>
                     </table>
                     <!--分页部分 Begin-->
@@ -136,7 +157,9 @@
                 var id = $.trim(t.data("id"));
                 locationTo({
                     action : contextPath + markUri + "/school/teacher/detail",
-                    param : {}
+                    param : {
+                        lecturer_id : id
+                    }
                 });
             });
         }

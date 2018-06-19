@@ -27,7 +27,7 @@
                     <a href="javascript:;" class="crumbs_item">新增讲师</a>
                 </div>
                 <div class="form_options create_options">
-                    <form action="" class="workflow_create">
+                    <form action="" id="teacher_create" method="post">
                         <div class="option_item">
                             <div class="column_name">
                                 <em class="require_icon">*</em>
@@ -50,7 +50,7 @@
                                 <span class="options_name">讲师姓名：</span>
                             </div>
                             <div class="column_val internal_teacher order_search_box">
-                                <input type="text" class="teacher_name search_name fuzzy_search" name="" placeholder="搜索讲师姓名" readonly/>
+                                <input type="text" class="teacher_name search_name fuzzy_search internal_name" name="" placeholder="搜索讲师姓名" readonly/>
                                 <span class="tips_info">(*请先选择讲师姓名)</span>
                                 <div class="search_result" style="display: none;">
                                     <div class="search_input">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="column_val external_teacher">
-                                <input type="text" class="teacher_name" name="" placeholder="请输入讲师姓名" />
+                                <input type="text" class="teacher_name external_name" name="" placeholder="请输入讲师姓名" />
                                 <span class="tips_info">(*请先输入讲师姓名)</span>
                             </div>
                         </div>
@@ -165,7 +165,9 @@
             cancel : $(".btn_box .cancel_upload"),
             confirm : $(".btn_box .submit_upload"),
             reChooseImg : $(".choose_img"),
-            search_name : $('.search_name')
+            search_name : $('.search_name'),
+            internal_name : $('.internal_name'),//内部讲师名称
+            external_name : $('.external_name'),//外部讲师名称
         };
         //上传图片按钮的点击事件
         function uploadPhoto (ele) {
@@ -323,9 +325,47 @@
                 }
             }
         }
+        //保存讲师
+        function saveTeacher () {
+            var btn = $('.create_confirm');
+            btn.off('click').on('click', function () {
+                saveTeacherForm();
+            });
+        }
+        //
+        function saveTeacherForm () {
+            var internal = $('#internal');//内部单选按钮
+            var external = $('#external');//外部单选按钮
+            if (internal[0].checked) {
+                var internal_name_val = elem.internal_name.val();
+                if (internal_name_val) {
+                    elem.internal_name.parents('.internal_teacher').find('.tips_info').hide();
+                } else {
+                    elem.internal_name.parents('.internal_teacher').find('.tips_info').show();
+                    return;
+                }
+            } else if (external[0].checked) {
+                var external_name_val = elem.external_name.val();
+                if (external_name_val) {
+                    elem.external_name.parents('.external_teacher').find('.tips_info').hide();
+                } else {
+                    elem.external_name.parents('.external_teacher').find('.tips_info').show();
+                    return;
+                }
+                var teacher_telphone = $('.teacher_telphone');
+                if (teacher_telphone.val() == '') {
+                    return;
+                } else {
+
+                }
+            } else {
+
+            }
+        }
         $(function() {
             uploadPhoto(elem.uploadBtn);//重新上传图片
             searchTeacher(); //模糊查询讲师
+            saveTeacher();//保存讲师
         });
     })(jQuery,undefined);
 </script>

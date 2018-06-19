@@ -49,6 +49,8 @@ exports.VIEW_SCHOOL_COURSE_CATEGORY_HOME = function(req, res, next) {
     }, req, res, next);
     //res.render('./school/courseClassify',{markUri : '/ksd'});
 };
+
+
 // 培训-课程列表-侧导航跳转
 exports.VIEW_SCHOOL_COURSE_LISTS_SYSTEM = function(req, res, next) {
     try {
@@ -89,6 +91,8 @@ exports.VIEW_SCHOOL_COURSE_LISTS_DETAIL = function(req, res, next) {
     // }, req, res, next);
     res.render('./school/courseDetail',{markUri : '/ksd'});
 };
+
+
 // 培训-培训讲师-侧导航跳转
 exports.VIEW_SCHOOL_TEACHER_SYSTEM = function(req, res, next) {
     try {
@@ -104,12 +108,12 @@ exports.VIEW_SCHOOL_TEACHER_SYSTEM = function(req, res, next) {
 };
 // 培训-培训讲师-培训讲师列表页
 exports.VIEW_SCHOOL_TEACHER_LIST = function(req, res, next) {
-    // common.getPageData({
-    //     url : '/api/organization/getList',
-    //     title : '培训-培训列表页',
-    //     page : './school/teacherList'
-    // }, req, res, next);
-    res.render('./school/teacherList',{markUri : '/ksd'});
+    common.getPageData({
+        url : '/api/school/lecturer/getlecturerlist',
+        title : '培训-培训列表页',
+        page : './school/teacherList'
+    }, req, res, next);
+   // res.render('./school/teacherList',{markUri : '/ksd'});
 };
 // 培训-培训讲师-新建讲师页
 exports.VIEW_SCHOOL_TEACHER_CREATE = function(req, res, next) {
@@ -131,12 +135,12 @@ exports.VIEW_SCHOOL_TEACHER_EDIT = function(req, res, next) {
 };
 // 培训-培训讲师-培训讲师详情页
 exports.VIEW_SCHOOL_TEACHER_DETAIL = function(req, res, next) {
-    // common.getPageData({
-    //     url : '/api/organization/getList',
-    //     title : '培训-培训列表页',
-    //     page : './school/teacherList'
-    // }, req, res, next);
-    res.render('./school/teacherDetail',{markUri : '/ksd'});
+    common.getPageData({
+        url : '/api/school/lecturer/detail',
+        title : '培训-讲师详情页',
+        page : './school/teacherDetail'
+    }, req, res, next);
+    // res.render('./school/teacherDetail',{markUri : '/ksd'});
 };
 
 
