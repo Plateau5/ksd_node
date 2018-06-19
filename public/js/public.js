@@ -1800,6 +1800,9 @@ function fileUpload (opt) {
             var t = $(this);
             var fileNum = t.data('file_num');
             fileNum = fileNum ? fileNum : 0;
+            if (fileNum >= options.maxCount) {
+                return false;
+            }
             fileCount = fileNum;
             if (!t.hasClass("disabled")) {
                 fileBtn.eq(fileCount).click();
@@ -1818,7 +1821,10 @@ function fileUpload (opt) {
 
                 }
                 if (options.maxCount) {
-                    if (fileCount >= options.maxCount) {
+                    if (fileCount > options.maxCount) {
+                        btn.addClass("disabled");
+                        return false;
+                    }else if (fileCount == options.maxCount) {
                         if (success) {
                             btn.addClass("disabled");
                             options.callback && options.callback(t, fileValue);    // 回传点击的按钮
@@ -1860,7 +1866,7 @@ function fileUpload (opt) {
             var thisIndex = t.parents(".file_item").index(); //存储当前文件的索引值
             //console.log(thisIndex);
             t.parents(".file_item").remove();
-            /*that.find(".file_upload_btn").eq(thisIndex).remove();*/
+            that.find(".file_upload_btn").eq(thisIndex).remove();
             var a = [];
             that.find(".file_upload_btn").each(function () {
                 var file = $(this)[0].files[0] && $(this)[0].files[0].name;
@@ -1872,7 +1878,10 @@ function fileUpload (opt) {
                     that.append(inputFile);
                 }
             }
-            fileCount--;
+            var fileNum = btn.data('file_num');
+            fileNum--;
+            fileCount = fileNum;
+            btn.data('file_num', fileNum);
             btn.removeClass("disabled");
         });
     });
