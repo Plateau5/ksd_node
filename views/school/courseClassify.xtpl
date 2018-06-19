@@ -120,13 +120,13 @@
 
             var onCreate = function (oneName, secondName, d) {
                 if (oneName == '') {
-                    $('.oneLevelErrorTips').text('课程分类不能为空');
+                    $('.oneLevelErrorTips').text('请输入课程分类名称');
                     return;
                 } else {
                     $('.oneLevelErrorTips').text('');
                 }
                 if (secondName == ''){
-                    $('.secondLevelErrorTips').text('课程子分类不能为空');
+                    $('.secondLevelErrorTips').text('请输入课程子分类名称');
                     return;
                 } else {
                     $('.secondLevelErrorTips').text('');
@@ -150,7 +150,7 @@
                         }
                     },
                     error : function () {
-                        $alert('分类创建失败，请重新尝试');
+                        $alert('课程分类创建失败，请重新尝试');
                     }
                 });
             };
@@ -159,14 +159,14 @@
                 var _this = $(this);
                 var val = $.trim(_this.val());
                 if (val == '' || val.length == 0) {
-                    $('.oneLevelErrorTips').text('课程分类不能为空');
+                    $('.oneLevelErrorTips').text('请输入课程分类名称');
                 }
             });
             $('body').on('blur', '#second_classify, #secondLevelName', function () {
                 var _this = $(this);
                 var val = $.trim(_this.val());
                 if (val == '' || val.length == 0) {
-                    $('.secondLevelErrorTips').text('课程子分类不能为空');
+                    $('.secondLevelErrorTips').text('请输入课程子分类名称');
                 }
             });
         }
@@ -220,7 +220,7 @@
                     content : '<input type="text" name="" style="width: 230px;\n' +
                     '                height: 30px;\n' +
                     '                border: 1px solid #e4e4e4;\n' +
-                    '                text-indent: .8em;" class="new_field" id="renameClassify" value="'+ name +'" placeholder="请输入分类名称" maxlength="20" />' +
+                    '                text-indent: .8em;" class="new_field" id="renameClassify" value="'+ name +'" placeholder="请输入课程分类名称" maxlength="20" />' +
                     '<div class="error-tips" style="padding-left: 86px;" id="createErrorTips"></div>',
                     maskClose : false,
                     onConfirm : function (d) {
@@ -235,7 +235,7 @@
 
             var onCreate = function (d, newName, id) {
                 if (newName == '' || newName.length == 0) {
-                    $('#createErrorTips').text('课程分类不能为空');
+                    $('#createErrorTips').text('请输入课程分类名称');
                 } else {
                     var data = {
                         id : id,
@@ -248,7 +248,7 @@
                         success : function (res) {
                             if (res.error_code == 0) {
                                 d.close();
-                                $alert('分类重命名成功', function () {
+                                $alert('课程分类重命名成功', function () {
                                     window.location.reload();
                                 });
                             } else {
@@ -256,7 +256,7 @@
                             }
                         },
                         error : function () {
-                            $alert('分类重命名失败，请重新尝试');
+                            $alert('课程分类重命名失败，请重新尝试');
                         }
                     });
                 }
