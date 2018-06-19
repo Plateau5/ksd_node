@@ -1,4 +1,3 @@
-<!--照片不合格-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -55,8 +54,8 @@
             <form class="formML" id="review_info" enctype="multipart/form-data" method="post">
                 <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
                 <input type="hidden" id="is_change" name="is_change" value="1">
-                <!--<input type="hidden" id="loan_amount" name="loan_amount" value="{{vo.loan_amount}}">
-                <input type="hidden" id="purchase_tax" name="purchase_tax" value="{{vo.purchase_tax}}">
+                <input type="hidden" id="loan_amount" value="{{vo.loan_amount}}">
+                <!--<input type="hidden" id="purchase_tax" name="purchase_tax" value="{{vo.purchase_tax}}">
                 <input type="hidden" id="gps_charge" name="gps_charge" value="{{vo.gps_charge}}">
                 <input type="hidden" id="insurance" name="insurance" value="{{vo.insurance}}">
                 <input type="hidden" id="service_charge" name="service_charge" value="{{vo.service_charge}}">-->
@@ -72,7 +71,7 @@
                     <label>
                         <span class="need">*</span>车价贷款额：</label>
                     <div>
-                        <input type="text"  id="loan_amount" name="loan_amount" class="real_loan_amount loan_money"  maxlength="8" placeholder="请输入金额" onkeypress="IsNum(event,loan_amount);" onkeyup="value=value.replace(/[^\d.]/g,'')" onpaste="return false;" value="{{vo.loan_amount}}">
+                        <input type="text"  name="loan_amount" class="real_loan_amount loan_money"  maxlength="8" placeholder="请输入金额" onkeypress="IsNum(event,loan_amount);" onkeyup="value=value.replace(/[^\d.]/g,'')" onpaste="return false;" value="{{vo.loan_amount}}">
                         <span class="contribution">
                             <span>&nbsp;万元</span><em class="contribution_icon"></em>
                             <span class="tips">如果有融资时请填写，不需要时填写0</span>
