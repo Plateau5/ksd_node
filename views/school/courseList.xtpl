@@ -79,13 +79,13 @@
                 </ul>
             </div>
             <div class="new_btn_box">
-                <a href="javascript:;" class="detail_title_btn create_btn">新增课程</a>
+                <a href="{{markUri}}/school/course/lists/create" class="detail_title_btn create_btn">新增课程</a>
             </div>
             <div class="course_listinfo">
                 <div class="course_item">
                     <div class="course_img">
                         <div class="imgbox">
-                            <img src="{{markUri}}/static/img/timg.jpg" alt="" class="img_responsive">
+                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
                         </div>
                         <em class="already_nums">32人学过</em>
                     </div>
@@ -100,7 +100,7 @@
                 <div class="course_item">
                     <div class="course_img">
                         <div class="imgbox">
-                            <img src="{{markUri}}/static/img/timg.jpg" alt="" class="img_responsive">
+                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
                         </div>
                         <em class="already_nums">32人学过</em>
                     </div>
@@ -115,7 +115,7 @@
                 <div class="course_item">
                     <div class="course_img">
                         <div class="imgbox">
-                            <img src="{{markUri}}/static/img/timg.jpg" alt="" class="img_responsive">
+                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
                         </div>
                         <em class="already_nums">32人学过</em>
                     </div>
@@ -127,10 +127,10 @@
                         <span class="teacher_name">李玉伟、马景涛</span>
                     </div>
                 </div>
-                <div class="course_item">
+                <div class="course_item mar_r_0">
                     <div class="course_img">
                         <div class="imgbox">
-                            <img src="{{markUri}}/static/img/timg.jpg" alt="" class="img_responsive">
+                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
                         </div>
                         <em class="already_nums">32人学过</em>
                     </div>
@@ -145,7 +145,7 @@
                 <div class="course_item">
                     <div class="course_img">
                         <div class="imgbox">
-                            <img src="{{markUri}}/static/img/timg.jpg" alt="" class="img_responsive">
+                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
                         </div>
                         <em class="already_nums">32人学过</em>
                     </div>
@@ -173,10 +173,21 @@
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script>
     (function ($) {
-
+        //课程详情
+        function courseDetail () {
+            var btn = $(".course_item");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/school/course/lists/detail",
+                    param : {}
+                });
+            });
+        }
 
         $(function() {
-
+            courseDetail();//课程详情
         });
     })(jQuery,undefined);
 </script>

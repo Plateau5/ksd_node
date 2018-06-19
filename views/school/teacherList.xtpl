@@ -24,8 +24,7 @@
             <div id="main" class="main teacher_list">
                 <div class="teacher_content">
                     <div class="new_btn_box">
-                       <!-- <a href="./workflow-create.html" class="btn blue_btn add_btn"><em></em>新建讲师</a>-->
-                        <a href="javascript:;" class="detail_title_btn create_btn create_teacher">新增讲师</a>
+                        <a href="{{markUri}}/school/teacher/create" class="detail_title_btn create_btn create_teacher">新增讲师</a>
                     </div>
                     <table class="table_list">
                         <colgroup style="width: 100%;">
@@ -95,7 +94,7 @@
         // 删除的提交事件
         function deleteEvent (t) {
             t.off('click');
-            var id = $.trim(t.data('flow_id'));
+            var id = $.trim(t.data("id"));
             var url = contextPath + '/api/workflow/delete';
             var data = {
                 id : id
@@ -104,8 +103,6 @@
                 closeBtn : false,
                 title : '删除提醒',
                 content : '确认删除此讲师？',
-                "button" : ["确认","取消"],
-                "maskClose" : false,
                 onConfirm : function (d) {
                     onDeleteConfirm(d);
                 },
@@ -128,50 +125,37 @@
                     d.close();
                     deleteTeacher();
                     $alert('删除讲师失败，请稍后重试');
-                })
-            }
+                });
+            };
         }
         //查看讲师详情
         function viewTeacherDetail () {
             var btn = $(".view_detail");
             btn.off("click").on("click", function () {
                 var t = $(this);
-                var productId = $.trim(t.attr("lang"));
-                // var data_num = $.trim(t.attr("data_num"));
+                var id = $.trim(t.data("id"));
                 locationTo({
                     action : contextPath + markUri + "/school/teacher/detail",
                     param : {}
                 });
-            })
-        }
-        //新增讲师
-        function createTeacher () {
-            var btn = $(".create_teacher");
-            btn.off("click").on("click", function () {
-                locationTo({
-                    action : contextPath + markUri + "/school/teacher/create",
-                    param : {}
-                });
-            })
+            });
         }
         //编辑讲师
         function editTeacher () {
             var btn = $(".edit_teacher");
             btn.off("click").on("click", function () {
                 var t = $(this);
-                // var productId = $.trim(t.attr("lang"));
-                // var data_num = $.trim(t.attr("data_num"));
+                var id = $.trim(t.data("id"));
                 locationTo({
                     action : contextPath + markUri + "/school/teacher/edit",
                     param : {}
                 });
-            })
+            });
         }
 
         $(function() {
             deleteTeacher();//删除讲师
             viewTeacherDetail();//查看讲师详情
-            createTeacher();//新增讲师
             editTeacher();//编辑讲师
         });
     })(jQuery,undefined);

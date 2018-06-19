@@ -23,7 +23,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main course_detail">
             <div class="crumbs_nav">
-                <a href="javascript:;" class="crumbs_item">培训讲师</a>
+                <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">培训讲师</a>
                 <a href="javascript:;" class="crumbs_item">如何一小时快速搭建一个应用号</a>
             </div>
             <div class="title" style="border: none;">
@@ -44,7 +44,7 @@
             <div class="teachers_box clearfix">
                 <div class="teacher_item">
                     <div class="teacher_icon">
-                        <img src="../static/img/perIcon.png" id="" class="img_responsive" alt="">
+                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
                     </div>
                     <div class="teacher_name" title="讲师师师师">
                         <span>讲师师师师</span>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="teacher_item">
                     <div class="teacher_icon">
-                        <img src="../static/img/perIcon.png" id="" class="img_responsive" alt="">
+                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
                     </div>
                     <div class="teacher_name" title="讲师师师师">
                         <span>讲师师师师</span>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="teacher_item">
                     <div class="teacher_icon">
-                        <img src="../static/img/perIcon.png" id="" class="img_responsive" alt="">
+                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
                     </div>
                     <div class="teacher_name" title="讲师师师师">
                         <span>讲师师师师</span>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="teacher_item">
                     <div class="teacher_icon">
-                        <img src="../static/img/perIcon.png" id="" class="img_responsive" alt="">
+                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
                     </div>
                     <div class="teacher_name" title="讲师师师师">
                         <span>讲师师师师</span>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="teacher_item">
                     <div class="teacher_icon">
-                        <img src="../static/img/perIcon.png" id="" class="img_responsive" alt="">
+                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
                     </div>
                     <div class="teacher_name" title="讲师师师师">
                         <span>讲师师师师</span>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="teacher_item">
                     <div class="teacher_icon">
-                        <img src="../static/img/perIcon.png" id="" class="img_responsive" alt="">
+                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
                     </div>
                     <div class="teacher_name" title="讲师师师师">
                         <span>讲师师师师</span>
@@ -126,10 +126,74 @@
                 "height" : '650'//视频的显示高度，请尽量使用视频分辨率高度
             });
         }
-
+        //删除课程
+        function deleteCourse () {
+            var btn = $('.delete_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                deleteEvent(_this);
+            });
+        }
+        // 删除的提交事件
+        function deleteEvent (t) {
+            t.off('click');
+            var id = $.trim(t.data("id"));
+            var url = contextPath + '/api/workflow/delete';
+            var data = {
+                id : id
+            };
+            dialog('open',{
+                closeBtn : false,
+                title : '删除提醒',
+                content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后课程将不可恢复，</span><br><span>确认继续删除？</span></div>',
+                onConfirm : function (d) {
+                    onDeleteConfirm(d);
+                },
+                onCancel : function (d) {
+                    deleteCourse(d);
+                    d.close();
+                }
+            });
+            var onDeleteConfirm = function (d) {
+                $ajax('post', url, data, function (res) {
+                    if (res.error_code == 0) {
+                        d.close();
+                        locationTo({
+                            action : contextPath + markUri + "/school/course/lists/system",
+                            param : {}
+                        });
+                    } else {
+                        d.close();
+                        deleteCourse();
+                        $alert(res.error_msg);
+                    }
+                }, function () {
+                    d.close();
+                    deleteCourse();
+                    $alert('删除课程失败，请稍后重试');
+                });
+            };
+        }
+        //课程编辑
+        function editCourse () {
+            var btn = $('.edit_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                editEvent(_this);
+            });
+        }
+        //编辑页跳转事件
+        function editEvent () {
+            locationTo({
+                action : contextPath + markUri + "/school/course/lists/create",
+                param : {}
+            });
+        }
 
         $(function() {
-            videoPlayer();
+            videoPlayer();//音视频播放
+            deleteCourse();//删除课程
+            editCourse();//课程编辑
         });
     })(jQuery,undefined);
 </script>
