@@ -27,7 +27,11 @@ $(function(){
         payment_account_name.val(bankName);
         var bank_open = $("#payment_account option:selected").data('bank_open');
         payment_open_bank.val(bank_open);
-
+        var _this = $(this);
+        if(_this.val()){
+            _this.parent().find('.formError').html('');
+            _this.css('border-color','#ccc');
+        }
     });
     //业务类型切换
     firmType.change(function(){

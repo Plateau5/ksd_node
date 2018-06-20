@@ -282,12 +282,12 @@
                     btn.attr('disabled',false);
                     return;
                 }
-                // if(!payment_account.val()){
-                //     payment_account.parent().find('.formError').html('付方账户不能为空');
-                //     payment_account.css('border-color','#FB2741');
-                //     btn.attr('disabled',false);
-                //     return;
-                // }
+                if(!payment_account.val()){
+                    payment_account.parent().find('.formError').html('请选择付方账户');
+                    payment_account.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
                 if (firmType.val() === "1" && checked ) {
                     if(!receipt_bank.val()){
                         receipt_bank.parent().find('.formError').html('开户行不能为空');
