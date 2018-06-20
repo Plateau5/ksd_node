@@ -24,25 +24,54 @@
             <div id="main" class="main pad_btm_100 teacher_create">
                 <div class="crumbs_nav">
                     <a href="{{markUri}}/school/teacher/system" class="crumbs_item">培训讲师</a>
-                    <a href="javascript:;" class="crumbs_item">新增讲师</a>
+                    <a href="javascript:;" class="crumbs_item">
+                        {{#if (reqParams.id) }}
+                            编辑讲师
+                        {{else}}
+                            新增讲师
+                        {{/if}}
+                    </a>
                 </div>
                 <div class="form_options create_options">
                     <form action="" id="teacher_create" method="post">
+                        <input type="hidden" value="{{reqParams.id}}" id="teacher_id">
                         <div class="option_item">
                             <div class="column_name">
                                 <em class="require_icon">*</em>
                                 <span class="options_name">讲师类型：</span>
                             </div>
                             <div class="column_val">
-                                <div class="form_group mar6">
-                                    <input id="internal" type="radio" class="internal" name="teacher_type" value="0" checked/>
-                                    <label for="internal">内部</label>
-                                </div>
-                                <div class="form_group">
-                                    <input id="external" type="radio" class="external" name="teacher_type" value="1" />
-                                    <label for="external">外部</label>
-                                </div>
-                                <span class="tips_info">(*请先选择讲师类型)</span>
+                                {{#if (lecturerDetail) }}
+                                    {{#if (lecturerDetail.type === 1) }}
+                                        <div class="form_group">
+                                            <input id="internal" type="radio" class="internal" name="type" value="1" checked style="display: none;"/>
+                                            <label for="internal">内部</label>
+                                        </div>
+                                        <div class="form_group" style="display: none">
+                                            <input id="external" type="radio" class="external" name="type" value="2"/>
+                                            <label for="external">外部</label>
+                                        </div>
+                                    {{else}}
+                                        <div class="form_group" style="display: none">
+                                            <input id="internal" type="radio" class="internal" name="type" value="1"/>
+                                            <label for="internal">内部</label>
+                                        </div>
+                                        <div class="form_group">
+                                            <input id="external" type="radio" class="external" name="type" value="2" checked style="display: none;"/>
+                                            <label for="external">外部</label>
+                                        </div>
+                                    {{/if}}
+                                {{else}}
+                                    <div class="form_group mar6">
+                                        <input id="internal" type="radio" class="internal" name="type" value="1" checked/>
+                                        <label for="internal">内部</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input id="external" type="radio" class="external" name="type" value="2" />
+                                        <label for="external">外部</label>
+                                    </div>
+                                    <span class="tips_info">(*请先选择讲师类型)</span>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="option_item">
@@ -50,65 +79,94 @@
                                 <em class="require_icon">*</em>
                                 <span class="options_name">讲师姓名：</span>
                             </div>
-                            <div class="column_val internal_teacher order_search_box">
-                                <input type="text" class="teacher_name search_name fuzzy_search internal_name" name="" placeholder="搜索讲师姓名" readonly/>
-                                <span class="tips_info">(*请先选择讲师姓名)</span>
-                                <div class="search_result" style="display: none;">
-                                    <div class="search_input">
-                                        <input class="customer_search" type="text">
+                            {{#if (lecturerDetail) }}
+                                {{#if (lecturerDetail.type === 1) }}
+                                    <div class="column_val external_teacher" style="display: inline-block">
+                                        <input type="text" value="{{lecturerDetail.name}}" class="internal_name" style="border: none;padding-left: 0;" readonly>
                                     </div>
-                                    <ul class="search_list">
-                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                            <div class="name nowrap">王聚全聚全</div>
-                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                        </li>
-                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                            <div class="name nowrap">王聚全聚全</div>
-                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                        </li>
-                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                            <div class="name nowrap">王聚全聚全</div>
-                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                        </li>
-                                        <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                            <div class="name nowrap">王聚全聚全</div>
-                                            <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                        </li>
-                                    </ul>
+                                {{else}}
+                                    <div class="column_val external_teacher" style="display: inline-block">
+                                        <input type="text" class="teacher_name external_name" name="name" placeholder="请输入讲师姓名" value="{{lecturerDetail.name}}" maxlength="20"/>
+                                        <span class="tips_info">(*请先输入讲师姓名)</span>
+                                    </div>
+                                {{/if}}
+                            {{else}}
+                                <div class="column_val internal_teacher order_search_box">
+                                    <input type="hidden" name="emp_id" class="emp_id" id="orderCreatorId">
+                                    <input type="hidden" name="image_url" id="teacher_photo">
+                                    <input type="text" class="teacher_name search_name fuzzy_search internal_name" name="name" placeholder="搜索讲师姓名" readonly/>
+                                    <span class="tips_info">(*请先选择讲师姓名)</span>
+                                    <div class="search_result" style="display: none;">
+                                        <div class="search_input">
+                                            <input class="customer_search" type="text">
+                                        </div>
+                                        <ul class="search_list">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="column_val external_teacher">
+                                    <input type="text" class="teacher_name external_name" name="name" placeholder="请输入讲师姓名" maxlength="20"/>
+                                    <span class="tips_info">(*请先输入讲师姓名)</span>
+                                </div>
+                            {{/if}}
+                        </div>
+                        {{#if (lecturerDetail) }}
+                            {{#if (lecturerDetail.type === 2) }}
+                                <div class="option_item external_teacher" style="display: block">
+                                    <div class="column_name">
+                                        <em class="require_icon">*</em>
+                                        <span class="options_name">讲师手机：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        <input type="text" class="teacher_telphone" name="phone" maxlength="11" placeholder="请输入讲师手机号" value="{{lecturerDetail.phone}}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
+                                        <span class="tips_info">(*请先输入讲师手机号)</span>
+                                    </div>
+                                </div>
+                                <div class="option_item user_photo_row external_teacher" style="display: block">
+                                    <div class="column_name">讲师头像：</div>
+                                    <div class="column_val">
+                                        <input type="hidden" class="teacher_img" value="{{lecturerDetail.image_url}}">
+                                        <div class="photo_box">
+                                            <img src="{{lecturerDetail.image_url}}" id="user_photo" class="user_photo img_responsive" alt="">
+                                        </div>
+                                        <a href="javascript:;" class="detail_title_btn create_btn" id="upload_photo_btn">上传头像</a>
+                                        <input type="file" style="display: none;" name="image_url" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
+                                    </div>
+                                </div>
+                            {{/if}}
+                        {{else}}
+                            <div class="option_item external_teacher">
+                                <div class="column_name">
+                                    <em class="require_icon">*</em>
+                                    <span class="options_name">讲师手机：</span>
+                                </div>
+                                <div class="column_val">
+                                    <input type="text" class="teacher_telphone" name="phone" maxlength="11" placeholder="请输入讲师手机号" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
+                                    <span class="tips_info">(*请先输入讲师手机号)</span>
                                 </div>
                             </div>
-                            <div class="column_val external_teacher">
-                                <input type="text" class="teacher_name external_name" name="" placeholder="请输入讲师姓名" />
-                                <span class="tips_info">(*请先输入讲师姓名)</span>
-                            </div>
-                        </div>
-                        <div class="option_item external_teacher">
-                            <div class="column_name">
-                                <em class="require_icon">*</em>
-                                <span class="options_name">讲师手机：</span>
-                            </div>
-                            <div class="column_val">
-                                <input type="text" class="teacher_telphone" name="" placeholder="请输入讲师手机号" />
-                                <span class="tips_info">(*请先输入讲师手机号)</span>
-                            </div>
-                        </div>
-
-                        <div class="option_item user_photo_row external_teacher">
-                            <div class="column_name">讲师头像：</div>
-                            <div class="column_val">
-                                <div class="photo_box">
-                                    <img src="{{markUri}}/static/img/personIcon.png" id="user_photo" class="user_photo img_responsive" alt="">
+                            <div class="option_item user_photo_row external_teacher">
+                                <div class="column_name">讲师头像：</div>
+                                <div class="column_val">
+                                    <input type="hidden" class="teacher_img">
+                                    <div class="photo_box">
+                                        <img src="{{markUri}}/static/img/personIcon.png" id="user_photo" class="user_photo img_responsive" alt="">
+                                    </div>
+                                    <a href="javascript:;" class="detail_title_btn create_btn" id="upload_photo_btn">上传头像</a>
+                                    <input type="file" style="display: none;" name="image_url" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
                                 </div>
-                                <a href="javascript:;" class="detail_title_btn create_btn" id="upload_photo_btn">上传头像</a>
-                                <input type="file" style="display: none;" name="user_photo" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
                             </div>
-                        </div>
+                        {{/if}}
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name">讲师简介：</span>
                             </div>
                             <div class="column_val">
-                                <textarea class="teacher_intro" name="" id="" cols="30" rows="11" placeholder="请输入讲师简介"></textarea>
+                                {{#if (lecturerDetail) }}
+                                    <textarea class="teacher_intro" name="intro" cols="30" rows="11" placeholder="请输入讲师简介">{{lecturerDetail.intro}}</textarea>
+                                {{else}}
+                                    <textarea class="teacher_intro" name="intro" cols="30" rows="11" placeholder="请输入讲师简介"></textarea>
+                                {{/if}}
                             </div>
                         </div>
                     </form>
@@ -153,11 +211,38 @@
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/cropper/cropper.js"></script>
 <script>
+    var emp_list = '{{emp_list}}';
+    if (emp_list.length > 0 ){
+        emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
+    }
     (function ($) {
+        /*************手机校验 start**************/
+        $('.teacher_telphone').blur(function () {
+            var _this = $(this);
+            checkTelphone(_this);
+        });
+        function checkTelphone (_this) {
+            var reg = PHONEPATTERN;
+            if (_this.val() == '') {
+                _this.siblings('.tips_info').show().text('(*请先输入讲师手机号)');
+                return false;
+            } else {
+                _this.siblings('.tips_info').hide();
+            }
+            if (!reg.test(_this.val())) {
+                _this.siblings('.tips_info').show().text('(*请输入正确的手机号格式)');
+                return false;
+            } else {
+                _this.siblings('.tips_info').hide();
+            }
+        }
+        /*************手机校验 end**************/
         var RESETPHOTO = false;
         var elem = {
             internal : $('#internal'),//内部
             external : $('#external'),//外部
+            internal_teacher : $('.internal_teacher'),
+            external_teacher : $('.external_teacher'),
             userPhoto : $('#user_photo'),
             uploadBtn : $("#upload_photo_btn"),
             fileInput : $("#upload_photo_file"),
@@ -203,7 +288,6 @@
             elem.uploadDia.show();
             elem.mask.show();
         });
-
         //取消按钮的点击事件
         elem.cancel.off("click").on("click", function () {
             elem.uploadDia.hide();
@@ -217,22 +301,49 @@
             //将裁剪的图片加载到face_image
             elem.userPhoto.attr('src', canVas.toDataURL());
             RESETPHOTO = true;
+            var file = elem.userPhoto.attr("src").slice(22);
+            var form = new FormData();
+            form.append('file',file);
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : contextPath + "/api/file/base64/upload",
+                data : form,
+                processData : false,
+                contentType :false,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('头像上传成功');
+                        $('.teacher_img').val(res.data[0].image_url);
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("头像上传失败，请稍后重试");
+                }
+            });
         });
         //内部-讲师类型切换
         elem.internal.off("click").on("click", function () {
             if (this.checked) {
-                $('.internal_teacher').show();
-                $('.external_teacher').hide();
+                elem.internal_teacher.show();
+                elem.external_teacher.hide();
             }
         });
         //外部-讲师类型切换
         elem.external.off("click").on("click", function () {
             if (this.checked) {
-                $('.internal_teacher').hide();
-                $('.external_teacher').show();
+                elem.internal_teacher.hide();
+                elem.external_teacher.show();
             }
         });
-        //搜索讲师姓名
+        /************************搜索讲师姓名 start****************************/
         //模糊查询
         var hideInput = $('#orderCreatorId');
         var btn = $('#createName');
@@ -281,11 +392,12 @@
                     var _this = $(this);
                     var createName = $.trim(_this.data('name'));
                     var orderCreatorId = $.trim(_this.data('id'));
-                    $('.customer_search').val(createName);
+                    var image_url = $.trim(_this.data('image_url'));
+                    $('.search_name').val(createName);
+                    $('#teacher_photo').val(image_url);
                     btn.val(createName);
                     hideInput.val(orderCreatorId);
                     resBox.hide();
-
                 });
             }
         }
@@ -316,17 +428,16 @@
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var str = '';
-                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '">\
+                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" data-image_url="'+ res[i].image_url + '" title="' + res[i].account + '">\
                                 <div class="name nowrap">' + res[i].name + '</div>\
                                 <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
                             </li>'
                     html.push(str);
                     $('.search_list').html(html.join(""));
-                    var orderId = '';
-
                 }
             }
         }
+        /************************搜索讲师姓名 end****************************/
         //保存讲师
         function saveTeacher () {
             var btn = $('.create_confirm');
@@ -338,6 +449,7 @@
         function saveTeacherForm () {
             var internal = $('#internal');//内部单选按钮
             var external = $('#external');//外部单选按钮
+            var flag_type = false;//默认内部
             if (internal[0].checked) {
                 internal.parents('.column_val').find('.tips_info').hide();
                 var internal_name_val = elem.internal_name.val();
@@ -347,6 +459,7 @@
                     elem.internal_name.parents('.internal_teacher').find('.tips_info').show();
                     return;
                 }
+                flag_type = false;//内部
             } else if (external[0].checked) {
                 internal.parents('.column_val').find('.tips_info').hide();
                 var external_name_val = elem.external_name.val();
@@ -357,28 +470,77 @@
                     return;
                 }
                 var teacher_telphone = $('.teacher_telphone');
-                if (teacher_telphone.val() == '') {
-                    teacher_telphone.siblings('.tips_info').show();
+                var check_flag = checkTelphone(teacher_telphone);
+                if (!check_flag && check_flag != undefined) {
                     return;
-                } else {
-                    teacher_telphone.siblings('.tips_info').hide();
                 }
+                flag_type = true;//外部
             } else {
                 internal.parents('.column_val').find('.tips_info').show();
                 return;
             }
-            ajaxSubmit();
+            ajaxSubmit(flag_type);
         }
         //ajax提交參數
-        function ajaxSubmit () {
-            var parameters = new FormData(document.getElementById('teacher_create'));
+        function ajaxSubmit (flag_type) {
+            if ($('#teacher_id').val() == '') {//新增保存
+                var url = contextPath + "/api/school/lecturer/create";
+                if (flag_type) {//外部
+                    var external = $('#external').val();
+                    var teacher_photo = $('.teacher_img').val();
+                    var external_name = $('.external_name').val();
+                    var phone = $('.teacher_telphone').val();
+                    var teacher_intro = $('.teacher_intro').val();
+                    var parameters = {
+                        type : external,
+                        name : external_name,
+                        phone : phone,
+                        intro : teacher_intro,
+                        image_url : teacher_photo
+                    };
+                } else {//内部
+                    var internal = $('#internal').val();
+                    var emp_id = $('.emp_id').val();
+                    var teacher_photo = $('#teacher_photo').val();
+                    var internal_name = $('.internal_name').val();
+                    var teacher_intro = $('.teacher_intro').val();
+                    var parameters = {
+                        emp_id : emp_id,
+                        type : internal,
+                        name : internal_name,
+                        intro : teacher_intro,
+                        image_url : teacher_photo
+                    };
+                }
+            } else {//编辑保存
+                var url = contextPath + "/api/school/lecturer/save";
+                var teacher_id = $('#teacher_id').val();
+                var teacher_intro = $('.teacher_intro').val();
+                if (flag_type) {//外部
+                    var external_name = $('.external_name').val();
+                    var teacher_telphone = $('.teacher_telphone').val();
+                    var teacher_img = $('.teacher_img').val();
+                    var parameters = {
+                        id : teacher_id,
+                        intro : teacher_intro,
+                        phone : teacher_telphone,
+                        name : external_name,
+                        image_url : teacher_img
+                    }
+                } else {//内部
+                    var internal_name = $('.internal_name').val();
+                    var parameters = {
+                        id : teacher_id,
+                        name : internal_name,
+                        intro : teacher_intro
+                    }
+                }
+            }
             $.ajax({
                 type:'post',
                 timeout:20000,
                 url : url,
                 data : parameters,
-                processData : false,      //序列化参数为String类型，默认：true。
-                contentType : false,      //内容编码，文件上传时设为FALSE
                 beforeSend : function () {
                     $('#loading').show();
                 },

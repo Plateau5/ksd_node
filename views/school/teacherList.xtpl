@@ -26,6 +26,10 @@
                     <div class="new_btn_box">
                         <a href="{{markUri}}/school/teacher/create" class="detail_title_btn create_btn create_teacher">新增讲师</a>
                     </div>
+                    <form action="{{markUri}}/school/teacher/list" method="post" role='form' style="display: none;">
+                        <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                        <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+                    </form>
                     <table class="table_list">
                         <colgroup style="width: 100%;">
                             <col style="width: 15%;" />
@@ -56,8 +60,8 @@
                                     <tr>
                                         <td>
                                             <div class="inline_block">
-                                                <img src="{{#if (this.img_url) }}
-                                                            {{this.img_url}}
+                                                <img src="{{#if (this.image_url) }}
+                                                            {{this.image_url}}
                                                           {{else}}
                                                             {{markUri}}/static/img/personIcon.png
                                                           {{/if}}" alt="" style="width:48px;height:48px;border-radius:50%;vertical-align: middle;" />
@@ -116,7 +120,7 @@
         function deleteEvent (t) {
             t.off('click');
             var id = $.trim(t.data("id"));
-            var url = contextPath + '/api/workflow/delete';
+            var url = contextPath + '/api/school/lecturer/delete';
             var data = {
                 id : id
             };
@@ -171,12 +175,15 @@
                 var id = $.trim(t.data("id"));
                 locationTo({
                     action : contextPath + markUri + "/school/teacher/edit",
-                    param : {}
+                    param : {
+                        id : id
+                    }
                 });
             });
         }
 
         $(function() {
+            paginationSwitch();// 分页切换
             deleteTeacher();//删除讲师
             viewTeacherDetail();//查看讲师详情
             editTeacher();//编辑讲师

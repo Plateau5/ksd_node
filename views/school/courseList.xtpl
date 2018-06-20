@@ -194,15 +194,22 @@
             });
         }
         //筛选事件
-        function filterEvent (level_li) {
-            level_li.off("click").on("click", function () {
+        function filterEvent (level_lia) {
+            level_lia.off("click").on("click", function () {
                 var _this = $(this);
                 filterResult(_this);
             });
         }
         //筛选结果
         function filterResult (_this) {
-            // _this.find('.level_ul')
+            var level_li = _this.parents('.level_ul').find('.level_li');
+            level_li.each(function () {
+                var t = $(this);
+                if (t.find('a').hasClass('active')) {
+                    t.find('a').removeClass('active');
+                }
+            });
+            _this.addClass('active');
             locationTo({
                 action : contextPath + markUri + "/school/course/lists/detail",
                 param : {}
