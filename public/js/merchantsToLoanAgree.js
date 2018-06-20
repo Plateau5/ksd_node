@@ -165,6 +165,8 @@ function getSelectedCitys () {
         $("#receipt_province_city").val(receipt_province_city);
         $(".select_city_input").val(receipt_province_city);
         $("#receipt_city").val(receipt_city);
+        $("#receipt_city").parent().find('.formError').html("");
+        $("#receipt_city").css('border-color','#FB2741');
     });
 }
 

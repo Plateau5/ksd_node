@@ -193,6 +193,7 @@
         function toRecordsDetail () {
             var Btn = $(".trans_records_detail");
             Btn.off('click').on('click', function () {
+                var current_page = $('#current_page').val().trim();
                 var start_time = $('#start_loan_time').val().trim();
                 var end_time = $("#end_loan_time").val().trim();
                 var start_amount = $('#start_amount').val().trim();
@@ -206,6 +207,7 @@
                     action : contextPath + markUri + recordsDetailUrl,
                     param : {
                         financialReceipt_id : id,
+                        current_page : current_page,
                         start_time : start_time,
                         end_time : end_time,
                         start_amount : start_amount,
