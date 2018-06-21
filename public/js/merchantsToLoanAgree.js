@@ -18,6 +18,7 @@ $(function(){
     var financial_use = $("#financial_use");
     var receipt_phone = $("#receipt_phone");
     var summary = $("#summary");
+    var receipt_account = $('#receipt_account');
 
     //付方账户切换
     payment_account.change(function (){
@@ -77,6 +78,12 @@ $(function(){
     });
 
     //表单校验
+    receipt_account.blur(function(){
+        var reg = /^[\d\s]+$/;
+        var error_txt = '请输入正确的收方账号';
+        validate_form(1,receipt_account,reg,error_txt);
+    });
+
     receipt_account_name.blur(function(){
         var reg = /^[a-zA-Z\u4e00-\u9fa5]+$/;
         var error_txt = '请输入正确的收方账户名';

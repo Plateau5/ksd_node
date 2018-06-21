@@ -190,7 +190,7 @@
                             <span class="options_name">收方行号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" class="required" maxlength="30" id="receipt_bank_no" data-tips="请输入收方行号" name="receipt_bank_no" value="" placeholder="请输入收方行号(非必填)" />
+                            <input type="text" onkeyup="this.value=this.value.replace(/[^\d\s]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" class="required" maxlength="30" id="receipt_bank_no" data-tips="请输入收方行号" name="receipt_bank_no" value="" placeholder="请输入收方行号(非必填)" />
                             <div class="tips_info">(*<span class="tips_text"></span>)</div>
                             <span class="formError"></span>
                         </div>
@@ -291,13 +291,13 @@
                 }
                 if (firmType.val() === "1" && checked ) {
                     if(!receipt_bank.val()){
-                        receipt_bank.parent().find('.formError').html('开户行不能为空');
+                        receipt_bank.parent().find('.formError').html('请输入收方开户行');
                         receipt_bank.css('border-color','#FB2741');
                         btn.attr('disabled',false);
                         return;
                     }
                     if(!receipt_bank_address.val()){
-                        receipt_bank_address.parent().find('.formError').html('请输入开户地不能为空');
+                        receipt_bank_address.parent().find('.formError').html('请输入收方开户地');
                         receipt_bank_address.css('border-color','#FB2741');
                         btn.attr('disabled',false);
                         return;
@@ -305,7 +305,7 @@
                 }
                 if (firmType.val() === "2" && checked) {
                     if(!receipt_bank.val()){
-                        receipt_bank.parent().find('.formError').html('请输入开户行');
+                        receipt_bank.parent().find('.formError').html('请输入收方开户行');
                         receipt_bank.css('border-color','#FB2741');
                         btn.attr('disabled',false);
                         return;
@@ -329,7 +329,7 @@
 
                 }
                 if(!financial_use.val()){
-                    financial_use.parent().find('.formError').html('用途不能为空');
+                    financial_use.parent().find('.formError').html('请输入用途');
                     financial_use.css('border-color','#FB2741');
                     btn.attr('disabled',false);
                     return;
