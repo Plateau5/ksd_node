@@ -71,18 +71,12 @@
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">收方账号：</div>
-                                    <div class="item_value">{{data.receipt_account_name}}</div>
+                                    <div class="item_value">{{data.receipt_account}}</div>
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">请求状态：</div>
                                     <div class="item_value">
-                                        {{#if (data.payment_status === 1) }}
-                                            完成
-                                        {{elseif (data.payment_status === 2 || data.payment_status === 0) }}
-                                            银行处理中
-                                        {{elseif (data.payment_status === 3) }}
-                                            数据接收中(代发)
-                                        {{/if}}
+                                        {{data.payment_status_value}}
                                     </div>
                                 </li>
                                 <li class="item_row">
