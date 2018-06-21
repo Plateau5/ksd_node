@@ -127,7 +127,11 @@
                                     <div class="column_val">
                                         <input type="hidden" class="teacher_img" value="{{lecturerDetail.image_url}}">
                                         <div class="photo_box">
-                                            <img src="{{lecturerDetail.image_url}}" id="user_photo" class="user_photo img_responsive" alt="">
+                                            <img src="{{#if(lecturerDetail.image_url)}}
+                                                        {{lecturerDetail.image_url}}
+                                                      {{else}}
+                                                        {{markUri}}/static/img/personIcon.png
+                                                      {{/if}}" id="user_photo" class="user_photo img_responsive" alt="">
                                         </div>
                                         <a href="javascript:;" class="detail_title_btn create_btn" id="upload_photo_btn">上传头像</a>
                                         <input type="file" style="display: none;" name="image_url" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
