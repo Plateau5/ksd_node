@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     {{include('./../inc/cssSources')}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <!-- 引入播放器 css 文件 -->
+    <link href="//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.css" rel="stylesheet">
     <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
     <title>培训-课程详情</title>
 </head>
@@ -36,7 +38,15 @@
                 </div>
             </div>
             <div class="video_box">
-                <div id="id_test_video" class="video_div"></div>
+                <!-- 设置播放器容器 -->
+                <video id="id_test_video" preload="auto" playsinline webkit-playinline x5-playinline></video>
+                <!--
+                注意事项：
+                * 播放器容器必须为 video 标签
+                * player-container-id 为播放器容器的ID，可自行设置
+                * 播放器区域的尺寸请按需设置，建议通过 css 进行设置，通过css可实现容器自适应等效果
+                * playsinline webkit-playinline x5-playinline 这几个属性是为了在标准移动端浏览器不劫持视频播放的情况下实现行内播放，此处仅作示例，请按需使用
+                -->
             </div>
             <div class="teacher_title">
                 <span>授课讲师</span>
@@ -109,7 +119,14 @@
 </body>
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
-<script src="https://imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.1.js" type="text/javascript" charset="UTF-8"></script>
+<!-- 如需在IE8、9浏览器中初始化播放器，浏览器需支持Flash并在页面中引入 -->
+<!--[if lt IE 9]>
+<script src="//imgcache.qq.com/open/qcloud/video/tcplayer/ie8/videojs-ie8.js"></script>
+<![endif]-->
+<!-- 如果需要在 Chrome Firefox 等现代浏览器中通过H5播放hls，需要引入 hls.js -->
+<script src="//imgcache.qq.com/open/qcloud/video/tcplayer/lib/hls.min.0.8.8.js"></script>
+<!-- 引入播放器 js 文件 -->
+<script src="//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.min.js"></script>
 <script>
     (function ($) {
 
@@ -117,13 +134,10 @@
         function videoPlayer () {
             var video_box = $('.video_box');
             var video_width = video_box.width();
-            var player =  new TcPlayer('id_test_video', {
-                fileID: '4564972818956091133', // 请传入需要播放的视频filID 必须
-                appID: '1256864073', // 请传入点播账号的appID 必须
-                m3u8: "http://2157.liveplay.myqcloud.com/2157_358535a.m3u8",
-                flv: "http://2157.liveplay.myqcloud.com/live/2157_358535a.flv", //增加了一个flv的播放地址，用于PC平台的播放 请替换成实际可用的播放地址
-                autoplay : true,      //iOS下safari浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
-                coverpic : "http://www.test.com/myimage.jpg",
+            var player = TCPlayer('id_test_video', {
+                fileID: '7447398156765311652', // 请传入需要播放的视频filID 必须
+                appID: TENCENTAPPID, // 请传入点播账号的appID 必须
+                autoplay : false,      //iOS下safari浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
                 width :  video_width,//视频的显示宽度，请尽量使用视频分辨率宽度
                 height : '650'//视频的显示高度，请尽量使用视频分辨率高度
             });
