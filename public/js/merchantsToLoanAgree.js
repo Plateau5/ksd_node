@@ -36,7 +36,7 @@ $(function(){
     //业务类型切换
     firmType.change(function(){
         var checked = $('.bank_type').find('input[type="radio"]').eq(1).prop('checked');
-        if($(this).val() === '1'){
+        if ($(this).val() === '1') {
             set_account.hide();
             if (checked) {
                 payee_address2.hide();
