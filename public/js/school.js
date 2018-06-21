@@ -59,7 +59,6 @@ $(".btn_box .submit_upload").off("click").on("click", function () {
         success : function (res) {
             $('#loading').hide();
             if (res.error_code == 0) {
-                $alert('头像上传成功');
                 $('.teacher_img').val(res.data[0].image_url);
             } else {
                 $alert(res.error_msg);
@@ -67,7 +66,7 @@ $(".btn_box .submit_upload").off("click").on("click", function () {
         },
         error : function () {
             $('#loading').hide();
-            $alert("头像上传失败，请稍后重试");
+            $alert("上传失败，请稍后重试");
         }
     });
 });

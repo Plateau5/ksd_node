@@ -66,7 +66,7 @@
                                     </div>
                                     {{/each}}
                                 </div>
-                                <span class="tips_info">(*请先输入课程名称)</span>
+                                <span class="tips_info">(*请先选择课程分类)</span>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         <div class="column_val internal_teacher order_search_box">
                             <input type="hidden" name="lecturer_ids" class="emp_id" id="orderCreatorId">
                             <input type="text" class="teacher_name search_name fuzzy_search input_w_400" name="" placeholder="搜索讲师姓名" readonly/>
-                            <span class="tips_info">(*请先选择讲师姓名)</span>
+                            <span class="tips_info">(*请先选择授课讲师)</span>
                             <div class="search_result" style="display: none;">
                                 <div class="search_input">
                                     <input class="customer_search" type="text">
@@ -93,9 +93,10 @@
                             <span class="options_name">课件形式：</span>
                         </div>
                         <div class="column_val">
-                            <input type="hidden" name="type">
-                            <input type="hidden" name="file_id">
-                            <input type="hidden" name="file_url">
+                            <input type="hidden" name="type" id="course_type">
+                            <input type="hidden" name="file_id" id="file_id">
+                            <input type="hidden" name="file_url" id="file_url">
+                            <input type="hidden" name="file_name" id="file_name">
                             <a id="upload_video" href="javascript:;" class="upload_video">上传视频</a>
                             <a id="upload_audio" href="javascript:;" class="upload_audio">上传音频</a>
                             <div id="resultBox" class="upload_process">
@@ -116,15 +117,17 @@
                             <div id="courseIntro" class="courseIntro">
 
                             </div>
-                            <span class="tips_info">(*请先选择讲师姓名)</span>
+                            <span class="tips_info">(*请先输入课程简介)</span>
                         </div>
                     </div>
                     <div class="option_item user_photo_row course_img">
                         <div class="column_name">课程封面：</div>
                         <div class="column_val">
-                            <input type="hidden" name="image_url">
+                            <input type="hidden" name="image_url" class="teacher_img">
                             <div class="img_md_box">
-                                <a id="upload_photo_btn" href="javascript:;" class="add_img_md_btn"></a>
+                                <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:160px;height:100px;">
+                                    <img src="{{markUri}}/static/img/create_course.png" alt="" id="user_photo" class="img-responsive" style="width:160px;height:100px;">
+                                </a>
                                 <input type="file" style="display: none;" name="" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
                             </div>
                         </div>
@@ -232,9 +235,11 @@
         /***********音视频上传  start***********/
         function uploadBtn() {
             $('#upload_video').on('click', function () {
+                $('#course_type').val(1);
                 $('#uploadVideoNow-file').click();
             });
             $('#upload_audio').on('click', function () {
+                $('#course_type').val(2);
                 $('#uploadVideoNow-file').click();
             });
         }
@@ -263,14 +268,6 @@
          * 添加上传信息模块
          */
         var addUploaderMsgBox = function(){
-            /*var html = '<div class="uploaderMsgBox" name="box'+index+'">' +
-                    '视频名称：<span name="videoname'+index+'"></span>；' +
-                    '计算sha进度：<span name="videosha'+index+'">0%</span>；' +
-                    '上传进度：<span name="videocurr'+index+'">0%</span>；' +
-                    'fileId：<span name="videofileId'+index+'">   </span>；' +
-                    '上传结果：<span name="videoresult'+index+'">   </span>；<br>' +
-                    '地址：<span name="videourl'+index+'">   </span>；</div>';
-            $('#resultBox').append(html);*/
             $('.upload_process').show();
             return index++;
         };
@@ -283,13 +280,13 @@
                 getSignature: getSignature,
                 allowAudio: 1,
                 success: function(result){
+                    console.log(result);
                     $alert('上传成功');
                     $('.process_close').show();
                 },
                 error: function(result){
                     if(result.type == 'video') {
                         $alert('上传失败>>'+result.msg);
-                        //$('[name=videoresult'+num+']').text('上传失败>>'+result.msg);
                     }
                 },
                 progress: function(result){
@@ -304,7 +301,10 @@
                     }
                 },
                 finish: function(result){
-                    $alert('123')
+                    console.log(result);
+                    $('#file_id').val(result.fileId);
+                    $('#file_url').val(result.videoUrl);
+                    $('#file_name').val(result.videoName);
                     // $('[name=videofileId'+num+']').text(result.fileId);
                     // $('[name=videourl'+num+']').text(result.videoUrl);
                     // if(result.message) {
@@ -403,6 +403,7 @@
             } else {
                 teacher_name.siblings('.tips_info').hide();
             }
+            console.log(courseIntro.txt.html());
             $('.introduction').val(courseIntro.txt.html());
             var introduction = $('.introduction');
             if (introduction.val() == '') {
