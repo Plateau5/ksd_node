@@ -172,3 +172,163 @@ function showSearchResult (res) {
     }
 }
 /************************搜索讲师姓名 end****************************/
+
+
+
+
+
+
+
+/**
+ * 获取拥有者
+ * @author Arley Joe 2017-11-1 17:35:23
+ * @returns {Array}
+ */
+function getFollowPeople () {
+    var followArr = [];
+    var fpElem = $('.person_list .person');
+    fpElem.each(function () {
+        var _this = $(this);
+        var id = $.trim(_this.data('id'));
+        followArr.push(id);
+    });
+    return followArr;
+}
+
+
+/**
+ * 添加拥有者
+ * @author Arley Joe 2017-11-1 16:37:30
+ */
+function addOwnPerson () {
+    var setObj = {
+        "depName" : $(".department_name"),
+        "mName" : $(".manager_name .p_name"),
+        "btn" : $("#addOwnPersonBtn"),
+        "sBox" : $(".search_box"),
+        "input" : $(".m_search "),
+        "resBox" : $(".search_result"),
+        "personList" : $('.person_list')
+    };
+    //负责人的模糊查询功能
+    function searchManagers () {
+        setObj.btn.off("click").on("click", function (e) {
+            var e = e || window.event;
+            e.stopPropagation();
+            var allFollow = getFollowPeople();
+            if (allFollow.length >= 20){
+                $alert('最多添加20个拥有者');
+                return false;
+            }
+            setObj.sBox.is(':hidden') ? setObj.sBox.show() : setObj.sBox.hide();
+            setObj.input.focus();
+            setObj.input.off("input click").on("input click", function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                var val = $.trim($(this).val());
+                if (val) {
+                    // var cityId = $.trim($('#businessCity').find('option:selected').val());
+                    // var workCityList = jsonsql.query('select * from json where (work_city==' + cityId + ')', empList);  // 通过jsonsql查询匹配数据
+                    var queryObj = fuzzyQuery(emp_list);
+                    //var queryObj = emp_list;
+                    //console.log(queryObj);
+                    showSearchResult(queryObj);
+                }
+            });
+
+        })
+    }
+
+    // 注册点击其他区域关闭弹出层
+    $(document).on('click', function (e) {
+        var e = e || window.event;
+        e.stopPropagation();
+        setObj.sBox.is(':hidden') ? false : setObj.sBox.hide();
+    });
+    //模糊查询逻辑
+    function fuzzyQuery (res) {
+        var queryStr = $.trim(setObj.input.val()),
+            queryArr = queryStr.split(""),
+            data = res,
+            resArr;
+        if(queryStr) {
+            for (var i = 0, len = queryArr.length; i < len; i++) {
+                resArr = [];
+                for (var k = 0; k < data.length; k++) {
+                    if (data[k].name.indexOf(queryArr[i]) != -1) {
+                        resArr.push(data[k]);
+                    }
+                }
+                data = resArr;
+            }
+        }
+        return resArr;
+    }
+    //创建模糊查询结果展示并绑定事件
+    function showSearchResult (res) {
+        var html = [];
+        if (res.length == 0 || res.length == undefined) {
+            return setObj.resBox.html('<li class="res_item" style="text-align: center;">暂无数据</li>');
+        } else {
+            for (var i = 0, len = res.length; i < len; i++) {
+                var str = '';
+                str =   '<li class="res_item" title="">' +
+                    '<span class="name nowrap" title="" data-lId="'+ res[i].id +'">' + res[i].name + '</span> ' +
+                    '<span class="p_dep nowrap" title="">' + (res[i].department_name ? res[i].department_name : '暂无部门') + '</span> ' +
+                    '</li>';
+                html.push(str);
+            }
+        }
+
+
+        setObj.resBox.html(html.join(""));
+
+        var item = setObj.resBox.find(".res_item");
+        item.each(function () {
+            var t = $(this);
+            t.off("click").on("click", function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                var _this = $(this);
+                var leaderEle = _this.find(".name"),
+                    pName = leaderEle.text(),
+                    lId = leaderEle.attr("data-lId");
+
+                setObj.input.val("");
+                setObj.resBox.html("");
+                setObj.sBox.hide();
+                // 创建拥有者展示数据
+                var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn"></em></li>';
+                setObj.personList.find('.choose_box').before(ownStr);
+                var endPerson = getFollowPeople().join(',');
+                $('#ownPersonInput').val(endPerson);
+            });
+        });
+    }
+    searchManagers();
+}
+
+/**
+ * 删除拥有者
+ * @author Arley Joe 2017-11-1 18:23:34
+ */
+function deleteFollowPeople () {
+    var delBtnParent = $('.person_list');   // 拥有者数据列表元素
+    delBtnParent.off('click').on('click', '.delete_btn', function () {
+        var _this = $(this);
+        _this.parents('.person').remove();
+        var endPerson = getFollowPeople().join(',');
+        $('#ownPersonInput').val(endPerson);
+    });
+}
+
+$(function () {
+    addOwnPerson();
+    deleteFollowPeople();
+});
+
+
+
+
+
+

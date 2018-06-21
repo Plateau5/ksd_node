@@ -596,6 +596,122 @@
         }
       }
     }
+    /*******授课讲师 start******/
+    .person_list{
+      width: 660px;
+      height: auto;
+      padding-top: 18px;
+      .person{
+        position: relative;
+        float: left;
+        max-width: 100px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 15px;
+        margin: 0 10px 15px 0;
+        text-align: center;
+        overflow: hidden;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        background: #E0E0E0;
+        transition: all .2S;
+        cursor: default;
+        &:hover {
+          padding-right: 26px;
+          background: #1DC6BC;
+          color: #FFFFFF;
+        }
+        .delete_btn {
+          z-index: 100;
+          display: none;
+          content: '';
+          position: absolute;
+          right: 4px;
+          top: 6px;
+          width: 10px;
+          height: 10px;
+          background-image: url('../img/close_icon.png');
+          background-repeat: no-repeat;
+          -webkit-background-size: cover;
+          background-size: cover;
+          cursor: pointer;
+        }
+      }
+      .choose_box{
+        position: relative;
+        float: left;
+        height: 24px;
+        line-height: 24px;
+        .add_city_btn{
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background: url('../img/add_circle_icon.png') no-repeat;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          border-radius: 50%;
+          cursor: pointer;
+          vertical-align: middle;
+          margin-top: -1px;
+        }
+        .search_box {
+          position: absolute;
+          right: -80px;
+          top: 30px;
+          width: 200px;
+          min-height: 30px;
+          line-height: 30px;
+          border: 1px solid #1DC6BC;
+          background: #FFFFFF;
+          color: #333;
+          box-shadow: 0 0 5px 1px #1DC6BC;
+          z-index: 10;
+          .search_input {
+            position: relative;
+            padding-left: 20px;
+            height: 32px;
+            &:before {
+              position: absolute;
+              left: 5px;
+              top: 10px;
+              display: block;
+              content: '';
+              width: 11px;
+              height: 11px;
+              background: url('../img/manager_search_icon.png') no-repeat;
+            }
+            .m_search {
+              width: 160px;
+              height: 25px;
+              padding: 0 5px;
+              border: none;
+            }
+          }
+          .search_result {
+            padding-left: 25px;
+            max-height: 325px;
+            overflow: auto;
+            .res_item {
+              height: 30px;
+              line-height: 30px;
+              margin-right: 8px;
+              border-bottom: 1px solid #e4e4e4;
+              cursor: pointer;
+              span {
+                display: inline-block;
+                width: 45%;
+                padding-right: 3%;
+              }
+            }
+          }
+        }
+      }
+    }
+    /*******授课讲师 end******/
     .courseIntro{
       margin-top: 20px;
       .w-e-toolbar{

@@ -77,7 +77,24 @@
                             <span class="options_name">授课讲师：</span>
                         </div>
                         <div class="column_val internal_teacher order_search_box">
-                            <input type="hidden" name="lecturer_ids" class="emp_id" id="orderCreatorId" value="{{courseDetail.lecturer_ids}}">
+                            <ul class="person_list">
+                                {{#each (detail.emp_data) }}
+                                <li class="person" data-id="{{this.id}}">{{this.name}}<em class="delete_btn"></em></li>
+                                {{/each}}
+                                <!-- 下面为添加按钮 -->
+                                <li class="choose_box inline_block">
+                                    <em class="add_city_btn" id="addOwnPersonBtn"></em>
+                                    <div class="search_box" style="display: none;">
+                                        <div class="search_input">
+                                            <input class="m_search" type="text" />
+                                        </div>
+                                        <ul class="search_result">
+
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                            <!--<input type="hidden" name="lecturer_ids" class="emp_id" id="orderCreatorId" value="{{courseDetail.lecturer_ids}}">
                             <input type="text" class="teacher_name search_name fuzzy_search input_w_400" name="" placeholder="搜索讲师姓名" value="{{courseDetail.teacher_name}}" readonly/>
                             <span class="tips_info">(*请先选择授课讲师)</span>
                             <div class="search_result" style="display: none;">
@@ -86,7 +103,7 @@
                                 </div>
                                 <ul class="search_list">
                                 </ul>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="option_item external_teacher">
