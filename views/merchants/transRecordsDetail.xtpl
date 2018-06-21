@@ -96,20 +96,21 @@
                                 <li class="item_row">
                                     <div class="item_name">业务处理结果：</div>
                                     <div class="item_value">
-                                        {{#if (data.payment_result === 1) }}
-                                            银行支付成功
-                                        {{elseif (data.payment_result === 2) }}
-                                            银行支付失败
-                                        {{elseif (data.payment_result === 3) }}
-                                            银行支付被退票
+                                        {{#if (!data.payment_result_value || data.payment_result_value === '') }}
+                                            无
+                                        {{else}}
+                                            {{data.payment_result_value}}
                                         {{/if}}
                                     </div>
                                 </li>
                                 <li class="item_row item_remark">
                                     <div class="item_name">错误描述：</div>
                                     <div class="item_value long_text">
-                                        {{#if (data.result_description) }}{{data.result_description}}{{else}}- -{{/if}}
-
+                                        {{#if ( !data.result_description || data.result_description === '') }}
+                                            无
+                                        {{else}}
+                                            {{data.result_description}}
+                                        {{/if}}
                                     </div>
                                 </li>
                             </ul>
