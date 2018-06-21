@@ -81,7 +81,7 @@
                                 </li>
                                 <li class="item_row">
                                     <div class="item_name">用途：</div>
-                                    <div class="item_value">{{data.financial_use}}</div>
+                                    <div class="item_value long_text">{{data.financial_use}}</div>
                                 </li>
                                 <!--<li class="item_row">-->
                                     <!--<div class="item_name">保留字：</div>-->
@@ -126,12 +126,12 @@
                                 {{#each (advance_list) }}
                                 <li>
                                     <div class="cust_main inline ml_12">
-                                        <div class="cust_name inline">客户：</div>
-                                        <div class="cust_value inline">{{this.user_name}}</div>
+                                        <div class="cust_name inline_block">客户：</div>
+                                        <div class="cust_value inline_block width60">{{this.user_name}}</div>
                                     </div>
-                                    <div class="loan_main inline ml_30">
-                                        <div class="loan_name inline">贷前：</div>
-                                        <div class="loan_value inline">{{this.emp_name}}</div>
+                                    <div class="loan_main inline ml_12">
+                                        <div class="loan_name inline_block">贷前：</div>
+                                        <div class="loan_value inline_block width60">{{this.emp_name}}</div>
                                     </div>
                                     <div class="collect_total inline">
                                         <div class="collect_name inline">收款总额：</div>
@@ -165,6 +165,14 @@
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
     (function ($) {
+        var current_page = $('#current_page').val().trim();
+        var start_time = $('#start_time').val().trim();
+        var end_time = $("#end_time").val().trim();
+        var start_amount = $('#start_amount').val().trim();
+        var end_amount = $('#end_amount').val().trim();
+        var payment_account = $('#payment_account').val().trim();
+        var typeSelect = $('#typeSelect').val().trim();
+
         function againLoanAgree (){
             var btn = $(".again_loan_agree");
             btn.off('click').on('click', function () {
@@ -173,7 +181,14 @@
                 locationTo({
                     action : url,
                     param : {
-                        financialReceipt_id : financialReceipt_id
+                        financialReceipt_id : financialReceipt_id,
+                        current_page : current_page,
+                        start_time : start_time,
+                        end_time : end_time,
+                        start_amount : start_amount,
+                        end_amount : end_amount,
+                        payment_account : payment_account,
+                        type : typeSelect
                     }
                 })
             });
@@ -191,13 +206,7 @@
         function backToList (){
             var btn = $(".back_to_list");
             var url = contextPath + markUri +'/loan/transRecordsList';
-            var current_page = $('#current_page').val().trim();
-            var start_time = $('#start_time').val().trim();
-            var end_time = $("#end_time").val().trim();
-            var start_amount = $('#start_amount').val().trim();
-            var end_amount = $('#end_amount').val().trim();
-            var payment_account = $('#payment_account').val().trim();
-            var typeSelect = $('#typeSelect').val().trim();
+
             btn.off('click').on('click', function (){
                 locationTo({
                     action : url,

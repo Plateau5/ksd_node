@@ -30,6 +30,15 @@
                 <a href="javascript:;" class="crumbs_item">重新提交</a>
             </div>
 
+            <!---- 跳转列表隐藏域 ---->
+            <input type="hidden" id="start_time" value="{{reqParams.start_time}}">
+            <input type="hidden" id="end_time" value="{{reqParams.end_time}}">
+            <input type="hidden" id="start_amount" value="{{reqParams.start_amount}}">
+            <input type="hidden" id="end_amount" value="{{reqParams.end_amount}}">
+            <input type="hidden" id="paymentAccount" value="{{reqParams.payment_account}}">
+            <input type="hidden" id="typeSelect" value="{{reqParams.type}}">
+            <input type="hidden" id="current_page" value="{{reqParams.current_page}}">
+
             <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
                 <form action="" id="to_loan_agree_form" class="basic_info_edit" method="post">
                     <input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
@@ -385,12 +394,27 @@
         function toRecordsDetail () {
             var Btn = $(".trans_records_detail");
             var recordsDetailUrl = '/loan/transRecordsList/detail';
+            var current_page = $('#current_page').val().trim();
+            var start_time = $('#start_time').val().trim();
+            var end_time = $("#end_time").val().trim();
+            var start_amount = $('#start_amount').val().trim();
+            var end_amount = $('#end_amount').val().trim();
+            var payment_account = $('#paymentAccount').val().trim();
+            var typeSelect = $('#typeSelect').val().trim();
+
             Btn.off('click').on('click', function () {
                 var id = $("#financialReceipt_id").val();
                 locationTo({
                     action : contextPath + markUri + recordsDetailUrl,
                     param : {
-                        financialReceipt_id : id
+                        financialReceipt_id : id,
+                        current_page : current_page,
+                        start_time : start_time,
+                        end_time : end_time,
+                        start_amount : start_amount,
+                        end_amount : end_amount,
+                        payment_account : payment_account,
+                        typeSelect : typeSelect
                     }
                 })
             });
