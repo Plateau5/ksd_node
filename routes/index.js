@@ -424,6 +424,8 @@ router.all(markUri + '/school/course/lists/system', schoolCtrl.VIEW_SCHOOL_COURS
 router.all(markUri + '/school/course/lists/home', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_HOME);
 // 培训-课程列表-新增课程页
 router.all(markUri + '/school/course/lists/create', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_CREATE);
+// 培训-课程列表-编辑课程页
+router.all(markUri + '/school/course/lists/edit', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_EDIT);
 // 培训-课程列表-课程详情页
 router.all(markUri + '/school/course/lists/detail', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_DETAIL);
 // 培训-培训讲师-侧导航跳转

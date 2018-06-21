@@ -112,10 +112,12 @@
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var id = $.trim(t.data("id"));
+                var course_title = t.find('.course_title').text();
                 locationTo({
                     action : contextPath + markUri + "/school/course/lists/detail",
                     param : {
-                        id : id
+                        id : id,
+                        name : course_title
                     }
                 });
             });

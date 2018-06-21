@@ -26,15 +26,15 @@
         <div id="main" class="main course_detail">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">培训讲师</a>
-                <a href="javascript:;" class="crumbs_item">如何一小时快速搭建一个应用号</a>
+                <a href="javascript:;" class="crumbs_item">{{reqParams.name}}</a>
             </div>
             <div class="title" style="border: none;">
                 <div class="title_txt">
-                    <span>如何一小时快速搭建一个应用号</span>
+                    <span>{{reqParams.name}}</span>
                 </div>
                 <div class="title_btn">
-                    <a href="javascript:;" class="detail_title_btn edit_btn">编辑</a>
-                    <a href="javascript:;" class="detail_title_btn delete_btn">删除</a>
+                    <a href="javascript:;" class="detail_title_btn edit_btn" data-id="{{reqParams.id}}">编辑</a>
+                    <a href="javascript:;" class="detail_title_btn delete_btn" data-id="{{reqParams.id}}">删除</a>
                 </div>
             </div>
             <div class="video_box">
@@ -68,44 +68,12 @@
                         <span>讲师师师师</span>
                     </div>
                 </div>
-                <div class="teacher_item">
-                    <div class="teacher_icon">
-                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
-                    </div>
-                    <div class="teacher_name" title="讲师师师师">
-                        <span>讲师师师师</span>
-                    </div>
-                </div>
-                <div class="teacher_item">
-                    <div class="teacher_icon">
-                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
-                    </div>
-                    <div class="teacher_name" title="讲师师师师">
-                        <span>讲师师师师</span>
-                    </div>
-                </div>
-                <div class="teacher_item">
-                    <div class="teacher_icon">
-                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
-                    </div>
-                    <div class="teacher_name" title="讲师师师师">
-                        <span>讲师师师师</span>
-                    </div>
-                </div>
-                <div class="teacher_item">
-                    <div class="teacher_icon">
-                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
-                    </div>
-                    <div class="teacher_name" title="讲师师师师">
-                        <span>讲师师师师</span>
-                    </div>
-                </div>
             </div>
             <div class="teacher_title">
                 <span>课程简介</span>
             </div>
             <div class="course_intro_box">
-                一致性原则 坚持以用户体验为中心设计原则，界面直观、简洁，操作方便快捷，用户接触软件后对界面上对应的功能一目了然、不需要太多培训就可以方便使用本应用系统。 字体 -保持字体及颜色一致，避免一套主题出现多个字体； -不可修改的字段，统一用灰色文字显示。 对齐 -保持页面内元素对齐方式的一致，如无特殊情况应避免同一页面出现多种数据对齐方式。 表单录入 -在包含必须与选填的页面中，必须在必填项旁边给出醒目标识（*）； -各类型数据输入需限制文本类型，并做格式校验如电话号码输入只允许输入数字、邮箱地址需要包含“@”等，在用户输入有误时给出明确提示。 鼠标手势 -可点击的按钮、链接需要切换鼠标手势至手型； 保持功能及内容描述一致 -避免同一功能描述使用多个词汇，如编辑和修改，新增和增加，删除和清除混用等。建议在项目开发阶段建立一个产品词典，包括产品中常用术语及描述，设计或开发人员严格按照产品词典中的术语词汇来展示文字信息。 准确性原则 使用一致的标记、标准缩写和颜色，显示信息的含义应该非常明确，用户不必再参考其它信息源。 显示有意义的出错信息，而不是单纯的程序错误代码。 避免使用文本输入框来放置不可编辑的文字内容，不要将文本输入框当成标签使用。 使用缩进和文本来辅助理解。 使用用户语言词汇，而不是单纯的专业计算机术语。 高效地使用显示器的显示空间，但要避免空间过于拥挤。 保持语言的一致性，如“确定”对应“取消”,“是”对应“否”。 可读性原则 文字长度 文字的长度，特别是在大块空白的设计中很重要，太长会导致眼睛疲惫，阅读困难。太短又经常会造成尴尬的断裂效果，断字的使用也会造成大量的复合词，这些断裂严重的影响了阅读的流畅性。
+
             </div>
         </div>
         <!---- Part of Main info End ---->
@@ -137,7 +105,6 @@
             var player = TCPlayer('id_test_video', {
                 fileID: '7447398156765311652', // 请传入需要播放的视频filID 必须
                 appID: TENCENTAPPID, // 请传入点播账号的appID 必须
-                autoplay : false,      //iOS下safari浏览器，以及大部分移动端浏览器是不开放视频自动播放这个能力的
                 width :  video_width,//视频的显示宽度，请尽量使用视频分辨率宽度
                 height : '650'//视频的显示高度，请尽量使用视频分辨率高度
             });
@@ -175,7 +142,7 @@
                     if (res.error_code == 0) {
                         d.close();
                         locationTo({
-                            action : contextPath + markUri + "/school/course/lists/system",
+                            action : contextPath + markUri + "/school/course/lists/home",
                             param : {}
                         });
                     } else {
@@ -199,10 +166,13 @@
             });
         }
         //编辑页跳转事件
-        function editEvent () {
+        function editEvent (t) {
+            var id = $.trim(t.data("id"));
             locationTo({
-                action : contextPath + markUri + "/school/course/lists/create",
-                param : {}
+                action : contextPath + markUri + "/school/course/lists/edit",
+                param : {
+                    id : id
+                }
             });
         }
 

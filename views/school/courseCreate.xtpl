@@ -31,13 +31,14 @@
                     <input id="uploadVideoNow-file" type="file" style="display:none;"/>
                 </form>
                 <form action="" id="course_create_form" method="post">
+                    <input type="hidden" value="{{reqParams.id}}" id="course_id" name="id">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
                             <span class="options_name">课程名称：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="course_name input_w_400" name="name" placeholder="请输入课程名称" />
+                            <input type="text" class="course_name input_w_400" name="name" placeholder="请输入课程名称" value="{{courseDetail.name}}"/>
                             <span class="tips_info">(*请先输入课程名称)</span>
                         </div>
                     </div>
@@ -48,9 +49,9 @@
                         </div>
                         <div class="column_val">
                             <div id="courseType" class="course_classify">
-                                <input type="hidden" class="one_classify" name="firstlevel_id">
-                                <input type="hidden" class="second_classify" name="secondlevel_id">
-                                <input type="text" class="course_type input_w_400" name="" placeholder="请选择" readonly/>
+                                <input type="hidden" class="one_classify" name="firstlevel_id" value="{{courseDetail.firstlevel_id}}">
+                                <input type="hidden" class="second_classify" name="secondlevel_id" value="{{courseDetail.secondlevel_id}}">
+                                <input type="text" class="course_type input_w_400" name="" placeholder="请选择" readonly value=""/>
                                 <em class="triangle"></em>
                                 <div class="coursetype_box">
                                     {{#each (classifyList) }}
@@ -76,8 +77,8 @@
                             <span class="options_name">授课讲师：</span>
                         </div>
                         <div class="column_val internal_teacher order_search_box">
-                            <input type="hidden" name="lecturer_ids" class="emp_id" id="orderCreatorId">
-                            <input type="text" class="teacher_name search_name fuzzy_search input_w_400" name="" placeholder="搜索讲师姓名" readonly/>
+                            <input type="hidden" name="lecturer_ids" class="emp_id" id="orderCreatorId" value="{{courseDetail.lecturer_ids}}">
+                            <input type="text" class="teacher_name search_name fuzzy_search input_w_400" name="" placeholder="搜索讲师姓名" value="{{courseDetail.teacher_name}}" readonly/>
                             <span class="tips_info">(*请先选择授课讲师)</span>
                             <div class="search_result" style="display: none;">
                                 <div class="search_input">
@@ -93,10 +94,10 @@
                             <span class="options_name">课件形式：</span>
                         </div>
                         <div class="column_val">
-                            <input type="hidden" name="type" id="course_type">
-                            <input type="hidden" name="file_id" id="file_id">
-                            <input type="hidden" name="file_url" id="file_url">
-                            <input type="hidden" name="file_name" id="file_name">
+                            <input type="hidden" name="type" id="course_type" value="{{courseDetail.type}}">
+                            <input type="hidden" name="file_id" id="file_id" value="{{courseDetail.file_id}}">
+                            <input type="hidden" name="file_url" id="file_url" value="{{courseDetail.file_url}}">
+                            <input type="hidden" name="file_name" id="file_name" value="{{courseDetail.file_name}}">
                             <a id="upload_video" href="javascript:;" class="upload_video">上传视频</a>
                             <a id="upload_audio" href="javascript:;" class="upload_audio">上传音频</a>
                             <div id="resultBox" class="upload_process">
@@ -113,7 +114,7 @@
                             <span class="options_name">课程简介：</span>
                         </div>
                         <div class="column_val">
-                            <input type="hidden" name="introduction" class="introduction">
+                            <input type="hidden" name="introduction" class="introduction" value="{{courseDetail.introduction}}">
                             <div id="courseIntro" class="courseIntro">
 
                             </div>
@@ -126,7 +127,11 @@
                             <input type="hidden" name="image_url" class="teacher_img">
                             <div class="img_md_box">
                                 <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:160px;height:100px;">
-                                    <img src="{{markUri}}/static/img/create_course.png" alt="" id="user_photo" class="img-responsive" style="width:160px;height:100px;">
+                                    <img src="{{#if (courseDetail.image_url) }}
+                                        {{courseDetail.image_url}}
+                                    {{else}}
+                                    {{markUri}}/static/img/create_course.png
+                                    {{/if}}" alt="" id="user_photo" class="img-responsive" style="width:160px;height:100px;">
                                 </a>
                                 <input type="file" style="display: none;" name="" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
                             </div>
@@ -416,11 +421,17 @@
         }
         //ajax提交參數
         function ajaxSubmit () {
+            var course_id = $('#course_id');
+            if (course_id.val() == '') {
+                var url = contextPath + "/api/school/course/create";
+            } else {
+                var url = contextPath + "/api/school/course/save";
+            }
             var parameters = new FormData(document.getElementById('course_create_form'));
             $.ajax({
                 type:'post',
                 timeout:20000,
-                url : contextPath + "/api/school/course/create",
+                url : url,
                 data : parameters,
                 processData : false,      //序列化参数为String类型，默认：true。
                 contentType : false,      //内容编码，文件上传时设为FALSE

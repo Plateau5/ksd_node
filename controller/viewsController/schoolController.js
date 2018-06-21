@@ -82,7 +82,14 @@ exports.VIEW_SCHOOL_COURSE_LISTS_CREATE = function(req, res, next) {
              data.list = JSON.stringify(data.list);
         }
     }, req, res, next);
-    // res.render('./school/courseCreate',{markUri : '/ksd'});
+};
+// 培训-课程列表-编辑课程页
+exports.VIEW_SCHOOL_COURSE_LISTS_EDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/school/course/toedit',
+        title : '培训-编辑课程页',
+        page : './school/courseCreate'
+    }, req, res, next);
 };
 // 培训-课程列表-课程详情页
 exports.VIEW_SCHOOL_COURSE_LISTS_DETAIL = function(req, res, next) {
