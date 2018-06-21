@@ -22,152 +22,77 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main course_list">
-            <div class="level_type">
+            <div class="level_type parent_classify">
                 <ul class="level_ul">
                     <li class="level_li">
-                        <a href="javascript:;" class="active">全部</a>
+                        <a href="javascript:;" class="active all_classify" data-id="">全部</a>
                     </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">BD业务讲解</a>
-                    </li>
+                    {{#each (classifyList) }}
+                        <li class="level_li">
+                            <a href="javascript:;" data-id="{{this.parent_id}}">{{this.parent_name}}</a>
+                        </li>
+                    {{/each}}
                 </ul>
             </div>
-            <div class="level_type">
-                <ul class="level_ul">
-                    <li class="level_li">
-                        <a href="javascript:;">全部</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">培训a</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">培训a</a>
-                    </li>
-                    <li class="level_li">
-                        <a href="javascript:;">培训a</a>
-                    </li>
-                </ul>
+            <div class="level_type child_classify" style="display: none">
+                {{#each (classifyList) }}
+                    <ul class="level_ul {{this.parent_id}}" style="display: none;">
+                        <li class="level_li">
+                            <a href="javascript:;" class="active" data-id="">全部</a>
+                        </li>
+                        {{#each (this.child_list) }}
+                            <li class="level_li">
+                                <a href="javascript:;" data-id="{{this.id}}">{{this.course_classify}}</a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{/each}}
             </div>
             <div class="new_btn_box">
                 <a href="{{markUri}}/school/course/lists/create" class="detail_title_btn create_btn">新增课程</a>
             </div>
-            <div class="course_listinfo">
-                <div class="course_item">
-                    <div class="course_img">
-                        <div class="imgbox">
-                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
+            <form action="{{markUri}}/school/course/lists/system" method="post" role='form' style="display: none;" id="filter_course">
+                <input type="hidden" name="parent_id" value="" class="parent_id">
+                <input type="hidden" name="id" value="" class="child_id">
+                <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+            </form>
+            {{#if (count === 0) }}
+                {{include('./../inc/empty_data')}}
+            {{else}}
+                <div class="course_listinfo">
+                    {{#each (list) }}
+                        <div class="course_item" data-id="{{this.id}}">
+                            <div class="course_img">
+                                <div class="imgbox">
+                                    <img src="{{#if (this.image_url) }}
+                                                    {{this.image_url}}
+                                                {{else}}
+                                                    {{markUri}}/static/img/default_course.png
+                                                {{/if}}" alt="" class="img_responsive">
+                                </div>
+                                <em class="already_nums">32人学过</em>
+                            </div>
+                            <div class="course_title">
+                                {{this.name}}
+                            </div>
+                            <div class="course_teacher">
+                                <span>讲师：</span>
+                                <span class="teacher_name">{{this.teacher_name}}</span>
+                            </div>
                         </div>
-                        <em class="already_nums">32人学过</em>
-                    </div>
-                    <div class="course_title">
-                        CSS3 实现 3D 立方体旋转和图形挤压变形动画特效
-                    </div>
-                    <div class="course_teacher">
-                        <span>讲师：</span>
-                        <span class="teacher_name">李玉伟、马景涛</span>
-                    </div>
+                    {{/each}}
                 </div>
-                <div class="course_item">
-                    <div class="course_img">
-                        <div class="imgbox">
-                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
-                        </div>
-                        <em class="already_nums">32人学过</em>
-                    </div>
-                    <div class="course_title">
-                        CSS3 实现 3D 立方体旋转和图形挤压变形动画特效
-                    </div>
-                    <div class="course_teacher">
-                        <span>讲师：</span>
-                        <span class="teacher_name">李玉伟、马景涛</span>
-                    </div>
-                </div>
-                <div class="course_item">
-                    <div class="course_img">
-                        <div class="imgbox">
-                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
-                        </div>
-                        <em class="already_nums">32人学过</em>
-                    </div>
-                    <div class="course_title">
-                        CSS3 实现 3D 立方体
-                    </div>
-                    <div class="course_teacher">
-                        <span>讲师：</span>
-                        <span class="teacher_name">李玉伟、马景涛</span>
-                    </div>
-                </div>
-                <div class="course_item mar_r_0">
-                    <div class="course_img">
-                        <div class="imgbox">
-                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
-                        </div>
-                        <em class="already_nums">32人学过</em>
-                    </div>
-                    <div class="course_title">
-                        CSS3 实现 3D 立方体旋转和图形挤压变形动画特效
-                    </div>
-                    <div class="course_teacher">
-                        <span>讲师：</span>
-                        <span class="teacher_name">李玉伟、马景涛</span>
-                    </div>
-                </div>
-                <div class="course_item">
-                    <div class="course_img">
-                        <div class="imgbox">
-                            <img src="{{markUri}}/static/img/default_course.png" alt="" class="img_responsive">
-                        </div>
-                        <em class="already_nums">32人学过</em>
-                    </div>
-                    <div class="course_title">
-                        CSS3 实现 3D 立方体旋转和图形挤压变形动画特效
-                    </div>
-                    <div class="course_teacher">
-                        <span>讲师：</span>
-                        <span class="teacher_name">李玉伟、马景涛</span>
-                    </div>
-                </div>
-            </div>
-
+            {{/if}}
+            <!--分页部分 Begin-->
+            {{include('./../inc/paginations')}}
+            <!--分页部分 End-->
         </div>
         <!---- Part of Main info End ---->
     </div>
     <!-------- Part of main End -------->
-
-    <!-------- Part of footer Begin -------->
-    <!--<div id="footer" class="footer"></div>-->
-    <!-------- Part of footer End -------->
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -181,7 +106,9 @@
                 var id = $.trim(t.data("id"));
                 locationTo({
                     action : contextPath + markUri + "/school/course/lists/detail",
-                    param : {}
+                    param : {
+                        id : id
+                    }
                 });
             });
         }
@@ -210,10 +137,61 @@
                 }
             });
             _this.addClass('active');
-            // locationTo({
-            //     action : contextPath + markUri + "/school/course/lists/detail",
-            //     param : {}
-            // });
+            ajaxSubmit(_this);
+        }
+        //ajax提交參數
+        function ajaxSubmit (_this) {
+            if (_this.parents('.level_type').hasClass('parent_classify')) {//一级分类筛选
+                var child_id = '';
+                var parent_id =  _this.data('id');
+                if (_this.hasClass('all_classify')) {//全部
+                    $('.child_classify').hide();
+                } else {
+                    $('.child_classify').show();
+                    $('.child_classify').find('.level_ul').hide();
+                    $('.' + parent_id).show();
+                }
+            } else {//二级分类筛选
+                var child_id = _this.data('id');
+                var parent_lis = $('.parent_classify').find('.level_li');
+                var parent_id = "";
+                parent_lis.each(function () {
+                    var _this = $(this);
+                    if (_this.find('a').hasClass('active')) {
+                        parent_id = _this.find('a').data('id');
+                        return;
+                    }
+                });
+            }
+            var limit = $('.limit').val();
+            var current_page = $('.currentPage').val();
+            var parameters = {
+                parent_id : parent_id,
+                id : child_id,
+                limit : limit,
+                current_page : current_page
+            };
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : contextPath + "/api/school/course/getlist",
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
         }
 
         $(function() {

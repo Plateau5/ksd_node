@@ -65,12 +65,12 @@ exports.VIEW_SCHOOL_COURSE_LISTS_SYSTEM = function(req, res, next) {
 };
 // 培训-课程列表-课程列表页
 exports.VIEW_SCHOOL_COURSE_LISTS_HOME = function(req, res, next) {
-    // common.getPageData({
-    //     url : '/api/organization/getList',
-    //     title : '培训-课程列表页',
-    //     page : './school/courseList'
-    // }, req, res, next);
-    res.render('./school/courseList',{markUri : '/ksd'});
+    common.getPageData({
+        url : '/api/school/course/getlist',
+        title : '培训-课程列表页',
+        page : './school/courseList'
+    }, req, res, next);
+    //res.render('./school/courseList',{markUri : '/ksd'});
 };
 // 培训-课程列表-新增课程页
 exports.VIEW_SCHOOL_COURSE_LISTS_CREATE = function(req, res, next) {
@@ -131,7 +131,6 @@ exports.VIEW_SCHOOL_TEACHER_EDIT = function(req, res, next) {
         title : '培训-讲师编辑页',
         page : './school/teacherCreate'
     }, req, res, next);
-    //res.render('./school/teacherCreate',{markUri : '/ksd'});
 };
 // 培训-培训讲师-培训讲师详情页
 exports.VIEW_SCHOOL_TEACHER_DETAIL = function(req, res, next) {
