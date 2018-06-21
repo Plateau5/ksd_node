@@ -22,47 +22,55 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main course_list">
-            <div class="level_type parent_classify">
-                <ul class="level_ul">
-                    <li class="level_li">
-                        <a href="javascript:;" class="active all_classify" data-id="">全部</a>
-                    </li>
-                    {{#each (classifyList) }}
+            <form action="{{markUri}}/school/course/lists/home" method="post" role='form' id="filter_course">
+                <input type="hidden" name="firstlevel_id" value="" class="parent_id">
+                <input type="hidden" name="secondlevel_id" value="" class="child_id">
+                <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+                <div class="level_type parent_classify">
+                    <ul class="level_ul">
                         <li class="level_li">
-                            <a href="javascript:;" data-id="{{this.parent_id}}">{{this.parent_name}}</a>
+                            <a href="javascript:;" class="{{#if (!condition.firstlevel_id) }}active{{/if}} all_classify" data-id="">全部</a>
                         </li>
-                    {{/each}}
-                </ul>
-            </div>
-            <div class="level_type child_classify" style="display: none">
-                {{#each (classifyList) }}
-                    <ul class="level_ul {{this.parent_id}}" style="display: none;">
+                        {{#each (classifyList) }}
                         <li class="level_li">
-                            <a href="javascript:;" class="active" data-id="">全部</a>
+                            <a href="javascript:;" data-id="{{this.parent_id}}" class="{{#if (condition.firstlevel_id === this.parent_id) }}active{{/if}}">{{this.parent_name}}</a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{#if (condition.firstlevel_id) }}
+                <div class="level_type ">
+                {{else}}
+                <div class="level_type " style="display: none">
+                {{/if}}
+                {{#each (classifyList) }}
+                    {{#if (condition.firstlevel_id === this.parent_id) }}
+                    <ul class="level_ul {{this.parent_id}} child_classify" data-id="{{this.parent_id}}">
+                    {{else}}
+                    <ul class="level_ul {{this.parent_id}} child_classify" data-id="{{this.parent_id}}" style="display: none;">
+                        {{/if}}
+                        <li class="level_li">
+                            <a href="javascript:;" class="{{#if (!condition.secondlevel_id) }}active{{/if}}" data-id="">全部</a>
                         </li>
                         {{#each (this.child_list) }}
-                            <li class="level_li">
-                                <a href="javascript:;" data-id="{{this.id}}">{{this.course_classify}}</a>
-                            </li>
+                        <li class="level_li">
+                            <a href="javascript:;" data-id="{{this.id}}" class="{{#if (condition.secondlevel_id === this.id) }}active{{/if}}">{{this.course_classify}}</a>
+                        </li>
                         {{/each}}
                     </ul>
                 {{/each}}
-            </div>
+                </div>
+            </form>
             <div class="new_btn_box">
                 <a href="{{markUri}}/school/course/lists/create" class="detail_title_btn create_btn">新增课程</a>
             </div>
-            <form action="{{markUri}}/school/course/lists/system" method="post" role='form' style="display: none;" id="filter_course">
-                <input type="hidden" name="parent_id" value="" class="parent_id">
-                <input type="hidden" name="id" value="" class="child_id">
-                <input type="hidden" name="limit" value="{{limit}}" class="limit">
-                <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
-            </form>
             {{#if (count === 0) }}
                 {{include('./../inc/empty_data')}}
             {{else}}
                 <div class="course_listinfo">
                     {{#each (list) }}
-                        <div class="course_item" data-id="{{this.id}}">
+                        <div class="course_item course_{{this.id}}" data-id="{{this.id}}">
                             <div class="course_img">
                                 <div class="imgbox">
                                     <img src="{{#if (this.image_url) }}
@@ -124,73 +132,14 @@
         function filterEvent (level_lia) {
             level_lia.off("click").on("click", function () {
                 var _this = $(this);
-                filterResult(_this);
-            });
-        }
-        //筛选结果
-        function filterResult (_this) {
-            var level_li = _this.parents('.level_ul').find('.level_li');
-            level_li.each(function () {
-                var t = $(this);
-                if (t.find('a').hasClass('active')) {
-                    t.find('a').removeClass('active');
-                }
-            });
-            _this.addClass('active');
-            ajaxSubmit(_this);
-        }
-        //ajax提交參數
-        function ajaxSubmit (_this) {
-            if (_this.parents('.level_type').hasClass('parent_classify')) {//一级分类筛选
-                var child_id = '';
-                var parent_id =  _this.data('id');
-                if (_this.hasClass('all_classify')) {//全部
-                    $('.child_classify').hide();
+                if (_this.parents('.level_ul').hasClass('child_classify')) {
+                    $('.parent_id').val(_this.parents('.level_ul').data('id'));
+                    $('.child_id').val(_this.data('id'));
                 } else {
-                    $('.child_classify').show();
-                    $('.child_classify').find('.level_ul').hide();
-                    $('.' + parent_id).show();
+                    $('.parent_id').val(_this.data('id'));
+                    $('.child_id').val('');
                 }
-            } else {//二级分类筛选
-                var child_id = _this.data('id');
-                var parent_lis = $('.parent_classify').find('.level_li');
-                var parent_id = "";
-                parent_lis.each(function () {
-                    var _this = $(this);
-                    if (_this.find('a').hasClass('active')) {
-                        parent_id = _this.find('a').data('id');
-                        return;
-                    }
-                });
-            }
-            var limit = $('.limit').val();
-            var current_page = $('.currentPage').val();
-            var parameters = {
-                parent_id : parent_id,
-                id : child_id,
-                limit : limit,
-                current_page : current_page
-            };
-            $.ajax({
-                type:'post',
-                timeout:20000,
-                url : contextPath + "/api/school/course/getlist",
-                data : parameters,
-                beforeSend : function () {
-                    $('#loading').show();
-                },
-                success : function (res) {
-                    $('#loading').hide();
-                    if (res.error_code == 0) {
-
-                    } else {
-                        $alert(res.error_msg);
-                    }
-                },
-                error : function () {
-                    $('#loading').hide();
-                    $alert("提交失败，请稍后重试");
-                }
+                $('#filter_course').submit();
             });
         }
 
