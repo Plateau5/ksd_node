@@ -81,6 +81,7 @@
                             <span class="options_name">授课讲师：</span>
                         </div>
                         <div class="column_val internal_teacher order_search_box">
+                            <input type="hidden" name="emp_id" class="emp_id" id="orderCreatorId">
                             <input type="text" class="teacher_name search_name fuzzy_search input_w_400" name="" placeholder="搜索讲师姓名" readonly/>
                             <span class="tips_info">(*请先选择讲师姓名)</span>
                             <div class="search_result" style="display: none;">
@@ -88,22 +89,6 @@
                                     <input class="customer_search" type="text">
                                 </div>
                                 <ul class="search_list">
-                                    <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                        <div class="name nowrap">王聚全聚全</div>
-                                        <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                    </li>
-                                    <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                        <div class="name nowrap">王聚全聚全</div>
-                                        <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                    </li>
-                                    <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                        <div class="name nowrap">王聚全聚全</div>
-                                        <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                    </li>
-                                    <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
-                                        <div class="name nowrap">王聚全聚全</div>
-                                        <div class="p_dep nowrap">wangjq@jizhicar.com</div>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -123,7 +108,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -253,23 +237,10 @@
             elem.mask.hide();
             var canVas = elem.photo.cropper("getCroppedCanvas", {});
             //将裁剪的图片加载到face_image
-            elem.userPhoto.attr('src', canVas.toDataURL());
+            elem.userPhoto.attr('background-image', canVas.toDataURL());
             RESETPHOTO = true;
         });
-        //内部-讲师类型切换
-        elem.internal.off("click").on("click", function () {
-            if (this.checked) {
-                $('.internal_teacher').show();
-                $('.external_teacher').hide();
-            }
-        });
-        //外部-讲师类型切换
-        elem.external.off("click").on("click", function () {
-            if (this.checked) {
-                $('.internal_teacher').hide();
-                $('.external_teacher').show();
-            }
-        });
+        /************************搜索讲师姓名 start****************************/
         //搜索讲师姓名
         //模糊查询
         var hideInput = $('#orderCreatorId');
@@ -323,7 +294,6 @@
                     btn.val(createName);
                     hideInput.val(orderCreatorId);
                     resBox.hide();
-
                 });
             }
         }
@@ -360,13 +330,12 @@
                             </li>'
                     html.push(str);
                     $('.search_list').html(html.join(""));
-                    var orderId = '';
-
                 }
             }
         }
+        /************************搜索讲师姓名 end****************************/
 
-        /****************课程简介*****************/
+        /****************课程简介 start*****************/
         var wangEditor = window.wangEditor;
 
         var courseIntro = new wangEditor('#courseIntro');
@@ -410,7 +379,7 @@
         /*document.getElementById('btn1').addEventListener('click', function () {
             console.log(courseIntro.txt.html());
         }, false);*/
-        /******************课程简介*******************/
+        /******************课程简介 end*******************/
 
 
 

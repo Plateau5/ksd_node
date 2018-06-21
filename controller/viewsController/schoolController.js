@@ -77,7 +77,10 @@ exports.VIEW_SCHOOL_COURSE_LISTS_CREATE = function(req, res, next) {
     // common.getPageData({
     //     url : '/api/organization/getList',
     //     title : '培训-课程列表页',
-    //     page : './school/courseList'
+    //     page : './school/courseList',
+    //     callback : function (data) {
+    //          data.emp_list = JSON.stringify(data.emp_list);
+    //     }
     // }, req, res, next);
     res.render('./school/courseCreate',{markUri : '/ksd'});
 };
