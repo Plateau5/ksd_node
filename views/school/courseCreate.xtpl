@@ -359,16 +359,13 @@
                     $('.process_close').show();
                 },
                 error: function(result){
-                    if(result.type == 'video') {
-                        $alert('上传失败>>'+result.msg);
-                    }
+                    $alert('上传失败>>'+result.msg);
                 },
                 progress: function(result){
-                    if(result.type == 'video') {
-                        $('.video_name').html(result.name);
-                        $('.process_mask').width(Math.floor(result.shacurr*100)+'%');
-                        cosBox[num] = result.cos;
-                    }
+                    console.log(result);
+                    $('.video_name').html(result.name);
+                    $('.process_mask').width(Math.floor(result.curr*100)+'%');
+                    cosBox[num] = result.cos;
                 },
                 finish: function(result){
                     console.log(result);
