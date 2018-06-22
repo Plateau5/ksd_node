@@ -3,7 +3,7 @@
  */
 
 //'use strict';
-// const VERSION = '2.1.0';
+// var VERSION = '2.1.0';
 // var contextPath = '';
 // var LOCALURL = window.location;
 // var DOMAIN = '';
@@ -151,8 +151,8 @@ $.fn.onlyNumAlpha = function () {
  * GLOBAL PATTERN FOR REGEXP
  * *************** START ****************
  */
-const PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
-const IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
+var PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
+var IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
 
 /**
  * **************** END ****************
@@ -1752,9 +1752,13 @@ function  pageJump (selector, opt) {
         var workflowId = $.trim(target.data("flow_id"));
         var url = $.trim(target.data("url"));
         var advanceId = $.trim(target.data("advance_id"));
+        var listUrl = $.trim(target.data("list_url"));
+        var navigation = $.trim(target.data("navigation"));
         financeId && (options.finance_id = financeId);
         workflowId && (options.id = workflowId);
         advanceId && (options.advance_id = advanceId);
+        listUrl && (options.list_url = listUrl);
+        navigation && (options.navigation = navigation);
         locationTo({
             action : url,
             param : options
@@ -1794,41 +1798,64 @@ function fileUpload (opt) {
         btn.off("click").on("click", function () {
             var fileBtn = that.find(".file_upload_btn");//type为file的input元素组
             var t = $(this);
+            var fileNum = t.data('file_num');
+            fileNum = fileNum ? fileNum : 0;
+            if (fileNum >= options.maxCount) {
+                return false;
+            }
+            fileCount = fileNum;
             if (!t.hasClass("disabled")) {
                 fileBtn.eq(fileCount).click();
             }
             fileBtn.eq(fileCount).on("change", function () {
                 var targetFile = $(this);
+                var fileValue = targetFile[0].files[0];
                 var success = chooseFile(targetFile);
                 //计算文件个数并校验,同时校验通过后创建新的input
-                fileCount++;
+                if (success) {
+                    fileNum++;
+                    /*fileCount++;*/
+                    t.data('file_num' , fileNum);
+                } else {
+                    return;
+
+                }
                 if (options.maxCount) {
-                    if (fileCount >= options.maxCount) {
+                    if (fileCount > options.maxCount) {
                         btn.addClass("disabled");
-                        options.callback && options.callback(t);    // 回传点击的按钮
-                        fileCount--;
+                        return false;
+                    }else if (fileCount == options.maxCount) {
+                        if (success) {
+                            btn.addClass("disabled");
+                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        } else {
+                            // fileCount--;
+                        }
+                        // btn.addClass("disabled");
+                        // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        // fileCount--;
                     } else {
                         btn.removeClass("disabled");
                         if (success) {
                             that.append(inputFile);
-                            options.callback && options.callback(t);    // 回传点击的按钮
+                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                         } else {
                             targetFile.remove();
                             that.append(inputFile);
                             fileCount--;
-                            options.callback && options.callback(t);    // 回传点击的按钮
+                            // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                         }
                     }
                 } else {
                     btn.removeClass("disabled");
                     if (success) {
                         that.append(inputFile);
-                        options.callback && options.callback(t);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                     } else {
                         targetFile.remove();
                         that.append(inputFile);
                         fileCount--;
-                        options.callback && options.callback(t);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                     }
                 }
             });
@@ -1845,13 +1872,16 @@ function fileUpload (opt) {
                 var file = $(this)[0].files[0] && $(this)[0].files[0].name;
                 a.push(file);
             });
-            console.log(a);
+            // console.log(a);
             if (options.maxCount) {
                 if (fileCount >= options.maxCount) {
                     that.append(inputFile);
                 }
             }
-            fileCount--;
+            var fileNum = btn.data('file_num');
+            fileNum--;
+            fileCount = fileNum;
+            btn.data('file_num', fileNum);
             btn.removeClass("disabled");
         });
     });
@@ -1871,11 +1901,12 @@ function fileUpload (opt) {
             if ( isNeedFormat == -1) {
                 //alert('请使用正确格式的文件');
                 f.parents(".file_upload").find(".error_msg").text("(请使用正确格式的文件)").show();
-                if(f.outerHTML){
+                /*if(f.outerHTML){
                     f.outerHTML = f.outerHTML;
                 } else{      //FF
                     f.value="";
-                }
+                }*/
+                f.replaceWith(inputFile);
                 return false;
             }
         }
@@ -2263,7 +2294,7 @@ function viewLargeImage (selector) {
                     flipHorizontal : true,
                     flipVertical : true,
                     download: function() {
-                        const a = document.createElement('a');
+                        var a = document.createElement('a');
                         a.href = viewer.image.src;
                         a.download = viewer.image.alt;
                         document.body.appendChild(a);

@@ -19,6 +19,8 @@ function searchMerchants () {
         var _this = $(this);
         _this.off('click');
         var form = $('form[role="form"]');
+        form.find('.filtrate_select ').val('');
+        form.find('.filtrate_input ').val('');
         form.submit();
     });
 }
