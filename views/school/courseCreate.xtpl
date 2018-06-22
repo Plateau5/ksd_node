@@ -24,21 +24,27 @@
         <div id="main" class="main pad_btm_100 course_create">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">课程列表</a>
-                <a href="javascript:;" class="crumbs_item">新增课程</a>
+                <a href="javascript:;" class="crumbs_item">
+                    {{#if (toEdit.id) }}
+                        编辑课程
+                    {{else}}
+                        新增课程
+                    {{/if}}
+                </a>
             </div>
             <div class="form_options create_options">
                 <form id="upload_video_form">
                     <input id="uploadVideoNow-file" type="file" style="display:none;"/>
                 </form>
                 <form action="" id="course_create_form" method="post">
-                    <input type="hidden" value="{{reqParams.id}}" id="course_id" name="id">
+                    <input type="hidden" value="{{toEdit.id}}" id="course_id" name="id">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
                             <span class="options_name">课程名称：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="course_name input_w_400" name="name" placeholder="请输入课程名称" value="{{courseDetail.name}}"/>
+                            <input type="text" class="course_name input_w_400" name="name" placeholder="请输入课程名称" value="{{toEdit.name}}"/>
                             <span class="tips_info">(*请先输入课程名称)</span>
                         </div>
                     </div>
@@ -49,9 +55,9 @@
                         </div>
                         <div class="column_val">
                             <div id="courseType" class="course_classify">
-                                <input type="hidden" class="one_classify" name="firstlevel_id" value="{{courseDetail.firstlevel_id}}">
-                                <input type="hidden" class="second_classify" name="secondlevel_id" value="{{courseDetail.secondlevel_id}}">
-                                <input type="text" class="course_type input_w_400" name="" placeholder="请选择" readonly value=""/>
+                                <input type="hidden" class="one_classify" name="firstlevel_id" value="{{toEdit.firstlevel_id}}">
+                                <input type="hidden" class="second_classify" name="secondlevel_id" value="{{toEdit.secondlevel_id}}">
+                                <input type="text" class="course_type input_w_400" name="" placeholder="请选择" readonly value="{{toEdit.course_classify}}"/>
                                 <em class="triangle"></em>
                                 <div class="coursetype_box">
                                     {{#each (classifyList) }}
@@ -76,10 +82,11 @@
                             <em class="require_icon">*</em>
                             <span class="options_name">授课讲师：</span>
                         </div>
-                        <div class="column_val internal_teacher order_search_box">
+                        <div class="column_val internal_teacher">
+                            <input type="hidden" name="lecturer_ids" id="lecturer_ids" value="{{toEdit.lecturer_ids}}">
                             <ul class="person_list">
-                                {{#each (detail.emp_data) }}
-                                <li class="person" data-id="{{this.id}}">{{this.name}}<em class="delete_btn"></em></li>
+                                {{#each (toEdit.already_teacher) }}
+                                    <li class="person" data-id="{{this.id}}">{{this.name}}<em class="delete_btn" data-id="{{this.id}}"></em></li>
                                 {{/each}}
                                 <!-- 下面为添加按钮 -->
                                 <li class="choose_box inline_block">
@@ -94,16 +101,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <!--<input type="hidden" name="lecturer_ids" class="emp_id" id="orderCreatorId" value="{{courseDetail.lecturer_ids}}">
-                            <input type="text" class="teacher_name search_name fuzzy_search input_w_400" name="" placeholder="搜索讲师姓名" value="{{courseDetail.teacher_name}}" readonly/>
                             <span class="tips_info">(*请先选择授课讲师)</span>
-                            <div class="search_result" style="display: none;">
-                                <div class="search_input">
-                                    <input class="customer_search" type="text">
-                                </div>
-                                <ul class="search_list">
-                                </ul>
-                            </div>-->
                         </div>
                     </div>
                     <div class="option_item external_teacher">
@@ -111,18 +109,31 @@
                             <span class="options_name">课件形式：</span>
                         </div>
                         <div class="column_val">
-                            <input type="hidden" name="type" id="course_type" value="{{courseDetail.type}}">
-                            <input type="hidden" name="file_id" id="file_id" value="{{courseDetail.file_id}}">
-                            <input type="hidden" name="file_url" id="file_url" value="{{courseDetail.file_url}}">
-                            <input type="hidden" name="file_name" id="file_name" value="{{courseDetail.file_name}}">
+                            <input type="hidden" name="type" id="course_type" value="{{toEdit.type}}">
+                            <input type="hidden" name="file_id" id="file_id" value="{{toEdit.file_id}}">
+                            <input type="hidden" name="file_url" id="file_url" value="{{toEdit.file_url}}">
+                            <input type="hidden" name="file_name" id="file_name" value="{{toEdit.file_name}}">
                             <a id="upload_video" href="javascript:;" class="upload_video">上传视频</a>
                             <a id="upload_audio" href="javascript:;" class="upload_audio">上传音频</a>
-                            <div id="resultBox" class="upload_process">
-                                <em class="audio_icon"></em>
-                                <div class="process_mask"></div>
-                                <span class="video_name">视频上传中......</span>
-                                <em class="process_close"></em>
-                            </div>
+                            {{#if (toEdit.file_id) }}
+                                <div id="resultBox" class="upload_process" style="display: block">
+                                    {{#if (toEdit.type === 1) }}
+                                    <em class="video_icon"></em>
+                                    {{else}}
+                                    <em class="audio_icon"></em>
+                                    {{/if}}
+                                    <div class="process_mask" style="width: 100%;"></div>
+                                    <span class="video_name">{{toEdit.file_name}}</span>
+                                    <em class="process_close" style="display: block"></em>
+                                </div>
+                            {{else}}
+                                <div id="resultBox" class="upload_process">
+                                    <em class="audio_icon"></em>
+                                    <div class="process_mask"></div>
+                                    <span class="video_name">视频上传中......</span>
+                                    <em class="process_close"></em>
+                                </div>
+                            {{/if}}
                         </div>
                     </div>
                     <div class="option_item">
@@ -131,7 +142,7 @@
                             <span class="options_name">课程简介：</span>
                         </div>
                         <div class="column_val">
-                            <input type="hidden" name="introduction" class="introduction" value="{{courseDetail.introduction}}">
+                            <input type="hidden" name="introduction" class="introduction" value="{{toEdit.introduction}}">
                             <div id="courseIntro" class="courseIntro">
 
                             </div>
@@ -141,13 +152,13 @@
                     <div class="option_item user_photo_row course_img">
                         <div class="column_name">课程封面：</div>
                         <div class="column_val">
-                            <input type="hidden" name="image_url" class="teacher_img">
+                            <input type="hidden" name="image_url" class="teacher_img" value="{{toEdit.image_url}}">
                             <div class="img_md_box">
                                 <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:160px;height:100px;">
-                                    <img src="{{#if (courseDetail.image_url) }}
-                                        {{courseDetail.image_url}}
+                                    <img src="{{#if (toEdit.image_url) }}
+                                        {{toEdit.image_url}}
                                     {{else}}
-                                    {{markUri}}/static/img/create_course.png
+                                        {{markUri}}/static/img/create_course.png
                                     {{/if}}" alt="" id="user_photo" class="img-responsive" style="width:160px;height:100px;">
                                 </a>
                                 <input type="file" style="display: none;" name="" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
@@ -189,10 +200,6 @@
         <!---- Part of Main info End ---->
     </div>
     <!-------- Part of main End -------->
-
-    <!-------- Part of footer Begin -------->
-    <!--<div id="footer" class="footer"></div>-->
-    <!-------- Part of footer End -------->
 </div>
 <div class="mask" style="display: none;"></div>
 </body>
@@ -203,6 +210,9 @@
 <script src="https://imgcache.qq.com/open/qcloud/js/vod/sdk/ugcUploader.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/school.js"></script>
 <script>
+    var introduction = '{{{toEdit.introduction}}}';//课程简介
+    var toEditTeachers = '{{toEdit.lecturer_ids}}';//授课讲师
+    toEditTeachers = toEditTeachers.split(',');
     var emp_list = '{{list}}';
     if (emp_list.length > 0 ) {
         emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
@@ -249,6 +259,7 @@
             }
         };
         courseIntro.create();
+        courseIntro.txt.html(introduction);
         /*document.getElementById('btn1').addEventListener('click', function () {
             console.log(courseIntro.txt.html());
         }, false);*/
@@ -294,8 +305,27 @@
             return index++;
         };
         $('#uploadVideoNow-file').on('change', function (e) {
-            var num = addUploaderMsgBox();
+            $('.process_mask').width(0);
             var videoFile = this.files[0];
+            if (videoFile.type.indexOf('audio') != -1) {//音频
+                if ($('#course_type').val() == 1) {//1为视频；2为音频
+                    $alert('请上传音频格式的文件');
+                    return false;
+                } else {
+                    $('.audio_icon').addClass('video_icon').removeClass('audio_icon');
+                }
+            } else if (videoFile.type.indexOf('video') != -1) {//视频
+                if ($('#course_type').val() == 2) {//1为视频；2为音频
+                    $alert('请上传视频格式的文件');
+                    return false;
+                } else {
+                    $('.video_icon').addClass('audio_icon').removeClass('video_icon');
+                }
+            } else {
+                $alert('请上传正确格式的文件');
+                return false;
+            }
+            var num = addUploaderMsgBox();
             $('#result').append(videoFile.name +　'\n');
             var resultMsg = qcVideo.ugcUploader.start({
                 videoFile: videoFile,
@@ -315,10 +345,6 @@
                     if(result.type == 'video') {
                         $('.video_name').html(result.name);
                         $('.process_mask').width(Math.floor(result.shacurr*100)+'%');
-                        //$('[name=videoname'+num+']').text(result.name);
-                        //$('[name=videosha'+num+']').text(Math.floor(result.shacurr*100)+'%');
-                        //$('[name=videocurr'+num+']').text(Math.floor(result.curr*100)+'%');
-                        //$('[name=cancel'+num+']').attr('taskId', result.taskId);
                         cosBox[num] = result.cos;
                     }
                 },
@@ -327,11 +353,6 @@
                     $('#file_id').val(result.fileId);
                     $('#file_url').val(result.videoUrl);
                     $('#file_name').val(result.videoName);
-                    // $('[name=videofileId'+num+']').text(result.fileId);
-                    // $('[name=videourl'+num+']').text(result.videoUrl);
-                    // if(result.message) {
-                    //     $('[name=videofileId'+num+']').text(result.message);
-                    // }
                 }
             });
             if(resultMsg){
@@ -394,6 +415,157 @@
                 coursetype_box.hide();
             });
         }
+        /***************************授课讲师  start****************************/
+        //获取讲师
+        function getFollowPeople () {
+            var followArr = [];
+            var fpElem = $('.person_list .person');
+            fpElem.each(function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                followArr.push(id);
+            });
+            return followArr;
+        }
+
+        var lecturer_ids = toEditTeachers;//授课讲师ids
+        //添加授课讲师
+        function addTeacher () {
+            var setObj = {
+                "depName" : $(".department_name"),
+                "mName" : $(".manager_name .p_name"),
+                "btn" : $("#addOwnPersonBtn"),
+                "sBox" : $(".search_box"),
+                "input" : $(".m_search "),
+                "resBox" : $(".search_result"),
+                "personList" : $('.person_list')
+            };
+            //负责人的模糊查询功能
+            function searchManagers () {
+                setObj.btn.off("click").on("click", function (e) {
+                    var e = e || window.event;
+                    e.stopPropagation();
+                    var allFollow = getFollowPeople();
+                    if (allFollow.length >= 20){
+                        $alert('最多添加20个拥有者');
+                        return false;
+                    }
+                    setObj.sBox.is(':hidden') ? setObj.sBox.show() : setObj.sBox.hide();
+                    setObj.input.focus();
+                    setObj.input.off("input click").on("input click", function (e) {
+                        var e = e || window.event;
+                        e.stopPropagation();
+                        var val = $.trim($(this).val());
+                        if (val) {
+                            var queryObj = fuzzyQuery(emp_list);
+                            showSearchResult(queryObj);
+                        }
+                    });
+
+                })
+            }
+
+            // 注册点击其他区域关闭弹出层
+            $(document).on('click', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                setObj.sBox.is(':hidden') ? false : setObj.sBox.hide();
+            });
+            //模糊查询逻辑
+            function fuzzyQuery (res) {
+                var queryStr = $.trim(setObj.input.val()),
+                    queryArr = queryStr.split(""),
+                    data = res,
+                    resArr;
+                if(queryStr) {
+                    for (var i = 0, len = queryArr.length; i < len; i++) {
+                        resArr = [];
+                        for (var k = 0; k < data.length; k++) {
+                            if (data[k].name.indexOf(queryArr[i]) != -1) {
+                                resArr.push(data[k]);
+                            }
+                        }
+                        data = resArr;
+                    }
+                }
+                return resArr;
+            }
+            //创建模糊查询结果展示并绑定事件
+            function showSearchResult (res) {
+                var html = [];
+                if (res.length == 0 || res.length == undefined) {
+                    return setObj.resBox.html('<li class="res_item" style="text-align: center;">暂无数据</li>');
+                } else {
+                    for (var i = 0, len = res.length; i < len; i++) {
+                        if (res[i].phone) {
+                            var tel_account = res[i].phone;
+                        } else if (res[i].account) {
+                            var tel_account = res[i].account;
+                        }
+                        var str = '';
+                        str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" data-email="'+ tel_account + '" title="' + tel_account + '">\
+                                <span class="name nowrap">' + res[i].name + '</span>\
+                                <span class="p_dep nowrap">' + (tel_account ? tel_account : '没有匹配到任何结果') + '</span>\
+                            </li>';
+                        html.push(str);
+                    }
+                }
+
+
+                setObj.resBox.html(html.join(""));
+
+                var item = setObj.resBox.find(".res_item");
+                item.each(function () {
+                    var t = $(this);
+                    t.off("click").on("click", function (e) {
+                        var e = e || window.event;
+                        e.stopPropagation();
+                        var _this = $(this);
+                        var leaderEle = _this.find(".name"),
+                            pName = leaderEle.text(),
+                            lId = _this.data("id");
+
+                        setObj.input.val("");
+                        setObj.resBox.html("");
+                        setObj.sBox.hide();
+                        for (var i = 0, len = lecturer_ids.length;i < len;i++) {
+                            if (lecturer_ids[i] == lId) {
+                                $alert('"'+_this.data('name') + '"已属于此课程');
+                                return false;
+                            }
+                        }
+                        lecturer_ids.push(lId);
+
+                        // 创建拥有者展示数据
+                        var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn" data-id="'+ lId +'"></em></li>';
+                        setObj.personList.find('.choose_box').before(ownStr);
+                        var endPerson = getFollowPeople().join(',');
+                        $('#ownPersonInput').val(endPerson);
+                    });
+                });
+            }
+            searchManagers();
+        }
+
+        //删除授课讲师
+        function deleteTeacher () {
+            var delBtnParent = $('.person_list');   // 拥有者数据列表元素
+            delBtnParent.off('click').on('click', '.delete_btn', function () {
+                var _this = $(this);
+                for (var i = 0, len = lecturer_ids.length;i < len;i++) {
+                    if (lecturer_ids[i] == _this.data('id')) {
+                        lecturer_ids.splice(i,1);
+                    }
+                }
+                _this.parents('.person').remove();
+                var endPerson = getFollowPeople().join(',');
+                $('#ownPersonInput').val(endPerson);
+            });
+        }
+
+
+        /***************************授课讲师  end****************************/
+
 
         //保存提交课程
         function saveCourse () {
@@ -418,14 +590,14 @@
             } else {
                 course_type.siblings('.tips_info').hide();
             }
-            var teacher_name = $('.teacher_name ');
+            var teacher_name = $('#lecturer_ids');
+            teacher_name.val(lecturer_ids.join(','));
             if (teacher_name.val() == '') {
                 teacher_name.siblings('.tips_info').show();
                 return;
             } else {
                 teacher_name.siblings('.tips_info').hide();
             }
-            console.log(courseIntro.txt.html());
             $('.introduction').val(courseIntro.txt.html());
             var introduction = $('.introduction');
             if (introduction.val() == '') {
@@ -481,8 +653,9 @@
         $(function() {
             clickTriangle();//下拉三角点击事件
             selectCourseType();//选择课程分类
+            addTeacher();//添加授课讲师
+            deleteTeacher();//删除授课讲师
             uploadPhoto($("#upload_photo_btn"));//重新上传图片
-            searchTeacher(); //模糊查询讲师
             uploadBtn();
             deleteVidebtn();//删除视频
             saveCourse();//保存提交课程

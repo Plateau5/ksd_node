@@ -9,6 +9,36 @@
     <link href="//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.css" rel="stylesheet">
     <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
     <title>培训-课程详情</title>
+    <style>
+        tr{
+            height: 60px;
+            line-height: 60px;
+            border: 1px solid #e4e4e4;
+        }
+        tr:first-child{
+            height: 60px;
+            line-height: 60px;
+            border: 1px solid #e4e4e4;
+            background: #fafafa;
+        }
+        th{
+            color: #333;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            padding: 0 2%;
+            font-size: 14px;
+            font-weight: bolder !important;
+        }
+        td{
+            color: #333;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            padding: 0 2%;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -26,20 +56,25 @@
         <div id="main" class="main course_detail">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">培训讲师</a>
-                <a href="javascript:;" class="crumbs_item">{{reqParams.name}}</a>
+                <a href="javascript:;" class="crumbs_item">{{courseDetail.name}}</a>
             </div>
             <div class="title" style="border: none;">
                 <div class="title_txt">
-                    <span>{{reqParams.name}}</span>
+                    <span>{{courseDetail.name}}</span>
                 </div>
                 <div class="title_btn">
-                    <a href="javascript:;" class="detail_title_btn edit_btn" data-id="{{reqParams.id}}">编辑</a>
-                    <a href="javascript:;" class="detail_title_btn delete_btn" data-id="{{reqParams.id}}">删除</a>
+                    <a href="javascript:;" class="detail_title_btn edit_btn" data-id="{{courseDetail.id}}">编辑</a>
+                    <a href="javascript:;" class="detail_title_btn delete_btn" data-id="{{courseDetail.id}}">删除</a>
                 </div>
             </div>
+            {{#if (courseDetail.file_id) }}
             <div class="video_box">
+            {{else}}
+            <div class="video_box" style="display: none;">
+            {{/if}}
+                <input type="hidden" value="{{courseDetail.file_id}}" id="file_id">
                 <!-- 设置播放器容器 -->
-                <video id="id_test_video" preload="auto" playsinline webkit-playinline x5-playinline></video>
+                <video id="play_video" preload="auto" playsinline webkit-playinline x5-playinline></video>
                 <!--
                 注意事项：
                 * 播放器容器必须为 video 标签
@@ -52,37 +87,31 @@
                 <span>授课讲师</span>
             </div>
             <div class="teachers_box clearfix">
-                <div class="teacher_item">
-                    <div class="teacher_icon">
-                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
+                {{#each (Lecturerlist) }}
+                    <div class="teacher_item">
+                        <div class="teacher_icon">
+                            <img src="{{#if (this.image_url) }}
+                                {{this.image_url}}
+                            {{else}}
+                                {{markUri}}/static/img/personIcon48.png
+                            {{/if}}" id="" class="img_responsive" alt="" style="border-radius: 50%;">
+                        </div>
+                        <div class="teacher_name" title="{{this.name}}">
+                            <span>{{this.name}}</span>
+                        </div>
                     </div>
-                    <div class="teacher_name" title="讲师师师师">
-                        <span>讲师师师师</span>
-                    </div>
-                </div>
-                <div class="teacher_item">
-                    <div class="teacher_icon">
-                        <img src="{{markUri}}/static/img/personIcon48.png" id="" class="img_responsive" alt="">
-                    </div>
-                    <div class="teacher_name" title="讲师师师师">
-                        <span>讲师师师师</span>
-                    </div>
-                </div>
+                {{/each}}
             </div>
             <div class="teacher_title">
                 <span>课程简介</span>
             </div>
             <div class="course_intro_box">
-
+                {{{courseDetail.introduction}}}
             </div>
         </div>
         <!---- Part of Main info End ---->
     </div>
     <!-------- Part of main End -------->
-
-    <!-------- Part of footer Begin -------->
-    <!--<div id="footer" class="footer"></div>-->
-    <!-------- Part of footer End -------->
 </div>
 </body>
 {{include('./../inc/jsSources')}}
@@ -96,14 +125,15 @@
 <!-- 引入播放器 js 文件 -->
 <script src="//imgcache.qq.com/open/qcloud/video/tcplayer/tcplayer.min.js"></script>
 <script>
+    var course_id = '{{courseDetail.id}}';
     (function ($) {
-
         //音视频播放
         function videoPlayer () {
             var video_box = $('.video_box');
             var video_width = video_box.width();
-            var player = TCPlayer('id_test_video', {
-                fileID: '7447398156765311652', // 请传入需要播放的视频filID 必须
+            var fileID = $('#file_id').val();
+            var player = TCPlayer('play_video', {
+                fileID: fileID, // 请传入需要播放的视频filID 必须
                 appID: TENCENTAPPID, // 请传入点播账号的appID 必须
                 width :  video_width,//视频的显示宽度，请尽量使用视频分辨率宽度
                 height : '650'//视频的显示高度，请尽量使用视频分辨率高度
@@ -121,7 +151,7 @@
         function deleteEvent (t) {
             t.off('click');
             var id = $.trim(t.data("id"));
-            var url = contextPath + '/api/workflow/delete';
+            var url = contextPath + '/api/school/course/delete';
             var data = {
                 id : id
             };
@@ -175,8 +205,30 @@
                 }
             });
         }
+        //课程计数
+        function courseRecord () {
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : contextPath + "/api/school/course/record",
+                data : {
+                    id : course_id
+                },
+                success : function (res) {
+                    if (res.error_code == 0) {
+                        alert(123)
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $alert('error');
+                }
+            });
+        }
 
         $(function() {
+            courseRecord();//课程计数
             videoPlayer();//音视频播放
             deleteCourse();//删除课程
             editCourse();//课程编辑

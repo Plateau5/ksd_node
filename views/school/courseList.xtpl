@@ -79,14 +79,14 @@
                                                     {{markUri}}/static/img/default_course.png
                                                 {{/if}}" alt="" class="img_responsive">
                                 </div>
-                                <em class="already_nums">32人学过</em>
+                                <em class="already_nums">{{this.count}}人学过</em>
                             </div>
                             <div class="course_title">
                                 {{this.name}}
                             </div>
                             <div class="course_teacher">
                                 <span>讲师：</span>
-                                <span class="teacher_name">{{this.teacher_name}}</span>
+                                <span class="teacher_name" title="{{this.teacher_name}}">{{this.teacher_name}}</span>
                             </div>
                         </div>
                     {{/each}}
@@ -112,12 +112,10 @@
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var id = $.trim(t.data("id"));
-                var course_title = t.find('.course_title').text();
                 locationTo({
                     action : contextPath + markUri + "/school/course/lists/detail",
                     param : {
-                        id : id,
-                        name : course_title
+                        id : id
                     }
                 });
             });
@@ -146,6 +144,7 @@
         }
 
         $(function() {
+            paginationSwitch();// 分页切换
             courseDetail();//课程详情
             filterClass();//筛选分类
         });

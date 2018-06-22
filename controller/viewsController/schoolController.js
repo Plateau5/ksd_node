@@ -88,17 +88,45 @@ exports.VIEW_SCHOOL_COURSE_LISTS_EDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/school/course/toedit',
         title : '培训-编辑课程页',
-        page : './school/courseCreate'
+        page : './school/courseCreate',
+        callback : function (data) {
+            if (data) {
+                var lecturer_ids = data.toEdit.lecturer_ids;
+                var teacher_name = data.toEdit.teacher_name;
+                var cur_teachers = [];
+                if (lecturer_ids.indexOf(',') != -1) {
+                    var cur_ids = lecturer_ids.split(',');
+                    var cur_names = teacher_name.split(',');
+                    for (var i = 0, len = cur_ids.length;i < len; i++) {
+                        cur_teachers.push({
+                            id :  cur_ids[i],
+                            name : cur_names[i]
+                        });
+                    }
+                } else {
+                    cur_teachers.push({
+                        id :  lecturer_ids,
+                        name : teacher_name
+                    });
+                }
+                data.toEdit.already_teacher = cur_teachers;
+            }
+        }
     }, req, res, next);
 };
 // 培训-课程列表-课程详情页
 exports.VIEW_SCHOOL_COURSE_LISTS_DETAIL = function(req, res, next) {
-    // common.getPageData({
-    //     url : '/api/organization/getList',
-    //     title : '培训-课程列表页',
-    //     page : './school/courseList'
-    // }, req, res, next);
-    res.render('./school/courseDetail',{markUri : '/ksd'});
+    common.getPageData({
+        url : '/api/school/course/detail',
+        title : '培训-课程详情页',
+        page : './school/courseDetail',
+        callback : function (data) {
+            var introduction = data.courseDetail.introduction;
+            data.courseDetail.intro = [];
+            data.courseDetail.intro.push(introduction);
+        }
+    }, req, res, next);
+    // res.render('./school/courseDetail',{markUri : '/ksd'});
 };
 
 
