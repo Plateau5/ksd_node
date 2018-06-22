@@ -2413,6 +2413,15 @@ function paginationSwitch () {
     });
 }
 
+
+/**
+ * 全局设置禁用form在点击回车的自动提交事件
+ * @author Arley Joe 2018-6-22 16:38:36
+ * @desc : 1.页面中的form元素内部只有一个input元素的点击回车键form会自动提交，超过一个input元素的不会自动提交
+ *         2.本方法全局禁用form的自动提交。
+ *         3.需要解决由此方法造成form内的元素编辑状态点击回车键失效的问题时，为该元素添加特殊标识类“ special-ele ”
+ * @return {Boolean} *
+ */
 function disabledFormAutoSubmit () {
     var doc = $('body');
     doc.on('keydown', 'form', function (e) {
