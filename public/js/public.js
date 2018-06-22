@@ -2418,8 +2418,14 @@ function disabledFormAutoSubmit () {
     doc.on('keydown', 'form', function (e) {
         var ev = e || window.event;
         var keyCode = ev.keyCode;
+        var form = $(this);
         if (keyCode == 13) {
-            return false;
+            var special = form.find('.special-ele');
+            if (special.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     });
 }
