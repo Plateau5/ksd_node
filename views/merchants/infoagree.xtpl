@@ -125,89 +125,29 @@
                     var res = eval(req);
                     $('#loading').hide();
                     if (res.error_code == 0) {
-                        if (BTNTYPE == 1) {
-                            dialog("open", {
-                                closeBtn : false,
-                                "title" : "打印提醒",
-                                "button" : ["立即打印","稍后再说"],
-                                "content" : "是否现在打印该车请款审批材料？",
-                                "maskClose" : false,
-                                onConfirm : function (d) {
-                                    d.close();
-                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&receipt_type=' + receiptType;
-                                    window.location.replace(printPage);
-                                    /*var detailPath = '';
-                                    if (listType == 1) {
-                                        detailPath = '/loan/pending/list';
-                                    } else if (listType == 2) {
-                                        detailPath = '/loan/pass/list';
-                                    }
-                                    locationTo({
-                                        action : contextPath + markUri + detailPath,
-                                        param : {
-                                            supplier_id : merchantId,
-                                            pay_account: payAccount,
-                                            timeorder_type: timeorderType,
-                                            receipt_type: receiptType,
-                                            orderby_type: orderbyType,
-                                            supplier_name : merchantName,
-                                            url : listUrl,
-                                            navigation : navigation,
-                                            list_type : listType,
-                                            settlement_type: settlementType
-                                        }
-                                    })*/
-                                },
-                                onCancel : function (d) {
-                                    d.close();
-                                    var detailPath = '';
-                                    if (listType == 1) {
-                                        detailPath = '/loan/pending/list';
-                                    } else if (listType == 2) {
-                                        detailPath = '/loan/pass/list';
-                                    }
-                                    locationTo({
-                                        action : contextPath + markUri + detailPath,
-                                        param : {
-                                            supplier_id : merchantId,
-                                            pay_account: payAccount,
-                                            timeorder_type: timeorderType,
-                                            receipt_type: receiptType,
-                                            orderby_type: orderbyType,
-                                            supplier_name : merchantName,
-                                            url : listUrl,
-                                            navigation : navigation,
-                                            list_type : listType,
-                                            settlement_type: settlementType
-                                        }
-                                    })
+                        $alert('提交成功', function () {
+                            var detailPath = '';
+                            if (listType == 1) {
+                                detailPath = '/loan/pending/list';
+                            } else if (listType == 2) {
+                                detailPath = '/loan/pass/list';
+                            }
+                            locationTo({
+                                action : contextPath + markUri + detailPath,
+                                param : {
+                                    supplier_id : merchantId,
+                                    pay_account: payAccount,
+                                    timeorder_type: timeorderType,
+                                    receipt_type: receiptType,
+                                    orderby_type: orderbyType,
+                                    supplier_name : merchantName,
+                                    url : listUrl,
+                                    navigation : navigation,
+                                    list_type : listType,
+                                    settlement_type: settlementType
                                 }
-                            });
-                        } else {
-                            $alert('提交成功', function () {
-                                var detailPath = '';
-                                if (listType == 1) {
-                                    detailPath = '/loan/pending/list';
-                                } else if (listType == 2) {
-                                    detailPath = '/loan/pass/list';
-                                }
-                                locationTo({
-                                    action : contextPath + markUri + detailPath,
-                                    param : {
-                                        supplier_id : merchantId,
-                                        pay_account: payAccount,
-                                        timeorder_type: timeorderType,
-                                        receipt_type: receiptType,
-                                        orderby_type: orderbyType,
-                                        supplier_name : merchantName,
-                                        url : listUrl,
-                                        navigation : navigation,
-                                        list_type : listType,
-                                        settlement_type: settlementType
-                                    }
-                                })
-                            });
-                        }
+                            })
+                        });
                     } else {
                         $alert(res.error_msg, function (){
                             rebind( ".submit_confirm", "click", returnSubmit);

@@ -382,18 +382,17 @@
                                     }
                                     if (data.rebate_car) {
                                         data.rebate_car = data.rebate_car.toFixed(2).number();
-                                        if (data.financed_charge_rebate) {
+                                        if (data.financed_charge_rebate || data.financed_charge_rebate == '0') {
                                             $('#financed_amount').html(data.rebate_car + '元(已请' + data.financed_charge_rebate + '元)');
 										} else {
                                             $('#financed_amount').html(data.rebate_car + '元');
 										}
-
                                     } else {
                                         $('#financed_amount').html('--');
                                     }
                                     if (data.rebate_gps) {
                                         data.rebate_gps = data.rebate_gps.toFixed(2).number();
-                                        if (data.gps_rebate) {
+                                        if (data.gps_rebate || data.gps_rebate == '0') {
                                             $('#gps_rebate').html(data.rebate_gps + '元(已请' + data.gps_rebate + '元)');
                                         } else {
                                             $('#gps_rebate').html(data.rebate_gps + '元');
@@ -403,7 +402,7 @@
                                     }
                                     if (data.rebate_service) {
                                         data.rebate_service = data.rebate_service.toFixed(2).number();
-                                        if (data.service_charge_rebate) {
+                                        if (data.service_charge_rebate || data.service_charge_rebate == '0') {
                                             $('#rebate_service').html(data.rebate_service + '元(已请' + data.service_charge_rebate + '元)');
                                         } else {
                                             $('#rebate_service').html(data.rebate_service + '元');
@@ -413,7 +412,7 @@
                                     }
                                     if (data.rebate_insurance) {
                                         data.rebate_insurance = data.rebate_insurance.toFixed(2).number();
-                                        if (data.insurance_rebate) {
+                                        if (data.insurance_rebate || data.insurance_rebate == '0') {
                                             $('#rebate_insurance').html(data.rebate_insurance + '元(已请' + data.insurance_rebate + '元)');
                                         } else {
                                             $('#rebate_insurance').html(data.rebate_insurance + '元');
