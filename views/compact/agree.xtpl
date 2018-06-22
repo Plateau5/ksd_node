@@ -201,12 +201,12 @@
                             } else {
                                 result = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABNlJREFUWAntmWtMWlccwOUKKC9B8UHFJ8oFRbBa106XbJq2qctqK6uvWVPbL8uaZjHL2n5Zl65Ll2aPLl2s2m3p0jXG2NqHurjNTWdat1qnGFFACaDgg+JERZArL+nuMSEhfPGCpvEDJyH3HO7/nP+P37k5/5uAS3zW8zJkFzc8YJvJP3hlNzImDfRehnYjmDdTENDbRiD9oMFArHnPCRr0thFIf9cb3DyoA/llW825qlNn96wYs/V2G4sUCiFpJMrcpWRuXy41YnWrud73d9zgkstBKB77t+oHva50yemIhEmUKQaeYJFazIIKmeRsg17L8wbYqr+jBs0uF14sk1RrbevJx2JYfTfSBf1ogs1a/8xsiqpTycpvzE2Li+jMhkwKzbIVHLi/YwbX3O5QsWy4SruOpNTGJXTdTBc8/W35P9a9RX2Sze2GCiIYy99xs9rc7pDQz3SqQixwIGZHDAKAMtlwuWrdmlYZy+4+n8iRHpYOvqdE1mCQ5PrMlKFdmHcHQKaSyNOadSQBfI+lbdugKyQEVyaTvKuwWnjHY1h/XU6Fh8TyoU24okjmgDh6T6/BYWdd0aoKAFAMgWhadTkZWOBAzLYNVsglx8esZkExM7b/a07GP8fGhyrVCMIpj4v/4zonYwAk6V5ZzJ+32Zig/8Jhj2YSiEugj6Vty2CFYqRk2GzKBqYaYWHfCbnkxCS6rSXMuD4P3EXN5AFkw0UW0GizncaF+GkbksInU7RY4EBMwAZPToy+/Xx1JbeAETV8m7/3T3SbS8fXzJmHo2L+boCznoLF0W3NaV3UH0khkbU1seyJmonRWgoUar3G4T8B97G0gAyeUUoP9ZuW9udF0EdbMnK6qhUj74xYTKI3GczB2zxRL0j81eyU8CfDbEkiMWwOPW7aT09KT5pdTvrFpLTH8cRwOxY4EOM34FmV7K3eZeMb2dQI+X1BXmftxGgxanLf6/TIkeaMvb+DRevntfzGeW0pixhmqIeFDz9QjlWih3b0+SRO22lWwhSIwdr8AvxIrSjoMi4Uooessk2w79EFtSL/iWnpQA6NPtaamfsLSPrji5n0b2enyqIJxMUmWHjvnEpWtuB0sD5MSHl0Lj5FiRXME4f5GXywaEh8aDQc4pIomgdZeW3hEOR2hrzEo+YkLZm5XeCX3jHMca7p1JVoaVv5nidqrVPJxfN2G/v9PUkdHydw5J6k/lwxA96c1xbRoNA1FOY+FYI2QBJQLTzJQMX4XKeqouLxllt8YQtq96jOhiSfYiV2XUpOl3ri/L1i3mLwViKg0lRxRKLDN0mHcYH9iUZZTYYg5BYsav5UoyxWo1WlAq0qV1PhYd94f8aYAcMgyG7d2Aj3Xbx7xRh3QTNRQ4QgZyNX1PyFTnUQnIWgqnyTxn/uG+/vGDMgj0yZlqPlDNjyJPkVfRlAn7NTEA7nboSzfh5HVpngLARVpR59k/HEbeeK+Rn8Mj2z56h0EK5Ty8806bUqkFSJWLkECGev5wrvFjKYxmwqfZUKEe7WstjT24HynovZYFoYCWkXvtYEzr8Zm40NPiJqhKJTuL/pSGT0Alg0Eo937iQcWBOzQRDMI1GsHVl5j0H/VTXMBl8VkG+eIKCvEX/HQYP+GvONDxr0NeLvOGjQX2O+8bjd/jfE/2Mi4D596XZHAAAAAElFTkSuQmCC';
                             }
-                            var imgEle = '<div class="file_item">'
+                            var imgEle = '<div class="file_item" id="'+ res.data[0].file_id +'">'
                                 +     '<img src="'+ result +'" alt="">'
                                 +     '<span class="file_name nor_wrap">'+ fileName +'</span>'
                                 +     '<span class="file_size">'+ filesSize.toFixed(2) +'M</span>'
                                 +     '<div class="remove_mask">'
-                                +         '<em class="remove_btn"></em>'
+                                +         '<em class="remove_btn" data-file_id="'+ res.data[0].file_id +'"></em>'
                                 +     '</div>'
                                 + '</div>';
 
@@ -220,6 +220,20 @@
                     }
                 });
             }
+        }
+
+        /**
+         * 文件删除监听
+         * @author : Arley Joe 2018年6月22日13:39:25
+         * @desc : 二次监听文件的删除按钮，移除原始数据file_ids中的文件id.
+         */
+        function deleteFilesEvent () {
+            var fileBox = $('.file_box1');
+            fileBox.off('click').on('click', '.remove_btn', function () {
+                var _this = $(this);
+                var id = _this.data('file_id');
+                file_ids.remove(id);
+            });
         }
         //参数
         function getSubmitData (){
@@ -314,6 +328,7 @@
         $(function() {
             uploadAnnex();      // 图片上传
             sendEmail();
+            deleteFilesEvent();     // 删除文件监听
         });
     })(jQuery,undefined);
 
