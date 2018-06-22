@@ -334,21 +334,29 @@
                     btn.attr('disabled',false);
                     return;
                 }
-
-                dialog("open", {
-                    closeBtn : false,
-                    "title" : "提醒",
-                    "button" : ["确认","取消"],
-                    "content" : "您确认提交至银行？",
-                    "maskClose" : false,
-                    onConfirm : function (d) {
-                        d.close();
-                        ajaxSubmit();
-                    },
-                    onCancel : function (d) {
-                        d.close();
+                var errorMsg = '';
+                $('.formError').each(function () {
+                    if( $(this).html() !== '' ){
+                        errorMsg = 1;
+                        return false;
                     }
                 });
+                if (errorMsg !== 1) {
+                    dialog("open", {
+                        closeBtn : false,
+                        "title" : "提醒",
+                        "button" : ["确认","取消"],
+                        "content" : "您确认提交至银行？",
+                        "maskClose" : false,
+                        onConfirm : function (d) {
+                            d.close();
+                            ajaxSubmit();
+                        },
+                        onCancel : function (d) {
+                            d.close();
+                        }
+                    });
+                }
             });
         }
 
