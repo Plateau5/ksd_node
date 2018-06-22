@@ -85,6 +85,8 @@
                 <input type="hidden" id="is_docking" value="{{vo.is_docking }}">
                 <input type="hidden" id="loan_type" value="{{vo.loan_type}}" >
                 <input type="hidden" id="deliver_no" value="{{haveMaterial.deliver_no}}" >
+                <!-- 重新通知结果隐藏域  -->
+                <input type="hidden" id="showButton" value="{{show_button}}">
                 <div class="details_item base_info">
                         <!-- 进件资料 Begin -->
                         {{#if (query_type === 1) }}
@@ -748,8 +750,10 @@
             detailRequestPayOut();  //确认申请按钮跳转
             detailEntering();   //开始录入按钮跳转
             pageJump("#sendAuditResult");   //通知审核结果按钮跳转
+            renewSendResult("#RenewSendAuditResult");   //重新通知审核结果按钮跳转
             goDockingPADetail();    //跳转查看对接详情页
             pageJumpCheck(".go_forward_check");
+            renewSendContractClick(".renew_send_contract");   //重新发送合同按钮跳转
             pageJump(".go_forward");   //同意不同意按钮跳转
             complementDatumEvent();   // 补全资料按钮跳转
             affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
@@ -776,6 +780,50 @@
                 $(".detail_inline_footer").css("border-top","none");
             }
         });
+        //重新通知结果
+            function  renewSendResult (selector, opt) {
+            var options = {};
+            if (opt) {
+                options = $.extend({}, opt);
+            }
+            var btn = $(selector);
+            btn.off("click").on("click", function () {
+                var target = $(this);
+                var financeId = $.trim(target.data("id"));
+                var url = $.trim(target.data("url"));
+                var btnType = $('#showButton').val();
+                financeId && (options.finance_id = financeId);
+                options.type = btnType;
+                locationTo({
+                    action : url,
+                    param : options
+                });
+            });
+        };
+        //重新发送合同
+        function  renewSendContractClick (selector, opt) {
+            var options = {};
+            if (opt) {
+                options = $.extend({}, opt);
+            }
+            var btn = $(selector);
+            btn.off("click").on("click", function () {
+                var target = $(this);
+                var dataType =$.trim(target.data("type"));
+                var financeId = $.trim(target.data("id"));
+                var url = $.trim(target.data("url"));
+                var list_url = "{{url}}";
+                var navigation = "{{navigation}}";
+                financeId && (options.finance_id = financeId);
+                options.dataType = dataType;
+                options.list_url = list_url;
+                options.navigation = navigation;
+                locationTo({
+                    action : url,
+                    param : options
+                });
+            });
+        }
     })(window, undefined);
 </script>
 </html>

@@ -414,18 +414,18 @@ function verifyEmpty () {
  */
 function uploadImage () {
     fileUpload({
-        maxCount : 1,
+        maxCount : 1000,
         filesSize : 10,
         fileFormat : ['png', 'jpg', 'jpeg'],
         needThumbnails : false,
-        callback : function (btn) {
-            onChoose(btn);
+        callback : function (btn, file) {
+            onChoose(btn, file);
         }
     });
     // 上传逻辑
-    var onChoose = function (btn) {
+    var onChoose = function (btn, file) {
         var type = $.trim(btn.data('type'));
-        var data = (btn.parents('.file_upload').find('.file_upload_btn')[0]).files[0];
+        var data = file;
         var form = new FormData();
         form.append("file", data);
         var url = contextPath + '/api/docking/file/upload';

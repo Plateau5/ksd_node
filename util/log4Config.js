@@ -54,14 +54,14 @@ log4js.configure({
             sendInterval: 0,
             transport: 'SMTP',
             subject : '快收单异常-WEB',
-            sender : 'ksd@kuaishoudan.com',
+            sender : 'kuaishoudan@163.com',
             SMTP: {
-                host: 'smtp.kuaishoudan.com',
+                host: 'smtp.163.com',
                 secureConnection: true,
-                port: 25,
+                port: 465,
                 auth: {
-                    user: 'ksd@kuaishoudan.com',
-                    pass: 'kuaiSD2017'
+                    user: 'kuaishoudan@163.com',
+                    pass: 'jizhicar2014'
                 },
                 debug: true
             }

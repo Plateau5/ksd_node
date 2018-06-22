@@ -134,7 +134,7 @@
             word-wrap:break-word;
         }
         .light_color{
-            color:#999;
+            color:#333;
         }
     }
     .detail_footer{
@@ -565,4 +565,68 @@
 }
 .cursor{
     cursor: default;
+}
+.location{
+    position:relative;
+}
+.customer_btn_box{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    height: 40px;
+    line-height: 40px;
+}
+.section .customer_btn{
+    position: relative;
+    padding: 0 20px;
+    &:before{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 17px;
+        height: 16px;
+        background: url(../img/operation_small_icon.png) no-repeat;
+        vertical-align: middle;
+    }
+}
+.section .renew_notify_result{
+    color: @active-color;
+    &:before{
+        background-position: -64px -571px;
+    }
+    &:hover{
+        color: @font-hover-color;
+        &:before{
+            background-position: -64px -591px;
+        }
+    }
+}
+.section .renew_notify_result_gray{
+    color: #999999;
+    cursor: default;
+    &:before{
+        background-position: -64px -611px;
+    }
+}
+.section .renew_send_contract{
+    color: @active-color;
+    &:before{
+        background-position: -64px -511px;
+    }
+    &:hover{
+        color: @font-hover-color;
+        &:before{
+            background-position: -64px -531px;
+        }
+    }
+}
+.section .renew_send_contract_gray{
+    color: #999999;
+    cursor: default;
+    &:before{
+        background-position: -64px -551px;
+    }
 }

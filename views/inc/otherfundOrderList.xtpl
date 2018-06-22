@@ -26,14 +26,20 @@
 							<dd class="nor_wrap font14">{{this.product_name}}</dd>
 						</dl>
 						<dl  class="effect_two">
-							<dt class="font12">贷款类型</dt>
+							<dt class="font12">贷款类型 / 车系</dt>
 							<dd class="font14 overflow" title="{{#if (this.car_type === 0)}}新车{{elseif (this.car_type === 1) }}二手车{{/if}}  / {{this.series_name}}">
 								{{#if (this.car_type === 0)}}新车{{elseif (this.car_type === 1) }}二手车{{/if}}  / {{this.series_name}}
 							</dd>
 						</dl>
 						<dl class="effect_two">
-							<dt class="font12">车系</dt>
-							<dd class="nor_wrap font14">{{this.series_name}}</dd>
+							<dt class="font12">车款状态</dt>
+							<dd class="nor_wrap font14">
+								{{#if (status >= 11)}}
+									已放款
+								{{else}}
+									未放款
+								{{/if}}
+							</dd>
 						</dl>
 						<dl class="effect_two">
 							<dt class="font12">付款总额</dt>
