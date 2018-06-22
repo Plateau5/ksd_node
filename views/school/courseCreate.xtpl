@@ -206,8 +206,8 @@
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/cropper/cropper.js"></script>
-<script src="{{markUri}}/static/wangEditor-3.1.1/wangEditor.js"></script>
 <script src="https://imgcache.qq.com/open/qcloud/js/vod/sdk/ugcUploader.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/wangEditor-3.1.1/wangEditor.js"></script>
 <script src="{{markUri}}/static/js/school.js"></script>
 <script>
     var introduction = '{{{toEdit.introduction}}}';//课程简介
@@ -312,6 +312,7 @@
                     $alert('请上传音频格式的文件');
                     return false;
                 } else {
+                    $('.video_name').text('音频上传中......');
                     $('.audio_icon').addClass('video_icon').removeClass('audio_icon');
                 }
             } else if (videoFile.type.indexOf('video') != -1) {//视频
@@ -319,6 +320,7 @@
                     $alert('请上传视频格式的文件');
                     return false;
                 } else {
+                    $('.video_name').text('视频上传中......');
                     $('.video_icon').addClass('audio_icon').removeClass('video_icon');
                 }
             } else {
@@ -428,7 +430,12 @@
             return followArr;
         }
 
-        var lecturer_ids = toEditTeachers;//授课讲师ids
+        //授课讲师ids
+        if (toEditTeachers != '') {
+            var lecturer_ids = toEditTeachers;
+        } else {
+            var lecturer_ids = [];
+        }
         //添加授课讲师
         function addTeacher () {
             var setObj = {
@@ -598,9 +605,10 @@
             } else {
                 teacher_name.siblings('.tips_info').hide();
             }
-            $('.introduction').val(courseIntro.txt.html());
+
             var introduction = $('.introduction');
-            if (introduction.val() == '') {
+            introduction.val(courseIntro.txt.html());
+            if (courseIntro.txt.text() == '') {
                 introduction.siblings('.tips_info').show();
                 return;
             } else {
