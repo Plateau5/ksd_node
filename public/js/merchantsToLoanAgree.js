@@ -160,7 +160,7 @@ function validate_form(required,obj,reg,error_txt){
 function getSelectedCitys () {
     $('.select_city_input').citySelect({
         data : city_list,
-        defaultData : [],
+        defaultData : city_list_selected,
         dataType : 1,
         type : 1
     }, function (data) {

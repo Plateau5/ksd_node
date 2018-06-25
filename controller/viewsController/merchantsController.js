@@ -301,6 +301,9 @@ exports.VIEW_LOAN_AGAINLOANAGREE = function(req, res, next) {
             if (data.city_list) {
                 data.city_list = JSON.stringify(data.city_list);
             }
+            if (data.city_list_selected) {
+                data.city_list_selected = JSON.stringify(data.city_list_selected);
+            }
         }
     }, req, res, next);
 };

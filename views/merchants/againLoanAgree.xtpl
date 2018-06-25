@@ -247,7 +247,7 @@
                                 <input type="hidden" name="receipt_city_name" id="receipt_city_name" value="{{detail.receipt_city_name}}">
                                 <input type="hidden" name="receipt_province_id" id="receipt_province_id" value="{{detail.receipt_province_id}}">
                                 <input type="hidden" name="receipt_province_name" id="receipt_province_name" value="{{detail.receipt_province_name}}">
-                                <input type="text" class="select_city_input cursor" name=""  value="请选择" readonly/>
+                                <input type="text" class="select_city_input cursor" name=""  value="{{#if (detail.receipt_province_name && detail.receipt_city_name) }}{{detail.receipt_province_name}}{{detail.receipt_city_name}}{{else}}请选择{{/if}}" readonly/>
                                 <div class="tips_info">(*<span class="tips_text"></span>)</div>
                                 <span class="formError"></span>
                             </div>
@@ -363,6 +363,12 @@
 <script>
     var city_list = '{{city_list}}';
     city_list = JSON.parse(city_list.replace(/&quot;/ig, '"'));
+    var city_list_selected = '{{city_list_selected}}';
+    if (city_list_selected == '') {
+        city_list_selected = [];
+    } else {
+        city_list_selected = JSON.parse(city_list_selected.replace(/&quot;/ig, '"'));
+    }
 
     (function ($) {
 
