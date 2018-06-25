@@ -23,9 +23,11 @@
             <!---- Part of Main info Begin ---->
             <div id="main" class="main teacher_list">
                 <div class="teacher_content">
+                    {{#if (verifyCode(1538)) }}
                     <div class="new_btn_box">
                         <a href="{{markUri}}/school/teacher/create" class="detail_title_btn create_btn create_teacher">新增讲师</a>
                     </div>
+                    {{/if}}
                     <form action="{{markUri}}/school/teacher/list" method="post" role='form' style="display: none;">
                         <input type="hidden" name="limit" value="{{limit}}" class="limit">
                         <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
@@ -80,9 +82,15 @@
                                         </td>
                                         <td></td>
                                         <td class="operate_btn operate_lf">
+                                            {{#if (verifyCode(1537)) }}
                                             <a href="javascript:;" title="查看" class="view view_detail" data-id="{{this.lecturer_id}}"></a>
+                                            {{/if}}
+                                            {{#if (verifyCode(1540)) }}
                                             <a href="javascript:;" title="编辑" class="edit edit_teacher" data-id="{{this.lecturer_id}}"></a>
+                                            {{/if}}
+                                            {{#if (verifyCode(1542)) }}
                                             <a href="javascript:;" title="删除" class="delete" data-id="{{this.lecturer_id}}"></a>
+                                            {{/if}}
                                         </td>
                                     </tr>
                                 {{/each}}

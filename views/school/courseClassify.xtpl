@@ -23,17 +23,25 @@
             <!---- Part of Main info Begin ---->
             <div id="main" class="main course_classify">
                 {{#if (count > 0) }}
+                    {{#if (verifyCode(1530)) }}
                     <div class="text_right">
                         <a href="javascript:" id="createClassify" class="detail_title_btn create_btn add_parent_btn">新增分类</a>
                     </div>
+                    {{/if}}
                     {{#each(list)}}
                         <div class="modules">
                             <div class="modules_title">
                                 <span>{{this.parent_name}}</span>
                                 <div class="btn_box">
+                                    {{#if (verifyCode(1531)) }}
                                     <a href="javascript:" class="detail_title_btn create_btn add_child_btn" data-id="{{this.parent_id}}">新增子分类</a>
+                                    {{/if}}
+                                    {{#if (verifyCode(1532)) }}
                                     <a href="javascript:" class="detail_title_btn edit_btn update_name" data-id="{{this.parent_id}}" data-name="{{this.parent_name}}">重命名</a>
+                                    {{/if}}
+                                    {{#if (verifyCode(1533)) }}
                                     <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除分类</a>
+                                    {{/if}}
                                 </div>
                             </div>
                             <div class="content">
@@ -42,11 +50,15 @@
                                     <li class="list_item">
                                         <span>{{this.course_classify}}</span>
                                         <div class="course_btns">
+                                            {{#if (verifyCode(1534)) }}
                                             <em class="course_btn edit_btn update_child_name" data-id="{{this.id}}" data-name="{{this.course_classify}}" title="重命名"></em>
-                                            {{#if (../child_list.length > 1) }}
-                                                <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: inline-block" title="删除"></em>
-                                            {{else}}
-                                                <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: none" title="删除"></em>
+                                            {{/if}}
+                                            {{#if (verifyCode(1535)) }}
+                                                {{#if (../child_list.length > 1) }}
+                                                    <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: inline-block" title="删除"></em>
+                                                {{else}}
+                                                    <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: none" title="删除"></em>
+                                                {{/if}}
                                             {{/if}}
                                         </div>
                                     </li>
@@ -67,9 +79,11 @@
                             <input id="second_classify" type="text" value="" placeholder="请输入课程子分类名称" maxlength="20" />
                             <div class="secondLevelErrorTips error-tips" style=""></div>
                         </div>
+                        {{#if (verifyCode(1530)) }}
                         <div class="new_btn_box">
                             <a href="javascript:;" class="btn blue_btn add_btn add_parent_btn create_classify">新增分类</a>
                         </div>
+                        {{/if}}
                     </div>
                 {{/if}}
             </div>

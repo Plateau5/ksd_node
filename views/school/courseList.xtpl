@@ -62,9 +62,11 @@
                 {{/each}}
                 </div>
             </form>
+            {{#if (verifyCode(1545)) }}
             <div class="new_btn_box">
                 <a href="{{markUri}}/school/course/lists/create" class="detail_title_btn create_btn">新增课程</a>
             </div>
+            {{/if}}
             {{#if (count === 0) }}
                 {{include('./../inc/empty_data')}}
             {{else}}

@@ -18,6 +18,18 @@ $(".large_photo>img").cropper({
 //选择图片后的事件
 $("#upload_photo_file").on('change', function () {
     var file = this.files[0];
+    var file_type = file.type.split('/')[1];
+    if (file_type == 'jpg' || file_type == 'jpeg' || file_type == 'png' || file_type == 'gif') {
+
+    } else {
+        $alert('上传的图片格式不正确，仅支持JPG、PNG、GIF图片文件');
+        return;
+    }
+    var file_size5M = 1024*1024*5;//5M
+    if (file.size > file_size5M) {
+        $alert('上传的图片大小不可大于5M');
+        return;
+    }
     var reader = new FileReader();
     //reader回调，重新初始裁剪区
     reader.onload = function(){
@@ -39,6 +51,9 @@ $(".btn_box .cancel_upload").off("click").on("click", function () {
 $(".btn_box .submit_upload").off("click").on("click", function () {
     $('#upload_photo_dialog').hide();
     $(".mask").hide();
+    if ($('.upload_btn_mask').length != 0) {
+        $('.upload_btn_mask').show();
+    }
     var canVas = $(".large_photo>img").cropper("getCroppedCanvas", {});
     //将裁剪的图片加载到face_image
     $('#user_photo').attr('src', canVas.toDataURL());

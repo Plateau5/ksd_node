@@ -109,7 +109,11 @@
                                     <li class="person" data-id="{{this.id}}">{{this.name}}<em class="delete_btn" data-id="{{this.id}}"></em></li>
                                 {{/each}}
                                 <!-- 下面为添加按钮 -->
+                                {{#if (toEdit.already_teacher.length < 10) }}
                                 <li class="choose_box inline_block">
+                                {{else}}
+                                <li class="choose_box inline_block" style="display: none;">
+                                {{/if}}
                                     <em class="add_city_btn" id="addOwnPersonBtn"></em>
                                     <div class="search_box" style="display: none;">
                                         <div class="search_input">
@@ -174,7 +178,8 @@
                         <div class="column_val">
                             <input type="hidden" name="image_url" class="teacher_img" value="{{toEdit.image_url}}">
                             <div class="img_md_box">
-                                <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:160px;height:100px;">
+                                <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:160px;height:100px;position: relative;">
+                                    <div class="upload_btn_mask">点击重新上传</div>
                                     <img src="{{#if (toEdit.image_url) }}
                                         {{toEdit.image_url}}
                                     {{else}}
@@ -560,7 +565,7 @@
                         setObj.sBox.hide();
                         for (var i = 0, len = lecturer_ids.length;i < len;i++) {
                             if (lecturer_ids[i] == lId) {
-                                $alert('"'+_this.data('name') + '"已属于此课程');
+                                $alert('此授课讲师已添加');
                                 return false;
                             }
                         }

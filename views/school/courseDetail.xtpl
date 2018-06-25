@@ -63,8 +63,12 @@
                     <span>{{courseDetail.name}}</span>
                 </div>
                 <div class="title_btn">
+                    {{#if (verifyCode(1546)) }}
                     <a href="javascript:;" class="detail_title_btn edit_btn" data-id="{{courseDetail.id}}">编辑</a>
+                    {{/if}}
+                    {{#if (verifyCode(1549)) }}
                     <a href="javascript:;" class="detail_title_btn delete_btn" data-id="{{courseDetail.id}}">删除</a>
+                    {{/if}}
                 </div>
             </div>
             {{#if (courseDetail.file_id) }}

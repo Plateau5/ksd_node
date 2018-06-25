@@ -13,34 +13,34 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
 // 培训-主导航跳转
 exports.VIEW_SCHOOL_SYSTEM = function(req, res, next) {
     try {
-        res.redirect(markUri + '/school/course/category/system');
-        // if (common.checkPrivilege(1067, req)) {
-        // } else if (common.checkPrivilege(1328, req)) {
-        //     res.redirect(markUri + '/school/course/lists/system');
-        // } else if (common.checkPrivilege(1328, req)) {
-        //     res.redirect(markUri + '/school/teacher/system');
-        // } else {
-        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
-        // }
+        if (common.checkPrivilege(1529, req)) {
+            res.redirect(markUri + '/school/course/category/system');
+        } else if (common.checkPrivilege(1543, req)) {
+            res.redirect(markUri + '/school/course/lists/system');
+        } else if (common.checkPrivilege(1536, req)) {
+            res.redirect(markUri + '/school/teacher/system');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1529 | 1543 | 1536 is not defined.');
+        }
     } catch (e) {
         LOGERROR(e.stack);
         res.redirect(markUri + '/404');
     }
 };
-// 培训-课程分类-侧导航跳转
+// 培训-课程分类-侧导航跳转 1529
 exports.VIEW_SCHOOL_COURSE_CATEGORY_SYSTEM = function(req, res, next) {
     try {
-        res.redirect(markUri + '/school/course/category/home');
-        // if (common.checkPrivilege(1067, req)) {
-        // }else {
-        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
-        // }
+        if (common.checkPrivilege(1529, req)) {
+            res.redirect(markUri + '/school/course/category/home');
+        }else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1529 is not defined.');
+        }
     } catch (e) {
         LOGERROR(e.stack);
         res.redirect(markUri + '/404');
     }
 };
-// 培训-课程分类-侧导航跳转
+// 培训-课程分类-课程分类页 1529
 exports.VIEW_SCHOOL_COURSE_CATEGORY_HOME = function(req, res, next) {
     common.getPageData({
         url : '/api/school/classify/getclassify',
@@ -50,29 +50,28 @@ exports.VIEW_SCHOOL_COURSE_CATEGORY_HOME = function(req, res, next) {
 };
 
 
-// 培训-课程列表-侧导航跳转
+// 培训-课程列表-侧导航跳转 1543
 exports.VIEW_SCHOOL_COURSE_LISTS_SYSTEM = function(req, res, next) {
     try {
-        res.redirect(markUri + '/school/course/lists/home');
-        // if (common.checkPrivilege(1067, req)) {
-        // }else {
-        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
-        // }
+        if (common.checkPrivilege(1543, req)) {
+            res.redirect(markUri + '/school/course/lists/home');
+        }else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1543 is not defined.');
+        }
     } catch (e) {
         LOGERROR(e.stack);
         res.redirect(markUri + '/404');
     }
 };
-// 培训-课程列表-课程列表页
+// 培训-课程列表-课程列表页 1543
 exports.VIEW_SCHOOL_COURSE_LISTS_HOME = function(req, res, next) {
     common.getPageData({
         url : '/api/school/course/getlist',
         title : '培训-课程列表页',
         page : './school/courseList'
     }, req, res, next);
-    //res.render('./school/courseList',{markUri : '/ksd'});
 };
-// 培训-课程列表-新增课程页
+// 培训-课程列表-新增课程页 1545
 exports.VIEW_SCHOOL_COURSE_LISTS_CREATE = function(req, res, next) {
     common.getPageData({
         url : '/api/school/course/getcondition',
@@ -83,7 +82,7 @@ exports.VIEW_SCHOOL_COURSE_LISTS_CREATE = function(req, res, next) {
         }
     }, req, res, next);
 };
-// 培训-课程列表-编辑课程页
+// 培训-课程列表-编辑课程页 1546
 exports.VIEW_SCHOOL_COURSE_LISTS_EDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/school/course/toedit',
@@ -114,7 +113,7 @@ exports.VIEW_SCHOOL_COURSE_LISTS_EDIT = function(req, res, next) {
         }
     }, req, res, next);
 };
-// 培训-课程列表-课程详情页
+// 培训-课程列表-课程详情页 1548
 exports.VIEW_SCHOOL_COURSE_LISTS_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/school/course/detail',
@@ -126,24 +125,23 @@ exports.VIEW_SCHOOL_COURSE_LISTS_DETAIL = function(req, res, next) {
             data.courseDetail.intro.push(introduction);
         }
     }, req, res, next);
-    // res.render('./school/courseDetail',{markUri : '/ksd'});
 };
 
 
-// 培训-培训讲师-侧导航跳转
+// 培训-培训讲师-侧导航跳转 1536
 exports.VIEW_SCHOOL_TEACHER_SYSTEM = function(req, res, next) {
     try {
-        res.redirect(markUri + '/school/teacher/list');
-        // if (common.checkPrivilege(1067, req)) {
-        // }else {
-        //     throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1067 is not defined.');
-        // }
+        if (common.checkPrivilege(1536, req)) {
+            res.redirect(markUri + '/school/teacher/list');
+        }else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1536 is not defined.');
+        }
     } catch (e) {
         LOGERROR(e.stack);
         res.redirect(markUri + '/404');
     }
 };
-// 培训-培训讲师-培训讲师列表页
+// 培训-培训讲师-培训讲师列表页 1536
 exports.VIEW_SCHOOL_TEACHER_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/school/lecturer/getlecturerlist',
@@ -151,7 +149,7 @@ exports.VIEW_SCHOOL_TEACHER_LIST = function(req, res, next) {
         page : './school/teacherList'
     }, req, res, next);
 };
-// 培训-培训讲师-新建讲师页
+// 培训-培训讲师-新建讲师页 1538
 exports.VIEW_SCHOOL_TEACHER_CREATE = function(req, res, next) {
     common.getPageData({
         url : '/api/school/lecturer/getemplist',
@@ -162,7 +160,7 @@ exports.VIEW_SCHOOL_TEACHER_CREATE = function(req, res, next) {
         }
     }, req, res, next);
 };
-// 培训-培训讲师-编辑讲师页
+// 培训-培训讲师-编辑讲师页 1540
 exports.VIEW_SCHOOL_TEACHER_EDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/school/lecturer/toedit',
@@ -170,7 +168,7 @@ exports.VIEW_SCHOOL_TEACHER_EDIT = function(req, res, next) {
         page : './school/teacherCreate'
     }, req, res, next);
 };
-// 培训-培训讲师-培训讲师详情页
+// 培训-培训讲师-培训讲师详情页 1537
 exports.VIEW_SCHOOL_TEACHER_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/school/lecturer/detail',
