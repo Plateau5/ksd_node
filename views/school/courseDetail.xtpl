@@ -55,7 +55,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main course_detail">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">培训讲师</a>
+                <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">课程列表</a>
                 <a href="javascript:;" class="crumbs_item">{{courseDetail.name}}</a>
             </div>
             <div class="title" style="border: none;">
@@ -82,7 +82,7 @@
                 <!--
                 注意事项：
                 * 播放器容器必须为 video 标签
-                * player-container-id 为播放器容器的ID，可自行设置
+                * play_video 为播放器容器的ID，可自行设置
                 * 播放器区域的尺寸请按需设置，建议通过 css 进行设置，通过css可实现容器自适应等效果
                 * playsinline webkit-playinline x5-playinline 这几个属性是为了在标准移动端浏览器不劫持视频播放的情况下实现行内播放，此处仅作示例，请按需使用
                 -->
@@ -139,8 +139,8 @@
             var player = TCPlayer('play_video', {
                 fileID: fileID, // 请传入需要播放的视频filID 必须
                 appID: TENCENTAPPID, // 请传入点播账号的appID 必须
-                width :  '1000',//视频的显示宽度，请尽量使用视频分辨率宽度
-                height : '550'//视频的显示高度，请尽量使用视频分辨率高度
+                width :  video_width,//视频的显示宽度，请尽量使用视频分辨率宽度
+                height : '650'//视频的显示高度，请尽量使用视频分辨率高度
             });
         }
         //删除课程
