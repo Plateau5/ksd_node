@@ -138,9 +138,9 @@
                             {{#if (toEdit.file_id) }}
                                 <div id="resultBox" class="upload_process" style="display: block">
                                     {{#if (toEdit.type === 1) }}
-                                    <em class="video_icon"></em>
+                                    <em class="video_icon upload_icon"></em>
                                     {{else}}
-                                    <em class="audio_icon"></em>
+                                    <em class="audio_icon upload_icon"></em>
                                     {{/if}}
                                     <div class="process_mask" style="width: 100%;"></div>
                                     <span class="video_name">{{toEdit.file_name}}</span>
@@ -148,7 +148,7 @@
                                 </div>
                             {{else}}
                                 <div id="resultBox" class="upload_process">
-                                    <em class="audio_icon"></em>
+                                    <em class="audio_icon upload_icon"></em>
                                     <div class="process_mask"></div>
                                     <span class="video_name">视频上传中......</span>
                                     <em class="process_close"></em>
@@ -333,7 +333,10 @@
                     return false;
                 } else {
                     $('.video_name').text('音频上传中......');
-                    $('.audio_icon').addClass('video_icon').removeClass('audio_icon');
+                    if (!$('.upload_icon').hasClass('audio_icon')) {
+                        $('.upload_icon').removeClass('video_icon');
+                        $('.upload_icon').addClass('audio_icon')
+                    }
                 }
             } else if (videoFile.type.indexOf('video') != -1) {//视频
                 if ($('#course_type').val() == 2) {//1为视频；2为音频
@@ -341,7 +344,10 @@
                     return false;
                 } else {
                     $('.video_name').text('视频上传中......');
-                    $('.video_icon').addClass('audio_icon').removeClass('video_icon');
+                    if (!$('.upload_icon').hasClass('video_icon')) {
+                        $('.upload_icon').removeClass('audio_icon');
+                        $('.upload_icon').addClass('video_icon')
+                    }
                 }
             } else {
                 $alert('请上传正确格式的文件');
@@ -565,10 +571,22 @@
                         setObj.personList.find('.choose_box').before(ownStr);
                         var endPerson = getFollowPeople().join(',');
                         $('#ownPersonInput').val(endPerson);
+                        getTeachers();
                     });
                 });
             }
             searchManagers();
+        }
+
+        //判断授课讲师最多10人
+        function getTeachers () {
+            var person_list = $('.person_list');
+            var nums = person_list.find('.person').length;
+            if (nums == 10) {
+                $('.choose_box').hide();
+            } else {
+                $('.choose_box').show();
+            }
         }
 
         //删除授课讲师
@@ -584,6 +602,7 @@
                 _this.parents('.person').remove();
                 var endPerson = getFollowPeople().join(',');
                 $('#ownPersonInput').val(endPerson);
+                getTeachers();
             });
         }
 
