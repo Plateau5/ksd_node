@@ -90,6 +90,7 @@ exports.VIEW_SCHOOL_COURSE_LISTS_EDIT = function(req, res, next) {
         page : './school/courseCreate',
         callback : function (data) {
             if (data) {
+                data.list = JSON.stringify(data.Lecturerlist);
                 var lecturer_ids = data.toEdit.lecturer_ids;
                 var teacher_name = data.toEdit.teacher_name;
                 var cur_teachers = [];
