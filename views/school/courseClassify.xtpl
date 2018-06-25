@@ -33,13 +33,13 @@
                             <div class="modules_title">
                                 <span>{{this.parent_name}}</span>
                                 <div class="btn_box">
-                                    {{#if (verifyCode(1531)) }}
+                                    {{#if (root.verifyCode(1531)) }}
                                     <a href="javascript:" class="detail_title_btn create_btn add_child_btn" data-id="{{this.parent_id}}">新增子分类</a>
                                     {{/if}}
-                                    {{#if (verifyCode(1532)) }}
+                                    {{#if (root.verifyCode(1532)) }}
                                     <a href="javascript:" class="detail_title_btn edit_btn update_name" data-id="{{this.parent_id}}" data-name="{{this.parent_name}}">重命名</a>
                                     {{/if}}
-                                    {{#if (verifyCode(1533)) }}
+                                    {{#if (root.verifyCode(1533)) }}
                                     <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除分类</a>
                                     {{/if}}
                                 </div>
@@ -50,10 +50,10 @@
                                     <li class="list_item">
                                         <span>{{this.course_classify}}</span>
                                         <div class="course_btns">
-                                            {{#if (verifyCode(1534)) }}
+                                            {{#if (root.verifyCode(1534)) }}
                                             <em class="course_btn edit_btn update_child_name" data-id="{{this.id}}" data-name="{{this.course_classify}}" title="重命名"></em>
                                             {{/if}}
-                                            {{#if (verifyCode(1535)) }}
+                                            {{#if (root.verifyCode(1535)) }}
                                                 {{#if (../child_list.length > 1) }}
                                                     <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: inline-block" title="删除"></em>
                                                 {{else}}

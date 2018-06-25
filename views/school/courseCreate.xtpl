@@ -109,10 +109,14 @@
                                     <li class="person" data-id="{{this.id}}">{{this.name}}<em class="delete_btn" data-id="{{this.id}}"></em></li>
                                 {{/each}}
                                 <!-- 下面为添加按钮 -->
-                                {{#if (toEdit.already_teacher.length < 10) }}
-                                <li class="choose_box inline_block">
+                                {{#if (toEdit.already_teacher) }}
+                                    {{#if (toEdit.already_teacher.length < 10) }}
+                                        <li class="choose_box inline_block">
+                                    {{else}}
+                                        <li class="choose_box inline_block" style="display: none;">
+                                    {{/if}}
                                 {{else}}
-                                <li class="choose_box inline_block" style="display: none;">
+                                    <li class="choose_box inline_block">
                                 {{/if}}
                                     <em class="add_city_btn" id="addOwnPersonBtn"></em>
                                     <div class="search_box" style="display: none;">
