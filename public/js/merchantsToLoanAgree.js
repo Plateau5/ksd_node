@@ -167,9 +167,9 @@ function getSelectedCitys () {
         console.log(data);
         var provinceName = data[0].name;
         var provinceId = data[0].id;
-        var cityName = data[0].city_list.name;
-        var cityId = data[0].city_list.id;
-        var receipt_city =  data[0].city_list.code;
+        var cityName = data[0].city_list[0].name;
+        var cityId = data[0].city_list[0].id;
+        var receipt_city =  data[0].city_list[0].code;
         var receipt_province_city = provinceName + cityName;
         $("#receipt_city_id").val(cityId);
         $("#receipt_city_name").val(cityName);

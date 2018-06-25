@@ -361,13 +361,13 @@
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script src="{{markUri}}/static/js/merchantsToLoanAgree.min.js"></script>
 <script>
-    var city_list = '{{city_list}}';
-    city_list = JSON.parse(city_list.replace(/&quot;/ig, '"'));
-    var city_list_selected = '{{city_list_selected}}';
+    var city_list = '{{{city_list}}}';
+    city_list = JSON.parse(city_list);
+    var city_list_selected = '{{{city_list_selected}}}';
     if (city_list_selected == '') {
         city_list_selected = [];
     } else {
-        city_list_selected = JSON.parse(city_list_selected.replace(/&quot;/ig, '"'));
+        city_list_selected = JSON.parse(city_list_selected);
     }
 
     (function ($) {
