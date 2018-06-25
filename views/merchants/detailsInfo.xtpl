@@ -513,7 +513,7 @@
     var payAccount = $('#pay_account').val().trim();        // 默认账户
     var settlementType =$('#settlement_type').val().trim();       // 结算方式
     var isPass =$('#isPass').val().trim();       // 审批结果
-    var uid = $('#uid').val().trim();
+    var uid = $('#uid').val().trim();       //获取当前审批人的ID
     (function ($, window) {
         paginationSwitch();     // 分页切换
 
@@ -766,7 +766,7 @@
                 var index = responsible .lastIndexOf(",");
                 var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
                 if (btnType === 1) {
-                    if (str === uid) {
+                    if (str == uid) {
                         nextUrl = '/loan/toLoanAgree';
                     } else {
                         nextUrl = '/loan/agree';
@@ -776,32 +776,27 @@
                 } else if (btnType === 3) {
                     nextUrl = '/loan/turnover';
                 }
-                ids = _this.parents('.list_item').data('id').toString();
+                ids = _this.parents('.list_item').data('id').toString();        // 获取当前订单ID
                 toAgreeUrl = contextPath + markUri + nextUrl;
-                if (ids == '') {
-                    $alert('最少选择一个订单后再做处理');
-                    return false;
-                } else {
-                    locationTo({
-                        action : toAgreeUrl,
-                        param : {
-                            advance_ids : ids,
-                            url : listUrl,
-                            navigation : navigation,
-                            type : btnType,
-                            supplier_id : merchantId,
-                            supplier_name : merchantName,
-                            timeorder_type: timeorderType,
-                            receipt_type: receiptType,
-                            orderby_type: orderbyType,
-                            start_with : start_with,
-                            list_type : listType,
-                            pay_account : payAccount,
-                            settlement_type: settlementType,
-                            is_pass : isPass
-                        }
-                    })
-                }
+                locationTo({
+                    action : toAgreeUrl,
+                    param : {
+                        advance_ids : ids,
+                        url : listUrl,
+                        navigation : navigation,
+                        type : btnType,
+                        supplier_id : merchantId,
+                        supplier_name : merchantName,
+                        timeorder_type: timeorderType,
+                        receipt_type: receiptType,
+                        orderby_type: orderbyType,
+                        start_with : start_with,
+                        list_type : listType,
+                        pay_account : payAccount,
+                        settlement_type: settlementType,
+                        is_pass : isPass
+                    }
+                });
             });
         }
 
@@ -832,7 +827,7 @@
                         var responsible = _this.data('responsible');
                         var index = responsible .lastIndexOf(",");
                         var str  = responsible .substring(index + 1, responsible .length);
-                        if (str === uid) {
+                        if (str == uid) {
                             loanIdArr.push(orderId);
                         }else {
                             approvalIdArr.push(orderId);
