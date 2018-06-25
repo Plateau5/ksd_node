@@ -105,7 +105,9 @@
             '                </div>\n' +
             (this.options.dataType === 2 ? '<div class="city-select-item county-list-item"><div class="item-name">县/区</div></div>' : '') +
             '            </div>\n' +
-            '            <div class="error-tips">*您还未选择任何城市，请先选择城市</div>\n' +
+            '            <div class="error-tips-box">\n' +
+            '               <div class="error-tips">*您还未选择任何城市，请先选择城市</div>\n' +
+            '            </div>\n' +
             '            <div class="city-select-btn">\n' +
             '                <a href="javascript:;" id="citySelectConfirm" class="btn city-select-confirm">确认</a>\n' +
             '                <a href="javascript:;" id="citySelectCancel" class="btn city-select-cancel">取消</a>\n' +
