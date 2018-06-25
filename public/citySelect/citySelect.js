@@ -1,5 +1,13 @@
 /**
  * Created by Arley Joe on 2018-5-17 10:11:46
+ * @copyright Arley Joe   arleyjoe@163.com
+ * @desc 选择类型：单选、复选
+ *       数据类型：省市二级联动、省市区三级联动、市区二级联动
+ * @return {Object} 返回数据为子父级嵌套数据类型，如：[{"id":101,"name":"北京市","code":"","checked":2,"city_list":[{"id":1001,"name":"北京市","code":"","checked":2,"city_list":[{"id":110101,"name":"东城区","code":"","checked":2},{"id":110102,"name":"西城区","code":"","checked":2},{"id":110105,"name":"朝阳区","code":"","checked":2},{"id":110106,"name":"丰台区","code":"","checked":2},{"id":110107,"name":"石景山区","code":"","checked":2},{"id":110108,"name":"海淀区","code":"","checked":2},{"id":110109,"name":"门头沟区","code":"","checked":2},{"id":110111,"name":"房山区","code":"","checked":2},{"id":110112,"name":"通州区","code":"","checked":2},{"id":110113,"name":"顺义区","code":"","checked":2},{"id":110114,"name":"昌平区","code":"","checked":2},{"id":110115,"name":"大兴区","code":"","checked":2},{"id":110116,"name":"怀柔区","code":"","checked":2},{"id":110117,"name":"平谷区","code":"","checked":2},{"id":110228,"name":"密云县","code":"","checked":2},{"id":110229,"name":"延庆县","code":"","checked":2}]}]},{"id":122,"name":"重庆市","code":"","checked":1,"city_list":[{"id":1234,"name":"重庆市","code":"","checked":1,"city_list":[{"id":500101,"name":"万州区","code":"","checked":2},{"id":500102,"name":"涪陵区","code":"","checked":2},{"id":500104,"name":"大渡口区","code":"","checked":2},{"id":500105,"name":"江北区","code":"","checked":2},{"id":500106,"name":"沙坪坝区","code":"","checked":2},{"id":500107,"name":"九龙坡区","code":"","checked":2},{"id":500108,"name":"南岸区","code":"","checked":2},{"id":500109,"name":"北碚区","code":"","checked":2},{"id":500110,"name":"綦江区","code":"","checked":2},{"id":500111,"name":"大足区","code":"","checked":2},{"id":500112,"name":"渝北区","code":"","checked":2},{"id":500113,"name":"巴南区","code":"","checked":2},{"id":500114,"name":"黔江区","code":"","checked":2},{"id":500115,"name":"长寿区","code":"","checked":2},{"id":500116,"name":"江津区","code":"","checked":2},{"id":500117,"name":"合川区","code":"","checked":2},{"id":500118,"name":"永川区","code":"","checked":2},{"id":500119,"name":"南川区","code":"","checked":2},{"id":500120,"name":"璧山区","code":"","checked":2},{"id":500151,"name":"铜梁区","code":"","checked":2},{"id":500200,"name":"市区","code":"","checked":2},{"id":500223,"name":"潼南县","code":"","checked":2},{"id":500226,"name":"荣昌县","code":"","checked":2},{"id":500228,"name":"梁平县","code":"","checked":2},{"id":500229,"name":"城口县","code":"","checked":2},{"id":500230,"name":"丰都县","code":"","checked":2},{"id":500231,"name":"垫江县","code":"","checked":2},{"id":500232,"name":"武隆县","code":"","checked":2},{"id":500233,"name":"忠县","code":"","checked":2},{"id":500234,"name":"开县","code":"","checked":2},{"id":500235,"name":"云阳县","code":"","checked":2},{"id":500236,"name":"奉节县","code":"","checked":2},{"id":500237,"name":"巫山县","code":"","checked":2},{"id":500238,"name":"巫溪县","code":"","checked":2},{"id":500240,"name":"石柱土家族自治县","code":"","checked":2},{"id":500241,"name":"秀山土家族苗族自治县","code":"","checked":2},{"id":500242,"name":"酉阳土家族苗族自治县","code":"","checked":2},{"id":500243,"name":"彭水苗族土家族自治县","code":"","checked":2}]}]},{"id":113,"name":"福建省","code":"","checked":2,"city_list":[{"id":1115,"name":"福州市","code":"","checked":2,"city_list":[{"id":350102,"name":"鼓楼区","code":"","checked":2},{"id":350103,"name":"台江区","code":"","checked":2},{"id":350104,"name":"仓山区","code":"","checked":2},{"id":350105,"name":"马尾区","code":"","checked":2},{"id":350111,"name":"晋安区","code":"","checked":2},{"id":350121,"name":"闽侯县","code":"","checked":2},{"id":350122,"name":"连江县","code":"","checked":2},{"id":350123,"name":"罗源县","code":"","checked":2},{"id":350124,"name":"闽清县","code":"","checked":2},{"id":350125,"name":"永泰县","code":"","checked":2},{"id":350128,"name":"平潭县","code":"","checked":2},{"id":350181,"name":"福清市","code":"","checked":2},{"id":350182,"name":"长乐市","code":"","checked":2}]},{"id":1116,"name":"厦门市","code":"","checked":2,"city_list":[{"id":350203,"name":"思明区","code":"","checked":2},{"id":350205,"name":"海沧区","code":"","checked":2},{"id":350206,"name":"湖里区","code":"","checked":2},{"id":350211,"name":"集美区","code":"","checked":2},{"id":350212,"name":"同安区","code":"","checked":2},{"id":350213,"name":"翔安区","code":"","checked":2}]},{"id":1117,"name":"莆田市","code":"","checked":2,"city_list":[{"id":350302,"name":"城厢区","code":"","checked":2},{"id":350303,"name":"涵江区","code":"","checked":2},{"id":350304,"name":"荔城区","code":"","checked":2},{"id":350305,"name":"秀屿区","code":"","checked":2},{"id":350322,"name":"仙游县","code":"","checked":2}]},{"id":1118,"name":"三明市","code":"","checked":2,"city_list":[{"id":350402,"name":"梅列区","code":"","checked":2},{"id":350403,"name":"三元区","code":"","checked":2},{"id":350421,"name":"明溪县","code":"","checked":2},{"id":350423,"name":"清流县","code":"","checked":2},{"id":350424,"name":"宁化县","code":"","checked":2},{"id":350425,"name":"大田县","code":"","checked":2},{"id":350426,"name":"尤溪县","code":"","checked":2},{"id":350427,"name":"沙县","code":"","checked":2},{"id":350428,"name":"将乐县","code":"","checked":2},{"id":350429,"name":"泰宁县","code":"","checked":2},{"id":350430,"name":"建宁县","code":"","checked":2},{"id":350481,"name":"永安市","code":"","checked":2}]},{"id":1119,"name":"泉州市","code":"","checked":2,"city_list":[{"id":350502,"name":"鲤城区","code":"","checked":2},{"id":350503,"name":"丰泽区","code":"","checked":2},{"id":350504,"name":"洛江区","code":"","checked":2},{"id":350505,"name":"泉港区","code":"","checked":2},{"id":350521,"name":"惠安县","code":"","checked":2},{"id":350524,"name":"安溪县","code":"","checked":2},{"id":350525,"name":"永春县","code":"","checked":2},{"id":350526,"name":"德化县","code":"","checked":2},{"id":350527,"name":"金门县","code":"","checked":2},{"id":350581,"name":"石狮市","code":"","checked":2},{"id":350582,"name":"晋江市","code":"","checked":2},{"id":350583,"name":"南安市","code":"","checked":2}]},{"id":1120,"name":"漳州市","code":"","checked":2,"city_list":[{"id":350602,"name":"芗城区","code":"","checked":2},{"id":350603,"name":"龙文区","code":"","checked":2},{"id":350622,"name":"云霄县","code":"","checked":2},{"id":350623,"name":"漳浦县","code":"","checked":2},{"id":350624,"name":"诏安县","code":"","checked":2},{"id":350625,"name":"长泰县","code":"","checked":2},{"id":350626,"name":"东山县","code":"","checked":2},{"id":350627,"name":"南靖县","code":"","checked":2},{"id":350628,"name":"平和县","code":"","checked":2},{"id":350629,"name":"华安县","code":"","checked":2},{"id":350681,"name":"龙海市","code":"","checked":2}]},{"id":1121,"name":"南平市","code":"","checked":2,"city_list":[{"id":350702,"name":"延平区","code":"","checked":2},{"id":350721,"name":"顺昌县","code":"","checked":2},{"id":350722,"name":"浦城县","code":"","checked":2},{"id":350723,"name":"光泽县","code":"","checked":2},{"id":350724,"name":"松溪县","code":"","checked":2},{"id":350725,"name":"政和县","code":"","checked":2},{"id":350781,"name":"邵武市","code":"","checked":2},{"id":350782,"name":"武夷山市","code":"","checked":2},{"id":350783,"name":"建瓯市","code":"","checked":2},{"id":350784,"name":"建阳市","code":"","checked":2}]},{"id":1122,"name":"龙岩市","code":"","checked":2,"city_list":[{"id":350802,"name":"新罗区","code":"","checked":2},{"id":350821,"name":"长汀县","code":"","checked":2},{"id":350822,"name":"永定县","code":"","checked":2},{"id":350823,"name":"上杭县","code":"","checked":2},{"id":350824,"name":"武平县","code":"","checked":2},{"id":350825,"name":"连城县","code":"","checked":2},{"id":350881,"name":"漳平市","code":"","checked":2}]},{"id":1123,"name":"宁德市","code":"","checked":2,"city_list":[{"id":350902,"name":"蕉城区","code":"","checked":2},{"id":350921,"name":"霞浦县","code":"","checked":2},{"id":350922,"name":"古田县","code":"","checked":2},{"id":350923,"name":"屏南县","code":"","checked":2},{"id":350924,"name":"寿宁县","code":"","checked":2},{"id":350925,"name":"周宁县","code":"","checked":2},{"id":350926,"name":"柘荣县","code":"","checked":2},{"id":350981,"name":"福安市","code":"","checked":2},{"id":350982,"name":"福鼎市","code":"","checked":2}]}]}]。
+ *
+ * 调用方法：
+ * 必传项：1.调用类型type；2.数据类型dataType；3.原始数据data；
+ * 编辑回显必传项：1.默认选中数据defaultData
  */
 
 +function ($) {
@@ -126,6 +134,27 @@
             }
         }
         this.options.provinces.find('.city-select-list').html(provinceDom);
+        // 设置默认选中项
+        var checkedCities, checkedCounties;
+        if (this.options.type === 1 || this.options.type === 'single') {
+            checkedCities = that.options.cities.find('.list-item.active');
+            checkedCounties = that.options.counties.find('.list-item.active');
+        } else if (this.options.type === 2 || this.options.type === 'multiple') {
+            checkedCities = that.options.cities.find('.list-item label.check, .list-item label.checked');
+            checkedCounties = that.options.counties.find('.list-item label.checked');
+        }
+
+        if (checkedCities.length > 0) {
+            checkedCities.eq(0).parents('.city-select-list').show();
+        } else {
+            that.options.cities.find('.city-select-list').eq(0).show();
+        }
+
+        if (checkedCounties.length > 0) {
+            checkedCounties.eq(0).parents('.city-select-list').show();
+        } else {
+            that.options.counties.find('.city-select-list').eq(0).show();
+        }
         // 创建城市列表DOM树
         function createCitiesDom (citiesData, pid, pname, pcode) {
             var citiesDom = '<ul id="city'+ pid +'" class="city-select-list" style="display: none;" data-pid="'+ pid +'" data-pname="'+ pname +'" data-pcode="'+ pcode +'">';
@@ -142,7 +171,7 @@
             }
             citiesDom += '</ul>';
             that.options.cities.append(citiesDom);
-            that.options.cities.find('.city-select-list').eq(0).show();
+
         }
         // 创建县/区列表DOM树
         function createCountiesDom (countiesData, cid, cname, ccode, pid, pname, pcode) {
@@ -157,7 +186,7 @@
             }
             countiesDom += '</ul>';
             that.options.counties.append(countiesDom);
-            that.options.counties.find('.city-select-list').eq(0).show();
+
         }
     };
 
@@ -854,5 +883,6 @@
         }
 
     }
+
 
 } (jQuery, window);
