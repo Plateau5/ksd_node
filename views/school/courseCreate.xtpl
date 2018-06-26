@@ -182,13 +182,13 @@
                         <div class="column_val">
                             <input type="hidden" name="image_url" class="teacher_img" value="{{toEdit.image_url}}">
                             <div class="img_md_box">
-                                <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:160px;height:100px;position: relative;">
+                                <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:236px;height:136px;position: relative;">
                                     <div class="upload_btn_mask">点击重新上传</div>
                                     <img src="{{#if (toEdit.image_url) }}
                                         {{toEdit.image_url}}
                                     {{else}}
                                         {{markUri}}/static/img/create_course.png
-                                    {{/if}}" alt="" id="user_photo" class="img-responsive" style="width:160px;height:100px;">
+                                    {{/if}}" alt="" id="user_photo" class="img-responsive" style="width:236px;height:136px;">
                                 </a>
                                 <input type="file" style="display: none;" name="" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
                             </div>
@@ -248,47 +248,45 @@
     }
     (function ($) {
         /****************课程简介 start*****************/
-        function courseIntro () {
-            var wangEditor = window.wangEditor;
+        var wangEditor = window.wangEditor;
 
-            var courseIntro = new wangEditor('#courseIntro');
-            // 自定义菜单配置
-            courseIntro.customConfig.menus = [
-                'head',  // 标题
-                'bold',  // 粗体
-                'fontSize',  // 字号
-                'italic',  // 斜体
-                'underline',  // 下划线
-                'backColor',  // 背景颜色
-                'link',  // 插入链接
-                'list',  // 列表
-                'justify',  // 对齐方式
-                'image',  // 插入图片
-                'table'  // 表格
-            ];
-            // 隐藏“网络图片”tab
-            courseIntro.customConfig.showLinkImg = false;
-            courseIntro.customConfig.uploadFileName = 'file';
-            courseIntro.customConfig.uploadImgTimeout = 10000;
-            courseIntro.customConfig.uploadImgServer = '/api/file/upload';
-            courseIntro.customConfig.uploadImgHooks = {
-                before: function (xhr, editor, files) {
+        var courseIntro = new wangEditor('#courseIntro');
+        // 自定义菜单配置
+        courseIntro.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify',  // 对齐方式
+            'image',  // 插入图片
+            'table'  // 表格
+        ];
+        // 隐藏“网络图片”tab
+        courseIntro.customConfig.showLinkImg = false;
+        courseIntro.customConfig.uploadFileName = 'file';
+        courseIntro.customConfig.uploadImgTimeout = 10000;
+        courseIntro.customConfig.uploadImgServer = '/api/file/upload';
+        courseIntro.customConfig.uploadImgHooks = {
+            before: function (xhr, editor, files) {
 
-                },
-                success: function (xhr, editor, result) {
-                    result.errno = result.error_code;
-                },
-                fail: function (xhr, editor, result) {
-                    result.errno = result.error_code;
-                },
-                customInsert: function (insertImg, result, editor) {
-                    var url = result.data[0].image_url;
-                    insertImg(url);
-                }
-            };
-            courseIntro.create();
-            courseIntro.txt.html(introduction);
-        }
+            },
+            success: function (xhr, editor, result) {
+                result.errno = result.error_code;
+            },
+            fail: function (xhr, editor, result) {
+                result.errno = result.error_code;
+            },
+            customInsert: function (insertImg, result, editor) {
+                var url = result.data[0].image_url;
+                insertImg(url);
+            }
+        };
+        courseIntro.create();
+        courseIntro.txt.html(introduction);
         /******************课程简介 end*******************/
 
         /***********音视频上传  start***********/
@@ -313,6 +311,7 @@
                 dataType: 'json',
                 async : false,
                 success: function(res){
+                    console.log(res);
                     if(res.error_code == 0) {
                         callback(res.sign);
                     } else {
@@ -353,6 +352,8 @@
                     $alert('请上传正确格式的文件');
                     return false;
                 }
+                $('.upload_video').hide();
+                $('.upload_audio').hide();
                 $('.upload_process').show();
                 uploadVideo(videoFile);
             });
@@ -364,6 +365,7 @@
                 getSignature: getSignature,
                 allowAudio: 1,
                 success: function(result){
+                    console.log(result);
                     $('.process_close').show();
                 },
                 error: function(result){
@@ -388,6 +390,8 @@
         function deleteVidebtn () {
             var btn = $('.process_close');
             btn.off('click').on('click', function () {
+                $('.upload_video').show();
+                $('.upload_audio').show();
                 $('#resultBox').hide();
                 $('.process_mask').width(0);
                 $('.process_close').hide();
@@ -399,7 +403,7 @@
         function clickTriangle () {
             var triangle = $('.triangle');
             triangle.off("click").on("click", function () {
-                selectCourseType();
+                $('.course_type').click();
             });
         }
 
@@ -691,7 +695,6 @@
         }
 
         $(function() {
-            courseIntro();//课程简介
             clickTriangle();//下拉三角点击事件
             selectCourseType();//选择课程分类
             addTeacher();//添加授课讲师
@@ -699,7 +702,7 @@
             getChange();//上传视频file的change事件
             deleteVidebtn();//删除视频
             uploadPhoto($("#upload_photo_btn"));//重新上传图片
-            uploadBtn();
+            uploadBtn();//上传点击事件
             saveCourse();//保存提交课程
         });
     })(jQuery,undefined);
