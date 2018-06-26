@@ -97,19 +97,19 @@ $(function(){
     });
 
     receipt_bank_address.blur(function(){
-        var reg = /^[\u4E00-\u9FA5\w]+$/;
+        var reg = /^[\u4E00-\u9FA5\w,，。.“”"‘’';；、]+$/;
         var error_txt = '请输入正确的收方开户地';
         validate_form(1,receipt_bank_address,reg,error_txt);
     });
 
     receipt_address.blur(function(){
-        var reg = /^[\u4E00-\u9FA5\w]+$/;
+        var reg = /^[\u4E00-\u9FA5\w,，。.“”"‘’';；、]+$/;
         var error_txt = '请输入正确的收方行地址';
         validate_form(1,receipt_address,reg,error_txt);
     });
 
     financial_use.blur(function(){
-        var reg = /^[\u4E00-\u9FA5\w]+$/;
+        var reg = /^[\u4E00-\u9FA5\w,，。.“”"‘’';；、]+$/;
         var error_txt = '请输入正确的用途';
         validate_form(1,financial_use,reg,error_txt);
     });
@@ -121,7 +121,7 @@ $(function(){
         validate_form(0,receipt_phone,reg,error_txt);
     });
     summary.blur(function(){
-        var reg = /^[\u4E00-\u9FA5\w]+$/;
+        var reg = /^[\u4E00-\u9FA5\w,，。.“”"‘’';；、]+$/;
         var error_txt = '请输入正确的摘要';
         validate_form(0,summary,reg,error_txt);
         return false;
