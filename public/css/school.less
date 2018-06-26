@@ -580,8 +580,32 @@
         left:0;
         z-index: 10003;
         width:400px;
+        max-height: 300px;
+        overflow: auto;
         background-color: #fff;
         box-shadow:0px 6px 10px 0px rgba(48,60,72,0.12);
+        &::-webkit-scrollbar
+        {
+          width: 8px;
+          height: 8px;
+          background-color: #fff;
+        }
+
+        /*定义滚动条轨道 内阴影+圆角*/
+        &::-webkit-scrollbar-track
+        {
+          -webkit-box-shadow: inset 0 0 6px #fff;
+          border-radius: 10px;
+          background-color: #fff;
+        }
+
+        /*定义滑块 内阴影+圆角*/
+        &::-webkit-scrollbar-thumb
+        {
+          border-radius: 10px;
+          -webkit-box-shadow: inset 0 0 6px #fff;
+          background-color: #f5f5f5;
+        }
         .coursetype_div{
           .one_level{
             line-height: 34px;
