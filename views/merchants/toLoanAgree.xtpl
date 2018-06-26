@@ -230,10 +230,12 @@
                             <span class="formError"></span>
                         </div>
                     </div>
-                    <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
-                        <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm to_agree_confirm" data-url="" data-next="">提交</a>
-                        <a href="javascript:" class="btn bg_btn edit_cancel go_loan_detail">取消</a>
-                    </div>
+                    {{#if (verifyCode(1516)) }}
+                        <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
+                            <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm to_agree_confirm" data-url="" data-next="">提交</a>
+                            <a href="javascript:" class="btn bg_btn edit_cancel go_loan_detail">取消</a>
+                        </div>
+                    {{/if}}
                 </form>
             </div>
 

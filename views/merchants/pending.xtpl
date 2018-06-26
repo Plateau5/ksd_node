@@ -22,7 +22,9 @@
 
         <!---- Part of Main info Begin ---->
         <div id="main" class="main merchants">
-            <a href="javascript:;" class="toRecordsList">查询交易记录</a>
+            {{#if (verifyCode(1517)) }}
+                <a href="javascript:;" class="toRecordsList">查询交易记录</a>
+            {{/if}}
             {{include('./../inc/operationCategory')}}
             <form action="{{originUrl}}" method="post" id="form_search" role="form">
                 <div class="filtrate">
