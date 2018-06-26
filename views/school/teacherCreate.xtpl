@@ -122,7 +122,7 @@
                                     </div>
                                     <div class="column_val">
                                         <input type="text" class="teacher_telphone" name="phone" maxlength="11" placeholder="请输入讲师手机号" value="{{lecturerDetail.phone}}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
-                                        <span class="tips_info">(*请先输入讲师手机号)</span>
+                                        <span class="tips_info">请输入讲师手机号码</span>
                                     </div>
                                 </div>
                                 <div class="option_item user_photo_row external_teacher" style="display: block">
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="column_val">
                                     <input type="text" class="teacher_telphone" name="phone" maxlength="11" placeholder="请输入讲师手机号" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
-                                    <span class="tips_info">(*请先输入讲师手机号)</span>
+                                    <span class="tips_info">请输入讲师手机号码</span>
                                 </div>
                             </div>
                             <div class="option_item user_photo_row external_teacher">
@@ -240,13 +240,13 @@
         function checkTelphone (_this) {
             var reg = PHONEPATTERN;
             if (_this.val() == '') {
-                _this.siblings('.tips_info').show().text('(*请先输入讲师手机号)');
+                _this.siblings('.tips_info').show().text('请输入讲师手机号码');
                 return false;
             } else {
                 _this.siblings('.tips_info').hide();
             }
             if (!reg.test(_this.val())) {
-                _this.siblings('.tips_info').show().text('(*请输入正确的手机号格式)');
+                _this.siblings('.tips_info').show().text('请输入11位数字');
                 return false;
             } else {
                 _this.siblings('.tips_info').hide();
