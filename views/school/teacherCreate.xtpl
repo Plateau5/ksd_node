@@ -194,7 +194,7 @@
                             </div>
                         </div>
                         <div class="thumbnail_photo">
-                            <div class="small_photo" id="small_photo">
+                            <div class="small_photo" id="small_photo" style="width:72px;height:72px;border-radius: 50%;margin-top: 115px;">
                                 <img src="" alt="">
                             </div>
                             <div class="thumbnail_text">效果预览</div>
@@ -223,6 +223,15 @@
         emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
     }
     (function ($) {
+        $(".large_photo>img").cropper({//讲师头像
+            zoomable: true,
+            viewMode: 1,
+            preview: '#small_photo', //不同尺寸预览区
+            aspectRatio: 1, //裁剪比例，NaN-自由选择区域
+            autoCropArea: 0.5, //初始裁剪区域占图片比例
+            cropBoxResizable  : false,
+            modal : false
+        });
         /*************手机校验 start**************/
         $('.teacher_telphone').blur(function () {
             var _this = $(this);

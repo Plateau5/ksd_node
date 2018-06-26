@@ -7,14 +7,6 @@ function uploadPhoto (ele) {
 }
 //重新上传图片
 uploadPhoto($(".choose_img"));
-$(".large_photo>img").cropper({
-    zoomable: true,
-    viewMode: 1,
-    preview: '#small_photo', //不同尺寸预览区
-    aspectRatio: 1, //裁剪比例，NaN-自由选择区域
-    autoCropArea: 0.8, //初始裁剪区域占图片比例
-    modal : false
-});
 //选择图片后的事件
 $("#upload_photo_file").on('change', function () {
     var file = this.files[0];

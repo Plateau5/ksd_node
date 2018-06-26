@@ -141,9 +141,9 @@
                             <input type="hidden" name="file_id" id="file_id" value="{{toEdit.file_id}}">
                             <input type="hidden" name="file_url" id="file_url" value="{{toEdit.file_url}}">
                             <input type="hidden" name="file_name" id="file_name" value="{{toEdit.file_name}}">
-                            <a id="upload_video" href="javascript:;" class="upload_video">上传视频</a>
-                            <a id="upload_audio" href="javascript:;" class="upload_audio">上传音频</a>
                             {{#if (toEdit.file_id) }}
+                                <a id="upload_video" href="javascript:;" class="upload_video" style="display: none;">上传视频</a>
+                                <a id="upload_audio" href="javascript:;" class="upload_audio" style="display: none;">上传音频</a>
                                 <div id="resultBox" class="upload_process" style="display: block">
                                     {{#if (toEdit.type === 1) }}
                                     <em class="video_icon upload_icon"></em>
@@ -155,6 +155,8 @@
                                     <em class="process_close" style="display: block"></em>
                                 </div>
                             {{else}}
+                                <a id="upload_video" href="javascript:;" class="upload_video">上传视频</a>
+                                <a id="upload_audio" href="javascript:;" class="upload_audio">上传音频</a>
                                 <div id="resultBox" class="upload_process">
                                     <em class="audio_icon upload_icon"></em>
                                     <div class="process_mask"></div>
@@ -183,7 +185,11 @@
                             <input type="hidden" name="image_url" class="teacher_img" value="{{toEdit.image_url}}">
                             <div class="img_md_box">
                                 <a id="upload_photo_btn" href="javascript:;" class="" style="display: block;width:236px;height:136px;position: relative;">
+                                    {{#if (toEdit.image_url) }}
+                                    <div class="upload_btn_mask" style="display: block">点击重新上传</div>
+                                    {{else}}
                                     <div class="upload_btn_mask">点击重新上传</div>
+                                    {{/if}}
                                     <img src="{{#if (toEdit.image_url) }}
                                         {{toEdit.image_url}}
                                     {{else}}
@@ -205,7 +211,7 @@
                 <div class="upload_photo_title bold">课程封面</div>
                 <div class="content">
                     <div class="original_photo">
-                        <div class="large_photo">
+                        <div class="large_photo course_icon">
                             <img src="" class="img_responsive" alt="">
                         </div>
                         <div class="tips_msg">仅支持JPG/PNG/GIF图片文件，且文件大熊啊小于5M</div>
@@ -247,6 +253,15 @@
         emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
     }
     (function ($) {
+        $(".course_icon>img").cropper({//课程封面
+            zoomable: true,
+            viewMode: 1,
+            preview: '#small_photo', //不同尺寸预览区
+            aspectRatio: 1.7, //裁剪比例，NaN-自由选择区域
+            autoCropArea: 0.8, //初始裁剪区域占图片比例
+            cropBoxResizable  : false,
+            modal : false
+        });
         /****************课程简介 start*****************/
         var wangEditor = window.wangEditor;
 
@@ -608,7 +623,6 @@
 
 
         /***************************授课讲师  end****************************/
-
 
         //保存提交课程
         function saveCourse () {
