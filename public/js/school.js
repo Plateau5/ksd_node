@@ -44,11 +44,13 @@ $("#upload_photo_file").on('change', function () {
 });
 //取消按钮的点击事件
 $(".btn_box .cancel_upload").off("click").on("click", function () {
+    $("#upload_photo_file").val('');
     $('#upload_photo_dialog').hide();
     $(".mask").hide();
 });
 //确定按钮的点击事件
 $(".btn_box .submit_upload").off("click").on("click", function () {
+    $("#upload_photo_file").val('');
     $('#upload_photo_dialog').hide();
     $(".mask").hide();
     if ($('.upload_btn_mask').length != 0) {
