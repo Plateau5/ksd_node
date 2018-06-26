@@ -248,53 +248,51 @@
     }
     (function ($) {
         /****************课程简介 start*****************/
-        var wangEditor = window.wangEditor;
+        function courseIntro () {
+            var wangEditor = window.wangEditor;
 
-        var courseIntro = new wangEditor('#courseIntro');
-        // 自定义菜单配置
-        courseIntro.customConfig.menus = [
-            'head',  // 标题
-            'bold',  // 粗体
-            'fontSize',  // 字号
-            'italic',  // 斜体
-            'underline',  // 下划线
-            'backColor',  // 背景颜色
-            'link',  // 插入链接
-            'list',  // 列表
-            'justify',  // 对齐方式
-            'image',  // 插入图片
-            'table',  // 表格
-        ];
-        // 隐藏“网络图片”tab
-        courseIntro.customConfig.showLinkImg = false;
-        courseIntro.customConfig.uploadFileName = 'file';
-        courseIntro.customConfig.uploadImgTimeout = 10000;
-        courseIntro.customConfig.uploadImgServer = '/api/file/upload';
-        courseIntro.customConfig.uploadImgHooks = {
-            before: function (xhr, editor, files) {
+            var courseIntro = new wangEditor('#courseIntro');
+            // 自定义菜单配置
+            courseIntro.customConfig.menus = [
+                'head',  // 标题
+                'bold',  // 粗体
+                'fontSize',  // 字号
+                'italic',  // 斜体
+                'underline',  // 下划线
+                'backColor',  // 背景颜色
+                'link',  // 插入链接
+                'list',  // 列表
+                'justify',  // 对齐方式
+                'image',  // 插入图片
+                'table'  // 表格
+            ];
+            // 隐藏“网络图片”tab
+            courseIntro.customConfig.showLinkImg = false;
+            courseIntro.customConfig.uploadFileName = 'file';
+            courseIntro.customConfig.uploadImgTimeout = 10000;
+            courseIntro.customConfig.uploadImgServer = '/api/file/upload';
+            courseIntro.customConfig.uploadImgHooks = {
+                before: function (xhr, editor, files) {
 
-            },
-            success: function (xhr, editor, result) {
-                result.errno = result.error_code;
-                console.log(result);
-            },
-            fail: function (xhr, editor, result) {
-                result.errno = result.error_code;
-            },
-            customInsert: function (insertImg, result, editor) {
-                console.log(JSON.stringify(result));
-                var url = result.data[0].image_url;
-                insertImg(url);
-            }
-        };
-        courseIntro.create();
-        courseIntro.txt.html(introduction);
-        /*document.getElementById('btn1').addEventListener('click', function () {
-            console.log(courseIntro.txt.html());
-        }, false);*/
+                },
+                success: function (xhr, editor, result) {
+                    result.errno = result.error_code;
+                },
+                fail: function (xhr, editor, result) {
+                    result.errno = result.error_code;
+                },
+                customInsert: function (insertImg, result, editor) {
+                    var url = result.data[0].image_url;
+                    insertImg(url);
+                }
+            };
+            courseIntro.create();
+            courseIntro.txt.html(introduction);
+        }
         /******************课程简介 end*******************/
 
         /***********音视频上传  start***********/
+        //上传点击事件
         function uploadBtn() {
             $('#upload_video').on('click', function () {
                 $('#course_type').val(1);
@@ -305,8 +303,6 @@
                 $('#uploadVideoNow-file').click();
             });
         }
-        var index = 0;
-        var cosBox = [];
         /**
          * 计算签名
          **/
@@ -326,74 +322,65 @@
                 }
             });
         };
-        /**
-         * 添加上传信息模块
-         */
-        var addUploaderMsgBox = function(){
-            $('.upload_process').show();
-            return index++;
-        };
-        $('#uploadVideoNow-file').on('change', function (e) {
-            $('.process_mask').width(0);
-            var videoFile = this.files[0];
-            if (videoFile.type.indexOf('audio') != -1) {//音频
-                if ($('#course_type').val() == 1) {//1为视频；2为音频
-                    $alert('请上传音频格式的文件');
-                    return false;
-                } else {
-                    $('.video_name').text('音频上传中......');
-                    if (!$('.upload_icon').hasClass('audio_icon')) {
-                        $('.upload_icon').removeClass('video_icon');
-                        $('.upload_icon').addClass('audio_icon')
+        //上传视频file的change事件
+        function getChange () {
+            $('#uploadVideoNow-file').on('change', function (e) {
+                $('.process_mask').width(0);
+                var videoFile = this.files[0];
+                if (videoFile.type.indexOf('audio') != -1) {//音频
+                    if ($('#course_type').val() == 1) {//1为视频；2为音频
+                        $alert('请上传音频格式的文件');
+                        return false;
+                    } else {
+                        $('.video_name').text('音频上传中......');
+                        if (!$('.upload_icon').hasClass('audio_icon')) {
+                            $('.upload_icon').removeClass('video_icon');
+                            $('.upload_icon').addClass('audio_icon')
+                        }
                     }
-                }
-            } else if (videoFile.type.indexOf('video') != -1) {//视频
-                if ($('#course_type').val() == 2) {//1为视频；2为音频
-                    $alert('请上传视频格式的文件');
-                    return false;
-                } else {
-                    $('.video_name').text('视频上传中......');
-                    if (!$('.upload_icon').hasClass('video_icon')) {
-                        $('.upload_icon').removeClass('audio_icon');
-                        $('.upload_icon').addClass('video_icon')
+                } else if (videoFile.type.indexOf('video') != -1) {//视频
+                    if ($('#course_type').val() == 2) {//1为视频；2为音频
+                        $alert('请上传视频格式的文件');
+                        return false;
+                    } else {
+                        $('.video_name').text('视频上传中......');
+                        if (!$('.upload_icon').hasClass('video_icon')) {
+                            $('.upload_icon').removeClass('audio_icon');
+                            $('.upload_icon').addClass('video_icon')
+                        }
                     }
+                } else {
+                    $alert('请上传正确格式的文件');
+                    return false;
                 }
-            } else {
-                $alert('请上传正确格式的文件');
-                return false;
-            }
-            var num = addUploaderMsgBox();
-            $('#result').append(videoFile.name +　'\n');
-            var resultMsg = qcVideo.ugcUploader.start({
+                $('.upload_process').show();
+                uploadVideo(videoFile);
+            });
+        }
+        //上传视频请求
+        function uploadVideo (videoFile) {
+            qcVideo.ugcUploader.start({
                 videoFile: videoFile,
                 getSignature: getSignature,
                 allowAudio: 1,
                 success: function(result){
-                    console.log(result);
-                    $alert('上传成功');
                     $('.process_close').show();
                 },
                 error: function(result){
                     $alert('上传失败>>'+result.msg);
                 },
                 progress: function(result){
-                    console.log(result);
                     $('.video_name').html(result.name);
                     $('.process_mask').width(Math.floor(result.curr*100)+'%');
-                    cosBox[num] = result.cos;
                 },
                 finish: function(result){
-                    console.log(result);
                     $('#file_id').val(result.fileId);
                     $('#file_url').val(result.videoUrl);
                     $('#file_name').val(result.videoName);
                 }
             });
-            if(resultMsg){
-                $('[name=box'+num+']').text(resultMsg);
-            }
             $('#upload_video_form')[0].reset();
-        });
+        }
 
         /***********音视频上传  end***********/
 
@@ -704,13 +691,15 @@
         }
 
         $(function() {
+            courseIntro();//课程简介
             clickTriangle();//下拉三角点击事件
             selectCourseType();//选择课程分类
             addTeacher();//添加授课讲师
             deleteTeacher();//删除授课讲师
+            getChange();//上传视频file的change事件
+            deleteVidebtn();//删除视频
             uploadPhoto($("#upload_photo_btn"));//重新上传图片
             uploadBtn();
-            deleteVidebtn();//删除视频
             saveCourse();//保存提交课程
         });
     })(jQuery,undefined);

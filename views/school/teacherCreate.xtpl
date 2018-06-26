@@ -244,21 +244,27 @@
             }
         }
         /*************手机校验 end**************/
+        //讲师类型切换
+        function togTeacherType () {
+            //内部-讲师类型切换
+            var internal = $('#internal');
+            internal.off("click").on("click", function () {
+                if (this.checked) {
+                    $('.internal_teacher').show();
+                    $('.external_teacher').hide();
+                }
+            });
+            //外部-讲师类型切换
+            var external = $('#external');
+            external.off("click").on("click", function () {
+                if (this.checked) {
+                    $('.internal_teacher').hide();
+                    $('.external_teacher').show();
+                }
+            });
+        }
 
-        //内部-讲师类型切换
-        $('#internal').off("click").on("click", function () {
-            if (this.checked) {
-                $('.internal_teacher').show();
-                $('.external_teacher').hide();
-            }
-        });
-        //外部-讲师类型切换
-        $('#external').off("click").on("click", function () {
-            if (this.checked) {
-                $('.internal_teacher').hide();
-                $('.external_teacher').show();
-            }
-        });
+
         /************************搜索讲师姓名 start****************************/
         //模糊查询
         var hideInput = $('#orderCreatorId');
@@ -495,6 +501,7 @@
             });
         }
         $(function() {
+            togTeacherType();//切换讲师类型
             uploadPhoto($("#upload_photo_btn"));//重新上传图片
             searchTeacher(); //模糊查询讲师
             saveTeacher();//保存讲师
