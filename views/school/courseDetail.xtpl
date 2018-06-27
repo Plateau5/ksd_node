@@ -175,9 +175,11 @@
                 $ajax('post', url, data, function (res) {
                     if (res.error_code == 0) {
                         d.close();
-                        locationTo({
-                            action : contextPath + markUri + "/school/course/lists/home",
-                            param : {}
+                        $alert('删除成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + "/school/course/lists/home",
+                                param : {}
+                            });
                         });
                     } else {
                         d.close();
@@ -187,7 +189,7 @@
                 }, function () {
                     d.close();
                     deleteCourse();
-                    $alert('删除课程失败，请稍后重试');
+                    $alert('删除失败，请稍后重试');
                 });
             };
         }
