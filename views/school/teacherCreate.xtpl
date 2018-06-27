@@ -360,10 +360,10 @@
                 return $('.search_list').html('<li style="text-align: center;">没有匹配到任何结果</li>');
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
-                    if (res[i].phone) {
-                        var tel_account = res[i].phone;
-                    } else if (res[i].account) {
+                    if (res[i].account) {
                         var tel_account = res[i].account;
+                    } else if (res[i].phone) {
+                        var tel_account = res[i].phone;
                     }
                     var str = '';
                     str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" data-image_url="'+ res[i].image_url + '" data-email="'+ res[i].account + '" title="' + tel_account + '">\
