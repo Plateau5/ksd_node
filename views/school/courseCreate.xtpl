@@ -670,7 +670,8 @@
 
             var introduction = $('.introduction');
             introduction.val(courseIntro.txt.html());
-            if (courseIntro.txt.text() == '') {
+            var defaultHtml = '<p><br></p>';
+            if (courseIntro.txt.html() == defaultHtml) {
                 introduction.siblings('.tips_info').show();
                 return;
             } else {
