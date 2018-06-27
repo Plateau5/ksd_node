@@ -516,7 +516,17 @@
             $(document).on('click', function (e) {
                 var e = e || window.event;
                 e.stopPropagation();
-                setObj.sBox.is(':hidden') ? false : setObj.sBox.hide();
+                var target = $(e.target);
+                var parent = target.parents('.search_box');
+                if (target.hasClass('search_box')) {
+                    return false;
+                } else if (parent.length <= 0) {
+                    setObj.sBox.hide().find('.search_result').html('').end().find('.m_search').val('');
+                    setObj.resBox.hide();
+                    return true;
+                } else {
+                    return true;
+                }
             });
             //模糊查询逻辑
             function fuzzyQuery (res) {
@@ -541,7 +551,7 @@
             function showSearchResult (res) {
                 var html = [];
                 if (res.length == 0 || res.length == undefined) {
-                    return setObj.resBox.html('<li class="" style="text-align: center;">暂无数据</li>');
+                    return setObj.resBox.html('<li class="no_data_item" style="text-align: center;">暂无数据</li>');
                 } else {
                     for (var i = 0, len = res.length; i < len; i++) {
                         if (res[i].phone) {
