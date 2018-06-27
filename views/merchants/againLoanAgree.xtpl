@@ -513,7 +513,17 @@
                             });
                         });
                     } else {
-                        $alert(res.error_msg);
+                        if (res.error_code == 1022) {
+                            $alert(res.error_msg ,function () {
+                                var url = contextPath + markUri +'/loan/transRecordsList';
+                                locationTo({
+                                    action : url,
+                                    param : {}
+                                });
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
                     }
                 },
                 error : function () {
