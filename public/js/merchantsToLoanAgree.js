@@ -81,55 +81,55 @@ $(function(){
     receipt_account.blur(function(){
         var reg = /^[\d\s]+$/;
         var error_txt = '请输入正确的收方账号';
-        validate_form(1,receipt_account,reg,error_txt);
+        validateForm(1,receipt_account,reg,error_txt);
     });
 
     receipt_account_name.blur(function(){
         var reg = /^[a-zA-Z\u4e00-\u9fa5]+$/;
         var error_txt = '请输入正确的收方账户名';
-        validate_form(1,receipt_account_name,reg,error_txt);
+        validateForm(1,receipt_account_name,reg,error_txt);
     });
 
     receipt_bank.blur(function(){
         var reg = /^[a-zA-Z\u4e00-\u9fa5]+$/;
         var error_txt = '请输入正确的收方开户行';
-        validate_form(1,receipt_bank,reg,error_txt);
+        validateForm(1,receipt_bank,reg,error_txt);
     });
 
     receipt_bank_address.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
         var error_txt = '请输入正确的收方开户地';
-        validate_form(1,receipt_bank_address,reg,error_txt);
+        validateForm(1,receipt_bank_address,reg,error_txt);
     });
 
     receipt_address.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w]+$/;
         var error_txt = '请输入正确的收方行地址';
-        validate_form(1,receipt_address,reg,error_txt);
+        validateForm(1,receipt_address,reg,error_txt);
     });
 
     financial_use.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w,，。.“”"‘’';；、]+$/;
         var error_txt = '请输入正确的用途';
-        validate_form(1,financial_use,reg,error_txt);
+        validateForm(1,financial_use,reg,error_txt);
     });
 
     receipt_phone.blur(function(){
         // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
         var reg = PHONEPATTERN;
         var error_txt = '请输入正确格式的电话号码';
-        validate_form(0,receipt_phone,reg,error_txt);
+        validateForm(0,receipt_phone,reg,error_txt);
     });
     summary.blur(function(){
         var reg = /^[\u4E00-\u9FA5\w,，。.“”"‘’';；、]+$/;
         var error_txt = '请输入正确的摘要';
-        validate_form(0,summary,reg,error_txt);
+        validateForm(0,summary,reg,error_txt);
         return false;
     });
 });
 
 //校验函数
-function validate_form(required,obj,reg,error_txt){
+function validateForm(required,obj,reg,error_txt){
     var val = obj.val();
     var reg = reg;
     var tipText = obj.data('tips');
