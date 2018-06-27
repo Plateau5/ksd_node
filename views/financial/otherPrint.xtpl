@@ -256,6 +256,8 @@
         var printType = getQuerystringParam("print_type");
         window.onload = function () {
             window.print();
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/html; charset=utf-8");
             if (printType == 'current') {
                 // var href = contextPath + markUri + "/loan/pending";
                 setTimeout(function () {
