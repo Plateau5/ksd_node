@@ -46,11 +46,14 @@
                     </div>
                     <div class="filtrate_item select_item inline_block">
                         <div class="conditions_name inline_block" style="vertical-align: top;">付方账户：</div>
-                        <input type="hidden" value="{{condition.payment_account}}" id="paymentAccount">
                         <select name="payment_account"  class="filtrate_select" id="payment_account" style="width:280px;">
                             <option value="">全部</option>
                             {{#each (bank_list) }}
-                                <option value="{{this.bank_no}}">{{this.bank_name}}，{{this.bank_no}}</option>
+                                {{#if (this.bank_no === condition.payment_account) }}
+                                    <option value="{{this.bank_no}}" selected>{{this.bank_name}}，{{this.bank_no}}</option>
+                                {{else}}
+                                    <option value="{{this.bank_no}}">{{this.bank_name}}，{{this.bank_no}}</option>
+                                {{/if}}
                             {{/each}}
                             <!--{{#if (condition.payment_accounts)}}-->
                                 <!--{{set (payment_account_list = condition.payment_accounts.split(','))}}-->
@@ -164,7 +167,7 @@
 <script>
     (function ($) {
         //交易记录查询列表页筛选
-        function searchCustomer () {
+        function searchRecordsList () {
             var confirmBtn = $('.recordsList_search_confirm');
             var cancelBtn = $('.recordsList_search_cancel');
             var listForm = $('form[role="form"]');
@@ -221,22 +224,11 @@
             });
         }
 
-        function selectPaymentAccount () {
-            var paymentAccount = $("#paymentAccount").val();
-            $("#payment_account option").each(function() {
-                if($(this).val() === paymentAccount) {
-                    $(this).attr("selected","selected");
-                }else {
-                    $(this).removeAttr("selected")
-                }
-            });
-        }
         $(function() {
             initDateStartEnd('#start_loan_time','#end_loan_time');  //日期筛选
-            searchCustomer();    //交易记录查询列表页筛选
+            searchRecordsList();    //交易记录查询列表页筛选
             paginationSwitch();     // 分页切换
             toRecordsDetail();  //跳转交易记录查询详情
-            selectPaymentAccount();  //下拉取值和回显
         });
     })(jQuery,undefined);
 
