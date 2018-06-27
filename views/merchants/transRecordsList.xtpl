@@ -99,7 +99,9 @@
                         <col style="width: 12%;" />
                         <col style="width: 15%;" />
                         <col style="width: 15%;" />
-                        <col style="width: 14%;" />
+                        {{#if (verifyCode(1518) || verifyCode(1190)) }}
+                            <col style="width: 14%;" />
+                        {{/if}}
                     </colgroup>
                     <thead>
                     <tr>
@@ -109,7 +111,9 @@
                         <th>日期 (经办日)</th>
                         <th>用途</th>
                         <th>业务请求结果</th>
-                        <th>操作</th>
+                        {{#if (verifyCode(1518) || verifyCode(1190)) }}
+                            <th>操作</th>
+                        {{/if}}
                     </tr>
                     </thead>
                     <tbody>
@@ -133,6 +137,8 @@
                                 <td>
                                     {{#if (root.verifyCode(1518)) }}
                                         <a href="javascript:;" class="trans_print_btn trans_records_detail" data-id="{{this.financialReceipt_id}}"  data-advanceIds="{{this.advance_ids}}"  title="查询详情"></a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1190)) }}
                                         <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}&financialReceipt_no={{this.financialReceipt_no}}" class="trans_print_btn print_btn" title="打印" target="_blank"></a>
                                     {{/if}}
                                 </td>

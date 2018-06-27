@@ -2064,6 +2064,7 @@ function initDateStartEnd (startSelector, endSelector) {
         //festival:true,
         maxDate: $.nowDate({DD:0}), //最大日期,
         isClear : false,
+        isToday :false,
         choosefun: function(elem,datas){
             end.minDate = datas; //开始日选好后，重置结束日的最小日期
             endDates();
@@ -2078,6 +2079,7 @@ function initDateStartEnd (startSelector, endSelector) {
         // festival:true,
         maxDate: $.nowDate({DD:0}), //最大日期
         isClear : false,
+        isToday :false,
         choosefun: function(elem,datas){
             start.maxDate = datas; //将结束日的初始值设定为开始日的最大日期
         }
