@@ -146,7 +146,9 @@
                 $ajax('post', url, data, function (res) {
                     if (res.error_code == 0) {
                         d.close();
-                        window.location.reload();
+                        $alert('删除成功',function () {
+                            window.location.reload();
+                        });
                     } else {
                         d.close();
                         deleteTeacher();
