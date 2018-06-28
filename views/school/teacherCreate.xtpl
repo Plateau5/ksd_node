@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
                                 <div class="option_item user_photo_row external_teacher" style="display: block">
-                                    <div class="column_name">讲师头像：</div>
+                                    <div class="column_name" style="padding-left: 9px;">讲师头像：</div>
                                     <div class="column_val">
                                         <div class="photo_box">
                                             <img src="{{#if(lecturerDetail.image_url)}}
@@ -152,7 +152,7 @@
                                 </div>
                             </div>
                             <div class="option_item user_photo_row external_teacher">
-                                <div class="column_name">讲师头像：</div>
+                                <div class="column_name" style="padding-left: 9px;">讲师头像：</div>
                                 <div class="column_val">
                                     <input type="hidden" class="teacher_img">
                                     <div class="photo_box">
@@ -165,7 +165,7 @@
                         {{/if}}
                         <div class="option_item">
                             <div class="column_name">
-                                <span class="options_name">讲师简介：</span>
+                                <span class="options_name" style="padding-left: 9px;">讲师简介：</span>
                             </div>
                             <div class="column_val">
                                 {{#if (lecturerDetail) }}
@@ -258,17 +258,21 @@
             //内部-讲师类型切换
             var internal = $('#internal');
             internal.off("click").on("click", function () {
-                if (this.checked) {
-                    $('.internal_teacher').show();
-                    $('.external_teacher').hide();
+                if ($('#teacher_id').val() == '') {
+                    if (this.checked) {
+                        $('.internal_teacher').show();
+                        $('.external_teacher').hide();
+                    }
                 }
             });
             //外部-讲师类型切换
             var external = $('#external');
             external.off("click").on("click", function () {
-                if (this.checked) {
-                    $('.internal_teacher').hide();
-                    $('.external_teacher').show();
+                if ($('#teacher_id').val() == '') {
+                    if (this.checked) {
+                        $('.internal_teacher').hide();
+                        $('.external_teacher').show();
+                    }
                 }
             });
         }

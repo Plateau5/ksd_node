@@ -134,7 +134,7 @@
                     </div>
                     <div class="option_item external_teacher">
                         <div class="column_name">
-                            <span class="options_name">课件形式：</span>
+                            <span class="options_name" style="padding-left: 9px;">课件形式：</span>
                         </div>
                         <div class="column_val">
                             <input type="hidden" name="type" id="course_type" value="{{toEdit.type}}">
@@ -180,7 +180,7 @@
                         </div>
                     </div>
                     <div class="option_item user_photo_row course_img">
-                        <div class="column_name">课程封面：</div>
+                        <div class="column_name" style="padding-left: 9px;">课程封面：</div>
                         <div class="column_val">
                             <input type="hidden" name="image_url" class="teacher_img" value="{{toEdit.image_url}}">
                             <div class="img_md_box">
@@ -389,6 +389,7 @@
                 uploadVideo(videoFile);
             });
         }
+        var videoFlag = false//视频上传标志位
         //上传视频请求
         function uploadVideo (videoFile) {
             qcVideo.ugcUploader.start({
@@ -396,17 +397,18 @@
                 getSignature: getSignature,
                 allowAudio: 1,
                 success: function(result){
-                    console.log(result);
                     $('.process_close').show();
                 },
                 error: function(result){
                     $alert('上传失败>>'+result.msg);
                 },
                 progress: function(result){
+                    videoFlag = false;
                     $('.video_name').html(result.name);
                     $('.process_mask').width(Math.floor(result.curr*100)+'%');
                 },
                 finish: function(result){
+                    videoFlag = true;
                     $('#file_id').val(result.fileId);
                     $('#file_url').val(result.videoUrl);
                     $('#file_name').val(result.videoName);
@@ -681,7 +683,14 @@
             } else {
                 teacher_name.siblings('.tips_info').hide();
             }
-
+            if (!videoFlag) {
+                if (uploadType == 1){
+                    $alert('视频正在上传中，请稍后');
+                } else if (uploadType == 2) {
+                    $alert('音频正在上传中，请稍后');
+                }
+                return;
+            }
             var introduction = $('.introduction');
             introduction.val(courseIntro.txt.html());
             var defaultHtml = '<p><br></p>';
