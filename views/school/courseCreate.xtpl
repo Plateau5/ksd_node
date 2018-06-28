@@ -289,14 +289,12 @@
         courseIntro.customConfig.uploadImgHooks = {
             before: function (xhr, editor, files) {
                 var img = document.getElementById('courseIntro').getElementsByTagName("img");
-                if (img.length >= 1) {
-                    // $alert('最多上传20张图片');
+                if (img.length >= 20) {
                     return {
                         prevent: true,
                         msg: '最多上传20张图片'
                     }
                 }
-
             },
             success: function (xhr, editor, result) {
                 result.errno = result.error_code;
@@ -475,18 +473,6 @@
             });
         }
         /***************************授课讲师  start****************************/
-        //获取讲师
-        function getFollowPeople () {
-            var followArr = [];
-            var fpElem = $('.person_list .person');
-            fpElem.each(function () {
-                var _this = $(this);
-                var id = $.trim(_this.data('id'));
-                followArr.push(id);
-            });
-            return followArr;
-        }
-
         //授课讲师ids
         if (toEditTeachers != '') {
             var lecturer_ids = toEditTeachers;
@@ -507,49 +493,77 @@
             //负责人的模糊查询功能
             function searchManagers () {
                 setObj.btn.off("click").on("click", function (e) {
-                    var e = e || window.event;
-                    e.stopPropagation();
-                    var allFollow = getFollowPeople();
-                    if (allFollow.length >= 20){
-                        $alert('最多添加20个拥有者');
-                        return false;
-                    }
-                    setObj.sBox.is(':hidden') ? setObj.sBox.show() : setObj.sBox.hide();
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    setObj.sBox.show();
                     setObj.input.focus();
-                    setObj.input.off("input click").on("input click", function (e) {
-                        var e = e || window.event;
-                        e.stopPropagation();
+                    setObj.input.on('input',function(e){
+                        var ev = e || window.event;
+                        ev.stopPropagation();
                         var val = $.trim($(this).val());
                         setObj.resBox.html('');
                         if (val) {
                             setObj.resBox.show();
                             var queryObj = fuzzyQuery(emp_list);
                             showSearchResult(queryObj);
-                            showSearchResult();
+                            selectedCreate();
                         } else{
                             setObj.resBox.hide();
                         }
                     });
+                    // 注册点击其他区域关闭弹出层
+                    $(document).on('click',function (e) {
+                        var ev = e || window.event;
+                        ev.stopPropagation();
+                        var target = $(ev.target);
+                        var parent = target.parents('.search_box');
+                        if (target.hasClass('search_box')) {
+                            return false;
+                        } else if (parent.length <= 0) {
+                            setObj.sBox.hide().find('.search_result').html('').end().find('.m_search').val('');
+                            setObj.resBox.hide();
+                            return true;
+                        } else {
+                            return true;
+                        }
+                    });
+                });
+                // 订单所属人选中逻辑
+                var selectedCreate = function () {
+                    var item = setObj.resBox.find(".res_item");
+                    item.each(function () {
+                        var t = $(this);
+                        t.off("click").on("click", function (e) {
+                            var e = e || window.event;
+                            e.stopPropagation();
+                            var _this = $(this);
+                            var leaderEle = _this.find(".name"),
+                                pName = leaderEle.text(),
+                                lId = _this.data("id");
 
-                })
-            }
+                            setObj.input.val("");
+                            setObj.resBox.html("");
+                            setObj.sBox.hide();
+                            for (var i = 0, len = lecturer_ids.length;i < len;i++) {
+                                if (lecturer_ids[i] == lId) {
+                                    $alert('此授课讲师已添加');
+                                    return false;
+                                }
+                            }
+                            lecturer_ids.push(lId);
 
-            // 注册点击其他区域关闭弹出层
-            $(document).on('click', function (e) {
-                var e = e || window.event;
-                e.stopPropagation();
-                var target = $(e.target);
-                var parent = target.parents('.search_box');
-                if (target.hasClass('search_box')) {
-                    return false;
-                } else if (parent.length <= 0) {
-                    setObj.sBox.hide().find('.search_result').html('').end().find('.m_search').val('');
-                    setObj.resBox.hide();
-                    return true;
-                } else {
-                    return true;
+                            // 创建拥有者展示数据
+                            var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn" data-id="'+ lId +'"></em></li>';
+                            setObj.personList.find('.choose_box').before(ownStr);
+                            $('.person_list').find('.tips_info').hide();
+                            var endPerson = getFollowPeople().join(',');
+                            $('#ownPersonInput').val(endPerson);
+                            getTeachers();
+                        });
+                    });
                 }
-            });
+            }
             //模糊查询逻辑
             function fuzzyQuery (res) {
                 var queryStr = $.trim(setObj.input.val()),
@@ -572,59 +586,24 @@
             //创建模糊查询结果展示并绑定事件
             function showSearchResult (res) {
                 var html = [];
-                if (res.length == 0 || res.length == undefined) {
-                    setObj.resBox.show();
-                    return setObj.resBox.html('<li class="no_data_item" style="text-align: center;">暂无数据</li>');
+                if (res == undefined || res.length == 0 || res.length == undefined) {
+                    return $('.search_result').html('<li style="text-align: center;">暂无数据</li>');
                 } else {
                     for (var i = 0, len = res.length; i < len; i++) {
-                        if (res[i].phone) {
-                            var tel_account = res[i].phone;
-                        } else if (res[i].account) {
+                        if (res[i].account) {
                             var tel_account = res[i].account;
+                        } else if (res[i].phone) {
+                            var tel_account = res[i].phone;
                         }
                         var str = '';
-                        str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" data-email="'+ tel_account + '" title="' + tel_account + '">\
+                        str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" data-email="'+ res[i].account + '" title="' + tel_account + '">\
                                 <span class="name nowrap">' + res[i].name + '</span>\
                                 <span class="p_dep nowrap">' + (tel_account ? tel_account : '没有匹配到任何结果') + '</span>\
                             </li>';
                         html.push(str);
+                        $('.search_result').html(html.join(""));
                     }
                 }
-
-
-                setObj.resBox.html(html.join("")).show();
-
-                var item = setObj.resBox.find(".res_item");
-                item.each(function () {
-                    var t = $(this);
-                    t.off("click").on("click", function (e) {
-                        var e = e || window.event;
-                        e.stopPropagation();
-                        var _this = $(this);
-                        var leaderEle = _this.find(".name"),
-                            pName = leaderEle.text(),
-                            lId = _this.data("id");
-
-                        setObj.input.val("");
-                        setObj.resBox.html("");
-                        setObj.sBox.hide();
-                        for (var i = 0, len = lecturer_ids.length;i < len;i++) {
-                            if (lecturer_ids[i] == lId) {
-                                $alert('此授课讲师已添加');
-                                return false;
-                            }
-                        }
-                        lecturer_ids.push(lId);
-
-                        // 创建拥有者展示数据
-                        var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn" data-id="'+ lId +'"></em></li>';
-                        setObj.personList.find('.choose_box').before(ownStr);
-                        $('.person_list').find('.tips_info').hide();
-                        var endPerson = getFollowPeople().join(',');
-                        $('#ownPersonInput').val(endPerson);
-                        getTeachers();
-                    });
-                });
             }
             searchManagers();
         }

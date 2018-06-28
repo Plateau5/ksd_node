@@ -1,3 +1,4 @@
+/*全局源代码的alert更改为$alert*/
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -1464,7 +1465,7 @@ Link.prototype = {
         if (checkResult === true) {
             editor.cmd.do('insertHTML', '<a href="' + link + '" target="_blank">' + text + '</a>');
         } else {
-            alert(checkResult);
+            $alert(checkResult);
         }
     },
 
@@ -4030,7 +4031,7 @@ UploadImg.prototype = {
             if (customAlert && typeof customAlert === 'function') {
                 customAlert(alertInfo);
             } else {
-                alert(alertInfo);
+                $alert(alertInfo);
             }
         }
     },
@@ -4052,7 +4053,7 @@ UploadImg.prototype = {
             checkResult = linkImgCheck(link);
             if (typeof checkResult === 'string') {
                 // 校验失败，提示信息
-                alert(checkResult);
+                $alert(checkResult);
                 return;
             }
         }
