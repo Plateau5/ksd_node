@@ -321,11 +321,15 @@
         /**
          * 计算签名
          **/
+        var uploadType = 2;//上传视频类型；1视频，2音频
         var getSignature = function(callback){
             $.ajax({
                 url: contextPath + '/api/tencent/sign',
                 type: 'POST',
                 dataType: 'json',
+                data :{
+                    type : uploadType
+                },
                 async : false,
                 success: function(res){
                     console.log(res);
@@ -348,6 +352,7 @@
                         $alert('请上传音频格式的文件');
                         return false;
                     } else {
+                        uploadType = 2;
                         $('.video_name').text('音频上传中......');
                         if (!$('.upload_icon').hasClass('audio_icon')) {
                             $('.upload_icon').removeClass('video_icon');
@@ -359,6 +364,7 @@
                         $alert('请上传视频格式的文件');
                         return false;
                     } else {
+                        uploadType = 1;
                         $('.video_name').text('视频上传中......');
                         if (!$('.upload_icon').hasClass('video_icon')) {
                             $('.upload_icon').removeClass('audio_icon');
