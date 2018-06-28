@@ -128,8 +128,9 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <span class="tips_info">请选择授课讲师</span>
                             </ul>
-                            <span class="tips_info">请选择授课讲师</span>
+
                         </div>
                     </div>
                     <div class="option_item external_teacher">
@@ -613,6 +614,7 @@
                         // 创建拥有者展示数据
                         var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn" data-id="'+ lId +'"></em></li>';
                         setObj.personList.find('.choose_box').before(ownStr);
+                        $('.person_list').find('.tips_info').hide();
                         var endPerson = getFollowPeople().join(',');
                         $('#ownPersonInput').val(endPerson);
                         getTeachers();
@@ -679,10 +681,10 @@
             var teacher_name = $('#lecturer_ids');
             teacher_name.val(lecturer_ids.join(','));
             if (teacher_name.val() == '') {
-                teacher_name.siblings('.tips_info').show();
+                teacher_name.siblings('.person_list').find('.tips_info').show();
                 return;
             } else {
-                teacher_name.siblings('.tips_info').hide();
+                teacher_name.siblings('.person_list').find('.tips_info').hide();
             }
             if (!videoFlag) {
                 if (uploadType == 1){
