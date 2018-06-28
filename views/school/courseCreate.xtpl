@@ -520,9 +520,14 @@
                         var e = e || window.event;
                         e.stopPropagation();
                         var val = $.trim($(this).val());
+                        setObj.resBox.html('');
                         if (val) {
+                            setObj.resBox.show();
                             var queryObj = fuzzyQuery(emp_list);
                             showSearchResult(queryObj);
+                            showSearchResult();
+                        } else{
+                            setObj.resBox.hide();
                         }
                     });
 
