@@ -42,6 +42,7 @@ $(".btn_box .cancel_upload").off("click").on("click", function () {
 });
 //确定按钮的点击事件
 $(".btn_box .submit_upload").off("click").on("click", function () {
+    var _this = $(this);
     $("#upload_photo_file").val('');
     $('#upload_photo_dialog').hide();
     $(".mask").hide();
@@ -55,7 +56,12 @@ $(".btn_box .submit_upload").off("click").on("click", function () {
     var file = $('#user_photo').attr("src").slice(22);
     if (file == '') {
         $('.teacher_img').val('');
-        $('#user_photo').attr('src','/ksd/static/img/personIcon.png');
+        if (_this.hasClass('course_icon')) {
+            $('#user_photo').attr('src','/ksd/static/img/create_course.png');
+            $('.upload_btn_mask').hide();
+        } else {
+            $('#user_photo').attr('src','/ksd/static/img/personIcon.png');
+        }
         return false;
     }
     var form = new FormData();
