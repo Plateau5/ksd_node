@@ -288,7 +288,7 @@
         courseIntro.customConfig.uploadImgServer = '/api/file/upload';
         courseIntro.customConfig.uploadImgHooks = {
             before: function (xhr, editor, files) {
-                var img = document.getElementById('courseIntro').getElementsByTagName("img");
+                var img = $('#courseIntro').find("img");
                 if (img.length >= 20) {
                     return {
                         prevent: true,
