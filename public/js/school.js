@@ -42,15 +42,21 @@ $(".btn_box .cancel_upload").off("click").on("click", function () {
 });
 //确定按钮的点击事件
 $(".btn_box .submit_upload").off("click").on("click", function () {
+
+    var canVas = $(".large_photo>img").cropper("getCroppedCanvas", {});
+    //将裁剪的图片加载到face_image
+    $('#user_photo').attr('src', canVas.toDataURL());
+    if (canVas.toDataURL() == 'data:,') {
+        $alert('图片不能为空');
+        return false;
+    }
     $("#upload_photo_file").val('');
     $('#upload_photo_dialog').hide();
     $(".mask").hide();
     if ($('.upload_btn_mask').length != 0) {
         $('.upload_btn_mask').show();
     }
-    var canVas = $(".large_photo>img").cropper("getCroppedCanvas", {});
-    //将裁剪的图片加载到face_image
-    $('#user_photo').attr('src', canVas.toDataURL());
+
     RESETPHOTO = true;
     var file = $('#user_photo').attr("src").slice(22);
     var form = new FormData();
