@@ -1379,7 +1379,7 @@ Link.prototype = {
     // 创建 panel
     _createPanel: function _createPanel(text, link) {
         var _this = this;
-
+        var link = 'http://' + link ;
         // panel 中需要用到的id
         var inputLinkId = getRandom('input-link');
         var inputTextId = getRandom('input-text');
