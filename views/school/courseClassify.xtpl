@@ -117,7 +117,9 @@
                     maskClose : false,
                     onConfirm : function (d) {
                         var oneLevelName = $.trim($('#oneLevelName').val());
+                        oneLevelName = oneLevelName.replace(/\s/g,'');
                         var secondLevelName = $.trim($('#secondLevelName').val());
+                        secondLevelName = secondLevelName.replace(/\s/g,'');
                         onCreate(oneLevelName, secondLevelName, d);
                     }
                 });
@@ -239,6 +241,7 @@
                     maskClose : false,
                     onConfirm : function (d) {
                         var newClassify = $.trim($('#renameClassify').val());
+                        newClassify = newClassify.replace(/\s/g,'');
                         onCreate(d, newClassify, id);
                     },
                     onCancel : function (d) {
@@ -293,6 +296,7 @@
                     maskClose : false,
                     onConfirm : function (d) {
                         var newChildCourse = $.trim($('#newChildCourse').val());
+                        newChildCourse = newChildCourse.replace(/\s/g,'');
                         onCreate(newChildCourse, parentId, d);
                     },
                     onCancel : function (d) {
@@ -390,6 +394,7 @@
                     maskClose : false,
                     onConfirm : function (d) {
                         var newClassify = $.trim($('#renameChildCourse').val());
+                        newClassify = newClassify.replace(/\s/g,'');
                         onCreate(d, newClassify, id, pid);
                     },
                     onCancel : function (d) {
