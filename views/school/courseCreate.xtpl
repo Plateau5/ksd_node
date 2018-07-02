@@ -355,7 +355,8 @@
                 var videoFile = this.files[0];
                 if (videoFile.type.indexOf('audio') != -1) {//音频
                     if ($('#course_type').val() == 1) {//1为视频；2为音频
-                        $alert('请上传音频格式的文件');
+                        $alert('请上传视频格式的文件');
+                        $('#upload_video_form')[0].reset();
                         return false;
                     } else {
                         uploadType = 2;
@@ -367,7 +368,8 @@
                     }
                 } else if (videoFile.type.indexOf('video') != -1) {//视频
                     if ($('#course_type').val() == 2) {//1为视频；2为音频
-                        $alert('请上传视频格式的文件');
+                        $alert('请上传音频格式的文件');
+                        $('#upload_video_form')[0].reset();
                         return false;
                     } else {
                         uploadType = 1;
@@ -379,6 +381,7 @@
                     }
                 } else {
                     $alert('请上传正确格式的文件');
+                    $('#upload_video_form')[0].reset();
                     return false;
                 }
                 $('.upload_video').hide();
@@ -413,7 +416,6 @@
                     $('#file_name').val(result.videoName);
                 }
             });
-            $('#upload_video_form')[0].reset();
         }
 
         /***********音视频上传  end***********/
