@@ -152,12 +152,12 @@
                     course_classify : secondName
                 };
                 var url = contextPath + '/api/school/classify/createclassify';
+                d && d.close();
                 redefineAjax({
                     url : url,
                     data : data,
                     success : function (res) {
                         if (res.error_code == 0) {
-                            d && d.close();
                             $alert('课程分类新增成功', function () {
                                 window.location.reload();
                             });
@@ -166,7 +166,7 @@
                         }
                     },
                     error : function () {
-                        $alert('课程分类创建失败，请重新尝试');
+                        $alert('操作失败，请稍后重试');
                     }
                 });
             };
@@ -213,7 +213,7 @@
                                 }
                             },
                             error : function () {
-                                $alert('课程分类删除失败，请重新尝试');
+                                $alert('操作失败，请稍后重试');
                             }
                         });
                     },
@@ -259,12 +259,12 @@
                         classify_value : newName
                     };
                     var url = contextPath + '/api/school/classify/update';
+                    d && d.close();
                     redefineAjax({
                         url : url,
                         data : data,
                         success : function (res) {
                             if (res.error_code == 0) {
-                                d.close();
                                 $alert('课程分类重命名成功', function () {
                                     window.location.reload();
                                 });
@@ -273,7 +273,7 @@
                             }
                         },
                         error : function () {
-                            $alert('课程分类重命名失败，请重新尝试');
+                            $alert('操作失败，请稍后重试');
                         }
                     });
                 }
@@ -315,12 +315,12 @@
                         course_classify : title
                     };
                     var url = contextPath + '/api/school/sonclassify/create';
+                    d && d.close();
                     redefineAjax({
                         url : url,
                         data : data,
                         success : function (res) {
                             if (res.error_code == 0) {
-                                d.close();
                                 $alert('课程子分类新增成功', function () {
                                     window.location.reload();
                                 });
@@ -329,7 +329,7 @@
                             }
                         },
                         error : function () {
-                            $alert('课程子分类新增失败，请重新尝试');
+                            $alert('操作失败，请稍后重试');
                         }
                     });
                 }
@@ -364,7 +364,7 @@
                                 }
                             },
                             error : function () {
-                                $alert('课程子分类删除失败，请重新尝试');
+                                $alert('操作失败，请稍后重试');
                             }
                         });
                     },
@@ -413,12 +413,12 @@
                         parent_id : pid
                     };
                     var url = contextPath + '/api/school/sonclassify/update';
+                    d && d.close();
                     redefineAjax({
                         url : url,
                         data : data,
                         success : function (res) {
                             if (res.error_code == 0) {
-                                d.close();
                                 $alert('课程子分类重命名成功', function () {
                                     window.location.reload();
                                 });
@@ -427,7 +427,7 @@
                             }
                         },
                         error : function () {
-                            $alert('课程子分类重命名失败，请重新尝试');
+                            $alert('操作失败，请稍后重试');
                         }
                     });
                 }
