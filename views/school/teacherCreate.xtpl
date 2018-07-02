@@ -35,7 +35,7 @@
                 <div class="form_options create_options">
                     <form action="" id="teacher_create" method="post">
                         <input type="hidden" value="{{reqParams.id}}" id="teacher_id">
-                        <div class="option_item">
+                        <div class="option_item teacher_type">
                             <div class="column_name">
                                 <em class="require_icon">*</em>
                                 <span class="options_name">讲师类型：</span>
@@ -63,11 +63,11 @@
                                     {{/if}}
                                 {{else}}
                                     <div class="form_group mar6">
-                                        <input id="internal" type="radio" class="internal" name="type" value="1" checked/>
+                                        <input id="internal" type="radio" class="type_input internal" name="type" value="1" checked/>
                                         <label for="internal">内部</label>
                                     </div>
                                     <div class="form_group">
-                                        <input id="external" type="radio" class="external" name="type" value="2" />
+                                        <input id="external" type="radio" class="type_input external" name="type" value="2" />
                                         <label for="external">外部</label>
                                     </div>
                                     <span class="tips_info">(*请先选择讲师类型)</span>
@@ -179,7 +179,7 @@
                 </div>
                 <div class="btn_box clearfix create_wf_btn_box">
                     <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
-                    <a href="{{markUri}}/school/teacher/system" class="btn bg_btn create_cancel">取消</a>
+                    <a href="{{markUri}}/school/teacher/list" class="btn bg_btn create_cancel">取消</a>
                 </div>
                 <div id="upload_photo_dialog" class="upload_photo_dialog" style="display:none;">
                     <div class="upload_photo_title bold">讲师头像</div>
@@ -255,7 +255,22 @@
         /*************手机校验 end**************/
         //讲师类型切换
         function togTeacherType () {
-            //内部-讲师类型切换
+            var typeInput = $('.teacher_type .type_input');
+            var teacherId = $('#teacher_id').val().trim();
+            typeInput.off("click").on("click", function () {
+                var _this = $(this);
+                var v = _this.val().trim().number();
+                if (teacherId == '') {
+                    if (v === 1) {
+                        $('.internal_teacher').show();
+                        $('.external_teacher').hide();
+                    } else if (v === 2) {
+                        $('.internal_teacher').hide();
+                        $('.external_teacher').show();
+                    }
+                }
+            });
+            /*//内部-讲师类型切换
             var internal = $('#internal');
             internal.off("click").on("click", function () {
                 if ($('#teacher_id').val() == '') {
@@ -274,7 +289,7 @@
                         $('.external_teacher').show();
                     }
                 }
-            });
+            });*/
         }
 
 
