@@ -1,0 +1,585 @@
+<!-- 同意 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <title>同意-重新提交</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/loan/pending" class="crumbs_item">放款管理</a>
+                <a href="javascript:;" class="crumbs_item back_to_list">查询交易记录</a>
+                <a href="javascript:;" class="crumbs_item trans_records_detail">交易详情</a>
+                <a href="javascript:;" class="crumbs_item">重新提交</a>
+            </div>
+
+            <!---- 跳转列表隐藏域 ---->
+            <input type="hidden" id="start_time" value="{{reqParams.start_time}}">
+            <input type="hidden" id="end_time" value="{{reqParams.end_time}}">
+            <input type="hidden" id="start_amount" value="{{reqParams.start_amount}}">
+            <input type="hidden" id="end_amount" value="{{reqParams.end_amount}}">
+            <input type="hidden" id="paymentAccount" value="{{reqParams.payment_account}}">
+            <input type="hidden" id="typeSelect" value="{{reqParams.type}}">
+            <input type="hidden" id="current_page" value="{{reqParams.current_page}}">
+
+            <div class="form_content form_options loan_form_options clearfix" style="padding-bottom:0;">
+                <form action="" id="to_loan_agree_form" class="basic_info_edit" method="post">
+                    <input type="hidden" name="orderNo" value="{{orderNo}}" id="orderNo">
+                    <input type="hidden" id="receipt_type" value="{{reqParams.receipt_type}}">
+                    <input type="hidden" id="financialReceipt_id" name="financialReceipt_id" value="{{detail.financialReceipt_id}}">
+
+                    <!-- 基本信息 Begin -->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">业务类型：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="type" id="firmType">
+                                {{#if (detail.type === 1) }}
+                                <option value="1" selected>代发</option>
+                                {{else}}
+                                <option value="1">代发</option>
+                                {{/if}}
+                                {{#if (detail.type === 2) }}
+                                <option value="2" selected>直接支付</option>
+                                {{else}}
+                                <option value="2">直接支付</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">付方账户：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="hidden" value="{{detail.payment_account}}" id="detailPaymentAccount">
+                            <select name="payment_account" id="payment_account">
+                                <option value="">请选择</option>
+                                {{#each (bank_list) }}
+                                    <option value="{{this.bank_no}}" data-id="{{this.bank_code}}" data-bank_open="{{this.bank_open}}" data-bank_name="{{this.bank_name}}">{{this.bank_name}}，{{this.bank_no}}</option>
+                                {{/each}}
+                            </select>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <!-- 付款银行 -->
+                    <input type="hidden" name="payment_open" value="{{detail.payment_open}}" id="payment_open_bank">
+                    <!-- 付款账户名 -->
+                    <input type="hidden" name="payment_name" value="{{detail.payment_name}}" id="payment_account_name">
+                    <!-- 付方开户地区城市id -->
+                    <input type="hidden" name="payment_city" value="{{detail.payment_city}}" id="payment_city">
+
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">交易金额：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" maxlength="30" readonly data-tips="" id="amount" name="amount" value="{{detail.amount}}" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="pad_lf_rt_8">元</span>
+                        </div>
+                    </div>
+
+                    {{#if (detail.type === 2) }}
+                        <div class="option_item set_account">
+                            <div class="column_name">
+                                <span class="options_name">结算方式：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="settle_type" id="settle_type">
+                                    {{#if (detail.settle_type === 1) }}
+                                    <option value="1" selected="selected">普通</option>
+                                    {{else}}
+                                    <option value="1">普通</option>
+                                    {{/if}}
+                                    {{#if (detail.settle_type === 2) }}
+                                    <option value="2" selected="selected">快速</option>
+                                    {{else}}
+                                    <option value="2">快速</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="option_item set_account hide">
+                            <div class="column_name">
+                                <span class="options_name">结算方式：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="settle_type" id="settle_type">
+                                    {{#if (detail.settle_type === 1) }}
+                                    <option value="1" selected="selected">普通</option>
+                                    {{else}}
+                                    <option value="1">普通</option>
+                                    {{/if}}
+                                    {{#if (detail.settle_type === 2) }}
+                                    <option value="2" selected="selected">快速</option>
+                                    {{else}}
+                                    <option value="2">快速</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                    {{/if}}
+
+                    <div class="option_item bank_type">
+                        <div class="column_name">
+                            <span class="options_name">银行类别：</span>
+                        </div>
+                        <div class="column_val">
+                            {{#if (detail.bank_type === 1) }}
+                                <div class="form_group mar6">
+                                    <input type="radio"  id="gender1" class="gender male" name="bank_type" value="1" checked="checked" />
+                                    <label for="gender1">招行</label>
+                                </div>
+                                <div class="form_group">
+                                    <input type="radio"  id="gender2" class="gender female" name="bank_type" value="2" />
+                                    <label for="gender2">其他银行</label>
+                                </div>
+                            {{else}}
+                                <div class="form_group mar6">
+                                    <input type="radio"  id="gender1" class="gender male" name="bank_type" value="1" />
+                                    <label for="gender1">招行</label>
+                                </div>
+                                <div class="form_group">
+                                    <input type="radio"  id="gender2" class="gender female" name="bank_type" value="2" checked="checked" />
+                                    <label for="gender2">其他银行</label>
+                                </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方账号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" onkeyup="this.value=this.value.replace(/[^\d\s]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" maxlength="30" data-tips="请输入收方账号" id="receipt_account" name="receipt_account" value="{{detail.receipt_account}}" placeholder="请输入收方账号" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收方账户名：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required form-control" maxlength="30" data-tips="请输入收方账户名" id="receipt_account_name" name="receipt_account_name" value="{{detail.receipt_account_name}}" placeholder="请输入收方账户名" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+
+                    {{#if (detail.bank_type === 2) }}
+                        <div class="option_item payee_bank">
+                            <div class="column_name">
+                                <span class="options_name">收方开户行：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" maxlength="30" data-tips="请输入收方开户行" id="receipt_bank" name="receipt_bank" value="{{detail.receipt_bank}}" placeholder="请输入收方开户行"/>
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="option_item payee_bank hide">
+                            <div class="column_name">
+                                <span class="options_name">收方开户行：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" maxlength="30" data-tips="请输入收方开户行" id="receipt_bank" name="receipt_bank" value="{{detail.receipt_bank}}" placeholder="请输入收方开户行"/>
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                    {{/if}}
+
+                    {{#if (detail.bank_type === 2 && detail.type === 1) }}
+                        <div class="option_item payee_address1">
+                            <div class="column_name">
+                                <span class="options_name">收方开户地：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" data-tips="请输入收方开户地" id="receipt_bank_address" name="receipt_bank_address" value="{{detail.receipt_bank_address}}" placeholder="如：广东省深圳市南山区" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="option_item payee_address1 hide">
+                            <div class="column_name">
+                                <span class="options_name">收方开户地：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" data-tips="请输入收方开户地" id="receipt_bank_address" name="receipt_bank_address" value="{{detail.receipt_bank_address}}" placeholder="如：广东省深圳市南山区" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                    {{/if}}
+
+                    {{#if (detail.bank_type === 2 && detail.type === 2) }}
+                        <div class="option_item payee_address2">
+                            <div class="column_name">
+                                <span class="options_name">收方开户地区：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="hidden" name="receipt_city" id="receipt_city" value="{{detail.receipt_city}}">
+                                <input type="hidden" name="receipt_city_id" id="receipt_city_id" value="{{detail.receipt_city_id}}">
+                                <input type="hidden" name="receipt_city_name" id="receipt_city_name" value="{{detail.receipt_city_name}}">
+                                <input type="hidden" name="receipt_province_id" id="receipt_province_id" value="{{detail.receipt_province_id}}">
+                                <input type="hidden" name="receipt_province_name" id="receipt_province_name" value="{{detail.receipt_province_name}}">
+                                <input type="text" class="select_city_input cursor" name=""  value="{{#if (detail.receipt_province_name && detail.receipt_city_name) }}{{detail.receipt_province_name}}{{detail.receipt_city_name}}{{else}}请选择{{/if}}" readonly/>
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        <div class="option_item payee_bank_address">
+                            <div class="column_name">
+                                <span class="options_name">收方行地址：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" maxlength="62" data-tips="请输入收方行地址" id="receipt_address" name="receipt_address" value="{{detail.receipt_address}}" placeholder="如：广东省深圳市南山区" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        <div class="option_item payee_bank_num">
+                            <div class="column_name">
+                                <span class="options_name">收方行号：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" onkeyup="this.value=this.value.replace(/[^\d\s]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" maxlength="30" id="receipt_bank_no" data-tips="请输入收方行号" name="receipt_bank_no" value="{{detail.receipt_bank_no}}" placeholder="请输入收方行号(非必填)" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="option_item payee_address2 hide">
+                            <div class="column_name">
+                                <span class="options_name">收方开户地区：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="hidden" name="receipt_city" id="receipt_city" value="{{detail.receipt_city}}">
+                                <input type="hidden" name="receipt_city_id" id="receipt_city_id" value="{{detail.receipt_city_id}}">
+                                <input type="hidden" name="receipt_city_name" id="receipt_city_name" value="{{detail.receipt_city_name}}">
+                                <input type="hidden" name="receipt_province_id" id="receipt_province_id" value="{{detail.receipt_province_id}}">
+                                <input type="hidden" name="receipt_province_name" id="receipt_province_name" value="{{detail.receipt_province_name}}">
+                                <input type="text" class="select_city_input cursor" name=""  value="请选择" readonly/>
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        <div class="option_item payee_bank_address hide">
+                            <div class="column_name">
+                                <span class="options_name">收方行地址：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" maxlength="62" data-tips="请输入收方行地址" id="receipt_address" name="receipt_address" value="{{detail.receipt_address}}" placeholder="如：广东省深圳市南山区" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        <div class="option_item payee_bank_num hide">
+                            <div class="column_name">
+                                <span class="options_name">收方行号：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" class="required" onkeyup="this.value=this.value.replace(/[^\d\s]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" maxlength="30" id="receipt_bank_no" data-tips="请输入收方行号" name="receipt_bank_no" value="{{detail.receipt_bank_no}}" placeholder="请输入收方行号(非必填)" />
+                                <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                    {{/if}}
+
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">收款方手机号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required phone" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" maxlength="11" id="receipt_phone" name="receipt_phone" value="{{detail.receipt_phone}}" placeholder="请输入手机号 (非必填)" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <!-- 交易类型 -->
+                    <!--<input type="hidden" name="transaction_type"  value="1" id="transaction_type">-->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">用途：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required" style="width:612px;" maxlength="30" data-tips="请输入用途" id="financial_use" name="financial_use" value="{{detail.financial_use}}" placeholder="请输入用途" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">摘要：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="required summary" style="width:612px;" maxlength="30" data-tips="" id="summary" name="summary" value="{{detail.summary}}" placeholder="请输入备注内容（非必填）" />
+                            <div class="tips_info">(*<span class="tips_text"></span>)</div>
+                            <span class="formError"></span>
+                        </div>
+                    </div>
+                    {{#if (verifyCode(1520)) }}
+                        <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top: 20px;">
+                            <a href="javascript:" id="saveAndGoNext" class="btn orange_btn confirm to_agree_confirm" data-url="" data-next="">提交</a>
+                            <a href="javascript:" class="btn bg_btn edit_cancel trans_records_detail">取消</a>
+                        </div>
+                    {{/if}}
+                </form>
+            </div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/citySelect/citySelect.min.js"></script>
+<script src="{{markUri}}/static/js/merchants.js"></script>
+<script src="{{markUri}}/static/js/merchantsToLoanAgree.min.js"></script>
+<script>
+    var city_list = '{{{city_list}}}';
+    city_list = JSON.parse(city_list);
+    var city_list_selected = '{{{city_list_selected}}}';
+    if (city_list_selected == '') {
+        city_list_selected = [];
+    } else {
+        city_list_selected = JSON.parse(city_list_selected);
+    }
+
+    (function ($) {
+
+        function selectPaymentAccount () {
+            var paymentAccount = $("#detailPaymentAccount").val();
+            $("#payment_account option").each(function() {
+                if($(this).val() === paymentAccount) {
+                    $(this).attr("selected","selected");
+                }else {
+                    $(this).removeAttr("selected")
+                }
+            });
+        }
+        //提交按钮
+        function saveOrg () {
+            var btn = $(".to_agree_confirm");
+            var firmType = $('#firmType');      //业务类型
+            var receipt_account_name = $('#receipt_account_name');  //收方账户名
+            var financial_use = $('#financial_use');    //用途
+            var payment_account = $('#payment_account');    //付方账户
+            var receipt_bank = $('#receipt_bank');  //收方开户行
+            var receipt_address = $('#receipt_address');    //收方行地址
+            var receipt_bank_address = $('#receipt_bank_address');  //收方开户地
+            var receipt_account = $('#receipt_account');            //收方账号
+
+            btn.off("click").on("click", function () {
+                var checked = $('.bank_type').find('input[type="radio"]').eq(1).prop('checked'); //银行类型
+                var receipt_city = $('#receipt_city');
+
+                if(!receipt_account.val()){
+                    receipt_account.parent().find('.formError').html('请输入收方账号');
+                    receipt_account.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+                if(!receipt_account_name.val()){
+                    receipt_account_name.parent().find('.formError').html('请输入收方账户名');
+                    receipt_account_name.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+                if(!payment_account.val()){
+                    payment_account.parent().find('.formError').html('请选择付方账户');
+                    payment_account.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+                if (firmType.val() === "1" && checked ) {
+                    if(!receipt_bank.val()){
+                        receipt_bank.parent().find('.formError').html('请输入收方开户行');
+                        receipt_bank.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+                    if(!receipt_bank_address.val()){
+                        receipt_bank_address.parent().find('.formError').html('请输入收方开户地');
+                        receipt_bank_address.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+                }
+                if (firmType.val() === "2" && checked) {
+                    if(!receipt_bank.val()){
+                        receipt_bank.parent().find('.formError').html('请输入收方开户行');
+                        receipt_bank.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+
+                    if(!receipt_city.val()){
+                        receipt_city.parent().find('.formError').html('请选择收方开户地区');
+                        receipt_city.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+
+                    if(!receipt_address.val()){
+                        receipt_address.parent().find('.formError').html('请输入收方行地址');
+                        receipt_address.css('border-color','#FB2741');
+                        btn.attr('disabled',false);
+                        return;
+                    }
+
+                }
+                if(!financial_use.val()){
+                    financial_use.parent().find('.formError').html('请输入用途');
+                    financial_use.css('border-color','#FB2741');
+                    btn.attr('disabled',false);
+                    return;
+                }
+
+                var errorMsg = '';
+                $('.formError').each(function () {
+                    if( $(this).html() !== '' ){
+                        errorMsg = 1;
+                        return false;
+                    }
+                });
+                if (errorMsg !== 1) {
+                    dialog("open", {
+                        closeBtn : false,
+                        "title" : "提醒",
+                        "button" : ["确认","取消"],
+                        "content" : "您确认提交至银行？",
+                        "maskClose" : false,
+                        onConfirm : function (d) {
+                            d.close();
+                            ajaxSubmit();
+                        },
+                        onCancel : function (d) {
+                            d.close();
+                        }
+                    });
+                }
+
+            });
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('to_loan_agree_form'));
+            $.ajax({
+                type:'post',
+                timeout:300000,
+                url : contextPath + "/api/loan/submit/again",
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('提交成功', function () {
+                            var url = contextPath + markUri +'/loan/transRecordsList';
+                            locationTo({
+                                action : url,
+                                param : {}
+                            });
+                        });
+                    } else {
+                        if (res.error_code == 1022) {
+                            $alert(res.error_msg ,function () {
+                                var url = contextPath + markUri +'/loan/transRecordsList';
+                                locationTo({
+                                    action : url,
+                                    param : {}
+                                });
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+
+        function backToList (){
+            var btn = $(".back_to_list");
+            var url = contextPath + markUri +'/loan/transRecordsList';
+            btn.off('click').on('click', function (){
+                locationTo({
+                    action : url,
+                    param : {}
+                });
+            });
+        }
+
+        function toRecordsDetail () {
+            var Btn = $(".trans_records_detail");
+            var recordsDetailUrl = '/loan/transRecordsList/detail';
+            var current_page = $('#current_page').val().trim();
+            var start_time = $('#start_time').val().trim();
+            var end_time = $("#end_time").val().trim();
+            var start_amount = $('#start_amount').val().trim();
+            var end_amount = $('#end_amount').val().trim();
+            var payment_account = $('#paymentAccount').val().trim();
+            var typeSelect = $('#typeSelect').val().trim();
+
+            Btn.off('click').on('click', function () {
+                var id = $("#financialReceipt_id").val();
+                locationTo({
+                    action : contextPath + markUri + recordsDetailUrl,
+                    param : {
+                        financialReceipt_id : id,
+                        current_page : current_page,
+                        start_time : start_time,
+                        end_time : end_time,
+                        start_amount : start_amount,
+                        end_amount : end_amount,
+                        payment_account : payment_account,
+                        typeSelect : typeSelect
+                    }
+                })
+            });
+        }
+
+        $(function() {
+            selectPaymentAccount();  //下拉取值和回显
+            saveOrg();   //提交放款按钮逻辑
+            getSelectedCitys();   //收方开户地区城市插件
+            backToList();  //返回交易列表
+            toRecordsDetail(); //返回交易记录详情
+        });
+    })(jQuery,undefined);
+</script>
+</html>

@@ -11,127 +11,220 @@
 	<link rel="icon" type="image/x-icon" href="{{markUri}}/static/icon/favicon.ico" />
 	<title>打印详情</title>
 	<style>
-		*{padding:0;margin:0;list-style:none;font-family:"宋体"}@media screen and (min-width: 1366px){.detail_content{width:60%;height:auto;margin:auto;padding-bottom:100px;font-size:14px}}@media screen and (max-width: 1366px){.detail_content{width:90%;height:auto;margin:auto;padding-bottom:100px;font-size:14px}}@media print{.detail_content{width:100%;height:auto;margin:auto;font-size:14px}}.content_box{width:100%;margin:0 auto;border-collapse:collapse}table{table-layout:fixed}table td{word-break:break-word}table.content_box tr td{padding:0 6px;border:2px solid #666}table tr{height:30px;line-height:30px}.title{width:100%;height:60px;line-height:60px;font-size:24px;font-weight:bolder;text-align:center;font-family:"microsoft yahei"}.title_info{width:100%;height:28px;line-height:28px;margin:0 auto 5px}.title_info > div{display:inline-block;height:inherit}.title_info .apply_time{margin-left:30px}table.content_box > tbody > tr > td:first-child{width:12%}.content_box .card_num{width:5%}.approval_box{height:auto}.content_box tr td.approval_flow{padding:0}.flow_lists{width:100%;border-collapse:collapse;font-size:12px}.flow_lists tbody tr{line-height:22px}table.flow_lists tbody tr td{border:0;border-bottom:2px solid #666}table.flow_lists tbody tr:last-child td{border:0}
+		*{padding:0;margin:0;list-style:none;font-family:"宋体"}@media screen and (min-width:1366px){.detail_content{width:60%;height:auto;margin:auto;padding-bottom:100px;font-size:14px}}@media screen and (max-width:1366px){.detail_content{width:90%;height:auto;margin:auto;padding-bottom:100px;font-size:14px}}@media print{.detail_content{width:100%;height:auto;margin:auto;font-size:14px}}.content_box{width:100%;margin:0 auto;border-collapse:collapse}table{table-layout:fixed}table td{word-break:break-word}table.content_box tr td{padding:0 6px;border:2px solid #666}table tr{height:30px;line-height:30px}.title{width:100%;height:60px;line-height:60px;font-size:24px;font-weight:bolder;text-align:center;font-family:"microsoft yahei"}.title_info{width:100%;height:28px;line-height:28px;margin:0 auto 5px}.title_info>div{display:inline-block;height:inherit}.title_info .apply_time{margin-left:30px}table.content_box>tbody>tr>td:first-child{width:12%}.content_box .card_num{width:5%}.approval_box{height:auto}.content_box tr td.approval_flow{padding:0}.flow_lists{width:100%;border-collapse:collapse;font-size:12px}.flow_lists tbody tr{line-height:22px}table.flow_lists tbody tr td{border:0;border-bottom:2px solid #666}table.flow_lists tbody tr:last-child td{border:0}.wrapper{width:100%;color:#333}.main{width:596px;margin:0 auto;position:relative}.main .title{font-size:20px;width:530px;margin:0 auto;border-bottom:2px solid #e6000f;padding-top:50px;height:50px;line-height:50px;text-align:center}.main table{font-size:12px;width:530px;margin:20px auto;border-collapse:collapse}.main table .bold{font-weight:900}.main table .ml_20{margin-left:2%}.main table .ml_40{margin-left:10%}.main table .ml_80{margin-left:180px}.main table tr{height:30px;line-height:30px}.main table tr td{border:1px solid #d3d3d3;box-sizing:border-box}.receipt_name{text-align:center;font-weight:900;background:#f5f5f5}.receipt_value{padding-left:24px}.main table .head_list{height:40px;line-height:40px}
 	</style>
 </head>
 <body>
 <div class="wrapper" id="wrapper">
-	<div class="detail_content">
-		<div class="title">
-			<span class="title_name">{{vo.city_name}}{{vo.car_type_value}}</span><span>请款审批</span>
-		</div>
-		<div class="title_info">
-			<div class="company">{{company_name}}</div>
-			<div class="apply_time">
-				<span>申请日期：</span>
-				<span class="time">{{vo.create_time}}</span>
+	{{#each (data) }}
+		<div class="page_item" style="page-break-before: always">
+			<div class="detail_content">
+				<div class="title">
+					<span class="title_name">{{this.city_name}}{{this.car_type_value}}</span><span>请款审批</span>
+				</div>
+				<div class="title_info">
+					<div class="company">{{root.company_name}}</div>
+					<div class="apply_time">
+						<span>申请日期：</span>
+						<span class="time">{{this.create_time}}</span>
+					</div>
+				</div>
+				<table class="content_box">
+					<tbody>
+					<tr>
+						<td colspan="2">订单编号</td>
+						<td colspan="10">{{this.order_no}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">申请人</td>
+						<td colspan="4">{{this.create_name}}</td>
+						<td colspan="2">上牌抵押城市</td>
+						<td colspan="4">{{this.pledge_city}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">申请人部门</td>
+						<td colspan="4">{{this.dpartment_name}}</td>
+						<td colspan="2">上牌方</td>
+						<td colspan="4">{{this.regist_type_value}}</td>
+						<!-- <c:if test="${this.car_type eq 0 }">
+                        </c:if>
+                        <c:if test="${this.car_type eq 1 }">
+                            <td>保险是否完成</td>
+                            <td colspan="3"><c:if test="${this.insurance_isfinish eq 1 }">是</c:if><c:if test="${this.insurance_isfinish eq 0 }">否</c:if></td>
+                        </c:if> -->
+					</tr>
+					<tr>
+						<td colspan="2">客户姓名</td>
+						<td colspan="4">{{this.user_name}}</td>
+						<td colspan="2">抵押方</td>
+						<td colspan="4">{{this.pledge_type_value}}</td>
+						<!-- <c:if test="${this.car_type eq 0 }">
+                        </c:if>
+                        <c:if test="${this.car_type eq 1 }">
+                            <td>上牌是否完成</td>
+                            <td colspan="3"><c:if test="${this.regist_isfinish eq 1 }">是</c:if><c:if test="${this.regist_isfinish eq 0 }">否</c:if></td>
+                        </c:if> -->
+					</tr>
+					<tr>
+						<td colspan="2">放款类型</td>
+						<td colspan="4">{{this.risk_type_value }}</td>
+						<td colspan="2">车辆款型</td>
+						<td colspan="4">{{this.brand_name }}{{this.series_name }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">车架号</td>
+						<td colspan="10">{{this.vin }}</td>
+					</tr>
+
+					<tr>
+						<td colspan="2">金融产品</td>
+						<td colspan="10">{{this.product_name}}</td>
+					</tr>
+					<tr>
+						<td colspan="2">商户名称</td>
+						<td colspan="10">{{this.supplier_name}}</td>
+					</tr>
+					<!--收款信息 begin-->
+					<tr>
+						<td colspan="3">收款名称</td>
+						<td colspan="3">付款名称</td>
+						<td colspan="3">开户行</td>
+						<td colspan="3">付款账号</td>
+					</tr>
+					<tr>
+						<td colspan="3">{{this.receipt_name}}</td>
+						<td colspan="3">{{this.pay_name}}</td>
+						<td colspan="3">{{this.pay_open_bank}}</td>
+						<td colspan="3">{{this.pay_account}}</td>
+					</tr>
+					{{#each (this.data) }}
+					<tr>
+						<td colspan="6">{{this.name }}(元)</td>
+						<td colspan="6">{{this.amount }}</td>
+					</tr>
+					{{/each}}
+					<tr>
+						<td colspan="6">付款总额(元)</td>
+						<td colspan="6">{{this.total_charge }}({{this.total_charge_cn}})</td>
+					</tr>
+					<!--付款信息 end-->
+					<tr>
+						<td colspan="2">备注说明</td>
+						<td colspan="10">
+							{{#if (this.request_payout_remark) }}
+								{{this.request_payout_remark }}
+							{{else}}
+							无
+							{{/if}}
+						</td>
+					</tr>
+					<!--审批流程 begin-->
+					<tr class="approval_box">
+						<td rowspan="1000" colspan="2">审批人</td>
+						<td colspan="10" class="approval_flow">
+							<table class="flow_lists">
+								<tbody>
+								{{#each (this.data_his) }}
+								<tr>
+									<td colspan="10">{{this.modify_name }} {{this.status_value}} {{#if (this.remark && this.remark !== '') }}添加评论 ({{this.remark}}){{/if}} {{this.modify_time}}</td>
+								</tr>
+								{{/each}}
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<!--审批流程 begin-->
+					</tbody>
+				</table>
+				<div class="title_info">
+					<div class="company"><span>打印日期：</span><span>{{date}}</span></div>
+					<div class="apply_time">
+						<span>打印人：</span>
+						<span class="time">{{print_name}}</span>
+					</div>
+				</div>
 			</div>
 		</div>
-		<table class="content_box">
-			<tbody>
-			<tr>
-				<td colspan="2">订单编号</td>
-				<td colspan="10">{{vo.order_no}}</td>
-			</tr>
-			<tr>
-				<td colspan="2">申请人</td>
-				<td colspan="4">{{vo.create_name}}</td>
-				<td colspan="2">上牌抵押城市</td>
-				<td colspan="4">{{vo.pledge_city}}</td>
-			</tr>
-			<tr>
-				<td colspan="2">申请人部门</td>
-				<td colspan="4">{{vo.dpartment_name}}</td>
-				<td colspan="2">上牌方</td>
-				<td colspan="4">{{vo.regist_type_value}}</td>
-				<!-- <c:if test="${vo.car_type eq 0 }">
-				</c:if>
-				<c:if test="${vo.car_type eq 1 }">
-					<td>保险是否完成</td>
-					<td colspan="3"><c:if test="${vo.insurance_isfinish eq 1 }">是</c:if><c:if test="${vo.insurance_isfinish eq 0 }">否</c:if></td>
-				</c:if> -->
-			</tr>
-			<tr>
-				<td colspan="2">客户姓名</td>
-				<td colspan="4">{{vo.user_name}}</td>
-				<td colspan="2">抵押方</td>
-				<td colspan="4">{{vo.pledge_type_value}}</td>
-				<!-- <c:if test="${vo.car_type eq 0 }">
-				</c:if>
-				<c:if test="${vo.car_type eq 1 }">
-					<td>上牌是否完成</td>
-					<td colspan="3"><c:if test="${vo.regist_isfinish eq 1 }">是</c:if><c:if test="${vo.regist_isfinish eq 0 }">否</c:if></td>
-				</c:if> -->
-			</tr>
-			<tr>
-				<td colspan="2">放款类型</td>
-				<td colspan="4">{{vo.risk_type_value }}</td>
-				<td colspan="2">车辆款型</td>
-				<td colspan="4">{{vo.brand_name }}{{vo.series_name }}</td>
-			</tr>
-			<tr>
-				<td colspan="2">车架号</td>
-				<td colspan="10">{{vo.vin }}</td>
-			</tr>
-
-			<tr>
-				<td colspan="2">金融产品</td>
-				<td colspan="10">{{vo.product_name}}</td>
-			</tr>
-			<!--收款信息 begin-->
-			<tr>
-				<td colspan="3">收款名称</td>
-				<td colspan="3">付款名称</td>
-				<td colspan="3">开户行</td>
-				<td colspan="3">付款账号</td>
-			</tr>
-			<tr>
-				<td colspan="3">{{vo.receipt_name}}</td>
-				<td colspan="3">{{vo.pay_name}}</td>
-				<td colspan="3">{{vo.pay_open_bank}}</td>
-				<td colspan="3">{{vo.pay_account}}</td>
-			</tr>
-			{{#each (vo.data) }}
-				<tr>
-					<td colspan="6">{{this.name }}(元)</td>
-					<td colspan="6">{{this.amount }}</td>
-				</tr>
-			{{/each}}
-			<tr>
-				<td colspan="6">付款总额(元)</td>
-				<td colspan="6">{{vo.total_charge }}({{total_charge_cn}})</td>
-			</tr>
-			<!--付款信息 end-->
-			<tr>
-				<td colspan="2">备注说明</td>
-				<td colspan="10">{{vo.request_payout_remark }}</td>
-			</tr>
-			<!--审批流程 begin-->
-			<tr class="approval_box">
-				<td rowspan="1000" colspan="2">审批人</td>
-				<td colspan="10" class="approval_flow">
-					<table class="flow_lists">
+	{{/each}}
+	{{#if (financial) }}
+		<div class="page_item detail_content" style="page-break-before: always">
+			<!--<img src="{{root.image_url}}" alt="">-->
+			<div class="wrapper">
+				<div class="main">
+					<div class="title">
+						付款回单
+					</div>
+					<table  cellspacing="0">
+						<colgroup>
+							<col style="width: 24%;" />
+							<col style="width: 76%;" />
+						</colgroup>
 						<tbody>
-						{{#each (list) }}
-							<tr>
-								<td colspan="10">{{this.modify_name }} {{this.status_value}} {{#if (this.remark || this.remark !== '' || this.remark.length > 0) }}添加评论 ({{this.remark}}){{/if}} {{this.modify_time}}</td>
-							</tr>
-						{{/each}}
+						<tr class="head_list">
+							<td colspan="2">
+								<span class="bold ml_20">日期：</span>
+								<span>{{financial.create_time}}</span>
+								<span class="bold ml_40" style="margin-left:6%;">业务类型：</span>
+								<span>
+									{{#if (financial.type === 1) }}
+										代发
+									{{elseif (financial.type === 2) }}
+										直接支付
+									{{/if}}
+								</span>
+								<span class="bold ml_40">流水号：</span>
+								<span>{{financial.bank_mark_no}}</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="receipt_name">付款帐号</td>
+							<td class="receipt_value">{{financial.payment_account}}</td>
+						</tr>
+						<tr>
+							<td class="receipt_name">付方户名</td>
+							<td class="receipt_value">{{financial.payment_name}}</td>
+						</tr><tr>
+							<td class="receipt_name">付方开户行</td>
+							<td class="receipt_value">{{financial.payment_open}}</td>
+						</tr><tr>
+							<td class="receipt_name">交易金额</td>
+							<td class="receipt_value">{{financial.amount}} 元 ({{financial.en_amount}})</td>
+						</tr>
+						<tr>
+							<td class="receipt_name">收方帐号</td>
+							<td class="receipt_value">{{financial.receipt_account}}</td>
+						</tr>
+						<tr>
+							<td class="receipt_name">收方账户名</td>
+							<td class="receipt_value">{{financial.receipt_account_name}}</td>
+						</tr>
+						<tr>
+							<td class="receipt_name">收方开户行</td>
+							<td class="receipt_value">{{financial.receipt_bank}}</td>
+						</tr>
+						<tr>
+							<td class="receipt_name">用途</td>
+							<td class="receipt_value">{{financial.financial_use}}</td>
+						</tr>
+						<tr>
+							<td class="receipt_name">摘要</td>
+							<td class="receipt_value">{{financial.summary}}</td>
+						</tr>
+						<tr class="head_list">
+							<td colspan="2">
+								<span class="bold ml_20">业务参考号：</span>
+								<span style="display: inline-block;width:260px;">{{financial.bank_business_no}}213124</span>
+								<span class="bold">打印时间：</span>
+								<span>{{date}}</span>
+							</td>
+						</tr>
 						</tbody>
 					</table>
-				</td>
-			</tr>
-			<!--审批流程 begin-->
-			</tbody>
-		</table>
-		<div class="title_info">
-			<div class="company"><span>打印日期：</span><span>{{date}}</span></div>
-			<div class="apply_time">
-				<span>打印人：</span>
-				<span class="time">{{user_name}}</span>
+				</div>
 			</div>
 		</div>
-	</div>
+	{{/if}}
+
 </div>
 <input type="hidden" name="supplier_name" value="{{supplier_name}}" id="supplier_name">
 <input type="hidden" name="supplier_id" value="{{supplier_id}}" id="supplier_id">

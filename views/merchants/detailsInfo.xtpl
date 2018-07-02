@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
@@ -61,6 +61,7 @@
                 <div class="account_item clearfix">
                     <div class="account_list_name merchant_name">账户<!--{{xindex + 1}}-->{{#if (accountList.length > 1) }}<em class="drop_down">切换账户</em>{{/if}}</div>
                     <input type="hidden"  id="listLength" value="{{accountList.length}}">
+                    <input type="hidden"  id="uid" value="{{uid}}">
                     <ul class="account_list cont_list" id="defaultAccount">
                         {{#each (accountList) }}
                             {{#if (vo.pay_account === this.pay_account) }}
@@ -82,12 +83,12 @@
                                     <div class="account_row"><div class="account_name">开户行：</div>
                                         <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                     </div>
-                                    <div class="account_row">
-                                        <div class="account_name">总金额：</div>
-                                        {{#if (this.total_charge || this.total_charge === 0) }}
-                                        <div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}} 元</div>
-                                        {{/if}}
-                                    </div>
+                                    <!--<div class="account_row">-->
+                                        <!--<div class="account_name">总金额：</div>-->
+                                        <!--{{#if (this.total_charge || this.total_charge === 0) }}-->
+                                        <!--<div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}} 元</div>-->
+                                        <!--{{/if}}-->
+                                    <!--</div>-->
                                     <input type="hidden" id="totalCharge" value="{{this.total_charge}}">
                                 </li>
                             {{/if}}
@@ -174,14 +175,14 @@
                                     <select name="is_pass" class="filtrate_select adjust_width" id="is_pass">
                                         <option value="">全部</option>
                                         {{#if (vo.is_pass === 1) }}
-                                        <option selected value="1">已通过</option>
+                                        <option selected value="1">同意</option>
                                         {{else}}
-                                        <option value="1">已通过</option>
+                                        <option value="1">同意</option>
                                         {{/if}}
                                         {{#if (vo.is_pass === 0) }}
-                                        <option selected value="0">未通过</option>
+                                        <option selected value="0">不同意</option>
                                         {{else}}
-                                        <option value="0">未通过</option>
+                                        <option value="0">不同意</option>
                                         {{/if}}
                                     </select>
                                 </div>
@@ -280,15 +281,16 @@
                     </div>
                 </form>
 
+                <!--待审批列表-->
                 <div class="order_list">
                     {{#if (reqParams.list_type === '1') }}
                     <div class="loan_order_btn">
-                        <div class="total_btn clearfix">
-                            <div id="selectedAll" class="form_group lf">
+                        <div class="total_btn">
+                            <div id="selectedAll" class="form_group inline_block">
                                 <input type="checkbox" class="" name="" value="" />
                                 <label class="nor_wrap">全选</label>
                             </div>
-                            <div class="total_operate_btn text_right">
+                            <div class="total_operate_btn text_right clearfix">
                                 {{#if (verifyCode(1493)) }}
                                 <a href="javascript:" data-btn_type="1" class="go_forward audit_btn agree_btn batch_all" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree">
                                     同意
@@ -309,22 +311,54 @@
                         </div>
                     </div>
                     {{/if}}
+                    {{#if (reqParams.list_type === '1' && list.length > 0) }}
+                        {{#if (verifyCode(1493)) }}
+                            <a href="javascript:" class="batch_btn rf" style="">批量放款</a>
+                        {{else}}
+                            <div style="display: block;width:100%;height:20px;"></div>
+                        {{/if}}
+                    {{else}}
+                    <div style="display: block;width:100%;height:20px;"></div>
+                    {{/if}}
                     {{#if (list.length > 0) }}
                     <input type="hidden" id="haveOrderList" value="1">
-                    <ul class="loan_order_list">
+                    <ul class="loan_order_list clearfix">
                         {{#each (list) }}
-                        <li class="list_item" data-id="{{this.advance_id}}">
+                        <li class="list_item" data-id="{{this.advance_id}}" data-responsible="{{this.responsible}}">
                             <div class="loan_time">
-                                <div class="form_group lf loan_checkbox">
+                                <div class="form_group lf loan_checkbox" style="height:46px;line-height:56px;">
                                     <input type="checkbox" class="" name="" value="{{this.advance_id}}">
                                     <label class="order_label" data-total_charge="{{this.total_charge}}" data-deduction="{{this.deduction}}"></label>
                                 </div>
-                                <span>{{this.create_time}}</span>
-                                {{#if (xindex === 0) }}
-                                    {{#if (root.reqParams.list_type === '1') }}
-                                    <a href="javascript:" class="batch_btn rf">批量放款</a>
-                                    {{/if}}
+                                <div class="loan_time_detail mar_left_20">{{this.create_time}}</div>
+                                {{#if (this.total_charge || this.total_charge === 0) }}
+                                <div class="total_receipts">
+                                    <div class="receipt_name">收款总额：</div>
+                                    <div class="amount">{{this.total_charge}}&nbsp;元</div>
+                                    <div class="capital_amount">({{this.cn_totalCharge}})</div>
+                                </div>
                                 {{/if}}
+
+                                <div class="order_btn_box pay_operate_btn text_right">
+                                    {{#if (reqParams.list_type === '1') }}
+                                    {{#if (root.verifyCode(1493)) }}
+                                    <a href="javascript:" data-btn_type="1" data-responsible="{{this.responsible}}"  class="go_forward audit_btn agree_btn">同意</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1494)) }}
+                                    <a href="javascript:" data-btn_type="2"  data-responsible="{{this.responsible}}" class="go_forward audit_btn disagree_btn">不同意</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1495)) }}
+                                    <a href="javascript:" data-btn_type="3"  data-responsible="{{this.responsible}}" class="go_forward audit_btn transfer_btn">转交他人</a>
+                                    {{/if}}
+                                    {{/if}}
+                                    {{#if (reqParams.list_type === '2' && this.is_pass === 1) }}
+                                    {{#if (root.verifyCode(1190)) }}
+                                    <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}"  class="cursor loan_detail_btn print_btn" id="print_btn" target="_blank">打印</a>
+                                    {{/if}}
+                                    {{/if}}
+                                </div>
+
+
                             </div>
                             <div class="loan_list clearfix">
                                 <div class="loan_row" title="{{this.user_name}}">
@@ -436,10 +470,10 @@
                                     <div class="loan_value">{{this.refund_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
-                                {{#if (this.refund_charge || this.refund_charge === 0) }}
+                                {{#if (this.car_credit_charge || this.car_credit_charge === 0) }}
                                 <div class="loan_row">
                                     <div class="loan_name">车价贷款(返贷)：</div>
-                                    <div class="loan_value">{{this.refund_charge}}&nbsp;元</div>
+                                    <div class="loan_value">{{this.car_credit_charge}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.deduction || this.deduction === 0) }}
@@ -448,31 +482,6 @@
                                     <div class="loan_value">{{this.deduction}}&nbsp;元</div>
                                 </div>
                                 {{/if}}
-                                {{#if (this.total_charge || this.total_charge === 0) }}
-                                <div class="total_receipts clearfix">
-                                    <div class="receipt_name">收款总额：</div>
-                                    <div class="amount">{{this.total_charge}}&nbsp;元</div>
-                                    <div class="capital_amount">({{this.cn_totalCharge}})</div>
-                                </div>
-                                {{/if}}
-                                <div class="order_btn_box pay_operate_btn text_right">
-                                    {{#if (reqParams.list_type === '1') }}
-                                        {{#if (root.verifyCode(1493)) }}
-                                        <a href="javascript:" data-btn_type="1"  class="go_forward audit_btn agree_btn">同意</a>
-                                        {{/if}}
-                                        {{#if (root.verifyCode(1494)) }}
-                                        <a href="javascript:" data-btn_type="2"  class="go_forward audit_btn disagree_btn">不同意</a>
-                                        {{/if}}
-                                        {{#if (root.verifyCode(1495)) }}
-                                        <a href="javascript:" data-btn_type="3"  class="go_forward audit_btn transfer_btn">转交他人</a>
-                                        {{/if}}
-                                    {{/if}}
-                                    {{#if (reqParams.list_type === '2' && this.is_pass === 1) }}
-                                        {{#if (root.verifyCode(1190)) }}
-                                            <a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{this.orderNo}}"  class="cursor loan_detail_btn print_btn" id="print_btn" target="_blank">打印</a>
-                                        {{/if}}
-                                    {{/if}}
-                                </div>
                             </div>
                         </li>
                         {{/each}}
@@ -483,11 +492,7 @@
                     {{/if}}
                 </div>
                 <!--分页部分 Begin-->
-
-
-
             </div>
-
 
             <!--分页部分 End-->
         </div>
@@ -512,9 +517,9 @@
     var payAccount = $('#pay_account').val().trim();        // 默认账户
     var settlementType =$('#settlement_type').val().trim();       // 结算方式
     var isPass =$('#isPass').val().trim();       // 审批结果
+    var uid = $('#uid').val().trim();       //获取当前审批人的ID
     (function ($, window) {
         paginationSwitch();     // 分页切换
-
 
         //全选/全不选
         function selectedAll(){
@@ -591,21 +596,24 @@
         }
         function batch (){
             $(".batch_btn").click(function(){
+                $('.loan_time_detail').removeClass('mar_left_20');
                 $(".batch_btn").hide();
                 $(".total_btn").show();
                 $(".total_btn").addClass('space');
                 $(".loan_checkbox").show();
                 $('.order_btn_box').hide();
             })
-        };
+        }
+
         function cancelBatchAudit(){
             $(".cancel_batch_btn").on('click', function(){
+                $('.loan_time_detail').addClass('mar_left_20');
                 $(".total_btn").hide();
                 $(".loan_checkbox").hide();
                 $('.batch_btn').show();
                 $('.order_btn_box').show();
             })
-        };
+        }
 
         function  accountId(){
             var btn = $('.tog_account');
@@ -749,14 +757,62 @@
             });
         }
 
-        // 跳转同意页面
-        function toAuditPage () {
-            var btn = $('.audit_btn');
-            btn.off('click').on('click', function () {
+        // 单个放款跳转同意不同意页面
+        function toOneAuditPage() {
+            var agreeBtn = $('.pay_operate_btn .audit_btn');
+            agreeBtn.off('click').on('click', function () {
                 var _this = $(this);
                 var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
                 var ids = '';
                 var nextUrl = '';
+                var toAgreeUrl = '';
+                var responsible = _this.data('responsible');
+                var index = responsible .lastIndexOf(",");
+                var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
+                if (btnType === 1) {
+                    if (str == uid) {
+                        nextUrl = '/loan/toLoanAgree';
+                    } else {
+                        nextUrl = '/loan/agree';
+                    }
+                } else if (btnType === 2) {
+                    nextUrl = '/loan/disagree';
+                } else if (btnType === 3) {
+                    nextUrl = '/loan/turnover';
+                }
+                ids = _this.parents('.list_item').data('id').toString();        // 获取当前订单ID
+                toAgreeUrl = contextPath + markUri + nextUrl;
+                locationTo({
+                    action : toAgreeUrl,
+                    param : {
+                        advance_ids : ids,
+                        url : listUrl,
+                        navigation : navigation,
+                        type : btnType,
+                        supplier_id : merchantId,
+                        supplier_name : merchantName,
+                        timeorder_type: timeorderType,
+                        receipt_type: receiptType,
+                        orderby_type: orderbyType,
+                        start_with : start_with,
+                        list_type : listType,
+                        pay_account : payAccount,
+                        settlement_type: settlementType,
+                        is_pass : isPass
+                    }
+                });
+            });
+        }
+
+        // 批量放款跳转同意不同意页面
+        function toBatchAuditPage () {
+            var batchAgreeBtn = $('.batch_all');
+            batchAgreeBtn.off('click').on('click', function () {
+                var _this = $(this);
+                var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
+                var ids = '';
+                var nextUrl = '';
+                var toAgreeUrl = '';
                 if (btnType === 1) {
                     nextUrl = '/loan/agree';
                 } else if (btnType === 2) {
@@ -764,17 +820,125 @@
                 } else if (btnType === 3) {
                     nextUrl = '/loan/turnover';
                 }
-                if (_this.hasClass('batch_all')) {
-                    ids = getBatchOrderIds();
-                } else {
-                    ids = _this.parents('.list_item').data('id').toString();
-                }
-                if (ids == '') {
+                var orderList = $('.loan_order_list .list_item');      // 订单列表
+                var loanIdArr = [];     // 存储选中的订单的放款ID
+                var approvalIdArr = []; // 存储选中的订单的审批ID
+                orderList.each(function () {
+                    var _this = $(this);
+                    var _label = _this.find('label.order_label');       // 当前订单的复选框
+                    var orderId = _this.data('id');
+                    if (_label.hasClass('checked')) {
+                        var responsible = _this.data('responsible');
+                        var index = responsible .lastIndexOf(",");
+                        var str  = responsible .substring(index + 1, responsible .length);
+                        if (str == uid) {
+                            loanIdArr.push(orderId);
+                        }else {
+                            approvalIdArr.push(orderId);
+                        }
+                    }
+                });
+                loanIdArr = loanIdArr.join(',');
+                approvalIdArr = approvalIdArr.join(',');
+                // ids = getBatchOrderIds();
+                if (loanIdArr === '' && approvalIdArr === '') {
                     $alert('最少选择一个订单后再做处理');
                     return false;
+                }else if (loanIdArr !== '' && approvalIdArr !== '') {
+                    if (btnType === 1) {
+                        dialog("open", {
+                            closeBtn : false,
+                            "title" : "提醒",
+                            "button" : ["去审批","去放款"],
+                            "content" : "您当前选择的订单包含'审批'、'放款'两种类型，请先选择一种进行操作！",
+                            "maskClose" : false,
+                            onConfirm : function (d) {
+                                d.close();
+                                toAgreeUrl = contextPath + markUri + nextUrl;
+                                locationTo({
+                                    action : toAgreeUrl,
+                                    param : {
+                                        advance_ids : approvalIdArr,
+                                        url : listUrl,
+                                        navigation : navigation,
+                                        type : btnType,
+                                        supplier_id : merchantId,
+                                        supplier_name : merchantName,
+                                        timeorder_type: timeorderType,
+                                        receipt_type: receiptType,
+                                        orderby_type: orderbyType,
+                                        start_with : start_with,
+                                        list_type : listType,
+                                        pay_account : payAccount,
+                                        settlement_type: settlementType,
+                                        is_pass : isPass
+                                    }
+                                })
+                            },
+                            onCancel : function (d) {
+                                d.close();
+                                toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
+                                locationTo({
+                                    action : toAgreeUrl,
+                                    param : {
+                                        advance_ids : loanIdArr,
+                                        url : listUrl,
+                                        navigation : navigation,
+                                        type : btnType,
+                                        supplier_id : merchantId,
+                                        supplier_name : merchantName,
+                                        timeorder_type: timeorderType,
+                                        receipt_type: receiptType,
+                                        orderby_type: orderbyType,
+                                        start_with : start_with,
+                                        list_type : listType,
+                                        pay_account : payAccount,
+                                        settlement_type: settlementType,
+                                        is_pass : isPass
+                                    }
+                                })
+                            }
+                        });
+                    } else {
+                        toAgreeUrl = contextPath + markUri + nextUrl;
+                        var totalIds = loanIdArr + ',' +approvalIdArr;
+                        locationTo({
+                            action : toAgreeUrl,
+                            param : {
+                                advance_ids : totalIds,
+                                url : listUrl,
+                                navigation : navigation,
+                                type : btnType,
+                                supplier_id : merchantId,
+                                supplier_name : merchantName,
+                                timeorder_type: timeorderType,
+                                receipt_type: receiptType,
+                                orderby_type: orderbyType,
+                                start_with : start_with,
+                                list_type : listType,
+                                pay_account : payAccount,
+                                settlement_type: settlementType,
+                                is_pass : isPass
+                            }
+                        });
+                    }
                 } else {
+                    if (loanIdArr === '' && approvalIdArr !== '') {
+                        toAgreeUrl = contextPath + markUri + nextUrl;
+                        ids = approvalIdArr;
+                    }else if(loanIdArr !== '' && approvalIdArr === ''){
+                        if (btnType === 1) {
+                            nextUrl = '/loan/toLoanAgree';
+                        } else if (btnType === 2) {
+                            nextUrl = '/loan/disagree';
+                        } else if (btnType === 3) {
+                            nextUrl = '/loan/turnover';
+                        }
+                        toAgreeUrl = contextPath + markUri + nextUrl;
+                        ids = loanIdArr;
+                    }
                     locationTo({
-                        action : contextPath + markUri + nextUrl,
+                        action : toAgreeUrl,
                         param : {
                             advance_ids : ids,
                             url : listUrl,
@@ -791,12 +955,10 @@
                             settlement_type: settlementType,
                             is_pass : isPass
                         }
-                    })
+                    });
                 }
             });
         }
-
-
 
         // 获取选中的订单的ID
         function getBatchOrderIds () {
@@ -829,7 +991,7 @@
                 amount = defaultCharge;
             }
             return amount;
-        };
+        }
         //弹出层高度
         function popBgHeight(){
             var screen = $(window).height(); //屏幕的高度
@@ -851,16 +1013,16 @@
         }
 
         $(function () {
-            selectedAll();
-            down_menu();
-            batch();
-            slideDownList();
+            selectedAll();//全选/全不选
+            down_menu();//賬戶下拉展示
+            batch();//批量放款
+            slideDownList();//含有子级权限的展开折叠效果
             accountId();
             cancelBatchAudit();
-            toAuditPage();      // 跳转审核的三级页面
+            toOneAuditPage(); // 单个放款跳转同意不同意页面
+            toBatchAuditPage();     // 批量放款跳转同意不同意页面
         })
     })(jQuery, window, undefined)
 </script>
-
 </body>
 </html>

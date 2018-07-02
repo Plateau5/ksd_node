@@ -38,11 +38,36 @@ td {
   display: none;
 }
 .city-select-container input[type='checkbox'] + label {
+  position: relative;
+  display: inline-block;
+  height: 18px;
+  line-height: 18px;
+  padding-left: 24px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.city-select-container input[type='checkbox'] + label:before {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  display: block;
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: url(input-icon.png) no-repeat 0 0;
+  vertical-align: middle;
+}
+.city-select-container input[type='checkbox'] + label {
   padding-left: 16px;
 }
 .city-select-container input[type='checkbox'] + label:before {
   top: 0;
   left: -4px;
+}
+.city-select-container input[type='checkbox'] + label.checked:before {
+  background-position: 0 -16px;
 }
 .city-select-container input[type='checkbox'] + label.check:before {
   background-position: 0 -100px;
@@ -197,6 +222,12 @@ td {
 }
 .city-select-container .p-c .county-list-item {
   display: none;
+}
+.city-select-container .error-tips-box {
+  width: 520px;
+  height: 30px;
+  line-height: 30px;
+  margin: auto;
 }
 .city-select-container .error-tips {
   width: 520px;
