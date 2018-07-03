@@ -35,15 +35,17 @@
             <div class="merchants_list">
                 <table class="normal" id="loanList">
                     <colgroup>
-                        <col style="width: 25%;" />
                         <col style="width: 10%;" />
-                        <col style="width: 15%;" />
-                        <col style="width: 15%;" />
+                        <col style="width: 23%;" />
+                        <col style="width: 8%;" />
+                        <col style="width: 13%;" />
+                        <col style="width: 13%;" />
                         <col style="width: 10%;" />
-                        <col style="width: 25%;" />
+                        <col style="width: 23%;" />
                     </colgroup>
                     <thead>
                     <tr>
+                        <th></th>
                         <th>商户名称</th>
                         <th>城市</th>
                         <th>业务类型</th>
@@ -64,6 +66,11 @@
                     {{#if (count > 0) }}
                         {{#each (list) }}
                             <tr data-id="{{this.supplier_id}}" data-timeorder_type="{{root.timeorder_type}}" data-receipt_type="{{root.receipt_type}}" data-orderby_type="{{root.orderby_type}}" data-current_page="{{root.current_page}}" data-supplier_name="{{this.supplier_name}}" data-settlement_type="{{this.settlement_type}}">
+                                <td>
+                                    {{#if (this.urgent_type === 1) }}
+                                        <div class="urgent urgent_newStore">新店加急</div>
+                                    {{/if}}
+                                </td>
                                 <td>{{this.supplier_name}} </td>
                                 <td>{{this.city_name}}</td>
                                 <td>
