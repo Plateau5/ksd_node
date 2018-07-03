@@ -23,6 +23,28 @@ td {
     input[type='checkbox'] {
         display: none;
     }
+    input[type='checkbox']+label {
+        position: relative;
+        display: inline-block;
+        height: 18px;
+        line-height: 18px;
+        padding-left: 24px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    input[type='checkbox']+label:before {
+        position: absolute;
+        top: -2px;
+        left: 0;
+        display: block;
+        content: '';
+        width: 18px;
+        height: 18px;
+        background: url(input-icon.png) no-repeat 0 0;
+        vertical-align: middle;
+    }
     input[type='checkbox']+label{
         padding-left: 16px;
         &:before {
@@ -30,9 +52,13 @@ td {
             left: -4px;
         }
     }
+    input[type='checkbox']+label.checked:before {
+        background-position: 0 -16px;
+    }
     input[type='checkbox']+label.check:before {
         background-position: 0 -100px;
     }
+
     .mask-layer{
         width: 100%;
         height: 100%;
@@ -201,6 +227,12 @@ td {
         .county-list-item{
             display: none;
         }
+    }
+    .error-tips-box{
+        width: 520px;
+        height: 30px;
+        line-height: 30px;
+        margin: auto;
     }
     .error-tips{
         width: 520px;

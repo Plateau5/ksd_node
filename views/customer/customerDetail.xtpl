@@ -53,7 +53,7 @@
                         {{#if (vo.status > 5 ) }}
                             <li class="tab_item type_others {{#if (query_type === 2) }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
                         {{/if}}
-                        {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
+                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
                             <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
@@ -66,6 +66,9 @@
                 <input type="hidden" id="advance_id" name="advance_id" value="{{reqParams.advance_id}}">
                 <input type="hidden" name="query_type" value="{{query_type}}" id="query_type">
                 <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
+                <input type="hidden" name="present_id" value="{{present_id}}" id="present_id">
+                <input type="hidden" name="responsible" value="{{vo.responsible}}" id="responsible">
+
 
                 <!--本次提交材料-->
                 <input type="hidden" id="materialIds" value="{{haveMaterial.material_ids }}">
@@ -82,6 +85,8 @@
                 <input type="hidden" id="is_docking" value="{{vo.is_docking }}">
                 <input type="hidden" id="loan_type" value="{{vo.loan_type}}" >
                 <input type="hidden" id="deliver_no" value="{{haveMaterial.deliver_no}}" >
+                <!-- 重新通知结果隐藏域  -->
+                <input type="hidden" id="showButton" value="{{show_button}}">
                 <div class="details_item base_info">
                         <!-- 进件资料 Begin -->
                         {{#if (query_type === 1) }}
@@ -116,7 +121,7 @@
                         {{#if (vo.status > 5 ) }}
                             <li class="tab_item type_others {{#if (photo_type === 2) }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
                         {{/if}}
-                        {{#if ( (vo.status > 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
+                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
                             <li class="tab_item type_others {{#if (photo_type === 3) }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
@@ -702,6 +707,36 @@
             });
         }
 
+        function  pageJumpCheck (selector, opt) {
+            var options = {};
+            if (opt) {
+                options = $.extend({}, opt);
+            }
+            var btn = $(selector);
+            btn.off("click").on("click", function () {
+                var present_id = $("#present_id").val().trim();
+                var responsible = $("#responsible").val().trim();
+                var index = responsible .lastIndexOf(",");
+                var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
+                if (str === present_id) {
+                    $alert("请到 '商户' - '放款管理' 下进行放款审批");
+                } else {
+                    var target = $(this);
+                    var financeId = $.trim(target.data("id"));
+                    var workflowId = $.trim(target.data("flow_id"));
+                    var url = $.trim(target.data("url"));
+                    var advanceId = $.trim(target.data("advance_id"));
+                    financeId && (options.finance_id = financeId);
+                    workflowId && (options.id = workflowId);
+                    advanceId && (options.advance_id = advanceId);
+                    locationTo({
+                        action : url,
+                        param : options
+                    });
+                }
+            });
+        }
+
         $(function () {
             if( queryType === 4 ){
                 deliveryNumber(); // 根据单号获取物流信息
@@ -715,7 +750,10 @@
             detailRequestPayOut();  //确认申请按钮跳转
             detailEntering();   //开始录入按钮跳转
             pageJump("#sendAuditResult");   //通知审核结果按钮跳转
+            renewSendResult("#RenewSendAuditResult");   //重新通知审核结果按钮跳转
             goDockingPADetail();    //跳转查看对接详情页
+            pageJumpCheck(".go_forward_check");
+            renewSendContractClick(".renew_send_contract");   //重新发送合同按钮跳转
             pageJump(".go_forward");   //同意不同意按钮跳转
             complementDatumEvent();   // 补全资料按钮跳转
             affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
@@ -742,6 +780,50 @@
                 $(".detail_inline_footer").css("border-top","none");
             }
         });
+        //重新通知结果
+            function  renewSendResult (selector, opt) {
+            var options = {};
+            if (opt) {
+                options = $.extend({}, opt);
+            }
+            var btn = $(selector);
+            btn.off("click").on("click", function () {
+                var target = $(this);
+                var financeId = $.trim(target.data("id"));
+                var url = $.trim(target.data("url"));
+                var btnType = $('#showButton').val();
+                financeId && (options.finance_id = financeId);
+                options.type = btnType;
+                locationTo({
+                    action : url,
+                    param : options
+                });
+            });
+        };
+        //重新发送合同
+        function  renewSendContractClick (selector, opt) {
+            var options = {};
+            if (opt) {
+                options = $.extend({}, opt);
+            }
+            var btn = $(selector);
+            btn.off("click").on("click", function () {
+                var target = $(this);
+                var dataType =$.trim(target.data("type"));
+                var financeId = $.trim(target.data("id"));
+                var url = $.trim(target.data("url"));
+                var list_url = "{{url}}";
+                var navigation = "{{navigation}}";
+                financeId && (options.finance_id = financeId);
+                options.dataType = dataType;
+                options.list_url = list_url;
+                options.navigation = navigation;
+                locationTo({
+                    action : url,
+                    param : options
+                });
+            });
+        }
     })(window, undefined);
 </script>
 </html>

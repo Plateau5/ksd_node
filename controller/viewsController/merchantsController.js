@@ -252,7 +252,7 @@ exports.VIEW_LOAN_SYSTEM = function(req, res, next) {
 exports.VIEW_LOAN_PENDING = function(req, res, next) {
     common.getPageData({
         url : '/api/loan/waitList',
-        title : '商户-放款管理-待审批',
+        title : '放款管理-待审批',
         page : './merchants/pending',
         callback : function (data) {
             data.list_type = 1;
@@ -264,22 +264,58 @@ exports.VIEW_LOAN_PENDING = function(req, res, next) {
 exports.VIEW_LOAN_PASS = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/passList',
-        title: '商户-放款管理-已审批',
+        title: '放款管理-已审批',
         page: './merchants/pending',
         callback : function (data) {
             data.list_type = 2;
         }
     }, req, res, next);
 };
+
+//商户-放款管理-交易查询列表 1517
+exports.VIEW_LOAN_TRANSRECORDSLIST = function(req, res, next) {
+    common.getPageData({
+        url: '/api/loan/dealList',
+        title: '放款管理-查询列表',
+        page: './merchants/transRecordsList'
+    }, req, res, next);
+};
+
+//商户-放款管理-交易查询详情
+exports.VIEW_LOAN_TRANSRECORDSDETAIL = function(req, res, next) {
+    common.getPageData({
+        url: '/api/loan/payment/detail',
+        title: '商户-放款管理-交易详情',
+        page: './merchants/transRecordsDetail'
+    }, req, res, next);
+};
+
+// 商户-放款管理-待审核-重新提交同意页面跳转(放款)
+exports.VIEW_LOAN_AGAINLOANAGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/tosubmit/again',
+        title : '放款管理-重新提交',
+        page : './merchants/againLoanAgree',
+        callback : function (data) {
+            data.merchants = req.body;
+            if (data.city_list) {
+                data.city_list = JSON.stringify(data.city_list);
+            }
+            if (data.city_list_selected) {
+                data.city_list_selected = JSON.stringify(data.city_list_selected);
+            }
+        }
+    }, req, res, next);
+};
+
 // 商户-放款管理-商户打款结算详情 1498
 exports.VIEW_LOAN_PASS_LIST = function(req, res, next) {
     common.getPageData({
-        url: '/api/loan/already/list',
+        url : '/api/loan/already/list',
         title: '商户-放款管理-已审批',
         page: './merchants/detailsInfo'
     }, req, res, next);
 };
-
 
 //商户-放款管理-详情 1497
 exports.VIEW_LOAN_PENDING_LIST = function(req, res, next) {
@@ -305,6 +341,21 @@ exports.VIEW_LOAN_AGREE = function(req, res, next) {
         url : '/api/loan/toAgree',
         title : '放款管理-审核通过',
         page : './merchants/infoagree'
+    }, req, res, next);
+};
+
+// 商户-放款管理-待审核-同意页面跳转(放款) 1519
+exports.VIEW_LOAN_TOLOANAGREE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/loan/to/payment',
+        title : '放款管理-审核通过',
+        page : './merchants/toLoanAgree',
+        callback : function (data) {
+            data.merchants = req.body;
+            if (data.city_list) {
+                data.city_list = JSON.stringify(data.city_list);
+            }
+        }
     }, req, res, next);
 };
 

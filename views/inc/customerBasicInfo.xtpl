@@ -1,7 +1,18 @@
 <!-- 客户进件资料 -->
 <div class="detail_box clearfix" >
-	<div class="classify_item">
+	<div class="classify_item location">
 			<div class="classify_title">客户信息</div>
+			<div class="btn_box customer_btn_box">
+				{{#if (url === markUri + '/customer/loan/passed')}}
+					{{#if (verifyCode(1522)) }}
+						{{#if (show_button === 1) }}
+							<a href="javascript:;" class="customer_btn renew_notify_result" id="RenewSendAuditResult" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/renewNotifyResult" lang="{{finance_id}}">重新通知结果</a>
+						{{else}}
+							<a href="javascript:;" class="customer_btn renew_notify_result_gray">重新通知结果</a>
+						{{/if}}
+					{{/if}}
+				{{/if}}
+			</div>
 			<div class="classify_content">
 				<ul class="items_list clearfix">
 					{{#if (vo.user_name) }}
@@ -371,18 +382,17 @@
                                     }
                                     if (data.rebate_car) {
                                         data.rebate_car = data.rebate_car.toFixed(2).number();
-                                        if (data.financed_charge_rebate) {
+                                        if (data.financed_charge_rebate || data.financed_charge_rebate == '0') {
                                             $('#financed_amount').html(data.rebate_car + '元(已请' + data.financed_charge_rebate + '元)');
 										} else {
                                             $('#financed_amount').html(data.rebate_car + '元');
 										}
-
                                     } else {
                                         $('#financed_amount').html('--');
                                     }
                                     if (data.rebate_gps) {
                                         data.rebate_gps = data.rebate_gps.toFixed(2).number();
-                                        if (data.gps_rebate) {
+                                        if (data.gps_rebate || data.gps_rebate == '0') {
                                             $('#gps_rebate').html(data.rebate_gps + '元(已请' + data.gps_rebate + '元)');
                                         } else {
                                             $('#gps_rebate').html(data.rebate_gps + '元');
@@ -392,7 +402,7 @@
                                     }
                                     if (data.rebate_service) {
                                         data.rebate_service = data.rebate_service.toFixed(2).number();
-                                        if (data.service_charge_rebate) {
+                                        if (data.service_charge_rebate || data.service_charge_rebate == '0') {
                                             $('#rebate_service').html(data.rebate_service + '元(已请' + data.service_charge_rebate + '元)');
                                         } else {
                                             $('#rebate_service').html(data.rebate_service + '元');
@@ -402,7 +412,7 @@
                                     }
                                     if (data.rebate_insurance) {
                                         data.rebate_insurance = data.rebate_insurance.toFixed(2).number();
-                                        if (data.insurance_rebate) {
+                                        if (data.insurance_rebate || data.insurance_rebate == '0') {
                                             $('#rebate_insurance').html(data.rebate_insurance + '元(已请' + data.insurance_rebate + '元)');
                                         } else {
                                             $('#rebate_insurance').html(data.rebate_insurance + '元');

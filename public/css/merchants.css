@@ -9,6 +9,21 @@
  * 3. 商户编辑页面
  * 4. 商户详情页
  */
+.merchants .toRecordsList {
+  display: block;
+  position: absolute;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 24px;
+  right: 0;
+  top: 80px;
+  color: #1dc6bc;
+  background: url("../img/view_docking_detail.png") left center no-repeat;
+}
+.merchants .toRecordsList:hover {
+  color: #0b9c94;
+  background: url("../img/view_docking_detail_h.png") left center no-repeat;
+}
 .merchants .merchants_filtrate {
   padding: 0 15px 10px;
   margin-top: 15px;
@@ -467,7 +482,7 @@
   color: #B0B0B0;
   font-size: 10px;
   /*transform: scale(0.8);
-            margin-left: -12.5%;*/
+      margin-left: -12.5%;*/
 }
 .merchants_edit .map_box {
   display: none;
@@ -581,15 +596,15 @@
   font-size: 24px;
   color: #2b3b4a;
   /*&:before{
-                content: '';
-                position:  absolute;
-                left: 0;
-                top: 9px;
-                display:  block;
-                width: 22px;
-                height: 25px;
-                background: url("../img/operation_small_icon.png") no-repeat -4px -461px;
-            }*/
+          content: '';
+          position:  absolute;
+          left: 0;
+          top: 9px;
+          display:  block;
+          width: 22px;
+          height: 25px;
+          background: url("../img/operation_small_icon.png") no-repeat -4px -461px;
+      }*/
 }
 .merchants_details .merchant_info .create_info {
   width: 560px;
@@ -1006,8 +1021,8 @@
   margin-left: 5px;
   width: 72%;
   /*overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;*/
+      white-space: nowrap;
+      text-overflow: ellipsis;*/
 }
 .loan_order_container .pop_line {
   padding: 10px 0;
@@ -1021,13 +1036,54 @@
   color: #1DC6BC;
   cursor: pointer;
 }
+.loan_order_container .order_list .list_item {
+  margin-top: 20px;
+}
+.loan_order_container .order_list .list_item:first-child {
+  margin-top: 0;
+}
 .loan_order_container .order_list .loan_time {
-  padding: 18px 0 8px 0;
   color: #999;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  height: 46px;
+  line-height: 46px;
+  background: #F5F5F5;
+}
+.loan_order_container .order_list .loan_time .loan_time_detail {
+  float: left;
+  height: 46px;
+}
+.loan_order_container .order_list .loan_time .total_receipts {
+  display: inline-block;
+  height: 46px;
+  margin-left: 20px;
+  color: #EA4B5F;
+}
+.loan_order_container .order_list .loan_time .total_receipts .receipt_name {
+  float: left;
+}
+.loan_order_container .order_list .loan_time .total_receipts .amount,
+.loan_order_container .order_list .loan_time .total_receipts .capital_amount {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .loan_order_container .order_list .batch_btn {
   float: right;
-  color: #1DC6BC;
+  color: #666;
+  display: block;
+  height: 22px;
+  line-height: 22px;
+  padding: 0 5px;
+  margin: 16px 0 14px 0;
+  border-radius: 2px;
+  border: 1px solid #666;
+}
+.loan_order_container .order_list .batch_btn:hover {
+  color: #1dc6bc;
+  border: 1px solid #1dc6bc;
 }
 .loan_order_container .order_list .print_btn {
   color: #1dc6bc;
@@ -1041,7 +1097,7 @@
 .loan_order_container .cancel_btn {
   float: right;
   /*height: 40px;
-        line-height: 40px;*/
+    line-height: 40px;*/
   color: #999;
 }
 .loan_order_container .load_radio {
@@ -1049,6 +1105,8 @@
 }
 .loan_order_container .total_btn {
   display: none;
+  height: 40px;
+  line-height: 40px;
 }
 .loan_order_container .loan_list {
   padding: 10px 0 10px 20px;
@@ -1085,24 +1143,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.loan_order_container .loan_list .total_receipts {
-  float: left;
-  display: inline-block;
-  width: 70%;
-  height: 32px;
-  line-height: 32px;
-  color: #EA4B5F;
-}
-.loan_order_container .loan_list .total_receipts .receipt_name {
-  float: left;
-}
-.loan_order_container .loan_list .total_receipts .amount,
-.loan_order_container .loan_list .total_receipts .capital_amount {
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 .loan_order_container .pay_operate_btn,
 .loan_order_container .total_operate_btn {
   float: right;
@@ -1116,6 +1156,7 @@
 .loan_order_container .total_operate_btn .disagree_btn,
 .loan_order_container .pay_operate_btn .transfer_btn,
 .loan_order_container .total_operate_btn .transfer_btn {
+  display: inline-block;
   height: 20px;
   line-height: 20px;
   margin-top: 14px;
@@ -1124,6 +1165,14 @@
   padding-left: 22px;
   margin-right: 20px;
   cursor: pointer;
+}
+.loan_order_container .total_operate_btn .agree_btn,
+.loan_order_container .total_operate_btn .disagree_btn,
+.loan_order_container .total_operate_btn .transfer_btn {
+  margin-top: 0;
+}
+.loan_order_container .pay_operate_btn {
+  line-height: 46px;
 }
 .loan_order_container .agree_btn {
   background: url(../img/requestpayout/agree_icon.png) left center no-repeat;
@@ -1161,8 +1210,8 @@
   -moz-border-radius: 2px;
   border-radius: 2px;
   /*.detail_menu_list:last-child{
-            border-bottom: none;
-        }*/
+        border-bottom: none;
+    }*/
 }
 .loan_order_container .detail_menu tr,
 .loan_order_container .detail_menu td,
@@ -1188,8 +1237,8 @@
   -moz-border-radius: 2px;
   border-radius: 2px;
   /*-webkit-box-shadow:  0 0 5px 1px #e4e4e4;
-        -moz-box-shadow: 0 0 5px 1px #e4e4e4;
-        box-shadow: 0 0 5px 1px #e4e4e4;*/
+    -moz-box-shadow: 0 0 5px 1px #e4e4e4;
+    box-shadow: 0 0 5px 1px #e4e4e4;*/
   overflow-y: scroll;
   /*定义滚动条轨道 内阴影+圆角*/
   /*定义滑块 内阴影+圆角*/
@@ -1228,8 +1277,6 @@
   float: right;
 }
 .loan_order_container .loan_detail_btn {
-  height: 32px;
-  line-height: 32px;
   float: right;
   color: #1DC6BC;
   font-size: 12px;
@@ -1284,11 +1331,11 @@
   padding: 0px 0 24px 0;
 }
 .loan_order_container .space {
-  margin: 16px 0 -14px 0;
+  margin: 14px 0 0 0;
 }
 .loan_order_container .space .total_operate_btn {
-  height: 18px;
-  line-height: 18px;
+  width: 400px;
+  display: inline-block;
 }
 .loan_order_container .pop_row_one {
   width: 27%;
@@ -1310,4 +1357,156 @@
 }
 .loan_order_container .pop_row_three .account_value {
   width: 66%;
+}
+/***** 请款管理查询交易列表页 ******/
+.recordsNormal .trans_print_btn {
+  height: 32px;
+  line-height: 32px;
+  float: left;
+  padding-left: 22px;
+  margin-left: 20px;
+}
+.recordsNormal .print_btn {
+  color: #1DC6BC;
+  background: url('../img/print_records_detail.png') left center no-repeat;
+}
+.recordsNormal .print_btn:hover {
+  color: #0B9C94;
+  background: url('../img/print_records_detail_h.png') left center no-repeat;
+}
+.recordsNormal .trans_records_detail {
+  background: url('../img/records_detail.png') left center no-repeat;
+}
+.recordsNormal .trans_records_detail:hover {
+  background: url('../img/records_detail_h.png') left center no-repeat;
+}
+.recordsNormal .details_item {
+  border: 1px solid transparent;
+}
+.merchants_list table.recordsNormal tr:hover {
+  background: #FFF;
+  cursor: default;
+}
+/***** 请款管理查询交易详情页 ******/
+.icon_back_to_list {
+  width: 30px;
+  height: 30px;
+  display: block;
+  float: right;
+  background: url('../img/back_to_list.png') left center no-repeat;
+  margin: 20px 10px 0 0;
+}
+.icon_back_to_list:hover {
+  background: url('../img/back_to_list_h2.png') left center no-repeat;
+}
+.details_item {
+  border: none;
+}
+.ml_12 {
+  margin-left: 12px;
+}
+.ml_20 {
+  margin-left: 20px;
+}
+.ml_30 {
+  margin-left: 30px;
+}
+.width160 {
+  display: inline-block;
+  width: 160px;
+  vertical-align: bottom;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.relevance_order {
+  width: 100%;
+  padding-top: 20px;
+}
+.relevance_order .relevance_title {
+  cursor: pointer;
+  color: #1DC6BC;
+  width: 70px;
+  height: 30px;
+  line-height: 30px;
+  background: url('../img/slideDown.png') right center no-repeat;
+}
+.relevance_order .relevance_title_down {
+  background: url('../img/slideUp.png') right center no-repeat;
+}
+.relevance_order .merch_title {
+  height: 30px;
+  line-height: 30px;
+}
+.relevance_order .order_main_list li {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  background: #F6F6F6;
+  margin-top: 10px;
+}
+.relevance_order .order_main_list li .collect_total {
+  margin-left: 106px;
+  color: #EA4B5F;
+}
+/***** 放款管理同意放款 ******/
+.formError {
+  color: #FB2741;
+}
+.hide {
+  display: none;
+}
+.loan_form_options {
+  background: transparent;
+  padding: 0;
+}
+.loan_form_options .pad_lf_rt_8 {
+  padding: 0 7px;
+}
+.loan_form_options .column_name {
+  width: 12%;
+  padding-right: 10px;
+}
+.loan_form_options .column_val {
+  width: 88%;
+  padding-left: 0;
+}
+.loan_form_options .column_val input[type='text'],
+.loan_form_options .column_val input[type='number'] {
+  font-size: 12px;
+  width: 382px;
+  padding-right: 20px;
+}
+.loan_form_options .column_val input[readonly] {
+  background: #f1f1f1;
+}
+.loan_form_options .column_val select {
+  width: 420px;
+  font-size: 12px;
+}
+.loan_form_options .column_val select[disabled] {
+  background: #f1f1f1;
+}
+.loan_form_options .column_val .value_text {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+}
+.loan_form_options .column_val .unit {
+  margin-left: -20px;
+  vertical-align: middle;
+}
+.loan_form_options .column_val .v_middle {
+  padding-top: 7px;
+}
+.loan_form_options .column_val input[readonly].select_city_input {
+  width: 384px;
+  height: 28px;
+  padding: 0 26px 0 15px;
+  color: #333;
+  font-size: 12px;
+  vertical-align: inherit;
+  cursor: auto;
+  border: 1px solid #e4e4e4;
+  background: url('../img/icon_city.png') right center no-repeat;
 }

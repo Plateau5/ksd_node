@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerDetails.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <title>交易记录查询详情</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/loan/system" class="crumbs_item">放款管理</a>
+                <a href="javascript:;" class="crumbs_item back_to_list_nav">查询交易记录</a>
+                <a href="javascript:;" class="crumbs_item last_child">交易详情</a>
+                <a href="javascript:;" class="icon_back_to_list back_to_list"></a>
+            </div>
+
+            <!---- 跳转列表隐藏域 ---->
+            <input type="hidden" id="start_time" value="{{reqParams.start_time}}">
+            <input type="hidden" id="end_time" value="{{reqParams.end_time}}">
+            <input type="hidden" id="start_amount" value="{{reqParams.start_amount}}">
+            <input type="hidden" id="end_amount" value="{{reqParams.end_amount}}">
+            <input type="hidden" id="payment_account" value="{{reqParams.payment_account}}">
+            <input type="hidden" id="typeSelect" value="{{reqParams.typeSelect}}">
+            <input type="hidden" id="current_page" value="{{reqParams.current_page}}">
+
+            <div class="details_item">
+                <div class="detail_box">
+                    <div class="classify_item">
+                        <div class="classify_content">
+                            <ul class="items_list">
+                                <li class="item_row">
+                                    <!-- If the text of 'item_name' is too long, add 'long_text' class to it. -->
+                                    <div class="item_name">业务类型：</div>
+                                    <div class="item_value">
+                                        {{#if (data.type === 1) }}
+                                            代发
+                                        {{elseif (data.type === 2) }}
+                                            直接支付
+                                        {{/if}}
+                                    </div>
+                                </li>
+                                <li class="item_row">
+                                    <div class="item_name">付方账号：</div>
+                                    <div class="item_value">{{data.payment_account}}</div>
+                                </li>
+                                <li class="item_row">
+                                    <div class="item_name">交易金额：</div>
+                                    <div class="item_value">{{data.amount}}</div>
+                                </li>
+                                <li class="item_row">
+                                    <div class="item_name">经办日：</div>
+                                    <div class="item_value">{{data.create_time}}</div>
+                                </li>
+                                <li class="item_row">
+                                    <div class="item_name">收方账户名：</div>
+                                    <div class="item_value">{{data.receipt_account_name}}</div>
+                                </li>
+                                <li class="item_row">
+                                    <div class="item_name">收方账号：</div>
+                                    <div class="item_value">{{data.receipt_account}}</div>
+                                </li>
+                                <li class="item_row">
+                                    <div class="item_name">请求状态：</div>
+                                    <div class="item_value">
+                                        {{data.payment_status_value}}
+                                    </div>
+                                </li>
+                                <li class="item_row">
+                                    <div class="item_name">用途：</div>
+                                    <div class="item_value long_text">{{data.financial_use}}</div>
+                                </li>
+                                <!--<li class="item_row">-->
+                                    <!--<div class="item_name">保留字：</div>-->
+                                    <!--<div class="item_value">{{data.reserve_word}}</div>-->
+                                <!--</li>-->
+                                <li class="item_row">
+                                    <div class="item_name">业务处理结果：</div>
+                                    <div class="item_value">
+                                        {{#if (!data.payment_result_value || data.payment_result_value === '') }}
+                                            无
+                                        {{else}}
+                                            {{data.payment_result_value}}
+                                        {{/if}}
+                                    </div>
+                                </li>
+                                <li class="item_row item_remark">
+                                    <div class="item_name">错误描述：</div>
+                                    <div class="item_value long_text">
+                                        {{#if ( !data.result_description || data.result_description === '') }}
+                                            无
+                                        {{else}}
+                                            {{data.result_description}}
+                                        {{/if}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 重新提交跳转隐藏域 -->
+                    <input type="hidden" id="financialReceipt_id" value="{{reqParams.financialReceipt_id}}">
+
+                    <!-- 关联账号 Begin -->
+                    <div class="relevance_order clearfix">
+                        <div class="relevance_title">关联订单</div>
+                        <div class="order_content hide">
+                            <div class="merch_title">
+                                <div class="merch_name inline">商户名称：</div>
+                                <div class="merch_value inline">{{advance_list[0].supplier_name}}</div>
+                            </div>
+                            <ul class="order_main_list">
+                                {{#if (advance_list.length !== 0) }}
+                                {{#each (advance_list) }}
+                                <li>
+                                    <div class="cust_main inline ml_12">
+                                        <div class="cust_name inline_block">客户：</div>
+                                        <div class="cust_value inline_block width160" title="{{this.user_name}}">{{this.user_name}}</div>
+                                    </div>
+                                    <div class="loan_main inline ml_12">
+                                        <div class="loan_name inline_block">贷前：</div>
+                                        <div class="loan_value inline_block width160" title="{{this.emp_name}}">{{this.emp_name}}</div>
+                                    </div>
+                                    <div class="collect_total inline">
+                                        <div class="collect_name inline">收款总额：</div>
+                                        <div class="collect_value inline">{{this.total_charge}}&nbsp;元 ({{this.cn_totalCharge}})</div>
+                                    </div>
+                                </li>
+                                {{/each}}
+                                {{/if}}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 提交按钮 Begin -->
+                {{#if (data.payment_result === 2 && data.update_number !== 1) }}
+                    {{#if (verifyCode(1521)) }}
+                        <div class="detail_footer" style="margin-top:26px;">
+                            <a href="javascript:;" class="detail_high_btn mr_20 again_loan_agree">重新提交</a>
+                            <!--<a href="{{dmsHost}}{{markUri}}/customer/financial/print?orderNo={{data.orderNo}}" class="detail_low_btn" target="_blank" style="margin-right:30px;">预览电子回单</a>-->
+                        </div>
+                    {{/if}}
+                {{/if}}
+            </div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script src="{{markUri}}/static/js/merchants.js"></script>
+<script>
+    (function ($) {
+        var current_page = $('#current_page').val().trim();
+        var start_time = $('#start_time').val().trim();
+        var end_time = $("#end_time").val().trim();
+        var start_amount = $('#start_amount').val().trim();
+        var end_amount = $('#end_amount').val().trim();
+        var payment_account = $('#payment_account').val().trim();
+        var typeSelect = $('#typeSelect').val().trim();
+
+        function againLoanAgree (){
+            var btn = $(".again_loan_agree");
+            btn.off('click').on('click', function () {
+                var financialReceipt_id = $("#financialReceipt_id").val();
+                var url = contextPath + markUri + '/loan/againLoanAgree';
+                locationTo({
+                    action : url,
+                    param : {
+                        financialReceipt_id : financialReceipt_id,
+                        current_page : current_page,
+                        start_time : start_time,
+                        end_time : end_time,
+                        start_amount : start_amount,
+                        end_amount : end_amount,
+                        payment_account : payment_account,
+                        type : typeSelect
+                    }
+                })
+            });
+        }
+        function backToListNav() {
+            var btn = $(".back_to_list_nav");
+            var url = contextPath + markUri +'/loan/transRecordsList';
+            btn.off('click').on('click', function (){
+                locationTo({
+                    action : url,
+                    param : {}
+                });
+            })
+        }
+        function backToList (){
+            var btn = $(".back_to_list");
+            var url = contextPath + markUri +'/loan/transRecordsList';
+
+            btn.off('click').on('click', function (){
+                locationTo({
+                    action : url,
+                    param : {
+                        current_page : current_page,
+                        start_time : start_time,
+                        end_time : end_time,
+                        start_amount : start_amount,
+                        end_amount : end_amount,
+                        payment_account : payment_account,
+                        type : typeSelect
+                    }
+                });
+            });
+        }
+        function relevanceContent () {
+            var btn = $(".relevance_title");
+            var order_content = $(".order_content");
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                if(order_content.is(":hidden")){
+                    order_content.slideDown(200);
+                    _this.addClass('relevance_title_down');
+                } else{
+                    order_content.slideUp(200);
+                    _this.removeClass('relevance_title_down');
+                }
+            });
+        }
+
+        $(function() {
+            againLoanAgree(); //重新提交按钮跳转
+            backToList();  //返回交易列表
+            relevanceContent();  //关联账号下拉菜单
+            backToListNav(); //面包屑返回列表
+        });
+    })(jQuery,undefined);
+</script>
+</body>
+</html>

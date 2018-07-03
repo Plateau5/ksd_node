@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>通知审核结果</title>
+    <title>{{title}}</title>
     {{include ("./../inc/metaData")}}
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/employee/invite.css"/>
@@ -36,11 +36,11 @@
         {{include ('./../inc/sideNav')}}
         <!--navLeft end-->
         <form action="{{markUri}}/customer/loan/detail" id="getFile" method="post">
-			<input id="finance_id_file" value="" name="finance_id" type="hidden">
-			<input id="active" value="" name="active" type="hidden">
-			<input id="url" value="" name="url" type="hidden">
-			<input id="navigation" value="" name="navigation" type="hidden">
-		</form>
+            <input id="finance_id_file" value="" name="finance_id" type="hidden">
+            <input id="active" value="" name="active" type="hidden">
+            <input id="url" value="" name="url" type="hidden">
+            <input id="navigation" value="" name="navigation" type="hidden">
+        </form>
         <!--listCon start-->
         <div class=" listCon relative">
             <div class="listConHeader inviteCon" style="margin-bottom: 0;">
@@ -51,7 +51,6 @@
                     <li class="inline before"><a href="javascript:;" style="cursor:default">通知审核结果</a></li>
                 </ul>
             </div>
-
             <form class="formML" id="review_info" enctype="multipart/form-data" method="post">
                 <input type="hidden" id="finance_id" name="finance_id" value="{{finance_id}}">
                 <input type="hidden" id="request_status" name="request_status" value="{{vo.request_status}}">
@@ -73,7 +72,7 @@
                     <div>
                         <select name="parent_id" id="question_classify_name">
                             {{#each (list) }}
-                                <option value="{{this.id}}">{{this.value}}</option>
+                            <option value="{{this.id}}">{{this.value}}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -83,18 +82,18 @@
                         <span class="need">*</span>问题详情：</label>
                     <div class="question_container">
                         {{#if (child_list.length <= 0) }}
-                            <div class="question_container_prom">该分类暂无问题详情，请重新选择问题分类</div>
+                        <div class="question_container_prom">该分类暂无问题详情，请重新选择问题分类</div>
                         {{else}}
-                            {{#each (child_list) }}
-                                <div class="question-con-box">
-                                    <div class="check">
-                                        <div class="check_img icon_uncheck" data_id="{{this.id}}"></div>
-                                        <span>{{this.value}}</span>
-                                    </div>
-                                    <!--<p class="question-con">${bean.content}</p>-->
-                                    <input type="hidden" class="question-val" value="{{this.content}}">
-                                </div>
-                            {{/each}}
+                        {{#each (child_list) }}
+                        <div class="question-con-box">
+                            <div class="check">
+                                <div class="check_img icon_uncheck" data_id="{{this.id}}"></div>
+                                <span>{{this.value}}</span>
+                            </div>
+                            <!--<p class="question-con">${bean.content}</p>-->
+                            <input type="hidden" class="question-val" value="{{this.content}}">
+                        </div>
+                        {{/each}}
                         {{/if}}
 
                     </div>
@@ -115,7 +114,7 @@
                         <div class="pass_radio">
                             <input type="radio" value="1" name="type">
                             车价贷款金额有变化，变化为
-                            <input type="text" name="real_loan_amount" class="real_loan_amount" readonly="readonly" maxlength="8" placeholder="请输入金额" onkeypress="IsNum(event,real_loan_amount);" onkeyup="value=value.replace(/[^\d.]/g,'')" onpaste="return false;" >
+                            <input type="text" id="realLoanAmount" name="real_loan_amount" class="real_loan_amount" readonly="readonly" maxlength="8" placeholder="请输入金额" onkeypress="IsNum(event,'#realLoanAmount');" onkeyup="value=value.replace(/[^\d.]/g,'')" onpaste="return false;" >
                             <!--<input type="text" name="real_loan_amount" class="real_loan_amount" readonly="readonly" maxlength="8" placeholder="请输入金额" onkeyup="checkMoney(this)" onblur="checkMoney_points(this)" onpaste="return false;" >-->
                             万元。
                         </div>
@@ -186,14 +185,14 @@
                 </div>
                 <div class="error_prom error_msg" style="margin-left: 80px;"></div>
                 {{#if (verifyCode(1034)) }}
-                    <div class="form-item">
-                        <div class="create_btn">
-                            <input type="button" class="create_sub" id="review_sub" value="确认"/>
-                            <a href="javascript:" class="go_detail" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail">
-                                <input type="button" class="cancel_btn" value="取消">
-                            </a>
-                        </div>
+                <div class="form-item">
+                    <div class="create_btn">
+                        <input type="button" class="create_sub" id="review_sub" value="确认"/>
+                        <a href="javascript:" class="go_detail" data-id="{{finance_id}}" data-url="{{markUri}}/customer/loan/detail">
+                            <input type="button" class="cancel_btn" value="取消">
+                        </a>
                     </div>
+                </div>
                 {{/if}}
             </form>
         </div>

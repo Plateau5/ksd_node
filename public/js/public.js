@@ -1752,9 +1752,13 @@ function  pageJump (selector, opt) {
         var workflowId = $.trim(target.data("flow_id"));
         var url = $.trim(target.data("url"));
         var advanceId = $.trim(target.data("advance_id"));
+        var listUrl = $.trim(target.data("list_url"));
+        var navigation = $.trim(target.data("navigation"));
         financeId && (options.finance_id = financeId);
         workflowId && (options.id = workflowId);
         advanceId && (options.advance_id = advanceId);
+        listUrl && (options.list_url = listUrl);
+        navigation && (options.navigation = navigation);
         locationTo({
             action : url,
             param : options
@@ -1794,41 +1798,64 @@ function fileUpload (opt) {
         btn.off("click").on("click", function () {
             var fileBtn = that.find(".file_upload_btn");//type为file的input元素组
             var t = $(this);
+            var fileNum = t.data('file_num');
+            fileNum = fileNum ? fileNum : 0;
+            if (fileNum >= options.maxCount) {
+                return false;
+            }
+            fileCount = fileNum;
             if (!t.hasClass("disabled")) {
                 fileBtn.eq(fileCount).click();
             }
             fileBtn.eq(fileCount).on("change", function () {
                 var targetFile = $(this);
+                var fileValue = targetFile[0].files[0];
                 var success = chooseFile(targetFile);
                 //计算文件个数并校验,同时校验通过后创建新的input
-                fileCount++;
+                if (success) {
+                    fileNum++;
+                    /*fileCount++;*/
+                    t.data('file_num' , fileNum);
+                } else {
+                    return;
+
+                }
                 if (options.maxCount) {
-                    if (fileCount >= options.maxCount) {
+                    if (fileCount > options.maxCount) {
                         btn.addClass("disabled");
-                        options.callback && options.callback(t);    // 回传点击的按钮
-                        fileCount--;
+                        return false;
+                    }else if (fileCount == options.maxCount) {
+                        if (success) {
+                            btn.addClass("disabled");
+                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        } else {
+                            // fileCount--;
+                        }
+                        // btn.addClass("disabled");
+                        // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        // fileCount--;
                     } else {
                         btn.removeClass("disabled");
                         if (success) {
                             that.append(inputFile);
-                            options.callback && options.callback(t);    // 回传点击的按钮
+                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                         } else {
                             targetFile.remove();
                             that.append(inputFile);
                             fileCount--;
-                            options.callback && options.callback(t);    // 回传点击的按钮
+                            // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                         }
                     }
                 } else {
                     btn.removeClass("disabled");
                     if (success) {
                         that.append(inputFile);
-                        options.callback && options.callback(t);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                     } else {
                         targetFile.remove();
                         that.append(inputFile);
                         fileCount--;
-                        options.callback && options.callback(t);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
                     }
                 }
             });
@@ -1845,13 +1872,16 @@ function fileUpload (opt) {
                 var file = $(this)[0].files[0] && $(this)[0].files[0].name;
                 a.push(file);
             });
-            console.log(a);
+            // console.log(a);
             if (options.maxCount) {
                 if (fileCount >= options.maxCount) {
                     that.append(inputFile);
                 }
             }
-            fileCount--;
+            var fileNum = btn.data('file_num');
+            fileNum--;
+            fileCount = fileNum;
+            btn.data('file_num', fileNum);
             btn.removeClass("disabled");
         });
     });
@@ -1871,11 +1901,12 @@ function fileUpload (opt) {
             if ( isNeedFormat == -1) {
                 //alert('请使用正确格式的文件');
                 f.parents(".file_upload").find(".error_msg").text("(请使用正确格式的文件)").show();
-                if(f.outerHTML){
+                /*if(f.outerHTML){
                     f.outerHTML = f.outerHTML;
                 } else{      //FF
                     f.value="";
-                }
+                }*/
+                f.replaceWith(inputFile);
                 return false;
             }
         }
@@ -2033,6 +2064,7 @@ function initDateStartEnd (startSelector, endSelector) {
         //festival:true,
         maxDate: $.nowDate({DD:0}), //最大日期,
         isClear : false,
+        isToday :false,
         choosefun: function(elem,datas){
             end.minDate = datas; //开始日选好后，重置结束日的最小日期
             endDates();
@@ -2047,6 +2079,7 @@ function initDateStartEnd (startSelector, endSelector) {
         // festival:true,
         maxDate: $.nowDate({DD:0}), //最大日期
         isClear : false,
+        isToday :false,
         choosefun: function(elem,datas){
             start.maxDate = datas; //将结束日的初始值设定为开始日的最大日期
         }
@@ -2470,10 +2503,6 @@ $(function () {
     loading();
     disabledFormAutoSubmit();
 });
-
-
-
-
 
 
 
