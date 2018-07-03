@@ -164,7 +164,7 @@ function getSelectedCitys () {
         dataType : 1,
         type : 1
     }, function (data) {
-        console.log(data);
+        // console.log(data);
         var provinceName = data[0].name;
         var provinceId = data[0].id;
         var cityName = data[0].city_list[0].name;
