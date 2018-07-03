@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/cropper/cropper.min.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
-    <title>新建讲师</title>
+    <title>
+        {{#if (reqParams.id) }}
+        编辑讲师
+        {{else}}
+        新增讲师
+        {{/if}}
+    </title>
     <style>
         input{
             color: #333;
