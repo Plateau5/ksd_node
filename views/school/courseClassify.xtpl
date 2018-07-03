@@ -152,20 +152,23 @@
                     course_classify : secondName
                 };
                 var url = contextPath + '/api/school/classify/createclassify';
-                d && d.close();
+
                 redefineAjax({
                     url : url,
                     data : data,
                     success : function (res) {
                         if (res.error_code == 0) {
+                            d && d.close();
                             $alert('课程分类新增成功', function () {
                                 window.location.reload();
                             });
                         } else {
                             $('.oneLevelErrorTips').text(res.error_msg);
+                            // $alert(res.error_msg);
                         }
                     },
                     error : function () {
+                        d && d.close();
                         $alert('操作失败，请稍后重试');
                     }
                 });
@@ -259,20 +262,23 @@
                         classify_value : newName
                     };
                     var url = contextPath + '/api/school/classify/update';
-                    d && d.close();
+
                     redefineAjax({
                         url : url,
                         data : data,
                         success : function (res) {
                             if (res.error_code == 0) {
+                                d && d.close();
                                 $alert('课程分类重命名成功', function () {
                                     window.location.reload();
                                 });
                             } else {
                                 $('#createErrorTips').text(res.error_msg);
+                                // $alert(res.error_msg);
                             }
                         },
                         error : function () {
+                            d && d.close();
                             $alert('操作失败，请稍后重试');
                         }
                     });
@@ -315,20 +321,23 @@
                         course_classify : title
                     };
                     var url = contextPath + '/api/school/sonclassify/create';
-                    d && d.close();
+
                     redefineAjax({
                         url : url,
                         data : data,
                         success : function (res) {
                             if (res.error_code == 0) {
+                                d && d.close();
                                 $alert('课程子分类新增成功', function () {
                                     window.location.reload();
                                 });
                             } else {
                                 $('#createErrorTips').text(res.error_msg);
+                                // $alert(res.error_msg);
                             }
                         },
                         error : function () {
+                            d && d.close();
                             $alert('操作失败，请稍后重试');
                         }
                     });
@@ -413,20 +422,23 @@
                         parent_id : pid
                     };
                     var url = contextPath + '/api/school/sonclassify/update';
-                    d && d.close();
+
                     redefineAjax({
                         url : url,
                         data : data,
                         success : function (res) {
                             if (res.error_code == 0) {
+                                d && d.close();
                                 $alert('课程子分类重命名成功', function () {
                                     window.location.reload();
                                 });
                             } else {
                                 $('#createErrorTips').text(res.error_msg);
+                                // $alert(res.error_msg);
                             }
                         },
                         error : function () {
+                            d && d.close();
                             $alert('操作失败，请稍后重试');
                         }
                     });
