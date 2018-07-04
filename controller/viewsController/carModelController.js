@@ -116,7 +116,7 @@ exports.VIEW_CAR_MODEL_EDIT = function(req, res, next) {
 };
 
 // 业务-车型库-车系新增跳转 1559
-exports.VIEW_CAR_SERIES_CREATE = function(req, res, next) {
+exports.VIEW_CAR_SERIESTEST_CREATETEST = function(req, res, next) {
     common.getPageData({
         url : '/api/carModel/series/toCreate',
         title : '车系新增',

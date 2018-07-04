@@ -333,7 +333,7 @@ router.post(markUri + '/car/brand/create', carModelCtrl.VIEW_CAR_BRAND_CREATE);
 //业务-车型库品牌编辑 1555
 router.post(markUri + '/car/brand/edit', carModelCtrl.VIEW_CAR_BRAND_EDIT);
 //业务-车型库车系新增 1559
-router.post(markUri + '/car/series/create', carModelCtrl.VIEW_CAR_SERIES_CREATE);
+router.post(markUri + '/car/seriestest/createtest', carModelCtrl.VIEW_CAR_SERIESTEST_CREATETEST);
 //业务-车型库车系编辑 1561
 router.post(markUri + '/car/series/edit', carModelCtrl.VIEW_CAR_SERIES_EDIT);
 //业务-车型库车型新增跳转 1564

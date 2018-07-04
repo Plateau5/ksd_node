@@ -75,7 +75,7 @@
                         <em class="require_icon">*</em>车型:
                     </div>
                     <div class="row_val">
-                        <input type="text" value="{{model_name}}" placeholder="请输入车型" class="item_name" id="brandName" data-model_id="{{model_id}}">
+                        <input type="text" value="{{model_name}}" maxlength="50" placeholder="请输入车型" class="item_name" id="brandName" data-model_id="{{model_id}}">
                     </div>
                 </div>
             <div class="btn_box clearfix">
@@ -135,7 +135,7 @@
                     model_id : modelId,
                     model_name : modelName
             }
-            $.ajax({
+            redefineAjax({
                 type:'post',
                 timeout:20000,
                 url : url,

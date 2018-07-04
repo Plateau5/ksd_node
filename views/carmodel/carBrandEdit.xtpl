@@ -41,9 +41,15 @@
                     </div>
                     <div class="row_val">
                         <input type="hidden" class="upload_logo">
-                        <div class="photo_box" style="display:none;">
-                            <img src="" id="user_photo" class="user_photo img_responsive" alt="">
-                        </div>
+                        {{#if (reqParams.crumbsName)}}
+                            <div class="photo_box" style="display:block;">
+                                <img src="{{reqParams.url}}" id="user_photo" class="user_photo img_responsive" alt="">
+                            </div>
+                        {{else}}
+                            <div class="photo_box" style="display:none;">
+                                <img src="{{reqParams.url}}" id="user_photo" class="user_photo img_responsive" alt="">
+                            </div>
+                        {{/if}}
                         <a href="javascript:" class="detail_title_btn create_btn" id="upload_photo_btn">上传logo</a>
                         <input type="file" style="display: none;" name="user_photo" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
                     </div>
@@ -53,7 +59,7 @@
                         <em class="require_icon">*</em>品牌:
                     </div>
                     <div class="row_val">
-                        <input type="text" value="" name="brandName" maxlength="50" placeholder="请输入品牌名称" class="item_name" id="brandName">
+                        <input type="text" value="{{reqParams.brand_name}}" name="brandName" maxlength="50" placeholder="请输入品牌名称" class="item_name" id="brandName">
 
                     </div>
                 </div>
@@ -102,20 +108,14 @@
 </html>
 <script>
     (function ($) {
-        //上传图片按钮的点击事件
-        function uploadPhoto (ele) {
-            ele.off("click").on("click", function () {
-                elem.fileInput.click();
-            });
-        }
         var RESETPHOTO = false;
-//上传图片按钮的点击事件
+        //上传图片按钮的点击事件
         function uploadPhoto (ele) {
             ele.off("click").on("click", function () {
                 $("#upload_photo_file").click();
             });
         }
-//重新上传图片
+        //重新上传图片
         uploadPhoto($(".choose_img"));
         $(".large_photo>img").cropper({
             zoomable: true,
@@ -125,9 +125,11 @@
             autoCropArea: 0.8, //初始裁剪区域占图片比例
             modal : false
         });
-//选择图片后的事件
+        //选择图片后的事件
         $("#upload_photo_file").on('change', function () {
             var file = this.files[0];
+            console.log(file);
+            return;
             var file_type = file.type.split('/')[1];
             if (file_type == 'jpg' || file_type == 'jpeg' || file_type == 'png' || file_type == 'gif') {
 

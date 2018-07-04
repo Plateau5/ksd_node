@@ -31,6 +31,7 @@
             <div class="list_item carModelList">
                 <form action="{{markUri}}/car/model" method="POST" id="form_search" role="form">
                     <input type="hidden" name="type" value="{{request_id}}" id="requestId">
+
                 </form>
                 <div class="create_item">
                     {{#if (startWith(markUri + '/car/model'))}}
@@ -39,19 +40,23 @@
                                 <div class="searchbox">
                                     <div class="mod_select">
                                         <div class="select_box">
-                                            <span data-id="{{search_type}}" class="select_txt">品牌</span>
+                                            <span data-id="1" class="select_txt">品牌</span>
                                             <span class="select_icon"></span>
                                             <ul class="option">
-                                                <li data-id="1">品牌</li>
+                                                <li data-id="1" style="display: none;">品牌</li>
                                                 <li data-id="2">车系</li>
                                                 <li data-id="3">车型</li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <form action="" class="search_input">
+                                    <form action="{{markUri}}/car/model" method="post" role="form" class="search_input">
                                         <input type="hidden" name="" value="" id="select_value">
                                         <input type="text" name=""  value="" id="searchPlaceholder" class="import" placeholder="请输入名称" autocomplete="false">
-                                        <input type="submit" value="" class="btn_search">
+                                        <input type="button" value="" class="btn_search">
+
+                                        <input type="hidden" name="type" value="" id="search_type">
+                                        <input type="hidden" name="type" value="" id="search_value">
+                                        <input type="hidden" name="type" value="{{current_page}}" id="current_page">
                                     </form>
                                 </div>
                             </div>
@@ -62,7 +67,7 @@
                             <a href="javascript:;"  data-url="{{markUri}}/car/model/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车型</a>
                         {{/if}}
                         {{#if (startWith(markUri + '/car/series'))}}
-                            <a href="javascript:;"  data-url="{{markUri}}/car/series/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车系</a>
+                            <a href="javascript:;"  data-url="{{markUri}}/car/seriestest/createtest" class="btn blue_btn add_btn carModelCreate"><em></em>新建车系</a>
                         {{/if}}
                         {{#if (startWith(markUri + '/car/brand'))}}
                             <a href="javascript:;"  data-url="{{markUri}}/car/brand/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建品牌</a>
@@ -89,10 +94,14 @@
                         {{#if (count > 0) }}
                             {{#each (list) }}
                                 <tr data-id="{{this.id}}">
-                                    <td title="logo"><img src="{{this.url}}" alt="" class="logo"></td>
+                                    {{#if (this.url) }}
+                                        <td><img src="{{url}}" alt="" class="logo"></td>
+                                    {{else}}
+                                        <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo"></td>
+                                    {{/if}}
                                     <td class="text_left">{{this.name}}</td>
                                     <td class="operate_btn">
-                                        <a href="javascript:;" title="编辑品牌" data-brand_id ="{{this.brand_id}}" data-url ="{{this.url}}"  class="edit brandEdit"></a>
+                                        <a href="javascript:;" title="编辑品牌" data-brand_id ="{{this.id}}" data-brand_name ="{{this.name}}" data-brand_url ="{{this.url}}"  class="edit brandEdit"></a>
                                     </td>
                                 </tr>
                             {{/each}}
@@ -123,7 +132,11 @@
                         {{#if (count > 0) }}
                             {{#each (list) }}
                                 <tr>
-                                    <td title="logo"><img src="../static/img/carLogo.png" alt="" class="logo"></td>
+                                    {{#if (this.url) }}
+                                        <td><img src="{{url}}" alt="" class="logo"></td>
+                                    {{else}}
+                                        <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo"></td>
+                                    {{/if}}
                                     <td class="text_left">{{this.brand_name}}</td>
                                     <td class="text_left pd1">{{this.name}}</td>
                                     <td class="operate_btn">
@@ -160,7 +173,11 @@
                         {{#if (count > 0) }}
                             {{#each (list) }}
                                 <tr data-id="{{this.id}}">
-                                    <td title="logo"><img src="../static/img/carLogo.png" alt="" class="logo"></td>
+                                    {{#if (this.url) }}
+                                        <td><img src="{{url}}" alt="" class="logo"></td>
+                                    {{else}}
+                                        <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo"></td>
+                                    {{/if}}
                                     <td class="text_left">{{this.brand_name}}</td>
                                     <td class="text_left pd1">{{this.name}}</td>
                                     <td class="text_left">{{this.series_name}}</td>
@@ -215,18 +232,23 @@
         $(".option li").click(function(){
             var check_value=$(this).text();
             var check_id = $(this).data("id");
-            var zlValue = $('.option li:eq(1)').html();
-            var bqValue = $('.option li:eq(2)').html();
-            $(this).parent().siblings(".select_txt").text(check_value).data("id", check_id);
+            $(".option li").eq(check_id-1).hide().siblings('li').show();
+            $(this).parent().siblings(".select_txt").text(check_value).attr('data-id',check_id);
+
+
             $("#select_value").val(check_value);
-            if(check_value == zlValue) {
-                $('#searchPlaceholder').prop('placeholder','请输入名称');
-            }else if(check_value == bqValue) {
-                $('#searchPlaceholder').prop('placeholder','请输入名称');
-            }else {
-                $('#searchPlaceholder').prop('placeholder','请输入名称');
-            }
+
         });
+        //搜索按钮
+        $('.btn_search').click(function () {
+            var searchbox = $('#searchPlaceholder').val();
+            var id = $('.select_txt').attr('data-id');
+            if(!searchbox) return;
+            $('#search_type').val(id);
+            $('#search_value').val(searchbox);
+            $('.search_input').submit();
+
+        })
         //列表页tab切换
         function searchQueryType(tab_item) {
             var btn = $(tab_item);
@@ -251,7 +273,6 @@
             btn.off("click").on('click', function () {
                 var _this = $(this);
                 var createPageUrl = _this.data("url");
-                console.log(name);
                 locationTo({
                     action : contextPath + createPageUrl,
                     param : {
