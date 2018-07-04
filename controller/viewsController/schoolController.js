@@ -91,27 +91,27 @@ exports.VIEW_SCHOOL_COURSE_LISTS_EDIT = function(req, res, next) {
         callback : function (data) {
             if (data) {
                 data.list = JSON.stringify(data.Lecturerlist);
-                var lecturer_ids = data.toEdit.lecturer_ids;
-                var teacher_name = data.toEdit.teacher_name;
-                if (lecturer_ids) {
-                    var cur_teachers = [];
-                    if (lecturer_ids.indexOf(',') != -1) {
-                        var cur_ids = lecturer_ids.split(',');
-                        var cur_names = teacher_name.split(',');
-                        for (var i = 0, len = cur_ids.length;i < len; i++) {
-                            cur_teachers.push({
-                                id :  cur_ids[i],
-                                name : cur_names[i]
-                            });
-                        }
-                    } else {
-                        cur_teachers.push({
-                            id :  lecturer_ids,
-                            name : teacher_name
-                        });
-                    }
-                    data.toEdit.already_teacher = cur_teachers;
-                }
+                // var lecturer_ids = data.toEdit.lecturer_ids;
+                // var teacher_name = data.toEdit.teacher_name;
+                // if (lecturer_ids) {
+                //     var cur_teachers = [];
+                //     if (lecturer_ids.indexOf(',') != -1) {
+                //         var cur_ids = lecturer_ids.split(',');
+                //         var cur_names = teacher_name.split(',');
+                //         for (var i = 0, len = cur_ids.length;i < len; i++) {
+                //             cur_teachers.push({
+                //                 id :  cur_ids[i],
+                //                 name : cur_names[i]
+                //             });
+                //         }
+                //     } else {
+                //         cur_teachers.push({
+                //             id :  lecturer_ids,
+                //             name : teacher_name
+                //         });
+                //     }
+                //     data.toEdit.already_teacher = cur_teachers;
+                // }
             }
         }
     }, req, res, next);
