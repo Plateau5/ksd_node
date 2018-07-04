@@ -308,8 +308,11 @@
                 result.errno = result.error_code;
             },
             customInsert: function (insertImg, result, editor) {
-                var url = result.data[0].image_url;
-                insertImg(url);
+                // var url = result.data[0].image_url;
+                var datas = result.data;
+                for (var i = 0, len = datas.length;i < len; i++) {
+                    insertImg(datas[i].image_url);
+                }
             }
         };
         courseIntro.create();
@@ -460,12 +463,19 @@
             var course_type = $('.course_type');
             var coursetype_box = $('.coursetype_box');
             course_type.off("click").on("click", function () {
-                coursetype_box.show();
+                if (coursetype_box.is(":hidden")) {
+                    coursetype_box.show();
+                } else {
+                    coursetype_box.hide();
+                }
 
                 $(document).on('click',function (e) {
                     var ev = e || window.event;
                     ev.stopPropagation();
                     var target = $(ev.target);
+                    if (target.hasClass('one_level')) {
+                        return false;
+                    }
                     var siblings = target.siblings('.coursetype_box');
                     if (siblings.hasClass('coursetype_box')) {
                         return false;
