@@ -1,0 +1,266 @@
+<!-- 业务车型库列表页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="../static/css/carModel.css">
+    <title>业务-车型库</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="tab">
+                <ul class="tab_list inline_block" id="car_tab">
+                    <li class="tab_item type_normal {{#if (startWith(markUri + '/car/model')) }}active{{/if}}" data-type="0" data-url="{{markUri}}/car/model" style="border-left:0px;"><span></span>车型管理</li>
+                    <li class="tab_item type_others {{#if (startWith(markUri + '/car/series')) }}active{{/if}}" data-type="1" data-url="{{markUri}}/car/series"><span></span>车系管理</li>
+                    <li class="tab_item type_others {{#if (startWith(markUri + '/car/brand')) }}active{{/if}}" data-type="2" data-url="{{markUri}}/car/brand"><span></span>品牌管理</li>
+                </ul>
+            </div>
+            <div class="list_item carModelList">
+                <form action="{{markUri}}/car/model" method="POST" id="form_search" role="form">
+                    <input type="hidden" name="type" value="{{request_id}}" id="requestId">
+                </form>
+                <div class="create_item">
+                    {{#if (startWith(markUri + '/car/model'))}}
+                        {{#if (verifyCode(1563)) }}
+                            <div class="inline_block lf">
+                                <div class="searchbox">
+                                    <div class="mod_select">
+                                        <div class="select_box">
+                                            <span class="select_txt">品牌</span>
+                                            <span class="select_icon"></span>
+                                            <ul class="option">
+                                                <li>车系</li>
+                                                <li>车型</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <form action="" class="search_input">
+                                        <input type="hidden" name="" value="品牌" id="select_value">
+                                        <input type="text" name="" id="searchPlaceholder" class="import" placeholder="请输入名称">
+                                        <input type="submit" value="" class="btn_search">
+                                    </form>
+                                </div>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                    <div class="inline_block rf">
+                        {{#if (startWith(markUri + '/car/model'))}}
+                            <a href="{{markUri}}/car/model/create" class="btn blue_btn add_btn"><em></em>新建车型</a>
+                        {{/if}}
+                        {{#if (startWith(markUri + '/car/series'))}}
+                            <a href="{{markUri}}/car/series/create" class="btn blue_btn add_btn"><em></em>新建车系</a>
+                        {{/if}}
+                        {{#if (startWith(markUri + '/car/brand'))}}
+                            <a href="{{markUri}}/car/brand/create" class="btn blue_btn add_btn"><em></em>新建品牌</a>
+                        {{/if}}
+                    </div>
+                </div>
+                <!---品牌管理--->
+                {{#if (startWith(markUri + '/car/brand'))}}
+                {{#if (verifyCode(1554)) }}
+                    <table class="normal carModel_list">
+                        <colgroup style="width: 100%;">
+                            <col style="width: 12%;" />
+                            <col style="width: 68%;" />
+                            <col style="width: 20%;" />
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>LOGO</th>
+                            <th class="text_left ">品牌</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#if (count > 0) }}
+                            {{#each (list) }}
+                                <tr data-id="{{this.id}}">
+                                    <td title="logo"><img src="../static/img/carLogo.png" alt="" class="logo"></td>
+                                    <td class="text_left">{{this.name}}</td>
+                                    <td class="operate_btn">
+                                        <a href="javascript:;" title="编辑" class="edit"></a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        </tbody>
+                    </table>
+                {{/if}}
+                {{/if}}
+                <!---车系管理--->
+                {{#if (startWith(markUri + '/car/series'))}}
+                {{#if (verifyCode(1560)) }}
+                    <table class="normal carModel_list">
+                        <colgroup style="width: 100%;">
+                            <col style="width: 12%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 48%;" />
+                            <col style="width: 20%;" />
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>LOGO</th>
+                            <th class="text_left">品牌</th>
+                            <th class="text_left pd1">车系</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#if (count > 0) }}
+                            {{#each (list) }}
+                                <tr>
+                                    <td title="logo"><img src="../static/img/carLogo.png" alt="" class="logo"></td>
+                                    <td class="text_left">{{this.brand_name}}</td>
+                                    <td class="text_left pd1">{{this.name}}</td>
+                                    <td class="operate_btn">
+                                        <a href="javascript:;" title="编辑" class="edit"></a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        </tbody>
+                    </table>
+                {{/if}}
+                {{/if}}
+                <!---车型管理--->
+                {{#if (startWith(markUri + '/car/model'))}}
+                {{#if (verifyCode(1563)) }}
+                    <table class="normal carModel_list">
+                        <colgroup style="width: 100%;">
+                            <col style="width: 12%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 28%;" />
+                            <col style="width: 20%;" />
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>LOGO</th>
+                            <th class="text_left">品牌</th>
+                            <th class="text_left pd1">车系</th>
+                            <th class="text_left">车型</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#if (count > 0) }}
+                            {{#each (list) }}
+                                <tr data-id="{{this.id}}">
+                                    <td title="logo"><img src="../static/img/carLogo.png" alt="" class="logo"></td>
+                                    <td class="text_left">{{this.brand_name}}</td>
+                                    <td class="text_left pd1">{{this.name}}</td>
+                                    <td class="text_left">{{this.series_name}}</td>
+                                    <td class="operate_btn">
+                                        <a href="javascript:;" title="编辑" class="edit"></a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                        <!-- 没有数据部分 -->
+                        {{#if (count === 0) }}
+                        <tr class="no_data">
+                            <td colspan="3">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
+                        {{/if}}
+                        </tbody>
+                    </table>
+                {{/if}}
+                {{/if}}
+                <!--分页部分 Begin-->
+                {{include('./../inc/paginations')}}
+                <!--分页部分 End-->
+            </div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+</html>
+<script>
+    (function ($) {
+        $(".select_box").click(function(event){
+            event.stopPropagation();
+            $(this).find(".option").toggle();
+            $(this).parent().siblings().find(".option").hide();
+        });
+        $(document).click(function(event){
+            var eo=$(event.target);
+            if($(".select_box").is(":visible") && eo.attr("class")!="option" && !eo.parent(".option").length)
+                $('.option').hide();
+        });
+        $(".option li").click(function(){
+            var check_value=$(this).text();
+            var zlValue = $('.option li:eq(1)').html();
+            var bqValue = $('.option li:eq(2)').html();
+            $(this).parent().siblings(".select_txt").text(check_value);
+            $("#select_value").val(check_value);
+            if(check_value == zlValue) {
+                $('#searchPlaceholder').prop('placeholder','请输入名称');
+            }else if(check_value == bqValue) {
+                $('#searchPlaceholder').prop('placeholder','请输入名称');
+            }else {
+                $('#searchPlaceholder').prop('placeholder','请输入名称');
+            }
+        });
+        //列表页tab切换
+        function searchQueryType(tab_item) {
+            var btn = $(tab_item);
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var localUrl = $(this).attr("data-url");
+                var dataType = $(this).attr("data-type");
+                var requestId = $.trim($('#requestId').val());
+                console.log(localUrl);
+                locationTo({
+                    action : contextPath + localUrl,
+                    param : {
+                        request_id : requestId,
+                        data_type : dataType,
+                    }
+                })
+            });
+        }
+        //新建品牌跳转
+        function create() {
+            var btn = $('');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var localUrl = $(this).attr("data-url");
+                locationTo({
+                    action : contextPath + localUrl,
+                    param : {
+                        request_id : requestId,
+                        data_type : dataType,
+                    }
+                })
+            });
+        }
+        $(function() {
+            searchQueryType('#car_tab .tab_item'); //列表页tab切换
+            paginationSwitch();     // 分页切换
+            create();
+        });
+    })(jQuery,undefined);
+</script>

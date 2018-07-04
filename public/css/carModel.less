@@ -1,0 +1,265 @@
+/**
+ * Created by qi on 2018/7/2.
+ */
+@import 'variate';
+.tab{
+  width:100%;
+  margin-top:27px;
+  height:42px;
+  line-height: 42px;
+  border:none;
+  .tab_list{
+    overflow: visible;
+    width:100%;
+    padding-left: 0;
+    border:none ;
+    background-color: #F4F4F4;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    .tab_item{
+      width:116px;
+      height:40px;
+      line-height: 40px;
+      /*transition:none;*/
+      margin-right: 0;
+      &:after{
+        height:4px;
+        top:-4px;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+      }
+      &:hover:after{
+        display: none;
+      }
+    }
+    .active{
+      background-color: #fff;
+      span{
+        position: absolute;
+        width: 116px;
+        height: 6px;
+        left: 0;
+        bottom: -4px;
+        background-color: #fff;
+      }
+      &:hover:after{
+        display: block;
+      }
+    }
+
+  }
+}
+.carModelList{
+    padding-top: 18px;
+    .create_item{
+      height: 34px;
+      line-height: 34px;
+    }
+    .carModel_list{
+      margin-top: 18px;
+      width: 100%;
+      text-align: center;
+      tr{
+        height: 48px;
+        line-height: 48px;
+        th,td{
+          color: @normal-color;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          padding:0 2%;
+        }
+        .logo{
+          vertical-align: middle;
+        }
+        th:last-child,td:last-child{
+          padding:0 0 0 2%;
+        }
+        th:nth-child(2),td:nth-child(2){
+          padding:0 1%;
+        }
+      }
+      .pd1{
+        padding:0 1%;
+      }
+      thead tr{
+        background: #fafafa;
+        th{
+          font-weight: normal;
+          font-size: 14px;
+        }
+      }
+      .operate_btn{
+        .view,.edit,.delete{
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          background: url("../img/operation_small_icon.png") no-repeat;
+          vertical-align: middle;
+        }
+        .edit{
+          background-position: 0 -662px;
+        }
+        .edit:hover{
+          background-position: 0 -686px;
+        }
+
+      }
+    }
+}
+.carModelList table.normal tr:hover{
+  background: #F0FFFE;
+  cursor: pointer;
+}
+.new_brand{
+    padding-top: 20px;
+    .row_item{
+        margin-bottom: 10px;
+        min-height:30px;
+        .row_title{
+          width: 10%;
+          height: 30px;
+          line-height: 30px;
+          text-align: left;
+        }
+        .row_val{
+          width: 85%;
+          line-height: 30px;
+          .item_name{
+            width: 398px;
+            height: 28px;
+            border: 1px solid #e4e4e4;
+            text-indent: 1em;
+            font-size: 12px;
+          }
+          .photo_box{
+              padding-bottom:12px;
+              .user_photo {
+                width: 90px;
+                height: 60px;
+                border: none;
+                vertical-align: middle;
+                overflow: hidden;
+              }
+          }
+        }
+    }
+    .edit_photo_box{
+        min-height:120px;
+    }
+}
+.btn_box{
+  padding-left: 10%;
+  float:left;
+  margin-top:10px;
+}
+.option_item select{
+  width: 400px;
+  height: 30px;
+  border: 1px solid #e4e4e4;
+  padding: 0 15px;
+  color: #999;
+}
+/*下拉框*/
+.searchbox {
+  position: relative;
+  z-index: 1;
+  clear: both;
+  width: 400px;
+  height: 30px;
+  border: 1px solid #cacaca;
+  .import {
+    width: 280px;
+    height: 30px;
+    line-height:30px;
+    margin-top:-4px;
+    margin-left: 70px;
+    padding-left: 12px;
+    border: none;
+    outline: none;
+  }
+  .btn_search {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    background: url(../img/icon_search_default.png) center no-repeat;
+    background-size: contain;
+    border: 0;
+    cursor: pointer;
+    &:hover{
+      background: url(../img/icon_search_hover.png) center no-repeat;
+    }
+  }
+  .search_input{
+    height: 30px;
+    line-height: 30px;
+  }
+}
+.mod_select {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 70px;
+  border-right:1px solid #cacaca;
+  .select_box {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    .select_txt {
+      display: inline-block;
+      height: 30px;
+      padding-left: 16px;
+      overflow: hidden;
+      line-height: 30px;
+      font-size: 12px;
+      cursor: pointer;
+      &:hover{
+        color:#1DC6BC;
+      }
+    }
+    .select_icon {
+      position: absolute;
+      top: 13px;
+      right: 16px;
+      content: '';
+      border-top: 5px solid #333;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      -ms-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
+      &:hover{
+        border-top: 5px solid #1DC6BC;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+    }
+    .option {
+      display: none;
+      position: absolute;
+      top: 30px;
+      left: -1px;
+      width: 70px;
+      background-color: #fff;
+      border: 1px solid #cacaca;
+      border-top: 0;
+      li{
+        padding-left: 16px;
+        font-size: 12px;
+        line-height: 30px;
+        cursor: pointer;
+        &:hover{
+          color:#1DC6BC;
+        }
+      }
+    }
+  }
+}

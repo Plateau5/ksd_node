@@ -57,7 +57,7 @@
         </li>
     </ul>
 </div>
-{{ elseif (startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps')) }}
+{{ elseif (startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps' + ' || ' + markUri + '/car')) }}
 <div class="contacts slide_nav">
     <div class="slide_nav_title bold">业务</div>
     <ul class="slide_nav_bar">
@@ -90,6 +90,11 @@
             <li class="nav_item {{#if(startWith(markUri + '/business/city/manage'))}}active{{/if}}">
                 <a href="{{markUri}}/business/city/manage" class="">城市管理</a>
             </li>
+        {{/if}}
+        {{#if (verifyCode(1554)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/car'))}}active{{/if}}">
+            <a href="{{markUri}}/car/system" class="">车型库</a>
+        </li>
         {{/if}}
     </ul>
 </div>

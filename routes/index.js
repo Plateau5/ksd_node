@@ -17,6 +17,7 @@ var settingsCtrl = require('../controller/viewsController/settingsController');
 var privilegeCtrl = require('../controller/viewsController/privilegeController');
 var merchantsCtrl = require('../controller/viewsController/merchantsController');
 var dockingCtrl = require('../controller/viewsController/dockingController');
+var carModelCtrl = require('../controller/viewsController/carModelController');
 
 
 var markUri = '/ksd';
@@ -304,14 +305,6 @@ router.post(markUri + '/supplier/organization/policies/edit', supplierCtrl.VIEW_
 router.post(markUri + '/supplier/organization/policies/history', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST);
 
 
-
-
-
-
-
-
-
-
 // 业务管理-主导航节点跳转
 router.get(markUri + '/business/system', workflowCtrl.VIEW_BUSINESS_SYSTEM);
 // 业务管理-城市管理 1357
@@ -326,6 +319,17 @@ router.all(markUri + '/workflow/toCreate', workflowCtrl.VIEW_WORKFLOW_CREATE);
 router.post(markUri + '/workflow/toDetail', workflowCtrl.VIEW_WORKFLOW_DETAIL);
 // 流程管理-编辑审批流页跳转 1132
 router.post(markUri + '/workflow/toEdit', workflowCtrl.VIEW_WORKFLOW_EDIT);
+
+//业务-车型库侧导航跳转
+router.all(markUri + '/car/system', carModelCtrl.VIEW_CAR_SYSTEM);
+//业务-车型库-品牌列表页跳转 1554
+router.post(markUri + '/car/brand', carModelCtrl.VIEW_CAR_BRAND);
+//业务-车型库车系列表页跳转 1558
+router.post(markUri + '/car/series', carModelCtrl.VIEW_CAR_SERIES);
+//业务-车型库车型列表页跳转 1563
+router.post(markUri + '/car/model', carModelCtrl.VIEW_CAR_MODEL);
+
+
 
 // 问题管理-客户问题列表 1092
 router.all(markUri + '/question/customer/list', questionCtrl.VIEW_QUESTION_CUSTOMER_LIST);
