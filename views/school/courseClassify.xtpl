@@ -156,6 +156,7 @@
                 redefineAjax({
                     url : url,
                     data : data,
+                    timeout : 5000,
                     success : function (res) {
                         if (res.error_code == 0) {
                             d && d.close();
@@ -206,6 +207,7 @@
                             data : {
                                 id : classifyId
                             },
+                            timeout : 5000,
                             success : function (res) {
                                 if (res.error_code == 0) {
                                     $alert('课程分类删除成功', function () {
@@ -262,10 +264,10 @@
                         classify_value : newName
                     };
                     var url = contextPath + '/api/school/classify/update';
-
                     redefineAjax({
                         url : url,
                         data : data,
+                        timeout : 5000,
                         success : function (res) {
                             if (res.error_code == 0) {
                                 d && d.close();
@@ -325,6 +327,7 @@
                     redefineAjax({
                         url : url,
                         data : data,
+                        timeout : 5000,
                         success : function (res) {
                             if (res.error_code == 0) {
                                 d && d.close();
@@ -363,6 +366,7 @@
                                 id : id,
                                 parent_id : parent_id
                             },
+                            timeout : 5000,
                             success : function (res) {
                                 if (res.error_code == 0) {
                                     $alert('课程子分类删除成功', function () {
@@ -426,6 +430,7 @@
                     redefineAjax({
                         url : url,
                         data : data,
+                        timeout : 5000,
                         success : function (res) {
                             if (res.error_code == 0) {
                                 d && d.close();
