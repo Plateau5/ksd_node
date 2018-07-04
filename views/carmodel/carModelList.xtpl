@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {{include ("./../inc/cssSources")}}
-    <link rel="stylesheet" href="../static/css/carModel.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/carModel.css">
     <title>业务-车型库</title>
 </head>
 <body>
@@ -39,17 +39,18 @@
                                 <div class="searchbox">
                                     <div class="mod_select">
                                         <div class="select_box">
-                                            <span class="select_txt">品牌</span>
+                                            <span data-id="{{search_type}}" class="select_txt">品牌</span>
                                             <span class="select_icon"></span>
                                             <ul class="option">
-                                                <li>车系</li>
-                                                <li>车型</li>
+                                                <li data-id="1">品牌</li>
+                                                <li data-id="2">车系</li>
+                                                <li data-id="3">车型</li>
                                             </ul>
                                         </div>
                                     </div>
                                     <form action="" class="search_input">
-                                        <input type="hidden" name="" value="品牌" id="select_value">
-                                        <input type="text" name="" id="searchPlaceholder" class="import" placeholder="请输入名称">
+                                        <input type="hidden" name="" value="" id="select_value">
+                                        <input type="text" name=""  value="" id="searchPlaceholder" class="import" placeholder="请输入名称" autocomplete="false">
                                         <input type="submit" value="" class="btn_search">
                                     </form>
                                 </div>
@@ -58,13 +59,13 @@
                     {{/if}}
                     <div class="inline_block rf">
                         {{#if (startWith(markUri + '/car/model'))}}
-                            <a href="{{markUri}}/car/model/create" class="btn blue_btn add_btn"><em></em>新建车型</a>
+                            <a href="javascript:;"  data-url="{{markUri}}/car/model/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车型</a>
                         {{/if}}
                         {{#if (startWith(markUri + '/car/series'))}}
-                            <a href="{{markUri}}/car/series/create" class="btn blue_btn add_btn"><em></em>新建车系</a>
+                            <a href="javascript:;"  data-url="{{markUri}}/car/series/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车系</a>
                         {{/if}}
                         {{#if (startWith(markUri + '/car/brand'))}}
-                            <a href="{{markUri}}/car/brand/create" class="btn blue_btn add_btn"><em></em>新建品牌</a>
+                            <a href="javascript:;"  data-url="{{markUri}}/car/brand/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建品牌</a>
                         {{/if}}
                     </div>
                 </div>
@@ -88,10 +89,10 @@
                         {{#if (count > 0) }}
                             {{#each (list) }}
                                 <tr data-id="{{this.id}}">
-                                    <td title="logo"><img src="../static/img/carLogo.png" alt="" class="logo"></td>
+                                    <td title="logo"><img src="{{this.url}}" alt="" class="logo"></td>
                                     <td class="text_left">{{this.name}}</td>
                                     <td class="operate_btn">
-                                        <a href="javascript:;" title="编辑" class="edit"></a>
+                                        <a href="javascript:;" title="编辑品牌" data-brand_id ="{{this.brand_id}}" data-url ="{{this.url}}"  class="edit brandEdit"></a>
                                     </td>
                                 </tr>
                             {{/each}}
@@ -126,7 +127,7 @@
                                     <td class="text_left">{{this.brand_name}}</td>
                                     <td class="text_left pd1">{{this.name}}</td>
                                     <td class="operate_btn">
-                                        <a href="javascript:;" title="编辑" class="edit"></a>
+                                        <a href="javascript:;" title="编辑车系" data-brand_id ="{{this.brand_id}}" data-series_id ="{{this.series_id}}" data-series_name ="{{this.series_name}}"  class="edit seriesEdit"></a>
                                     </td>
                                 </tr>
                             {{/each}}
@@ -164,7 +165,7 @@
                                     <td class="text_left pd1">{{this.name}}</td>
                                     <td class="text_left">{{this.series_name}}</td>
                                     <td class="operate_btn">
-                                        <a href="javascript:;" title="编辑" class="edit"></a>
+                                        <a href="javascript:;" title="编辑车型" data-series_id ="{{this.series_id}}" data-brand_id ="{{this.brand_id}}" data-model_id ="{{this.id}}" data-model_name ="{{this.name}}" class="edit modelEdit"></a>
                                     </td>
                                 </tr>
                             {{/each}}
@@ -182,6 +183,7 @@
                 {{/if}}
                 {{/if}}
                 <!--分页部分 Begin-->
+                <input type="hidden" class="current_page" value="{{current_page}}">
                 {{include('./../inc/paginations')}}
                 <!--分页部分 End-->
             </div>
@@ -212,9 +214,10 @@
         });
         $(".option li").click(function(){
             var check_value=$(this).text();
+            var check_id = $(this).data("id");
             var zlValue = $('.option li:eq(1)').html();
             var bqValue = $('.option li:eq(2)').html();
-            $(this).parent().siblings(".select_txt").text(check_value);
+            $(this).parent().siblings(".select_txt").text(check_value).data("id", check_id);
             $("#select_value").val(check_value);
             if(check_value == zlValue) {
                 $('#searchPlaceholder').prop('placeholder','请输入名称');
@@ -244,15 +247,82 @@
         }
         //新建品牌跳转
         function create() {
-            var btn = $('');
+            var btn = $('.carModelCreate');
             btn.off("click").on('click', function () {
                 var _this = $(this);
-                var localUrl = $(this).attr("data-url");
+                var createPageUrl = _this.data("url");
+                console.log(name);
                 locationTo({
-                    action : contextPath + localUrl,
+                    action : contextPath + createPageUrl,
                     param : {
-                        request_id : requestId,
-                        data_type : dataType,
+                    }
+                })
+            });
+        }
+        //品牌编辑
+        function brandEdit() {
+            var btn = $('.brandEdit');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var brandId = _this.data("brand_id");
+                var brandName = _this.data("brand_name");
+                var brandUrl = _this.data("brand_url");
+                var crumbsName =_this.attr("title");
+                locationTo({
+                    action : contextPath + markUri + "/car/brand/edit",
+                    param : {
+                        brand_id : brandId,
+                        brand_name : brandName,
+                        url : brandUrl,
+                        crumbsName : crumbsName,
+                    }
+                })
+            });
+        }
+        //车系编辑
+        function seriesEdit() {
+            var btn = $('.seriesEdit');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var brandId = _this.data("brand_id");
+                var seriesId = _this.data("series_id");
+                var seriesName = _this.data("series_name");
+                var crumbsName =_this.attr("title");
+                locationTo({
+                    action : contextPath + markUri + "/car/series/edit",
+                    param : {
+                        brand_id : brandId,
+                        series_id : seriesId,
+                        series_name : seriesName,
+                        crumbsName : crumbsName,
+                    }
+                })
+            });
+        }
+        //车型编辑
+        function modelEdit() {
+            var btn = $('.modelEdit');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var brandId = _this.data("brand_id");
+                var seriesId = _this.data("series_id");
+                var modelId = _this.data("model_id");
+                var modelName = _this.data("model_name");
+                var crumbsName =_this.attr("title");
+                var searchType = $(".select_txt").data("id");
+                var searchValue = $("#searchPlaceholder").val();
+                var currentPage = $(".current_page").val();
+                locationTo({
+                    action : contextPath + markUri + "/car/model/edit",
+                    param : {
+                        series_id : seriesId,
+                        brand_id : brandId,
+                        model_id : modelId,
+                        model_name : modelName,
+                        crumbsName : crumbsName,
+                        search_type : searchType,
+                        search_value : searchValue,
+                        current_page : currentPage
                     }
                 })
             });
@@ -260,7 +330,10 @@
         $(function() {
             searchQueryType('#car_tab .tab_item'); //列表页tab切换
             paginationSwitch();     // 分页切换
-            create();
+            create(); //新建跳转
+            modelEdit();//车型编辑
+            seriesEdit();//车系编辑
+            brandEdit();//品牌编辑
         });
     })(jQuery,undefined);
 </script>

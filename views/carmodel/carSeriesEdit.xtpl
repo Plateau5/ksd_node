@@ -1,0 +1,137 @@
+<!-- 业务车型库编辑页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/carModel.css">
+    <title>业务-车型库</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/car/system" class="crumbs_item">车型库</a>
+                <a href="javascript:;" class="crumbs_item">
+                    {{#if (reqParams.crumbsName)}}
+                        {{reqParams.crumbsName}}
+                    {{else}}
+                        新建车系
+                    {{/if}}
+
+                </a>
+            </div>
+            <div class="new_brand">
+                <div class="row_item option_item">
+                    <div class="row_title">
+                        <em class="require_icon">*</em>品牌:
+                    </div>
+                    <div class="row_val">
+                        <select id="brandSelect">
+                            <option selected="selected" value="">请选择</option>
+                            {{#each(data)}}
+                                <option data-brand_id="{{this.id}}" data-brand_name="{{this.name}}" data-brand_url="{{this.url}}" value="{{this.id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row_item">
+                    <div class="row_title">
+                        <em class="require_icon">*</em>车系:
+                    </div>
+                    <div class="row_val">
+                        <input type="text" value="" placeholder="请输入车系" class="item_name" id="brandName">
+                    </div>
+                </div>
+            <div class="btn_box clearfix">
+                <a href="javascript:;" class="btn orange_btn confirm createBtn">确定</a>
+                <a href="javascript:;" class="btn bg_btn return_cancel" >取消</a>
+            </div>
+        </div>
+        <!-------- Part of main End -------->
+    </div>
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
+    </div>
+</div>
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/cropper/cropper.js"></script>
+</html>
+<script>
+    (function ($) {
+        //确认
+        $('.createBtn').off("click").on("click", function() {
+            var brandSelect = $("#brandSelect");
+            var seriesSelect = $("#seriesSelect");
+            var brandName = $("#brandName").val();
+            var url= contextPath + '/api/carModel/model/create';
+            var brandId = $("#brandSelect option:selected").data("brand_id");
+            var brandsName = $("#brandSelect option:selected").data("brand_name");
+            var brandUrl = $("#brandSelect option:selected").data("brand_url");
+            if (brandSelect.val() =="") {
+                $alert('请选择品牌');
+                return false;
+            }
+            if (brandName == "") {
+                $alert('请输入车系');
+                return false;
+            }
+            var parameters = {
+                    name: brandName,
+                    brand_id : brandId,
+                    brand_name : brandsName,
+                    url : brandUrl
+            }
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : url,
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert("提交成功",function () {
+                            locationTo({
+                                action : contextPath + markUri + "/car/series",
+                            });
+                        });
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        });
+        //取消按钮的点击逻辑
+        bindEvents("click", ".return_cancel", function () {
+            window.history.back();
+        });
+
+        $(function() {
+
+        })
+
+    })(jQuery,undefined);
+</script>

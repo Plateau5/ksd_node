@@ -323,13 +323,23 @@ router.post(markUri + '/workflow/toEdit', workflowCtrl.VIEW_WORKFLOW_EDIT);
 //业务-车型库侧导航跳转
 router.all(markUri + '/car/system', carModelCtrl.VIEW_CAR_SYSTEM);
 //业务-车型库-品牌列表页跳转 1554
-router.post(markUri + '/car/brand', carModelCtrl.VIEW_CAR_BRAND);
+router.all(markUri + '/car/brand', carModelCtrl.VIEW_CAR_BRAND);
 //业务-车型库车系列表页跳转 1558
-router.post(markUri + '/car/series', carModelCtrl.VIEW_CAR_SERIES);
+router.all(markUri + '/car/series', carModelCtrl.VIEW_CAR_SERIES);
 //业务-车型库车型列表页跳转 1563
-router.post(markUri + '/car/model', carModelCtrl.VIEW_CAR_MODEL);
-
-
+router.all(markUri + '/car/model', carModelCtrl.VIEW_CAR_MODEL);
+//业务-车型库品牌新增 1556
+router.post(markUri + '/car/brand/create', carModelCtrl.VIEW_CAR_BRAND_CREATE);
+//业务-车型库品牌编辑 1555
+router.post(markUri + '/car/brand/edit', carModelCtrl.VIEW_CAR_BRAND_EDIT);
+//业务-车型库车系新增 1559
+router.post(markUri + '/car/series/create', carModelCtrl.VIEW_CAR_SERIES_CREATE);
+//业务-车型库车系编辑 1561
+router.post(markUri + '/car/series/edit', carModelCtrl.VIEW_CAR_SERIES_EDIT);
+//业务-车型库车型新增跳转 1564
+router.post(markUri + '/car/model/create', carModelCtrl.VIEW_CAR_MODEL_CREATE);
+//业务-车型库车型编辑 1566
+router.post(markUri + '/car/model/edit', carModelCtrl.VIEW_CAR_MODEL_EDIT);
 
 // 问题管理-客户问题列表 1092
 router.all(markUri + '/question/customer/list', questionCtrl.VIEW_QUESTION_CUSTOMER_LIST);

@@ -1,0 +1,259 @@
+<!-- 业务车型库编辑页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/cropper/cropper.min.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/carModel.css">
+    <title>业务-车型库</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/car/system" class="crumbs_item">车型库</a>
+                <a href="javascript:;" class="crumbs_item">
+                    {{#if (reqParams.crumbsName)}}
+                        {{reqParams.crumbsName}}
+                    {{else}}
+                        新建品牌
+                    {{/if}}
+
+                </a>
+            </div>
+            <div class="new_brand">
+                <div class="row_item">
+                    <div class="row_title">
+                        <em class="require_icon">*</em>品牌LOGO:
+                    </div>
+                    <div class="row_val">
+                        <input type="hidden" class="upload_logo">
+                        <div class="photo_box" style="display:none;">
+                            <img src="" id="user_photo" class="user_photo img_responsive" alt="">
+                        </div>
+                        <a href="javascript:" class="detail_title_btn create_btn" id="upload_photo_btn">上传logo</a>
+                        <input type="file" style="display: none;" name="user_photo" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
+                    </div>
+                </div>
+                <div class="row_item">
+                    <div class="row_title">
+                        <em class="require_icon">*</em>品牌:
+                    </div>
+                    <div class="row_val">
+                        <input type="text" value="" name="brandName" maxlength="50" placeholder="请输入品牌名称" class="item_name" id="brandName">
+
+                    </div>
+                </div>
+            </div>
+            <div class="btn_box clearfix">
+                <a href="javascript:;" class="btn orange_btn confirm createBtn">确定</a>
+                <a href="javascript:;" class="btn bg_btn return_cancel" >取消</a>
+            </div>
+            <!--弹出层-->
+            <div id="upload_photo_dialog" class="upload_photo_dialog" style="display:none;">
+                <div class="upload_photo_title bold">上传logo</div>
+                <div class="content">
+                    <div class="original_photo">
+                        <div class="large_photo">
+                            <img src="" class="img_responsive" alt="">
+                        </div>
+                        <div class="tips_msg">仅支持JPG/PNG/GIF图片文件，且文件大小小于5M</div>
+                        <div class="upload_btn_box">
+                            <a href="javascript:" class="btn btn_border_orange orange_font choose_img">重新上传</a>
+                        </div>
+                    </div>
+                    <div class="thumbnail_photo">
+                        <div class="small_photo" id="small_photo">
+                            <img src="" alt="">
+                        </div>
+                        <div class="thumbnail_text">效果预览</div>
+                    </div>
+                </div>
+                <div class="btn_box clearfix create_wf_btn_box">
+                    <a href="javascript:;" class="btn orange_btn confirm submit_upload">确认</a>
+                    <a href="javascript:;" class="btn bg_btn return_cancel" >取消</a>
+                </div>
+            </div>
+        </div>
+        <!-------- Part of main End -------->
+    </div>
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
+</div>
+<div class="mask" style="display: none;"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/cropper/cropper.js"></script>
+</html>
+<script>
+    (function ($) {
+        //上传图片按钮的点击事件
+        function uploadPhoto (ele) {
+            ele.off("click").on("click", function () {
+                elem.fileInput.click();
+            });
+        }
+        var RESETPHOTO = false;
+//上传图片按钮的点击事件
+        function uploadPhoto (ele) {
+            ele.off("click").on("click", function () {
+                $("#upload_photo_file").click();
+            });
+        }
+//重新上传图片
+        uploadPhoto($(".choose_img"));
+        $(".large_photo>img").cropper({
+            zoomable: true,
+            viewMode: 1,
+            preview: '#small_photo', //不同尺寸预览区
+            aspectRatio: 1, //裁剪比例，NaN-自由选择区域
+            autoCropArea: 0.8, //初始裁剪区域占图片比例
+            modal : false
+        });
+//选择图片后的事件
+        $("#upload_photo_file").on('change', function () {
+            var file = this.files[0];
+            var file_type = file.type.split('/')[1];
+            if (file_type == 'jpg' || file_type == 'jpeg' || file_type == 'png' || file_type == 'gif') {
+
+            } else {
+                $alert('上传的图片格式不正确，仅支持JPG、PNG、GIF图片文件');
+                return;
+            }
+            var file_size5M = 1024*1024*5;//5M
+            if (file.size > file_size5M) {
+                $alert('上传的图片大小不可大于5M');
+                return;
+            }
+            var reader = new FileReader();
+            //reader回调，重新初始裁剪区
+            reader.onload = function(){
+                // 通过 reader.result 来访问生成的 DataURL
+                var url = reader.result;
+                //选择图片后重新初始裁剪区
+                $(".large_photo>img").cropper('reset', true).cropper('replace', url);
+            };
+            reader.readAsDataURL(file);
+            $('#upload_photo_dialog').show();
+            $(".mask").show();
+        });
+        //取消按钮的点击事件
+        $(".btn_box .cancel_upload").off("click").on("click", function () {
+            $("#upload_photo_file").val('');
+            $('#upload_photo_dialog').hide();
+            $(".mask").hide();
+        });
+        //确定按钮的点击事件
+        $(".btn_box .submit_upload").off("click").on("click", function () {
+            var _this = $(this);
+            $("#upload_photo_file").val('');
+            $('#upload_photo_dialog').hide();
+            $(".mask").hide();
+            if ($('.upload_btn_mask').length != 0) {
+                $('.upload_btn_mask').show();
+            }
+            var canVas = $(".large_photo>img").cropper("getCroppedCanvas", {});
+            //将裁剪的图片加载到face_image
+            $('#user_photo').attr('src', canVas.toDataURL());
+            RESETPHOTO = true;
+            var file = $('#user_photo').attr("src").slice(22);
+            if (file == '') {
+                $('.teacher_img').val('');
+                $(".photo_box").hide();
+                return false;
+            }
+            var form = new FormData();
+            form.append('file',file);
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : contextPath + "/api/file/base64/upload",
+                data : form,
+                processData : false,
+                contentType :false,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $('.upload_logo').val(res.data[0].image_url);
+                        $(".photo_box").show();
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("上传失败，请稍后重试");
+                }
+            });
+        });
+        //确认
+        $('.createBtn').off("click").on("click", function() {
+            var brandName = $("#brandName").val();
+            var imgUrl = $(".upload_logo").val();
+            if (imgUrl =="") {
+                $alert('请上传LOGO');
+                return false;
+            }
+            if (brandName == "") {
+                $alert('请输入品牌名称');
+                return false;
+            }
+            var url= contextPath + '/api/carModel/brand/create';
+            var parameters = {
+                    name: brandName,
+                    url :imgUrl
+            }
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : url,
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert("提交成功",function () {
+                            locationTo({
+                                action : contextPath + markUri + "/car/brand",
+                            });
+                        });
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        });
+        //取消按钮的点击逻辑
+        bindEvents("click", ".return_cancel", function () {
+            window.history.back();
+        });
+
+        $(function() {
+            uploadPhoto($("#upload_photo_btn"));
+        });
+    })(jQuery,undefined);
+</script>
