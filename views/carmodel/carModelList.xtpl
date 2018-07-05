@@ -40,18 +40,36 @@
                                 <div class="searchbox">
                                     <div class="mod_select">
                                         <div class="select_box">
-                                            <span data-id="1" class="select_txt">品牌</span>
-                                            <span class="select_icon"></span>
-                                            <ul class="option">
-                                                <li data-id="1" style="display: none;">品牌</li>
-                                                <li data-id="2">车系</li>
-                                                <li data-id="3">车型</li>
-                                            </ul>
+                                            {{#if (search_type === 2) }}
+                                                <span data-id="2" class="select_txt">车系</span>
+                                                <span class="select_icon"></span>
+                                                <ul class="option">
+                                                    <li data-id="1" style="display: none;">车系</li>
+                                                    <li data-id="2">品牌</li>
+                                                    <li data-id="3">车型</li>
+                                                </ul>
+                                            {{elseif (search_type === 3)}}
+                                                <span data-id="3" class="select_txt">车型</span>
+                                                <span class="select_icon"></span>
+                                                <ul class="option">
+                                                    <li data-id="1" style="display: none;">车型</li>
+                                                    <li data-id="2">品牌</li>
+                                                    <li data-id="3">车系</li>
+                                                </ul>
+                                            {{else}}
+                                                <span data-id="1" class="select_txt">品牌</span>
+                                                <span class="select_icon"></span>
+                                                <ul class="option">
+                                                    <li data-id="1" style="display: none;">品牌</li>
+                                                    <li data-id="2">车系</li>
+                                                    <li data-id="3">车型</li>
+                                                </ul>
+                                            {{/if}}
                                         </div>
                                     </div>
                                     <form action="{{markUri}}/car/model" method="post" role="form" class="search_input">
                                         <input type="hidden" name="" value="" id="select_value">
-                                        <input type="text" name=""  value="" id="searchPlaceholder" class="import" placeholder="请输入名称" autocomplete="false">
+                                        <input type="text" name=""  value="{{search_value}}" id="searchPlaceholder" class="import" placeholder="请输入名称" autocomplete="false">
                                         <input type="button" value="" class="btn_search">
 
                                         <input type="hidden" name="type" value="" id="search_type">
@@ -106,6 +124,14 @@
                                 </tr>
                             {{/each}}
                         {{/if}}
+                        <!-- 没有数据部分 -->
+                        {{#if (count === 0) }}
+                        <tr class="no_data">
+                            <td colspan="3">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
+                        {{/if}}
                         </tbody>
                     </table>
                 {{/if}}
@@ -144,6 +170,14 @@
                                     </td>
                                 </tr>
                             {{/each}}
+                        {{/if}}
+                        <!-- 没有数据部分 -->
+                        {{#if (count === 0) }}
+                        <tr class="no_data">
+                            <td colspan="4">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
                         {{/if}}
                         </tbody>
                     </table>
@@ -190,7 +224,7 @@
                         <!-- 没有数据部分 -->
                         {{#if (count === 0) }}
                         <tr class="no_data">
-                            <td colspan="3">
+                            <td colspan="5">
                                 {{include('./../inc/empty_data')}}
                             </td>
                         </tr>
@@ -235,20 +269,24 @@
             $(".option li").eq(check_id-1).hide().siblings('li').show();
             $(this).parent().siblings(".select_txt").text(check_value).attr('data-id',check_id);
 
-
             $("#select_value").val(check_value);
 
         });
         //搜索按钮
-        $('.btn_search').click(function () {
-            var searchbox = $('#searchPlaceholder').val();
+        $('.btn_search').off("click").on('click', function () {
+            var search_value = $('#searchPlaceholder').val();
             var id = $('.select_txt').attr('data-id');
-            if(!searchbox) return;
-            $('#search_type').val(id);
-            $('#search_value').val(searchbox);
-            $('.search_input').submit();
-
-        })
+            var current_page = $('#current_page').val();
+            if(!search_value) return;
+            locationTo({
+                action : contextPath + markUri + "/car/model",
+                param : {
+                    search_type : id,
+                    search_value : search_value,
+                    current_page : current_page
+                }
+            })
+        });
         //列表页tab切换
         function searchQueryType(tab_item) {
             var btn = $(tab_item);
