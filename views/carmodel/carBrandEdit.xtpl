@@ -47,7 +47,7 @@
                                 {{#if (url) }}
                                 {{url}}
                                 {{else}}
-                                {{markUri}}/static/img/defaultLogo.png
+                                {{markUri}}/static/img/carLogo.png
                                 {{/if}}
                                  " id="user_photo" class="user_photo img_responsive" alt="">
                             </div>
@@ -130,8 +130,9 @@
             zoomable: true,
             viewMode: 1,
             preview: '#small_photo', //不同尺寸预览区
-            aspectRatio: 1, //裁剪比例，NaN-自由选择区域
+            aspectRatio: 1.5, //裁剪比例，NaN-自由选择区域
             autoCropArea: 0.8, //初始裁剪区域占图片比例
+            cropBoxResizable  : false,      // 不允许区域缩放
             modal : false
         });
         //选择图片后的事件
