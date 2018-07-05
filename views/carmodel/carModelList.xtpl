@@ -87,13 +87,19 @@
                         {{/if}}
                         <div class="inline_block rf">
                             {{#if (startWith(markUri + '/car/model'))}}
-                                <a href="javascript:;"  data-url="{{markUri}}/car/model/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车型</a>
+                                {{#if (verifyCode(1565)) }}
+                                    <a href="javascript:;"  data-url="{{markUri}}/car/model/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车型</a>
+                                {{/if}}
                             {{/if}}
                             {{#if (startWith(markUri + '/car/series'))}}
-                                <a href="javascript:;"  data-url="{{markUri}}/car/series/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车系</a>
+                                {{#if (verifyCode(1559)) }}
+                                    <a href="javascript:;"  data-url="{{markUri}}/car/series/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车系</a>
+                                {{/if}}
                             {{/if}}
                             {{#if (startWith(markUri + '/car/brand'))}}
-                                <a href="javascript:;"  data-url="{{markUri}}/car/brand/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建品牌</a>
+                                {{#if (verifyCode(1556)) }}
+                                    <a href="javascript:;"  data-url="{{markUri}}/car/brand/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建品牌</a>
+                                {{/if}}
                             {{/if}}
                         </div>
                     </div>
@@ -111,7 +117,9 @@
                         <tr>
                             <th>LOGO</th>
                             <th class="text_left ">品牌</th>
-                            <th>操作</th>
+                            {{#if (verifyCode(1555)) }}
+                                <th>操作</th>
+                            {{/if}}
                         </tr>
                         </thead>
                         <tbody>
@@ -124,9 +132,11 @@
                                         <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo img_responsive"></td>
                                     {{/if}}
                                     <td class="text_left">{{this.name}}</td>
-                                    <td class="operate_btn">
-                                        <a href="javascript:;" title="编辑品牌" data-brand_id ="{{this.id}}" data-brand_name ="{{this.name}}" data-brand_url ="{{this.url}}"  class="edit brandEdit"></a>
-                                    </td>
+                                    {{#if (root.verifyCode(1555)) }}
+                                        <td class="operate_btn">
+                                            <a href="javascript:;" title="编辑品牌" data-brand_id ="{{this.id}}" data-brand_name ="{{this.name}}" data-brand_url ="{{this.url}}"  class="edit brandEdit"></a>
+                                        </td>
+                                    {{/if}}
                                 </tr>
                             {{/each}}
                         {{/if}}
@@ -157,7 +167,9 @@
                             <th>LOGO</th>
                             <th class="text_left">品牌</th>
                             <th class="text_left pd1">车系</th>
-                            <th>操作</th>
+                            {{#if (verifyCode(1561)) }}
+                                <th>操作</th>
+                            {{/if}}
                         </tr>
                         </thead>
                         <tbody>
@@ -171,9 +183,11 @@
                                     {{/if}}
                                     <td class="text_left" title="{{this.brand_name}}">{{this.brand_name}}</td>
                                     <td class="text_left pd1">{{this.name}}</td>
-                                    <td class="operate_btn">
-                                        <a href="javascript:;" title="编辑车系" data-brand_id ="{{this.brand_id}}" data-series_id ="{{this.id}}" data-series_name ="{{this.name}}"  class="edit seriesEdit"></a>
-                                    </td>
+                                    {{#if (root.verifyCode(1561)) }}
+                                        <td class="operate_btn">
+                                            <a href="javascript:;" title="编辑车系" data-brand_id ="{{this.brand_id}}" data-series_id ="{{this.id}}" data-series_name ="{{this.name}}"  class="edit seriesEdit"></a>
+                                        </td>
+                                    {{/if}}
                                 </tr>
                             {{/each}}
                         {{/if}}
@@ -206,7 +220,9 @@
                             <th class="text_left">品牌</th>
                             <th class="text_left pd1">车系</th>
                             <th class="text_left">车型</th>
-                            <th>操作</th>
+                            {{#if (verifyCode(1566)) }}
+                                <th>操作</th>
+                            {{/if}}
                         </tr>
                         </thead>
                         <tbody>
@@ -221,9 +237,11 @@
                                     <td class="text_left" title="{{this.brand_name}}">{{this.brand_name}}</td>
                                     <td class="text_left pd1" title="{{this.series_name}}">{{this.series_name}}</td>
                                     <td class="text_left">{{this.name}}</td>
-                                    <td class="operate_btn">
-                                        <a href="javascript:;" title="编辑车型" data-series_id ="{{this.series_id}}" data-brand_id ="{{this.brand_id}}" data-model_id ="{{this.id}}" data-model_name ="{{this.name}}" class="edit modelEdit"></a>
-                                    </td>
+                                    {{#if (root.verifyCode(1566)) }}
+                                        <td class="operate_btn">
+                                            <a href="javascript:;" title="编辑车型" data-series_id ="{{this.series_id}}" data-brand_id ="{{this.brand_id}}" data-model_id ="{{this.id}}" data-model_name ="{{this.name}}" class="edit modelEdit"></a>
+                                        </td>
+                                    {{/if}}
                                 </tr>
                             {{/each}}
                         {{/if}}
