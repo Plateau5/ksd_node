@@ -29,7 +29,15 @@
                 </ul>
             </div>
             <div class="list_item carModelList">
-                <form action="{{markUri}}/car/model" method="POST" id="form_search" role="form">
+                <form action="
+                {{#if (startWith(markUri + '/car/brand')) }}
+                    {{markUri}}/car/brand
+                {{elseif (startWith(markUri + '/car/series')) }}
+                    {{markUri}}/car/series
+                {{elseif (startWith(markUri + '/car/model')) }}
+                    {{markUri}}/car/model
+                {{/if}}
+                " method="POST" id="form_search" role="form">
                     <input type="hidden" name="type" value="{{request_id}}" id="requestId">
                 </form>
                 <div class="create_item">

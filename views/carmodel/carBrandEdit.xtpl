@@ -40,7 +40,7 @@
                         <em class="require_icon">*</em>品牌LOGO:
                     </div>
                     <div class="row_val">
-                        <input type="hidden" class="upload_logo">
+                        <input type="hidden" class="upload_logo" value="{{url}}">
                         {{#if (reqParams.crumbsName)}}
                             <div class="photo_box" style="display:block;">
                                 <img src="
@@ -115,6 +115,7 @@
 <script>
     (function ($) {
         var RESETPHOTO = false;
+        var brandId = '{{brand_id}}';
         //上传图片按钮的点击事件
         function uploadPhoto (ele) {
             ele.off("click").on("click", function () {
@@ -230,9 +231,23 @@
                     name: brandName,
                     url :imgUrl
             };
-            $.ajax({
-                type:'post',
-                timeout:20000,
+            if (brandId) {
+                url = contextPath + '/api/carModel/brand/edit';
+                parameters = {
+                    brand_name: brandName,
+                    brand_id : brandId,
+                    url :imgUrl
+                };
+            } else {
+                url = contextPath + '/api/carModel/brand/create';
+                parameters = {
+                    name: brandName,
+                    url :imgUrl
+                };
+            }
+            redefineAjax({
+                type: 'post',
+                timeout: 10000,
                 url : url,
                 data : parameters,
                 beforeSend : function () {
