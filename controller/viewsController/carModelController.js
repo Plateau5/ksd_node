@@ -80,7 +80,15 @@ exports.VIEW_CAR_BRAND_EDIT = function(req, res, next) {
         page : './carmodel/carBrandEdit'
     }, req, res, next);
 };
-// 业务-车型库-车系编辑 1560
+// 业务-车型库-车系新增跳转 1559
+exports.VIEW_CAR_SERIES_CREATE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/carModel/series/toCreate',
+        title : '车系新增',
+        page : './carmodel/carSeriesEdit',
+    }, req, res, next);
+};
+// 业务-车型库-车系编辑 1561
 exports.VIEW_CAR_SERIES_EDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/carModel/series/toEdit',
@@ -105,19 +113,4 @@ exports.VIEW_CAR_MODEL_EDIT = function(req, res, next) {
     }, req, res, next);
 };
 
-// 业务-车型库-车系新增跳转 1559
-exports.VIEW_CAR_SERIESTEST_CREATETEST = function(req, res, next) {
-    common.getPageData({
-        url : '/api/carModel/series/toCreate',
-        title : '车系新增',
-        page : './carmodel/carSeriesEdit',
-    }, req, res, next);
-};
-// 业务-车型库-车系编辑 1561
-exports.VIEW_CAR_SERIES_CREATE = function(req, res, next) {
-    common.getPageData({
-        url : '/api/carModel/series/toEdit',
-        title : '车系编辑',
-        page : './carmodel/carSeriesEdit',
-    }, req, res, next);
-};
+
