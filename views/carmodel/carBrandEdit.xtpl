@@ -43,7 +43,13 @@
                         <input type="hidden" class="upload_logo">
                         {{#if (reqParams.crumbsName)}}
                             <div class="photo_box" style="display:block;">
-                                <img src="{{reqParams.url}}" id="user_photo" class="user_photo img_responsive" alt="">
+                                <img src="
+                                {{#if (url) }}
+                                {{url}}
+                                {{else}}
+                                {{markUri}}/static/img/defaultLogo.png
+                                {{/if}}
+                                 " id="user_photo" class="user_photo img_responsive" alt="">
                             </div>
                         {{else}}
                             <div class="photo_box" style="display:none;">
@@ -64,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn_box clearfix">
+            <div class="btn_box text_left clearfix" style="padding-left: 10%;">
                 <a href="javascript:;" class="btn orange_btn confirm createBtn">确定</a>
                 <a href="javascript:;" class="btn bg_btn return_cancel" >取消</a>
             </div>
@@ -88,7 +94,7 @@
                         <div class="thumbnail_text">效果预览</div>
                     </div>
                 </div>
-                <div class="btn_box clearfix create_wf_btn_box">
+                <div class="btn_box clearfix  create_wf_btn_box">
                     <a href="javascript:;" class="btn orange_btn confirm submit_upload">确认</a>
                     <a href="javascript:;" class="btn bg_btn return_cancel" >取消</a>
                 </div>
@@ -127,9 +133,11 @@
         });
         //选择图片后的事件
         $("#upload_photo_file").on('change', function () {
+            $('#upload_photo_dialog').show();
+            $(".mask").show();
             var file = this.files[0];
-            console.log(file);
-            return;
+//            console.log(file);
+//            return;
             var file_type = file.type.split('/')[1];
             if (file_type == 'jpg' || file_type == 'jpeg' || file_type == 'png' || file_type == 'gif') {
 
@@ -151,8 +159,7 @@
                 $(".large_photo>img").cropper('reset', true).cropper('replace', url);
             };
             reader.readAsDataURL(file);
-            $('#upload_photo_dialog').show();
-            $(".mask").show();
+
         });
         //取消按钮的点击事件
         $(".btn_box .cancel_upload").off("click").on("click", function () {
@@ -222,7 +229,7 @@
             var parameters = {
                     name: brandName,
                     url :imgUrl
-            }
+            };
             $.ajax({
                 type:'post',
                 timeout:20000,

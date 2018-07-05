@@ -74,7 +74,7 @@ exports.VIEW_CAR_BRAND_CREATE = function(req, res, next) {
 };
 // 业务-车型库-品牌编辑 1555
 exports.VIEW_CAR_BRAND_EDIT = function(req, res, next) {
-    var data = {};
+    /*var data = {};
     var localUrl = req.originalUrl;
     data.title = '车型库-品牌编辑';
     data.originUrl = localUrl;
@@ -83,7 +83,12 @@ exports.VIEW_CAR_BRAND_EDIT = function(req, res, next) {
     data.domain = domain;
     var body = req.body;
     data.reqParams = body;
-    res.render('./carmodel/carBrandEdit', data);
+    res.render('./carmodel/carBrandEdit', data);*/
+    common.getPageData({
+        url : '/api/carModel/brand/toEdit',
+        title : '车型库-品牌编辑',
+        page : './carmodel/carBrandEdit'
+    }, req, res, next);
 };
 // 业务-车型库-车系编辑 1560
 exports.VIEW_CAR_SERIES_EDIT = function(req, res, next) {
