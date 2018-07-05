@@ -26,7 +26,7 @@ exports.VIEW_CAR_SYSTEM = function(req, res, next) {
         } else if (common.checkPrivilege(1558, req)) {
             res.redirect(markUri + '/car/series');
         }  else if (common.checkPrivilege(1554, req)) {
-            res.redirect(markUri + '/car/model');
+            res.redirect(markUri + '/car/brand');
         } else {
             throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1554 | 1558 | 1563  is not defined.');
         }

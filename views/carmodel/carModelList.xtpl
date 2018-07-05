@@ -23,9 +23,15 @@
         <div id="main" class="main">
             <div class="tab">
                 <ul class="tab_list inline_block" id="car_tab">
+                    {{#if (verifyCode(1563)) }}
                     <li class="tab_item type_normal {{#if (startWith(markUri + '/car/model')) }}active{{/if}}" data-type="0" data-url="{{markUri}}/car/model" style="border-left:0px;"><span></span>车型管理</li>
+                    {{/if}}
+                    {{#if (verifyCode(1558)) }}
                     <li class="tab_item type_others {{#if (startWith(markUri + '/car/series')) }}active{{/if}}" data-type="1" data-url="{{markUri}}/car/series"><span></span>车系管理</li>
+                    {{/if}}
+                    {{#if (verifyCode(1554)) }}
                     <li class="tab_item type_others {{#if (startWith(markUri + '/car/brand')) }}active{{/if}}" data-type="2" data-url="{{markUri}}/car/brand"><span></span>品牌管理</li>
+                    {{/if}}
                 </ul>
             </div>
             <div class="list_item carModelList">
