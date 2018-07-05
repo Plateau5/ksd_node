@@ -283,32 +283,31 @@
 </html>
 <script>
     (function ($) {
-        $(".select_box").click(function(event){
+        $('.select_box').off("click").on('click', function (event) {
             event.stopPropagation();
             $(this).find(".option").toggle();
             $(this).parent().siblings().find(".option").hide();
         });
-        $(document).click(function(event){
+        $(document).off("click").on('click', function (event){
             var eo=$(event.target);
             if($(".select_box").is(":visible") && eo.attr("class")!="option" && !eo.parent(".option").length)
                 $('.option').hide();
         });
-        $(".option li").click(function(){
-            var check_value=$(this).text();
+        $(".option li").off("click").on('click', function () {
+            var check_value = $(this).text();
             var check_id = $(this).data("id");
             $(".option li").eq(check_id-1).hide().siblings('li').show();
             $(this).parent().siblings(".select_txt").text(check_value).attr('data-id',check_id);
             $('#searchType').val(check_id);
             $("#select_value").val(check_value);
-
         });
         //搜索按钮
         $('.btn_search').off("click").on('click', function () {
             var search_value = $('#searchPlaceholder').val();
             var id = $('.select_txt').attr('data-id');
-            if(!search_value && search_value != '0') {
+            /*if(!search_value && search_value != '0') {
                 return false;
-            };
+            };*/
             locationTo({
                 action : contextPath + markUri + "/car/model",
                 param : {
