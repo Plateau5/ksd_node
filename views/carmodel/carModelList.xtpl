@@ -39,66 +39,65 @@
                 {{/if}}
                 " method="POST" id="form_search" role="form">
                     <input type="hidden" name="type" value="{{request_id}}" id="requestId">
-                </form>
-                <div class="create_item">
-                    {{#if (startWith(markUri + '/car/model'))}}
-                        {{#if (verifyCode(1563)) }}
-                            <div class="inline_block lf">
-                                <div class="searchbox">
-                                    <div class="mod_select">
-                                        <div class="select_box">
-                                            {{#if (search_type === 2) }}
-                                                <span data-id="2" class="select_txt">车系</span>
-                                                <span class="select_icon"></span>
-                                                <ul class="option">
-                                                    <li data-id="1" style="display: none;">车系</li>
-                                                    <li data-id="2">品牌</li>
-                                                    <li data-id="3">车型</li>
-                                                </ul>
-                                            {{elseif (search_type === 3)}}
-                                                <span data-id="3" class="select_txt">车型</span>
-                                                <span class="select_icon"></span>
-                                                <ul class="option">
-                                                    <li data-id="1" style="display: none;">车型</li>
-                                                    <li data-id="2">品牌</li>
-                                                    <li data-id="3">车系</li>
-                                                </ul>
-                                            {{else}}
-                                                <span data-id="1" class="select_txt">品牌</span>
-                                                <span class="select_icon"></span>
-                                                <ul class="option">
-                                                    <li data-id="1" style="display: none;">品牌</li>
-                                                    <li data-id="2">车系</li>
-                                                    <li data-id="3">车型</li>
-                                                </ul>
-                                            {{/if}}
-                                        </div>
-                                    </div>
-                                    <form action="{{markUri}}/car/model" method="post" role="form" class="search_input">
-                                        <input type="hidden" name="" value="" id="select_value">
-                                        <input type="text" name=""  value="{{search_value}}" id="searchPlaceholder" class="import" placeholder="请输入名称" autocomplete="false">
-                                        <input type="button" value="" class="btn_search">
-
-                                        <input type="hidden" name="type" value="" id="search_type">
-                                        <input type="hidden" name="type" value="" id="search_value">
-                                        <input type="hidden" name="type" value="{{current_page}}" id="current_page">
-                                    </form>
-                                </div>
-                            </div>
-                        {{/if}}
-                    {{/if}}
-                    <div class="inline_block rf">
+                    <input type="hidden" name="search_type" value="{{reqParams.search_type}}" id="searchType">
+                    <div class="create_item">
                         {{#if (startWith(markUri + '/car/model'))}}
-                            <a href="javascript:;"  data-url="{{markUri}}/car/model/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车型</a>
+                            {{#if (verifyCode(1563)) }}
+                                <div class="inline_block lf">
+                                    <div class="searchbox">
+                                        <div class="mod_select">
+                                            <div class="select_box">
+                                                {{#if (search_type === 2) }}
+                                                    <span data-id="2" class="select_txt">车系</span>
+                                                    <span class="select_icon"></span>
+                                                    <ul class="option">
+                                                        <li data-id="2" style="display: none;">车系</li>
+                                                        <li data-id="1">品牌</li>
+                                                        <li data-id="3">车型</li>
+                                                    </ul>
+                                                {{elseif (search_type === 3)}}
+                                                    <span data-id="3" class="select_txt">车型</span>
+                                                    <span class="select_icon"></span>
+                                                    <ul class="option">
+                                                        <li data-id="3" style="display: none;">车型</li>
+                                                        <li data-id="1">品牌</li>
+                                                        <li data-id="2">车系</li>
+                                                    </ul>
+                                                {{else}}
+                                                    <span data-id="1" class="select_txt">品牌</span>
+                                                    <span class="select_icon"></span>
+                                                    <ul class="option">
+                                                        <li data-id="1" style="display: none;">品牌</li>
+                                                        <li data-id="2">车系</li>
+                                                        <li data-id="3">车型</li>
+                                                    </ul>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                            <input type="hidden" name="" value="" id="select_value">
+                                            <input type="text" name="search_value"  value="{{search_value}}" id="searchPlaceholder" class="import" placeholder="请输入名称" autocomplete="false">
+                                            <input type="button" value="" class="btn_search">
+
+                                            <input type="hidden" name="type" value="" id="search_type">
+                                            <input type="hidden" name="type" value="" id="search_value">
+                                            <input type="hidden" name="type" value="{{current_page}}" id="current_page">
+                                    </div>
+                                </div>
+                            {{/if}}
                         {{/if}}
-                        {{#if (startWith(markUri + '/car/series'))}}
-                            <a href="javascript:;"  data-url="{{markUri}}/car/series/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车系</a>
-                        {{/if}}
-                        {{#if (startWith(markUri + '/car/brand'))}}
-                            <a href="javascript:;"  data-url="{{markUri}}/car/brand/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建品牌</a>
-                        {{/if}}
+                        <div class="inline_block rf">
+                            {{#if (startWith(markUri + '/car/model'))}}
+                                <a href="javascript:;"  data-url="{{markUri}}/car/model/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车型</a>
+                            {{/if}}
+                            {{#if (startWith(markUri + '/car/series'))}}
+                                <a href="javascript:;"  data-url="{{markUri}}/car/series/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建车系</a>
+                            {{/if}}
+                            {{#if (startWith(markUri + '/car/brand'))}}
+                                <a href="javascript:;"  data-url="{{markUri}}/car/brand/create" class="btn blue_btn add_btn carModelCreate"><em></em>新建品牌</a>
+                            {{/if}}
+                        </div>
                     </div>
-                </div>
+                </form>
                 <!---品牌管理--->
                 {{#if (startWith(markUri + '/car/brand'))}}
                 {{#if (verifyCode(1554)) }}
@@ -170,7 +169,7 @@
                                     {{else}}
                                         <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo"></td>
                                     {{/if}}
-                                    <td class="text_left">{{this.brand_name}}</td>
+                                    <td class="text_left" title="{{this.brand_name}}">{{this.brand_name}}</td>
                                     <td class="text_left pd1">{{this.name}}</td>
                                     <td class="operate_btn">
                                         <a href="javascript:;" title="编辑车系" data-brand_id ="{{this.brand_id}}" data-series_id ="{{this.id}}" data-series_name ="{{this.name}}"  class="edit seriesEdit"></a>
@@ -219,8 +218,8 @@
                                     {{else}}
                                         <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo"></td>
                                     {{/if}}
-                                    <td class="text_left">{{this.brand_name}}</td>
-                                    <td class="text_left pd1">{{this.name}}</td>
+                                    <td class="text_left" title="{{this.brand_name}}">{{this.brand_name}}</td>
+                                    <td class="text_left pd1" title="{{this.name}}">{{this.name}}</td>
                                     <td class="text_left">{{this.series_name}}</td>
                                     <td class="operate_btn">
                                         <a href="javascript:;" title="编辑车型" data-series_id ="{{this.series_id}}" data-brand_id ="{{this.brand_id}}" data-model_id ="{{this.id}}" data-model_name ="{{this.name}}" class="edit modelEdit"></a>
@@ -275,7 +274,7 @@
             var check_id = $(this).data("id");
             $(".option li").eq(check_id-1).hide().siblings('li').show();
             $(this).parent().siblings(".select_txt").text(check_value).attr('data-id',check_id);
-
+            $('#searchType').val(check_id);
             $("#select_value").val(check_value);
 
         });
@@ -283,14 +282,14 @@
         $('.btn_search').off("click").on('click', function () {
             var search_value = $('#searchPlaceholder').val();
             var id = $('.select_txt').attr('data-id');
-            var current_page = $('#current_page').val();
-            if(!search_value) return;
+            if(!search_value && search_value != '0') {
+                return false;
+            };
             locationTo({
                 action : contextPath + markUri + "/car/model",
                 param : {
                     search_type : id,
-                    search_value : search_value,
-                    current_page : current_page
+                    search_value : search_value
                 }
             })
         });
