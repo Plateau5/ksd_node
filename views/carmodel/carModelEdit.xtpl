@@ -169,11 +169,17 @@
             });
         });
         $("#brandSelect").on("change",function() {
-            var brandId = $("#brandSelect option:selected").data("brand_id");
+            var _this = $(this);
+            var seriesSelect = $("#seriesSelect");
+            var selectedVal = _this.find("option:selected").val().trim();
+            var brandId = _this.find("option:selected").data("brand_id");
             var parameters = {
                 brand_id : brandId
             };
-
+            if (!selectedVal && selectedVal !== '0') {
+                seriesSelect.html('<option selected="selected" value="">请选择</option>');
+                return false;
+            }
             redefineAjax({
                 type:'post',
                 timeout:20000,
