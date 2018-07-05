@@ -98,7 +98,7 @@
                 </div>
                 <div class="btn_box clearfix  create_wf_btn_box">
                     <a href="javascript:;" class="btn orange_btn confirm submit_upload">确认</a>
-                    <a href="javascript:;" class="btn bg_btn return_cancel" >取消</a>
+                    <a href="javascript:;" class="btn bg_btn return_current" >取消</a>
                 </div>
             </div>
         </div>
@@ -137,14 +137,12 @@
         });
         //选择图片后的事件
         $("#upload_photo_file").on('change', function () {
-            $('#upload_photo_dialog').show();
-            $(".mask").show();
+
             var file = this.files[0];
 //            console.log(file);
 //            return;
             var file_type = file.type.split('/')[1];
             if (file_type == 'jpg' || file_type == 'jpeg' || file_type == 'png' || file_type == 'gif') {
-
             } else {
                 $alert('上传的图片格式不正确，仅支持JPG、PNG、GIF图片文件');
                 return;
@@ -154,6 +152,8 @@
                 $alert('上传的图片大小不可大于5M');
                 return;
             }
+            $('#upload_photo_dialog').show();
+            $(".mask").show();
             var reader = new FileReader();
             //reader回调，重新初始裁剪区
             reader.onload = function(){
@@ -277,6 +277,12 @@
         //取消按钮的点击逻辑
         bindEvents("click", ".return_cancel", function () {
             window.history.back();
+        });
+
+        $('.return_current').off("click").on("click", function() {
+            $("#upload_photo_file").val("");
+            $('#upload_photo_dialog').hide();
+            $(".mask").hide();
         });
 
         $(function() {
