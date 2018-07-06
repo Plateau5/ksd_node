@@ -1,0 +1,159 @@
+<!-- 课程列表页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
+    <title>培训-课程列表</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main course_list">
+            <form action="{{markUri}}/school/course/lists/home" method="post" role='form' id="filter_course">
+                <input type="hidden" name="firstlevel_id" value="{{condition.firstlevel_id}}" class="parent_id">
+                <input type="hidden" name="secondlevel_id" value="{{condition.secondlevel_id}}" class="child_id">
+                <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+                <div class="level_type parent_classify">
+                    <ul class="level_ul">
+                        <li class="level_li">
+                            <a href="javascript:;" class="{{#if (!condition.firstlevel_id) }}active{{/if}} all_classify" data-id="">全部</a>
+                        </li>
+                        {{#each (classifyList) }}
+                        <li class="level_li">
+                            <a href="javascript:;" data-id="{{this.parent_id}}" class="{{#if (condition.firstlevel_id === this.parent_id) }}active{{/if}}">{{this.parent_name}}</a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{#if (condition.firstlevel_id) }}
+                <div class="level_type ">
+                {{else}}
+                <div class="level_type " style="display: none">
+                {{/if}}
+                {{#each (classifyList) }}
+                    {{#if (condition.firstlevel_id === this.parent_id) }}
+                    <ul class="level_ul {{this.parent_id}} child_classify" data-id="{{this.parent_id}}">
+                    {{else}}
+                    <ul class="level_ul {{this.parent_id}} child_classify" data-id="{{this.parent_id}}" style="display: none;">
+                        {{/if}}
+                        <li class="level_li">
+                            <a href="javascript:;" class="{{#if (!condition.secondlevel_id) }}active{{/if}}" data-id="">全部</a>
+                        </li>
+                        {{#each (this.child_list) }}
+                        <li class="level_li">
+                            <a href="javascript:;" data-id="{{this.id}}" class="{{#if (condition.secondlevel_id === this.id) }}active{{/if}}">{{this.course_classify}}</a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                {{/each}}
+                </div>
+            </form>
+            <div class="new_btn_box" style="line-height: 90px;">
+                {{#if (verifyCode(1545)) }}
+                <a href="{{markUri}}/school/course/lists/create" class="detail_title_btn create_btn">新增课程</a>
+                {{/if}}
+            </div>
+            {{#if (count === 0) }}
+                {{include('./../inc/empty_data')}}
+            {{else}}
+                <div class="course_listinfo">
+                    {{#each (list) }}
+                        <div class="course_item course_{{this.id}}" data-id="{{this.id}}">
+                            <div class="course_img">
+                                <div class="imgbox">
+                                    <img src="{{#if (this.image_url) }}
+                                                    {{this.image_url}}
+                                                {{else}}
+                                                    {{markUri}}/static/img/default_course.png
+                                                {{/if}}" alt="" class="img_responsive">
+                                </div>
+                                <em class="already_nums">{{this.count}}人学过</em>
+                            </div>
+                            <div class="course_title">
+                                {{this.name}}
+                            </div>
+                            {{#if (this.teacher_name) }}
+                            <div class="course_teacher nor_wrap">
+                                <span>讲师：</span>
+                                <span class="teacher_name" title="{{this.teacher_name}}">{{this.teacher_name}}</span>
+                            </div>
+                            {{/if}}
+                        </div>
+                    {{/each}}
+                </div>
+            {{/if}}
+            <!--分页部分 Begin-->
+            <div class="clearfix">
+                {{include('./../inc/paginations')}}
+            </div>
+            <!--分页部分 End-->
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+<div class="loading" id="loading"></div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+        //课程详情
+        function courseDetail () {
+            var btn = $(".course_item");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/school/course/lists/detail",
+                    param : {
+                        id : id
+                    }
+                });
+            });
+        }
+        //筛选分类
+        function filterClass () {
+            var level_li = $('.level_li');
+            level_li.each(function () {
+                var _this = $(this).find('a');
+                filterEvent(_this);
+            });
+        }
+        //筛选事件
+        function filterEvent (level_lia) {
+            level_lia.off("click").on("click", function () {
+                var _this = $(this);
+                if (_this.parents('.level_ul').hasClass('child_classify')) {
+                    $('.parent_id').val(_this.parents('.level_ul').data('id'));
+                    $('.child_id').val(_this.data('id'));
+                } else {
+                    $('.parent_id').val(_this.data('id'));
+                    $('.child_id').val('');
+                }
+                $('#filter_course').submit();
+            });
+        }
+
+        $(function() {
+            paginationSwitch();// 分页切换
+            courseDetail();//课程详情
+            filterClass();//筛选分类
+        });
+    })(jQuery,undefined);
+</script>
+</html>

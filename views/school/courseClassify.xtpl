@@ -1,0 +1,465 @@
+<!-- 课程分类页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
+    <title>培训-课程分类</title>
+</head>
+<body>
+    <div id="wrapper" class="wrapper">
+        <!-------- Part of header Begin -------->
+        {{include('./../inc/header')}}
+        <!-------- Part of header End -------->
+
+        <!-------- Part of main Begin -------->
+        <div id="section" class="section normal_width">
+            <!---- Part of slide nav Begin ---->
+            {{include('./../inc/sideNav')}}
+            <!---- Part of slide na End ---->
+
+            <!---- Part of Main info Begin ---->
+            <div id="main" class="main course_classify">
+                {{#if (count > 0) }}
+                    {{#if (verifyCode(1530)) }}
+                    <div class="text_right">
+                        <a href="javascript:" id="createClassify" class="detail_title_btn create_btn add_parent_btn">新增分类</a>
+                    </div>
+                    {{/if}}
+                    {{#each(list)}}
+                        <div class="modules">
+                            <div class="modules_title">
+                                <span>{{this.parent_name}}</span>
+                                <div class="btn_box" style="width: 600px;text-align: right;">
+                                    {{#if (root.verifyCode(1531)) }}
+                                    <a href="javascript:" class="detail_title_btn create_btn add_child_btn" data-id="{{this.parent_id}}">新增子分类</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1532)) }}
+                                    <a href="javascript:" class="detail_title_btn edit_btn update_name" data-id="{{this.parent_id}}" data-name="{{this.parent_name}}">重命名</a>
+                                    {{/if}}
+                                    {{#if (root.verifyCode(1533)) }}
+                                    <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除</a>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="content">
+                                <ul class="course_classify_list" data-id="{{this.parent_id}}">
+                                    {{#each(this.child_list) }}
+                                    <li class="list_item">
+                                        <span>{{this.course_classify}}</span>
+                                        <div class="course_btns">
+                                            {{#if (root.verifyCode(1534)) }}
+                                            <em class="detail_title_btn edit_btn update_child_name" data-id="{{this.id}}" data-name="{{this.course_classify}}" title="重命名"></em>
+                                            {{/if}}
+                                            {{#if (root.verifyCode(1535)) }}
+                                                {{#if (../child_list.length > 1) }}
+                                                    <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: inline-block" title="删除"></em>
+                                                {{else}}
+                                                    <em class="course_btn remove_btn" data-id="{{this.id}}" style="display: none" title="删除"></em>
+                                                {{/if}}
+                                            {{/if}}
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="no_list_data">
+                        <div class="toast_img"></div>
+                        <div class="toast_text">目前暂无数据......</div>
+                        <div class="new_classify_box">
+                            <input id="one_classify" type="text" value="" placeholder="请输入课程分类名称" maxlength="20" />
+                            <div class="oneLevelErrorTips error-tips" style="" ></div>
+                        </div>
+                        <div class="new_classify_box">
+                            <input id="second_classify" type="text" value="" placeholder="请输入课程子分类名称" maxlength="20" />
+                            <div class="secondLevelErrorTips error-tips" style=""></div>
+                        </div>
+                        {{#if (verifyCode(1530)) }}
+                        <div class="new_btn_box">
+                            <a href="javascript:;" class="btn blue_btn add_btn add_parent_btn create_classify">新增分类</a>
+                        </div>
+                        {{/if}}
+                    </div>
+                {{/if}}
+            </div>
+            <!---- Part of Main info End ---->
+        </div>
+        <!-------- Part of main End -------->
+
+    </div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+        // 新建分类
+        function createClassify () {
+            // 有数据时间的新建
+            var btn = $('#createClassify');
+            btn.off('click').on('click', function (){
+                dialog('open', {
+                    title : '新增分类',
+                    content : '<input type="text" name="" style="width: 400px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="oneLevelName" placeholder="请输入课程分类名称" maxlength="20" />' +
+                    '<div class="oneLevelErrorTips error-tips"></div>' +
+                    '<input type="text" name="" style="width: 400px;\n' +
+                    '                 height: 30px;\n'  +
+                    '                 border: 1px solid #e4e4e4;\n' +
+                    '                 text-indent: .8em;" class="new_field" id="secondLevelName" placeholder="请输入课程子分类名称" maxlength="20" />' +
+                    '<div class="secondLevelErrorTips error-tips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var oneLevelName = $.trim($('#oneLevelName').val());
+                        oneLevelName = oneLevelName.replace(/\s/g,'');
+                        var secondLevelName = $.trim($('#secondLevelName').val());
+                        secondLevelName = secondLevelName.replace(/\s/g,'');
+                        onCreate(oneLevelName, secondLevelName, d);
+                    }
+                });
+            });
+
+            // 无数据时间的新建
+            var addBtn = $('.create_classify');
+            addBtn.off('click').on('click', function (){
+                var oneName = $.trim($('#one_classify').val());
+                var secondName = $.trim($('#second_classify').val());
+                onCreate(oneName, secondName);
+            });
+
+
+            var onCreate = function (oneName, secondName, d) {
+                if (oneName == '') {
+                    $('.oneLevelErrorTips').text('请输入课程分类名称');
+                    return;
+                } else {
+                    $('.oneLevelErrorTips').text('');
+                }
+                if (secondName == ''){
+                    $('.secondLevelErrorTips').text('请输入课程子分类名称');
+                    return;
+                } else {
+                    $('.secondLevelErrorTips').text('');
+                }
+                var data = {
+                    classify_value : oneName,
+                    course_classify : secondName
+                };
+                var url = contextPath + '/api/school/classify/createclassify';
+
+                redefineAjax({
+                    url : url,
+                    data : data,
+                    timeout : 5000,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            d && d.close();
+                            $alert('课程分类新增成功', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $('.oneLevelErrorTips').text(res.error_msg);
+                            // $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        d && d.close();
+                        $alert('操作失败，请稍后重试');
+                    }
+                });
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#one_classify, #oneLevelName', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('.oneLevelErrorTips').text('请输入课程分类名称');
+                }
+            });
+            $('body').on('blur', '#second_classify, #secondLevelName', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('.secondLevelErrorTips').text('请输入课程子分类名称');
+                }
+            });
+        }
+
+        /* 删除课程分类 */
+        function deleteClassify () {
+            var btn = $('.delete_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var classifyId = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后此课程分类将不可恢复</span><br><span>确认继续删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        redefineAjax({
+                            url : contextPath + '/api/school/classify/delete',
+                            data : {
+                                id : classifyId
+                            },
+                            timeout : 5000,
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('课程分类删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('操作失败，请稍后重试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        /*重命名分类*/
+        function renameClassify () {
+            var btn = $('.update_name');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var name = $.trim(_this.data('name'));
+                var id = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '重命名',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="renameClassify" value="'+ name +'" placeholder="请输入课程分类名称" maxlength="20" />' +
+                    '<div class="error-tips" style="padding-left: 86px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#renameClassify').val());
+                        newClassify = newClassify.replace(/\s/g,'');
+                        onCreate(d, newClassify, id);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, newName, id) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').text('请输入课程分类名称');
+                } else {
+                    var data = {
+                        id : id,
+                        classify_value : newName
+                    };
+                    var url = contextPath + '/api/school/classify/update';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        timeout : 5000,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d && d.close();
+                                $alert('课程分类重命名成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                $('#createErrorTips').text(res.error_msg);
+                                // $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            d && d.close();
+                            $alert('操作失败，请稍后重试');
+                        }
+                    });
+                }
+            };
+        }
+
+        /*新建子分类*/
+        function createChildCourse () {
+            var btn = $('.add_child_btn');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var parentId = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '新增子分类',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="newChildCourse" placeholder="请输入课程子分类名称" maxlength="20" />' +
+                    '<div class="error-tips" style="padding-left: 86px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newChildCourse = $.trim($('#newChildCourse').val());
+                        newChildCourse = newChildCourse.replace(/\s/g,'');
+                        onCreate(newChildCourse, parentId, d);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (title, parentId, d) {
+                if (title == '' || title.length == 0) {
+                    $('#createErrorTips').text('请输入课程子分类名称');
+                    return;
+                } else {
+                    var data = {
+                        parent_id : parentId,
+                        course_classify : title
+                    };
+                    var url = contextPath + '/api/school/sonclassify/create';
+
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        timeout : 5000,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d && d.close();
+                                $alert('课程子分类新增成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                $('#createErrorTips').text(res.error_msg);
+                                // $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            d && d.close();
+                            $alert('操作失败，请稍后重试');
+                        }
+                    });
+                }
+            };
+        }
+
+        /*删除子分类*/
+        function deleteChildCourse () {
+            var btn = $('.remove_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                var parent_id = $.trim(_this.parents('.course_classify_list').data('id'));
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后此课程子分类将不可恢复</span><br><span>确认继续删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        redefineAjax({
+                            url : contextPath + '/api/school/sonclassify/delete',
+                            data : {
+                                id : id,
+                                parent_id : parent_id
+                            },
+                            timeout : 5000,
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('课程子分类删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('操作失败，请稍后重试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+
+            });
+        }
+
+        /*重命名子分类*/
+        function renameChildCourse () {
+            var btn = $('.update_child_name');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var name = $.trim(_this.data('name'));
+                var id = $.trim(_this.data('id'));
+                var pid = $.trim(_this.parents('.course_classify_list').data('id'));
+                dialog('open', {
+                    title : '重命名',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="renameChildCourse" value="'+ name +'" placeholder="请输入课程子分类名称" maxlength="20" />' +
+                    '<div class="error-tips" style="padding-left: 86px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#renameChildCourse').val());
+                        newClassify = newClassify.replace(/\s/g,'');
+                        onCreate(d, newClassify, id, pid);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, newName, id, pid) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').text('请输入课程子分类名称');
+                } else {
+                    var data = {
+                        id : id,
+                        course_classify : newName,
+                        parent_id : pid
+                    };
+                    var url = contextPath + '/api/school/sonclassify/update';
+
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        timeout : 5000,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d && d.close();
+                                $alert('课程子分类重命名成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                $('#createErrorTips').text(res.error_msg);
+                                // $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            d && d.close();
+                            $alert('操作失败，请稍后重试');
+                        }
+                    });
+                }
+            };
+        }
+
+
+        $(function() {
+            createClassify();   // 创建课程分类
+            deleteClassify();   // 删除课程分类
+            createChildCourse();     // 创建子分类
+            deleteChildCourse();     // 删除子分类
+            renameClassify();   // 重命名分类
+            renameChildCourse();   // 重命名子分类
+        });
+    })(jQuery,undefined);
+</script>
+</html>

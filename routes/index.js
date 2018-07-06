@@ -17,6 +17,7 @@ var settingsCtrl = require('../controller/viewsController/settingsController');
 var privilegeCtrl = require('../controller/viewsController/privilegeController');
 var merchantsCtrl = require('../controller/viewsController/merchantsController');
 var dockingCtrl = require('../controller/viewsController/dockingController');
+var schoolCtrl = require('../controller/viewsController/schoolController');
 var carModelCtrl = require('../controller/viewsController/carModelController');
 
 
@@ -433,6 +434,35 @@ router.post(markUri + '/statistics/merchants/detail', statisticsCtrl.VIEW_STATIS
 router.all(markUri + '/statistics/operating/system', statisticsCtrl.VIEW_STATISTICS_OPERATING_SYSTEM);
 // 数据统计-运营报表-报表列表页跳转1514
 router.all(markUri + '/statistics/operating/list', statisticsCtrl.VIEW_STATISTICS_OPERATING_LIST);
+
+
+
+// 培训主导航跳转
+router.get(markUri + '/school/system', schoolCtrl.VIEW_SCHOOL_SYSTEM);
+// 培训-课程分类-侧导航跳转 1529
+router.all(markUri + '/school/course/category/system', schoolCtrl.VIEW_SCHOOL_COURSE_CATEGORY_SYSTEM);
+// 培训-课程分类-课程分类页 1529
+router.all(markUri + '/school/course/category/home', schoolCtrl.VIEW_SCHOOL_COURSE_CATEGORY_HOME);
+// 培训-课程列表-侧导航跳转 1543
+router.all(markUri + '/school/course/lists/system', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_SYSTEM);
+// 培训-课程列表-课程列表页 1543
+router.all(markUri + '/school/course/lists/home', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_HOME);
+// 培训-课程列表-新增课程页 1545
+router.all(markUri + '/school/course/lists/create', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_CREATE);
+// 培训-课程列表-编辑课程页 1546
+router.all(markUri + '/school/course/lists/edit', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_EDIT);
+// 培训-课程列表-课程详情页 1548
+router.all(markUri + '/school/course/lists/detail', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_DETAIL);
+// 培训-培训讲师-侧导航跳转 1536
+router.all(markUri + '/school/teacher/system', schoolCtrl.VIEW_SCHOOL_TEACHER_SYSTEM);
+// 培训-培训讲师-培训讲师列表页 1536
+router.all(markUri + '/school/teacher/list', schoolCtrl.VIEW_SCHOOL_TEACHER_LIST);
+// 培训-培训讲师-新建讲师页 1538
+router.all(markUri + '/school/teacher/create', schoolCtrl.VIEW_SCHOOL_TEACHER_CREATE);
+// 培训-培训讲师-编辑讲师页 1540
+router.all(markUri + '/school/teacher/edit', schoolCtrl.VIEW_SCHOOL_TEACHER_EDIT);
+// 培训-培训讲师-培训讲师详情页 1537
+router.all(markUri + '/school/teacher/detail', schoolCtrl.VIEW_SCHOOL_TEACHER_DETAIL);
 
 
 

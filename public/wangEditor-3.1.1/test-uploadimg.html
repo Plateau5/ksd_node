@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor 上传图片</title>
+</head>
+<body>
+    <div id="div3">
+        
+    </div>
+
+    <button id="btn1">获取html</button>
+    <script type="text/javascript" src="wangEditor.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor;
+
+        var editor2 = new E('#div3');
+		// 自定义菜单配置
+		editor2.customConfig.menus = [
+			'head',  // 标题
+			'bold',  // 粗体
+			'fontSize',  // 字号
+			'italic',  // 斜体
+			'underline',  // 下划线
+			'backColor',  // 背景颜色
+			'link',  // 插入链接
+			'list',  // 列表
+			'justify',  // 对齐方式
+			'image',  // 插入图片
+			'table',  // 表格
+		];
+		// 隐藏“网络图片”tab
+		editor2.customConfig.showLinkImg = false
+        editor2.customConfig.uploadFileName = 'file';
+        editor2.customConfig.uploadImgTimeout = 10000;
+        editor2.customConfig.uploadImgServer = '/api/file/upload';
+        editor2.customConfig.uploadImgHooks = {
+            before: function (xhr, editor, files) {
+
+            },
+            success: function (xhr, editor, result) {
+                result.errno = result.error_code;
+                console.log(result);
+            },
+            fail: function (xhr, editor, result) {
+                result.errno = result.error_code;
+            },
+            customInsert: function (insertImg, result, editor) {
+                console.log(JSON.stringify(result))
+                var url = result.data[0].image_url;
+                insertImg(url);
+            }
+        };
+        editor2.create();
+        document.getElementById('btn1').addEventListener('click', function () {
+            console.log(editor2.txt.html())
+        }, false)
+
+    </script>
+</body>
+</html>

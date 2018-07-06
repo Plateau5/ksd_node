@@ -143,6 +143,27 @@
         {{/if}}
     </ul>
 </div>
+{{ elseif (startWith(markUri + '/school'))}}
+<div class="contacts slide_nav">
+    <div class="slide_nav_title bold">培训</div>
+    <ul class="slide_nav_bar">
+        {{#if (verifyCode(1529)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/school/course/category'))}}active{{/if}}">
+            <a href="{{markUri}}/school/course/category/system" class="">课程分类</a>
+        </li>
+        {{/if}}
+        {{#if (verifyCode(1543)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/school/course/lists'))}}active{{/if}}">
+            <a href="{{markUri}}/school/course/lists/system" class="">课程列表</a>
+        </li>
+        {{/if}}
+        {{#if (verifyCode(1536)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/school/teacher'))}}active{{/if}}">
+            <a href="{{markUri}}/school/teacher/system" class="">培训讲师</a>
+        </li>
+        {{/if}}
+    </ul>
+</div>
 {{ elseif (startWith(markUri + '/company' + ' || ' + markUri + '/feedback'))}}
 <div class="contacts slide_nav">
     <div class="slide_nav_title bold">系统管理</div>

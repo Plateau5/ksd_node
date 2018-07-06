@@ -87,7 +87,9 @@
                         <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
                     {{else}}
                         {{#if (data_flag !== '' || data_flag.indexOf(',') !== -1) }}
+                            {{#if (verifyCode(1504) || verifyCode(1505) || verifyCode(1506)) }}
                             <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                 </div>

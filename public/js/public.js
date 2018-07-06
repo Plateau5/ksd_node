@@ -153,7 +153,7 @@ $.fn.onlyNumAlpha = function () {
  */
 var PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
 var IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
-
+var TENCENTAPPID = '1256864073';
 /**
  * **************** END ****************
  * GLOBAL PATTERN FOR REGEXP
@@ -2446,13 +2446,28 @@ function paginationSwitch () {
     });
 }
 
+
+/**
+ * 全局设置禁用form在点击回车的自动提交事件
+ * @author Arley Joe 2018-6-22 16:38:36
+ * @desc : 1.页面中的form元素内部只有一个input元素的点击回车键form会自动提交，超过一个input元素的不会自动提交
+ *         2.本方法全局禁用form的自动提交。
+ *         3.需要解决由此方法造成form内的元素编辑状态点击回车键失效的问题时，为该元素添加特殊标识类“ special-ele ”
+ * @return {Boolean} *
+ */
 function disabledFormAutoSubmit () {
     var doc = $('body');
     doc.on('keydown', 'form', function (e) {
         var ev = e || window.event;
         var keyCode = ev.keyCode;
+        var form = $(this);
         if (keyCode == 13) {
-            return false;
+            var special = form.find('.special-ele');
+            if (special.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     });
 }

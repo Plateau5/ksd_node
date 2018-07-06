@@ -1,0 +1,106 @@
+<!-- 讲师详情页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
+    <title>培训-讲师详情</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+            <!---- Part of slide na End ---->
+
+            <!---- Part of Main info Begin ---->
+            <div id="main" class="main teacher_detail">
+                <div class="crumbs_nav">
+                    <a href="{{markUri}}/school/teacher/system" class="crumbs_item">培训讲师</a>
+                    <a href="javascript:;" class="crumbs_item">讲师详情</a>
+                </div>
+                <div class="form_options teacher_infos">
+                    <div class="option_item user_photo_row external_teacher">
+                        <div class="column_name">
+                            <div class="photo_box">
+                                <img src="{{#if (detail.image_url) }}
+                                            {{detail.image_url}}
+                                          {{else}}
+                                            {{markUri}}/static/img/personIcon.png
+                                          {{/if}}" id="user_photo" class="user_photo" alt="">
+                            </div>
+                        </div>
+                        <div class="column_val" style="line-height:80px;">
+                            <span class="options_name">{{detail.name}}</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">讲师类型：</span>
+                        </div>
+                        <div class="column_val">
+                            <span class="options_name">
+                                {{#if (detail.type === 1) }}
+                                    内部讲师
+                                {{else}}
+                                    外部讲师
+                                {{/if}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">讲师课程量：</span>
+                        </div>
+                        <div class="column_val external_teacher">
+                            <span class="options_name">
+                                {{detail.count}}课程量
+                            </span>
+                        </div>
+                    </div>
+                    {{#if (detail.type === 2) }}
+                        <div class="option_item external_teacher">
+                            <div class="column_name">
+                                <span class="options_name">讲师手机：</span>
+                            </div>
+                            <div class="column_val">
+                                <span class="options_name">{{detail.phone}}</span>
+                            </div>
+                        </div>
+                    {{/if}}
+                    {{#if (detail.intro) }}
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">讲师简介：</span>
+                            </div>
+                            <div class="column_val teacher_intro">
+                                <p class="options_name">{{detail.intro}}</p>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+            <!---- Part of Main info End ---->
+        </div>
+        <!-------- Part of main End -------->
+    </div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+
+
+        $(function() {
+
+        });
+    })(jQuery,undefined);
+</script>
+</html>
