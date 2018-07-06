@@ -84,7 +84,9 @@
             <div class="product_detail_box">
                 <div class="rf_30">
                     {{#if (material_type === 0) }}
+                        {{#if (verifyCode(1068)) }}
                         <a href="javascript:" id="editOrg_jump" class="detail_title_btn edit_btn edit_rebate_type" lang="{{vo.id}}">编辑</a>
+                        {{/if}}
                     {{else}}
                         {{#if (data_flag !== '' || data_flag.indexOf(',') !== -1) }}
                             {{#if (verifyCode(1504) || verifyCode(1505) || verifyCode(1506)) }}
