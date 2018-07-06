@@ -154,6 +154,7 @@ $.fn.onlyNumAlpha = function () {
 var PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
 var IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
 var TENCENTAPPID = '1256864073';
+var MAXINTEGER = 7;
 /**
  * **************** END ****************
  * GLOBAL PATTERN FOR REGEXP
@@ -2473,6 +2474,40 @@ function disabledFormAutoSubmit () {
 }
 
 
+/**
+ * 金额整数校验
+ * @author QI 2018年7月6日18:12:22
+ * @desc : 数字最大值校验
+ * @param: obj {Object} 当前对象
+ * @return  *
+ */
+
+
+function checkMoney(obj){
+    //先把非数字的都替换掉，除了数字和.
+    obj.value = obj.value.replace(/[^\d.]/g,"");
+
+    //保证只有出现一个.而没有多个.
+    obj.value = obj.value.replace(/\.{2,}/g,".");
+
+    //必须保证第一个为数字而不是.
+    obj.value = obj.value.replace(/^\./g,"");
+
+    //保证.只出现一次，而不能出现两次以上
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+    //只能输入两个小数
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+
+    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+        obj.value= parseFloat(obj.value);
+    }
+    if(obj.value>9999999.99){
+        obj.value = obj.value.slice(0,MAXINTEGER);
+        return;
+    }
+}
+
 $(function () {
     customerListMask(); // 禁用订单多次点击跳转
     windowInFocus();    // 判断当前标签页的活动状态
@@ -2503,6 +2538,8 @@ $(function () {
     loading();
     disabledFormAutoSubmit();
 });
+
+
 
 
 
