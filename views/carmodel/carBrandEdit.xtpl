@@ -42,15 +42,15 @@
                     <div class="row_val">
                         <input type="hidden" class="upload_logo" value="{{url}}">
                         {{#if (reqParams.crumbsName)}}
-                            <div class="photo_box" style="display:block;">
-                                <img src="
-                                {{#if (url) }}
-                                {{url}}
-                                {{else}}
-                                {{markUri}}/static/img/carLogo.png
-                                {{/if}}
-                                 " id="user_photo" class="user_photo img_responsive" alt="">
-                            </div>
+                            {{#if ((url))}}
+                                <div class="photo_box" style="display:block;">
+                                    <img src="{{url}}" id="user_photo" class="user_photo img_responsive" alt="">
+                                </div>
+                            {{else}}
+                                <div class="photo_box" style="display:none;">
+                                    <img src="{{reqParams.url}}" id="user_photo" class="user_photo img_responsive" alt="">
+                                </div>
+                            {{/if}}
                         {{else}}
                             <div class="photo_box" style="display:none;">
                                 <img src="{{reqParams.url}}" id="user_photo" class="user_photo img_responsive" alt="">
