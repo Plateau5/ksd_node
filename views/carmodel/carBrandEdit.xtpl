@@ -84,7 +84,7 @@
                         <div class="large_photo">
                             <img src="" class="img_responsive" alt="">
                         </div>
-                        <div class="tips_msg">仅支持JPG/PNG/GIF图片文件，且文件大小小于5M</div>
+                        <div class="tips_msg">仅支持JPG/PNG/GIF图片文件，且文件大小小于1M</div>
                         <div class="upload_btn_box">
                             <a href="javascript:" class="btn btn_border_orange orange_font choose_img">重新上传</a>
                         </div>
@@ -147,9 +147,9 @@
                 $alert('上传的图片格式不正确，仅支持JPG、PNG、GIF图片文件');
                 return;
             }
-            var file_size5M = 1024*1024*5;//5M
-            if (file.size > file_size5M) {
-                $alert('上传的图片大小不可大于5M');
+            var file_size1M = 1024*1024*1;//1M
+            if (file.size > file_size1M) {
+                $alert('上传的图片大小不可大于1M');
                 return;
             }
             $('#upload_photo_dialog').show();
@@ -186,7 +186,7 @@
             RESETPHOTO = true;
             var file = $('#user_photo').attr("src").slice(22);
             if (file == '') {
-                $('.teacher_img').val('');
+                $('.upload_logo').val('');
                 $(".photo_box").hide();
                 return false;
             }
