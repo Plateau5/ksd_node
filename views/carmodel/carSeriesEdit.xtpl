@@ -33,6 +33,7 @@
 
                     </a>
                 </div>
+                <input type="hidden" class="current_page" value="{{reqParams.current_page}}">
                 <div class="new_brand">
                     <div class="row_item option_item">
                         <div class="row_title">
@@ -148,7 +149,14 @@
         });
         //取消按钮的点击逻辑
         bindEvents("click", ".return_cancel", function () {
-            window.history.back();
+            var currentPage = $(".current_page").val();
+            locationTo({
+                action : contextPath + markUri + "/car/series",
+                param : {
+                    current_page : currentPage,
+                }
+            });
+            //window.history.back();
         });
 
         $(function() {

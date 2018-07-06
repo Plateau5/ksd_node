@@ -356,6 +356,7 @@
                 var brandName = _this.data("brand_name");
                 var brandUrl = _this.data("brand_url");
                 var crumbsName =_this.attr("title");
+                var currentPage = $(".current_page").val();
                 locationTo({
                     action : contextPath + markUri + "/car/brand/edit",
                     param : {
@@ -363,6 +364,7 @@
                         brand_name : brandName,
                         url : brandUrl,
                         crumbsName : crumbsName,
+                        current_page : currentPage
                     }
                 })
             });
@@ -376,6 +378,7 @@
                 var seriesId = _this.data("series_id");
                 var seriesName = _this.data("series_name");
                 var crumbsName =_this.attr("title");
+                var currentPage = $(".current_page").val();
                 locationTo({
                     action : contextPath + markUri + "/car/series/edit",
                     param : {
@@ -383,6 +386,7 @@
                         series_id : seriesId,
                         series_name : seriesName,
                         crumbsName : crumbsName,
+                        current_page : currentPage
                     }
                 })
             });
