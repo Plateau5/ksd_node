@@ -110,11 +110,11 @@
             var brandSelect = $("#brandSelect");
             var seriesSelect = $("#seriesSelect");
             var brandName = $("#brandName").val();
-            var brandId = $("#brandSelect option:selected").data("brand_id");
-            var brandsName = $("#brandSelect option:selected").data("brand_name");
-            var brandUrl = $("#brandSelect option:selected").data("brand_url");
-            var seriesId = $("#seriesSelect option:selected").data("series_id");
-            var seriesName = $("#seriesSelect option:selected").data("series_name");
+            var brandId = brandSelect.find('option:selected').val();
+            var brandsName = brandSelect.find('option:selected').data("brand_name");
+            var brandUrl = brandSelect.find('option:selected').data("brand_url");
+            var seriesId = seriesSelect.find('option:selected').data("series_id");
+            var seriesName = seriesSelect.find('option:selected').data("series_name");
             var modelId = $("#brandName").data("model_id");
             var modelName = $("#brandName").val();
             var modelApiUrl = $(".modelApiUrl").val();
