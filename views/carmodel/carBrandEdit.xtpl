@@ -41,8 +41,7 @@
                     </div>
                     <div class="row_val">
                         <input type="hidden" class="upload_logo" value="{{url}}">
-                        {{#if (reqParams.crumbsName)}}
-                            {{#if ((url))}}
+                            {{#if (url) }}
                                 <div class="photo_box" style="display:block;">
                                     <img src="{{url}}" id="user_photo" class="user_photo img_responsive" alt="">
                                 </div>
@@ -51,11 +50,6 @@
                                     <img src="{{reqParams.url}}" id="user_photo" class="user_photo img_responsive" alt="">
                                 </div>
                             {{/if}}
-                        {{else}}
-                            <div class="photo_box" style="display:none;">
-                                <img src="{{reqParams.url}}" id="user_photo" class="user_photo img_responsive" alt="">
-                            </div>
-                        {{/if}}
                         <a href="javascript:" class="detail_title_btn create_btn" id="upload_photo_btn">上传logo</a>
                         <input type="file" style="display: none;" name="user_photo" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
                     </div>
