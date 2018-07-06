@@ -122,7 +122,7 @@
                         <thead>
                         <tr>
                             <th>LOGO</th>
-                            <th class="text_left ">品牌</th>
+                            <th class="text_left">品牌</th>
                             {{#if (verifyCode(1555)) }}
                                 <th>操作</th>
                             {{/if}}
@@ -137,7 +137,7 @@
                                     {{else}}
                                         <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo img_responsive"></td>
                                     {{/if}}
-                                    <td class="text_left">{{this.name}}</td>
+                                    <td class="text_left" title="{{this.name}}">{{this.name}}</td>
                                     {{#if (root.verifyCode(1555)) }}
                                         <td class="operate_btn">
                                             <a href="javascript:;" title="编辑品牌" data-brand_id ="{{this.id}}" data-brand_name ="{{this.name}}" data-brand_url ="{{this.url}}"  class="edit brandEdit"></a>
@@ -188,7 +188,7 @@
                                         <td><img src="{{markUri}}/static/img/carLogo.png" alt="" class="logo"></td>
                                     {{/if}}
                                     <td class="text_left" title="{{this.brand_name}}">{{this.brand_name}}</td>
-                                    <td class="text_left pd1">{{this.name}}</td>
+                                    <td class="text_left pd1" title="{{this.name}}">{{this.name}}</td>
                                     {{#if (root.verifyCode(1561)) }}
                                         <td class="operate_btn">
                                             <a href="javascript:;" title="编辑车系" data-brand_id ="{{this.brand_id}}" data-series_id ="{{this.id}}" data-series_name ="{{this.name}}"  class="edit seriesEdit"></a>
