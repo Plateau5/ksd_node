@@ -178,10 +178,10 @@
   height: 30px;
   border: 1px solid #cacaca;
   .import {
-    width: 280px;
-      height: 30px;
-      line-height: 30px;
-      margin-top: -8px;
+    width: 288px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: -8px;
     margin-left: 70px;
     padding-left: 12px;
     border: none;
@@ -189,13 +189,10 @@
   }
   .btn_search {
     position: absolute;
-    top: 5px;
-    right: 5px;
     color: #fff;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background: url('../img/icon_search_default.png') center no-repeat;
-    background-size: contain;
     border: 0;
     cursor: pointer;
     &:hover{
@@ -219,18 +216,17 @@
     width: 70px;
     height: 30px;
     cursor: pointer;
-    &:hover{
+    /*&:hover{
       .select_txt{
         color:#1DC6BC;
       }
-
       .select_icon{
         border-top: 5px solid #1DC6BC;
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
         border-bottom: 5px solid transparent;
       }
-    }
+    }*/
     .select_txt {
       display: inline-block;
       height: 30px;
@@ -241,9 +237,15 @@
       cursor: pointer;
       &:hover{
         color:#1DC6BC;
+        &:after{
+          border-top: 5px solid #1DC6BC;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+        }
       }
     }
-    .select_icon {
+    .select_icon:after {
       position: absolute;
       top: 13px;
       right: 16px;
@@ -257,13 +259,22 @@
       -ms-transition: all .2s;
       -o-transition: all .2s;
       transition: all .2s;
-      &:hover{
-        border-top: 5px solid #1DC6BC;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-bottom: 5px solid transparent;
-      }
     }
+    /*.select_icon_up:after {
+      position: absolute;
+      top: 13px;
+      right: 16px;
+      content: '';
+      border-left: 5px solid transparent;  !* 左边框的宽 *!
+      border-right: 5px solid transparent; !* 右边框的宽 *!
+      border-bottom: 5px solid #333; !* 下边框的长度|高,以及背景色 *!
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      -ms-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
+
+    }*/
     .option {
       display: none;
       position: absolute;

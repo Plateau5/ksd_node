@@ -54,24 +54,21 @@
                                         <div class="mod_select">
                                             <div class="select_box">
                                                 {{#if (search_type === 2) }}
-                                                    <span data-id="2" class="select_txt">车系</span>
-                                                    <span class="select_icon"></span>
+                                                    <span data-id="2" class="select_txt select_icon">车系</span>
                                                     <ul class="option">
                                                         <li data-id="2" style="display: none;">车系</li>
                                                         <li data-id="1">品牌</li>
                                                         <li data-id="3">车型</li>
                                                     </ul>
                                                 {{elseif (search_type === 3)}}
-                                                    <span data-id="3" class="select_txt">车型</span>
-                                                    <span class="select_icon"></span>
+                                                    <span data-id="3" class="select_txt select_icon">车型</span>
                                                     <ul class="option">
                                                         <li data-id="3" style="display: none;">车型</li>
                                                         <li data-id="1">品牌</li>
                                                         <li data-id="2">车系</li>
                                                     </ul>
                                                 {{else}}
-                                                    <span data-id="1" class="select_txt">品牌</span>
-                                                    <span class="select_icon"></span>
+                                                    <span data-id="1" class="select_txt select_icon">品牌</span>
                                                     <ul class="option">
                                                         <li data-id="1" style="display: none;">品牌</li>
                                                         <li data-id="2">车系</li>
@@ -292,6 +289,7 @@
             var eo=$(event.target);
             if($(".select_box").is(":visible") && eo.attr("class")!="option" && !eo.parent(".option").length)
                 $('.option').hide();
+
         });
         $(".option li").off("click").on('click', function () {
             var check_value = $(this).text();
