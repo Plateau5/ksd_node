@@ -363,7 +363,7 @@ function viewLargeImage (selector) {
                     flipHorizontal : true,
                     flipVertical : true,
                     download: function() {
-                        const a = document.createElement('a');
+                        var a = document.createElement('a');
                         a.href = viewer.image.src;
                         a.download = viewer.image.alt;
                         document.body.appendChild(a);
