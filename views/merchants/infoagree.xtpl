@@ -132,7 +132,7 @@
                             } else if (listType == 2) {
                                 detailPath = '/loan/pass/list';
                             }
-                            locationTo({
+                            /*locationTo({
                                 action : contextPath + markUri + detailPath,
                                 param : {
                                     supplier_id : merchantId,
@@ -146,7 +146,40 @@
                                     list_type : listType,
                                     settlement_type: settlementType
                                 }
-                            })
+                            })*/
+                            dialog("open", {
+                                closeBtn : false,
+                                "title" : "打印提醒",
+                                "button" : ["确认","取消"],
+                                "content" : "是否立即打印该车请款审批材料？",
+                                "maskClose" : false,
+                                onConfirm : function (d) {
+                                    d.close();
+                                    var orderNo = $("#orderNo").val();
+                                    var receiptType = $("#receiptType").val();
+                                    var printPage = contextPath + markUri + '/customer/financial/print?print_type=current&orderNo=' + orderNo + '&receipt_type=' + receiptType;
+                                    window.location.replace(printPage);
+                                },
+                                onCancel : function (d) {
+                                    d.close();
+//                                    var detailPath = '/loan/pending/list';
+                                    locationTo({
+                                        action : contextPath + markUri + detailPath,
+                                        param : {
+                                            supplier_id : merchantId,
+                                            pay_account: payAccount,
+                                            timeorder_type: timeorderType,
+                                            receipt_type: receiptType,
+                                            orderby_type: orderbyType,
+                                            supplier_name : merchantName,
+                                            url : listUrl,
+                                            navigation : navigation,
+                                            list_type : listType,
+                                            settlement_type: settlementType
+                                        }
+                                    });
+                                }
+                            });
                         });
                     } else {
                         $alert(res.error_msg, function (){

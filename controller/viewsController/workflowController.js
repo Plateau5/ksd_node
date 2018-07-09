@@ -25,8 +25,10 @@ exports.VIEW_BUSINESS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/gps/warehouse/list');  // GPS仓库
         } else if (common.checkPrivilege(1357, req)) {
             res.redirect(markUri + '/business/city/manage');  // 城市管理
+        } else if (common.checkPrivilege(1554, req)) {
+            res.redirect(markUri + '/car/system');  // 车型库
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1130 | 1092 | 1365 | 1298 | 1280 | 1357  is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1130 | 1092 | 1365 | 1298 | 1280 | 1357 | 1554  is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);

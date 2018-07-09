@@ -24,7 +24,7 @@
                 </li>
             {{/if}}
             {{#if (verifyCode(1312)) }}
-                <li class="nav_item {{#if(startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps'))}}active{{/if}}">
+                <li class="nav_item {{#if(startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps' + ' || ' + markUri + '/car'))}}active{{/if}}">
                     <a href="{{markUri}}/business/system" class="">业务</a>
                 </li>
             {{/if}}
@@ -39,6 +39,11 @@
             {{#if (verifyCode(1270)) }}
                 <li class="nav_item {{#if(startWith(markUri + '/company' + ' || ' + markUri + '/feedback'))}}active{{/if}}">
                     <a href="{{contextPath}}/company/list" class="">系统</a>
+                </li>
+            {{/if}}
+            {{#if (verifyCode(1551)) }}
+                <li class="nav_item {{#if(startWith(markUri + '/school'))}}active{{/if}}">
+                    <a href="{{markUri}}/school/system" class="">培训</a>
                 </li>
             {{/if}}
         </ul>

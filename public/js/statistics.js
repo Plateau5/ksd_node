@@ -211,7 +211,7 @@ function cityBarChart (target, data) {
         dataZoom: {
             show: true,
             start : 0,
-            end: 40,
+            end: 7 / data.xaxisdata.length * 100,
             bottom : 20,
             left: 80,
             right: 80,

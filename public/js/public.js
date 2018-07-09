@@ -153,7 +153,8 @@ $.fn.onlyNumAlpha = function () {
  */
 var PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
 var IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
-
+var TENCENTAPPID = '1256864073';
+var MAXINTEGER = 7;
 /**
  * **************** END ****************
  * GLOBAL PATTERN FOR REGEXP
@@ -2446,17 +2447,66 @@ function paginationSwitch () {
     });
 }
 
+
+/**
+ * 全局设置禁用form在点击回车的自动提交事件
+ * @author Arley Joe 2018-6-22 16:38:36
+ * @desc : 1.页面中的form元素内部只有一个input元素的点击回车键form会自动提交，超过一个input元素的不会自动提交
+ *         2.本方法全局禁用form的自动提交。
+ *         3.需要解决由此方法造成form内的元素编辑状态点击回车键失效的问题时，为该元素添加特殊标识类“ special-ele ”
+ * @return {Boolean} *
+ */
 function disabledFormAutoSubmit () {
     var doc = $('body');
     doc.on('keydown', 'form', function (e) {
         var ev = e || window.event;
         var keyCode = ev.keyCode;
+        var form = $(this);
         if (keyCode == 13) {
-            return false;
+            var special = form.find('.special-ele');
+            if (special.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     });
 }
 
+
+/**
+ * 金额整数校验
+ * @author QI 2018年7月6日18:12:22
+ * @desc : 数字最大值校验
+ * @param: obj {Object} 当前对象
+ * @return  *
+ */
+
+
+function checkMoney(obj){
+    //先把非数字的都替换掉，除了数字和.
+    obj.value = obj.value.replace(/[^\d.]/g,"");
+
+    //保证只有出现一个.而没有多个.
+    obj.value = obj.value.replace(/\.{2,}/g,".");
+
+    //必须保证第一个为数字而不是.
+    obj.value = obj.value.replace(/^\./g,"");
+
+    //保证.只出现一次，而不能出现两次以上
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+    //只能输入两个小数
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+
+    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+        obj.value= parseFloat(obj.value);
+    }
+    if(obj.value>9999999.99){
+        obj.value = obj.value.slice(0,MAXINTEGER);
+        return;
+    }
+}
 
 $(function () {
     customerListMask(); // 禁用订单多次点击跳转
@@ -2488,6 +2538,8 @@ $(function () {
     loading();
     disabledFormAutoSubmit();
 });
+
+
 
 
 

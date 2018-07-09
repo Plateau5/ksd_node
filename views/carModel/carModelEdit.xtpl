@@ -1,0 +1,230 @@
+<!-- 业务车型库编辑页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/carModel.css">
+    <title>业务-车型库</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/car/system" class="crumbs_item">车型库</a>
+                <a href="javascript:;" class="crumbs_item">
+                    {{#if (reqParams.crumbsName)}}
+                        {{reqParams.crumbsName}}
+                    {{else}}
+                        新建车型
+                    {{/if}}
+                </a>
+            </div>
+            {{#if (startWith(markUri + '/car/model/create')) }}
+                <input type="hidden" class="modelApiUrl" value="/api/carModel/model/create">
+            {{ elseif (startWith(markUri + '/car/model/edit')) }}
+                <input type="hidden" class="modelApiUrl" value="/api/carModel/model/edit">
+            {{/if}}
+            <input type="hidden" class="current_page" value="{{reqParams.current_page}}">
+            <input type="hidden" class="search_value" value="{{reqParams.search_value}}">
+            <input type="hidden" class="search_type" value="{{reqParams.search_type}}">
+            <div class="new_brand">
+                <div class="row_item option_item">
+                    <div class="row_title">
+                        <em class="require_icon">*</em>品牌:
+                    </div>
+                    <div class="row_val">
+                        <select id="brandSelect">
+                            <option selected="selected" value="">请选择</option>
+                            {{#each(data_brand)}}
+                                {{#if (this.id === root.brand_id) }}
+                                    <option data-brand_id="{{this.id}}" data-brand_name="{{this.name}}" data-brand_url="{{this.url}}" value="{{this.id}}" selected="selected">{{this.name}}</option>
+                                {{else}}
+                                    <option data-brand_id="{{this.id}}" data-brand_name="{{this.name}}" data-brand_url="{{this.url}}" value="{{this.id}}">{{this.name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row_item option_item">
+                    <div class="row_title">
+                        <em class="require_icon">*</em>车系:
+                    </div>
+                    <div class="row_val">
+                        <select id="seriesSelect">
+                            <option selected="selected" value="">请选择</option>
+                            {{#each(data_series)}}
+                                {{#if (this.id === root.series_id) }}
+                                    <option data-series_id="{{this.id}}" data-series_name="{{this.name}}" data-series_url="{{this.url}}" value="{{this.id}}" selected="selected">{{this.name}}</option>
+                                {{else}}
+                                    <option data-series_id="{{this.id}}" data-series_name="{{this.name}}" data-series_url="{{this.url}}" value="{{this.id}}">{{this.name}}</option>
+                                {{/if}}
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="row_item">
+                    <div class="row_title">
+                        <em class="require_icon">*</em>车型:
+                    </div>
+                    <div class="row_val">
+                        <input type="text" value="{{model_name}}" maxlength="50" placeholder="请输入车型" class="item_name" id="brandName" data-model_id="{{model_id}}">
+                    </div>
+                </div>
+            <div class="btn_box text_left clearfix" style="padding-left:10%">
+                {{#if(verifyCode (1565))}}
+                    <a href="javascript:;" class="btn orange_btn confirm createBtn">确定</a>
+                    <a href="javascript:;" class="btn bg_btn return_cancel" >取消</a>
+                {{/if}}
+            </div>
+        </div>
+        <!-------- Part of main End -------->
+    </div>
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
+    </div>
+</div>
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/cropper/cropper.js"></script>
+</html>
+<script>
+    (function ($) {
+        //确认
+        $('.createBtn').off("click").on("click", function() {
+            var brandSelect = $("#brandSelect");
+            var seriesSelect = $("#seriesSelect");
+            var brandName = $("#brandName").val();
+            var brandId = brandSelect.find('option:selected').val();
+            var brandsName = brandSelect.find('option:selected').data("brand_name");
+            var brandUrl = brandSelect.find('option:selected').data("brand_url");
+            var seriesId = seriesSelect.find('option:selected').data("series_id");
+            var seriesName = seriesSelect.find('option:selected').data("series_name");
+            var modelId = $("#brandName").data("model_id");
+            var modelName = $("#brandName").val();
+            var modelApiUrl = $(".modelApiUrl").val();
+            var modelUrl= contextPath + modelApiUrl;
+
+            if (brandSelect.val() =="") {
+                $alert('请选择品牌');
+                return false;
+            }
+            if (seriesSelect.val() =="") {
+                $alert('请选择车系');
+                return false;
+            }
+            if (brandName == "") {
+                $alert('请输入车型');
+                return false;
+            }
+            var parameters = {
+                    name: brandName,
+                    brand_id : brandId,
+                    brand_name : brandsName,
+                    url : brandUrl,
+                    series_id : seriesId,
+                    series_name : seriesName,
+                    model_id : modelId,
+                    model_name : modelName
+            };
+            redefineAjax({
+                type:'post',
+                timeout:20000,
+                url : modelUrl,
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert("提交成功",function () {
+                            locationTo({
+                                action : contextPath + markUri + "/car/model",
+                            });
+                        });
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        });
+        $("#brandSelect").on("change",function() {
+            var _this = $(this);
+            var seriesSelect = $("#seriesSelect");
+            var selectedVal = _this.find("option:selected").val().trim();
+            var brandId = _this.find("option:selected").data("brand_id");
+            var parameters = {
+                brand_id : brandId
+            };
+            if (!selectedVal && selectedVal !== '0') {
+                seriesSelect.html('<option selected="selected" value="">请选择</option>');
+                return false;
+            }
+            redefineAjax({
+                type:'post',
+                timeout:20000,
+                url : contextPath + '/api/listseries',
+                data : parameters,
+                success : function (res) {
+                    if (res.error_code == 0) {
+                        var str = '<option selected="selected" value="">请选择</option>';
+                        var data = res.data;
+                        for (var i=0; i<data.length; i++) {
+                            str += '<option data-series_id="'+ data[i].id +'" data-series_name="'+ data[i].name +'" data-series_url="'+ data[i].url +'" value="'+ data[i].id +'">'+ data[i].name +'</option>';
+                        }
+                        $("#seriesSelect").html(str);
+
+                    } else {
+                        //$alert(res.error_msg);
+                    }
+                }
+                /*error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }*/
+            });
+
+        })
+
+        //取消按钮的点击逻辑
+        bindEvents("click", ".return_cancel", function () {
+            var currentPage = $(".current_page").val();
+            var searchValue = $(".search_value").val();
+            var searchType = $(".search_type").val();
+            locationTo({
+                action : contextPath + markUri + "/car/model",
+                param : {
+                    current_page : currentPage,
+                    search_value : searchValue,
+                    search_type : searchType
+                }
+            });
+            //window.history.back();
+        });
+
+        $(function() {
+
+        })
+
+    })(jQuery,undefined);
+</script>

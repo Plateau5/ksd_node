@@ -17,6 +17,8 @@ var settingsCtrl = require('../controller/viewsController/settingsController');
 var privilegeCtrl = require('../controller/viewsController/privilegeController');
 var merchantsCtrl = require('../controller/viewsController/merchantsController');
 var dockingCtrl = require('../controller/viewsController/dockingController');
+var schoolCtrl = require('../controller/viewsController/schoolController');
+var carModelCtrl = require('../controller/viewsController/carModelController');
 
 
 var markUri = '/ksd';
@@ -304,14 +306,6 @@ router.post(markUri + '/supplier/organization/policies/edit', supplierCtrl.VIEW_
 router.post(markUri + '/supplier/organization/policies/history', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST);
 
 
-
-
-
-
-
-
-
-
 // 业务管理-主导航节点跳转
 router.get(markUri + '/business/system', workflowCtrl.VIEW_BUSINESS_SYSTEM);
 // 业务管理-城市管理 1357
@@ -326,6 +320,27 @@ router.all(markUri + '/workflow/toCreate', workflowCtrl.VIEW_WORKFLOW_CREATE);
 router.post(markUri + '/workflow/toDetail', workflowCtrl.VIEW_WORKFLOW_DETAIL);
 // 流程管理-编辑审批流页跳转 1132
 router.post(markUri + '/workflow/toEdit', workflowCtrl.VIEW_WORKFLOW_EDIT);
+
+//业务-车型库侧导航跳转
+router.all(markUri + '/car/system', carModelCtrl.VIEW_CAR_SYSTEM);
+//业务-车型库-品牌列表页跳转 1554
+router.all(markUri + '/car/brand', carModelCtrl.VIEW_CAR_BRAND);
+//业务-车型库车系列表页跳转 1558
+router.all(markUri + '/car/series', carModelCtrl.VIEW_CAR_SERIES);
+//业务-车型库车型列表页跳转 1563
+router.all(markUri + '/car/model', carModelCtrl.VIEW_CAR_MODEL);
+//业务-车型库品牌新增 1556
+router.post(markUri + '/car/brand/create', carModelCtrl.VIEW_CAR_BRAND_CREATE);
+//业务-车型库品牌编辑 1555
+router.post(markUri + '/car/brand/edit', carModelCtrl.VIEW_CAR_BRAND_EDIT);
+//业务-车型库车系新增 1559
+router.post(markUri + '/car/series/create', carModelCtrl.VIEW_CAR_SERIES_CREATE);
+//业务-车型库车系编辑 1561
+router.post(markUri + '/car/series/edit', carModelCtrl.VIEW_CAR_SERIES_EDIT);
+//业务-车型库车型新增跳转 1564
+router.post(markUri + '/car/model/create', carModelCtrl.VIEW_CAR_MODEL_CREATE);
+//业务-车型库车型编辑 1566
+router.post(markUri + '/car/model/edit', carModelCtrl.VIEW_CAR_MODEL_EDIT);
 
 // 问题管理-客户问题列表 1092
 router.all(markUri + '/question/customer/list', questionCtrl.VIEW_QUESTION_CUSTOMER_LIST);
@@ -419,6 +434,35 @@ router.post(markUri + '/statistics/merchants/detail', statisticsCtrl.VIEW_STATIS
 router.all(markUri + '/statistics/operating/system', statisticsCtrl.VIEW_STATISTICS_OPERATING_SYSTEM);
 // 数据统计-运营报表-报表列表页跳转1514
 router.all(markUri + '/statistics/operating/list', statisticsCtrl.VIEW_STATISTICS_OPERATING_LIST);
+
+
+
+// 培训主导航跳转
+router.get(markUri + '/school/system', schoolCtrl.VIEW_SCHOOL_SYSTEM);
+// 培训-课程分类-侧导航跳转 1529
+router.all(markUri + '/school/course/category/system', schoolCtrl.VIEW_SCHOOL_COURSE_CATEGORY_SYSTEM);
+// 培训-课程分类-课程分类页 1529
+router.all(markUri + '/school/course/category/home', schoolCtrl.VIEW_SCHOOL_COURSE_CATEGORY_HOME);
+// 培训-课程列表-侧导航跳转 1543
+router.all(markUri + '/school/course/lists/system', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_SYSTEM);
+// 培训-课程列表-课程列表页 1543
+router.all(markUri + '/school/course/lists/home', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_HOME);
+// 培训-课程列表-新增课程页 1545
+router.all(markUri + '/school/course/lists/create', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_CREATE);
+// 培训-课程列表-编辑课程页 1546
+router.all(markUri + '/school/course/lists/edit', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_EDIT);
+// 培训-课程列表-课程详情页 1548
+router.all(markUri + '/school/course/lists/detail', schoolCtrl.VIEW_SCHOOL_COURSE_LISTS_DETAIL);
+// 培训-培训讲师-侧导航跳转 1536
+router.all(markUri + '/school/teacher/system', schoolCtrl.VIEW_SCHOOL_TEACHER_SYSTEM);
+// 培训-培训讲师-培训讲师列表页 1536
+router.all(markUri + '/school/teacher/list', schoolCtrl.VIEW_SCHOOL_TEACHER_LIST);
+// 培训-培训讲师-新建讲师页 1538
+router.all(markUri + '/school/teacher/create', schoolCtrl.VIEW_SCHOOL_TEACHER_CREATE);
+// 培训-培训讲师-编辑讲师页 1540
+router.all(markUri + '/school/teacher/edit', schoolCtrl.VIEW_SCHOOL_TEACHER_EDIT);
+// 培训-培训讲师-培训讲师详情页 1537
+router.all(markUri + '/school/teacher/detail', schoolCtrl.VIEW_SCHOOL_TEACHER_DETAIL);
 
 
 

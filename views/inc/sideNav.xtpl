@@ -57,7 +57,7 @@
         </li>
     </ul>
 </div>
-{{ elseif (startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps')) }}
+{{ elseif (startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps' + ' || ' + markUri + '/car')) }}
 <div class="contacts slide_nav">
     <div class="slide_nav_title bold">业务</div>
     <ul class="slide_nav_bar">
@@ -90,6 +90,11 @@
             <li class="nav_item {{#if(startWith(markUri + '/business/city/manage'))}}active{{/if}}">
                 <a href="{{markUri}}/business/city/manage" class="">城市管理</a>
             </li>
+        {{/if}}
+        {{#if (verifyCode(1554)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/car'))}}active{{/if}}">
+            <a href="{{markUri}}/car/system" class="">车型库</a>
+        </li>
         {{/if}}
     </ul>
 </div>
@@ -134,6 +139,27 @@
         {{#if (verifyCode(1514)) }}
         <li class="nav_item {{#if(startWith(markUri + '/statistics/operating/list'))}}active{{/if}}">
             <a href="{{markUri}}/statistics/operating/system" class="">运营报表</a>
+        </li>
+        {{/if}}
+    </ul>
+</div>
+{{ elseif (startWith(markUri + '/school'))}}
+<div class="contacts slide_nav">
+    <div class="slide_nav_title bold">培训</div>
+    <ul class="slide_nav_bar">
+        {{#if (verifyCode(1529)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/school/course/category'))}}active{{/if}}">
+            <a href="{{markUri}}/school/course/category/system" class="">课程分类</a>
+        </li>
+        {{/if}}
+        {{#if (verifyCode(1543)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/school/course/lists'))}}active{{/if}}">
+            <a href="{{markUri}}/school/course/lists/system" class="">课程列表</a>
+        </li>
+        {{/if}}
+        {{#if (verifyCode(1536)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/school/teacher'))}}active{{/if}}">
+            <a href="{{markUri}}/school/teacher/system" class="">培训讲师</a>
         </li>
         {{/if}}
     </ul>

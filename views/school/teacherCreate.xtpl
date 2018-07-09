@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/cropper/cropper.min.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
+    <title>
+        {{#if (reqParams.id) }}
+        编辑讲师
+        {{else}}
+        新增讲师
+        {{/if}}
+    </title>
+    <style>
+        input{
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper" class="wrapper">
+        <!-------- Part of header Begin -------->
+        {{include('./../inc/header')}}
+        <!-------- Part of header End -------->
+
+        <!-------- Part of main Begin -------->
+        <div id="section" class="section normal_width">
+            <!---- Part of slide nav Begin ---->
+            {{include('./../inc/sideNav')}}
+            <!---- Part of slide na End ---->
+
+            <!---- Part of Main info Begin ---->
+            <div id="main" class="main pad_btm_100 teacher_create">
+                <div class="crumbs_nav">
+                    <a href="{{markUri}}/school/teacher/system" class="crumbs_item">培训讲师</a>
+                    <a href="javascript:;" class="crumbs_item">
+                        {{#if (reqParams.id) }}
+                            编辑讲师
+                        {{else}}
+                            新增讲师
+                        {{/if}}
+                    </a>
+                </div>
+                <div class="form_options create_options">
+                    <form action="" id="teacher_create" method="post">
+                        <input type="hidden" value="{{reqParams.id}}" id="teacher_id">
+                        <div class="option_item teacher_type">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">讲师类型：</span>
+                            </div>
+                            <div class="column_val">
+                                {{#if (lecturerDetail) }}
+                                    {{#if (lecturerDetail.type === 1) }}
+                                        <div class="form_group">
+                                            <input id="internal" type="radio" class="internal" name="type" value="1" checked style="display: none;"/>
+                                            <label for="internal">内部</label>
+                                        </div>
+                                        <div class="form_group" style="display: none">
+                                            <input id="external" type="radio" class="external" name="type" value="2"/>
+                                            <label for="external">外部</label>
+                                        </div>
+                                    {{else}}
+                                        <div class="form_group" style="display: none">
+                                            <input id="internal" type="radio" class="internal" name="type" value="1"/>
+                                            <label for="internal">内部</label>
+                                        </div>
+                                        <div class="form_group">
+                                            <input id="external" type="radio" class="external" name="type" value="2" checked style="display: none;"/>
+                                            <label for="external">外部</label>
+                                        </div>
+                                    {{/if}}
+                                {{else}}
+                                    <div class="form_group mar6">
+                                        <input id="internal" type="radio" class="type_input internal" name="type" value="1" checked/>
+                                        <label for="internal">内部</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input id="external" type="radio" class="type_input external" name="type" value="2" />
+                                        <label for="external">外部</label>
+                                    </div>
+                                    <span class="tips_info">(*请先选择讲师类型)</span>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">讲师姓名：</span>
+                            </div>
+                            {{#if (lecturerDetail) }}
+                                {{#if (lecturerDetail.type === 1) }}
+                                    <div class="column_val external_teacher" style="display: inline-block">
+                                        <input type="hidden" name="" id="teacher_account" value="{{lecturerDetail.account}}">
+                                        <input type="text" value="{{lecturerDetail.name}}" class="internal_name" style="border: none;padding-left: 0;" readonly>
+                                    </div>
+                                {{else}}
+                                    <div class="column_val external_teacher" style="display: inline-block">
+                                        <input type="text" class="teacher_name external_name" name="name" placeholder="请输入讲师姓名" value="{{lecturerDetail.name}}" maxlength="20"/>
+                                        <span class="tips_info">请输入讲师姓名</span>
+                                    </div>
+                                {{/if}}
+                            {{else}}
+                                <div class="column_val internal_teacher order_search_box">
+                                    <input type="hidden" name="emp_id" class="emp_id" id="orderCreatorId">
+                                    <input type="hidden" name="" id="teacher_account">
+                                    <input type="hidden" name="image_url" id="teacher_photo">
+                                    <input type="text" class="teacher_name search_name fuzzy_search internal_name" name="name" placeholder="搜索讲师姓名" readonly/>
+                                    <span class="tips_info">请选择讲师姓名</span>
+                                    <div class="search_result" style="display: none;">
+                                        <div class="search_input">
+                                            <input class="customer_search" type="text">
+                                        </div>
+                                        <ul class="search_list">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="column_val external_teacher">
+                                    <input type="text" class="teacher_name external_name" name="name" placeholder="请输入讲师姓名" maxlength="20"/>
+                                    <span class="tips_info">请输入讲师姓名</span>
+                                </div>
+                            {{/if}}
+                        </div>
+                        {{#if (lecturerDetail) }}
+                            <input type="hidden" class="teacher_img" value="{{lecturerDetail.image_url}}">
+                            {{#if (lecturerDetail.type === 2) }}
+                                <div class="option_item external_teacher" style="display: block">
+                                    <div class="column_name">
+                                        <em class="require_icon">*</em>
+                                        <span class="options_name">讲师手机：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        <input type="text" class="teacher_telphone" name="phone" maxlength="11" placeholder="请输入讲师手机号" value="{{lecturerDetail.phone}}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
+                                        <span class="tips_info">请输入讲师手机号码</span>
+                                    </div>
+                                </div>
+                                <div class="option_item user_photo_row external_teacher" style="display: block">
+                                    <div class="column_name" style="padding-left: 9px;">讲师头像：</div>
+                                    <div class="column_val">
+                                        <div class="photo_box">
+                                            <img src="{{#if(lecturerDetail.image_url)}}
+                                                        {{lecturerDetail.image_url}}
+                                                      {{else}}
+                                                        {{markUri}}/static/img/personIcon.png
+                                                      {{/if}}" id="user_photo" class="user_photo img_responsive" alt="">
+                                        </div>
+                                        <a href="javascript:;" class="detail_title_btn create_btn" id="upload_photo_btn">上传头像</a>
+                                        <input type="file" style="display: none;" name="image_url" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
+                                    </div>
+                                </div>
+                            {{/if}}
+                        {{else}}
+                            <div class="option_item external_teacher">
+                                <div class="column_name">
+                                    <em class="require_icon">*</em>
+                                    <span class="options_name">讲师手机：</span>
+                                </div>
+                                <div class="column_val">
+                                    <input type="text" class="teacher_telphone" name="phone" maxlength="11" placeholder="请输入讲师手机号" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
+                                    <span class="tips_info">请输入讲师手机号码</span>
+                                </div>
+                            </div>
+                            <div class="option_item user_photo_row external_teacher">
+                                <div class="column_name" style="padding-left: 9px;">讲师头像：</div>
+                                <div class="column_val">
+                                    <input type="hidden" class="teacher_img">
+                                    <div class="photo_box">
+                                        <img src="{{markUri}}/static/img/personIcon.png" id="user_photo" class="user_photo img_responsive" alt="">
+                                    </div>
+                                    <a href="javascript:;" class="detail_title_btn create_btn" id="upload_photo_btn">上传头像</a>
+                                    <input type="file" style="display: none;" name="image_url" id="upload_photo_file" accept="image/jpeg,image/jpg,image/png">
+                                </div>
+                            </div>
+                        {{/if}}
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name" style="padding-left: 9px;">讲师简介：</span>
+                            </div>
+                            <div class="column_val">
+                                {{#if (lecturerDetail) }}
+                                    <textarea class="teacher_intro" name="intro" cols="30" rows="11" placeholder="请输入讲师简介">{{lecturerDetail.intro}}</textarea>
+                                {{else}}
+                                    <textarea class="teacher_intro" name="intro" cols="30" rows="11" placeholder="请输入讲师简介"></textarea>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="btn_box clearfix create_wf_btn_box">
+                    <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
+                    <a href="{{markUri}}/school/teacher/list" class="btn bg_btn create_cancel">取消</a>
+                </div>
+                <div id="upload_photo_dialog" class="upload_photo_dialog" style="display:none;">
+                    <div class="upload_photo_title bold">讲师头像</div>
+                    <div class="content">
+                        <div class="original_photo">
+                            <div class="large_photo">
+                                <img src="" class="img_responsive" alt="">
+                            </div>
+                            <div class="tips_msg">仅支持JPG/PNG/GIF图片文件，且文件大小小于5M</div>
+                            <div class="upload_btn_box">
+                                <a href="javascript:" class="btn btn_border_orange orange_font choose_img">重新上传</a>
+                            </div>
+                        </div>
+                        <div class="thumbnail_photo">
+                            <div class="small_photo" id="small_photo" style="width:72px;height:72px;border-radius: 50%;margin-top: 115px;">
+                                <img src="" alt="">
+                            </div>
+                            <div class="thumbnail_text">效果预览</div>
+                        </div>
+                    </div>
+                    <div class="btn_box clearfix">
+                        <a href="javascript:" class="btn orange_btn confirm submit_upload">确认</a>
+                        <a href="javascript:" class="btn bg_btn cancel_upload ">取消</a>
+                    </div>
+                </div>
+            </div>
+            <!---- Part of Main info End ---->
+        </div>
+        <!-------- Part of main End -------->
+    </div>
+    <div class="mask" style="display: none;"></div>
+    <div class="loading" id="loading"></div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/cropper/cropper.js"></script>
+<script src="{{markUri}}/static/js/school.js"></script>
+<script>
+    var emp_list = '{{emp_list}}';
+    if (emp_list.length > 0 ){
+        emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
+    }
+    (function ($) {
+        $(".large_photo>img").cropper({//讲师头像
+            zoomable: true,
+            viewMode: 1,
+            preview: '#small_photo', //不同尺寸预览区
+            aspectRatio: 1, //裁剪比例，NaN-自由选择区域
+            autoCropArea: 0.5, //初始裁剪区域占图片比例
+            cropBoxResizable  : false,
+            modal : false
+        });
+        /*************手机校验 start**************/
+        $('.teacher_telphone').blur(function () {
+            var _this = $(this);
+            checkTelphone(_this);
+        });
+        function checkTelphone (_this) {
+            var reg = PHONEPATTERN;
+            if (_this.val() == '') {
+                _this.siblings('.tips_info').show().text('请输入讲师手机号码');
+                return false;
+            } else {
+                _this.siblings('.tips_info').hide();
+            }
+            if (!reg.test(_this.val())) {
+                _this.siblings('.tips_info').show().text('请输入11位数字');
+                return false;
+            } else {
+                _this.siblings('.tips_info').hide();
+            }
+        }
+        /*************手机校验 end**************/
+        //讲师类型切换
+        function togTeacherType () {
+            var typeInput = $('.teacher_type .type_input');
+            var teacherId = $('#teacher_id').val().trim();
+            typeInput.off("click").on("click", function () {
+                var _this = $(this);
+                var v = _this.val().trim().number();
+                if (teacherId == '') {
+                    if (v === 1) {
+                        $('.internal_teacher').show();
+                        $('.external_teacher').hide();
+                    } else if (v === 2) {
+                        $('.internal_teacher').hide();
+                        $('.external_teacher').show();
+                    }
+                }
+            });
+            /*//内部-讲师类型切换
+            var internal = $('#internal');
+            internal.off("click").on("click", function () {
+                if ($('#teacher_id').val() == '') {
+                    if (this.checked) {
+                        $('.internal_teacher').show();
+                        $('.external_teacher').hide();
+                    }
+                }
+            });
+            //外部-讲师类型切换
+            var external = $('#external');
+            external.off("click").on("click", function () {
+                if ($('#teacher_id').val() == '') {
+                    if (this.checked) {
+                        $('.internal_teacher').hide();
+                        $('.external_teacher').show();
+                    }
+                }
+            });*/
+        }
+
+
+        /************************搜索讲师姓名 start****************************/
+        //模糊查询
+        var hideInput = $('#orderCreatorId');
+        var btn = $('#createName');
+        var resBox = $(".search_result");
+        var resList = $(".search_list");
+        function searchTeacher () {
+            $('.search_name').off("click").on("click", function (e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                resBox.show();
+                $('.customer_search').focus();
+                $('.customer_search').on('input',function(e){
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var val = $.trim($(this).val());
+                    resList.html('');
+                    if (val) {
+                        resList.show();
+                        var queryObj = fuzzyQuery(emp_list);
+                        showSearchResult(queryObj);
+                        selectedCreate();
+                    } else{
+                        resList.hide();
+                    }
+                });
+                $(document).on('click',function (e) {
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var target = $(ev.target);
+                    var parent = target.parents('.search_result');
+                    if (target.hasClass('search_result')) {
+                        return false;
+                    } else if (parent.length <= 0) {
+                        resBox.hide().find('.search_list').html('').end().find('.customer_search').val('');
+                        resList.hide();
+                        return true;
+                    } else {
+                        return true;
+                    }
+                });
+            });
+            // 订单所属人选中逻辑
+            var selectedCreate = function () {
+                $('.search_result .res_item').on('click', function () {
+                    var _this = $(this);
+                    var createName = $.trim(_this.data('name'));
+                    var orderCreatorId = $.trim(_this.data('id'));
+                    var image_url = $.trim(_this.data('image_url'));
+                    var email = $.trim(_this.data('email'));
+                    $('.search_name').val(createName);
+                    $('#teacher_account').val(email);
+                    $('#teacher_photo').val(image_url);
+                    btn.val(createName);
+                    hideInput.val(orderCreatorId);
+                    resBox.hide();
+                });
+            }
+        }
+        // 讲师的模糊查询功能
+        function fuzzyQuery (res) {
+            var queryStr = $.trim($('.customer_search').val()),
+                queryArr = queryStr.split(""),
+                data = res,
+                resArr;
+            if(queryStr) {
+                for (var i = 0, len = queryArr.length; i < len; i++) {
+                    resArr = [];
+                    for (var k = 0; k < data.length; k++) {
+                        if (data[k].name.indexOf(queryArr[i]) != -1) {
+                            resArr.push(data[k]);
+                        }
+                    }
+                    data = resArr;
+                }
+                return resArr;
+            }
+        }
+        //创建模糊查询结果展示并绑定事件
+        function showSearchResult (res) {
+            var html = [];
+            if (res == undefined || res.length == 0 || res.length == undefined) {
+                return $('.search_list').html('<li style="text-align: center;">暂无数据</li>');
+            } else {
+                for (var i = 0, len = res.length; i < len; i++) {
+                    if (res[i].account) {
+                        var tel_account = res[i].account;
+                    } else if (res[i].phone) {
+                        var tel_account = res[i].phone;
+                    }
+                    var str = '';
+                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" data-image_url="'+ res[i].image_url + '" data-email="'+ res[i].account + '" title="' + tel_account + '">\
+                                <div class="name nowrap">' + res[i].name + '</div>\
+                                <div class="p_dep nowrap">' + (tel_account ? tel_account : '没有匹配到任何结果') + '</div>\
+                            </li>'
+                    html.push(str);
+                    $('.search_list').html(html.join(""));
+                }
+            }
+        }
+        /************************搜索讲师姓名 end****************************/
+        //保存讲师
+        function saveTeacher () {
+            var btn = $('.create_confirm');
+            btn.off('click').on('click', function () {
+                saveTeacherForm();
+            });
+        }
+        //保存校验
+        function saveTeacherForm () {
+            var internal = $('#internal');//内部单选按钮
+            var external = $('#external');//外部单选按钮
+            var flag_type = false;//默认内部
+            if (internal[0].checked) {
+                internal.parents('.column_val').find('.tips_info').hide();
+                var internal_name_val = $('.internal_name').val();
+                if (internal_name_val) {
+                    $('.internal_name').parents('.internal_teacher').find('.tips_info').hide();
+                } else {
+                    $('.internal_name').parents('.internal_teacher').find('.tips_info').show();
+                    return;
+                }
+                flag_type = false;//内部
+            } else if (external[0].checked) {
+                internal.parents('.column_val').find('.tips_info').hide();
+                var external_name_val = $('.external_name').val();
+                if (external_name_val) {
+                    $('.external_name').parents('.external_teacher').find('.tips_info').hide();
+                } else {
+                    $('.external_name').parents('.external_teacher').find('.tips_info').show();
+                    return;
+                }
+                var teacher_telphone = $('.teacher_telphone');
+                var check_flag = checkTelphone(teacher_telphone);
+                if (!check_flag && check_flag != undefined) {
+                    return;
+                }
+                flag_type = true;//外部
+            } else {
+                internal.parents('.column_val').find('.tips_info').show();
+                return;
+            }
+            ajaxSubmit(flag_type);
+        }
+        //ajax提交參數
+        function ajaxSubmit (flag_type) {
+            if ($('#teacher_id').val() == '') {//新增保存
+                var url = contextPath + "/api/school/lecturer/create";
+                if (flag_type) {//外部
+                    var external = $('#external').val();
+                    var teacher_photo = $('.teacher_img').val();
+                    var external_name = $('.external_name').val();
+                    var phone = $('.teacher_telphone').val();
+                    var teacher_intro = $('.teacher_intro').val();
+                    var parameters = {
+                        type : external,
+                        name : external_name,
+                        phone : phone,
+                        intro : teacher_intro,
+                        image_url : teacher_photo
+                    };
+                } else {//内部
+                    var internal = $('#internal').val();
+                    var emp_id = $('.emp_id').val();
+                    var teacher_photo = $('#teacher_photo').val();
+                    var internal_name = $('.internal_name').val();
+                    var email = $('#teacher_account').val();
+                    var teacher_intro = $('.teacher_intro').val();
+                    var parameters = {
+                        emp_id : emp_id,
+                        type : internal,
+                        name : internal_name,
+                        account : email,
+                        intro : teacher_intro,
+                        image_url : teacher_photo
+                    };
+                }
+            } else {//编辑保存
+                var url = contextPath + "/api/school/lecturer/save";
+                var teacher_id = $('#teacher_id').val();
+                var teacher_intro = $('.teacher_intro').val();
+                var teacher_img = $('.teacher_img').val();
+                if (flag_type) {//外部
+                    var external_name = $('.external_name').val();
+                    var teacher_telphone = $('.teacher_telphone').val();
+                    var parameters = {
+                        id : teacher_id,
+                        intro : teacher_intro,
+                        phone : teacher_telphone,
+                        name : external_name,
+                        image_url : teacher_img
+                    };
+                } else {//内部
+                    var internal_name = $('.internal_name').val();
+                    var email = $('#teacher_account').val();
+                    var parameters = {
+                        id : teacher_id,
+                        name : internal_name,
+                        account : email,
+                        image_url : teacher_img,
+                        intro : teacher_intro
+                    };
+                }
+            }
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : url,
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/school/teacher/system',
+                                param : {}
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            saveTeacher();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    saveTeacher();
+                }
+            });
+        }
+        $(function() {
+            togTeacherType();//切换讲师类型
+            uploadPhoto($("#upload_photo_btn"));//重新上传图片
+            searchTeacher(); //模糊查询讲师
+            saveTeacher();//保存讲师
+        });
+    })(jQuery,undefined);
+</script>
+</html>

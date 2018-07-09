@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
     <title>商户打款结算详情</title>
+    <style>
+        .urgent_box{
+            display: inline-block;
+            position: relative;
+            width: 64px;
+            margin-left: 18px;
+        }
+        .urgent{
+            position: absolute;
+            top: -32px;
+        }
+    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -338,7 +350,11 @@
                                     <div class="capital_amount">({{this.cn_totalCharge}})</div>
                                 </div>
                                 {{/if}}
-
+                                {{#if (this.urgent_type === 1) }}
+                                    <div class="urgent_box">
+                                        <div class="urgent urgent_newStore">新店加急</div>
+                                    </div>
+                                {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
                                     {{#if (reqParams.list_type === '1') }}
                                     {{#if (root.verifyCode(1493)) }}

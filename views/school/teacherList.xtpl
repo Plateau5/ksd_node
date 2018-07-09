@@ -1,0 +1,200 @@
+<!-- 讲师列表页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
+    <title>培训-讲师列表</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+            <!---- Part of slide na End ---->
+
+            <!---- Part of Main info Begin ---->
+            <div id="main" class="main teacher_list">
+                <div class="teacher_content">
+                    {{#if (verifyCode(1538)) }}
+                    <div class="new_btn_box">
+                        <a href="{{markUri}}/school/teacher/create" class="detail_title_btn create_btn create_teacher">新增讲师</a>
+                    </div>
+                    {{/if}}
+                    <form action="{{markUri}}/school/teacher/list" method="post" role='form' style="display: none;">
+                        <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                        <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+                    </form>
+                    <table class="table_list">
+                        <colgroup style="width: 100%;">
+                            <col style="width: 15%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 22%;" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="bolder">讲师姓名</th>
+                                <th class="bolder">讲师类型</th>
+                                <th class="bolder">讲师课程量</th>
+                                <th class="bolder"></th>
+                                {{#if (verifyCode(1537) || verifyCode(1540) || verifyCode(1542)) }}
+                                <th class="bolder operate_lf">操作</th>
+                                {{/if}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#if (count === 0) }}
+                                <tr>
+                                    <td colspan="6" class="no_hover">
+                                        {{include('./../inc/empty_data')}}
+                                    </td>
+                                </tr>
+                            {{else}}
+                                {{#each (list) }}
+                                    <tr>
+                                        <td>
+                                            <div class="inline_block">
+                                                <img src="{{#if (this.image_url) }}
+                                                            {{this.image_url}}
+                                                          {{else}}
+                                                            {{markUri}}/static/img/personIcon.png
+                                                          {{/if}}" alt="" style="width:36px;height:36px;border-radius:50%;vertical-align: middle;" />
+                                            </div>
+                                        </td>
+                                        <td>{{this.name}}</td>
+                                        <td>
+                                            {{#if (this.type === 1) }}
+                                                内部
+                                            {{else}}
+                                                外部
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            {{this.count}}
+                                        </td>
+                                        <td></td>
+                                        <td class="operate_btn operate_lf">
+                                            {{#if (root.verifyCode(1537)) }}
+                                            <a href="javascript:;" title="查看" class="view view_detail" data-id="{{this.lecturer_id}}"></a>
+                                            {{/if}}
+                                            {{#if (root.verifyCode(1540)) }}
+                                            <a href="javascript:;" title="编辑" class="edit edit_teacher" data-id="{{this.lecturer_id}}"></a>
+                                            {{/if}}
+                                            {{#if (root.verifyCode(1542)) }}
+                                            <a href="javascript:;" title="删除" class="delete" data-id="{{this.lecturer_id}}"></a>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            {{/if}}
+                        </tbody>
+                    </table>
+                    <!--分页部分 Begin-->
+                    {{include('./../inc/paginations')}}
+                    <!--分页部分 End-->
+                </div>
+
+            </div>
+            <!---- Part of Main info End ---->
+        </div>
+        <!-------- Part of main End -------->
+    </div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+        //删除讲师
+        function deleteTeacher () {
+            var btn = $('.delete');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                deleteEvent(_this);
+            });
+        }
+        // 删除的提交事件
+        function deleteEvent (t) {
+            var id = $.trim(t.data("id"));
+            var url = contextPath + '/api/school/lecturer/delete';
+            var data = {
+                id : id
+            };
+            dialog('open',{
+                closeBtn : false,
+                title : '删除提醒',
+                content : '确认删除此讲师？',
+                onConfirm : function (d) {
+                    onDeleteConfirm(d);
+                },
+                onCancel : function (d) {
+                    deleteTeacher(d);
+                    d.close();
+                }
+            });
+            var onDeleteConfirm = function (d) {
+                $ajax('post', url, data, function (res) {
+                    if (res.error_code == 0) {
+                        d.close();
+                        $alert('删除成功',function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        d.close();
+                        deleteTeacher();
+                        $alert(res.error_msg);
+                    }
+                }, function () {
+                    d.close();
+                    deleteTeacher();
+                    $alert('删除失败，请稍后重试');
+                });
+            };
+        }
+        //查看讲师详情
+        function viewTeacherDetail () {
+            var btn = $(".view_detail");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/school/teacher/detail",
+                    param : {
+                        lecturer_id : id
+                    }
+                });
+            });
+        }
+        //编辑讲师
+        function editTeacher () {
+            var btn = $(".edit_teacher");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/school/teacher/edit",
+                    param : {
+                        id : id
+                    }
+                });
+            });
+        }
+
+        $(function() {
+            paginationSwitch();// 分页切换
+            deleteTeacher();//删除讲师
+            viewTeacherDetail();//查看讲师详情
+            editTeacher();//编辑讲师
+        });
+    })(jQuery,undefined);
+</script>
+</html>

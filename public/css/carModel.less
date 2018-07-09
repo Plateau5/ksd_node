@@ -1,0 +1,389 @@
+/**
+ * Created by qi on 2018/7/2.
+ */
+@import 'variate';
+.tab{
+  width:100%;
+  margin-top:27px;
+  height:42px;
+  line-height: 42px;
+  border:none;
+  .tab_list{
+    overflow: visible;
+    width:100%;
+    padding-left: 0;
+    border:none ;
+    background-color: #F4F4F4;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    .tab_item{
+      width:116px;
+      height:40px;
+      line-height: 40px;
+      /*transition:none;*/
+      margin-right: 0;
+      &:after{
+        height:4px;
+        top:-4px;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+      }
+      &:hover:after{
+        display: none;
+      }
+    }
+    .active{
+      background-color: #fff;
+      span{
+        position: absolute;
+        width: 116px;
+        height: 6px;
+        left: 0;
+        bottom: -4px;
+        background-color: #fff;
+      }
+      &:hover:after{
+        display: block;
+      }
+    }
+
+  }
+}
+.carModelList{
+    padding-top: 18px;
+    .create_item{
+      height: 34px;
+      line-height: 34px;
+    }
+    .carModel_list{
+      margin-top: 18px;
+      width: 100%;
+      text-align: center;
+      tr{
+        height: 48px;
+        line-height: 48px;
+        th,td{
+          color: @normal-color;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          padding:0 2%;
+        }
+        .logo{
+          vertical-align: middle;
+          width:48px;
+          height:32px;
+        }
+        th:last-child,td:last-child{
+          padding:0 0 0 2%;
+        }
+        th:nth-child(2),td:nth-child(2){
+          padding:0 1%;
+        }
+      }
+      .pd1{
+        padding:0 1%;
+      }
+      thead tr{
+        background: #fafafa;
+        th{
+          font-weight: normal;
+          font-size: 14px;
+        }
+      }
+      .operate_btn{
+        .view,.edit,.delete{
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          background: url("../img/operation_small_icon.png") no-repeat;
+          vertical-align: middle;
+        }
+        .edit{
+          background-position: 0 -662px;
+        }
+        .edit:hover{
+          background-position: 0 -686px;
+        }
+
+      }
+    }
+}
+.carModelList table.normal tr:hover{
+  background: #F0FFFE;
+  cursor: pointer;
+}
+.new_brand{
+    padding-top: 20px;
+    .row_item{
+
+        margin-bottom: 10px;
+        min-height:30px;
+        overflow: hidden;
+        .row_title{
+          width: 10%;
+          height: 30px;
+          line-height: 30px;
+          text-align: left;
+        }
+        .row_val{
+          width: 85%;
+          line-height: 30px;
+          .item_name{
+            width: 370px;
+            height: 28px;
+            border: 1px solid #e4e4e4;
+            padding: 0 14px;
+            font-size: 12px;
+          }
+          .photo_box{
+            padding: 8px 0 12px;
+              .user_photo {
+                width: 90px;
+                height: 60px;
+                border: none;
+                vertical-align: middle;
+                overflow: hidden;
+              }
+          }
+          .detail_title_btn{
+              padding: 0 10px 2px 20px;
+              &:before{
+                left: 0;
+              }
+          }
+        }
+    }
+    .edit_photo_box{
+        min-height:120px;
+    }
+
+}
+
+
+.option_item select{
+  width: 400px;
+  height: 30px;
+  border: 1px solid #e4e4e4;
+  padding: 0 10px;
+  color: #333;
+}
+/*下拉框*/
+.searchbox {
+  position: relative;
+  z-index: 1;
+  clear: both;
+  width: 400px;
+  height: 30px;
+  border: 1px solid #cacaca;
+  .import {
+    width: 288px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: -8px;
+    margin-left: 70px;
+    padding-left: 12px;
+    border: none;
+    outline: none;
+  }
+  .btn_search {
+    position: absolute;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    background: url('../img/icon_search_default.png') center no-repeat;
+    border: 0;
+    cursor: pointer;
+    &:hover{
+      background: url('../img/icon_search_hover.png') center no-repeat;
+    }
+  }
+  /*.search_input{
+    height: 30px;
+    line-height: 30px;
+  }*/
+}
+.mod_select {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 70px;
+  border-right:1px solid #cacaca;
+
+  .select_box {
+    position: relative;
+    width: 70px;
+    height: 30px;
+    cursor: pointer;
+    /*&:hover{
+      .select_txt{
+        color:#1DC6BC;
+      }
+      .select_icon{
+        border-top: 5px solid #1DC6BC;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+    }*/
+    .select_txt {
+      display: inline-block;
+      height: 30px;
+      padding-left: 16px;
+      overflow: hidden;
+      line-height: 30px;
+      font-size: 12px;
+      cursor: pointer;
+      &:hover{
+        color:#1DC6BC;
+        &:after{
+          border-top: 5px solid #1DC6BC;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+        }
+      }
+    }
+    .select_icon:after {
+      position: absolute;
+      top: 13px;
+      right: 16px;
+      content: '';
+      border-top: 5px solid #333;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      -ms-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
+    }
+    /*.select_icon_up:after {
+      position: absolute;
+      top: 13px;
+      right: 16px;
+      content: '';
+      border-left: 5px solid transparent;  !* 左边框的宽 *!
+      border-right: 5px solid transparent; !* 右边框的宽 *!
+      border-bottom: 5px solid #333; !* 下边框的长度|高,以及背景色 *!
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      -ms-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
+
+    }*/
+    .option {
+      display: none;
+      position: absolute;
+      top: 30px;
+      left: -1px;
+      width: 70px;
+      background-color: #fff;
+      border: 1px solid #cacaca;
+      border-top: 0;
+      li{
+        padding-left: 16px;
+        font-size: 12px;
+        line-height: 30px;
+        cursor: pointer;
+        &:hover{
+          color:#1DC6BC;
+        }
+      }
+    }
+  }
+}
+/*******************公用上传头像 start*******************/
+.upload_photo_dialog{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin:auto;
+  z-index: 10003;
+  width:700px;
+  height: 580px;
+  padding: 40px 60px;
+  background: #FFFFFF;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  .upload_photo_title{
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 40px;
+    font-size: 18px;
+    text-align: center;
+  }
+  .original_photo,.thumbnail_photo{
+    float: left;
+    img{
+      vertical-align: middle;
+    }
+  }
+  .original_photo{
+    width: 302px;
+    height: auto;
+    .large_photo{
+      width: 300px;
+      height: 300px;
+      border: 1px solid red;
+      vertical-align: top;
+    }
+  }
+  .thumbnail_photo{
+    width:270px;
+    height: auto;
+    .small_photo{
+      width: 90px;
+      height: 60px;
+      margin: 100px auto 0;
+      overflow: hidden;
+    }
+    .thumbnail_text{
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      color: #7c858e;
+      letter-spacing: 1px;
+    }
+  }
+  .tips_msg{
+    height: 30px;
+    line-height: 30px;
+    text-align:  center;;
+    color: #bababa;
+  }
+  .upload_btn_box{
+    margin-top: 10px;
+    text-align: center;
+    .choose_img{
+      width: 60px;
+      height: 14px;
+      line-height: 14px;
+      border:none;
+      &:hover{
+        background: #fff;
+        color:#0B9C94 !important;
+      }
+    }
+  }
+  .btn_box{
+    margin-top: 10px;
+    margin-left: 0;
+    padding: 0;
+    text-align: center;
+    .submit_upload{
+      margin-right: 52px;
+      /*border-radius: 4px;*/
+    }
+    /*.cancel_upload{
+      border-radius: 4px;
+    }*/
+  }
+}
+/*******************公用上传头像 end*******************/
