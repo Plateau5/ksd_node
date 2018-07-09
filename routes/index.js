@@ -33,7 +33,7 @@ router.get(markUri + '/logout', homeCtrl.LOGIN_PAGE);
 router.get(markUri + '/login', homeCtrl.LOGIN_PAGE);
 // 登录提交
 router.post(markUri + '/login', homeCtrl.LOGIN_CONTROL);
-router.post(markUri + '/api/supplier/records/check', homeCtrl.TEST);
+
 
 // 首页访问路由
 router.get(markUri + '/home', homeCtrl.VIEW_HOME_DATA);
