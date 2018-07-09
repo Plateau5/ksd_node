@@ -97,7 +97,7 @@ exports.API_MESSAGE_GETNOTICE = function(req, res, next) {
         }
     }, req, res, next);
 };
-exports.API_MESSAGE_GETNOTICE = function(req, res, next) {
+exports.TEST = function(req, res, next) {
     var url = "/api/supplier/records/check";
     common.publicForApi({
         url : url
