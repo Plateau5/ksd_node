@@ -70,7 +70,7 @@
         //确定按钮的点击事件逻辑
         function returnSubmit () {
             disabled(".submit_confirm", "click", returnSubmit);//禁用按钮
-            var url = "http://127.0.0.1:8898/api/supplier/records/check";
+            var url = contextPath + markUri+ "/api/supplier/records/check";
             var data = new FormData(document.getElementById("returnResult"));
             $.ajax({
                 type : "post",

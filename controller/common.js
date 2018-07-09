@@ -250,7 +250,7 @@ exports.publicForApi = function(url, req, res, next) {
     var body = req.body;
     try {
         this.httpRequest({
-            url : apiServerPath + url,
+            url : 'http://127.0.0.1:8898' + url,
             formData : body
         }, function (result) {
             var data = result;

@@ -97,3 +97,16 @@ exports.API_MESSAGE_GETNOTICE = function(req, res, next) {
         }
     }, req, res, next);
 };
+exports.API_MESSAGE_GETNOTICE = function(req, res, next) {
+    var url = "/api/supplier/records/check";
+    common.publicForApi({
+        url : url
+    }, function (result) {
+        var data = result;
+        if (data.error_code === 0) {
+            res.send(data);
+        } else {
+            res.send(data);
+        }
+    }, req, res, next);
+};
