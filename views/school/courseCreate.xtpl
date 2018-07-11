@@ -399,6 +399,10 @@
                     $('#upload_video_form')[0].reset();
                     return false;
                 }
+                var M_600 = 600*1024*1024;//600M
+                if (M_600 < videoFile.size) {
+                    uploadType = 2;
+                }
                 $('.upload_video').hide();
                 $('.upload_audio').hide();
                 $('.upload_process').show();
