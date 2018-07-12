@@ -712,12 +712,12 @@
                 filesSize : 5,
                 imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
                 needThumbnails : false,
-                callback : function (btn, file) {
-                    onChoose(btn, file);
+                callback : function (btn, file, success) {
+                    onChoose(btn, file, success);
                 }
             });
             // 上传逻辑
-            var onChoose = function (btn, file) {
+            var onChoose = function (btn, file, success) {
                 var type = $.trim(btn.data('type'));
                 var data = file;
                 var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名

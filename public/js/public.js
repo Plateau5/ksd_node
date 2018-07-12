@@ -1818,6 +1818,7 @@ function fileUpload (opt) {
                     /*fileCount++;*/
                     t.data('file_num' , fileNum);
                 } else {
+                    options.callback && options.callback(t, fileValue, success);    // 回传点击的按钮
                     return;
 
                 }
@@ -1828,35 +1829,35 @@ function fileUpload (opt) {
                     }else if (fileCount == options.maxCount) {
                         if (success) {
                             btn.addClass("disabled");
-                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                            options.callback && options.callback(t, fileValue, success);    // 回传点击的按钮
                         } else {
                             // fileCount--;
                         }
                         // btn.addClass("disabled");
-                        // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        // options.callback && options.callback(t, fileValue, success);    // 回传点击的按钮
                         // fileCount--;
                     } else {
                         btn.removeClass("disabled");
                         if (success) {
                             that.append(inputFile);
-                            options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                            options.callback && options.callback(t, fileValue, success);    // 回传点击的按钮
                         } else {
                             targetFile.remove();
                             that.append(inputFile);
                             fileCount--;
-                            // options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                            // options.callback && options.callback(t, fileValue, success);    // 回传点击的按钮
                         }
                     }
                 } else {
                     btn.removeClass("disabled");
                     if (success) {
                         that.append(inputFile);
-                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue, success);    // 回传点击的按钮
                     } else {
                         targetFile.remove();
                         that.append(inputFile);
                         fileCount--;
-                        options.callback && options.callback(t, fileValue);    // 回传点击的按钮
+                        options.callback && options.callback(t, fileValue, success);    // 回传点击的按钮
                     }
                 }
             });
