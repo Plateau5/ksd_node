@@ -718,6 +718,10 @@
             });
             // 上传逻辑
             var onChoose = function (btn, file, success) {
+                if (!success) {
+                    $alert('上传文件格式不正确');
+                    return false;
+                }
                 var type = $.trim(btn.data('type'));
                 var data = file;
                 var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
