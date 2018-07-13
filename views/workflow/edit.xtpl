@@ -73,8 +73,9 @@
                             <div class="column_val">
                                 {{#each (city_list) }}
                                     <div class="form_group">
-                                        {{#if (vo.applyto_city.indexOf(this.id) !== -1) }}
-                                            <input type="checkbox"checked="checked" class="apply_city" name="applyto_city" value="{{this.id}}" />
+                                        {{set (term = vo.applyto_city.split(',')) }}
+                                        {{#if (term.indexOf(this.id.toString()) !== -1) }}
+                                            <input type="checkbox" checked="checked" class="apply_city" name="applyto_city" value="{{this.id}}" />
                                             <label class="checked">{{this.name}}</label>
                                         {{else}}
                                             <input type="checkbox" class="apply_city" name="applyto_city" value="{{this.id}}" />

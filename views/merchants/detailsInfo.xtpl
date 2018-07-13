@@ -7,18 +7,6 @@
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
     <title>商户打款结算详情</title>
-    <style>
-        .urgent_box{
-            display: inline-block;
-            position: relative;
-            width: 64px;
-            margin-left: 18px;
-        }
-        .urgent{
-            position: absolute;
-            top: -32px;
-        }
-    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -344,16 +332,14 @@
                                 </div>
                                 <div class="loan_time_detail mar_left_20">{{this.create_time}}</div>
                                 {{#if (this.total_charge || this.total_charge === 0) }}
-                                <div class="total_receipts">
+                                <div class="total_receipts lf">
                                     <div class="receipt_name">收款总额：</div>
                                     <div class="amount">{{this.total_charge}}&nbsp;元</div>
                                     <div class="capital_amount">({{this.cn_totalCharge}})</div>
                                 </div>
                                 {{/if}}
                                 {{#if (this.urgent_type === 1) }}
-                                    <div class="urgent_box">
-                                        <div class="urgent urgent_newStore">新店加急</div>
-                                    </div>
+                                        <span class="urgent urgent_newStore lf" style="margin:14px 0 0 18px;">新店加急</span>
                                 {{/if}}
                                 <div class="order_btn_box pay_operate_btn text_right">
                                     {{#if (reqParams.list_type === '1') }}

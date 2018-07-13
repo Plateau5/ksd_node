@@ -376,7 +376,7 @@
                         </div>
                     </div>
                     <div class="add_btn">
-                        <div style="margin-top:50px;margin-bottom:50px;margin-left:10%;">
+                        <div style="margin-top:50px;margin-bottom:50px;margin-left:12%;">
                             <input type="button" id="add_btn_n" class="submit_btn_n cursor" value="发布"/>
                             <input type="button" style="margin-left:30px;" id="add_btn_y" class="submit_btn_y cursor" value="保存到仓库"/>
                         </div>
@@ -691,14 +691,18 @@
             fileUpload({
                 maxCount : 5,
                 filesSize : 5,
-                imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
+                fileFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
                 needThumbnails : false,
-                callback : function (btn, file) {
-                    onChoose(btn, file);
+                callback : function (btn, file, success) {
+                    onChoose(btn, file, success);
                 }
             });
             // 上传逻辑
-            var onChoose = function (btn, file) {
+            var onChoose = function (btn, file, success) {
+                if (!success) {
+                    $alert('上传文件格式不正确');
+                    return false;
+                }
                 var type = $.trim(btn.data('type'));
                 var data = file;
                 var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
