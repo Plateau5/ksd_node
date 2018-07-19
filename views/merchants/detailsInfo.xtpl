@@ -83,13 +83,14 @@
                                     <div class="account_row"><div class="account_name">开户行：</div>
                                         <div class="account_value merchant_name">{{this.pay_open_bank}}</div>
                                     </div>
-                                    <!--<div class="account_row">-->
-                                        <!--<div class="account_name">总金额：</div>-->
-                                        <!--{{#if (this.total_charge || this.total_charge === 0) }}-->
-                                        <!--<div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}} 元</div>-->
-                                        <!--{{/if}}-->
-                                    <!--</div>-->
+                                    <div class="account_row">
+                                        <div class="account_name">总金额：</div>
+                                        {{#if (this.total_charge || this.total_charge === 0) }}
+                                        <div id="defaultAmount" class="account_value merchant_name">{{this.total_charge}} 元</div>
+                                        {{/if}}
+                                    </div>
                                     <input type="hidden" id="totalCharge" value="{{this.total_charge}}">
+                                    <input type="hidden" id="calcTotalCharge" value="{{this.total_charge}}">
                                 </li>
                             {{/if}}
                         {{/each}}
@@ -344,7 +345,7 @@
                                 <div class="order_btn_box pay_operate_btn text_right">
                                     {{#if (reqParams.list_type === '1') }}
                                     {{#if (root.verifyCode(1493)) }}
-                                    <a href="javascript:" data-btn_type="1" data-responsible="{{this.responsible}}"  class="go_forward audit_btn agree_btn">同意</a>
+                                    <a href="javascript:" data-btn_type="1" data-responsible="{{this.responsible}}" data-amount="{{this.total_charge}}"  class="go_forward audit_btn agree_btn">同意</a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1494)) }}
                                     <a href="javascript:" data-btn_type="2"  data-responsible="{{this.responsible}}" class="go_forward audit_btn disagree_btn">不同意</a>
@@ -540,6 +541,7 @@
                 }
                 var totalAmount = calcCheckedAmount();
                 accountTotalAmount.text(totalAmount + ' 元');
+                $('#calcTotalCharge').val(totalAmount);
             });
 
             orderLabel.on('click', function () {
@@ -556,6 +558,7 @@
                 }
                 var totalAmount = calcCheckedAmount();
                 accountTotalAmount.text(totalAmount + ' 元');
+                $('#calcTotalCharge').val(totalAmount);
             });
 
             function verifyIsCheckAll () {
@@ -571,7 +574,7 @@
             }
 
         }
-    //賬戶下拉展示
+        //账户下拉展示
         function down_menu () {
             var dropDown = $(".drop_down");
             var detailMenu = $(".detail_menu");
@@ -764,6 +767,7 @@
             var agreeBtn = $('.pay_operate_btn .audit_btn');
             agreeBtn.off('click').on('click', function () {
                 var _this = $(this);
+                var totalAmount = _this.data('amount').number();         // 当前订单放款总金额
                 var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
                 var ids = '';
                 var nextUrl = '';
@@ -772,7 +776,7 @@
                 var index = responsible .lastIndexOf(",");
                 var str  = responsible .substring(index + 1, responsible .length);  // 获取审批流最后一个id
                 if (btnType === 1) {
-                    if (str == uid) {
+                    if (str == uid && totalAmount > 0) {
                         nextUrl = '/loan/toLoanAgree';
                     } else {
                         nextUrl = '/loan/agree';
@@ -809,8 +813,10 @@
         // 批量放款跳转同意不同意页面
         function toBatchAuditPage () {
             var batchAgreeBtn = $('.batch_all');
+            var totalAmountE = $('#calcTotalCharge');        // 选中的订单总金额
             batchAgreeBtn.off('click').on('click', function () {
                 var _this = $(this);
+                var totalAmount = totalAmountE.val().trim().number();         // 当前订单放款总金额
                 var btnType = _this.data('btn_type');       // 按钮的操作类型  1-同意 2-不同意 3-转交
                 var ids = '';
                 var nextUrl = '';
@@ -846,7 +852,7 @@
                 if (loanIdArr === '' && approvalIdArr === '') {
                     $alert('最少选择一个订单后再做处理');
                     return false;
-                }else if (loanIdArr !== '' && approvalIdArr !== '') {
+                }else if (loanIdArr !== '' && approvalIdArr !== '') {   // 有放款单、有审批单
                     if (btnType === 1) {
                         dialog("open", {
                             closeBtn : false,
@@ -879,7 +885,11 @@
                             },
                             onCancel : function (d) {
                                 d.close();
-                                toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
+                                if (totalAmount > 0) {
+                                    toAgreeUrl = contextPath + markUri + '/loan/toLoanAgree';
+                                } else {
+                                    toAgreeUrl = contextPath + markUri + '/loan/agree';
+                                }
                                 locationTo({
                                     action : toAgreeUrl,
                                     param : {
@@ -924,13 +934,18 @@
                             }
                         });
                     }
-                } else {
-                    if (loanIdArr === '' && approvalIdArr !== '') {
+                } else {    // 全是审批或是全是放款
+                    if (loanIdArr === '' && approvalIdArr !== '') {    // 全部是审批的
                         toAgreeUrl = contextPath + markUri + nextUrl;
                         ids = approvalIdArr;
-                    }else if(loanIdArr !== '' && approvalIdArr === ''){
+                    }else if(loanIdArr !== '' && approvalIdArr === ''){    // 全部是放款的
                         if (btnType === 1) {
-                            nextUrl = '/loan/toLoanAgree';
+                            // 当放款总额不为0才能直接跳转银行打款页
+                            if (totalAmount > 0) {
+                                nextUrl = '/loan/toLoanAgree';
+                            } else {
+                                nextUrl = '/loan/agree';
+                            }
                         } else if (btnType === 2) {
                             nextUrl = '/loan/disagree';
                         } else if (btnType === 3) {
