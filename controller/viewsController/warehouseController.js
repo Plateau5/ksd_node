@@ -75,7 +75,7 @@ exports.VIEW_GPS_APPLY_CONFIRM = function(req, res, next) {
         data.applicant = param.applicant;   // 申请人
         data.gps_ids = param.gps_ids;       // 确认发送的gps
         data.delGps_ids = param.delGps_ids;     // 删除发送的GPS
-        if (param.gps_ids === '') {
+        if (param.gps_ids === '' || param.gps_ids === undefined) {
             data.title = '仓库管理-不同意';
             res.render('./gps/applyDisagree', data);
         } else if (param.receive_type === "1") {  // 当面交付
