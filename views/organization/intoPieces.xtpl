@@ -191,7 +191,10 @@
         var isVerify = false;//提交的标志位
         function submitEvent (btn) {
             btn.off('click');
-            validateEmpty();
+            var flag = validateEmpty();
+            if (!flag) {
+                return false;
+            }
             if (isVerify) {
                 var data_use = $('.data_use');
                 var organization_id = $('#organization_id').val();
