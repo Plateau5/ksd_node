@@ -1,0 +1,521 @@
+<!--GPS列表-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/gpsList.css">
+    <title>GPS管理-GPS列表</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main gps_listinfos">
+            <div class="tab">
+                <ul id="gps_tab" class="tab_list inline_block">
+                    <li class="tab_item type_normal {{#if (startWith(markUri + '/gps/list')) }}active{{/if}}" data-type="0" data-url="{{markUri}}/gps/list" style="border-left:0px;"><span></span>GPS列表</li>
+                    <li class="tab_item type_others {{#if (startWith(markUri + '/gps/warehouse/list')) }}active{{/if}}" data-type="1" data-url="{{markUri}}/gps/warehouse/list"><span></span>仓库管理</li>
+                    <li class="tab_item type_others {{#if (startWith(markUri + '/gps/apply/list')) }}active{{/if}}" data-type="2" data-url="{{markUri}}/gps/apply/list"><span></span>GPS申请</li>
+                </ul>
+            </div>
+            {{#if (startWith(markUri + '/gps/list')) }}
+            <div class="gps_list">
+                <form action="" method="post" role="form">
+                    <div class="filtrate border_filtrate">
+                        <div class="date_conditions">
+                            <div class="inline_block">
+                                <div class="conditions_name inline_block filtrate_city">库存状态：</div>
+                                <select name="" class="filtrate_select">
+                                    <option value="">全部</option>
+                                    <option value="">北京</option>
+                                </select>
+                            </div>
+                            <div class="select_city_div inline_block">
+                                <div class="conditions_name inline_block">城市：</div>
+                                <input type="hidden" name="city_ids" class="city_ids" value="{{condition.city_ids}}">
+                                <input type="text" class="select_city_input cursor" name=""  value="全部" placeholder="请选择城市" readonly/>
+                            </div>
+                            <div class="inline_block">
+                                <div class="conditions_name inline_block filtrate_city">类型：</div>
+                                <select name="" class="filtrate_select">
+                                    <option value="">全部</option>
+                                    <option value="">北京</option>
+                                </select>
+                            </div>
+                            <div class="inline_block">
+                                <div class="conditions_name inline_block filtrate_city">标签：</div>
+                                <select name="" class="filtrate_select">
+                                    <option value="">全部</option>
+                                    <option value="">北京</option>
+                                </select>
+                            </div>
+                            <div class="inline_block">
+                                <div class="conditions_name inline_block filtrate_audit_type">使用人：</div>
+                                <div class="search_box inline_block order_search_box">
+                                    <input type="hidden" name="create_id" value="" id="orderCreatorId" class="filtrate_input">
+                                    <input type="text" id="createName" name="create_name" value="" placeholder="销售姓名" class="filtrate_input fuzzy_search" autocomplete="off" readonly="readonly">
+                                    <em class="del_icon"></em>
+                                    <div class="search_result" style="display: none;">
+                                        <div class="search_input">
+                                            <input class="customer_search" type="text">
+                                        </div>
+                                        <ul class="search_list">
+                                            <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                                <div class="name">
+                                                    <span class="nowrap">王聚全王聚全</span>
+                                                    <em class="resignation"></em>
+                                                </div>
+                                                <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                            </li>
+                                            <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                                <div class="name">
+                                                    <span class="nowrap">王聚全</span>
+                                                </div>
+                                                <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                            </li>
+                                            <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                                <div class="name">
+                                                    <span class="nowrap">王聚全</span>
+                                                    <em class="resignation"></em>
+                                                </div>
+                                                <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                            </li>
+                                            <li class="res_item" data-id="71772" data-name="王聚全" title="wangjq@jizhicar.com">
+                                                <div class="name">
+                                                    <span class="nowrap">王聚全王聚全</span>
+                                                </div>
+                                                <div class="p_dep nowrap">wangjq@jizhicar.com</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sn_div inline_block">
+                                <div class="conditions_name inline_block">SN码：</div>
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="" />
+                            </div>
+
+                            <div class="btn_box text_right">
+                                <a href="javascript:" class="btn bg_btn cancel customer_search_cancel">清空</a>
+                                <a href="javascript:" class="btn orange_btn confirm customer_search_confirm">筛选</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="detail_btn_box left">
+                    <span>共5000条数据</span>
+                    <div class="rf">
+                        <a href="javascript:" id="" class="detail_title_btn storage_btn">入库</a>
+                        <a href="javascript:" id="" class="detail_title_btn download_btn">下载</a>
+                    </div>
+                </div>
+                <table class="normal">
+                    <colgroup style="width: 100%;">
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col style="width: 10%;" />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <th>SN码</th>
+                        <th>类型</th>
+                        <th>机构</th>
+                        <th>标签</th>
+                        <th>入库日期</th>
+                        <th>城市</th>
+                        <th>使用人</th>
+                        <th>领用日期</th>
+                        <th>关联客户</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <td title="">白海安</td>
+                        <td title="">新车</td>
+                        <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
+                        <td title="">45</td>
+                        <td title="">白海安</td>
+                        <td title="">新车</td>
+                        <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
+                        <td title="">45</td>
+                        <td title="">45</td>
+                        <td class="operate_btn">
+                            <a href="javascript:;" data-url="" title="编辑" class="edit go_forward"></a>
+                            <a href="javascript:;" data-url="" title="删除" class="delete go_forward"></a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            {{/if}}
+            {{#if (startWith(markUri + '/gps/warehouse/list')) }}
+            <div class="warehouse_list">
+                <form action="" method="post" role="form">
+                    <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                    <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+                </form>
+                {{#if (count === 0) }}
+                    {{#if (verifyCode(1281)) }}
+                        <div class="no_workflow">
+                            <div class="toast_text">目前还没有仓库，尝试建造一个吧</div>
+                            <div class="new_btn_box">
+                                <a href="{{markUri}}/gps/warehouse/create" class="btn blue_btn add_btn"><em></em>新建仓库</a>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{else}}
+                    <div class="new_btn_box">
+                        <a href="{{markUri}}/gps/warehouse/create" class="detail_title_btn create_btn" style="line-height: 90px;">新建仓库</a>
+                    </div>
+                    <table class="normal">
+                        <colgroup style="width: 100%;">
+                            <col style="width: 25%;" />
+                            <col style="width: 30%;" />
+                            <col style="width: 30%;" />
+                            <col />
+                        </colgroup>
+                        <tr>
+                            <th>机构</th>
+                            <th>库存量</th>
+                            <th>预警库存</th>
+                            <th>操作</th>
+                        </tr>
+                        {{#each (list) }}
+                        <tr>
+                            <td title="">{{this.name }}</td>
+                            <td title="">{{this.inventory}}</td>
+                            <td title="">
+                                {{#if (this.warning) }}
+                                    {{this.warning}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td class="operate_btn">
+                                <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
+                                <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                {{/if}}
+            </div>
+            {{/if}}
+            {{#if (startWith(markUri + '/gps/apply/list')) }}
+            <div class="gpsApplication_list">
+                <div class="deal_tog">
+                    <span>处理情况：</span>
+                    <select class="deal_type">
+                        <option value="">待处理</option>
+                        <option value="">已处理</option>
+                    </select>
+                </div>
+                <table class="normal">
+                    <colgroup style="width: 100%;">
+                        <col style="width: 20%;" />
+                        <col style="width: 20%;" />
+                        <col style="width: 20%;" />
+                        <col style="width: 20%;" />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <th>申请人</th>
+                        <th>申请时间</th>
+                        <th>处理时间</th>
+                        <th>处理人</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <td title="">白海安</td>
+                        <td title="">新车</td>
+                        <td title="">新车</td>
+                        <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
+                        <td class="operate_btn">
+                            <a href="javascript:;" data-url="" title="处理申请" class="view go_forward"></a>
+                            <a href="javascript:;" data-url="" title="查看" class="view go_forward"></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {{/if}}
+            {{include('./../inc/paginations')}}
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+
+</div>
+</body>
+{{include('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    /*var city_list = '{{{city_list}}}';//所有城市
+    city_list = JSON.parse(city_list);
+    var condition_city_list = '{{{condition_city_list}}}';//回显城市
+    if (condition_city_list == '') {
+        condition_city_list = [];
+    } else {
+        condition_city_list = JSON.parse(condition_city_list);
+    }*/
+    (function ($) {
+        /**
+         * tab标签的切换
+         * @author  Plateau  2018年7月23日11:11:51
+         * @description 根据用户点击的tab页控制显示隐藏来实现切换
+         * */
+        function switchTab (tab_item) {
+            var btn = $(tab_item);
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var localUrl = _this.attr("data-url");
+                locationTo({
+                    action : contextPath + localUrl,
+                    param : {}
+                })
+            });
+        }
+        /**************************GPS列表页  start**********************************/
+        /**
+         * 筛选条件中的选择城市
+         * @author  Plateau  2018年7月23日13:44:48
+         * @param city_list: 城市数据；
+         * @param condition_city_list : 回显城市数据；
+         * @param dataType数据类型：1-两级数据、2-三级数据
+         * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
+         * */
+        function getSelectedCitys () {
+            $('.select_city_input').citySelect({
+                data : city_list,
+                defaultData : condition_city_list,
+                dataType : 1,
+                type : 2
+            }, function (data) {
+                var cityArr = [];
+                var cityName = '';
+                if (data) {
+                    for (var i = 0,leni = data.length;i < leni;i++) {
+                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                            if (i == 0 && j == 0) {
+                                cityName = data[i].city_list[j].name;
+                            }
+                            cityArr.push(data[i].city_list[j].id);
+                        }
+                    }
+                    if (cityArr.length != 0) {
+                        $('.city_ids').val(cityArr.join(','));
+                        if (cityArr.length == 1){
+                            $('.select_city_input').val(cityName);
+                        } else {
+                            $('.select_city_input').val(cityName + '等' + cityArr.length + '个城市');
+                        }
+                    } else {
+                        $('.city_ids').val('');
+                        $('.select_city_input').val('全部');
+                    }
+                }
+            });
+        }
+        //模糊查询
+        var hideInput = $('#orderCreatorId');
+        var btn = $('#createName');
+        var resBox = $(".search_result");
+        var resItem = $(".res_item");
+        var resList = $(".search_list");
+        function fuzzySearch () {
+            btn.off('click').on('click', function (e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                var _this = $(this);
+                resBox.show();
+                $('.customer_search').focus();
+                $('.customer_search').on('input',function(e){
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var val = $.trim($(this).val());
+                    resList.html('');
+                    if (val) {
+                        resList.show();
+                        var queryObj = fuzzyQuery(emp_list);
+                        showSearchResult(queryObj);
+                        selectedCreate();
+                    } else{
+                        resList.hide();
+                    }
+                });
+                $(document).on('click',function (e) {
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var target = $(ev.target);
+                    var parent = target.parents('.search_result');
+                    if (target.hasClass('search_result')) {
+                        return false;
+                    } else if (parent.length <= 0) {
+                        resBox.hide().find('.search_list').html('').end().find('.customer_search').val('');
+                        resList.hide();
+                        return true;
+                    } else {
+                        return true;
+                    }
+                })
+            });
+
+            // 订单所属人选中逻辑
+            var selectedCreate = function () {
+                $('.search_result .res_item').on('click', function () {
+                    var _this = $(this);
+                    var createId = $.trim(_this.data('id'));
+                    var createName = $.trim(_this.data('name'));
+                    var orderCreatorId = $.trim(_this.data('id'));
+                    $('.customer_search').val(createName);
+                    btn.val(createName);
+                    hideInput.val(orderCreatorId);
+                    resBox.hide();
+
+                });
+            }
+        }
+        // 订单所属人的模糊查询功能
+        function fuzzyQuery (res) {
+            var queryStr = $.trim($('.customer_search').val()),
+                queryArr = queryStr.split(""),
+                data = res,
+                resArr;
+            if(queryStr) {
+                for (var i = 0, len = queryArr.length; i < len; i++) {
+                    resArr = [];
+                    for (var k = 0; k < data.length; k++) {
+                        if (data[k].name.indexOf(queryArr[i]) != -1) {
+                            resArr.push(data[k]);
+                        }
+                    }
+                    data = resArr;
+                }
+                return resArr;
+            }
+        }
+        //创建模糊查询结果展示并绑定事件
+        function showSearchResult (res) {
+            var html = [];
+            if (res == undefined || res.length == 0 || res.length == undefined) {
+                return $('.search_list').html('<li style="text-align: center;">没有匹配到任何结果</li>');
+            } else {
+                for (var i = 0, len = res.length; i < len; i++) {
+                    var str = '';
+                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '">\
+                                <div class="name nowrap">' + res[i].name + '</div>\
+                                <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
+                            </li>'
+                    html.push(str);
+                    $('.search_list').html(html.join(""));
+                    var orderId = '';
+
+                }
+            }
+        }
+        function delName () {
+            $('.del_icon').off('click').on('click', function () {
+                $('.customer_search').val('');
+                hideInput.val('');
+                btn.val('');
+                resBox.hide();
+            })
+        }
+        /**************************GPS列表页  end**********************************/
+
+        /**************************仓库管理列表页  start**********************************/
+        /**
+         * 点击仓库编辑按钮后的跳转逻辑
+         * @author  Plateau  2018年7月23日13:19:14
+         * */
+        function showOrgProducts () {
+            var btn = $(".edit_store");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/edit",
+                    param : {
+                        warehouse_id : id
+                    }
+                });
+            });
+        }
+
+        /**
+         * 删除GPS仓库按钮的点击事件
+         * @author  Plateau  2018年7月23日13:25:42
+         * */
+        function deleteOrg () {
+            var delBtn = $(".delete_store");
+            delBtn.each(function () {
+                var t = $(this);
+                t.off("click").on("click", function () {
+                    var warehouse_id = $.trim($(this).data("id"));
+                    var data = {
+                        warehouse_id : warehouse_id
+                    };
+                    dialog('open', {
+                        title : '删除提醒',
+                        content : '<div style="padding: 40px 0 20px;line-height:30px;"><span style="color: #808692;font-size: 14px;">删除后此GPS下的库存也将删除，删除后将不可恢复，</span><br><span>确认继续删除？</span></div>',
+                        onConfirm : function (d) {
+                            delConfirm(data, d);
+                        }
+                    })
+                });
+            });
+            //确定删除
+            function delConfirm (datas, d) {
+                var data = datas;
+                var url  = contextPath + "/api/gps/warehouse/delete";
+                $ajax('post',url, data, function (req) {
+                    var res = eval(req);
+                    if (res.error_code == 0) {
+                        d.close();
+                        $alert('删除成功', function () {
+                            window.location.reload();
+                        });
+                    }else {
+                        d.close();
+                        $alert(res.error_msg);
+                    }
+                }, function () {
+                    d.close();
+                    $alert('删除失败，请稍后重试');
+                });
+            }
+        }
+        /**************************仓库管理列表页  end**********************************/
+
+        /**************************GPS申请列表页  start**********************************/
+
+        /**************************GPS申请列表页  end**********************************/
+
+        $(function() {
+            switchTab('#gps_tab .tab_item');//标签页切换
+            // getSelectedCitys();//筛选条件中的城市
+            fuzzySearch(); //模糊查询订单所属人
+            delName (); // 删除订单所属人
+
+            showOrgProducts();//编辑仓库跳转
+            deleteOrg();//删除仓库
+        });
+    })(jQuery,undefined);
+</script>
+</html>

@@ -14,14 +14,80 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
 /**
  * GPS部分
  */
+
+// 业务-车型库侧导航跳转
+exports.VIEW_GPS_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1563, req)) {
+            res.redirect(markUri + '/gps/list');
+        } else if (common.checkPrivilege(1558, req)) {
+            res.redirect(markUri + '/gps/warehouse/list');
+        }  else if (common.checkPrivilege(1554, req)) {
+            res.redirect(markUri + '/gps/apply/list');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1554 | 1558 | 1563  is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// GPS列表页跳转
+exports.VIEW_LIST = function(req, res, next) {
+    /*common.getPageData({
+        url : '/api/gps/warehouse/toList',
+        title : '仓库管理-GPS仓库列表',
+        page : './gps/gpsList'
+    }, req, res, next);*/
+    var data = {};
+    data.title = '仓库管理-新建行政仓库';
+    data.originUrl = req.originalUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    res.render('./gps/gpsList', data);
+};
+// 仓库管理列表页跳转
+exports.VIEW_WAREHOUSE_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/gps/warehouse/toList',
+        title : '仓库管理-GPS仓库列表',
+        page : './gps/gpsList'
+    }, req, res, next);
+};
+// GPS申请列表页跳转
+exports.VIEW_APPLY_LIST = function(req, res, next) {
+    /*common.getPageData({
+        url : '/api/gps/warehouse/toList',
+        title : '仓库管理-GPS仓库列表',
+        page : './gps/gpsList'
+    }, req, res, next);*/
+    var data = {};
+    data.title = '仓库管理-新建行政仓库';
+    data.originUrl = req.originalUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    res.render('./gps/gpsList', data);
+};
+
+
+
+
+
+
+
+
+
+
 // GPS仓库列表页跳转 1280
-exports.VIEW_GPS_LIST = function(req, res, next) {
+/*exports.VIEW_GPS_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toList',
         title : '仓库管理-GPS仓库列表',
         page : './gps/warehouseList'
     }, req, res, next);
-};
+};*/
 // GPS仓库-创建GPS仓库跳转 1281
 exports.VIEW_GPS_CREATE = function(req, res, next) {
     common.getPageData({
