@@ -1,0 +1,107 @@
+<!--GPS仓库编辑-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/gpsList.css">
+    <title>GPS管理-GPS仓库编辑</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main gps_editinfo">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/gps/list" class="crumbs_item">GPS仓库</a>
+                <a href="javascript:;" class="crumbs_item">修改</a>
+            </div>
+            <div class="form_options create_options">
+                <form action="" class="gps_edit">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">城市：</span>
+                        </div>
+                        <div class="column_val select_city_div">
+                            <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
+                            <!-- <em class="city_icon"></em>-->
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">类型：</span>
+                        </div>
+                        <div class="column_val">
+                            <div class="form_group mar6">
+                                <input id="internal" type="radio" class="internal" name="teacher_type" value="0" checked/>
+                                <label for="internal">有线</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="external" type="radio" class="external" name="teacher_type" value="1" />
+                                <label for="external">无线</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item external_teacher">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">标签：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="type" class="" id="org_type">
+                                <option value="0">请选择</option>
+                                <option value="1">融资租赁</option>
+                                <option value="2">银行</option>
+                                <option value="3">信托</option>
+                                <option value="4">汽车金融</option>
+                                <option value="5">担保公司</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item external_teacher">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">SN码：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="sn_txt" name="" placeholder="SN码" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="btn_box clearfix create_wf_btn_box">
+                <a href="javascript:;" class="btn orange_btn confirm create_confirm">确认</a>
+                <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+
+</div>
+</body>
+{{include('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+
+
+        $(function () {
+
+        })
+
+    })(jQuery,undefined);
+</script>
+</html>

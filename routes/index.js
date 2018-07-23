@@ -355,12 +355,14 @@ router.post(markUri + '/question/merchants/historyRecord', questionCtrl.VIEW_QUE
 
 //业务-GPS仓库侧导航跳转
 router.get(markUri + '/gps/system', warehouseCtrl.VIEW_GPS_SYSTEM);
-//业务-GPS列表页跳转 1554
+//业务-GPS列表页跳转
 router.all(markUri + '/gps/list', warehouseCtrl.VIEW_LIST);
-//业务-仓库管理列表页跳转 1558
+//业务-仓库管理列表页跳转
 router.all(markUri + '/gps/warehouse/list', warehouseCtrl.VIEW_WAREHOUSE_LIST);
-//业务-GPS申请列表页跳转 1563
+//业务-GPS申请列表页跳转
 router.all(markUri + '/gps/apply/list', warehouseCtrl.VIEW_APPLY_LIST);
+//业务-GPS编辑页跳转
+router.post(markUri + '/gps/edit', warehouseCtrl.VIEW_EDIT);
 
 /*// GPS仓库列表页跳转 1280
 router.all(markUri + '/gps/warehouse/list', warehouseCtrl.VIEW_GPS_LIST);*/

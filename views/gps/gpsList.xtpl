@@ -39,7 +39,7 @@
                 <div class="detail_btn_box left">
                     <span>共5000条数据</span>
                     <div class="rf">
-                        <a href="javascript:" class="detail_title_btn storage_btn">入库</a>
+                        <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn">入库</a>
                         <a href="javascript:" class="detail_title_btn download_btn">下载</a>
                     </div>
                 </div>
@@ -79,8 +79,8 @@
                         <td title="">45</td>
                         <td title="">45</td>
                         <td class="operate_btn">
-                            <a href="javascript:;" data-url="" title="编辑" class="edit go_forward"></a>
-                            <a href="javascript:;" data-url="" title="删除" class="delete go_forward"></a>
+                            <a href="javascript:;" data-url="" title="编辑" data-id="" class="gpsEdit edit go_forward"></a>
+                            <a href="javascript:;" data-url="" title="删除" data-id=""  class="delete go_forward"></a>
                         </td>
                     </tr>
                 </table>
@@ -366,6 +366,40 @@
                 resBox.hide();
             })
         }
+        /**
+         * 跳转新增入库页面
+         * @author  Plateau  2018年7月23日17:09:59
+         * */
+        function goPutIn () {
+            var btn = $('.storage_btn');
+            btn.on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + '/gps/warehouse/putin',
+                    param : {
+                        warehouse_id : id
+                    }
+                })
+            });
+        }
+        /**
+         * 跳转编辑gps页面
+         * @author  Plateau  2018年7月23日17:48:11
+         * */
+        function goGpsEdit () {
+            var gpsEdit = $('.gpsEdit');
+            gpsEdit.off('click').on('click', function () {
+                var _this = $(this);
+                var id = _this.data('id');
+                locationTo({
+                    action : contextPath + markUri + '/gps/edit',
+                    param : {
+                        warehouse_id : id
+                    }
+                })
+            })
+        }
         /**************************GPS列表页  end**********************************/
 
         /**************************仓库管理列表页  start**********************************/
@@ -454,6 +488,8 @@
             // getSelectedCitys();//筛选条件中的城市
             fuzzySearch(); //模糊查询订单所属人
             delName (); // 删除订单所属人
+            goPutIn();//跳转新增入库
+            goGpsEdit();//跳转编辑gps
 
             showOrgProducts();//编辑仓库跳转
             deleteOrg();//删除仓库

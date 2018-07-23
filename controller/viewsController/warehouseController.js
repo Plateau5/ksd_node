@@ -70,7 +70,14 @@ exports.VIEW_APPLY_LIST = function(req, res, next) {
     data.domain = domain;
     res.render('./gps/gpsList', data);
 };
-
+//业务-GPS编辑页跳转
+exports.VIEW_EDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/gps/warehouse/toList',
+        title : '仓库管理-GPS仓库列表',
+        page : './gps/gpsEdit'
+    }, req, res, next);
+};
 
 
 
