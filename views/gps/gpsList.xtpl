@@ -80,7 +80,7 @@
                         <td title="">45</td>
                         <td class="operate_btn">
                             <a href="javascript:;" data-url="" title="编辑" data-id="" class="gpsEdit edit go_forward"></a>
-                            <a href="javascript:;" data-url="" title="删除" data-id=""  class="delete go_forward"></a>
+                            <a href="javascript:;" data-url="" title="删除" data-id=""  class="gpsdel delete go_forward"></a>
                         </td>
                     </tr>
                 </table>
@@ -202,6 +202,7 @@
         condition_city_list = JSON.parse(condition_city_list);
     }*/
     (function ($) {
+        var pageType = {{{condition.inWarehouse}}};//{{condition.inWarehouse}}
         /**
          * tab标签的切换
          * @author  Plateau  2018年7月23日11:11:51
@@ -400,6 +401,52 @@
                 })
             })
         }
+        /**
+         * 删除SN码逻辑
+         * @author  Plateau  2018年7月23日18:45:29
+         * */
+        function deleteSN () {
+            var btn = $('.gpsdel');
+            btn.off('click').on('click', function () {
+                var id = $.trim($(this).data('id'));
+                var url = contextPath + '/api/gps/delete';
+                var data = {
+                    gps_id : id
+                };
+                var delTipMsg = '';
+                if (pageType === 0) {
+                    delTipMsg = '确认删除该记录？';
+                } else if (pageType === 1) {
+                    delTipMsg = '确认删除该记录？删除后领用人将无法使用该GPS。';
+                } else {
+                    delTipMsg = '确认删除该记录？';
+                }
+                dialog('open', {
+                    title : '删除提醒',
+                    content : delTipMsg,
+                    onConfirm : function (d) {
+                        d.close();
+                        $ajax('post', url, data, function(res) {
+                            if (res.error_code == 0) {
+                                $alert('删除成功', function () {
+                                    window.location.reload();
+                                });
+                            } else if (res.error_code == 1022) {
+                                $alert(res.error_msg);
+                            } else {
+                                $alert('网络异常，请稍后重试');
+                                console.info(res.error_msg);
+                            }
+                        }, function () {
+                            $alert('网络异常，请稍后重试');
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
         /**************************GPS列表页  end**********************************/
 
         /**************************仓库管理列表页  start**********************************/
@@ -490,6 +537,7 @@
             delName (); // 删除订单所属人
             goPutIn();//跳转新增入库
             goGpsEdit();//跳转编辑gps
+            deleteSN();//删除SN码
 
             showOrgProducts();//编辑仓库跳转
             deleteOrg();//删除仓库

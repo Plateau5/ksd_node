@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/warehouse.css">
     <title>GPS管理-GPS仓库编辑</title>
 </head>
@@ -101,10 +102,13 @@
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     var city_list = '{{{city_list}}}';
+    city_list = JSON.parse(city_list);
     (function ($) {
+
         var elem = {
             addBtn : $('.add_sn_btn'),
             snList : $('.sn_code_list'),
@@ -303,7 +307,7 @@
         function getSelectedCity () {
             $('.select_city_input').citySelect({
                 data : city_list,
-                defaultData : condition_city_list,
+                defaultData : [],
                 dataType : 1,
                 type : 1
             }, function (data) {
@@ -327,7 +331,7 @@
                         }
                     } else {
                         $('.city_ids').val('');
-                        $('.select_city_input').val('全部');
+                        $('.select_city_input').val('');
                     }
                 }
             });
@@ -338,7 +342,7 @@
             createSNCode();
             deleteSNCode();
             bindSubmitEvent();
-            getSelectedCity//获取选中城市
+            getSelectedCity()//获取选中城市
         })
 
     })(jQuery,undefined);

@@ -124,7 +124,12 @@ exports.VIEW_GPS_PUTIN = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toPutIn',
         title : '仓库管理-GPS入库',
-        page : './gps/warehousePutin'
+        page : './gps/warehousePutin',
+        callback : function (data) {
+            if (data) {
+                data.city_list = JSON.stringify(data.city_list);
+            }
+        }
     }, req, res, next);
 };
 // GPS仓库-GPS仓库-申请单详情页页跳转 1289
