@@ -60,6 +60,14 @@ router.all(markUri + '/customer/loan/passed', customerCtrl.VIEW_CUSTOMER_LOAN_PA
 router.all(markUri + '/customer/loan/unpass', customerCtrl.VIEW_CUSTOMER_LOAN_UNPASS);
 // 客户管理-详情页-贷款管理 1036
 router.post(markUri + '/customer/loan/detail', customerCtrl.VIEW_CUSTOMER_LOAN_DETAIL);
+// 客户管理-详情页-贷款管理-预审信息
+router.post(markUri + '/customer/loan/pretrial/detail', customerCtrl.VIEW_CUSTOMER_PRETRIAL_DETAIL);
+// 客户管理-详情页-贷款管理-预审信息-个人信用报告
+router.post(markUri + '/customer/loan/pretrial/credit', customerCtrl.VIEW_CUSTOMER_PRETRIAL_CREDIT);
+
+
+
+
 // 客户管理-订单分配页面跳转 1022
 router.post(markUri + '/customer/loan/allot', customerCtrl.VIEW_CUSTOMER_LOAN_ALLOT);
 // 客户管理-资料不合格页面跳转 1037
@@ -193,6 +201,12 @@ router.post(markUri + '/customer/otherfund/disagree', customerCtrl.VIEW_CUSTOMER
 // 客户-其他管理-待审批-转交他人页面 1336
 router.post(markUri + '/customer/otherfund/transfer', customerCtrl.VIEW_CUSTOMER_OTHERFUND_TRANSFER);
 
+// 客户-预审管理列表
+router.all(markUri + '/customer/pretrial/list', customerCtrl.VIEW_CUSTOMER_PRETRIAL_LIST);
+// 客户-预审管理-预审信息详情
+router.post(markUri + '/customer/pretrial/detail', customerCtrl.VIEW_CUSTOMER_PRETRIAL_DETAIL);
+// 客户-预审管理-预审信息-个人信用报告
+router.post(markUri + '/customer/pretrial/credit', customerCtrl.VIEW_CUSTOMER_PRETRIAL_CREDIT);
 
 
 // 商户-商户管理-主导航跳转 1366

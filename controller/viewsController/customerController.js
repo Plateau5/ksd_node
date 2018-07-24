@@ -525,12 +525,6 @@ exports.VIEW_CUSTOMER_APPROVAL_SUBMIT = function(req, res, next) {
 };
 
 
-
-
-
-
-
-
 // 客户-回款管理-跳转
 exports.VIEW_CUSTOMER_FINANCIAL_SYSTEM = function(req, res, next) {
     try {
@@ -874,14 +868,33 @@ exports.VIEW_CUSTOMER_OTHERFUND_TRANSFER = function(req, res, next) {
 };
 
 
-
-
-
-
-
-
-
-
+// 客户-预审管理列表
+exports.VIEW_CUSTOMER_PRETRIAL_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/jizhipretrial/getList',
+        title : '预审管理',
+        page : './customer/pretrialList',
+        callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
+        }
+    }, req, res, next);
+};
+// 客户-预审管理-预审信息详情
+exports.VIEW_CUSTOMER_PRETRIAL_DETAIL = function(req, res, next) {
+    common.getPageData({
+        url : '/api/jizhipretrial/getDetail',
+        title : '预审信息详情',
+        page : './customer/pretrialDetail'
+    }, req, res, next);
+};
+// 客户-预审管理-预审信息-个人信用报告
+exports.VIEW_CUSTOMER_PRETRIAL_CREDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/jizhipretrial/getReport',
+        title : '个人信用报告',
+        page : './customer/pretrialCredit'
+    }, req, res, next);
+};
 
 
 

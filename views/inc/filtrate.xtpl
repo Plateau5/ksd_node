@@ -20,6 +20,14 @@
             <input type="text" id="end_pigeonhole_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input"  value="{{condition.end_pigeonhole_time}}" placeholder="请选择日期"  name="end_pigeonhole_time"/>
         </div>
         {{/if}}
+        {{#if(startWith(markUri + '/customer/pretrial/list'))}}
+        <div class="filtrate_item inline_block">
+            <div class="conditions_name inline_block filtrate_audit_type">提交时间：</div>
+            <input type="text" id="start_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input" value="{{condition.start_time}}" placeholder="请选择日期" name="start_time"/> <span style="color:#D8D8D8">—</span>
+            <input type="text" id="end_time" readonly="readonly" class="filtrate_input filtrate_date archiving_time customer_select_input"  value="{{condition.end_time}}" placeholder="请选择日期"  name="end_time"/>
+        </div>
+        {{/if}}
+        {{#if(startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/pigeonhole' + ' || ' + markUri + '/customer/otherfund'))}}
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_city">地点筛选：</div>
             <select name="city_id" class="filtrate_select city_select customer_select" id="city_id">
@@ -33,6 +41,7 @@
                 {{/each}}
             </select>
         </div>
+        {{/if}}
         {{#if(startWith(markUri + '/customer/pigeonhole/pending'))}}
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">状态：</div>
@@ -111,6 +120,7 @@
         </div>
         {{/if}}
 
+        {{#if(startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/pigeonhole' + ' || ' + markUri + '/customer/otherfund'))}}
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_city">机构筛选：</div>
             <select name="organization_id" class="filtrate_select city_select customer_select" id="organization_id">
@@ -124,6 +134,7 @@
                 {{/each}}
             </select>
         </div>
+        {{/if}}
 
         <!-- 客服主管已通过列表页筛选条件 Begin -->
         {{#if (risk_list.length >= 0) }}
@@ -142,10 +153,36 @@
         </div>
         {{/if}}
 
+        {{#if(startWith(markUri + '/customer/pretrial/list'))}}
+        <div class="filtrate_item inline_block">
+            <div class="conditions_name inline_block filtrate_audit_type">预审状态：</div>
+            <select name="status" class="filtrate_select risk_type_select customer_select" id="status">
+                <option value="">全部</option>
+                {{#if(condition.status === 2)}}
+                <option value="2" selected="selected">已评估</option>
+                {{else}}
+                <option value="2">已评估</option>
+                {{/if}}
+                {{#if(condition.status === 3)}}
+                <option value="3" selected="selected">已进件</option>
+                {{else}}
+                <option value="3">已进件</option>
+                {{/if}}
+            </select>
+        </div>
+        {{/if}}
+
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">客户姓名：</div>
             <input type="text" class="filtrate_text" name="user_name" placeholder="请输入客户姓名" value="{{condition.user_name}}" />
         </div>
+
+        {{#if(startWith(markUri + '/customer/pretrial/list'))}}
+        <div class="filtrate_item inline_block">
+            <div class="conditions_name inline_block filtrate_audit_type">手机：</div>
+            <input type="text" class="filtrate_text" name="phone" id="phone" maxlength="11" placeholder="请输入手机号码" value="{{condition.phone}}" />
+        </div>
+        {{/if}}
 
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">订单所属人：</div>

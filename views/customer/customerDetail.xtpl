@@ -68,6 +68,7 @@
                 <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
                 <input type="hidden" name="present_id" value="{{present_id}}" id="present_id">
                 <input type="hidden" name="responsible" value="{{vo.responsible}}" id="responsible">
+                <input type="hidden" name="jizhi_preId" value="{{vo.jizhi_preId}}" id="preId">
 
 
                 <!--本次提交材料-->
@@ -737,10 +738,32 @@
             });
         }
 
+        function toPretrialDetail () {
+            var btn = $(".toPretrialDetail");
+            btn.off('click').on('click', function () {
+                var preId = $("#preId").val();
+                var navigation = $('#navigation').val();
+                var nodeUrl = $('#nodeUrl').val();
+                var financeId =$('#finance_id').val();
+                var advance_id = $('#advance_id').val();
+                locationTo({
+                    action : contextPath + markUri + '/customer/loan/pretrial/detail',
+                    param : {
+                        pre_id : 1,
+                        navigation : navigation,
+                        url : nodeUrl,
+                        finance_id : financeId,
+                        advance_id : advance_id
+                    }
+                });
+            });
+        }
+
         $(function () {
             if( queryType === 4 ){
                 deliveryNumber(); // 根据单号获取物流信息
             }
+            toPretrialDetail();     // 跳转预审详情
             toHistoryList();        // 跳转历史订单
             viewLargeImage('#img_list');       // 查看大图
             viewLargeImage('.log_item');

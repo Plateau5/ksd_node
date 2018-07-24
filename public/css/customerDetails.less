@@ -205,6 +205,15 @@
         font-size: 12px;
         color: @active-color;
     }
+    .pretrial_title{
+        height: 40px;
+        line-height: 40px;
+        font-size: 12px;
+        color: @active-color;
+        &:hover{
+            color: @font-hover-color;
+        }
+    }
     .classify_content{
         width: 100%;
         .items_list{
@@ -628,5 +637,90 @@
     cursor: default;
     &:before{
         background-position: -64px -551px;
+    }
+}
+
+/********** 预审详情 start **********/
+.pretrial_details{
+    padding : 0px 0 20px;
+    position: relative;
+    .credit{
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 10px;
+        padding-left: 24px;
+        height: 30px;
+        color: @active-color;
+        line-height: 30px;
+        z-index:99;
+        &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            top: 8px;
+            left: 4px;
+            width:18px;
+            height: 20px;
+            vertical-align: middle;
+            background: url(../img/operation_small_icon.png) no-repeat 0 0;
+            background-position: -64px -842px;
+        }
+        &:hover{
+            &:before{
+                content: '';
+                display: block;
+                position: absolute;
+                top: 8px;
+                left: 4px;
+                width:18px;
+                height: 20px;
+                vertical-align: middle;
+                background: url(../img/operation_small_icon.png) no-repeat 0 0;
+                background-position: -64px -862px;
+            }
+            color: @font-hover-color;
+        }
+    }
+    .pretrial_desc{
+        .detail_title{
+            margin-left:10px;
+        }
+    }
+    .details_item{
+        border:none;
+        margin-bottom: 0;
+        .detail_box{
+            border:1px solid #e4e4e4;
+        }
+    }
+}
+/********** 预审详情 end **********/
+
+/********** 信用报告 start **********/
+.person_type{
+    margin-top:20px;
+    li{
+        font-size:12px;
+        line-height: 16px;
+        color:#666;
+    }
+}
+.credit_info{
+    margin-top:20px;
+    .credit_info_title{
+        font-size: 14px;
+        line-height: 30px;
+        color: #333;
+    }
+    li{
+        line-height: 20px;
+        color:#666;
+    }
+    .font_high_color{
+        color: #333;
+    }
+    .red{
+        color: #EA4B5F;
     }
 }

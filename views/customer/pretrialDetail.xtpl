@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerDetails.css">
+    <title>{{title}}</title>
+    {{include ('./../inc/jsSources')}}
+    <script src="{{markUri}}/static/js/finance/img_detail.js"></script>
+    <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                {{#if(startWith(markUri + '/customer/loan/pretrial/detail'))}}
+                    <a href="{{markUri}}/customer/loan/pendingAllot" class="crumbs_item">贷款管理</a>
+                    <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                    <a href="javascript:;" class="crumbs_item">查看资料</a>
+                    <a href="javascript:;" class="crumbs_item">预审信息</a>
+                {{elseif (startWith(markUri + '/customer/pretrial/detail')) }}
+                    <a href="{{markUri}}/customer/pretrial/list" class="crumbs_item">预审管理</a>
+                    <a href="javascript:;" class="crumbs_item">预审信息</a>
+                {{/if}}
+            </div>
+
+            <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
+            <input type="hidden" id="nodeUrl" value="{{reqParams.url}}">
+            <input type="hidden" id="financeId" value="{{reqParams.finance_id}}">
+            <input type="hidden" id="advance_id" value="{{reqParams.advance_id}}">
+            <input id="reportNo" value="{{vo.report_no}}" name="report_no" type="hidden">
+            <input id="preId" value="{{vo.id}}" name="pre_id" type="hidden">
+
+            <!-- 预审信息详情 -->
+            <div class="details_content">
+                <div class="pretrial_details">
+                    <a href="javascript:;" class="credit">查看个人信用报告</a>
+                    <div class="pretrial_desc">
+                        <!-- 基本信息部分 Begin -->
+                        <div class="details_item base_info">
+                            <div class="detail_title">基本信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{vo.name}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{vo.phone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{vo.id_num}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">住址：</div>
+                                                <div class="item_value long_text">{{vo.address}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">婚姻状况：</div>
+                                                <div class="item_value">
+                                                    {{#if (vo.is_marry  === 0) }}
+                                                    未婚、离婚或丧偶
+                                                    {{elseif (vo.is_marry  === 1) }}
+                                                    已婚
+                                                    {{/if}}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 基本信息部分 End -->
+                        <!-- 配偶信息部分 Begin -->
+                        <div class="details_item base_info">
+                            <div class="detail_title">配偶信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{vo.spouse_name}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{vo.spouse_phone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{vo.spouse_idnum}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 配偶信息部分 End -->
+                        <!-- 工作信息部分 Begin -->
+                        <div class="details_item base_info">
+                            <div class="detail_title">工作信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">是否有工作：</div>
+                                                <div class="item_value">
+                                                    {{#if (vo.is_havejob  === 0) }}
+                                                        否
+                                                    {{elseif (vo.is_havejob  === 1) }}
+                                                        是
+                                                    {{/if}}
+                                                </div>
+                                            </li>
+                                            {{#if (vo.workunit) }}
+                                            <li class="item_row">
+                                                <div class="item_name">工作单位：</div>
+                                                <div class="item_value">{{vo.workunit}}</div>
+                                            </li>
+                                            {{/if}}
+                                            {{#if (vo.job) }}
+                                            <li class="item_row">
+                                                <div class="item_name">岗位：</div>
+                                                <div class="item_value">{{vo.job}}</div>
+                                            </li>
+                                            {{/if}}
+                                            <li class="item_row">
+                                                <div class="item_name">月收入：</div>
+                                                <div class="item_value">{{vo.income}}元</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">月支出：</div>
+                                                <div class="item_value">{{vo.spending}}元</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 工作信息部分 End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+</body>
+<script>
+    (function ($) {
+        function credit () {
+            var btn = $(".credit");
+            btn.off('click').on('click', function () {
+                var reportNo = $("#reportNo").val().trim();
+                var preId = $("#preId").val().trim();
+                var navigation = $("#navigation").val().trim();
+                var url = "";
+                if (navigation) {
+                    url = contextPath + markUri + '/customer/loan/pretrial/credit';
+                } else {
+                    url = contextPath + markUri + '/customer/pretrial/credit';
+                }
+                locationTo({
+                    action : url,
+                    param : {
+                        report_no : reportNo,
+                        pre_id : preId,
+                        ctype : 1
+                    }
+                });
+            });
+        }
+        $(function() {
+            credit();
+        });
+    })(jQuery,undefined);
+</script>
+</html>

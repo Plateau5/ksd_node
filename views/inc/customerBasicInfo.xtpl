@@ -1,7 +1,14 @@
 <!-- 客户进件资料 -->
 <div class="detail_box clearfix" >
 	<div class="classify_item location">
-			<div class="classify_title">客户信息</div>
+			<div class="classify_title">
+				客户信息
+				{{#if(startWith(markUri + '/customer/loan/detail'))}}
+
+					<a href="javascript:;" class="pretrial_title toPretrialDetail mar_left_20">(预审信息)</a>
+
+				{{/if}}
+			</div>
 			<div class="btn_box customer_btn_box">
 				{{#if (url === markUri + '/customer/loan/passed')}}
 					{{#if (verifyCode(1522)) }}
