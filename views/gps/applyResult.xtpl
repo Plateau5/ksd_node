@@ -23,34 +23,51 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main deal_detail">
             <div class="crumbs_nav">
-                <a href="javascript:;" data-id="{{status}}" class="crumbs_item">GPS仓库</a>
+                <a href="javascript:;" data-id="{{status}}" class="go_apply_list crumbs_item">GPS仓库</a>
                 <a href="javascript:;" class="crumbs_item">查看处理记录</a>
             </div>
             <div class="apply_detail">
                 <div class="basic_info">
                     <div class="row_item">
                         <div class="row_title">申请人：</div>
-                        <div class="row_val">刘洋</div>
+                        <div class="row_val">{{vo.applicant}}</div>
                     </div>
                     <div class="row_item">
                         <div class="row_title">申请数量：</div>
-                        <div class="row_val">20</div>
+                        <div class="row_val">{{vo.count}}</div>
                     </div>
                     <div class="row_item">
                         <div class="row_title">领取方式：</div>
-                        <div class="row_val">当面交付</div>
+                        <div class="row_val">
+                            {{#if (vo.receive_type === 1) }}
+                                当面交付
+                            {{elseif (vo.receive_type === 2) }}
+                                快递邮寄（{{vo.receiver}}，手机号：{{vo.receiver}}）
+                            {{/if}}
+                        </div>
                     </div>
                     <div class="row_item">
                         <div class="row_title">领取时间：</div>
-                        <div class="row_val">2018-06-08</div>
+                        <div class="row_val">{{vo.receive_time}}</div>
                     </div>
+                    {{#if (vo.receive_type === 1) }}
                     <div class="row_item">
                         <div class="row_title">领取人：</div>
-                        <div class="row_val">刘洋</div>
+                        <div class="row_val">{{vo.receiver}}</div>
+                    </div>
+                    {{elseif (vo.receive_type === 2) }}
+                    <div class="row_item">
+                        <div class="row_title">快递公司：</div>
+                        <div class="row_val">{{vo.express}}</div>
                     </div>
                     <div class="row_item">
+                        <div class="row_title">快递号：</div>
+                        <div class="row_val">{{vo.express_code}}</div>
+                    </div>
+                    {{/if}}
+                    <div class="row_item">
                         <div class="row_title">备注：</div>
-                        <div class="row_val">已发送</div>
+                        <div class="row_val">{{vo.remark}}</div>
                     </div>
                 </div>
                 <table class="normal">
@@ -84,6 +101,10 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         /**
          * 面包屑跳转
          * @author Plateau  2018年7月24日13:54:34
@@ -95,9 +116,7 @@
                 var id = $.trim(_this.data('id'));
                 locationTo({
                     action : contextPath + markUri + "/gps/apply/list",
-                    param : {
-                        status : id
-                    }
+                    param : reqParamsStr
                 })
             });
         }

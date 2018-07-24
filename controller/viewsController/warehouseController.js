@@ -48,6 +48,7 @@ exports.VIEW_LIST = function(req, res, next) {
                 data.city_list = JSON.stringify(data.city_list);
                 data.condition_city_list = JSON.stringify(data.condition_city_list);
                 data.emp_list = JSON.stringify(data.emp_list);
+                data.reqParamsStr = JSON.stringify(data.reqParams);
             }
         }
     }, req, res, next);
@@ -57,7 +58,12 @@ exports.VIEW_WAREHOUSE_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toList',
         title : '仓库管理-GPS仓库列表',
-        page : './gps/gpsList'
+        page : './gps/gpsList',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
     }, req, res, next);
 };
 // GPS申请列表页跳转
@@ -65,7 +71,12 @@ exports.VIEW_APPLY_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/applyList',
         title : '仓库管理-GPS仓库列表',
-        page : './gps/gpsList'
+        page : './gps/gpsList',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
     }, req, res, next);
 };
 //业务-GPS编辑页跳转
@@ -83,6 +94,7 @@ exports.VIEW_EDIT = function(req, res, next) {
                 }
                 data.city_list = JSON.stringify(data.city_list);
                 data.condition_city_list = JSON.stringify(data.condition_city_list);
+                data.reqParamsStr = JSON.stringify(data.reqParams);
                 if (data.vo.label_id) {
                     for (var i = 0, len = data.label_list.length; i < len; i++) {
                         if (data.label_list[i].id == data.vo.label_id) {
@@ -100,7 +112,12 @@ exports.VIEW_GPS_APPLY_RESULT = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toList',
         title : '仓库管理-GPS仓库列表',
-        page : './gps/applyResult'
+        page : './gps/applyResult',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
     }, req, res, next);
 };
 
@@ -140,7 +157,12 @@ exports.VIEW_GPS_EDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toEdit',
         title : '仓库管理-编辑GPS仓库',
-        page : './gps/warehouseEdit'
+        page : './gps/warehouseEdit',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
     }, req, res, next);
 };
 // GPS仓库-GPS仓库-新增入库页跳转 1283
@@ -161,7 +183,12 @@ exports.VIEW_GPS_APPLY_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/toApplyDetail',
         title : '仓库管理-GPS申请详情',
-        page : './gps/applyDetail'
+        page : './gps/applyDetail',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
     }, req, res, next);
 };
 // GPS仓库-GPS仓库-申请单-确认按钮点击跳转

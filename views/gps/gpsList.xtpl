@@ -261,6 +261,11 @@
     if (emp_list.length > 0 ){
         emp_list = JSON.parse(emp_list);
     }
+
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
     (function ($) {
         var pageType = '{{{condition.inWarehouse}}}';//{{condition.inWarehouse}}
         /**
@@ -477,13 +482,13 @@
             gpsEdit.off('click').on('click', function () {
                 var _this = $(this);
                 var id = _this.data('id');
-                var status = _this.data('status');
+                var params = {
+                    id : id
+                };
+                var data = Object.extend(params, reqParamsStr);
                 locationTo({
                     action : contextPath + markUri + '/gps/edit',
-                    param : {
-                        id : id,
-                        status : status
-                    }
+                    param : data
                 })
             })
         }
@@ -545,11 +550,13 @@
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var id = $.trim(t.data("id"));
+                var params = {
+                    warehouse_id : id
+                };
+                var data = Object.extend(params, reqParamsStr);
                 locationTo({
                     action : contextPath + markUri + "/gps/warehouse/edit",
-                    param : {
-                        warehouse_id : id
-                    }
+                    param : data
                 });
             });
         }
@@ -623,12 +630,14 @@
                 var t = $(this);
                 var id = $.trim(t.data("id"));
                 var status = $.trim($('.apply_type').val());
+                var params = {
+                    gps_apply_id : id,
+                    status : status
+                };
+                var data = Object.extend(params, reqParamsStr);
                 locationTo({
                     action : contextPath + markUri + "/gps/apply/detail",
-                    param : {
-                        gps_apply_id : id,
-                        status : status
-                    }
+                    param : data
                 });
             });
         }
@@ -642,12 +651,14 @@
                 var t = $(this);
                 var id = $.trim(t.data("id"));
                 var status = $.trim($('.apply_type').val());
+                var params = {
+                    id : id,
+                    status : status
+                };
+                var data = Object.extend(params, reqParamsStr);
                 locationTo({
                     action : contextPath + markUri + "/gps/apply/result",
-                    param : {
-                        warehouse_id : id,
-                        status : status
-                    }
+                    param : data
                 });
             });
         }

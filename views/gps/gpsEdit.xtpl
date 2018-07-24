@@ -105,10 +105,10 @@
                         </div>
                         <div class="column_val">
                             {{#if (reqParams.status === '3') }}
-                                <input type="text" class="sn_txt" name="" placeholder="SN码" value="{{vo.sn_code}}" maxlength="20"/>
+                                <input type="hidden" class="sn_txt" value="{{vo.sn_code}}"/>
                                 {{vo.sn_code}}
                             {{else}}
-                                <input type="text" class="sn_txt" name="" placeholder="SN码" value="{{vo.sn_code}}" maxlength="20"/>
+                                <input type="text" class="sn_txt" placeholder="SN码" value="{{vo.sn_code}}" maxlength="20"/>
                             {{/if}}
                         </div>
                     </div>
@@ -137,6 +137,11 @@
         var condition_city_list = '{{{condition_city_list}}}';//回显城市
         if (condition_city_list.length > 0 ) {
             condition_city_list = JSON.parse(condition_city_list);
+        }
+
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
         }
         /**
          * 筛选条件中的选择城市
@@ -241,7 +246,7 @@
                         $alert('修改成功', function () {
                             locationTo({
                                 action : contextPath + markUri + '/gps/list',
-                                param : {}
+                                param : reqParamsStr
                             });
                         })
                     } else {

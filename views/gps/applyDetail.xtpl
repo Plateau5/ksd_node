@@ -25,7 +25,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/gps/apply/list" class="crumbs_item">GPS仓库</a>
+                <a href="javascript:;" class="go_apply_list crumbs_item">GPS仓库</a>
                 <a href="javascript:;" class="crumbs_item">处理申请</a>
             </div>
             <div class="apply_detail">
@@ -124,6 +124,10 @@
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         var finalResult = [];
         var delResult = [];
         // 初始化获取自动分配的gps
@@ -230,6 +234,21 @@
                 });
             }
         }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年7月24日13:54:34
+         * */
+        function goApplyList () {
+            var btn = $('.go_apply_list');
+            btn.on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + "/gps/apply/list",
+                    param : reqParamsStr
+                })
+            });
+        }
 
         $(function () {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
@@ -237,6 +256,7 @@
             checkSN();
             bindSendEvent();
             getChangeSN();//更换SN码
+            goApplyList();//面包屑跳转
         })
     })(jQuery,undefined);
 </script>

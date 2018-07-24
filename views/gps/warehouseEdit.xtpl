@@ -74,6 +74,10 @@
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         var elem = {
             tagsList : $('.tags_list'),
             warn : $('#warn_inventory'),
@@ -240,7 +244,11 @@
                 $ajax('post', url, data, function(res) {
                     if (res.error_code == 0) {
                         $alert('编辑成功', function () {
-                            window.location.href = contextPath + markUri + '/gps/warehouse/list';
+                            locationTo({
+                                action : contextPath + markUri + '/gps/warehouse/list',
+                                param : reqParamsStr
+                            });
+                            // window.location.href = contextPath + markUri + '/gps/warehouse/list';
                         });
                     } else {
                         $alert(res.error_msg);
