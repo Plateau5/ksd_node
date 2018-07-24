@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     {{include('./../inc/cssSources')}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/gpsList.css">
     <title>GPS管理-GPS列表</title>
 </head>
@@ -37,7 +38,7 @@
                     {{include('./../inc/filtrateBusiness')}}
                 </form>
                 <div class="detail_btn_box left">
-                    <span>共5000条数据</span>
+                    <span>共{{count}}条数据</span>
                     <div class="rf">
                         <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn">入库</a>
                         <a href="javascript:" class="detail_title_btn download_btn">下载</a>
@@ -68,23 +69,36 @@
                         <th>关联客户</th>
                         <th>操作</th>
                     </tr>
+                    {{#each (list) }}
                     <tr>
-                        <td title="">白海安</td>
-                        <td title="">新车</td>
-                        <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
-                        <td title="">45</td>
-                        <td title="">白海安</td>
-                        <td title="">新车</td>
-                        <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
-                        <td title="">45</td>
-                        <td title="">45</td>
+                        <td title="{{this.sn_code}}">{{this.sn_code}}</td>
+                        <td title="">
+                            {{#if (this.type === 1) }}
+                                有线
+                            {{else}}
+                                无线
+                            {{/if}}
+                        </td>
+                        <td title="{{this.warehouse_name}}">{{this.warehouse_name}}</td>
+                        <td title="{{this.label_name}}">
+                            {{#if (this.label_name)}}
+                                {{this.label_name}}
+                            {{else}}
+                                - -
+                            {{/if}}
+                        </td>
+                        <td title="{{this.create_time}}">{{this.create_time}}</td>
+                        <td title="{{this.city_name}}">{{this.city_name}}</td>
+                        <td title="{{this.use_name}}">{{this.use_name}}</td>
+                        <td title="{{this.delivery_time}}">{{this.delivery_time}}</td>
+                        <td title="{{this.user_name}}">{{this.user_name}}</td>
                         <td class="operate_btn">
                             <a href="javascript:;" data-url="" title="编辑" data-id="" class="gpsEdit edit go_forward"></a>
                             <a href="javascript:;" data-url="" title="删除" data-id=""  class="gpsdel delete go_forward"></a>
                         </td>
                     </tr>
+                    {{/each}}
                 </table>
-
             </div>
             {{/if}}
             {{#if (startWith(markUri + '/gps/warehouse/list')) }}
@@ -143,7 +157,7 @@
             {{#if (startWith(markUri + '/gps/apply/list')) }}
             <div class="gpsApplication_list">
                 <form action="{{markUri}}/gps/apply/list" method="post" role="form" id="gpsApplyForm">
-                    <input type="hidden" name="type" value="{{type}}" class="apply_type">
+                    <input type="hidden" name="status" value="{{type}}" class="apply_type">
                     <input type="hidden" name="limit" value="{{limit}}" class="limit">
                     <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
                 </form>
@@ -169,16 +183,18 @@
                         <th>处理人</th>
                         <th>操作</th>
                     </tr>
+                    {{#each(list) }}
                     <tr>
-                        <td title="">白海安</td>
-                        <td title="">新车</td>
-                        <td title="">新车</td>
-                        <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
+                        <td title="">{{this.applicant}}</td>
+                        <td title="">{{this.ctime}}</td>
+                        <td title="">{{this.mtime}}</td>
+                        <td title="">{{this.handler}}</td>
                         <td class="operate_btn">
                             <a href="javascript:;" data-url="" title="处理申请" class="apply_icon go_forward"></a>
                             <a href="javascript:;" data-url="" title="查看" class="view go_forward"></a>
                         </td>
                     </tr>
+                    {{/each}}
                 </table>
             </div>
             {{/if}}
@@ -192,17 +208,22 @@
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script>
-    /*var city_list = '{{{city_list}}}';//所有城市
+    var city_list = '{{{city_list}}}';//所有城市
     city_list = JSON.parse(city_list);
     var condition_city_list = '{{{condition_city_list}}}';//回显城市
     if (condition_city_list == '') {
         condition_city_list = [];
     } else {
         condition_city_list = JSON.parse(condition_city_list);
-    }*/
+    }
+    var emp_list = '{{{emp_list}}}';
+    if (emp_list.length > 0 ){
+        emp_list = JSON.parse(emp_list);
+    }
     (function ($) {
-        var pageType = {{{condition.inWarehouse}}};//{{condition.inWarehouse}}
+        var pageType = '{{{condition.inWarehouse}}}';//{{condition.inWarehouse}}
         /**
          * tab标签的切换
          * @author  Plateau  2018年7月23日11:11:51
@@ -348,10 +369,12 @@
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var str = '';
-                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '">\
-                                <div class="name nowrap">' + res[i].name + '</div>\
-                                <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
-                            </li>'
+                    str += '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '"><div class="name"><span class="nowrap">' + res[i].name + '</span>';
+                    if (res[i].status == 0) {
+                        str += '<em class="resignation"></em>';
+                    }
+                    str += '</div><div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
+                            </li>';
                     html.push(str);
                     $('.search_list').html(html.join(""));
                     var orderId = '';
@@ -367,6 +390,28 @@
                 resBox.hide();
             })
         }
+        /**
+         * 筛选清空事件
+         * @author  Plateau  2018年7月24日10:42:24
+         * */
+        function searchGps () {
+            var confirmBtn = $('.customer_search_confirm');
+            var cancelBtn = $('.customer_search_cancel');
+            var listForm = $('form[role="form"]');
+            confirmBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                $("#current_page").val(1);
+                listForm.submit();
+            });
+            cancelBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('');
+                listForm.submit();
+            });
+        };
         /**
          * 跳转新增入库页面
          * @author  Plateau  2018年7月23日17:09:59
@@ -532,9 +577,10 @@
 
         $(function() {
             switchTab('#gps_tab .tab_item');//标签页切换
-            // getSelectedCitys();//筛选条件中的城市
+            getSelectedCitys();//筛选条件中的城市
             fuzzySearch(); //模糊查询订单所属人
             delName (); // 删除订单所属人
+            searchGps();//筛选清空事件
             goPutIn();//跳转新增入库
             goGpsEdit();//跳转编辑gps
             deleteSN();//删除SN码

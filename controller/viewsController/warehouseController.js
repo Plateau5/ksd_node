@@ -34,18 +34,23 @@ exports.VIEW_GPS_SYSTEM = function(req, res, next) {
 };
 // GPS列表页跳转
 exports.VIEW_LIST = function(req, res, next) {
-    /*common.getPageData({
-        url : '/api/gps/warehouse/toList',
+    common.getPageData({
+        url : '/api/gps/list',
         title : '仓库管理-GPS仓库列表',
-        page : './gps/gpsList'
-    }, req, res, next);*/
-    var data = {};
-    data.title = '仓库管理-新建行政仓库';
-    data.originUrl = req.originalUrl;
-    data.markUri = markUri;
-    data.apiServerPath = apiServerPath;
-    data.domain = domain;
-    res.render('./gps/gpsList', data);
+        page : './gps/gpsList',
+        callback : function (data) {
+            if (data) {
+                if (data.condition_city_list) {
+                    if (data.condition_city_list.length != 0) {
+                        data.cityName = data.condition_city_list[0].city_list[0].name;
+                    }
+                }
+                data.city_list = JSON.stringify(data.city_list);
+                data.condition_city_list = JSON.stringify(data.condition_city_list);
+                data.emp_list = JSON.stringify(data.emp_list);
+            }
+        }
+    }, req, res, next);
 };
 // 仓库管理列表页跳转
 exports.VIEW_WAREHOUSE_LIST = function(req, res, next) {
@@ -57,18 +62,11 @@ exports.VIEW_WAREHOUSE_LIST = function(req, res, next) {
 };
 // GPS申请列表页跳转
 exports.VIEW_APPLY_LIST = function(req, res, next) {
-    /*common.getPageData({
-        url : '/api/gps/warehouse/toList',
+    common.getPageData({
+        url : '/api/gps/applyList',
         title : '仓库管理-GPS仓库列表',
         page : './gps/gpsList'
-    }, req, res, next);*/
-    var data = {};
-    data.title = '仓库管理-新建行政仓库';
-    data.originUrl = req.originalUrl;
-    data.markUri = markUri;
-    data.apiServerPath = apiServerPath;
-    data.domain = domain;
-    res.render('./gps/gpsList', data);
+    }, req, res, next);
 };
 //业务-GPS编辑页跳转
 exports.VIEW_EDIT = function(req, res, next) {
