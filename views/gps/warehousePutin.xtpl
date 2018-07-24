@@ -34,7 +34,7 @@
                 <div class="row_item">
                     <div class="row_title"><em class="require_icon">*</em>城市：</div>
                     <div class="row_val select_city_div" id="storeCity">
-                        <input type="hidden" class="city_ids" name="city_ids"  value=""/>
+                        <input type="hidden" class="city_id" name="city_id"  value=""/>
                         <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
                     </div>
                 </div>
@@ -218,7 +218,7 @@
         //获取提交数据
         function getData () {
             var data = {};
-            var city = $('.city_ids').val();
+            var city = $('.city_id').val();
             var tagId = $.trim($('#selectTag option:selected').val());
             var haveLine = $('#haveLine');
             var nohaveLine = $('#nohaveLine');
@@ -315,10 +315,10 @@
             }, function (data) {
                 if (data) {
                     if (data.length != 0) {
-                        $('.city_ids').val(data[0].city_list[0].id);
+                        $('.city_id').val(data[0].city_list[0].id);
                         $('.select_city_input').val(data[0].city_list[0].name);
                     } else {
-                        $('.city_ids').val('');
+                        $('.city_id').val('');
                         $('.select_city_input').val('');
                     }
                 }

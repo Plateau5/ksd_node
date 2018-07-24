@@ -45,11 +45,6 @@ exports.VIEW_LIST = function(req, res, next) {
                         data.cityName = data.condition_city_list[0].city_list[0].name;
                     }
                 }
-                if (data.condition) {
-                    if (data.condition.use_id) {
-
-                    }
-                }
                 data.city_list = JSON.stringify(data.city_list);
                 data.condition_city_list = JSON.stringify(data.condition_city_list);
                 data.emp_list = JSON.stringify(data.emp_list);
@@ -76,9 +71,28 @@ exports.VIEW_APPLY_LIST = function(req, res, next) {
 //业务-GPS编辑页跳转
 exports.VIEW_EDIT = function(req, res, next) {
     common.getPageData({
-        url : '/api/gps/warehouse/toList',
+        url : '/api/gps/inwarehouse/toEdit',
         title : '仓库管理-GPS仓库列表',
-        page : './gps/gpsEdit'
+        page : './gps/gpsEdit',
+        callback : function (data) {
+            if (data) {
+                if (data.condition_city_list) {
+                    if (data.condition_city_list.length != 0) {
+                        data.cityName = data.condition_city_list[0].city_list[0].name;
+                    }
+                }
+                data.city_list = JSON.stringify(data.city_list);
+                data.condition_city_list = JSON.stringify(data.condition_city_list);
+                if (data.vo.label_id) {
+                    for (var i = 0, len = data.label_list.length; i < len; i++) {
+                        if (data.label_list[i].id == data.vo.label_id) {
+                            data.vo.label_name = data.label_list[i].warehouse_name + data.label_list[i].label_name;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }, req, res, next);
 };
 //业务-GPS编辑页跳转
@@ -86,7 +100,7 @@ exports.VIEW_GPS_APPLY_RESULT = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toList',
         title : '仓库管理-GPS仓库列表',
-        page : './gps/gpsEdit'
+        page : './gps/applyResult'
     }, req, res, next);
 };
 
@@ -163,6 +177,7 @@ exports.VIEW_GPS_APPLY_CONFIRM = function(req, res, next) {
         data.applicant = param.applicant;   // 申请人
         data.gps_ids = param.gps_ids;       // 确认发送的gps
         data.delGps_ids = param.delGps_ids;     // 删除发送的GPS
+        data.status = param.status;//当前状态
         if (param.gps_ids === '' || param.gps_ids === undefined) {
             data.title = '仓库管理-不同意';
             res.render('./gps/applyDisagree', data);

@@ -23,7 +23,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main deal_detail">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/gps/apply/list" class="crumbs_item">GPS仓库</a>
+                <a href="javascript:;" data-id="{{status}}" class="crumbs_item">GPS仓库</a>
                 <a href="javascript:;" class="crumbs_item">查看处理记录</a>
             </div>
             <div class="apply_detail">
@@ -84,10 +84,26 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
-
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年7月24日13:54:34
+         * */
+        function goApplyList () {
+            var btn = $('.go_apply_list');
+            btn.on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + "/gps/apply/list",
+                    param : {
+                        status : id
+                    }
+                })
+            });
+        }
 
         $(function () {
-
+            goApplyList();//面包屑跳转
         })
 
     })(jQuery,undefined);
