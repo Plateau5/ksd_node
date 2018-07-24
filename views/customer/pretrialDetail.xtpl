@@ -26,7 +26,7 @@
                 {{#if(startWith(markUri + '/customer/loan/pretrial/detail'))}}
                     <a href="{{markUri}}/customer/loan/pendingAllot" class="crumbs_item">贷款管理</a>
                     <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
-                    <a href="javascript:;" class="crumbs_item">查看资料</a>
+                    <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
                     <a href="javascript:;" class="crumbs_item">预审信息</a>
                 {{elseif (startWith(markUri + '/customer/pretrial/detail')) }}
                     <a href="{{markUri}}/customer/pretrial/list" class="crumbs_item">预审管理</a>
@@ -164,6 +164,18 @@
 </body>
 <script>
     (function ($) {
+        function toOrderDetail() {
+            var btn = $(".toOrderDetail");
+            btn.off('click').on('click', function () {
+                var financeId = $("#financeId").val();
+                locationTo({
+                    action : contextPath + markUri + '/customer/loan/detail',
+                    param : {
+                        finance_id : financeId
+                    }
+                });
+            });
+        }
         function credit () {
             var btn = $(".credit");
             btn.off('click').on('click', function () {
@@ -187,7 +199,8 @@
             });
         }
         $(function() {
-            credit();
+            credit();       //跳转个人信用报告
+            toOrderDetail();    //跳转客户详情页
         });
     })(jQuery,undefined);
 </script>
