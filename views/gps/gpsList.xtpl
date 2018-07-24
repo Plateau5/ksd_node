@@ -69,35 +69,45 @@
                         <th>关联客户</th>
                         <th>操作</th>
                     </tr>
-                    {{#each (list) }}
-                    <tr>
-                        <td title="{{this.sn_code}}">{{this.sn_code}}</td>
-                        <td title="">
-                            {{#if (this.type === 1) }}
-                                有线
-                            {{else}}
-                                无线
-                            {{/if}}
-                        </td>
-                        <td title="{{this.warehouse_name}}">{{this.warehouse_name}}</td>
-                        <td title="{{this.label_name}}">
-                            {{#if (this.label_name)}}
-                                {{this.label_name}}
-                            {{else}}
-                                - -
-                            {{/if}}
-                        </td>
-                        <td title="{{this.create_time}}">{{this.create_time}}</td>
-                        <td title="{{this.city_name}}">{{this.city_name}}</td>
-                        <td title="{{this.use_name}}">{{this.use_name}}</td>
-                        <td title="{{this.delivery_time}}">{{this.delivery_time}}</td>
-                        <td title="{{this.user_name}}">{{this.user_name}}</td>
-                        <td class="operate_btn">
-                            <a href="javascript:;" data-url="" title="编辑" data-id="" class="gpsEdit edit go_forward"></a>
-                            <a href="javascript:;" data-url="" title="删除" data-id=""  class="gpsdel delete go_forward"></a>
-                        </td>
-                    </tr>
-                    {{/each}}
+                    {{#if (count === 0) }}
+                        <tr>
+                            <td colspan="10" class="no_hover">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
+                    {{else}}
+                        {{#each (list) }}
+                        <tr>
+                            <td title="{{this.sn_code}}">{{this.sn_code}}</td>
+                            <td title="">
+                                {{#if (this.type === 1) }}
+                                    有线
+                                {{else}}
+                                    无线
+                                {{/if}}
+                            </td>
+                            <td title="{{this.warehouse_name}}">{{this.warehouse_name}}</td>
+                            <td title="{{this.label_name}}">
+                                {{#if (this.label_name)}}
+                                    {{this.label_name}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="{{this.create_time}}">{{this.create_time}}</td>
+                            <td title="{{this.city_name}}">{{this.city_name}}</td>
+                            <td title="{{this.use_name}}">{{this.use_name}}</td>
+                            <td title="{{this.delivery_time}}">{{this.delivery_time}}</td>
+                            <td title="{{this.user_name}}">{{this.user_name}}</td>
+                            <td class="operate_btn">
+                                <a href="javascript:;" title="编辑" data-id="{{this.id}}" class="gpsEdit edit go_forward"></a>
+                                {{#if (this.status === 1 || this.status === 2) }}
+                                <a href="javascript:;" title="删除" data-id="{{this.id}}"  class="gpsdel delete go_forward"></a>
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    {{/if}}
                 </table>
             </div>
             {{/if}}
@@ -133,23 +143,31 @@
                             <th>预警库存</th>
                             <th>操作</th>
                         </tr>
-                        {{#each (list) }}
-                        <tr>
-                            <td title="{{this.name }}">{{this.name }}</td>
-                            <td title="">{{this.inventory}}</td>
-                            <td title="">
-                                {{#if (this.warning) }}
-                                    {{this.warning}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td class="operate_btn">
-                                <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
-                                <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
-                            </td>
-                        </tr>
-                        {{/each}}
+                        {{#if (count === 0) }}
+                            <tr>
+                                <td colspan="4" class="no_hover">
+                                    {{include('./../inc/empty_data')}}
+                                </td>
+                            </tr>
+                        {{else}}
+                            {{#each (list) }}
+                            <tr>
+                                <td title="{{this.name }}">{{this.name }}</td>
+                                <td title="">{{this.inventory}}</td>
+                                <td title="">
+                                    {{#if (this.warning) }}
+                                        {{this.warning}}
+                                    {{else}}
+                                        - -
+                                    {{/if}}
+                                </td>
+                                <td class="operate_btn">
+                                    <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
+                                    <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        {{/if}}
                     </table>
                 {{/if}}
             </div>
@@ -157,15 +175,23 @@
             {{#if (startWith(markUri + '/gps/apply/list')) }}
             <div class="gpsApplication_list">
                 <form action="{{markUri}}/gps/apply/list" method="post" role="form" id="gpsApplyForm">
-                    <input type="hidden" name="status" value="{{type}}" class="apply_type">
+                    <input type="hidden" name="status" value="{{condition.status}}" class="apply_type">
                     <input type="hidden" name="limit" value="{{limit}}" class="limit">
                     <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
                 </form>
                 <div class="deal_tog">
                     <span>处理情况：</span>
                     <select class="deal_type">
-                        <option value="1" selected>待处理</option>
-                        <option value="2">已处理</option>
+                        {{#if (condition.status === 0) }}
+                        <option value="0" selected>待处理</option>
+                        {{else}}
+                        <option value="0">待处理</option>
+                        {{/if}}
+                        {{#if (condition.status === 1) }}
+                        <option value="1" selected>已处理</option>
+                        {{else}}
+                        <option value="1">已处理</option>
+                        {{/if}}
                     </select>
                 </div>
                 <table class="normal">
@@ -183,18 +209,29 @@
                         <th>处理人</th>
                         <th>操作</th>
                     </tr>
-                    {{#each(list) }}
-                    <tr>
-                        <td title="">{{this.applicant}}</td>
-                        <td title="">{{this.ctime}}</td>
-                        <td title="">{{this.mtime}}</td>
-                        <td title="">{{this.handler}}</td>
-                        <td class="operate_btn">
-                            <a href="javascript:;" data-url="" title="处理申请" class="apply_icon go_forward"></a>
-                            <a href="javascript:;" data-url="" title="查看" class="view go_forward"></a>
-                        </td>
-                    </tr>
-                    {{/each}}
+                    {{#if (count === 0) }}
+                        <tr>
+                            <td colspan="5" class="no_hover">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
+                    {{else}}
+                        {{#each(list) }}
+                        <tr>
+                            <td title="{{this.applicant}}">{{this.applicant}}</td>
+                            <td title="{{this.create_time}}">{{this.create_time}}</td>
+                            <td title="{{this.apply_time}}">{{this.apply_time}}</td>
+                            <td title="{{this.handler}}">{{this.handler}}</td>
+                            <td class="operate_btn">
+                                {{#if (../condition.status === 0) }}
+                                <a href="javascript:;" data-id="{{this.id}}" title="处理申请" id="applyTo" class="apply_icon go_forward"></a>
+                                {{elseif (../condition.status === 1) }}
+                                <a href="javascript:;" data-id="{{this.id}}" title="查看" id="applyDetail" class="view go_forward"></a>
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    {{/if}}
                 </table>
             </div>
             {{/if}}
@@ -211,14 +248,16 @@
 <script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script>
     var city_list = '{{{city_list}}}';//所有城市
-    city_list = JSON.parse(city_list);
+    if (city_list.length > 0 ) {
+        city_list = JSON.parse(city_list);
+    }
     var condition_city_list = '{{{condition_city_list}}}';//回显城市
     if (condition_city_list == '') {
         condition_city_list = [];
     } else {
         condition_city_list = JSON.parse(condition_city_list);
     }
-    var emp_list = '{{{emp_list}}}';
+    var emp_list = '{{{emp_list}}}';//搜索员工表数据
     if (emp_list.length > 0 ){
         emp_list = JSON.parse(emp_list);
     }
@@ -570,7 +609,40 @@
                 var opt = $.trim(btn.val());
                 $('.apply_type').val(opt);
                 $('#gpsApplyForm').submit();
-                btn.val('');
+            });
+        }
+        /**
+         * 跳转处理申请页面
+         * @author  Plateau  2018年7月24日13:34:14
+         * */
+        function goApplyTo () {
+            var btn = $("#applyTo");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/gps/apply/detail",
+                    param : {
+                        gps_apply_id : id
+                    }
+                });
+            });
+        }
+        /**
+         * 跳转处理结果页
+         * @author  Plateau  2018年7月24日13:35:40
+         * */
+        function goApplyDetail () {
+            var btn = $("#applyDetail");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                locationTo({
+                    action : contextPath + markUri + "/gps/apply/result",
+                    param : {
+                        warehouse_id : id
+                    }
+                });
             });
         }
         /**************************GPS申请列表页  end**********************************/
@@ -589,6 +661,10 @@
             deleteOrg();//删除仓库
 
             togDealInfo();//切换处理情况
+            goApplyTo();//跳转处理申请页面
+            goApplyDetail();//跳转处理结果页
+
+            paginationSwitch();// 分页切换
         });
     })(jQuery,undefined);
 </script>

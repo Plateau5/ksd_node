@@ -34,6 +34,7 @@
                 <div class="row_item">
                     <div class="row_title"><em class="require_icon">*</em>城市：</div>
                     <div class="row_val select_city_div" id="storeCity">
+                        <input type="hidden" class="city_ids" name="city_ids"  value=""/>
                         <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
                     </div>
                 </div>
@@ -55,8 +56,8 @@
                     <div class="row_val">
                         <select name="" id="selectTag">
                             <option value="">全部</option>
-                            {{#each (warehouseVO.labelVOs) }}
-								<option value="{{this.id}}">{{this.name}}</option>
+                            {{#each (label_list) }}
+								<option value="{{this.id}}">{{this.warehouse_name}}{{this.label_name}}</option>
 							{{/each}}
                         </select>
                     </div>
@@ -105,8 +106,10 @@
 <script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
-    var city_list = '{{{city_list}}}';
-    city_list = JSON.parse(city_list);
+    var city_list = '{{{city_list}}}';//所有城市
+    if (city_list.length > 0 ) {
+        city_list = JSON.parse(city_list);
+    }
     (function ($) {
 
         var elem = {
@@ -215,11 +218,18 @@
         //获取提交数据
         function getData () {
             var data = {};
-            var city = $('#storeCity').find('input[type=\'radio\']:checked').val();
-            var storeId =  $.trim($('#storeId').val());
-            var orgId = $.trim($('#orgId').val());
+            var city = $('.city_ids').val();
             var tagId = $.trim($('#selectTag option:selected').val());
-            var type = $.trim($('#selectType option:selected').val());
+            var haveLine = $('#haveLine');
+            var nohaveLine = $('#nohaveLine');
+            if (haveLine[0].checked){
+                var type = haveLine.val();
+            } else if (nohaveLine[0].checked) {
+                var type = nohaveLine.val();
+            } else {
+                var type = '';
+            }
+            // var type = $.trim($('#selectType option:selected').val());
             var snArr = [];
             elem.snList.find('.sn').each(function () {
                 var _this = $(this);
@@ -228,8 +238,6 @@
             });
             data.sn_codes = snArr.join(',');
             data.city_id = $.trim(city);
-            data.warehouse_id = storeId;
-            data.organization_id = orgId;
             data.label_id = tagId;
             data.type = type;
             return data;
@@ -274,14 +282,8 @@
                     if (res.error_code == 0) {
                         $alert('入库成功', function () {
                             locationTo({
-                                action : contextPath + markUri + '/gps/warehouse/detail',
-                                param : {
-                                    warehouse_id : data.warehouse_id,
-                                    warehouse_name : $.trim($('#storeName').val()),
-                                    inWarehouse : 0,
-                                    create_time : $.trim($('#create_time').val()),
-                                    creator : $.trim($('#creator').val())
-                                }
+                                action : contextPath + markUri + '/gps/list',
+                                param : {}
                             });
                         })
                     } else {
@@ -311,24 +313,10 @@
                 dataType : 1,
                 type : 1
             }, function (data) {
-                var cityArr = [];
-                var cityName = '';
                 if (data) {
-                    for (var i = 0,leni = data.length;i < leni;i++) {
-                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
-                            if (i == 0 && j == 0) {
-                                cityName = data[i].city_list[j].name;
-                            }
-                            cityArr.push(data[i].city_list[j].id);
-                        }
-                    }
-                    if (cityArr.length != 0) {
-                        $('.city_ids').val(cityArr.join(','));
-                        if (cityArr.length == 1){
-                            $('.select_city_input').val(cityName);
-                        } else {
-                            $('.select_city_input').val(cityName + '等' + cityArr.length + '个城市');
-                        }
+                    if (data.length != 0) {
+                        $('.city_ids').val(data[0].city_list[0].id);
+                        $('.select_city_input').val(data[0].city_list[0].name);
                     } else {
                         $('.city_ids').val('');
                         $('.select_city_input').val('');

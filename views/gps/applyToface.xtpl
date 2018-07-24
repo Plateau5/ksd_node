@@ -25,8 +25,8 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/home" class="crumbs_item">首页</a>
-                <a href="javascript:window.history.back();" class="crumbs_item">{{applicant}}的GPS预约申请</a>
+                <a href="{{markUri}}/gps/apply/list" class="crumbs_item">GPS仓库</a>
+                <a href="javascript:;" data-id="{{reqParams.gps_apply_id}}" class="crumbs_item go_apply_list">处理申请</a>
                 <a href="javascript:;" class="crumbs_item">当面领取</a>
             </div>
             
@@ -47,7 +47,7 @@
                     {{#if (verifyCode(1292)) }}
                     <a href="javascript:" class="btn orange_btn confirm" id="submitBtn">确认</a>
                     {{/if}}
-                    <a href="javascript:window.history.back();" class="btn bg_btn cancel">取消</a>
+                    <a href="{{markUri}}/gps/apply/list" class="btn bg_btn cancel">取消</a>
                 </div>
             </div>
         </div>
@@ -70,7 +70,25 @@
 <script>
     const RECEIVETYPE = 1;
     (function ($) {
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年7月24日13:54:34
+         * */
+        function goApplyList () {
+            var btn = $('.go_apply_list');
+            btn.on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/productCopy",
+                    param : {
+                        gps_apply_id : id,
+                    }
+                })
+            });
+        }
         $(function () {
+            goApplyList();//面包屑跳转
             bindSubmitEvent();
         })
     })(jQuery,undefined);

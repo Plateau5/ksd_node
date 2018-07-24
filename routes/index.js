@@ -363,6 +363,8 @@ router.all(markUri + '/gps/warehouse/list', warehouseCtrl.VIEW_WAREHOUSE_LIST);
 router.all(markUri + '/gps/apply/list', warehouseCtrl.VIEW_APPLY_LIST);
 //业务-GPS编辑页跳转
 router.post(markUri + '/gps/edit', warehouseCtrl.VIEW_EDIT);
+//业务-GPS处理结果跳转
+router.post(markUri + '/gps/apply/result', warehouseCtrl.VIEW_GPS_APPLY_RESULT);
 
 /*// GPS仓库列表页跳转 1280
 router.all(markUri + '/gps/warehouse/list', warehouseCtrl.VIEW_GPS_LIST);*/

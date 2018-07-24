@@ -53,18 +53,22 @@
         </div>
         <div class="inline_block">
             <div class="conditions_name inline_block">标签：</div>
-            <select name="lably_id" class="filtrate_select">
+            <select name="label_id" class="filtrate_select">
                 <option value="">全部</option>
                 {{#each(label_list) }}
-                <option value="{{this.id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+                    {{#if (this.id === ../condition.label_id) }}
+                    <option value="{{this.id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
+                    {{else}}
+                    <option value="{{this.id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+                    {{/if}}
                 {{/each}}
             </select>
         </div>
         <div class="inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">使用人：</div>
             <div class="search_box inline_block order_search_box">
-                <input type="hidden" name="create_id" value="" id="orderCreatorId" class="filtrate_input">
-                <input type="text" id="createName" name="create_name" value="" placeholder="销售姓名" class="filtrate_input fuzzy_search" autocomplete="off" readonly="readonly">
+                <input type="hidden" name="use_id" value="{{condition.use_id}}" id="orderCreatorId" class="filtrate_input">
+                <input type="text" id="createName" name="use_name" value="{{condition.use_name}}" placeholder="销售姓名" class="filtrate_input fuzzy_search" autocomplete="off" readonly="readonly">
                 <em class="del_icon"></em>
                 <div class="search_result" style="display: none;">
                     <div class="search_input">
@@ -78,7 +82,7 @@
         </div>
         <div class="sn_div inline_block">
             <div class="conditions_name inline_block">SN码：</div>
-            <input type="text" class="sn_input cursor" name=""  value="" placeholder="" />
+            <input type="text" class="sn_input cursor" name="sn_code"  value="{{condition.sn_code}}" placeholder="" />
         </div>
 
         <div class="btn_box text_right">

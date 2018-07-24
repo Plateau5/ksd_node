@@ -45,6 +45,11 @@ exports.VIEW_LIST = function(req, res, next) {
                         data.cityName = data.condition_city_list[0].city_list[0].name;
                     }
                 }
+                if (data.condition) {
+                    if (data.condition.use_id) {
+
+                    }
+                }
                 data.city_list = JSON.stringify(data.city_list);
                 data.condition_city_list = JSON.stringify(data.condition_city_list);
                 data.emp_list = JSON.stringify(data.emp_list);
@@ -76,7 +81,14 @@ exports.VIEW_EDIT = function(req, res, next) {
         page : './gps/gpsEdit'
     }, req, res, next);
 };
-
+//业务-GPS编辑页跳转
+exports.VIEW_GPS_APPLY_RESULT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/gps/warehouse/toList',
+        title : '仓库管理-GPS仓库列表',
+        page : './gps/gpsEdit'
+    }, req, res, next);
+};
 
 
 
