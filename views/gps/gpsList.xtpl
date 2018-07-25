@@ -32,18 +32,25 @@
             </div>
             {{#if (startWith(markUri + '/gps/list')) }}
             <div class="gps_list">
+                {{#if (verifyCode(1579)) }}
                 <form action="{{markUri}}/gps/list" method="post" role="form">
                     <input type="hidden" name="limit" value="{{limit}}" class="limit">
                     <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
                     {{include('./../inc/filtrateBusiness')}}
                 </form>
+                {{/if}}
                 <div class="detail_btn_box left">
                     <span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
                     <div class="rf">
+                        {{#if (verifyCode(1283)) }}
                         <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn">入库</a>
+                        {{/if}}
+                        {{#if (verifyCode(1583)) }}
                         <a href="javascript:" id="download_btn" class="detail_title_btn download_btn">导出</a>
+                        {{/if}}
                     </div>
                 </div>
+                {{#if (verifyCode(1579)) }}
                 <table class="normal">
                     <colgroup style="width: 100%;">
                         <col style="width: 10%;" />
@@ -100,15 +107,20 @@
                             <td title="{{this.delivery_time}}">{{this.delivery_time}}</td>
                             <td title="{{this.user_name}}">{{this.user_name}}</td>
                             <td class="operate_btn">
+                                {{#if (verifyCode(1581)) }}
                                 <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit edit go_forward"></a>
+                                {{/if}}
+                                {{#if (verifyCode(1288)) }}
                                 {{#if (this.status === 1 || this.status === 2) }}
                                 <a href="javascript:;" title="删除" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsdel delete go_forward"></a>
+                                {{/if}}
                                 {{/if}}
                             </td>
                         </tr>
                         {{/each}}
                     {{/if}}
                 </table>
+                {{/if}}
             </div>
             {{/if}}
             {{#if (startWith(markUri + '/gps/warehouse/list')) }}
@@ -128,8 +140,11 @@
                     {{/if}}
                 {{else}}
                     <div class="new_btn_box">
+                        {{#if (verifyCode(1281)) }}
                         <a href="javascript:;" class="detail_title_btn create_btn create_warehouse" style="line-height: 90px;">新建仓库</a>
+                        {{/if}}
                     </div>
+                    {{#if (verifyCode(1280)) }}
                     <table class="normal">
                         <colgroup style="width: 100%;">
                             <col style="width: 25%;" />
@@ -162,13 +177,18 @@
                                     {{/if}}
                                 </td>
                                 <td class="operate_btn">
+                                    {{#if (verifyCode(1282)) }}
                                     <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
+                                    {{/if}}
+                                    {{#if (verifyCode(1277)) }}
                                     <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
+                                    {{/if}}
                                 </td>
                             </tr>
                             {{/each}}
                         {{/if}}
                     </table>
+                    {{/if}}
                 {{/if}}
             </div>
             {{/if}}
@@ -194,6 +214,7 @@
                         {{/if}}
                     </select>
                 </div>
+                {{#if (verifyCode(1580)) }}
                 <table class="normal">
                     <colgroup style="width: 100%;">
                         <col style="width: 20%;" />
@@ -223,16 +244,22 @@
                             <td title="{{this.apply_time}}">{{this.apply_time}}</td>
                             <td title="{{this.handler}}">{{this.handler}}</td>
                             <td class="operate_btn">
+                                {{#if (verifyCode(1289)) }}
                                 {{#if (../condition.status === 0) }}
                                 <a href="javascript:;" data-id="{{this.id}}" title="处理申请" class="applyTo apply_icon go_forward"></a>
-                                {{elseif (../condition.status === 1) }}
+                                {{/if}}
+                                {{/if}}
+                                {{#if (verifyCode(1584)) }}
+                                {{#if (../condition.status === 1) }}
                                 <a href="javascript:;" data-id="{{this.id}}" title="查看" class="applyDetail view go_forward"></a>
+                                {{/if}}
                                 {{/if}}
                             </td>
                         </tr>
                         {{/each}}
                     {{/if}}
                 </table>
+                {{/if}}
             </div>
             {{/if}}
             {{include('./../inc/paginations')}}

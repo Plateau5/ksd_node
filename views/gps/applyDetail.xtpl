@@ -96,7 +96,9 @@
                                             <div class="form_group">
                                                 <input type="checkbox" id="code-{{this.id}}" class="apply_scope" name="snCode"  value="{{this.id}}" checked="checked" />
                                                 <label for="code-{{this.id}}" class="nowrap checked">{{this.sn_code}}</label>
+                                                {{#if (verifyCode(1585)) }}
                                                 <a href="javascript:;" class="changeSN" data-id="{{this.id}}" data-apply_id="{{this.apply_id}}">换</a>
+                                                {{/if}}
                                             </div>
                                         {{/each}}
                                     </div>
