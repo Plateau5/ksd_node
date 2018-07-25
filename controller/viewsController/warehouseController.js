@@ -196,6 +196,7 @@ exports.VIEW_GPS_APPLY_CONFIRM = function(req, res, next) {
     var param = req.body;   // 页面提交数据
     var data = {};
     try {
+        data.reqParamsStr = JSON.stringify(param);
         data.originUrl = req.originalUrl;
         data.markUri = markUri;
         data.apiServerPath = apiServerPath;

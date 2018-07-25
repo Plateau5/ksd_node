@@ -80,6 +80,10 @@
 <script>
     const RECEIVETYPE = 2;
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         /**
          * 处理申请-面包屑跳转
          * @author Plateau  2018年7月24日13:54:34
@@ -89,11 +93,13 @@
             btn.on('click', function () {
                 var _this = $(this);
                 var id = $.trim(_this.data('id'));
+                var params = {
+                    gps_apply_id : id
+                };
+                var data = Object.extend(params, reqParamsStr);
                 locationTo({
                     action : contextPath + markUri + "/gps/apply/detail",
-                    param : {
-                        gps_apply_id : id
-                    }
+                    param : data
                 })
             });
         }
@@ -108,9 +114,7 @@
                 var id = $.trim(_this.data('id'));
                 locationTo({
                     action : contextPath + markUri + "/gps/apply/list",
-                    param : {
-                        status : id
-                    }
+                    param : reqParamsStr
                 })
             });
         }

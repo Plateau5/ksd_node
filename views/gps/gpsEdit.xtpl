@@ -24,7 +24,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main gps_editinfo">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/gps/list" class="crumbs_item">GPS仓库</a>
+                <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
                 <a href="javascript:;" class="crumbs_item">修改</a>
             </div>
             <div class="form_options create_options">
@@ -261,12 +261,25 @@
                 }
             });
         }
-
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年7月25日12:48:45
+         * */
+        function goGpsList () {
+            var btn = $('.go_gps_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/list",
+                    param : reqParamsStr
+                })
+            });
+        }
 
         $(function () {
-            getSelectedCity()//获取选中城市
+            getSelectedCity();//获取选中城市
             selectType();//注册类型点击事件
             bindSubmitEvent();//注册提交点击事件
+            goGpsList();//面包屑跳转
         })
 
     })(jQuery,undefined);

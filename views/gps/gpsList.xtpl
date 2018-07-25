@@ -38,10 +38,10 @@
                     {{include('./../inc/filtrateBusiness')}}
                 </form>
                 <div class="detail_btn_box left">
-                    <span>共{{count}}条数据</span>
+                    <span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
                     <div class="rf">
                         <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn">入库</a>
-                        <a href="javascript:" class="detail_title_btn download_btn">下载</a>
+                        <a href="javascript:" id="download_btn" class="detail_title_btn download_btn">导出</a>
                     </div>
                 </div>
                 <table class="normal">
@@ -455,7 +455,24 @@
                 listForm.find('.filtrate_select').val('');
                 listForm.submit();
             });
-        };
+        }
+        /**
+         * 下载请求
+         * @author  Plateau  2018年7月25日10:57:50
+         * */
+        function resDownload () {
+            var btn = $('#download_btn');
+            btn.off('click').on('click', function () {
+                if ($('.total_count').data('count') != 0) {
+                    locationTo({
+                        action : contextPath + "/reportForm/finance/export/excel",
+                        param : {}
+                    });
+                } else {
+                    $alert('当前列表内数据为空，不能下载');
+                }
+            });
+        }
         /**
          * 跳转新增入库页面
          * @author  Plateau  2018年7月23日17:09:59
@@ -631,8 +648,7 @@
                 var id = $.trim(t.data("id"));
                 var status = $.trim($('.apply_type').val());
                 var params = {
-                    gps_apply_id : id,
-                    status : status
+                    gps_apply_id : id
                 };
                 var data = Object.extend(params, reqParamsStr);
                 locationTo({
@@ -669,6 +685,7 @@
             fuzzySearch(); //模糊查询订单所属人
             delName (); // 删除订单所属人
             searchGps();//筛选清空事件
+            resDownload();//下载请求
             goPutIn();//跳转新增入库
             goGpsEdit();//跳转编辑gps
             deleteSN();//删除SN码

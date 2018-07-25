@@ -166,16 +166,18 @@
             var applyId = $.trim($('#applyId').val());
             var receiveType = $.trim($('#receiveType').val());
             var applicant = $.trim($('#applicant').val());
+            var params = {
+                gps_apply_id : applyId,
+                receive_type : receiveType,
+                applicant : applicant,
+                gps_ids : finalResult.join(','),
+                delGps_ids : delResult.join(',')
+            };
+            var data = Object.extend(params, reqParamsStr);
             btn.off('click').on('click', function () {
                 locationTo({
                     action : contextPath + markUri + '/gps/apply/confirmSend',
-                    param : {
-                        gps_apply_id : applyId,
-                        receive_type : receiveType,
-                        applicant : applicant,
-                        gps_ids : finalResult.join(','),
-                        delGps_ids : delResult.join(',')
-                    }
+                    param : data
                 })
             });
         }
@@ -256,7 +258,7 @@
             checkSN();
             bindSendEvent();
             getChangeSN();//更换SN码
-            goApplyList();//面包屑跳转
+            goApplyList();//GPS仓库-面包屑跳转
         })
     })(jQuery,undefined);
 </script>
