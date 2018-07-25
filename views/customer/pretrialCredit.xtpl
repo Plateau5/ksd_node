@@ -13,9 +13,18 @@
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/customerDetails.css">
     <title>个人信用报告</title>
-    {{include ('./../inc/jsSources')}}
-    <script src="{{markUri}}/static/js/finance/img_detail.js"></script>
-    <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+    {{#if (ctype === "2" || ctype === "3") }}
+    <style>
+        .container_h5{width:100%;float: none;clear: both;}
+        .section{margin:0;}
+        .section .main{width:92%;float: none;clear: both;padding:1% 4%;}
+        .person_type{margin-top:10px;}
+        .person_type li{font-size:14px;}
+        .credit_info{margin-top:20px;}
+        .credit_info .credit_info_title{font-size:14px;letter-spacing: 1px;font-weight: bold;}
+        .credit_info li{font-size:14px;}
+    </style>
+    {{/if}}
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -26,12 +35,14 @@
     <!-------- Part of header End -------->
 
     <!-------- Part of main Begin -------->
-    <div id="section" class="section normal_width">
+    <div id="section" class="section normal_width container_h5">
         <!---- Part of slide nav Begin ---->
+        {{#if (ctype !== "2" && ctype !== "3") }}
         {{include ('./../inc/sideNav')}}
+        {{/if}}
         <!---- Part of slide nav End ---->
         <!---- Part of Main info Begin ---->
-        <div id="main" class="main">
+        <div id="main" class="main container_h5">
             {{#if (ctype !== "2" && ctype !== "3") }}
                 <div class="crumbs_nav">
                     {{#if(startWith(markUri + '/customer/loan/pretrial/credit'))}}
@@ -186,6 +197,7 @@
     <!-------- Part of main End -------->
 </div>
 </body>
+{{include ('./../inc/jsSources')}}
 <script>
     (function ($) {
         /**
