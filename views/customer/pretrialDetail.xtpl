@@ -163,7 +163,12 @@
 </div>
 </body>
 <script>
+    /**
+     *  预审详情页逻辑
+     *  Created by wyt on 2018-07-24
+     */
     (function ($) {
+        //回跳客户详情页
         function toOrderDetail() {
             var btn = $(".toOrderDetail");
             btn.off('click').on('click', function () {
@@ -176,6 +181,8 @@
                 });
             });
         }
+
+        //跳转个人信用报告
         function credit () {
             var btn = $(".credit");
             btn.off('click').on('click', function () {
@@ -200,7 +207,7 @@
         }
         $(function() {
             credit();       //跳转个人信用报告
-            toOrderDetail();    //跳转客户详情页
+            toOrderDetail();    //回跳客户详情页
         });
     })(jQuery,undefined);
 </script>
