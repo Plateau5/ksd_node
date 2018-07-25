@@ -67,6 +67,7 @@
     <!--<div id="footer" class="footer"></div>-->
     <!-------- Part of footer End -------->
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
@@ -241,23 +242,34 @@
                 var data = getData();
                 data.newLabels = JSON.stringify(data.newLabels);
                 var url = contextPath + '/api/gps/warehouse/update';
-                $ajax('post', url, data, function(res) {
-                    if (res.error_code == 0) {
-                        $alert('编辑成功', function () {
-                            locationTo({
-                                action : contextPath + markUri + '/gps/warehouse/list',
-                                param : reqParamsStr
+                $.ajax({
+                    type:'post',
+                    timeout:50000,
+                    url : url,
+                    data : data,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('编辑成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/gps/warehouse/list',
+                                    param : reqParamsStr
+                                });
                             });
-                            // window.location.href = contextPath + markUri + '/gps/warehouse/list';
-                        });
-                    } else {
-                        $alert(res.error_msg);
-                        console.info(res.error_msg);
+                        } else {
+                            $alert(res.error_msg);
+                            console.info(res.error_msg);
+                            submitBind();
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert('网络异常，请稍后重试');
                         submitBind();
                     }
-                }, function () {
-                    $alert('网络异常，请稍后重试');
-                    submitBind();
                 });
             } else {
                 return;

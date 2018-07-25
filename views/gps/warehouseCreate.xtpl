@@ -76,6 +76,7 @@
     <!-------- Part of footer End -------->
     <input type="hidden" value="{{work_city_id}}" id="store_city">
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
@@ -233,22 +234,33 @@
                 var data = getData();
                 data.data = JSON.stringify(data.data);
                 var url = contextPath + '/api/gps/warehouse/create';
-                $ajax('post', url, data, function(res) {
-                    if (res.error_code == 0) {
-                        $alert('创建成功', function () {
-                            locationTo({
-                                action : contextPath + markUri + '/gps/warehouse/list',
-                                param : reqParamsStr
+                $.ajax({
+                    type:'post',
+                    timeout:50000,
+                    url : url,
+                    data : data,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('创建成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/gps/warehouse/list',
+                                    param : reqParamsStr
+                                });
                             });
-                        });
-                    } else {
-                        $alert(res.error_msg);
-                        console.info(res.error_msg);
+                        } else {
+                            $alert(res.error_msg);
+                            submitBind();
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert('网络异常，请稍后重试');
                         submitBind();
                     }
-                }, function () {
-                    $alert('网络异常，请稍后重试');
-                    submitBind();
                 });
             } else {
                 return;

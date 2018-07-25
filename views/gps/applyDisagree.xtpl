@@ -65,11 +65,11 @@
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     const RECEIVETYPE = 3;
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
     (function ($) {
-        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
-        if (reqParamsStr.length > 0 ) {
-            reqParamsStr = JSON.parse(reqParamsStr);
-        }
         /**
          * 处理申请-面包屑跳转
          * @author Plateau  2018年7月24日13:54:34

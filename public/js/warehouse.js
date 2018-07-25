@@ -70,19 +70,34 @@ function submitEvent (b) {
     if (data) {
         b.off('click');
         var url = contextPath + '/api/gps/apply/confirm';
-        $ajax('post', url, data, function (res) {
-            if (res.error_code == 0) {
-                $alert(msg, function () {
-                    window.location.href = contextPath + '/home';
-                })
-            } else {
+        $.ajax({
+            type:'post',
+            timeout:50000,
+            url : url,
+            data : data,
+            beforeSend : function () {
+                $('#loading').show();
+            },
+            success : function (res) {
+                $('#loading').hide();
+                if (res.error_code == 0) {
+                    $alert(msg, function () {
+                        locationTo({
+                            action : contextPath + markUri + "/gps/apply/list",
+                            param : reqParamsStr
+                        })
+                    })
+                } else {
+                    bindSubmitEvent();
+                    $alert(res.error_msg);
+                }
+            },
+            error : function () {
+                $('#loading').hide();
                 bindSubmitEvent();
-                $alert(res.error_msg);
+                $alert('网络异常，请稍后重试');
             }
-        }, function () {
-            bindSubmitEvent();
-            $alert('网络异常，请稍后重试');
-        })
+        });
     } else {
         return;
     }

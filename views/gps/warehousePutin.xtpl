@@ -99,6 +99,7 @@
     <input type="hidden" value="{{warehouseVO.name}}" id="storeName">
     <input type="hidden" value="{{warehouseVO.organization_id}}" id="orgId">
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
@@ -221,7 +222,9 @@
             var city = $('.city_id').val();
             var tagId = $.trim($('#selectTag option:selected').val());
             if (tagId.indexOf('&') != -1) {
-                var selectLabel = tagId.split['&'];
+                var selectLabel = tagId.split('&');
+            } else {
+                var selectLabel = tagId;
             }
             var haveLine = $('#haveLine');
             var nohaveLine = $('#nohaveLine');
@@ -242,7 +245,7 @@
             data.sn_codes = snArr.join(',');
             data.city_id = $.trim(city);
             data.label_id = selectLabel[0];
-            data.gps_warehouse_id = selectLabel[1];
+            data.warehouse_id = selectLabel[1];
             data.organization_id = selectLabel[2];
             data.type = type;
             return data;
@@ -283,22 +286,34 @@
                 elem.submitBtn.off('click');
                 var url = contextPath + '/api/gps/putin/warehouse';
                 var data = getData();
-                $ajax('post', url, data, function (res) {
-                    if (res.error_code == 0) {
-                        $alert('入库成功', function () {
-                            locationTo({
-                                action : contextPath + markUri + '/gps/list',
-                                param : {}
-                            });
-                        })
-                    } else {
+                $.ajax({
+                    type:'post',
+                    timeout:50000,
+                    url : url,
+                    data : data,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('入库成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/gps/list',
+                                    param : {}
+                                });
+                            })
+                        } else {
+                            bindSubmitEvent();
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
                         bindSubmitEvent();
-                        $alert(res.error_msg);
+                        $alert('网络异常，请稍后重试');
                     }
-                }, function () {
-                    bindSubmitEvent();
-                    $alert('网络异常，请稍后重试');
-                })
+                });
             } else {
                 return;
             }

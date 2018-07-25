@@ -225,7 +225,7 @@
             }
             var select_label = label_id.val();
             if (select_label.indexOf('&') != -1) {
-                var selectLabel = select_label.split['&'];
+                var selectLabel = select_label.split('&');
             } else {
                 var selectLabel = select_label;
             }
@@ -246,10 +246,14 @@
             var url = contextPath + "/api/gps/inwarehouse/update";
             $.ajax({
                 type:'post',
-                timeout:20000,
+                timeout:50000,
                 url : url,
                 data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
                 success : function (res) {
+                    $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('修改成功', function () {
                             locationTo({
@@ -264,6 +268,7 @@
                     }
                 },
                 error : function () {
+                    $('#loading').hide();
                     $alert("提交失败，请稍后重试");
                     bindSubmitEvent();
                 }
