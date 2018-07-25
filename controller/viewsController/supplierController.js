@@ -271,35 +271,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
         title : '供应商-制订返佣政策',
         page : './organization/policyEdit',
         callback : function (data) {
-            var citys = data.cityList;
-            data.citysNum = data.cityList.length;       // 存储城市总量
-            var cityList = [];
-            var provinceId = [];
+            var citys = data.city_list;
+            if (data.city_list.length > 0) {
+                data.city_list = JSON.stringify(data.city_list);
+            };
+            if (data.condition_city_list.length > 0) {
+                data.condition_city_list = JSON.stringify(data.condition_city_list);
+            };
             data.rebatePolicies = JSON.stringify(data.rebatePolicy);
-            for (var i = 0, len = citys.length; i < len; i++) {
-                var pId = citys[i].province_id;
-                var pName = citys[i].province_name;
-                if (provinceId.indexOf(pId) === -1) {
-                    provinceId.push(pId);
-                    var o = {
-                        id : pId,
-                        name : pName,
-                        city_list : []
-                    };
-                    for (var k = 0; k < citys.length; k++) {
-                        if (citys[k].province_id === pId) {
-                            var cObj = {
-                                id : citys[k].city_id,
-                                name : citys[k].city_name
-                            };
-                            o.city_list.push(cObj);
-                            // citys.remove(citys[k]);
-                        }
-                    }
-                    cityList.push(o);
-                }
-            }
-            data.cityList = JSON.stringify(cityList);
 
 
             // 计算万元系数
