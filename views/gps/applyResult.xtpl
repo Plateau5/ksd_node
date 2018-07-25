@@ -42,7 +42,7 @@
                             {{#if (vo.receive_type === 1) }}
                                 当面交付
                             {{elseif (vo.receive_type === 2) }}
-                                快递邮寄（{{vo.receiver}}，手机号：{{vo.receiver}}）
+                                快递邮寄（{{vo.address}}，手机号：{{vo.phone}}）
                             {{/if}}
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                     {{elseif (vo.receive_type === 2) }}
                     <div class="row_item">
                         <div class="row_title">快递公司：</div>
-                        <div class="row_val">{{vo.express}}</div>
+                        <div class="row_val">{{vo.express_name}}</div>
                     </div>
                     <div class="row_item">
                         <div class="row_title">快递号：</div>
@@ -81,11 +81,19 @@
                         <th>类型</th>
                         <th>SN码</th>
                     </tr>
+                    {{#each(list) }}
                     <tr>
-                        <td title="">白海安</td>
-                        <td title="">新车</td>
+                        <td title="">{{this.organization_name}}</td>
+                        <td title="">
+                            {{#if (this.type === 0) }}
+                            无线
+                            {{elseif (this.type === 1) }}
+                            有线
+                            {{/if}}
+                        </td>
                         <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
                     </tr>
+                    {{/each}}
                 </table>
             </div>
 

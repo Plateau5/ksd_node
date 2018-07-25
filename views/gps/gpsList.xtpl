@@ -649,11 +649,10 @@
             var btn = $(".applyDetail");
             btn.off("click").on("click", function () {
                 var t = $(this);
-                var id = $.trim(t.data("id"));
+                var id = $.trim(t.data("id")).number();
                 var status = $.trim($('.apply_type').val());
                 var params = {
-                    id : id,
-                    status : status
+                    id : id
                 };
                 var data = Object.extend(params, reqParamsStr);
                 locationTo({

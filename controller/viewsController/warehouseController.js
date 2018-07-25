@@ -107,10 +107,10 @@ exports.VIEW_EDIT = function(req, res, next) {
         }
     }, req, res, next);
 };
-//业务-GPS编辑页跳转
+//业务-GPS处理结果跳转
 exports.VIEW_GPS_APPLY_RESULT = function(req, res, next) {
     common.getPageData({
-        url : '/api/gps/warehouse/toList',
+        url : '/api/gps/apply/list',
         title : '仓库管理-GPS仓库列表',
         page : './gps/applyResult',
         callback : function (data) {
