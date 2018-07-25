@@ -34,7 +34,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a href="javascript:" class="crumbs_item back_policies_list">制定返佣政策({{reqParams.orgName}})</a>
-                <a href="javascript:" class="crumbs_item">编辑{{reqParams.rebate_name}}</a>
+                <a href="javascript:" class="crumbs_item">编辑{{reqParams.rebate_name}}返点政策</a>
             </div>
             <div class="policy_container">
                 <input type="hidden" id="applytoBusiness" value="{{reqParams.applyto_business}}">
@@ -236,6 +236,7 @@
                                             {{/if}}
                                         </ul>
                                         <div class="choose_box">
+                                            <input type="hidden" value="{{xindex}}" class="checkedCities">
                                             <em class="add_city_btn"></em><!--<span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>-->
                                             <input type="hidden" class="area-danxuan single-choice citySelectInput" name="cityNames" value="" data-clear="true" data-value="" />
                                             <input type="hidden" name="city_ids" value="" class="cityIds">
@@ -397,6 +398,7 @@
 
                                     </ul>
                                     <div class="choose_box">
+                                        <input type="hidden" value="{{xindex}}" class="checkedCities">
                                         <em class="add_city_btn"></em><!--<span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>-->
                                         <input type="hidden" class="area-danxuan single-choice citySelectInput" name="cityNames" value="" data-clear="true" data-value="" />
                                         <input type="hidden" name="city_ids" value="" class="cityIds">
@@ -464,13 +466,13 @@
 <script>
     var city_list = '{{{city_list}}}'; // 城市数据
     city_list = JSON.parse(city_list);
-    var city_list_selected = '{{{condition_city_list}}}';
-    city_list_selected = JSON.parse(city_list_selected);
+    /*var city_list_selected = '{{{condition_city_list}}}';
+    city_list_selected = JSON.parse(city_list_selected);*/
     /*var __LocalDataCities = formatCityData(list);*/
 
     // 存储原始政策数据
-    var rebatePolicies = '{{rebatePolicies}}';        //
-    rebatePolicies = JSON.parse(rebatePolicies.replace(/&quot;/ig, '"'));
+    var rebatePolicies = {{{rebatePolicies}}};        //
+    /*rebatePolicies = JSON.parse(rebatePolicies);*/
     const EDITAPI = contextPath + '/api/organization/rebate/save';
     const ISMERCHANT = false;
 </script>
@@ -516,28 +518,36 @@
         }
         // 向页面添加已选择城市数据
         function getSelectedCitys () {
-            $('.add_city_btn').citySelect({
-                data : city_list,
-                defaultData : city_list_selected,
-                dataType : 1,
-                type : 2
-            }, function (data) {
-                //console.log(data);
-                if(data.length >0){
-                    var citysList = '';
-                    for( var i = 0,leni = data.length;i < leni;i++){
-                        var pid = data[i].id;
-                        var pname = data[i].name;
-                        var citys = data[i].city_list;
-                        for (var j = 0,lenj = citys.length;j < lenj;j++) {
-                            var cid = citys[j].id;
-                            var cname = citys[j].name;
-                            citysList += '<li class="city" data-pid="'+ pid +'" data-pname="' + pname + '" data-id="'+ cid + '" data-name="' + cname + '" title="'+ pname + '-' + cname +'">'+ cname +'<em class="delete_btn"></em></li>';
-                                                    }
+            var btn = $('.add_city_btn');
+            btn.each(function () {
+                var _this = $(this);
+                var citiesIndex = _this.siblings('.checkedCities').val().trim().number();        // 当前政策下选中的城市在源数据中的位置
+                var citiesList = rebatePolicies[citiesIndex].condition_city_lists;
+                citiesList = JSON.parse(citiesList);
+                _this.citySelect({
+                    data : city_list,
+                    defaultData : citiesList,
+                    dataType : 1,
+                    type : 2
+                }, function (data) {
+                    console.log(JSON.stringify(data));
+                    if(data.length >0){
+                        var citysList = '';
+                        for( var i = 0,leni = data.length;i < leni;i++){
+                            var pid = data[i].id;
+                            var pname = data[i].name;
+                            var citys = data[i].city_list;
+                            for (var j = 0,lenj = citys.length;j < lenj;j++) {
+                                var cid = citys[j].id;
+                                var cname = citys[j].name;
+                                citysList += '<li class="city" data-pid="'+ pid +'" data-pname="' + pname + '" data-id="'+ cid + '" data-name="' + cname + '" title="'+ pname + '-' + cname +'">'+ cname +'<em class="delete_btn"></em></li>';
+                            }
+                        }
+                        $('.city_list').html(citysList);
                     }
-                    $('.city_list').html(citysList);
-                }
+                });
             });
+
         };
         function deleteCity () {
             var body = $('body');

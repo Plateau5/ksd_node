@@ -275,8 +275,10 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
             if (data.city_list.length > 0) {
                 data.city_list = JSON.stringify(data.city_list);
             };
-            if (data.condition_city_list.length > 0) {
-                data.condition_city_list = JSON.stringify(data.condition_city_list);
+            if (data.rebatePolicy.length > 0) {
+                for (var i = 0, len = data.rebatePolicy.length; i < len; i++) {
+                    data.rebatePolicy[i].condition_city_lists = JSON.stringify(data.rebatePolicy[i].condition_city_list);
+                }
             };
             data.rebatePolicies = JSON.stringify(data.rebatePolicy);
 
