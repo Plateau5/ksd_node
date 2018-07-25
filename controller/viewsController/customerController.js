@@ -911,7 +911,9 @@ exports.VIEW_CUSTOMER_PRETRIAL_CREDIT = function(req, res, next) {
 };
 // app-预审管理-个人信用报告
 exports.VIEW_PRETRIAL_CREDIT = function(req, res, next) {
+    var parseUrl = urlParse.parse(req.url, true).query;     // 解析查询字符串
     var searchParam = urlParse.parse(req.url).query;    // 获取查询参数
+    var ctype = parseUrl.ctype;
     var body = req.body;
     var data = {};
     var localUrl = req.originalUrl;
@@ -929,6 +931,7 @@ exports.VIEW_PRETRIAL_CREDIT = function(req, res, next) {
                 data.apiServerPath = apiServerPath;
                 data.domain = domain;
                 data.reqParams = body;
+                data.ctype = ctype;
                 res.render(page, data);
             } else {
                 console.log(data);
