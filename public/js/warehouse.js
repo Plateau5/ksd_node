@@ -18,7 +18,7 @@ function getAuditData () {
         if (RECEIVETYPE === 1) {
             var receiptor = $.trim($('#receiptor').val());
             if (receiptor == '') {
-                $alert('领取人姓名不能为空');
+                $alert('请填写领取人');
                 return false;
             } else {
                 var remark = $.trim($('#remark').val());

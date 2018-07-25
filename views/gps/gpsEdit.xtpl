@@ -47,7 +47,7 @@
                         </div>
                         <div class="column_val gps_type">
                             <input type="hidden" value="{{vo.type}}" class="gps_status">
-                            {{#if (reqParams.status === '3') }}
+                            {{#if (reqParams.gps_status === '3') }}
                                 {{#if (vo.type === 0) }}
                                     无线
                                 {{elseif (vo.type === 1) }}
@@ -81,7 +81,7 @@
                             <span class="options_name">标签：</span>
                         </div>
                         <div class="column_val">
-                            {{#if (reqParams.status === '3') }}
+                            {{#if (reqParams.gps_status === '3') }}
                                 <input type="hidden" value="{{vo.label_id}}" class="label_id">
                                 <input type="hidden" value="{{vo.gps_warehouse_id}}" class="gps_warehouse_id">
                                 <input type="hidden" value="{{vo.organization_id}}" class="organization_id">
@@ -106,7 +106,7 @@
                             <span class="options_name">SN码：</span>
                         </div>
                         <div class="column_val">
-                            {{#if (reqParams.status === '3') }}
+                            {{#if (reqParams.gps_status === '3') }}
                                 <input type="hidden" class="sn_txt" value="{{vo.sn_code}}"/>
                                 {{vo.sn_code}}
                             {{else}}

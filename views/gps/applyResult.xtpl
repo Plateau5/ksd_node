@@ -28,47 +28,63 @@
             </div>
             <div class="apply_detail">
                 <div class="basic_info">
-                    <div class="row_item">
-                        <div class="row_title">申请人：</div>
-                        <div class="row_val">{{vo.applicant}}</div>
-                    </div>
-                    <div class="row_item">
-                        <div class="row_title">申请数量：</div>
-                        <div class="row_val">{{vo.count}}</div>
-                    </div>
-                    <div class="row_item">
-                        <div class="row_title">领取方式：</div>
-                        <div class="row_val">
-                            {{#if (vo.receive_type === 1) }}
-                                当面交付
-                            {{elseif (vo.receive_type === 2) }}
-                                快递邮寄（{{vo.address}}，手机号：{{vo.phone}}）
-                            {{/if}}
+                    {{#if (vo.applicant)}}
+                        <div class="row_item">
+                            <div class="row_title">申请人：</div>
+                            <div class="row_val">{{vo.applicant}}</div>
                         </div>
-                    </div>
-                    <div class="row_item">
-                        <div class="row_title">领取时间：</div>
-                        <div class="row_val">{{vo.receive_time}}</div>
-                    </div>
-                    {{#if (vo.receive_type === 1) }}
-                    <div class="row_item">
-                        <div class="row_title">领取人：</div>
-                        <div class="row_val">{{vo.receiver}}</div>
-                    </div>
-                    {{elseif (vo.receive_type === 2) }}
-                    <div class="row_item">
-                        <div class="row_title">快递公司：</div>
-                        <div class="row_val">{{vo.express_name}}</div>
-                    </div>
-                    <div class="row_item">
-                        <div class="row_title">快递号：</div>
-                        <div class="row_val">{{vo.express_code}}</div>
-                    </div>
                     {{/if}}
-                    <div class="row_item">
-                        <div class="row_title">备注：</div>
-                        <div class="row_val">{{vo.remark}}</div>
-                    </div>
+                    {{#if (vo.count)}}
+                        <div class="row_item">
+                            <div class="row_title">申请数量：</div>
+                            <div class="row_val">{{vo.count}}</div>
+                        </div>
+                    {{/if}}
+                    {{#if (vo.receive_type) }}
+                        <div class="row_item">
+                            <div class="row_title">领取方式：</div>
+                            <div class="row_val">
+                                {{#if (vo.receive_type === 1) }}
+                                    当面交付
+                                {{elseif (vo.receive_type === 2) }}
+                                    快递邮寄（{{vo.address}}，手机号：{{vo.phone}}）
+                                {{/if}}
+                            </div>
+                        </div>
+                    {{/if}}
+                    {{#if (vo.receive_time)}}
+                        <div class="row_item">
+                            <div class="row_title">领取时间：</div>
+                            <div class="row_val">{{vo.receive_time}}</div>
+                        </div>
+                    {{/if}}
+                    {{#if (vo.receive_type === 1) }}
+                        {{#if (vo.receiver)}}
+                        <div class="row_item">
+                            <div class="row_title">领取人：</div>
+                            <div class="row_val">{{vo.receiver}}</div>
+                        </div>
+                        {{/if}}
+                    {{elseif (vo.receive_type === 2) }}
+                        {{#if (vo.express_name)}}
+                            <div class="row_item">
+                                <div class="row_title">快递公司：</div>
+                                <div class="row_val">{{vo.express_name}}</div>
+                            </div>
+                        {{/if}}
+                        {{#if (vo.express_code)}}
+                            <div class="row_item">
+                                <div class="row_title">快递号：</div>
+                                <div class="row_val">{{vo.express_code}}</div>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                    {{#if (vo.remark)}}
+                        <div class="row_item">
+                            <div class="row_title">备注：</div>
+                            <div class="row_val">{{vo.remark}}</div>
+                        </div>
+                    {{/if}}
                 </div>
                 <table class="normal">
                     <colgroup style="width: 100%;">
@@ -81,19 +97,27 @@
                         <th>类型</th>
                         <th>SN码</th>
                     </tr>
-                    {{#each(list) }}
-                    <tr>
-                        <td title="">{{this.organization_name}}</td>
-                        <td title="">
-                            {{#if (this.type === 0) }}
-                            无线
-                            {{elseif (this.type === 1) }}
-                            有线
-                            {{/if}}
-                        </td>
-                        <td title="">先锋太盟-家乐福及龙卷风捡垃圾</td>
-                    </tr>
-                    {{/each}}
+                    {{#if (list.length !== 0)}}
+                        {{#each(list) }}
+                            <tr>
+                                <td title="">{{this.warehouse_name}}</td>
+                                <td title="">
+                                    {{#if (this.type === 0) }}
+                                    无线
+                                    {{elseif (this.type === 1) }}
+                                    有线
+                                    {{/if}}
+                                </td>
+                                <td title="">{{this.sn_code}}</td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <tr>
+                            <td colspan="3" class="no_hover">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
+                    {{/if}}
                 </table>
             </div>
 

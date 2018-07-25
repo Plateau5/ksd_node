@@ -34,8 +34,6 @@
             <div class="gps_list">
                 {{#if (verifyCode(1579)) }}
                 <form action="{{markUri}}/gps/list" method="post" role="form">
-                    <input type="hidden" name="limit" value="{{limit}}" class="limit">
-                    <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
                     {{include('./../inc/filtrateBusiness')}}
                 </form>
                 {{/if}}
@@ -107,10 +105,12 @@
                             <td title="{{this.delivery_time}}">{{this.delivery_time}}</td>
                             <td title="{{this.user_name}}">{{this.user_name}}</td>
                             <td class="operate_btn">
-                                {{#if (verifyCode(1581)) }}
+                                {{#if (root.verifyCode(1581)) }}
+                                {{#if (this.status !== 4) }}
                                 <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit edit go_forward"></a>
                                 {{/if}}
-                                {{#if (verifyCode(1288)) }}
+                                {{/if}}
+                                {{#if (root.verifyCode(1288)) }}
                                 {{#if (this.status === 1 || this.status === 2) }}
                                 <a href="javascript:;" title="删除" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsdel delete go_forward"></a>
                                 {{/if}}
@@ -126,8 +126,6 @@
             {{#if (startWith(markUri + '/gps/warehouse/list')) }}
             <div class="warehouse_list">
                 <form action="{{markUri}}/gps/warehouse/list" method="post" role="form">
-                    <input type="hidden" name="limit" value="{{limit}}" class="limit">
-                    <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
                 </form>
                 {{#if (count === 0) }}
                     {{#if (verifyCode(1281)) }}
@@ -177,10 +175,10 @@
                                     {{/if}}
                                 </td>
                                 <td class="operate_btn">
-                                    {{#if (verifyCode(1282)) }}
+                                    {{#if (root.verifyCode(1282)) }}
                                     <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
                                     {{/if}}
-                                    {{#if (verifyCode(1277)) }}
+                                    {{#if (root.verifyCode(1277)) }}
                                     <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
                                     {{/if}}
                                 </td>
@@ -196,8 +194,6 @@
             <div class="gpsApplication_list">
                 <form action="{{markUri}}/gps/apply/list" method="post" role="form" id="gpsApplyForm">
                     <input type="hidden" name="status" value="{{condition.status}}" class="apply_type">
-                    <input type="hidden" name="limit" value="{{limit}}" class="limit">
-                    <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
                 </form>
                 <div class="deal_tog">
                     <span>处理情况：</span>
@@ -244,12 +240,12 @@
                             <td title="{{this.apply_time}}">{{this.apply_time}}</td>
                             <td title="{{this.handler}}">{{this.handler}}</td>
                             <td class="operate_btn">
-                                {{#if (verifyCode(1289)) }}
+                                {{#if (root.verifyCode(1289)) }}
                                 {{#if (../condition.status === 0) }}
                                 <a href="javascript:;" data-id="{{this.id}}" title="处理申请" class="applyTo apply_icon go_forward"></a>
                                 {{/if}}
                                 {{/if}}
-                                {{#if (verifyCode(1584)) }}
+                                {{#if (root.verifyCode(1584)) }}
                                 {{#if (../condition.status === 1) }}
                                 <a href="javascript:;" data-id="{{this.id}}" title="查看" class="applyDetail view go_forward"></a>
                                 {{/if}}
@@ -492,7 +488,7 @@
             btn.off('click').on('click', function () {
                 if ($('.total_count').data('count') != 0) {
                     locationTo({
-                        action : contextPath + "/reportForm/finance/export/excel",
+                        action : contextPath + "/gps/export/excel",
                         param : reqParamsStr
                     });
                 } else {
@@ -526,8 +522,10 @@
             gpsEdit.off('click').on('click', function () {
                 var _this = $(this);
                 var id = _this.data('id');
+                var status = _this.data('status');
                 var params = {
-                    id : id
+                    id : id,
+                    gps_status : status//编辑页根据已出库状态判断修改
                 };
                 var data = Object.extend(params, reqParamsStr);
                 locationTo({
@@ -635,7 +633,7 @@
                     };
                     dialog('open', {
                         title : '删除提醒',
-                        content : '<div style="padding: 40px 0 20px;line-height:30px;"><span style="color: #808692;font-size: 14px;">删除后此GPS下的库存也将删除，删除后将不可恢复，</span><br><span>确认继续删除？</span></div>',
+                        content : '<div style="padding: 40px 0 20px;line-height:30px;"><span>删除后将不可恢复，确认继续删除？</span></div>',
                         onConfirm : function (d) {
                             delConfirm(data, d);
                         }
@@ -690,7 +688,8 @@
                 var id = $.trim(t.data("id"));
                 var status = $.trim($('.apply_type').val());
                 var params = {
-                    gps_apply_id : id
+                    gps_apply_id : id,
+                    status : status
                 };
                 var data = Object.extend(params, reqParamsStr);
                 locationTo({
@@ -710,7 +709,8 @@
                 var id = $.trim(t.data("id")).number();
                 var status = $.trim($('.apply_type').val());
                 var params = {
-                    id : id
+                    id : id,
+                    status : status
                 };
                 var data = Object.extend(params, reqParamsStr);
                 locationTo({

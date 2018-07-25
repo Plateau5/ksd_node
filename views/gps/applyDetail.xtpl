@@ -96,7 +96,7 @@
                                             <div class="form_group">
                                                 <input type="checkbox" id="code-{{this.id}}" class="apply_scope" name="snCode"  value="{{this.id}}" checked="checked" />
                                                 <label for="code-{{this.id}}" class="nowrap checked">{{this.sn_code}}</label>
-                                                {{#if (verifyCode(1585)) }}
+                                                {{#if (root.verifyCode(1585)) }}
                                                 <a href="javascript:;" class="changeSN" data-id="{{this.id}}" data-apply_id="{{this.apply_id}}">换</a>
                                                 {{/if}}
                                             </div>
@@ -200,7 +200,7 @@
                     '                height: 30px;\n' +
                     '                border: 1px solid #e4e4e4;\n' +
                     '                text-indent: .8em;" id="sn_code" value="'+ old_sncode +'" placeholder="" maxlength="20" />' +
-                    '<div class="error-tips" style="font-size: 12px;color:#FF102E;line-height: 20px;" id="errorTips"></div>',
+                    '<div class="error-tips" style="font-size: 12px;color:#FF102E;height:20px;line-height: 20px;" id="errorTips"></div>',
                     maskClose : false,
                     onConfirm : function (d) {
                         var new_sncode = $.trim($('#sn_code').val());
@@ -215,7 +215,7 @@
             });
             var onSubmit = function (d, obj) {
                 if (obj.sn_code == '') {
-                    $('#errorTips').val('SN码不能为空');
+                    $('#errorTips').text('SN码不能为空');
                     return;
                 }
                 redefineAjax({
@@ -227,7 +227,7 @@
                             d && d.close();
                             window.location.reload();
                         } else {
-                            $('.oneLevelErrorTips').text(res.error_msg);
+                            $('.error-tips').text(res.error_msg);
                         }
                     },
                     error : function () {

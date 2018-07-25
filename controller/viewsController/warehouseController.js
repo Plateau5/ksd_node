@@ -206,7 +206,6 @@ exports.VIEW_GPS_APPLY_CONFIRM = function(req, res, next) {
     var param = req.body;   // 页面提交数据
     var data = {};
     try {
-        data.reqParamsStr = JSON.stringify(param);
         data.originUrl = req.originalUrl;
         data.markUri = markUri;
         data.apiServerPath = apiServerPath;
@@ -217,16 +216,23 @@ exports.VIEW_GPS_APPLY_CONFIRM = function(req, res, next) {
         data.delGps_ids = param.delGps_ids;     // 删除发送的GPS
         data.status = param.status;//当前状态
         if (param.gps_ids === '' || param.gps_ids === undefined) {
+            data.reqParamsStr = JSON.stringify(param);
             data.title = '仓库管理-不同意';
             res.render('./gps/applyDisagree', data);
         } else if (param.receive_type === "1") {  // 当面交付
+            data.reqParamsStr = JSON.stringify(param);
             data.title = '仓库管理-GPS当面交付';
             res.render('./gps/applyToface', data);
         } else if (param.receive_type === "2") {
             common.getPageData({
                 url : '/api/gps/toApplyConfirm',
                 title : '仓库管理-快递邮寄',
-                page : './gps/applyExpress'
+                page : './gps/applyExpress',
+                callback : function (data) {
+                    if (data) {
+                        data.reqParamsStr = JSON.stringify(data.reqParams);
+                    }
+                }
             }, req, res, next);
         } else {
             throw new Error(ERRORTYPES.Param + '：The next page of to gps apply confirm is not defined. Request get params are error is possible.');

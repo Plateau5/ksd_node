@@ -34,7 +34,7 @@
                     <div class="row_title"><em class="require_icon">*</em>快递公司：</div>
                     <div class="row_val">
                         <select name="" id="expressCompany" style="width: 180px;">
-                            <option value="">全部</option>
+                            <option value="">请选择</option>
                             {{#each (expressList) }}
 									<option value="{{this.id}}">{{this.name}}</option>
 							{{/each}}
@@ -44,13 +44,13 @@
                 <div class="row_item">
                     <div class="row_title"><em class="require_icon">*</em>快递单号：</div>
                     <div class="row_val">
-                        <input type="text" value="" placeholder="快递单号" class="express_num" id="courierNumber" />
+                        <input type="text" value="" placeholder="快递单号" maxlength="30" class="express_num" id="courierNumber" />
                     </div>
                 </div>
                 <div class="row_item" style="height: 80px;">
-                    <div class="row_title">备注：</div>
+                    <div class="row_title" style="padding-left: 6px;width:7.4%;">备注：</div>
                     <div class="row_val" style="height: 80px;">
-                        <textarea style="width: 80%;" class="remark" maxlength="30" id="remark" placeholder="请输入内容(30个字以内)"></textarea>
+                        <textarea style="width: 36%;" class="remark" maxlength="30" id="remark" placeholder="请输入内容(30个字以内)"></textarea>
                     </div>
                 </div>
                 <div class="btn_box text_left">
