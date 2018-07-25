@@ -15,7 +15,7 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
  * GPS部分
  */
 
-// 业务-车型库侧导航跳转
+//业务-GPS仓库侧导航跳转
 exports.VIEW_GPS_SYSTEM = function(req, res, next) {
     try {
         if (common.checkPrivilege(1579, req)) {
@@ -32,7 +32,7 @@ exports.VIEW_GPS_SYSTEM = function(req, res, next) {
         res.redirect(markUri + '/404');
     }
 };
-// GPS列表页跳转
+// GPS列表页跳转 1579
 exports.VIEW_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/list',
@@ -53,7 +53,7 @@ exports.VIEW_LIST = function(req, res, next) {
         }
     }, req, res, next);
 };
-// 仓库管理列表页跳转
+// 仓库管理列表页跳转 1280
 exports.VIEW_WAREHOUSE_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toList',
@@ -66,7 +66,7 @@ exports.VIEW_WAREHOUSE_LIST = function(req, res, next) {
         }
     }, req, res, next);
 };
-// GPS申请列表页跳转
+// GPS申请列表页跳转 1580
 exports.VIEW_APPLY_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/applyList',
@@ -79,7 +79,7 @@ exports.VIEW_APPLY_LIST = function(req, res, next) {
         }
     }, req, res, next);
 };
-//业务-GPS编辑页跳转
+//业务-GPS编辑页跳转 1581
 exports.VIEW_EDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/inwarehouse/toEdit',
@@ -107,7 +107,7 @@ exports.VIEW_EDIT = function(req, res, next) {
         }
     }, req, res, next);
 };
-//业务-GPS处理结果跳转
+//业务-GPS处理结果跳转 1584
 exports.VIEW_GPS_APPLY_RESULT = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/apply/list',
