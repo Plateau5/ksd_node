@@ -436,11 +436,11 @@
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var str = '';
-                    str += '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '"><div class="name"><span class="nowrap">' + res[i].name + '</span>';
+                    str += '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '"><div class="name"><span class="nowrap" title="' + res[i].name + '">' + res[i].name + '</span>';
                     if (res[i].status == 0) {
                         str += '<em class="resignation"></em>';
                     }
-                    str += '</div><div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
+                    str += '</div><div class="p_dep nowrap" title="' + res[i].account + '">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
                             </li>';
                     html.push(str);
                     $('.search_list').html(html.join(""));
