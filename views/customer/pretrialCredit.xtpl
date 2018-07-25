@@ -20,7 +20,9 @@
 <body>
 <div id="wrapper" class="wrapper">
     <!-------- Part of header Begin -------->
-    {{include ('./../inc/header')}}
+    {{#if (ctype !== "2" && ctype !== "3") }}
+        {{include ('./../inc/header')}}
+    {{/if}}
     <!-------- Part of header End -------->
 
     <!-------- Part of main Begin -------->
@@ -30,19 +32,21 @@
         <!---- Part of slide nav End ---->
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
-            <div class="crumbs_nav">
-                {{#if(startWith(markUri + '/customer/loan/pretrial/credit'))}}
+            {{#if (ctype !== "2" && ctype !== "3") }}
+                <div class="crumbs_nav">
+                    {{#if(startWith(markUri + '/customer/loan/pretrial/credit'))}}
                     <a href="{{markUri}}/customer/loan/system" class="crumbs_item">贷款管理</a>
                     <a href="{{reqParams.nodeUrl}}" class="crumbs_item">{{reqParams.navigation}}</a>
                     <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
                     <a href="javascript:;" class="crumbs_item toOrderPretrial">预审信息</a>
                     <a href="javascript:;" class="crumbs_item">信用报告</a>
-                {{else}}
+                    {{else}}
                     <a href="{{markUri}}/customer/pretrial/system" class="crumbs_item">预审管理</a>
                     <a href="javascript:;" class="crumbs_item toPretrialDetail">预审信息</a>
                     <a href="javascript:;" class="crumbs_item">信用报告</a>
-                {{/if}}
-            </div>
+                    {{/if}}
+                </div>
+            {{/if}}
 
             <!-- 面包屑跳转所需隐藏域 -->
             <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
@@ -75,17 +79,17 @@
                                 <li>
                                     {{#if (vo.assess_score  > 0) }}
                                         <div class="red">2.风险评分：{{vo.assess_score}}分</div>
-                                        <div>{{vo.assess_des}}</div>
+                                        <div class="font_low_color">{{vo.assess_des}}</div>
                                     {{else}}
                                         <div>2.风险评分：{{vo.assess_score}}分</div>
-                                        <div>未查询到逾期记录</div>
+                                        <div class="font_low_color">未查询到逾期记录</div>
                                     {{/if}}
                                 </li>
                                 <li>
                                     {{#if (vo.unpass_count  > 0) }}
                                         <div class="red">3.极致车网申请购买汽车 {{vo.buy_count}} 次，未通过 {{vo.unpass_count}} 次</div>
-                                        <div>未通过产品：{{vo.unpass_product}}</div>
-                                        <div>原因：{{vo.unpass_reason}}</div>
+                                        <div class="font_low_color">未通过产品：{{vo.unpass_product}}</div>
+                                        <div class="font_low_color">原因：{{vo.unpass_reason}}</div>
                                     {{else}}
                                         <div>3.极致车网申请购买汽车 {{vo.buy_count}} 次，未通过 {{vo.unpass_count}} 次</div>
                                     {{/if}}
@@ -102,18 +106,28 @@
                         <div class="credit_info">
                             <div class="credit_info_title">企业信息</div>
                             <ul>
-                                <li><div class="font_high_color">1.企业注册资金 {{vo.regCapital}} 万</div></li>
-                                <li><div class="font_high_color">2.注册地：{{vo.regLocation}}</div></li>
-                                <li><div class="font_high_color">3.法人：{{vo.legalPersonName}}</div></li>
-                                <li>
-                                    {{#if (vo.comAbnoInfo  > 0) }}
-                                        <div class="red">4.企业司法风险经营风险共计 {{vo.comAbnoInfo}} 条</div>
-                                        <div>最近日期：{{vo.comAbnoInfo_time}}</div>
-                                        <div>异常情况：{{vo.comAbnoInfo_des}}</div>
-                                    {{else}}
-                                        <div>4.企业司法风险经营风险共计 {{vo.comAbnoInfo}} 条</div>
+                                {{#if (companyStatus ===1) }}
+                                    {{#if (vo.regCapital) }}
+                                        <li><div>1.企业注册资金 {{vo.regCapital}} 万</div></li>
                                     {{/if}}
-                                </li>
+                                    {{#if (vo.regLocation) }}
+                                        <li><div>2.注册地：{{vo.regLocation}}</div></li>
+                                    {{/if}}
+                                    {{#if (vo.legalPersonName) }}
+                                        <li><div>3.法人：{{vo.legalPersonName}}</div></li>
+                                    {{/if}}
+                                    <li>
+                                        {{#if (vo.comAbnoInfo  > 0) }}
+                                        <div class="red">4.企业司法风险经营风险共计 {{vo.comAbnoInfo}} 条</div>
+                                        <div class="font_low_color">最近日期：{{vo.comAbnoInfo_time}}</div>
+                                        <div class="font_low_color">异常情况：{{vo.comAbnoInfo_des}}</div>
+                                        {{else}}
+                                        <div>4.企业司法风险经营风险共计 {{vo.comAbnoInfo}} 条</div>
+                                        {{/if}}
+                                    </li>
+                                {{else}}
+                                <li><div>未查询到企业信息</div></li>
+                                {{/if}}
                             </ul>
                         </div>
                         {{/if}}
@@ -122,7 +136,7 @@
                             <div class="credit_info_title">手机号信息</div>
                             <ul>
                                 <li>
-                                    <div class="font_high_color">
+                                    <div>
                                     1.使用状况：
                                         {{#if (vo.phone_status  === 0) }}
                                             不正常
@@ -159,7 +173,7 @@
                                         <div class="red">1.身份证号被标记为黑名单</div>
                                     {{/if}}
                                 </li>
-                                <li><div class="font_high_color">3.极致车网申请购买汽车 {{vo.buy_count_spouse}} 次</div></li>
+                                <li><div>3.极致车网申请购买汽车 {{vo.buy_count_spouse}} 次</div></li>
                             </ul>
                         </div>
                         {{/if}}
