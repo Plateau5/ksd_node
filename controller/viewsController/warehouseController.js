@@ -141,7 +141,12 @@ exports.VIEW_GPS_CREATE = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toAdd',
         title : '仓库管理-创建GPS仓库',
-        page : './gps/warehouseCreate'
+        page : './gps/warehouseCreate',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
     }, req, res, next);
 };
 // GPS仓库-GPS仓库详情页跳转 1311
@@ -149,7 +154,12 @@ exports.VIEW_GPS_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/gps/warehouse/toDetail',
         title : '仓库管理-GPS仓库详情',
-        page : './gps/warehouseDetail'
+        page : './gps/warehouseDetail',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
     }, req, res, next);
 };
 // GPS仓库-编辑GPS仓库页跳转 1282

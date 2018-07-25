@@ -25,7 +25,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">GPS</a>
+                <a href="javascript:;" class="crumbs_item go_warehouse_list">GPS</a>
                 <a href="javascript:;" class="crumbs_item">新建仓库</a>
             </div>
             <div class="gps_create">
@@ -58,9 +58,9 @@
                 </div>
                 <div class="btn_box text_left">
                     {{#if (verifyCode(1276)) }}
-                    <a href="javascript:" class="btn orange_btn confirm submit_create">确认</a>
+                    <a href="javascript:;" class="btn orange_btn confirm submit_create">确认</a>
                     {{/if}}
-                    <a href="{{markUri}}/gps/warehouse/list" class="btn bg_btn cancel">取消</a>
+                    <a href="javascript:;" class="btn bg_btn cancel go_warehouse_list">取消</a>
                 </div>
             </div>
 
@@ -83,6 +83,10 @@
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         var elem = {
             tagsList : $('.tags_list'),
             warn : $('#warn_inventory'),
@@ -232,7 +236,10 @@
                 $ajax('post', url, data, function(res) {
                     if (res.error_code == 0) {
                         $alert('创建成功', function () {
-                            window.location.href = contextPath + markUri + '/gps/warehouse/list';
+                            locationTo({
+                                action : contextPath + markUri + '/gps/warehouse/list',
+                                param : reqParamsStr
+                            });
                         });
                     } else {
                         $alert(res.error_msg);
@@ -247,13 +254,26 @@
                 return;
             }
         }
-
+        /**
+         * GPS仓库-面包屑跳转
+         * @author Plateau  2018年7月25日13:43:40
+         * */
+        function goWarehouseList () {
+            var btn = $('.go_warehouse_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/list",
+                    param : reqParamsStr
+                })
+            });
+        }
         $(function () {
             checkOrg();
             addTagsBox();
             createTag();
             deleteTag();
             submitBind();
+            goWarehouseList();//GPS仓库-面包屑跳转
         })
 
     })(jQuery,undefined);

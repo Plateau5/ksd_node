@@ -122,13 +122,13 @@
                         <div class="no_workflow">
                             <div class="toast_text">目前还没有仓库，尝试建造一个吧</div>
                             <div class="new_btn_box">
-                                <a href="{{markUri}}/gps/warehouse/create" class="btn blue_btn add_btn"><em></em>新建仓库</a>
+                                <a href="javascript:;" class="btn blue_btn add_btn create_warehouse"><em></em>新建仓库</a>
                             </div>
                         </div>
                     {{/if}}
                 {{else}}
                     <div class="new_btn_box">
-                        <a href="{{markUri}}/gps/warehouse/create" class="detail_title_btn create_btn" style="line-height: 90px;">新建仓库</a>
+                        <a href="javascript:;" class="detail_title_btn create_btn create_warehouse" style="line-height: 90px;">新建仓库</a>
                     </div>
                     <table class="normal">
                         <colgroup style="width: 100%;">
@@ -558,6 +558,21 @@
         /**************************GPS列表页  end**********************************/
 
         /**************************仓库管理列表页  start**********************************/
+
+        /**
+         * 跳转新建仓库
+         * @author  Plateau  2018年7月25日13:48:32
+         * */
+        function goCreateWarehouse () {
+            var btn = $(".create_warehouse");
+            btn.off("click").on("click", function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/create",
+                    param : reqParamsStr
+                });
+            });
+        }
+
         /**
          * 点击仓库编辑按钮后的跳转逻辑
          * @author  Plateau  2018年7月23日13:19:14
@@ -690,6 +705,7 @@
             goGpsEdit();//跳转编辑gps
             deleteSN();//删除SN码
 
+            goCreateWarehouse();//跳转新建仓库
             showOrgProducts();//编辑仓库跳转
             deleteOrg();//删除仓库
 
