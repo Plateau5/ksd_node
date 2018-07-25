@@ -24,12 +24,12 @@
         <div id="main" class="main">
             <div class="crumbs_nav">
                 {{#if(startWith(markUri + '/customer/loan/pretrial/detail'))}}
-                    <a href="{{markUri}}/customer/loan/pendingAllot" class="crumbs_item">贷款管理</a>
+                    <a href="{{markUri}}/customer/loan/system" class="crumbs_item">贷款管理</a>
                     <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
                     <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
                     <a href="javascript:;" class="crumbs_item">预审信息</a>
-                {{elseif (startWith(markUri + '/customer/pretrial/detail')) }}
-                    <a href="{{markUri}}/customer/pretrial/list" class="crumbs_item">预审管理</a>
+                {{else}}
+                    <a href="{{markUri}}/customer/pretrial/system" class="crumbs_item">预审管理</a>
                     <a href="javascript:;" class="crumbs_item">预审信息</a>
                 {{/if}}
             </div>
@@ -37,14 +37,16 @@
             <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
             <input type="hidden" id="nodeUrl" value="{{reqParams.url}}">
             <input type="hidden" id="financeId" value="{{reqParams.finance_id}}">
-            <input type="hidden" id="advance_id" value="{{reqParams.advance_id}}">
+            <input type="hidden" id="advanceId" value="{{reqParams.advance_id}}">
             <input id="reportNo" value="{{vo.report_no}}" name="report_no" type="hidden">
             <input id="preId" value="{{vo.id}}" name="pre_id" type="hidden">
 
             <!-- 预审信息详情 -->
             <div class="details_content">
                 <div class="pretrial_details">
+                    {{#if (verifyCode(1577)) }}
                     <a href="javascript:;" class="credit">查看个人信用报告</a>
+                    {{/if}}
                     <div class="pretrial_desc">
                         <!-- 基本信息部分 Begin -->
                         <div class="details_item base_info">
@@ -172,10 +174,12 @@
         function toOrderDetail() {
             var btn = $(".toOrderDetail");
             btn.off('click').on('click', function () {
+                var advanceId = $("#advanceId").val();
                 var financeId = $("#financeId").val();
                 locationTo({
                     action : contextPath + markUri + '/customer/loan/detail',
                     param : {
+                        advance_id : advanceId,
                         finance_id : financeId
                     }
                 });
@@ -189,6 +193,9 @@
                 var reportNo = $("#reportNo").val().trim();
                 var preId = $("#preId").val().trim();
                 var navigation = $("#navigation").val().trim();
+                var nodeUrl = $("#nodeUrl").val().trim();
+                var financeId = $("#financeId").val();
+                var advanceId = $("#advanceId").val();
                 var url = "";
                 if (navigation) {
                     url = contextPath + markUri + '/customer/loan/pretrial/credit';
@@ -200,7 +207,11 @@
                     param : {
                         report_no : reportNo,
                         pre_id : preId,
-                        ctype : 1
+                        ctype : 1,
+                        finance_id : financeId,
+                        advance_id : advanceId,
+                        navigation : navigation,
+                        nodeUrl : nodeUrl
                     }
                 });
             });

@@ -62,8 +62,10 @@ exports.VIEW_CUSTOMER_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/customer/pigeonhole/system');
         } else if (common.checkPrivilege(1330, req)) {
             res.redirect(markUri + '/customer/otherfund/system');
+        }else if (common.checkPrivilege(1575, req)) {
+            res.redirect(markUri + '/customer/pretrial/system');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1260 | 1225 | 1226 | 1227 | 1228 | 1330 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1260 | 1225 | 1226 | 1227 | 1228 | 1330 | 1575 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
@@ -867,7 +869,19 @@ exports.VIEW_CUSTOMER_OTHERFUND_TRANSFER = function(req, res, next) {
     }, req, res, next);
 };
 
-
+// 客户-预审管理-跳转
+exports.VIEW_CUSTOMER_PRETRIAL_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1575, req)) {
+            res.redirect(markUri + '/customer/pretrial/list');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1575  is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
 // 客户-预审管理列表
 exports.VIEW_CUSTOMER_PRETRIAL_LIST = function(req, res, next) {
     common.getPageData({

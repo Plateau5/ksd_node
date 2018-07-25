@@ -201,11 +201,13 @@ router.post(markUri + '/customer/otherfund/disagree', customerCtrl.VIEW_CUSTOMER
 // 客户-其他管理-待审批-转交他人页面 1336
 router.post(markUri + '/customer/otherfund/transfer', customerCtrl.VIEW_CUSTOMER_OTHERFUND_TRANSFER);
 
-// 客户-预审管理列表
+// 客户-预审管理-访问路径 1575
+router.get(markUri + '/customer/pretrial/system', customerCtrl.VIEW_CUSTOMER_PRETRIAL_SYSTEM);
+// 客户-预审管理列表 1575
 router.all(markUri + '/customer/pretrial/list', customerCtrl.VIEW_CUSTOMER_PRETRIAL_LIST);
-// 客户-预审管理-预审信息详情
+// 客户-预审管理-预审信息详情 1576
 router.post(markUri + '/customer/pretrial/detail', customerCtrl.VIEW_CUSTOMER_PRETRIAL_DETAIL);
-// 客户-预审管理-预审信息-个人信用报告
+// 客户-预审管理-预审信息-个人信用报告 1577
 router.post(markUri + '/customer/pretrial/credit', customerCtrl.VIEW_CUSTOMER_PRETRIAL_CREDIT);
 
 

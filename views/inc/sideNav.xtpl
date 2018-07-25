@@ -46,11 +46,11 @@
                 <a href="{{markUri}}/customer/otherfund/system" class="">其他款项</a>
             </li>
         {{/if}}
-
+        {{#if (verifyCode(1575)) }}
         <li class="nav_item {{#if (startWith(markUri + '/customer/pretrial')) }}active{{/if}}">
-            <a href="{{markUri}}/customer/pretrial/list" class="">预审管理</a>
+            <a href="{{markUri}}/customer/pretrial/system" class="">预审管理</a>
         </li>
-
+        {{/if}}
     </ul>
 </div>
 {{ elseif (startWith(markUri + '/supplier/organization'))}}
