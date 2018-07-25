@@ -277,7 +277,12 @@ function validatePolicyEmpty (form) {
             return false;
         }
     }
-
+    // 适用店面
+    var checkedSupplier = form.find('.supplier_type_box').find('input[type="checkbox"]:checked');
+    if (checkedSupplier.length <= 0) {
+        $alert('请选择适用店面');
+        return false;
+    }
     // 生效日期
     var effectiveDate = form.find('.effective_date').val();
     if (effectiveDate == '') {
@@ -359,24 +364,31 @@ function checkPoliciesRepeat (form) {
         var oldRates = rebatePolicies[i].rate.split(',');
         var oldPeriods = rebatePolicies[i].rebate_period.split(',');
         var oldCitys = rebatePolicies[i].city_ids.split(',');
+        var oldApplicable = rebatePolicies[i].supplier_types.split(',');
         for (var a = 0, l1 = oldRates.length; a < l1; a++) {
             if (editPolicyData.rates.indexOf(oldRates[a]) !== -1) {
                 for (var b = 0, l2= oldPeriods.length; b < l2; b++) {
                     if (editPolicyData.rebatePeriods.indexOf(oldPeriods[b]) !== -1) {
                         for (var c = 0, l3 = oldCitys.length; c < l3; c++) {
                             if (editPolicyData.citys.cityIds.indexOf(oldCitys[c]) !== -1) {
-                                // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
-                                var millionCoefficient = parseInt((((oldRates[a] * 100 * (oldPeriods[b] / 12)) + 10000) / oldPeriods[b]) * 1000) / 1000;
-                                if (millionCoefficient.toString().indexOf('.') !== -1) {
-                                    if (millionCoefficient.toString().split('.')[1].number() > 445) {
-                                        millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
-                                    } else {
-                                        millionCoefficient = millionCoefficient.toString().split('.')[0].number();
-                                    }
+                                for (var d = 0, l4 = oldApplicable.length; d < l4; d++) {
+                                   if (editPolicyData.supplier_types.indexOf(oldApplicable[d]) !== -1) {
+                                       // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+                                       var millionCoefficient = parseInt((((oldRates[a] * 100 * (oldPeriods[b] / 12)) + 10000) / oldPeriods[b]) * 1000) / 1000;
+                                       if (millionCoefficient.toString().indexOf('.') !== -1) {
+                                           if (millionCoefficient.toString().split('.')[1].number() > 445) {
+                                               millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
+                                           } else {
+                                               millionCoefficient = millionCoefficient.toString().split('.')[0].number();
+                                           }
+                                       }
+                                       var cityName = editPolicyData.citys.cityName[c];        // 当前重复政策的城市名称
+                                       var ApplicableName = editPolicyData.supplier_type.name[d];
+                                       $alert('当前政策下'+ cityName +'万元系数' + ApplicableName + millionCoefficient +'已存在！');
+                                       return false;
+                                   }
                                 }
-                                var cityName = editPolicyData.citys.cityName[c];        // 当前重复政策的城市名称
-                                $alert('当前政策下'+ cityName +'万元系数'+ millionCoefficient +'已存在！');
-                                return false;
+
                             }
                         }
                     }
