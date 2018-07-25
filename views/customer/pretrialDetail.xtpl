@@ -46,6 +46,7 @@
                 <div class="pretrial_details">
                     {{#if (verifyCode(1577)) }}
                     <a href="javascript:;" class="credit">查看个人信用报告</a>
+                    <!--<a href="{{markUri}}/pretrial/credit?report_no={{vo.report_no}}" >查看个人信用报告</a>-->
                     {{/if}}
                     <div class="pretrial_desc">
                         <!-- 基本信息部分 Begin -->
@@ -88,6 +89,7 @@
                         </div>
                         <!-- 基本信息部分 End -->
                         <!-- 配偶信息部分 Begin -->
+                        {{#if (vo.is_marry  === 1) }}
                         <div class="details_item base_info">
                             <div class="detail_title">配偶信息</div>
                             <div class="detail_box clearfix">
@@ -111,6 +113,7 @@
                                 </div>
                             </div>
                         </div>
+                        {{/if}}
                         <!-- 配偶信息部分 End -->
                         <!-- 工作信息部分 Begin -->
                         <div class="details_item base_info">

@@ -209,6 +209,8 @@ router.all(markUri + '/customer/pretrial/list', customerCtrl.VIEW_CUSTOMER_PRETR
 router.post(markUri + '/customer/pretrial/detail', customerCtrl.VIEW_CUSTOMER_PRETRIAL_DETAIL);
 // 客户-预审管理-预审信息-个人信用报告 1577
 router.post(markUri + '/customer/pretrial/credit', customerCtrl.VIEW_CUSTOMER_PRETRIAL_CREDIT);
+// app-预审管理-个人信用报告
+router.all(markUri + '/pretrial/credit', customerCtrl.VIEW_PRETRIAL_CREDIT);
 
 
 // 商户-商户管理-主导航跳转 1366

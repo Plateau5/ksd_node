@@ -909,6 +909,40 @@ exports.VIEW_CUSTOMER_PRETRIAL_CREDIT = function(req, res, next) {
         page : './customer/pretrialCredit'
     }, req, res, next);
 };
+// app-预审管理-个人信用报告
+exports.VIEW_PRETRIAL_CREDIT = function(req, res, next) {
+    var searchParam = urlParse.parse(req.url).query;    // 获取查询参数
+    var body = req.body;
+    var data = {};
+    var localUrl = req.originalUrl;
+    try {
+        common.httpRequest({
+            url : apiServerPath + '/api/jizhipretrial/getReport?' + searchParam,
+            formData : body
+        }, function (result) {
+            data = result;
+            var page = './customer/pretrialCredit';
+            if (data.error_code === 0) {
+                data.title = '信用报告';
+                data.originUrl = localUrl;
+                data.markUri = markUri;
+                data.apiServerPath = apiServerPath;
+                data.domain = domain;
+                data.reqParams = body;
+                res.render(page, data);
+            } else {
+                console.log(data);
+                res.redirect(markUri + '/404');
+            }
+        }, req, res, next);
+    } catch (err) {
+        /*logger.error(err);*/
+        console.log(err + '268');
+        res.statusCode = 500;
+        /*return res.json({success: false, message: '服务器异常'});*/
+        res.redirect(markUri + '/404');
+    }
+};
 
 
 
