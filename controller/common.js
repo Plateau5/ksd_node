@@ -285,3 +285,19 @@ exports.sortJsonArray = function  (key, value, data) {
     }
     return arr;
 };
+
+/**
+ *	获取查询字符串的参数值（value）
+ * @param name  		参数名   string
+ * @param queryString	查询字符串
+ * @returns {null}
+ */
+exports.getQuerystringParam = function  (name, querystring) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var queryString = querystring || window.location.search;
+    var r = queryString.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+};
