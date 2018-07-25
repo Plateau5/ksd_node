@@ -82,16 +82,18 @@
                         </div>
                         <div class="column_val">
                             {{#if (reqParams.status === '3') }}
-                                <input type="hidden" value="{{this.label_id}}" name="label_id">
+                                <input type="hidden" value="{{vo.label_id}}" class="label_id">
+                                <input type="hidden" value="{{vo.gps_warehouse_id}}" class="gps_warehouse_id">
+                                <input type="hidden" value="{{vo.organization_id}}" class="organization_id">
                                 {{vo.label_name}}
                             {{else}}
                                 <select name="type" class="label_id" id="org_type">
                                     <option value="0">请选择</option>
                                     {{#each (label_list) }}
                                         {{#if (this.id === vo.label_id) }}
-                                        <option value="{{this.id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
+                                        <option value="{{this.id}}&{{this.gps_warehouse_id}}&{{this.organization_id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
                                         {{else}}
-                                        <option value="{{this.id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+                                        <option value="{{this.id}}&{{this.gps_warehouse_id}}&{{this.organization_id}}">{{this.warehouse_name}}{{this.label_name}}</option>
                                         {{/if}}
                                     {{/each}}
                                 </select>
@@ -221,11 +223,17 @@
                 $alert('SN码只能为英文及数字');
                 return false;
             }
+            var select_label = label_id.val();
+            if (select_label.indexOf('&') != -1) {
+                var selectLabel = select_label.split['&'];
+            } else {
+                var selectLabel = select_label;
+            }
             var parameters = {
                 id : $('#pgs_id').val(),
                 city_id : city_id.val(),
                 type : gps_status.val(),
-                label_id : label_id.val(),
+                label_id : selectLabel,
                 sn_code : sn_txt.val()
             };
             ajaxSubmit(parameters);

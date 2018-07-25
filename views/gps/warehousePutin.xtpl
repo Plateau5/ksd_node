@@ -57,7 +57,7 @@
                         <select name="" id="selectTag">
                             <option value="">全部</option>
                             {{#each (label_list) }}
-								<option value="{{this.id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+								<option value="{{this.id}}&{{this.gps_warehouse_id}}&{{this.organization_id}}">{{this.warehouse_name}}{{this.label_name}}</option>
 							{{/each}}
                         </select>
                     </div>
@@ -220,6 +220,9 @@
             var data = {};
             var city = $('.city_id').val();
             var tagId = $.trim($('#selectTag option:selected').val());
+            if (tagId.indexOf('&') != -1) {
+                var selectLabel = tagId.split['&'];
+            }
             var haveLine = $('#haveLine');
             var nohaveLine = $('#nohaveLine');
             if (haveLine[0].checked){
@@ -238,7 +241,9 @@
             });
             data.sn_codes = snArr.join(',');
             data.city_id = $.trim(city);
-            data.label_id = tagId;
+            data.label_id = selectLabel[0];
+            data.gps_warehouse_id = selectLabel[1];
+            data.organization_id = selectLabel[2];
             data.type = type;
             return data;
         }
