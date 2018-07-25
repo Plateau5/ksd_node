@@ -18,14 +18,14 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
 // 业务-车型库侧导航跳转
 exports.VIEW_GPS_SYSTEM = function(req, res, next) {
     try {
-        if (common.checkPrivilege(1563, req)) {
+        if (common.checkPrivilege(1579, req)) {
             res.redirect(markUri + '/gps/list');
-        } else if (common.checkPrivilege(1558, req)) {
+        } else if (common.checkPrivilege(1280, req)) {
             res.redirect(markUri + '/gps/warehouse/list');
-        }  else if (common.checkPrivilege(1554, req)) {
+        }  else if (common.checkPrivilege(1580, req)) {
             res.redirect(markUri + '/gps/apply/list');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1554 | 1558 | 1563  is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1579 | 1280 | 1580  is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
