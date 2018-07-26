@@ -278,10 +278,12 @@ function validatePolicyEmpty (form) {
         }
     }
     // 适用店面
-    var checkedSupplier = form.find('.supplier_type_box').find('input[type="checkbox"]:checked');
-    if (checkedSupplier.length <= 0) {
-        $alert('请选择适用店面');
-        return false;
+    if (!ISMERCHANT) {
+        var checkedSupplier = form.find('.supplier_type_box').find('input[type="checkbox"]:checked');
+        if (checkedSupplier.length <= 0) {
+            $alert('请选择适用店面');
+            return false;
+        }
     }
     // 生效日期
     var effectiveDate = form.find('.effective_date').val();
