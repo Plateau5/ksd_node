@@ -25,9 +25,15 @@
         <div id="main" class="main gps_listinfos">
             <div class="tab">
                 <ul id="gps_tab" class="tab_list inline_block">
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_normal {{#if (startWith(markUri + '/gps/list')) }}active{{/if}}" data-type="0" data-url="{{markUri}}/gps/list" style="border-left:0px;"><span></span>GPS列表</li>
+                    {{/if}}
+                    {{#if (verifyCode(1280)) }}
                     <li class="tab_item type_others {{#if (startWith(markUri + '/gps/warehouse/list')) }}active{{/if}}" data-type="1" data-url="{{markUri}}/gps/warehouse/list"><span></span>仓库管理</li>
+                    {{/if}}
+                    {{#if (verifyCode(1580)) }}
                     <li class="tab_item type_others {{#if (startWith(markUri + '/gps/apply/list')) }}active{{/if}}" data-type="2" data-url="{{markUri}}/gps/apply/list"><span></span>GPS申请</li>
+                    {{/if}}
                 </ul>
             </div>
             {{#if (startWith(markUri + '/gps/list')) }}
