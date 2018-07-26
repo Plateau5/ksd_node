@@ -63,7 +63,7 @@ exports.VIEW_CUSTOMER_SYSTEM = function(req, res, next) {
         } else if (common.checkPrivilege(1330, req)) {
             res.redirect(markUri + '/customer/otherfund/system');
         }else if (common.checkPrivilege(1575, req)) {
-            res.redirect(markUri + '/customer/pretrial/system');
+            res.redirect(markUri + '/customer/JZPretrial/system');
         } else {
             throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1260 | 1225 | 1226 | 1227 | 1228 | 1330 | 1575 is not defined.');
         }
@@ -870,10 +870,10 @@ exports.VIEW_CUSTOMER_OTHERFUND_TRANSFER = function(req, res, next) {
 };
 
 // 客户-预审管理-跳转
-exports.VIEW_CUSTOMER_PRETRIAL_SYSTEM = function(req, res, next) {
+exports.VIEW_CUSTOMER_JZPRETRIAL_SYSTEM = function(req, res, next) {
     try {
         if (common.checkPrivilege(1575, req)) {
-            res.redirect(markUri + '/customer/pretrial/list');
+            res.redirect(markUri + '/customer/JZPretrial/list');
         } else {
             throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1575  is not defined.');
         }
@@ -883,7 +883,7 @@ exports.VIEW_CUSTOMER_PRETRIAL_SYSTEM = function(req, res, next) {
     }
 };
 // 客户-预审管理列表
-exports.VIEW_CUSTOMER_PRETRIAL_LIST = function(req, res, next) {
+exports.VIEW_CUSTOMER_JZPRETRIAL_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/jizhipretrial/getList',
         title : '预审管理',
@@ -894,7 +894,7 @@ exports.VIEW_CUSTOMER_PRETRIAL_LIST = function(req, res, next) {
     }, req, res, next);
 };
 // 客户-预审管理-预审信息详情
-exports.VIEW_CUSTOMER_PRETRIAL_DETAIL = function(req, res, next) {
+exports.VIEW_CUSTOMER_JZPRETRIAL_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/jizhipretrial/getDetail',
         title : '预审信息详情',
@@ -902,7 +902,7 @@ exports.VIEW_CUSTOMER_PRETRIAL_DETAIL = function(req, res, next) {
     }, req, res, next);
 };
 // 客户-预审管理-预审信息-个人信用报告
-exports.VIEW_CUSTOMER_PRETRIAL_CREDIT = function(req, res, next) {
+exports.VIEW_CUSTOMER_JZPRETRIAL_CREDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/jizhipretrial/getReport',
         title : '个人信用报告',

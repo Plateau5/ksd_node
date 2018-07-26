@@ -45,14 +45,14 @@
         <div id="main" class="main container_h5">
             {{#if (ctype !== "2" && ctype !== "3") }}
                 <div class="crumbs_nav">
-                    {{#if(startWith(markUri + '/customer/loan/pretrial/credit'))}}
+                    {{#if(startWith(markUri + '/customer/loan/JZPretrial/credit'))}}
                     <a href="{{markUri}}/customer/loan/system" class="crumbs_item">贷款管理</a>
                     <a href="{{reqParams.nodeUrl}}" class="crumbs_item">{{reqParams.navigation}}</a>
                     <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
                     <a href="javascript:;" class="crumbs_item toOrderPretrial">预审信息</a>
                     <a href="javascript:;" class="crumbs_item">信用报告</a>
                     {{else}}
-                    <a href="{{markUri}}/customer/pretrial/system" class="crumbs_item">预审管理</a>
+                    <a href="{{markUri}}/customer/JZPretrial/system" class="crumbs_item">预审管理</a>
                     <a href="javascript:;" class="crumbs_item toPretrialDetail">预审信息</a>
                     <a href="javascript:;" class="crumbs_item">信用报告</a>
                     {{/if}}
@@ -218,7 +218,7 @@
                 var _this = $(this);
                 var pretrialId = $("#preId").val();
                 locationTo({
-                    action : contextPath + markUri + '/customer/pretrial/detail',
+                    action : contextPath + markUri + '/customer/JZPretrial/detail',
                     param : {
                         pre_id : pretrialId
                     }
@@ -263,7 +263,7 @@
                 var navigation = $("#navigation").val().trim();
                 var nodeUrl = $("#nodeUrl").val().trim();
                 locationTo({
-                    action : contextPath + markUri + '/customer/loan/pretrial/detail',
+                    action : contextPath + markUri + '/customer/loan/JZPretrial/detail',
                     param : {
                         pre_id : pretrialId,
                         advance_id : advanceId,

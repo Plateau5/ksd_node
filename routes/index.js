@@ -61,11 +61,9 @@ router.all(markUri + '/customer/loan/unpass', customerCtrl.VIEW_CUSTOMER_LOAN_UN
 // 客户管理-详情页-贷款管理 1036
 router.post(markUri + '/customer/loan/detail', customerCtrl.VIEW_CUSTOMER_LOAN_DETAIL);
 // 客户管理-详情页-贷款管理-预审信息
-router.post(markUri + '/customer/loan/pretrial/detail', customerCtrl.VIEW_CUSTOMER_PRETRIAL_DETAIL);
+router.post(markUri + '/customer/loan/JZPretrial/detail', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_DETAIL);
 // 客户管理-详情页-贷款管理-预审信息-个人信用报告
-router.post(markUri + '/customer/loan/pretrial/credit', customerCtrl.VIEW_CUSTOMER_PRETRIAL_CREDIT);
-
-
+router.post(markUri + '/customer/loan/JZPretrial/credit', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_CREDIT);
 
 
 // 客户管理-订单分配页面跳转 1022
@@ -202,13 +200,13 @@ router.post(markUri + '/customer/otherfund/disagree', customerCtrl.VIEW_CUSTOMER
 router.post(markUri + '/customer/otherfund/transfer', customerCtrl.VIEW_CUSTOMER_OTHERFUND_TRANSFER);
 
 // 客户-预审管理-访问路径 1575
-router.get(markUri + '/customer/pretrial/system', customerCtrl.VIEW_CUSTOMER_PRETRIAL_SYSTEM);
+router.get(markUri + '/customer/JZPretrial/system', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_SYSTEM);
 // 客户-预审管理列表 1575
-router.all(markUri + '/customer/pretrial/list', customerCtrl.VIEW_CUSTOMER_PRETRIAL_LIST);
+router.all(markUri + '/customer/JZPretrial/list', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_LIST);
 // 客户-预审管理-预审信息详情 1576
-router.post(markUri + '/customer/pretrial/detail', customerCtrl.VIEW_CUSTOMER_PRETRIAL_DETAIL);
+router.post(markUri + '/customer/JZPretrial/detail', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_DETAIL);
 // 客户-预审管理-预审信息-个人信用报告 1577
-router.post(markUri + '/customer/pretrial/credit', customerCtrl.VIEW_CUSTOMER_PRETRIAL_CREDIT);
+router.post(markUri + '/customer/JZPretrial/credit', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_CREDIT);
 // app-预审管理-个人信用报告
 router.all(markUri + '/pretrial/credit', customerCtrl.VIEW_PRETRIAL_CREDIT);
 
