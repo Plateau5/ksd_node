@@ -475,10 +475,12 @@
                 var _this = $(this);
                 _this.off('click');
                 $("#current_page").val(1);
-                var reg = /^[a-zA-Z0-9]{1,}$/;
-                if (!reg.test($('.sn_input').val())) {
-                    $alert('SN码只能为英文及数字');
-                    return false;
+                if ($('.sn_input').val() != '') {
+                    var reg = /^[a-zA-Z0-9]{1,}$/;
+                    if (!reg.test($('.sn_input').val())) {
+                        $alert('SN码只能为英文及数字');
+                        return false;
+                    }
                 }
                 listForm.submit();
             });
