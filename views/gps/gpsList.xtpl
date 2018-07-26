@@ -89,15 +89,29 @@
                     {{else}}
                         {{#each (list) }}
                         <tr>
-                            <td title="{{this.sn_code}}">{{this.sn_code}}</td>
+                            <td title="{{this.sn_code}}">
+                                {{#if (this.sn_code)}}
+                                    {{this.sn_code}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
                             <td title="">
                                 {{#if (this.type === 1) }}
                                     有线
-                                {{else}}
+                                {{elseif(this.type === 0)}}
                                     无线
+                                {{else}}
+                                    - -
                                 {{/if}}
                             </td>
-                            <td title="{{this.warehouse_name}}">{{this.warehouse_name}}</td>
+                            <td title="{{this.warehouse_name}}">
+                                {{#if (this.warehouse_name)}}
+                                    {{this.warehouse_name}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
                             <td title="{{this.label_name}}">
                                 {{#if (this.label_name)}}
                                     {{this.label_name}}
@@ -105,11 +119,41 @@
                                     - -
                                 {{/if}}
                             </td>
-                            <td title="{{this.create_time}}">{{this.create_time}}</td>
-                            <td title="{{this.city_name}}">{{this.city_name}}</td>
-                            <td title="{{this.use_name}}">{{this.use_name}}</td>
-                            <td title="{{this.delivery_time}}">{{this.delivery_time}}</td>
-                            <td title="{{this.user_name}}">{{this.user_name}}</td>
+                            <td title="{{this.create_time}}">
+                                {{#if (this.create_time)}}
+                                    {{this.create_time}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="{{this.city_name}}">
+                                {{#if (this.city_name)}}
+                                    {{this.city_name}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="{{this.use_name}}">
+                                {{#if (this.use_name)}}
+                                    {{this.use_name}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="{{this.delivery_time}}">
+                                {{#if (this.delivery_time)}}
+                                    {{this.delivery_time}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="{{this.user_name}}">
+                                {{#if (this.user_name)}}
+                                    {{this.user_name}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
                             <td class="operate_btn">
                                 {{#if (root.verifyCode(1581)) }}
                                 {{#if (this.status !== 4) }}
@@ -171,8 +215,20 @@
                         {{else}}
                             {{#each (list) }}
                             <tr>
-                                <td title="{{this.name }}">{{this.name }}</td>
-                                <td title="">{{this.inventory}}</td>
+                                <td title="{{this.name }}">
+                                    {{#if (this.name) }}
+                                        {{this.name}}
+                                    {{else}}
+                                        - -
+                                    {{/if}}
+                                </td>
+                                <td title="">
+                                    {{#if (this.inventory) }}
+                                        {{this.inventory}}
+                                    {{else}}
+                                        - -
+                                    {{/if}}
+                                </td>
                                 <td title="">
                                     {{#if (this.warning) }}
                                         {{this.warning}}
@@ -241,14 +297,38 @@
                     {{else}}
                         {{#each(list) }}
                         <tr>
-                            <td title="{{this.applicant}}">{{this.applicant}}</td>
-                            <td title="{{this.create_time}}">{{this.create_time}}</td>
+                            <td title="{{this.applicant}}">
+                                {{#if (this.applicant) }}
+                                    {{this.applicant}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="{{this.create_time}}">
+                                {{#if (this.create_time) }}
+                                    {{this.create_time}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
                             {{#if (condition.status === 0) }}
                             <td title="">- -</td>
                             <td title="">- -</td>
                             {{elseif (condition.status === 1)}}
-                            <td title="{{this.apply_time}}">{{this.apply_time}}</td>
-                            <td title="{{this.handler}}">{{this.handler}}</td>
+                            <td title="{{this.apply_time}}">
+                                {{#if (this.apply_time) }}
+                                    {{this.apply_time}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="{{this.handler}}">
+                                {{#if (this.handler) }}
+                                    {{this.handler}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
                             {{/if}}
                             <td class="operate_btn">
                                 {{#if (root.verifyCode(1289)) }}
