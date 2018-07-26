@@ -97,7 +97,7 @@
                                                 <input type="checkbox" id="code-{{this.id}}" class="apply_scope" name="snCode"  value="{{this.id}}" checked="checked" />
                                                 <label for="code-{{this.id}}" class="nowrap checked">{{this.sn_code}}</label>
                                                 {{#if (root.verifyCode(1585)) }}
-                                                <a href="javascript:;" class="changeSN" data-id="{{this.id}}" data-apply_id="{{this.apply_id}}">换</a>
+                                                <a href="javascript:;" class="changeSN" data-id="{{this.id}}" data-orgid="{{../this.organization_id}}" data-apply_id="{{this.apply_id}}">换</a>
                                                 {{/if}}
                                             </div>
                                         {{/each}}
@@ -194,6 +194,7 @@
                 var _this = $(this);
                 var old_sncode = _this.siblings('label').text();
                 var apply_id = _this.data('apply_id');
+                var orgid = _this.data('orgid');
                 dialog('open', {
                     title : '',
                     content : '<span style="padding:2px 10px;font-size: 12px;">SN码</span><input type="text" name="" style="width: 200px;\n' +
@@ -207,7 +208,8 @@
                         var obj = {
                             apply_id : apply_id,
                             new_sncode : new_sncode,
-                            old_sncode : old_sncode
+                            old_sncode : old_sncode,
+                            organization_id : orgid
                         };
                         onSubmit(d, obj);
                     }
