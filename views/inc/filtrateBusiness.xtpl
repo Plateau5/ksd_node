@@ -23,16 +23,16 @@
         </div>
         <div class="select_city_div inline_block">
             <div class="conditions_name inline_block">城市：</div>
-            <input type="hidden" name="city_ids" class="city_ids" value="{{condition.city_ids}}">
+            <input type="hidden" name="city_ids" class="city_ids filtrate_input" value="{{condition.city_ids}}" >
             {{#if (condition.city_ids) }}
                 {{#if (condition.city_ids.indexOf(',') !== -1) }}
                     {{set (cityArrs = condition.city_ids.split(',')) }}
-                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}等{{cityArrs.length}}个城市" readonly/>
+                    <input type="text" class="select_city_input cursor filtrate_input" name=""  value="{{cityName}}等{{cityArrs.length}}个城市" readonly/>
                 {{else}}
-                    <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" readonly/>
+                    <input type="text" class="select_city_input cursor filtrate_input" name=""  value="{{cityName}}" readonly/>
                 {{/if}}
             {{else}}
-                <input type="text" class="select_city_input cursor" name=""  value="全部" readonly/>
+                <input type="text" class="select_city_input cursor filtrate_input" name=""  value="全部" readonly/>
             {{/if}}
         </div>
         <div class="inline_block">
@@ -82,7 +82,7 @@
         </div>
         <div class="sn_div inline_block">
             <div class="conditions_name inline_block">SN码：</div>
-            <input type="text" class="sn_input cursor" name="sn_code"  value="{{condition.sn_code}}" placeholder="" />
+            <input type="text" class="sn_input cursor filtrate_input" name="sn_code"  value="{{condition.sn_code}}" placeholder="" />
         </div>
 
         <div class="btn_box text_right">
