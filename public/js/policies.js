@@ -522,7 +522,8 @@ function backToPoliciesList () {
                 organization_id : orgId,
                 car_type : carType,
                 orgName : orgName,
-                applyto_business : applytoBusiness
+                applyto_business : applytoBusiness,
+                supplier_type : supplierType
             }
         });
     });
@@ -546,7 +547,8 @@ function toPoliciesList () {
                 supplier_name : supplierName,
                 car_type : carType,
                 url : listUrl,
-                navigation : navigation
+                navigation : navigation,
+                supplier_type : supplierType
             }
         })
     });
@@ -575,6 +577,7 @@ function toPoliciesEdit () {
                 city_id : mCityId,
                 city_name : cityName,
                 applyto_car : mBusinessType,
+                supplier_type : supplierType
             }
         })
     });

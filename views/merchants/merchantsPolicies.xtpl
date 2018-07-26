@@ -83,6 +83,7 @@
                                 <col style="width: 19%;">
                                 <col style="width: 19%;">
                                 <col style="width: 19%;">
+                                <col >
                             </colgroup>
                             <thead>
                             <tr>
@@ -160,6 +161,7 @@
 <script>
     (function ($) {
         // 全局数据
+        var supplierType = '{{reqParams.supplier_type}}';       // 商户店面类型
         var orgId = $('#orgId').val().trim().number();      // 机构Id
         var supplierName = $('#orgName').val().trim();      // 商户名称
         var supplierId = $('#supplierId').val().trim();     // 商户Id
@@ -199,7 +201,8 @@
                         supplier_id : supplierId,
                         supplier_name : supplierName,
                         url : listUrl,
-                        navigation : navigation
+                        navigation : navigation,
+                        supplier_type : supplierType
                     }
                 })
             });
@@ -433,6 +436,7 @@
                         city_id : mCityId,
                         city_name : cityName,
                         applyto_car : mBusinessType,
+                        supplier_type : supplierType
                     }
                 })
 

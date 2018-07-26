@@ -61,12 +61,11 @@
                         <div class="policies_list">
                             <table class="normal">
                                 <colgroup>
-                                    <col style="width: 15%;">
-                                    <col style="width: 15%;">
-                                    <col style="width: 15%;">
-                                    <col style="width: 20%;">
-                                    <col style="width: 15%;">
-                                    <col>
+                                    <col style="width: 19%;">
+                                    <col style="width: 19%;">
+                                    <col style="width: 19%;">
+                                    <col style="width: 19%;">
+                                    <col >
                                 </colgroup>
                                 <thead>
                                 <tr>
@@ -75,7 +74,6 @@
                                     <th>万元系数</th>
                                     <th>返点规则</th>
                                     <th>生效时间</th>
-                                    <th>适用城市</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -86,9 +84,6 @@
                                     <td>{{this.millionCoefficient}}</td>
                                     <td>{{this.rule}}</td>
                                     <td>{{this.effective_time}}</td>
-                                    <td>
-                                        {{this.city_names}}
-                                    </td>
                                 </tr>
                                 {{/each}}
                                 <!--<tr>
@@ -171,6 +166,7 @@
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var supplierType = '{{reqParams.supplier_type}}';       // 商户店面类型
     var orgId = $('.orgId').val().trim().number();      // 机构Id
     var orgName = $('#orgName').val().trim();      // 机构名称
     var supplierId = $('#supplierId').val().trim().number();      // 商户Id
