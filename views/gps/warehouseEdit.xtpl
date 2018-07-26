@@ -45,7 +45,7 @@
                 <div class="row_item warn_inventory">
                     <div class="row_title" style="padding-left: 6px;width:7.4%;">预警库存：</div>
                     <div class="row_val">
-                        <input type="number" class="warn_num" id="warn_inventory" value="{{warehouseVO.warning}}" placeholder="请输入数字 如：20" />
+                        <input type="text" class="warn_num" id="warn_inventory" value="{{warehouseVO.warning}}" placeholder="请输入数字 如：20" maxlength="3"/>
                     </div>
                 </div>
                 <div class="btn_box text_left">
@@ -289,6 +289,7 @@
             });
         }
         $(function () {
+            numAndAmount('.warn_num');//判断库存预警只能输入数字
             getOldTags();
             addTagsBox();
             createTag();
