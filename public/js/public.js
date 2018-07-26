@@ -1726,7 +1726,7 @@ function chooseImage (f) {
     }
     var filePath = file.value;
     //获取图片扩展名
-    var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length); //此处使用lastIndexOf屏蔽图片中自带“.”
+    var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length).toLocaleLowerCase(); //此处使用lastIndexOf屏蔽图片中自带“.”
     if (extname != 'jpg' && extname != 'jpeg' && extname != 'png') {
         //alert('请使用正确格式的图片');
         f.parents(".img_upload").find(".img_error").text("请使用正确格式的图片").show();
@@ -2004,7 +2004,7 @@ function fileUpload (opt) {
         }
         var filePath = file.value;
         //获取文件扩展名
-        var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length); // 此处使用lastIndexOf屏蔽文件中自带“.”
+        var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length).toLocaleLowerCase(); // 此处使用lastIndexOf屏蔽文件中自带“.”
         if (options.fileFormat.length != 0) {
             //if (extname != 'jpg' && extname != 'jpeg' && extname != 'png') {
             var isNeedFormat = $.inArray(extname, options.fileFormat);
