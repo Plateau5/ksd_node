@@ -45,12 +45,12 @@
                 {{/if}}
                 <div class="detail_btn_box left">
                     <span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
-                    <div class="rf">
-                        {{#if (verifyCode(1283)) }}
-                        <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn">入库</a>
-                        {{/if}}
+                    <div class="rf" style="width:150px;">
                         {{#if (verifyCode(1583)) }}
-                        <a href="javascript:" id="download_btn" class="detail_title_btn export_btn">导出</a>
+                        <a href="javascript:" id="download_btn" class="detail_title_btn export_btn rf">导出</a>
+                        {{/if}}
+                        {{#if (verifyCode(1283)) }}
+                        <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn rf">入库</a>
                         {{/if}}
                     </div>
                 </div>
