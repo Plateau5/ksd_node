@@ -398,7 +398,7 @@
 
                                     </ul>
                                     <div class="choose_box">
-                                        <input type="hidden" value="{{xindex}}" class="checkedCities">
+                                        <input type="hidden" value="-1" class="checkedCities">
                                         <em class="add_city_btn"></em><!--<span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>-->
                                         <input type="hidden" class="area-danxuan single-choice citySelectInput" name="cityNames" value="" data-clear="true" data-value="" />
                                         <input type="hidden" name="city_ids" value="" class="cityIds">
@@ -519,11 +519,18 @@
         // 向页面添加已选择城市数据
         function getSelectedCitys () {
             var btn = $('.add_city_btn');
+
             btn.each(function () {
                 var _this = $(this);
+                var cityList = _this.parents(".choose_box").siblings('.city_list');     // 当前添加按钮所在政策的城市列表
+                var citiesList;
                 var citiesIndex = _this.siblings('.checkedCities').val().trim().number();        // 当前政策下选中的城市在源数据中的位置
-                var citiesList = rebatePolicies[citiesIndex].condition_city_lists;
-                citiesList = JSON.parse(citiesList);
+                if (citiesIndex === -1) {       // 新建数据中的下标
+                    citiesList = [];
+                } else {
+                    citiesList = rebatePolicies[citiesIndex].condition_city_lists;
+                    citiesList = JSON.parse(citiesList);
+                }
                 _this.citySelect({
                     data : city_list,
                     defaultData : citiesList,
@@ -543,7 +550,7 @@
                                 citysList += '<li class="city" data-pid="'+ pid +'" data-pname="' + pname + '" data-id="'+ cid + '" data-name="' + cname + '" title="'+ pname + '-' + cname +'">'+ cname +'<em class="delete_btn"></em></li>';
                             }
                         }
-                        $('.city_list').html(citysList);
+                        cityList.html(citysList);
                     }
                 });
             });
