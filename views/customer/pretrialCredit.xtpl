@@ -150,9 +150,17 @@
                                     <div>
                                     1.使用状况：
                                         {{#if (vo.phone_status  === 0) }}
-                                            不正常
-                                        {{elseif (vo.phone_status  === 1) }}
                                             正常
+                                        {{elseif (vo.phone_status  === 1) }}
+                                            停机
+                                        {{elseif (vo.phone_status  === 2) }}
+                                            销号
+                                        {{elseif (vo.phone_status  === 3) }}
+                                            预销号
+                                        {{elseif (vo.phone_status  === 4) }}
+                                            未启用
+                                        {{elseif (vo.phone_status  === -1) }}
+                                            查无结果
                                         {{/if}}
                                     </div>
                                 </li>
