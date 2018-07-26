@@ -243,8 +243,13 @@
                         <tr>
                             <td title="{{this.applicant}}">{{this.applicant}}</td>
                             <td title="{{this.create_time}}">{{this.create_time}}</td>
+                            {{#if (condition.status === 0) }}
+                            <td title="">- -</td>
+                            <td title="">- -</td>
+                            {{elseif (condition.status === 1)}}
                             <td title="{{this.apply_time}}">{{this.apply_time}}</td>
                             <td title="{{this.handler}}">{{this.handler}}</td>
+                            {{/if}}
                             <td class="operate_btn">
                                 {{#if (root.verifyCode(1289)) }}
                                 {{#if (../condition.status === 0) }}
