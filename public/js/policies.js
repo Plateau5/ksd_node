@@ -377,7 +377,8 @@ function checkPoliciesRepeat (form) {
                 for (var b = 0, l2= oldPeriods.length; b < l2; b++) {
                     if (editPolicyData.rebatePeriods.indexOf(oldPeriods[b]) !== -1) {
                         for (var c = 0, l3 = oldCitys.length; c < l3; c++) {
-                            if (editPolicyData.citys.cityIds.indexOf(oldCitys[c]) !== -1) {
+                            var cityIdIndex = editPolicyData.citys.cityIds.indexOf(oldCitys[c]);        // 循环中城市ID在当前政策城市数据的下标
+                            if (cityIdIndex !== -1) {
                                 for (var d = 0, l4 = oldApplicable.length; d < l4; d++) {
                                    if (editPolicyData.supplier_types.indexOf(oldApplicable[d]) !== -1) {
                                        // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
@@ -389,9 +390,10 @@ function checkPoliciesRepeat (form) {
                                                millionCoefficient = millionCoefficient.toString().split('.')[0].number();
                                            }
                                        }
-                                       var cityName = editPolicyData.citys.cityName[c];        // 当前重复政策的城市名称
-                                       var ApplicableName = editPolicyData.supplier_types.name[d];
-                                       $alert('当前政策下'+ cityName +'万元系数' + ApplicableName + millionCoefficient +'已存在！');
+                                       var cityName = editPolicyData.citys.cityName[cityIdIndex];        // 当前重复政策的城市名称
+                                       var applyTypeId = oldApplicable[d];      // 当前适用店面的ID
+                                       var applyTypeName = merchantsTypeArr[applyTypeId];       // 当前适用店面类型的Name
+                                       $alert('当前政策下'+ cityName + '-' + applyTypeName +'万元系数' + millionCoefficient +'已存在！');
                                        return false;
                                    }
                                 }
