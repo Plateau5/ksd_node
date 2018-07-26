@@ -86,6 +86,7 @@
                         </div>
                     {{/if}}
                 </div>
+                {{#if (list.length !== 0)}}
                 <table class="normal">
                     <colgroup style="width: 100%;">
                         <col style="width: 33%;" />
@@ -97,27 +98,19 @@
                         <th>类型</th>
                         <th>SN码</th>
                     </tr>
-                    {{#if (list.length !== 0)}}
-                        {{#each(list) }}
-                            <tr>
-                                <td title="">{{this.warehouse_name}}</td>
-                                <td title="">
-                                    {{#if (this.type === 0) }}
-                                    无线
-                                    {{elseif (this.type === 1) }}
-                                    有线
-                                    {{/if}}
-                                </td>
-                                <td title="">{{this.sn_code}}</td>
-                            </tr>
-                        {{/each}}
-                    {{else}}
+                    {{#each(list) }}
                         <tr>
-                            <td colspan="3" class="no_hover">
-                                {{include('./../inc/empty_data')}}
+                            <td title="">{{this.warehouse_name}}</td>
+                            <td title="">
+                                {{#if (this.type === 0) }}
+                                无线
+                                {{elseif (this.type === 1) }}
+                                有线
+                                {{/if}}
                             </td>
+                            <td title="">{{this.sn_code}}</td>
                         </tr>
-                    {{/if}}
+                    {{/each}}
                 </table>
             </div>
 
