@@ -887,7 +887,7 @@ exports.VIEW_CUSTOMER_JZPRETRIAL_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/jizhipretrial/getList',
         title : '预审管理',
-        page : './customer/pretrialList',
+        page : './customer/JZPretrialList',
         callback : function (data) {
             data.emp_list = JSON.stringify(data.emp_list);
         }
@@ -898,7 +898,7 @@ exports.VIEW_CUSTOMER_JZPRETRIAL_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/jizhipretrial/getDetail',
         title : '预审信息详情',
-        page : './customer/pretrialDetail'
+        page : './customer/JZPretrialDetail'
     }, req, res, next);
 };
 // 客户-预审管理-预审信息-个人信用报告
@@ -906,7 +906,7 @@ exports.VIEW_CUSTOMER_JZPRETRIAL_CREDIT = function(req, res, next) {
     common.getPageData({
         url : '/api/jizhipretrial/getReport',
         title : '个人信用报告',
-        page : './customer/pretrialCredit'
+        page : './customer/JZPretrialCredit'
     }, req, res, next);
 };
 // app-预审管理-个人信用报告
