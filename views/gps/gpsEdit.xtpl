@@ -225,15 +225,21 @@
             }
             var select_label = label_id.val();
             if (select_label.indexOf('&') != -1) {
-                var selectLabel = select_label.split('&');
+                var selectLabel = select_label.split('&')[0];
+                var gps_warehouse_id = select_label.split('&')[1];
+                var organization_id = select_label.split('&')[2];
             } else {
                 var selectLabel = select_label;
+                var gps_warehouse_id = $('.gps_warehouse_id').val();
+                var organization_id = $('.organization_id').val();
             }
             var parameters = {
                 id : $('#pgs_id').val(),
                 city_id : city_id.val(),
                 type : gps_status.val(),
                 label_id : selectLabel,
+                warehouse_id : gps_warehouse_id,
+                organization_id : organization_id,
                 sn_code : sn_txt.val()
             };
             ajaxSubmit(parameters);
