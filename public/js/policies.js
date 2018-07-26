@@ -321,7 +321,7 @@ function getCheckedCitys (btn) {
 }
 
 /**
- * 获取创建政策的数据（费率、融资期限、城市）
+ * 获取创建政策的数据（费率、融资期限、城市、适用店面）
  * @param form {Object} : 当前编辑政策的form提交元素（jQuery对象）
  * @return {Object} : 政策数据
  */
@@ -329,11 +329,13 @@ function getEditPolicyData (form) {
     var policyData = {
         rates : [],
         rebatePeriods : [],
-        citys : []
+        citys : [],
+        supplier_types :[]
     };
 
     var ratesEle = form.find('.policy_rates').find('input[type="checkbox"]:checked');   // 费率元素
     var peridosEle = form.find('.policy_periods').find('input[type="checkbox"]:checked');       // 期限元素
+    var supplierEle = form.find('.supplier_type_box').find('input[type="checkbox"]:checked'); //适用店面
     ratesEle.each(function () {
         var _this = $(this);
         var value = _this.val().trim().number();
@@ -343,6 +345,11 @@ function getEditPolicyData (form) {
         var _this = $(this);
         var value = _this.val().trim().number();
         policyData.rebatePeriods.push(value);
+    });
+    supplierEle.each(function () {
+        var _this = $(this);
+        var value = _this.val().trim();
+        policyData.supplier_types.push(value);
     });
     var _thisBtn = form.find('.add_city_btn');
     policyData.citys = getCheckedCitys(_thisBtn);
@@ -383,7 +390,7 @@ function checkPoliciesRepeat (form) {
                                            }
                                        }
                                        var cityName = editPolicyData.citys.cityName[c];        // 当前重复政策的城市名称
-                                       var ApplicableName = editPolicyData.supplier_type.name[d];
+                                       var ApplicableName = editPolicyData.supplier_types.name[d];
                                        $alert('当前政策下'+ cityName +'万元系数' + ApplicableName + millionCoefficient +'已存在！');
                                        return false;
                                    }
