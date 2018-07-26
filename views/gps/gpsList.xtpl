@@ -57,15 +57,15 @@
                 {{#if (verifyCode(1579)) }}
                 <table class="normal">
                     <colgroup style="width: 100%;">
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
-                        <col style="width: 10%;" />
+                        <col style="width: 19%;" />
+                        <col style="width: 8%;" />
+                        <col style="width: 9%;" />
+                        <col style="width: 9%;" />
+                        <col style="width: 9%;" />
+                        <col style="width: 9%;" />
+                        <col style="width: 9%;" />
+                        <col style="width: 9%;" />
+                        <col style="width: 9%;" />
                         <col />
                     </colgroup>
                     <tr>
@@ -533,7 +533,7 @@
                     id : id,
                     gps_status : status//编辑页根据已出库状态判断修改
                 };
-                var data = Object.extend(params, reqParamsStr);
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + '/gps/edit',
                     param : data
@@ -616,7 +616,7 @@
                 var params = {
                     warehouse_id : id
                 };
-                var data = Object.extend(params, reqParamsStr);
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + "/gps/warehouse/edit",
                     param : data
@@ -697,7 +697,7 @@
                     gps_apply_id : id,
                     status : status
                 };
-                var data = Object.extend(params, reqParamsStr);
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + "/gps/apply/detail",
                     param : data
@@ -718,7 +718,7 @@
                     id : id,
                     status : status
                 };
-                var data = Object.extend(params, reqParamsStr);
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + "/gps/apply/result",
                     param : data

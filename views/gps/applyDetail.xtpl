@@ -175,7 +175,7 @@
                 gps_ids : finalResult.join(','),
                 delGps_ids : delResult.join(',')
             };
-            var data = Object.extend(params, reqParamsStr);
+            var data = Object.extend(reqParamsStr, params);
             btn.off('click').on('click', function () {
                 locationTo({
                     action : contextPath + markUri + '/gps/apply/confirmSend',
