@@ -21,8 +21,12 @@ exports.VIEW_BUSINESS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/question/merchants/list');  // 商户问题列表
         } else if (common.checkPrivilege(1298, req)) {
             res.redirect(markUri + '/administrative/warehouse/list');  // 行政仓库
+        } else if (common.checkPrivilege(1579, req)) {
+            res.redirect(markUri + '/gps/list');  // GPS仓库
         } else if (common.checkPrivilege(1280, req)) {
             res.redirect(markUri + '/gps/warehouse/list');  // GPS仓库
+        } else if (common.checkPrivilege(1580, req)) {
+            res.redirect(markUri + '/gps/apply/list');  // GPS仓库
         } else if (common.checkPrivilege(1357, req)) {
             res.redirect(markUri + '/business/city/manage');  // 城市管理
         } else if (common.checkPrivilege(1554, req)) {
