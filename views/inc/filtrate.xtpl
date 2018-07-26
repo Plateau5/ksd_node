@@ -123,7 +123,7 @@
         {{#if(startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/pigeonhole' + ' || ' + markUri + '/customer/otherfund'))}}
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_city">机构筛选：</div>
-            <select name="organization_id" class="filtrate_select city_select customer_select" id="organization_id">
+            <select name="organization_id" class="filtrate_select city_select customer_select" id="organization_id" style="width: 130px;">
                 <option value="">全部</option>
                 {{#each(organization_list)}}
                 {{#if (this.id === condition.organization_id) }}
@@ -140,7 +140,7 @@
         {{#if (risk_list.length >= 0) }}
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">风险类型：</div>
-            <select name="risk_type" class="filtrate_select risk_type_select customer_select" id="filtrate_audit_type" style="width: 200px;">
+            <select name="risk_type" class="filtrate_select risk_type_select customer_select" id="filtrate_audit_type" style="width: 180px;">
                 <option value="">全部</option>
                 {{#each (risk_list) }}
                 {{#if (this.index === condition.risk_type) }}
