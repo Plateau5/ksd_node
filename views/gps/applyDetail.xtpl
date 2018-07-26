@@ -168,15 +168,15 @@
             var applyId = $.trim($('#applyId').val());
             var receiveType = $.trim($('#receiveType').val());
             var applicant = $.trim($('#applicant').val());
-            var params = {
-                gps_apply_id : applyId,
-                receive_type : receiveType,
-                applicant : applicant,
-                gps_ids : finalResult.join(','),
-                delGps_ids : delResult.join(',')
-            };
-            var data = Object.extend(reqParamsStr, params);
             btn.off('click').on('click', function () {
+                var params = {
+                    gps_apply_id : applyId,
+                    receive_type : receiveType,
+                    applicant : applicant,
+                    gps_ids : finalResult.join(','),
+                    delGps_ids : delResult.join(',')
+                };
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + '/gps/apply/confirmSend',
                     param : data
