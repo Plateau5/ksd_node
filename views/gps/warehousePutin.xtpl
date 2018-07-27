@@ -220,9 +220,10 @@
         function getData () {
             var data = {};
             var city = $('.city_id').val();
-            var tagId = $.trim($('#selectTag option:selected').val());
-            var warehouse_id = $('#selectTag option:selected').data('warehouse_id');
-            var org_id = $('#selectTag option:selected').data('org_id');
+            var selectTag = $('#selectTag option:selected');
+            var tagId = $.trim(selectTag.val());
+            var warehouse_id = $.trim(selectTag.data('warehouse_id'));
+            var org_id = $.trim(selectTag.data('org_id'));
             var haveLine = $('#haveLine');
             var nohaveLine = $('#nohaveLine');
             if (haveLine[0].checked){

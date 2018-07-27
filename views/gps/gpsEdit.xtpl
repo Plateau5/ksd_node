@@ -87,7 +87,7 @@
                                 <input type="hidden" value="{{vo.organization_id}}" class="organization_id">
                                 {{vo.label_name}}
                             {{else}}
-                                <select name="type" class="label_id" id="org_type">
+                                <select name="type" class="label_id" id="selectTag">
                                     <option value="">请选择</option>
                                     {{#each (label_list) }}
                                         {{#if (this.id === vo.label_id) }}
@@ -200,7 +200,7 @@
         function submitValid () {
             var city_id = $('.city_id');
             var gps_status = $('.gps_status');
-            var label_id = $('.label_id');
+            var label_id = $('#selectTag option:selected');
             var sn_txt = $('.sn_txt');
             if (city_id.val() == '') {
                 $alert('请选择城市');
@@ -230,8 +230,8 @@
                 var org_id = $('.organization_id').val();
             } else {
                 var select_label = label_id.val();
-                var warehouse_id = $('#selectTag option:selected').data('warehouse_id');
-                var org_id = $('#selectTag option:selected').data('org_id');
+                var warehouse_id = label_id.data('warehouse_id');
+                var org_id = label_id.data('org_id');
             }
 
             var parameters = {
