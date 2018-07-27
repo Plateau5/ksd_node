@@ -181,78 +181,67 @@
             <div class="warehouse_list">
                 <form action="{{markUri}}/gps/warehouse/list" method="post" role="form">
                 </form>
-                {{#if (count === 0) }}
+                <div class="new_btn_box">
                     {{#if (verifyCode(1281)) }}
-                        <div class="no_workflow">
-                            <div class="toast_text">目前还没有仓库，尝试建造一个吧</div>
-                            <div class="new_btn_box">
-                                <a href="javascript:;" class="btn blue_btn add_btn create_warehouse"><em></em>新建仓库</a>
-                            </div>
-                        </div>
+                    <a href="javascript:;" class="detail_title_btn create_btn create_warehouse" style="line-height: 90px;">新建仓库</a>
                     {{/if}}
-                {{else}}
-                    <div class="new_btn_box">
-                        {{#if (verifyCode(1281)) }}
-                        <a href="javascript:;" class="detail_title_btn create_btn create_warehouse" style="line-height: 90px;">新建仓库</a>
-                        {{/if}}
-                    </div>
-                    {{#if (verifyCode(1280)) }}
-                    <table class="normal">
-                        <colgroup style="width: 100%;">
-                            <col style="width: 25%;" />
-                            <col style="width: 30%;" />
-                            <col style="width: 30%;" />
-                            <col />
-                        </colgroup>
+                </div>
+                {{#if (verifyCode(1280)) }}
+                <table class="normal">
+                    <colgroup style="width: 100%;">
+                        <col style="width: 25%;" />
+                        <col style="width: 30%;" />
+                        <col style="width: 30%;" />
+                        <col />
+                    </colgroup>
+                    <tr>
+                        <th>机构</th>
+                        <th>库存量</th>
+                        <th>预警库存</th>
+                        <th>操作</th>
+                    </tr>
+                    {{#if (count === 0) }}
                         <tr>
-                            <th>机构</th>
-                            <th>库存量</th>
-                            <th>预警库存</th>
-                            <th>操作</th>
+                            <td colspan="4" class="no_hover">
+                                {{include('./../inc/empty_data')}}
+                            </td>
                         </tr>
-                        {{#if (count === 0) }}
-                            <tr>
-                                <td colspan="4" class="no_hover">
-                                    {{include('./../inc/empty_data')}}
-                                </td>
-                            </tr>
-                        {{else}}
-                            {{#each (list) }}
-                            <tr>
-                                <td title="{{this.name }}">
-                                    {{#if (this.name) }}
-                                        {{this.name}}
-                                    {{else}}
-                                        - -
-                                    {{/if}}
-                                </td>
-                                <td title="">
-                                    {{#if (this.inventory || this.inventory === 0) }}
-                                        {{this.inventory}}
-                                    {{else}}
-                                        - -
-                                    {{/if}}
-                                </td>
-                                <td title="">
-                                    {{#if (this.warning || this.warning === 0) }}
-                                        {{this.warning}}
-                                    {{else}}
-                                        - -
-                                    {{/if}}
-                                </td>
-                                <td class="operate_btn">
-                                    {{#if (root.verifyCode(1282)) }}
-                                    <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
-                                    {{/if}}
-                                    {{#if (root.verifyCode(1277)) }}
-                                    <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
-                                    {{/if}}
-                                </td>
-                            </tr>
-                            {{/each}}
-                        {{/if}}
-                    </table>
+                    {{else}}
+                        {{#each (list) }}
+                        <tr>
+                            <td title="{{this.name }}">
+                                {{#if (this.name) }}
+                                    {{this.name}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="">
+                                {{#if (this.inventory || this.inventory === 0) }}
+                                    {{this.inventory}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td title="">
+                                {{#if (this.warning || this.warning === 0) }}
+                                    {{this.warning}}
+                                {{else}}
+                                    - -
+                                {{/if}}
+                            </td>
+                            <td class="operate_btn">
+                                {{#if (root.verifyCode(1282)) }}
+                                <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
+                                {{/if}}
+                                {{#if (root.verifyCode(1277)) }}
+                                <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
                     {{/if}}
+                </table>
                 {{/if}}
             </div>
             {{/if}}
