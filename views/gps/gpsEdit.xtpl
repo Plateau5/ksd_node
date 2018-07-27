@@ -91,9 +91,9 @@
                                     <option value="">请选择</option>
                                     {{#each (label_list) }}
                                         {{#if (this.id === vo.label_id) }}
-                                        <option value="{{this.id}}&{{this.gps_warehouse_id}}&{{this.organization_id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
+                                        <option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
                                         {{else}}
-                                        <option value="{{this.id}}&{{this.gps_warehouse_id}}&{{this.organization_id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+                                        <option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}">{{this.warehouse_name}}{{this.label_name}}</option>
                                         {{/if}}
                                     {{/each}}
                                 </select>
@@ -223,23 +223,24 @@
                 $alert('SN码只能为英文及数字');
                 return false;
             }
-            var select_label = label_id.val();
-            if (select_label.indexOf('&') != -1) {
-                var selectLabel = select_label.split('&')[0];
-                var gps_warehouse_id = select_label.split('&')[1];
-                var organization_id = select_label.split('&')[2];
+
+            if (reqParamsStr.gps_status == 3) {
+                var select_label = label_id.val();
+                var warehouse_id = $('.gps_warehouse_id').val();
+                var org_id = $('.organization_id').val();
             } else {
-                var selectLabel = select_label;
-                var gps_warehouse_id = $('.gps_warehouse_id').val();
-                var organization_id = $('.organization_id').val();
+                var select_label = label_id.val();
+                var warehouse_id = $('#selectTag option:selected').data('warehouse_id');
+                var org_id = $('#selectTag option:selected').data('org_id');
             }
+
             var parameters = {
                 id : $('#pgs_id').val(),
                 city_id : city_id.val(),
                 type : gps_status.val(),
-                label_id : selectLabel,
-                warehouse_id : gps_warehouse_id,
-                organization_id : organization_id,
+                label_id : select_label,
+                warehouse_id : warehouse_id,
+                organization_id : org_id,
                 sn_code : sn_txt.val()
             };
             ajaxSubmit(parameters);
