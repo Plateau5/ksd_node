@@ -923,7 +923,7 @@ exports.VIEW_PRETRIAL_CREDIT = function(req, res, next) {
             formData : body
         }, function (result) {
             data = result;
-            var page = './customer/pretrialCredit';
+            var page = './customer/JZPretrialCredit';
             if (data.error_code === 0) {
                 data.title = '信用报告';
                 data.originUrl = localUrl;
