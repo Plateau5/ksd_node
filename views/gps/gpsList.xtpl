@@ -374,7 +374,7 @@
         reqParamsStr = JSON.parse(reqParamsStr);
     }
     (function ($) {
-        var pageType = '{{{condition.inWarehouse}}}';//{{condition.inWarehouse}}
+        // var pageType = '{{{condition.inWarehouse}}}';//{{condition.inWarehouse}}
         /**
          * tab标签的切换
          * @author  Plateau  2018年7月23日11:11:51
@@ -637,17 +637,17 @@
                 var data = {
                     gps_id : id
                 };
-                var delTipMsg = '';
-                if (pageType === 0) {
-                    delTipMsg = '确认删除该记录？';
-                } else if (pageType === 1) {
-                    delTipMsg = '确认删除该记录？删除后领用人将无法使用该GPS。';
-                } else {
-                    delTipMsg = '确认删除该记录？';
-                }
+                // var delTipMsg = '';
+                // if (pageType === 0) {
+                //     delTipMsg = '确认删除该记录？';
+                // } else if (pageType === 1) {
+                //     delTipMsg = '确认删除该记录？删除后领用人将无法使用该GPS。';
+                // } else {
+                //     delTipMsg = '确认删除该记录？';
+                // }
                 dialog('open', {
                     title : '删除提醒',
-                    content : delTipMsg,
+                    content : '确认删除该记录？',
                     onConfirm : function (d) {
                         d.close();
                         $ajax('post', url, data, function(res) {
