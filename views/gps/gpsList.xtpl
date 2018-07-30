@@ -156,12 +156,12 @@
                             </td>
                             <td class="operate_btn">
                                 {{#if (root.verifyCode(1581)) }}
-                                    {{#if (this.status !== 4) }}
+                                    {{#if (this.status !== 4 && this.status !== 2) }}
                                         <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit edit go_forward"></a>
                                     {{/if}}
                                 {{/if}}
                                 {{#if (root.verifyCode(1288)) }}
-                                    {{#if (this.status === 1 || this.status === 2) }}
+                                    {{#if (this.status === 1) }}
                                         <a href="javascript:;" title="删除" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsdel delete go_forward"></a>
                                     {{/if}}
                                 {{/if}}
