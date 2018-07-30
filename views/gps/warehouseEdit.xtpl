@@ -25,7 +25,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">GPS</a>
+                <a href="javascript:;" class="crumbs_item go_warehouse_list">GPS仓库</a>
                 <a href="javascript:;" class="crumbs_item">编辑仓库</a>
             </div>
             <input type="hidden" id="wareHouseId" value="{{warehouse_id}}">
@@ -43,16 +43,16 @@
                     </div>
                 </div>
                 <div class="row_item warn_inventory">
-                    <div class="row_title">预警库存：</div>
+                    <div class="row_title" style="padding-left: 6px;width:7.4%;">预警库存：</div>
                     <div class="row_val">
-                        <input type="number" class="warn_num" id="warn_inventory" value="{{warehouseVO.warning}}" placeholder="请输入数字 如：20" />
+                        <input type="text" class="warn_num" id="warn_inventory" value="{{warehouseVO.warning}}" placeholder="请输入数字 如：20" maxlength="3"/>
                     </div>
                 </div>
                 <div class="btn_box text_left">
                     {{#if (verifyCode(1278)) }}
-                    <a href="javascript:" class="btn orange_btn confirm submit_create">确认</a>
+                    <a href="javascript:;" class="btn orange_btn confirm submit_create">确认</a>
                     {{/if}}
-                    <a href="javascript:window.history.back();" class="btn bg_btn cancel">取消</a>
+                    <a href="javascript:;" class="btn bg_btn cancel go_warehouse_list">取消</a>
                 </div>
             </div>
 
@@ -67,6 +67,7 @@
     <!--<div id="footer" class="footer"></div>-->
     <!-------- Part of footer End -------->
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
@@ -74,6 +75,10 @@
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         var elem = {
             tagsList : $('.tags_list'),
             warn : $('#warn_inventory'),
@@ -237,31 +242,60 @@
                 var data = getData();
                 data.newLabels = JSON.stringify(data.newLabels);
                 var url = contextPath + '/api/gps/warehouse/update';
-                $ajax('post', url, data, function(res) {
-                    if (res.error_code == 0) {
-                        $alert('编辑成功', function () {
-                            window.location.href = contextPath + markUri + '/gps/warehouse/list';
-                        });
-                    } else {
-                        $alert(res.error_msg);
-                        console.info(res.error_msg);
+                $.ajax({
+                    type:'post',
+                    timeout:50000,
+                    url : url,
+                    data : data,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('编辑成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/gps/warehouse/list',
+                                    param : reqParamsStr
+                                });
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                            console.info(res.error_msg);
+                            submitBind();
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert('网络异常，请稍后重试');
                         submitBind();
                     }
-                }, function () {
-                    $alert('网络异常，请稍后重试');
-                    submitBind();
                 });
             } else {
                 return;
             }
         }
-
+        /**
+         * GPS仓库-面包屑跳转
+         * @author Plateau  2018年7月25日13:43:40
+         * */
+        function goWarehouseList () {
+            var btn = $('.go_warehouse_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/list",
+                    param : reqParamsStr
+                })
+            });
+        }
         $(function () {
+            numAndAmount('.warn_num');//判断库存预警只能输入数字
             getOldTags();
             addTagsBox();
             createTag();
             deleteTag();
             submitBind();
+            goWarehouseList();//GPS仓库-面包屑跳转
         })
     })(jQuery,undefined);
 </script>

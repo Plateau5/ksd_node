@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/warehouse.css">
     <title>GPS管理-GPS仓库编辑</title>
 </head>
@@ -25,31 +26,29 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">GPS</a>
-                <a href="javascript:" class="crumbs_item goDetail">{{warehouseVO.name}}</a>
+                <a href="{{markUri}}/gps/list" class="crumbs_item">GPS仓库</a>
                 <a href="javascript:;" class="crumbs_item">入库</a>
             </div>
 
             <div class="gps_put_in">
                 <div class="row_item">
                     <div class="row_title"><em class="require_icon">*</em>城市：</div>
-                    <div class="row_val" id="storeCity">
-                        {{#each (city_list) }}
-                            <div class="form_group">
-	                            <input id="" type="radio" class="apply_city" name="apply_city" value="{{this.id}}" />
-	                            <label for="">{{this.name}}</label>
-                        	</div>
-                        {{/each}}
+                    <div class="row_val select_city_div" id="storeCity">
+                        <input type="hidden" class="city_id" name="city_id"  value=""/>
+                        <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>
                     </div>
                 </div>
                 <div class="row_item">
                     <div class="row_title"><em class="require_icon">*</em>类型：</div>
                     <div class="row_val">
-                        <select name="" id="selectType">
-                            <option value="">全部</option>
-                            <option value="1">有线</option>
-                            <option value="0">无线</option>
-                        </select>
+                        <div class="form_group">
+                            <input id="haveLine" type="radio" value="1" name="type"/>
+                            <label for="haveLine">有线</label>
+                        </div>
+                        <div class="form_group">
+                            <input id="nohaveLine" type="radio" value="0" name="type"/>
+                            <label for="nohaveLine">无线</label>
+                        </div>
                     </div>
                 </div>
                 <div class="row_item">
@@ -57,8 +56,8 @@
                     <div class="row_val">
                         <select name="" id="selectTag">
                             <option value="">全部</option>
-                            {{#each (warehouseVO.labelVOs) }}
-								<option value="{{this.id}}">{{this.name}}</option>
+                            {{#each (label_list) }}
+								<option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}">{{this.warehouse_name}}{{this.label_name}}</option>
 							{{/each}}
                         </select>
                     </div>
@@ -68,7 +67,7 @@
                     <div class="row_val sn_code_box">
                         <ul class="sn_code_list">
                             <li class="new_sn">
-                                <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN号" value="" />
+                                <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN码" value="" />
                             </li>
                             <!-- 添加按钮 -->
                             <li class="add_sn_btn"></li>
@@ -77,9 +76,9 @@
                 </div>
                 <div class="btn_box text_left">
                     {{#if (verifyCode(1279)) }}
-                    <a href="javascript:" class="btn orange_btn confirm submit_btn">确认</a>
+                    <a href="javascript:;" class="btn orange_btn confirm submit_btn">确认</a>
                     {{/if}}
-                    <a href="javascript:window.history.back()" class="btn bg_btn cancel">取消</a>
+                    <a href="javascript:;" class="btn bg_btn cancel go_gps_list">取消</a>
                 </div>
             </div>
 
@@ -100,13 +99,23 @@
     <input type="hidden" value="{{warehouseVO.name}}" id="storeName">
     <input type="hidden" value="{{warehouseVO.organization_id}}" id="orgId">
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var city_list = '{{{city_list}}}';//所有城市
+    if (city_list.length > 0 ) {
+        city_list = JSON.parse(city_list);
+    }
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         var elem = {
             addBtn : $('.add_sn_btn'),
             snList : $('.sn_code_list'),
@@ -120,7 +129,7 @@
             elem.addBtn.off('click').on('click', function () {
                 var _this = $(this);
                 var i = '<li class="new_sn">\
-                            <input type="text" id="new_sn_input" class="new_sn_input" autofocus="autofocus" maxlength="20" placeholder="SN号" value="" />\
+                            <input type="text" id="new_sn_input" class="new_sn_input" autofocus="autofocus" maxlength="20" placeholder="SN码" value="" />\
                         </li>';
                 var a = elem.snList.find('.new_sn');
                 if (a.length <= 0) {
@@ -142,6 +151,7 @@
                                 });
                                 return false;
                             }
+                            v = v.toLowerCase();
                             var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
                             if (!isRepeat) {
                                 createdSN.push(v);
@@ -174,11 +184,12 @@
                             return false;
                         } else {
                             if (!reg.test(v)) {
-                                $alert('SN码只能为英文及数字', function () {
+                                $alert('SN码只能为英文和数字', function () {
                                     _this.focus();
                                 });
                                 return false;
                             }
+                            v = v.toLowerCase();
                             var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
                             if (!isRepeat) {
                                 createdSN.push(v);
@@ -213,11 +224,21 @@
         //获取提交数据
         function getData () {
             var data = {};
-            var city = $('#storeCity').find('input[type=\'radio\']:checked').val();
-            var storeId =  $.trim($('#storeId').val());
-            var orgId = $.trim($('#orgId').val());
-            var tagId = $.trim($('#selectTag option:selected').val());
-            var type = $.trim($('#selectType option:selected').val());
+            var city = $('.city_id').val();
+            var selectTag = $('#selectTag').find('option:selected');
+            var tagId = $.trim(selectTag.val());
+            var warehouse_id = $.trim(selectTag.data('warehouse_id'));
+            var org_id = $.trim(selectTag.data('org_id'));
+            var haveLine = $('#haveLine');
+            var nohaveLine = $('#nohaveLine');
+            if (haveLine[0].checked){
+                var type = haveLine.val();
+            } else if (nohaveLine[0].checked) {
+                var type = nohaveLine.val();
+            } else {
+                var type = '';
+            }
+            // var type = $.trim($('#selectType option:selected').val());
             var snArr = [];
             elem.snList.find('.sn').each(function () {
                 var _this = $(this);
@@ -226,9 +247,9 @@
             });
             data.sn_codes = snArr.join(',');
             data.city_id = $.trim(city);
-            data.warehouse_id = storeId;
-            data.organization_id = orgId;
             data.label_id = tagId;
+            data.warehouse_id = warehouse_id;
+            data.organization_id = org_id;
             data.type = type;
             return data;
         }
@@ -244,12 +265,12 @@
                 $alert('请选择类型');
                 return false;
             }
-            if (data.label_id == '') {
-                $alert('请选择所属标签');
+            if (data.label_id == '' || data.label_id == undefined) {
+                $alert('请选择标签');
                 return false;
             }
             if (data.sn_codes == '') {
-                $alert('SN码至少要填写一个');
+                $alert('请填写SN码');
                 return false;
             }
             return true;
@@ -268,46 +289,75 @@
                 elem.submitBtn.off('click');
                 var url = contextPath + '/api/gps/putin/warehouse';
                 var data = getData();
-                $ajax('post', url, data, function (res) {
-                    if (res.error_code == 0) {
-                        $alert('入库成功', function () {
-                            locationTo({
-                                action : contextPath + markUri + '/gps/warehouse/detail',
-                                param : {
-                                    warehouse_id : data.warehouse_id,
-                                    warehouse_name : $.trim($('#storeName').val()),
-                                    inWarehouse : 0,
-                                    create_time : $.trim($('#create_time').val()),
-                                    creator : $.trim($('#creator').val())
-                                }
-                            });
-                        })
-                    } else {
+                $.ajax({
+                    type:'post',
+                    timeout:50000,
+                    url : url,
+                    data : data,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('入库成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/gps/list',
+                                    param : {}
+                                });
+                            })
+                        } else {
+                            bindSubmitEvent();
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
                         bindSubmitEvent();
-                        $alert(res.error_msg);
+                        $alert('网络异常，请稍后重试');
                     }
-                }, function () {
-                    bindSubmitEvent();
-                    $alert('网络异常，请稍后重试');
-                })
+                });
             } else {
                 return;
             }
         }
-        //面包屑跳转详情页
-        function goDetail () {
-            var btn = $('.goDetail');
+        /**
+         * 筛选条件中的选择城市
+         * @author  Plateau  2018年7月23日17:25:12
+         * @param city_list: 城市数据；
+         * @param condition_city_list : 回显城市数据；
+         * @param dataType数据类型：1-两级数据、2-三级数据
+         * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
+         * */
+        function getSelectedCity () {
+            $('.select_city_input').citySelect({
+                data : city_list,
+                defaultData : [],
+                dataType : 1,
+                type : 1
+            }, function (data) {
+                if (data) {
+                    if (data.length != 0) {
+                        $('.city_id').val(data[0].city_list[0].id);
+                        $('.select_city_input').val(data[0].city_list[0].name);
+                    } else {
+                        $('.city_id').val('');
+                        $('.select_city_input').val('');
+                    }
+                }
+            });
+        }
+        /**
+         * GPS入库-取消跳转
+         * @author Plateau  2018年7月30日14:02:25
+         * */
+        function goGpsList () {
+            var btn = $('.go_gps_list');
             btn.on('click', function () {
                 locationTo({
-                    action : contextPath + markUri + '/gps/warehouse/detail',
-                    param : {
-                        warehouse_id : $.trim($('#storeId').val()),
-                        warehouse_name : $.trim($('#storeName').val()),
-                        inWarehouse : 0,
-                        create_time : $.trim($('#create_time').val()),
-                        creator : $.trim($('#creator').val())
-                    }
-                });
+                    action : contextPath + markUri + "/gps/list",
+                    param : reqParamsStr
+                })
             });
         }
 
@@ -316,7 +366,8 @@
             createSNCode();
             deleteSNCode();
             bindSubmitEvent();
-            goDetail();
+            getSelectedCity()//获取选中城市
+            goGpsList();//GPS入库-取消跳转
         })
 
     })(jQuery,undefined);
