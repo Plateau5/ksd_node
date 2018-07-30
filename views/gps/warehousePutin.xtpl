@@ -76,9 +76,9 @@
                 </div>
                 <div class="btn_box text_left">
                     {{#if (verifyCode(1279)) }}
-                    <a href="javascript:" class="btn orange_btn confirm submit_btn">确认</a>
+                    <a href="javascript:;" class="btn orange_btn confirm submit_btn">确认</a>
                     {{/if}}
-                    <a href="{{markUri}}/gps/list" class="btn bg_btn cancel">取消</a>
+                    <a href="javascript:;" class="btn bg_btn cancel go_gps_list">取消</a>
                 </div>
             </div>
 
@@ -112,7 +112,10 @@
         city_list = JSON.parse(city_list);
     }
     (function ($) {
-
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         var elem = {
             addBtn : $('.add_sn_btn'),
             snList : $('.sn_code_list'),
@@ -343,6 +346,19 @@
                 }
             });
         }
+        /**
+         * GPS入库-取消跳转
+         * @author Plateau  2018年7月30日14:02:25
+         * */
+        function goGpsList () {
+            var btn = $('.go_gps_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/list",
+                    param : reqParamsStr
+                })
+            });
+        }
 
         $(function () {
             addSN();
@@ -350,6 +366,7 @@
             deleteSNCode();
             bindSubmitEvent();
             getSelectedCity()//获取选中城市
+            goGpsList();//GPS入库-取消跳转
         })
 
     })(jQuery,undefined);

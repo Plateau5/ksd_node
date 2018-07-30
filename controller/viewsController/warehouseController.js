@@ -184,6 +184,7 @@ exports.VIEW_GPS_PUTIN = function(req, res, next) {
         callback : function (data) {
             if (data) {
                 data.city_list = JSON.stringify(data.city_list);
+                data.reqParamsStr = JSON.stringify(data.reqParams);
             }
         }
     }, req, res, next);

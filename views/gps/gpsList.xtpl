@@ -592,11 +592,13 @@
             btn.on('click', function () {
                 var _this = $(this);
                 var id = $.trim(_this.data('id'));
+                var params = {
+                    warehouse_id : id
+                };
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + '/gps/warehouse/putin',
-                    param : {
-                        warehouse_id : id
-                    }
+                    param : data
                 })
             });
         }
