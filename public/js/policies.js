@@ -277,7 +277,14 @@ function validatePolicyEmpty (form) {
             return false;
         }
     }
-
+    // 适用店面
+    if (!ISMERCHANT) {
+        var checkedSupplier = form.find('.supplier_type_box').find('input[type="checkbox"]:checked');
+        if (checkedSupplier.length <= 0) {
+            $alert('请选择适用店面');
+            return false;
+        }
+    }
     // 生效日期
     var effectiveDate = form.find('.effective_date').val();
     if (effectiveDate == '') {
@@ -316,7 +323,7 @@ function getCheckedCitys (btn) {
 }
 
 /**
- * 获取创建政策的数据（费率、融资期限、城市）
+ * 获取创建政策的数据（费率、融资期限、城市、适用店面）
  * @param form {Object} : 当前编辑政策的form提交元素（jQuery对象）
  * @return {Object} : 政策数据
  */
@@ -324,11 +331,13 @@ function getEditPolicyData (form) {
     var policyData = {
         rates : [],
         rebatePeriods : [],
-        citys : []
+        citys : [],
+        supplier_types :[]
     };
 
     var ratesEle = form.find('.policy_rates').find('input[type="checkbox"]:checked');   // 费率元素
     var peridosEle = form.find('.policy_periods').find('input[type="checkbox"]:checked');       // 期限元素
+    var supplierEle = form.find('.supplier_type_box').find('input[type="checkbox"]:checked'); //适用店面
     ratesEle.each(function () {
         var _this = $(this);
         var value = _this.val().trim().number();
@@ -338,6 +347,11 @@ function getEditPolicyData (form) {
         var _this = $(this);
         var value = _this.val().trim().number();
         policyData.rebatePeriods.push(value);
+    });
+    supplierEle.each(function () {
+        var _this = $(this);
+        var value = _this.val().trim();
+        policyData.supplier_types.push(value);
     });
     var _thisBtn = form.find('.add_city_btn');
     policyData.citys = getCheckedCitys(_thisBtn);
@@ -359,24 +373,33 @@ function checkPoliciesRepeat (form) {
         var oldRates = rebatePolicies[i].rate.split(',');
         var oldPeriods = rebatePolicies[i].rebate_period.split(',');
         var oldCitys = rebatePolicies[i].city_ids.split(',');
+        var oldApplicable = rebatePolicies[i].supplier_types.split(',');
         for (var a = 0, l1 = oldRates.length; a < l1; a++) {
             if (editPolicyData.rates.indexOf(oldRates[a]) !== -1) {
                 for (var b = 0, l2= oldPeriods.length; b < l2; b++) {
                     if (editPolicyData.rebatePeriods.indexOf(oldPeriods[b]) !== -1) {
                         for (var c = 0, l3 = oldCitys.length; c < l3; c++) {
-                            if (editPolicyData.citys.cityIds.indexOf(oldCitys[c]) !== -1) {
-                                // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
-                                var millionCoefficient = parseInt((((oldRates[a] * 100 * (oldPeriods[b] / 12)) + 10000) / oldPeriods[b]) * 1000) / 1000;
-                                if (millionCoefficient.toString().indexOf('.') !== -1) {
-                                    if (millionCoefficient.toString().split('.')[1].number() > 445) {
-                                        millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
-                                    } else {
-                                        millionCoefficient = millionCoefficient.toString().split('.')[0].number();
-                                    }
+                            var cityIdIndex = editPolicyData.citys.cityIds.indexOf(oldCitys[c]);        // 循环中城市ID在当前政策城市数据的下标
+                            if (cityIdIndex !== -1) {
+                                for (var d = 0, l4 = oldApplicable.length; d < l4; d++) {
+                                   if (editPolicyData.supplier_types.indexOf(oldApplicable[d]) !== -1) {
+                                       // 万元系数=（费率*10000*(融资期限➗12)+10000）➗融资期限（费率为百分数，需转化为小数）
+                                       var millionCoefficient = parseInt((((oldRates[a] * 100 * (oldPeriods[b] / 12)) + 10000) / oldPeriods[b]) * 1000) / 1000;
+                                       if (millionCoefficient.toString().indexOf('.') !== -1) {
+                                           if (millionCoefficient.toString().split('.')[1].number() > 445) {
+                                               millionCoefficient = millionCoefficient.toString().split('.')[0].number() + 1;
+                                           } else {
+                                               millionCoefficient = millionCoefficient.toString().split('.')[0].number();
+                                           }
+                                       }
+                                       var cityName = editPolicyData.citys.cityName[cityIdIndex];        // 当前重复政策的城市名称
+                                       var applyTypeId = oldApplicable[d];      // 当前适用店面的ID
+                                       var applyTypeName = merchantsTypeArr[applyTypeId];       // 当前适用店面类型的Name
+                                       $alert('当前政策下'+ cityName + '-' + applyTypeName +'万元系数' + millionCoefficient +'已存在！');
+                                       return false;
+                                   }
                                 }
-                                var cityName = editPolicyData.citys.cityName[c];        // 当前重复政策的城市名称
-                                $alert('当前政策下'+ cityName +'万元系数'+ millionCoefficient +'已存在！');
-                                return false;
+
                             }
                         }
                     }
@@ -499,7 +522,8 @@ function backToPoliciesList () {
                 organization_id : orgId,
                 car_type : carType,
                 orgName : orgName,
-                applyto_business : applytoBusiness
+                applyto_business : applytoBusiness,
+                supplier_type : supplierType
             }
         });
     });
@@ -523,7 +547,8 @@ function toPoliciesList () {
                 supplier_name : supplierName,
                 car_type : carType,
                 url : listUrl,
-                navigation : navigation
+                navigation : navigation,
+                supplier_type : supplierType
             }
         })
     });
@@ -552,6 +577,7 @@ function toPoliciesEdit () {
                 city_id : mCityId,
                 city_name : cityName,
                 applyto_car : mBusinessType,
+                supplier_type : supplierType
             }
         })
     });

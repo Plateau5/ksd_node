@@ -271,35 +271,17 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_EDIT = function(req, res, next) 
         title : '供应商-制订返佣政策',
         page : './organization/policyEdit',
         callback : function (data) {
-            var citys = data.cityList;
-            data.citysNum = data.cityList.length;       // 存储城市总量
-            var cityList = [];
-            var provinceId = [];
-            data.rebatePolicies = JSON.stringify(data.rebatePolicy);
-            for (var i = 0, len = citys.length; i < len; i++) {
-                var pId = citys[i].province_id;
-                var pName = citys[i].province_name;
-                if (provinceId.indexOf(pId) === -1) {
-                    provinceId.push(pId);
-                    var o = {
-                        id : pId,
-                        name : pName,
-                        city_list : []
-                    };
-                    for (var k = 0; k < citys.length; k++) {
-                        if (citys[k].province_id === pId) {
-                            var cObj = {
-                                id : citys[k].city_id,
-                                name : citys[k].city_name
-                            };
-                            o.city_list.push(cObj);
-                            // citys.remove(citys[k]);
-                        }
-                    }
-                    cityList.push(o);
+            var citys = data.city_list;
+            if (data.city_list.length > 0) {
+                data.city_list = JSON.stringify(data.city_list);
+            }
+            if (data.rebatePolicy.length > 0) {
+                for (var i = 0, len = data.rebatePolicy.length; i < len; i++) {
+                    data.rebatePolicy[i].condition_city_lists = JSON.stringify(data.rebatePolicy[i].condition_city_list);
                 }
             }
-            data.cityList = JSON.stringify(cityList);
+            data.rebatePolicies = JSON.stringify(data.rebatePolicy);
+            data.supplierTypes = JSON.stringify(data.supplierType);
 
 
             // 计算万元系数

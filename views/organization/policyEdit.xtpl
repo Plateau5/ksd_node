@@ -7,9 +7,14 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/citySelect.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/company.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+    <style>
+        .form_options{
+            background-color: #fff;
+        }
+    </style>
     <title>快收单</title>
 </head>
 <body>
@@ -198,27 +203,29 @@
                                         {{else}}
                                         <div class="inline_block excess_proportion rebate_detail_value">
                                         {{/if}}
-                                        <div class="inline_block excess_proportion rebate_detail_value">
-                                            <span class="pad_lf_rt_10">超出</span>
-                                            {{#if (this.rebate_way !== 2) }}
-                                            <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="" disabled="disabled" placeholder="1000"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
-                                            {{else}}
-                                            <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="1000"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
-                                            {{/if}}
-                                            <span class="pad_lf_rt_10">元</span>
-                                            <span class="pad_lf_rt_10">返超出金额的</span>
-                                            {{#if (this.rebate_way !== 2) }}
-                                            <input type="text" class="proportion_input" maxlength="6" data-tips="比例不能为空" name="rebate_money" value="" disabled="disabled" placeholder="10"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
-                                            {{else}}
-                                            <input type="text" class="proportion_input" maxlength="6" data-tips="比例不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
-                                            {{/if}}
-                                            <span>%</span>
+                                            <div class="inline_block excess_proportion rebate_detail_value">
+                                                <span class="pad_lf_rt_10">超出</span>
+                                                {{#if (this.rebate_way !== 2) }}
+                                                <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="" disabled="disabled" placeholder="1000"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{else}}
+                                                <input type="text" class="excess_amount_input" maxlength="10" data-tips="金额不能为空" name="exceed_money" value="{{exceed_money}}" placeholder="1000"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{/if}}
+                                                <span class="pad_lf_rt_10">元</span>
+                                                <span class="pad_lf_rt_10">返超出金额的</span>
+                                                {{#if (this.rebate_way !== 2) }}
+                                                <input type="text" class="proportion_input" maxlength="6" data-tips="比例不能为空" name="rebate_money" value="" disabled="disabled" placeholder="10"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{else}}
+                                                <input type="text" class="proportion_input" maxlength="6" data-tips="比例不能为空" name="rebate_money" value="{{rebate_money}}" placeholder="10"  style="width: 90px;height:28px;vertical-align: baseline;" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)" onblur="this.v();" />
+                                                {{/if}}
+                                                <span>%</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="option_item city_box">
                                     <div class="column_name">
-                                        <span class="options_name"><span class="require_icon">*</span>业务城市：</span>
+                                        <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                                     </div>
                                     <div class="column_val">
                                         <ul class="city_list">
@@ -229,11 +236,31 @@
                                             {{/if}}
                                         </ul>
                                         <div class="choose_box">
+                                            <input type="hidden" value="{{xindex}}" class="checkedCities">
                                             <em class="add_city_btn"></em><!--<span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>-->
                                             <input type="hidden" class="area-danxuan single-choice citySelectInput" name="cityNames" value="" data-clear="true" data-value="" />
                                             <input type="hidden" name="city_ids" value="" class="cityIds">
                                             <input type="hidden" name="city_name" value="" class="cityNames">
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="option_item supplier_type_box">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>适用店面：</span>
+                                    </div>
+                                    <div class="column_val">
+                                        {{set (supplierTypeArr = this.supplier_types.split(','))}}
+                                        {{#each (supplierType) }}
+                                            <div class="form_group">
+                                                {{#if (supplierTypeArr.indexOf(this.id.toString()) !== -1) }}
+                                                    <input type="checkbox" class="supplier_type" checked="checked" name="supplier_types" value="{{this.id}}" />
+                                                    <label class="checked">{{this.value}}</label>
+                                                {{else}}
+                                                    <input type="checkbox" class="supplier_type" name="supplier_types" value="{{this.id}}" />
+                                                    <label class="">{{this.value}}</label>
+                                                {{/if}}
+                                            </div>
+                                        {{/each}}
                                     </div>
                                 </div>
                                 <div class="option_item">
@@ -243,10 +270,10 @@
                                     <div class="column_val">
                                         <input type="hidden" name="old_effective_time" value="{{this.effective_time}}">
                                         <input type="text" class="effective_date datainp wicon" name="effective_time" value="{{this.effective_time}}" readonly="readonly"  placeholder="请选择日期" />
-                                        <span class="tips_info">(*请先生效时间)</span>
+                                        <span class="tips_info">(*请选择生效时间)</span>
                                     </div>
                                 </div>
-                            </div>
+                            <!--</div>-->
                                 <div class="disabled_mask"></div>
                             </form>
                             <div class="btn_box text_left pad_btm_50 clearfix" data-btn_type="1">
@@ -364,18 +391,32 @@
                             </div>
                             <div class="option_item city_box">
                                 <div class="column_name">
-                                    <span class="options_name"><span class="require_icon">*</span>业务城市：</span>
+                                    <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                                 </div>
                                 <div class="column_val">
                                     <ul class="city_list">
 
                                     </ul>
                                     <div class="choose_box">
+                                        <input type="hidden" value="-1" class="checkedCities">
                                         <em class="add_city_btn"></em><!--<span class="tips_info" style="display: inline;">(*请先选择业务城市)</span>-->
                                         <input type="hidden" class="area-danxuan single-choice citySelectInput" name="cityNames" value="" data-clear="true" data-value="" />
                                         <input type="hidden" name="city_ids" value="" class="cityIds">
                                         <input type="hidden" name="city_name" value="" class="cityNames">
                                     </div>
+                                </div>
+                            </div>
+                            <div class="option_item supplier_type_box">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>适用店面：</span>
+                                </div>
+                                <div class="column_val">
+                                    {{#each (supplierType) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="supplier_type" name="supplier_types" value="{{this.id}}" />
+                                        <label class="">{{this.value}}</label>
+                                    </div>
+                                    {{/each}}
                                 </div>
                             </div>
                             <div class="option_item">
@@ -384,7 +425,7 @@
                                 </div>
                                 <div class="column_val">
                                     <input type="text" class="datainp wicon effective_date" name="effective_time" value="" readonly="readonly"  placeholder="请选择日期" />
-                                    <span class="tips_info">(*请先生效时间)</span>
+                                    <span class="tips_info">(*请选择生效时间)</span>
                                 </div>
                             </div>
                             <div class="btn_box text_left pad_btm_50 clearfix" data-btn_type='0'>
@@ -420,22 +461,24 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js" type="text/javascript" charset="UTF-8"></script>
-<script src="{{markUri}}/static/js/citySelect.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/citySelect/citySelect.min.js"></script>
 <script src="{{markUri}}/static/js/policies.js" type="text/javascript" charset="UTF-8"></script>
 <script>
-    var citysNum = '{{citysNum}}';
-    citysNum = citysNum.number();
-    var list = '{{cityList}}'; // 城市数据
-    list = JSON.parse(list.replace(/&quot;/ig, '"'));
-    var __LocalDataCities = formatCityData(list);
+    var city_list = '{{{city_list}}}'; // 城市数据
+    city_list = JSON.parse(city_list);
+    /*var city_list_selected = '{{{condition_city_list}}}';
+    city_list_selected = JSON.parse(city_list_selected);*/
+    /*var __LocalDataCities = formatCityData(list);*/
 
     // 存储原始政策数据
-    var rebatePolicies = '{{rebatePolicies}}';        //
-    rebatePolicies = JSON.parse(rebatePolicies.replace(/&quot;/ig, '"'));
+    var rebatePolicies = {{{rebatePolicies}}};
+    /*rebatePolicies = JSON.parse(rebatePolicies);*/
+    var merchantsType = '{{{supplierTypes}}}';     // 机构使用店面类型
+    merchantsType = JSON.parse(merchantsType);
+    var supplierType = '';       // 商户店面类型
+    var merchantsTypeArr = [];
     const EDITAPI = contextPath + '/api/organization/rebate/save';
     const ISMERCHANT = false;
-</script>
-<script>
     var orgId = $('.orgId').val().trim().number();      // 机构Id
     var orgName = $('.orgName').val().trim();      // 机构名称
     var carType = $('.carType').val().trim().number();  //车辆类型
@@ -444,13 +487,18 @@
     var applytoBusiness = $('#applytoBusiness').val().trim();  // 机构适用业务
     // 添加城市
     (function ($) {
-        function addCity () {
+        function getMerchantsTypes () {
+            for (var k = 0, len = merchantsType.length; k < len; k++) {
+                merchantsTypeArr[merchantsType[k].id] = merchantsType[k].value;
+            }
+        }
+        /*function addCity () {
             var body = $('body');
             body.on('click', '.add_city_btn', function (e) {
                 var ev = e || window.event;
                 ev.stopPropagation();
                 ev.preventDefault();
-                /*SelCity(this,e);*/
+                /!*SelCity(this,e);*!/
                 var _this = $(this);
                 var checkedCitys = getCheckedCitys(_this).cityIds.length;
 //                 var allCitys = list.length;
@@ -474,9 +522,64 @@
                 cityArr.remove(cityId);
                 $('#cityTips').hide().find('.msg').text('');
             });
-        }
+        }*/
         // 向页面添加已选择城市数据
-        function addCheckedCityData (btn) {
+        function getSelectedCitys () {
+            var btn = $('.add_city_btn');
+
+            btn.each(function () {
+                var _this = $(this);
+                var cityList = _this.parents(".choose_box").siblings('.city_list');     // 当前添加按钮所在政策的城市列表
+                var citiesList;
+                var citiesIndex = _this.siblings('.checkedCities').val().trim().number();        // 当前政策下选中的城市在源数据中的位置
+                if (citiesIndex === -1) {       // 新建数据中的下标
+                    citiesList = [];
+                } else {
+                    citiesList = rebatePolicies[citiesIndex].condition_city_lists;
+                    citiesList = JSON.parse(citiesList);
+                }
+                _this.citySelect({
+                    data : city_list,
+                    defaultData : citiesList,
+                    dataType : 1,
+                    type : 2
+                }, function (data) {
+//                    console.log(JSON.stringify(data));
+                    if(data.length >0){
+                        var citysList = '';
+                        for( var i = 0,leni = data.length;i < leni;i++){
+                            var pid = data[i].id;
+                            var pname = data[i].name;
+                            var citys = data[i].city_list;
+                            for (var j = 0,lenj = citys.length;j < lenj;j++) {
+                                var cid = citys[j].id;
+                                var cname = citys[j].name;
+                                citysList += '<li class="city" data-pid="'+ pid +'" data-pname="' + pname + '" data-id="'+ cid + '" data-name="' + cname + '" title="'+ pname + '-' + cname +'">'+ cname +'<em class="delete_btn"></em></li>';
+                            }
+                        }
+                        cityList.html(citysList);
+                    }
+                });
+            });
+
+        };
+        function deleteCity () {
+            var body = $('body');
+            body.on('click', '.delete_btn', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var parent = _this.parents('.city');
+                var cityId = $.trim(parent.data('id'));
+                parent.remove();
+                // 重新获取城市IDS
+                var cityArr = getCheckedCitys(_this).cityIds;
+                cityArr.remove(cityId);
+                $('#cityTips').hide().find('.msg').text('');
+            });
+        }
+        /*function addCheckedCityData (btn) {
             var cityIds, cityNames, provincesIds, provincesNames;
             provincesIds = $.trim(btn.data('pid'));
             provincesNames = $.trim(btn.data('pname'));
@@ -501,7 +604,7 @@
                 //cityArr.push(thisCity);
                 //newArr.push(thisCity);
             }
-        }
+        }*/
 
 
 
@@ -564,10 +667,11 @@
                 isToday : false
             });
             // 城市选择注册
-            citySelect({}, function (btn) {
+            /*citySelect({}, function (btn) {
                 addCheckedCityData(btn);
-            });
-            addCity();      // 添加城市点击事件
+            });*/
+            deleteCity();      // 删除城市
+            getSelectedCitys();
             changeRebateType();     // 更改返佣类型视图切换
             bindPolicySubmit();     // 编辑/创建保存提交
             createNewPolicy();      // 创建新政策
@@ -577,6 +681,8 @@
             deletePolicy();     // 删除政策
             backToPoliciesList();       // 面包屑跳转回列表页
             resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
+            getMerchantsTypes();        // 获取适用店面类型数组
+            //console.log(merchantsTypeArr);
         });
     })(jQuery,undefined);
 </script>

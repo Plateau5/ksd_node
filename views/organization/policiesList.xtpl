@@ -76,12 +76,13 @@
                                 </div>
                                 <table class="normal">
                                     <colgroup>
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 20%;">
-                                        <col style="width: 20%;">
+                                        <col style="width: 12%;">
+                                        <col style="width: 12%;">
+                                        <col style="width: 12%;">
+                                        <col style="width: 14%;">
+                                        <col style="width: 18%;">
+                                        <col style="width: 18%;">
+                                        <col >
                                     </colgroup>
                                     <thead>
                                     <tr>
@@ -91,11 +92,12 @@
                                         <th>返点规则</th>
                                         <th>生效时间</th>
                                         <th>适用城市</th>
+                                        <th>适用店面</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td colspan="6" class="no_hover">
+                                        <td colspan="7" class="no_hover">
                                             <div class="no_list_data">
                                                 <div class="toast_img"></div>
                                                 <div class="toast_text">数据加载中……</div>
@@ -171,6 +173,7 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var supplierType = '';       // 商户店面类型
     (function ($) {
         var orgId = $('#orgId').val().trim().number();      // 机构Id
         var orgName = $('#orgName').val().trim();      // 机构名称
@@ -513,11 +516,12 @@
                             '                                    <td title="'+ policiesList[i].rule +'">'+ policiesList[i].rule +'</td>\n' +
                             '                                    <td>'+ policiesList[i].effective_time +'</td>\n' +
                             '                                    <td title="'+ policiesList[i].city_names +'">'+ policiesList[i].city_names +'</td>\n' +
+                            '                                    <td title="'+ policiesList[i].supplier_type_name +'">'+ policiesList[i].supplier_type_name +'</td>\n' +
                             '                                </tr>';
                     }
                 } else {
                     policiesStr += '<tr class="no_hover">\n' +
-                        '                                        <td colspan="6">\n' +
+                        '                                        <td colspan="7">\n' +
                         '                                            <div class="no_list_data">\n' +
                         '                                                <div class="toast_img"></div>\n' +
                         '                                                <div class="toast_text">抱歉，目前暂无数据……</div>\n' +
