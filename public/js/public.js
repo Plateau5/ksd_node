@@ -74,6 +74,114 @@ String.prototype.trim = function () {
 Number.prototype.number = function() {
     return Number(this);
 };
+
+
+/**
+ * 数字和金额校验
+ * Created by wyt on 2018-07-24
+ * selector : 目标元素选择器  必传项
+ * opt::    type:当传值为0时是纯数字校验，当传值为1时是金额校验
+ * opt::    maxInteger: 可输入的最大整数	maxDecimal:需要保留的小数点位数
+ * opt::    addDecimal : 为0时，输入框移除光标时，如果为整数，自动补小数0
+ */
+function numAndAmount (selector,opt) {
+    var option = {		//默认配置
+        type : 0,
+        maxInteger : 7,
+        maxDecimal : 2,
+        addDecimal : 0
+    };
+    var options = $.extend({},option,opt);		//扩展多个对象
+    var typeStr = options.type;					//获取配置的type类型
+    var maxInteger = options.maxInteger;		//获取配置的最大整数
+    var maxDecimal = options.maxDecimal;		//获取配置的小数点位数
+    var addDecimal = options.addDecimal;		//值为0时，自动补位小数点0，否则不补位
+    var selector = $(selector);
+    var minDecimalStr = "";
+    selector.on('input', function(){	//oninput 事件在用户输入时触发。
+        var value = selector.val();
+        if (typeStr == 0) {
+            //把非数字的都替换掉
+            value = value.replace(/[^\d]/g,'');
+        } else if (typeStr == 1) {
+            var amoutNum = "";
+            var str = "";
+            var decimalStr = "";
+            //先把非数字的都替换掉，除了数字和.
+            value = value.replace(/[^\d\.]/g,"").replace(/^\./g,"");
+            //保证.只出现一次，而不能出现两次以上
+            value = value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+            //只能输入配置位数的小数
+            if (maxDecimal == 1) {
+                value = value.replace(/^(\-)*(\d+)\.(\d{0,1}).*$/,'$1$2.$3');
+                decimalStr = ".9";
+                minDecimalStr = ".0";
+            } else if (maxDecimal == 2) {
+                value = value.replace(/^(\-)*(\d+)\.(\d{0,2}).*$/,'$1$2.$3');
+                decimalStr = ".99";
+                minDecimalStr = ".00";
+            } else if (maxDecimal == 4) {
+                value = value.replace(/^(\-)*(\d+)\.(\d{0,4}).*$/,'$1$2.$3');
+                decimalStr = ".9999";
+                minDecimalStr = ".0000";
+            }
+
+            if(value.indexOf(".")< 0 && value !=""){	//如果没有小数点，首位不能为类似于 01、02的金额
+                value= parseFloat(value);
+            }
+
+            for (var i = 0, len = maxInteger;i < len; i++ ) {
+                str += "9";
+            }
+            amoutNum = Number(str + decimalStr);
+
+            if(value>amoutNum){		//输入的整数位数不能大于配置位数
+                value = String(value).slice(0,maxInteger);
+            }
+        }
+        selector.val(value);
+    });
+    if (addDecimal == 0) {
+        selector.on('blur', function(){		//输入框移除光标时，如果为整数，自动补小数0
+            if (typeStr == 1) {
+                var _this = $(this).val();
+                if (_this.indexOf(".")!=-1) {
+
+                } else {
+                    if(_this != ''){
+                        _this = _this + minDecimalStr;
+                    }
+                }
+                $(this).val(_this);
+            }
+        });
+    }
+}
+
+
+/**
+ * 英文、中英文、中文、英文数字校验
+ * Created by wyt on 2018-07-24
+ * selector : 目标元素选择器  必传项
+ * type::  0：纯英文，1：纯中文，2：中英文，3：英文、数字  	必传项
+ */
+function chnAndEng (selector,type) {
+    var selector = $(selector);
+    selector.on('input', function(){
+        var value = selector.val();
+        if (type == 0) {	//只允许输入纯英文
+            value = value.replace(/[^a-zA-Z]/g,'');
+        } else if (type == 1) {		//只允许输入纯中文
+            value = value.replace(/[^\u4E00-\u9FA5]/g,'');
+        } else if (type == 2) {		//只允许输入中英文
+            value = value.replace(/[^a-zA-Z\u4E00-\u9FA5]/g,'');
+        } else if (type == 3) {		//只允许输入英文、数字
+            value = value.replace(/[^a-zA-Z\d]/g,'');
+        }
+        selector.val(value);
+    });
+}
 // ----------------------------------------------------------------------
 // <summary>
 // 限制只能输入数字
@@ -1618,7 +1726,7 @@ function chooseImage (f) {
     }
     var filePath = file.value;
     //获取图片扩展名
-    var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length); //此处使用lastIndexOf屏蔽图片中自带“.”
+    var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length).toLocaleLowerCase(); //此处使用lastIndexOf屏蔽图片中自带“.”
     if (extname != 'jpg' && extname != 'jpeg' && extname != 'png') {
         //alert('请使用正确格式的图片');
         f.parents(".img_upload").find(".img_error").text("请使用正确格式的图片").show();
@@ -1896,7 +2004,7 @@ function fileUpload (opt) {
         }
         var filePath = file.value;
         //获取文件扩展名
-        var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length); // 此处使用lastIndexOf屏蔽文件中自带“.”
+        var extname = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length).toLocaleLowerCase(); // 此处使用lastIndexOf屏蔽文件中自带“.”
         if (options.fileFormat.length != 0) {
             //if (extname != 'jpg' && extname != 'jpeg' && extname != 'png') {
             var isNeedFormat = $.inArray(extname, options.fileFormat);

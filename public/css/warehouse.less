@@ -246,6 +246,73 @@
         }
     }
 }
+/**
+* 修改城市样式 start
+* @author  Plateau  2018年7月23日17:56:22
+**/
+.gps_put_in{
+    .row_title{
+        text-align: left;
+    }
+    .select_city_div{
+        position: relative;
+        .select_city_input{
+            width: 212px;
+            height: 28px;
+            padding: 0 8px;
+            color: #333;
+            vertical-align: inherit;
+            cursor: auto;
+            border: 1px solid #e4e4e4;
+            cursor: pointer;
+            background-image: url('../img/icon_city.png');
+            background-repeat: no-repeat;
+            background-position: 205px center;
+        }
+    }
+    select{
+        width:230px;
+    }
+    .new_sn,.sn{
+        width:230px  !important;
+        height:30px !important;
+        line-height: 30px !important;
+        .new_sn_input{
+            height:28px !important;
+            border: 1px solid #e4e4e4 !important;
+        }
+    }
+}
+.express{
+    select{
+        width:230px !important;
+    }
+    .row_title{
+        text-align: left;
+    }
+    .express_num{
+        width:230px  !important;
+        height:30px !important;
+        line-height: 30px !important;
+    }
+}
+.disagree,.gps_create,.to_face{
+    .row_title{
+        text-align: left;
+    }
+}
+.apply_detail{
+    .row_title{
+        font-size: 12px !important;
+        color:#666 !important;
+    }
+    .row_val{
+        font-weight: normal !important;
+        font-size: 12px !important;
+        color:#333 !important;
+    }
+}
+/************ 修改城市样式 end*************/
 .express,.to_face,.disagree,.administrative_storage{
     .express_num,.person_name,.item_name{
         width: 180px;
@@ -573,7 +640,7 @@
     margin: 20px 0 100px 0;
     font-size: 14px;
     .row_title{
-        text-align: right;
+        text-align: left;
         color: #808991;
     }
     .row_val{
@@ -590,11 +657,19 @@
         line-height: 50px;
         text-align: right;
     }
-    .send_btn:before{
-        width: 18px;
-        height: 16px;
-        left: 6px;
-        top: 5px;
+    .send_btn{
+        &:hover{
+            &:before{
+                background-position: -64px -774px;
+            }
+        }
+        &:before{
+            width: 16px;
+            height: 16px;
+            left: 6px;
+            top: 3px;
+            background-position: -64px -754px;
+        }
     }
     .apply_list{
         height: auto;
@@ -694,6 +769,17 @@
         input[type='checkbox'] + label:before{
             top: -1px;
         }
+    }
+    .changeSN{
+        display: inline-block;
+        width:16px;
+        height:16px;
+        line-height: 16px;
+        border-radius: 50%;
+        background-color: @active-color;
+        color:#fff;
+        font-size: 12px;
+        text-align: center;
     }
 }
 

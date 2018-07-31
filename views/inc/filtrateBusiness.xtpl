@@ -1,0 +1,93 @@
+<div class="filtrate border_filtrate">
+    <div class="date_conditions">
+        <div class="inline_block">
+            <div class="conditions_name inline_block">库存状态：</div>
+            <select name="status" class="filtrate_select">
+                <option value="">全部</option>
+                {{#if (condition.status === 1) }}
+                <option value="1" selected>已出库</option>
+                {{else}}
+                <option value="1">已出库</option>
+                {{/if}}
+                {{#if (condition.status === 2) }}
+                <option value="2" selected>已激活</option>
+                {{else}}
+                <option value="2">已激活</option>
+                {{/if}}
+                {{#if (condition.status === 3) }}
+                <option value="3" selected>未出库</option>
+                {{else}}
+                <option value="3">未出库</option>
+                {{/if}}
+            </select>
+        </div>
+        <div class="select_city_div inline_block">
+            <div class="conditions_name inline_block">城市：</div>
+            <input type="hidden" name="city_ids" class="city_ids filtrate_input" value="{{condition.city_ids}}" >
+            {{#if (condition.city_ids) }}
+                {{#if (condition.city_ids.indexOf(',') !== -1) }}
+                    {{set (cityArrs = condition.city_ids.split(',')) }}
+                    <input type="text" class="select_city_input cursor filtrate_input" name=""  value="{{cityName}}等{{cityArrs.length}}个城市" readonly/>
+                {{else}}
+                    <input type="text" class="select_city_input cursor filtrate_input" name=""  value="{{cityName}}" readonly/>
+                {{/if}}
+            {{else}}
+                <input type="text" class="select_city_input cursor filtrate_input" name=""  value="全部" readonly/>
+            {{/if}}
+        </div>
+        <div class="inline_block">
+            <div class="conditions_name inline_block">类型：</div>
+            <select name="type" class="filtrate_select">
+                <option value="">全部</option>
+                {{#if (condition.type === 0) }}
+                <option value="0" selected>无线</option>
+                {{else}}
+                <option value="0">无线</option>
+                {{/if}}
+                {{#if (condition.type === 1) }}
+                <option value="1" selected>有线</option>
+                {{else}}
+                <option value="1">有线</option>
+                {{/if}}
+            </select>
+        </div>
+        <div class="inline_block">
+            <div class="conditions_name inline_block">标签：</div>
+            <select name="label_id" class="filtrate_select">
+                <option value="">全部</option>
+                {{#each(label_list) }}
+                    {{#if (this.id === ../condition.label_id) }}
+                    <option value="{{this.id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
+                    {{else}}
+                    <option value="{{this.id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+                    {{/if}}
+                {{/each}}
+            </select>
+        </div>
+        <div class="inline_block">
+            <div class="conditions_name inline_block filtrate_audit_type">使用人：</div>
+            <div class="search_box inline_block order_search_box">
+                <input type="hidden" name="use_id" value="{{condition.use_id}}" id="orderCreatorId" class="filtrate_input">
+                <input type="text" id="createName" name="use_name" value="{{condition.use_name}}" placeholder="销售姓名" class="filtrate_input fuzzy_search" autocomplete="off" readonly="readonly">
+                <em class="del_icon"></em>
+                <div class="search_result" style="display: none;">
+                    <div class="search_input">
+                        <input class="customer_search" type="text">
+                    </div>
+                    <ul class="search_list">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="sn_div inline_block">
+            <div class="conditions_name inline_block">SN码：</div>
+            <input type="text" class="sn_input cursor filtrate_input" name="sn_code"  value="{{condition.sn_code}}" placeholder="" maxlength="20"/>
+        </div>
+
+        <div class="btn_box text_right">
+            <a href="javascript:" class="btn bg_btn cancel customer_search_cancel">清空</a>
+            <a href="javascript:" class="btn orange_btn confirm customer_search_confirm">筛选</a>
+        </div>
+    </div>
+</div>
