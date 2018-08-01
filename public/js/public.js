@@ -2180,7 +2180,8 @@ function initDateStartEnd (startSelector, endSelector) {
             endDates();
         },
         okfun:function (elem,datas) {
-            // alert(datas)
+            end.minDate = datas; //开始日选好后，重置结束日的最小日期
+            endDates();
         }
     };
     var end = {
