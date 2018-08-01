@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/warehouse.css">
@@ -24,8 +25,8 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="crumbs_nav">
-                <a href="{{contextPath}}/home" class="crumbs_item">首页</a>
-                <a href="javascript:;" class="crumbs_item">{{gpsApplyVo.applicant}}的GPS预约申请</a>
+                <a href="javascript:;" class="go_apply_list crumbs_item">GPS仓库</a>
+                <a href="javascript:;" class="crumbs_item">处理申请</a>
             </div>
             <div class="apply_detail">
                 <div class="basic_info">
@@ -93,8 +94,11 @@
                                     <div class="check_sn form_options">
                                         {{#each (this.gpsVOs) }}
                                             <div class="form_group">
-                                                    <input type="checkbox" id="code-{{this.id}}" class="apply_scope" name="snCode"  value="{{this.id}}" checked="checked" />
-                                                    <label for="code-{{this.id}}" class="nowrap checked">{{this.sn_code}}</label>
+                                                <input type="checkbox" id="code-{{this.id}}" class="apply_scope" name="snCode"  value="{{this.id}}" checked="checked" />
+                                                <label for="code-{{this.id}}" class="checked">{{this.sn_code}}</label>
+                                                {{#if (root.verifyCode(1585)) }}
+                                                <a href="javascript:;" class="changeSN" data-id="{{this.id}}" data-orgid="{{../this.organization_id}}" data-label_id="{{../this.label_id}}" data-type="{{../this.type}}" data-apply_id="{{this.apply_id}}">换</a>
+                                                {{/if}}
                                             </div>
                                         {{/each}}
                                     </div>
@@ -118,9 +122,14 @@
 </div>
 </body>
 {{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         var finalResult = [];
         var delResult = [];
         // 初始化获取自动分配的gps
@@ -160,15 +169,92 @@
             var receiveType = $.trim($('#receiveType').val());
             var applicant = $.trim($('#applicant').val());
             btn.off('click').on('click', function () {
+                var params = {
+                    gps_apply_id : applyId,
+                    receive_type : receiveType,
+                    applicant : applicant,
+                    gps_ids : finalResult.join(','),
+                    delGps_ids : delResult.join(',')
+                };
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + '/gps/apply/confirmSend',
-                    param : {
-                        gps_apply_id : applyId,
-                        receive_type : receiveType,
-                        applicant : applicant,
-                        gps_ids : finalResult.join(','),
-                        delGps_ids : delResult.join(',')
+                    param : data
+                })
+            });
+        }
+
+        /**
+         * 更换SN码
+         * @author  Plateau  2018年7月23日16:28:35
+         * */
+        function getChangeSN () {
+            var changeSN = $('.changeSN');
+            changeSN.off('click').on('click', function () {
+                var _this = $(this);
+                var old_sncode = _this.siblings('label').text();
+                var apply_id = _this.data('apply_id');
+                var orgid = _this.data('orgid');
+                var label_id = _this.data('label_id');
+                var type = _this.data('type');
+                dialog('open', {
+                    title : '',
+                    content : '<span style="padding:2px 10px;font-size: 12px;">SN码</span><input type="text" name="" style="width: 200px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" id="sn_code" value="'+ old_sncode +'" placeholder="" maxlength="20" />' +
+                    '<div class="error-tips" style="font-size: 12px;color:#FF102E;height:20px;line-height: 20px;" id="errorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var new_sncode = $.trim($('#sn_code').val());
+                        var obj = {
+                            apply_id : apply_id,
+                            new_sncode : new_sncode,
+                            old_sncode : old_sncode,
+                            organization_id : orgid,
+                            label_id : label_id,
+                            type : type
+                        };
+                        onSubmit(d, obj);
                     }
+                });
+            });
+            var onSubmit = function (d, obj) {
+                if (obj.new_sncode == '') {
+                    $('#errorTips').text('SN码不能为空');
+                    return;
+                }
+                redefineAjax({
+                    url : contextPath + '/api/gps/replace/sncode',
+                    data : obj,
+                    timeout : 5000,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            d && d.close();
+                            window.location.reload();
+                        } else {
+                            $('.error-tips').text(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        d && d.close();
+                        $alert('操作失败，请稍后重试');
+                    }
+                });
+            }
+        }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年7月24日13:54:34
+         * */
+        function goApplyList () {
+            var btn = $('.go_apply_list');
+            btn.on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + "/gps/apply/list",
+                    param : reqParamsStr
                 })
             });
         }
@@ -178,6 +264,8 @@
             initGps();
             checkSN();
             bindSendEvent();
+            getChangeSN();//更换SN码
+            goApplyList();//GPS仓库-面包屑跳转
         })
     })(jQuery,undefined);
 </script>

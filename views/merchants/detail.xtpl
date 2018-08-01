@@ -574,6 +574,7 @@
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
     (function ($) {
+        var supplierType = '{{detail.type}}';       // 商户店面类型
         var credentialsType = '{{detail.id_type}}';  // 证件类型
         var credentialsNum = '{{detail.id_num}}';    // 证件号码
         var merchantId = $.trim($('#supplierId').val());    // 商户ID
@@ -791,7 +792,8 @@
                         supplier_name : merchantName,
                         car_type : mCarType,
                         url : listUrl,
-                        navigation : navigation
+                        navigation : navigation,
+                        supplier_type : supplierType
                     }
                 })
             });

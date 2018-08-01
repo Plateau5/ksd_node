@@ -822,7 +822,7 @@ function selectImage1(file) {
 		return;
 	}
 	var filepath=file.value;
-	var extname = filepath.substring(filepath.lastIndexOf(".")+1,filepath.length);
+    var extname = (filepath.substring(filepath.lastIndexOf(".") + 1,filepath.length)).toLocaleLowerCase();
 	if(extname != 'jpg' && extname != 'jpeg' && extname != 'png'){
 		alert('请使用正确格式的图片');
 		$(this).parent().parent().parent().next().next().html("请使用正确格式的图片");
@@ -852,7 +852,7 @@ function selectImage2(file) {
 		return;
 	}
 	var filepath=file.value;
-	var extname = filepath.substring(filepath.lastIndexOf(".")+1,filepath.length);
+    var extname = (filepath.substring(filepath.lastIndexOf(".") + 1,filepath.length)).toLocaleLowerCase();
 	if(extname != 'jpg' && extname != 'jpeg' && extname != 'png'){
 		alert('请使用正确格式的图片');
 		$(this).parent().parent().parent().next().next().html("请使用正确格式的图片");
@@ -882,7 +882,7 @@ function selectImage3(file) {
 		return;
 	}
 	var filepath=file.value;
-	var extname = filepath.substring(filepath.lastIndexOf(".")+1,filepath.length);
+    var extname = (filepath.substring(filepath.lastIndexOf(".") + 1,filepath.length)).toLocaleLowerCase();
 	if(extname != 'jpg' && extname != 'jpeg' && extname != 'png'){
 		alert('请使用正确格式的图片');
 		$(this).parent().parent().parent().next().next().html("请使用正确格式的图片");
