@@ -19,7 +19,7 @@ var merchantsCtrl = require('../controller/viewsController/merchantsController')
 var dockingCtrl = require('../controller/viewsController/dockingController');
 var schoolCtrl = require('../controller/viewsController/schoolController');
 var carModelCtrl = require('../controller/viewsController/carModelController');
-
+var testCtrl = require('../controller/viewsController/testController');
 
 var markUri = '/ksd';
 
@@ -60,6 +60,12 @@ router.all(markUri + '/customer/loan/passed', customerCtrl.VIEW_CUSTOMER_LOAN_PA
 router.all(markUri + '/customer/loan/unpass', customerCtrl.VIEW_CUSTOMER_LOAN_UNPASS);
 // 客户管理-详情页-贷款管理 1036
 router.post(markUri + '/customer/loan/detail', customerCtrl.VIEW_CUSTOMER_LOAN_DETAIL);
+// 客户管理-详情页-贷款管理-预审信息
+router.post(markUri + '/customer/loan/JZPretrial/detail', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_DETAIL);
+// 客户管理-详情页-贷款管理-预审信息-个人信用报告
+router.post(markUri + '/customer/loan/JZPretrial/credit', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_CREDIT);
+
+
 // 客户管理-订单分配页面跳转 1022
 router.post(markUri + '/customer/loan/allot', customerCtrl.VIEW_CUSTOMER_LOAN_ALLOT);
 // 客户管理-资料不合格页面跳转 1037
@@ -193,6 +199,16 @@ router.post(markUri + '/customer/otherfund/disagree', customerCtrl.VIEW_CUSTOMER
 // 客户-其他管理-待审批-转交他人页面 1336
 router.post(markUri + '/customer/otherfund/transfer', customerCtrl.VIEW_CUSTOMER_OTHERFUND_TRANSFER);
 
+// 客户-预审管理-访问路径 1575
+router.get(markUri + '/customer/JZPretrial/system', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_SYSTEM);
+// 客户-预审管理列表 1575
+router.all(markUri + '/customer/JZPretrial/list', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_LIST);
+// 客户-预审管理-预审信息详情 1576
+router.post(markUri + '/customer/JZPretrial/detail', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_DETAIL);
+// 客户-预审管理-预审信息-个人信用报告 1577
+router.post(markUri + '/customer/JZPretrial/credit', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_CREDIT);
+// app-预审管理-个人信用报告
+router.all(markUri + '/pretrial/credit', customerCtrl.VIEW_PRETRIAL_CREDIT);
 
 
 // 商户-商户管理-主导航跳转 1366
@@ -551,9 +567,20 @@ router.post(markUri + '/docking/pingan/detailCredit', dockingCtrl.VIEW_DOCKING_P
 router.all(markUri + '/404', function(req, res, next) {
     res.render('./errorpage/404', {title: '404'});
 });
+
+
+
+
+/************** TEST CONTROLLER START **************/
+// These router are only used to testing. In the production plat are not used.
+router.all(markUri + '/test/kindEditor', testCtrl.VIEW_TEST_KINDEDITOR);
+/************** TEST CONTROLLER END **************/
+
+
+
+
 router.get('*', function(req, res, next) {
     /*res.redirect('./errorpage/404', {title: '404'});*/
     res.render('./errorpage/404');
 });
-
 module.exports = router;

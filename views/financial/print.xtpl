@@ -181,12 +181,13 @@
 		/**
 		*	获取查询字符串的参数值（value）
 		* @param name  		参数名   string
-		* @param queryArr	查询数组 array
+		* @param queryString	查询字符串 queryString
 		* @returns {null}
 		*/
-		function getQuerystringParam (name, queryArr) {
+		function getQuerystringParam (name, queryString) {
 			var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-			var r = queryArr || window.location.search.substr(1).match(reg);
+			var queryStr = queryString || window.location.search;
+			var r = queryStr.substr(1).match(reg);
 			if (r != null) {
 				return unescape(r[2]);
 			}

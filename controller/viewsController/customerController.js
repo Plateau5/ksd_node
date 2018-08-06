@@ -62,8 +62,10 @@ exports.VIEW_CUSTOMER_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/customer/pigeonhole/system');
         } else if (common.checkPrivilege(1330, req)) {
             res.redirect(markUri + '/customer/otherfund/system');
+        }else if (common.checkPrivilege(1575, req)) {
+            res.redirect(markUri + '/customer/JZPretrial/system');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1260 | 1225 | 1226 | 1227 | 1228 | 1330 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1260 | 1225 | 1226 | 1227 | 1228 | 1330 | 1575 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
@@ -109,6 +111,7 @@ exports.VIEW_CUSTOMER_LOAN_PENDINGALLOT = function(req, res, next) {
         title : '贷款管理-待分配',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -120,6 +123,7 @@ exports.VIEW_CUSTOMER_LOAN_ALREADYALLOT = function(req, res, next) {
         title : '贷款管理-已分配',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -131,6 +135,7 @@ exports.VIEW_CUSTOMER_LOAN_ENTERED = function(req, res, next) {
         title : '贷款管理-已录入',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -142,6 +147,7 @@ exports.VIEW_CUSTOMER_LOAN_PASSED = function(req, res, next) {
         title : '贷款管理-已通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -153,6 +159,7 @@ exports.VIEW_CUSTOMER_LOAN_UNPASS = function(req, res, next) {
         title : '贷款管理-未通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -227,6 +234,7 @@ exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
         title : '合同管理-待出合同',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -262,6 +270,7 @@ exports.VIEW_CUSTOMER_COMPACT_PASS = function(req, res, next) {
         title : '合同管理-已通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -273,6 +282,7 @@ exports.VIEW_CUSTOMER_COMPACT_UNPASS = function(req, res, next) {
         title : '合同管理-未通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -306,6 +316,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGDISPOSE = function(req, res, next) {
         title : '请款管理-待请款',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -317,6 +328,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGPASS = function(req, res, next) {
         title : '请款管理-待通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -328,6 +340,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PENDINGAUDIT = function(req, res, next) {
         title : '请款管理-待审批',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -339,6 +352,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_PASS = function(req, res, next) {
         title : '请款管理-已通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -350,6 +364,7 @@ exports.VIEW_CUSTOMER_RESQUESTPAYOUT_UNPASS = function(req, res, next) {
         title : '请款管理-未通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -428,6 +443,7 @@ exports.VIEW_CUSTOMER_APPROVAL_PENDINGAUDIT = function(req, res, next) {
         title : '审批管理-待审批',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -439,6 +455,7 @@ exports.VIEW_CUSTOMER_APPROVAL_PASS = function(req, res, next) {
         title : '审批管理-已通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -450,6 +467,7 @@ exports.VIEW_CUSTOMER_APPROVAL_UNPASS = function(req, res, next) {
         title : '审批管理-未通过',
         page : './customer/customerList',
         callback:function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -461,6 +479,7 @@ exports.VIEW_CUSTOMER_APPROVAL_RETURN = function(req, res, next) {
         title : '审批管理-已回款',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -508,12 +527,6 @@ exports.VIEW_CUSTOMER_APPROVAL_SUBMIT = function(req, res, next) {
 };
 
 
-
-
-
-
-
-
 // 客户-回款管理-跳转
 exports.VIEW_CUSTOMER_FINANCIAL_SYSTEM = function(req, res, next) {
     try {
@@ -542,6 +555,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_PENDINGRETURN = function(req, res, next) {
         title : '回款管理-待回款',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -594,6 +608,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_RETURN = function(req, res, next) {
         title : '回款管理-已回款',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -791,6 +806,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_PENDINGAUDIT = function(req, res, next) {
         title : '其他管理-待审核',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -802,6 +818,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_PASS = function(req, res, next) {
         title : '其他管理-已通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -813,6 +830,7 @@ exports.VIEW_CUSTOMER_OTHERFUND_UNPASS = function(req, res, next) {
         title : '其他管理-未通过',
         page : './customer/customerList',
         callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
             formatOrderListData(data);
         }
     }, req, res, next);
@@ -851,15 +869,83 @@ exports.VIEW_CUSTOMER_OTHERFUND_TRANSFER = function(req, res, next) {
     }, req, res, next);
 };
 
-
-
-
-
-
-
-
-
-
+// 客户-预审管理-跳转
+exports.VIEW_CUSTOMER_JZPRETRIAL_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1575, req)) {
+            res.redirect(markUri + '/customer/JZPretrial/list');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1575  is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 客户-预审管理列表
+exports.VIEW_CUSTOMER_JZPRETRIAL_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/jizhipretrial/getList',
+        title : '预审管理',
+        page : './customer/JZPretrialList',
+        callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
+        }
+    }, req, res, next);
+};
+// 客户-预审管理-预审信息详情
+exports.VIEW_CUSTOMER_JZPRETRIAL_DETAIL = function(req, res, next) {
+    common.getPageData({
+        url : '/api/jizhipretrial/getDetail',
+        title : '预审信息详情',
+        page : './customer/JZPretrialDetail'
+    }, req, res, next);
+};
+// 客户-预审管理-预审信息-个人信用报告
+exports.VIEW_CUSTOMER_JZPRETRIAL_CREDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/jizhipretrial/getReport',
+        title : '个人信用报告',
+        page : './customer/JZPretrialCredit'
+    }, req, res, next);
+};
+// app-预审管理-个人信用报告
+exports.VIEW_PRETRIAL_CREDIT = function(req, res, next) {
+    var parseUrl = urlParse.parse(req.url, true).query;     // 解析查询字符串
+    var searchParam = urlParse.parse(req.url).query;    // 获取查询参数
+    var ctype = parseUrl.ctype;
+    var body = req.body;
+    var data = {};
+    var localUrl = req.originalUrl;
+    try {
+        common.httpRequest({
+            url : apiServerPath + '/api/jizhipretrial/getReport?' + searchParam,
+            formData : body
+        }, function (result) {
+            data = result;
+            var page = './customer/JZPretrialCredit';
+            if (data.error_code === 0) {
+                data.title = '信用报告';
+                data.originUrl = localUrl;
+                data.markUri = markUri;
+                data.apiServerPath = apiServerPath;
+                data.domain = domain;
+                data.reqParams = body;
+                data.ctype = ctype;
+                res.render(page, data);
+            } else {
+                console.log(data);
+                res.redirect(markUri + '/404');
+            }
+        }, req, res, next);
+    } catch (err) {
+        /*logger.error(err);*/
+        console.log(err + '268');
+        res.statusCode = 500;
+        /*return res.json({success: false, message: '服务器异常'});*/
+        res.redirect(markUri + '/404');
+    }
+};
 
 
 

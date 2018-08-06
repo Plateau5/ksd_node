@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <title>预审管理</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            {{include('./../inc/operationCategory')}}
+            <form action="{{originUrl}}" method="post" id="form_search" role="form" autocomplete="off">
+                <input type="hidden" name="current_page" value="{{current_page}}" id="current_page">
+                {{include('./../inc/filtrate')}}
+            </form>
+            <div class="business_list">
+                <div class="pretrial_list">
+                    <table class="normal">
+                        <colgroup>
+                            <col style="width: 4%;" />
+                            <col style="width: 14%;" />
+                            <col style="width: 14%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 26%;" />
+                            <col style="width: 12%;" />
+                            <col style="width: 12%;" />
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th style="padding: 0 0 0 8px;"></th>
+                            <th class="text_left" style="padding: 0 2%;">姓名</th>
+                            <th class="text_left" style="padding: 0 2%;">手机</th>
+                            <th>性别</th>
+                            <th class="text_left" style="padding: 0 2%;">婚姻状况</th>
+                            <th class="text_left" style="padding: 0 2%;">贷前</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {{#if (count > 0) }}
+                                {{#each (list) }}
+                                    <tr data-id="{{this.id}}">
+                                        <td style="padding: 0 0 0 8px;"></td>
+                                        <td class="text_left" title="{{this.name}}">{{this.name}}</td>
+                                        <td class="text_left">{{this.phone}}</td>
+                                        <td>
+                                            {{#if (this.gender  === 0) }}
+                                                女
+                                            {{elseif (this.gender  === 1) }}
+                                                男
+                                            {{/if}}
+                                        </td>
+                                        <td class="text_left">
+                                            {{#if (this.is_marry  === 0) }}
+                                                未婚、离婚或丧偶
+                                            {{elseif (this.is_marry  === 1) }}
+                                                已婚
+                                            {{/if}}
+                                        </td>
+                                        <td class="text_left" title="{{this.create_name}}">{{this.create_name}}</td>
+                                        <td>
+                                            {{#if (this.status  === 2) }}
+                                                <div class="pretrial_type pretrial_type_sec">已评估</div>
+                                            {{elseif (this.status  === 3) }}
+                                                <div class="pretrial_type">已进件</div>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            {{/if}}
+                            <!-- 没有数据部分 -->
+                            {{#if (count === 0) }}
+                            <tr class="no_data">
+                                <td colspan="7">
+                                    {{include('./../inc/empty_data')}}
+                                </td>
+                            </tr>
+                            {{/if}}
+                        </tbody>
+                    </table>
+                </div>
+                <!--分页部分 Begin-->
+                    {{include('./../inc/paginations')}}
+                <!--分页部分 End-->
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+
+    <!-------- Part of footer Begin -------->
+    <!--<div id="footer" class="footer"></div>-->
+    <!-------- Part of footer End -------->
+</div>
+<div class="mask" style="display: none;"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script src="{{markUri}}/static/js/customerService.js"></script>
+</html>
+<script>
+    var emp_list = '{{emp_list}}';
+    if (emp_list.length > 0 ){
+        emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
+    }
+    (function ($) {
+        /**
+         *  预审列表筛选逻辑 2018年7月24日
+         *  Created by wyt on 2018-07-24
+         */
+        function searchCustomer () {
+            var confirmBtn = $('.customer_search_confirm');
+            var cancelBtn = $('.customer_search_cancel');
+            var listForm = $('form[role="form"]');
+            confirmBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                var start_with = getCheckedFirstLetter();
+                (start_with == "全部") && (start_with = '');
+                start_with && listForm.append('<input type="hidden" class="filtrate_input" id="start_with" name="start_with" value="'+ start_with + '" />');
+                $("#current_page").val(1);
+                listForm.submit();
+            });
+            cancelBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('');
+                listForm.find('.filtrate_text').val('');
+                listForm.submit();
+            });
+        };
+        //模糊查询
+        var hideInput = $('#orderCreatorId');
+        var btn = $('#createName');
+        var resBox = $(".search_result");
+        var resItem = $(".res_item");
+        var resList = $(".search_list");
+        function fuzzySearch () {
+            btn.off('click').on('click', function (e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                var _this = $(this);
+                resBox.show();
+                $('.customer_search').focus();
+                $('.customer_search').on('input',function(e){
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var val = $.trim($(this).val());
+                    resList.html('');
+                    if (val) {
+                        resList.show();
+                        var queryObj = fuzzyQuery(emp_list);
+                        showSearchResult(queryObj);
+                        selectedCreate();
+                    } else{
+                        resList.hide();
+                    }
+                });
+                $(document).on('click',function (e) {
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var target = $(ev.target);
+                    var parent = target.parents('.search_result');
+                    if (target.hasClass('search_result')) {
+                        return false;
+                    } else if (parent.length <= 0) {
+                        resBox.hide().find('.search_list').html('').end().find('.customer_search').val('');
+                        resList.hide();
+                        return true;
+                    } else {
+                        return true;
+                    }
+                })
+            });
+
+            // 订单所属人选中逻辑
+            var selectedCreate = function () {
+                $('.search_result .res_item').on('click', function () {
+                    var _this = $(this);
+                    var createId = $.trim(_this.data('id'));
+                    var createName = $.trim(_this.data('name'));
+                    var orderCreatorId = $.trim(_this.data('id'));
+                    $('.customer_search').val(createName);
+                    btn.val(createName);
+                    hideInput.val(orderCreatorId);
+                    resBox.hide();
+
+                });
+            }
+        }
+        // 订单所属人的模糊查询功能
+        function fuzzyQuery (res) {
+                var queryStr = $.trim($('.customer_search').val()),
+                queryArr = queryStr.split(""),
+                data = res,
+                resArr;
+            if(queryStr) {
+                for (var i = 0, len = queryArr.length; i < len; i++) {
+                    resArr = [];
+                    for (var k = 0; k < data.length; k++) {
+                        if (data[k].name.indexOf(queryArr[i]) != -1) {
+                            resArr.push(data[k]);
+                        }
+                    }
+                    data = resArr;
+                }
+                return resArr;
+            }
+        }
+        //创建模糊查询结果展示并绑定事件
+        function showSearchResult (res) {
+            var html = [];
+            if (res == undefined || res.length == 0 || res.length == undefined) {
+                return $('.search_list').html('<li style="text-align: center;">没有匹配到任何结果</li>');
+            } else {
+                for (var i = 0, len = res.length; i < len; i++) {
+                    var str = '';
+                    str += "<li class='res_item' data-id='"+ res[i].id +"' data-name='" + res[i].name + "' title= '"+ res[i].account +"'>";
+                    str += "<div class='name'><span class='nowrap'>" + res[i].name + "</span>";
+                    if (res[i].status == 0) {
+                        str += "<em class='resignation'></em>";
+                    }
+                    str += "</div><div class='p_dep nowrap'>" + (res[i].account ? res[i].account : '没有匹配到任何结果') + "</div></li>";
+                    html.push(str);
+                    $('.search_list').html(html.join(""));
+                    var orderId = '';
+
+                }
+            }
+        }
+        // 删除订单所属人
+        function delName () {
+            $('.del_icon').off('click').on('click', function () {
+                $('.customer_search').val('');
+                hideInput.val('');
+                btn.val('');
+                resBox.hide();
+            })
+        }
+
+        /**
+         *  跳转预审详情页
+         *  Created by wyt on 2018-07-24
+         */
+        function toPretrialDetail () {
+            var target = $('.pretrial_list tbody tr');
+            target.off('click').on('click', function () {
+                var _this = $(this);
+                if (!_this.hasClass('no_data')) {
+                    var pretrialId = $.trim(_this.data('id'));
+                    locationTo({
+                        action : contextPath + markUri + '/customer/JZPretrial/detail',
+                        param : {
+                            pre_id : pretrialId
+                        }
+                    });
+                }
+            });
+        }
+
+        $(function() {
+            numAndAmount("#phone");     //输入框校验只允许输入数字
+            searchCustomer();  //搜索
+            fuzzySearch(); //模糊查询订单所属人
+            toPretrialDetail();     //跳转预审详情页
+            paginationSwitch();     // 分页切换
+            delName (); // 删除订单所属人
+            initDateStartEnd('#start_time','#end_time');  //日期筛选
+        });
+    })(jQuery,undefined);
+</script>

@@ -48,7 +48,7 @@
                     <div class="recipient">
                         <span class="item_key"><span class="need" style="color: #EA4B5F;vertical-align: middle;">*</span>车架号：</span>
                         <span style="width: 400px;" class="item_val inline_block">
-                            <input type="text" name="vin" class="agree_vin" id="carVin" placeholder="请输入车架号" maxlength="17" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" onblur="checkNumOrEng()" value="{{vo.vin }}">
+                            <input type="text" name="vin" class="agree_vin" id="carVin" placeholder="请输入车架号" maxlength="17"  onblur="checkNumOrEng()" value="{{vo.vin }}">
                             <span class="agree_vin_tip" style="color: #EA4B5F;"></span>
                         </span>
                     </div>
@@ -126,6 +126,10 @@
             }
             if ( vin.length < 17) {
                 $alert('车架号不足17位');
+                return false;
+            }
+            if ( vin.length > 17) {
+                $alert('车架号不能大于17位');
                 return false;
             }
             if (file_ids.length <= 0) {
@@ -329,6 +333,7 @@
             uploadAnnex();      // 图片上传
             sendEmail();
             deleteFilesEvent();     // 删除文件监听
+            chnAndEng(".agree_vin",3);  //只允许输入英文、数字
         });
     })(jQuery,undefined);
 
@@ -343,8 +348,10 @@
         }else{
             $('.agree_vin_tip').html('');
         }
-        if(str.length<17){
+        if(str.length < 17){
             $('.agree_vin_tip').html('不足17位');
+        }else if (str.length > 17) {
+            $('.agree_vin_tip').html('不能大于17位');
         }else{
             $('.agree_vin_tip').html('');
         }

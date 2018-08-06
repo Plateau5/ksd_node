@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="baidu-site-verification" content="JFtSP9X5DM" />
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerDetails.css">
+    <title>个人信用报告</title>
+    {{#if (ctype === "2" || ctype === "3") }}
+    <style>
+        .container_h5{width:100%;float: none;clear: both;}
+        .section{margin:0;}
+        .section .main{width:92%;float: none;clear: both;padding:1% 4%;}
+        .person_type{margin-top:10px;}
+        .person_type li{font-size:14px;}
+        .credit_info{margin-top:20px;}
+        .credit_info .credit_info_title{font-size:14px;letter-spacing: 1px;font-weight: bold;}
+        .credit_info li{font-size:14px;}
+        .info_from{display:block;margin-top:30px;font-size: 12px;color:#999;height:30px;line-height:30px;border-top:1px solid #E4E4E4;width:224px;}
+    </style>
+    {{/if}}
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{#if (ctype !== "2" && ctype !== "3") }}
+        {{include ('./../inc/header')}}
+    {{/if}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width container_h5">
+        <!---- Part of slide nav Begin ---->
+        {{#if (ctype !== "2" && ctype !== "3") }}
+        {{include ('./../inc/sideNav')}}
+        {{/if}}
+        <!---- Part of slide nav End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main container_h5">
+            {{#if (ctype !== "2" && ctype !== "3") }}
+                <div class="crumbs_nav">
+                    {{#if(startWith(markUri + '/customer/loan/JZPretrial/credit'))}}
+                    <a href="{{markUri}}/customer/loan/system" class="crumbs_item">贷款管理</a>
+                    <a href="{{reqParams.nodeUrl}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                    <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
+                    <a href="javascript:;" class="crumbs_item toOrderPretrial">预审信息</a>
+                    <a href="javascript:;" class="crumbs_item">信用报告</a>
+                    {{else}}
+                    <a href="{{markUri}}/customer/JZPretrial/system" class="crumbs_item">预审管理</a>
+                    <a href="javascript:;" class="crumbs_item toPretrialDetail">预审信息</a>
+                    <a href="javascript:;" class="crumbs_item">信用报告</a>
+                    {{/if}}
+                </div>
+            {{/if}}
+
+            <!-- 面包屑跳转所需隐藏域 -->
+            <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
+            <input type="hidden" id="nodeUrl" value="{{reqParams.nodeUrl}}">
+            <input type="hidden" id="financeId" value="{{reqParams.finance_id}}">
+            <input type="hidden" id="advance_id" value="{{reqParams.advance_id}}">
+            <input id="preId" value="{{reqParams.pre_id}}" name="pre_id" type="hidden">
+            <!-- 预审信息详情 -->
+            <div class="details_content">
+                <div class="pretrial_details">
+                    <div class="details_item base_info">
+                        <div class="person_type">
+                            <ul>
+                                <li>报告编号：{{vo.report_no}}</li>
+                                <li>时间：{{vo.assess_time}}</li>
+                                <li>姓名：{{vo.user_name}}</li>
+                            </ul>
+                        </div>
+                        <!---- 个人信息 ---->
+                        <div class="credit_info person_info">
+                            <div class="credit_info_title">个人信息</div>
+                            <ul>
+                                <li>
+                                    {{#if (vo.is_blacklist  === 0) }}
+                                    <div>1.身份证号未被标记为黑名单</div>
+                                    {{elseif (vo.is_blacklist  === 1) }}
+                                    <div class="red">1.身份证号被标记为黑名单</div>
+                                    {{/if}}
+                                </li>
+                                <li>
+                                    {{#if (vo.assess_score  > 0) }}
+                                        <div class="red">2.风险评分：{{vo.assess_score}}分</div>
+                                        <div class="font_low_color">{{vo.assess_des}}</div>
+                                    {{else}}
+                                        <div>2.风险评分：{{vo.assess_score}}分</div>
+                                        <div class="font_low_color">未查询到逾期记录</div>
+                                    {{/if}}
+                                </li>
+                                <li>
+                                    {{#if (vo.unpass_count  > 0) }}
+                                        <div class="red">3.极致车网申请购买汽车 {{vo.buy_count}} 次，未通过 {{vo.unpass_count}} 次</div>
+                                        <div class="font_low_color">未通过产品：{{vo.unpass_product}}</div>
+                                        <div class="font_low_color">原因：{{vo.unpass_reason}}</div>
+                                    {{else}}
+                                        <div>3.极致车网申请购买汽车 {{vo.buy_count}} 次，未通过 {{vo.unpass_count}} 次</div>
+                                    {{/if}}
+                                </li>
+                                {{#if (vo.is_matche  === 0) }}
+                                <li><div class="red">4.姓名、身份证、手机号码不一致</div></li>
+                                {{else}}
+                                <li><div>4.姓名、身份证、手机号码一致</div></li>
+                                {{/if}}
+                            </ul>
+                        </div>
+                        <!---- 企业信息 ---->
+                        {{#if (vo.is_havejob  === 1) }}
+                        <div class="credit_info">
+                            <div class="credit_info_title">企业信息</div>
+                            <ul>
+                                {{#if (companyStatus ===1) }}
+                                    {{#if (vo.regCapital) }}
+                                        <li><div>1.企业注册资金 {{vo.regCapital}}</div></li>
+                                    {{/if}}
+                                    {{#if (vo.regLocation) }}
+                                        <li><div>2.注册地：{{vo.regLocation}}</div></li>
+                                    {{/if}}
+                                    {{#if (vo.legalPersonName) }}
+                                        <li><div>3.法人：{{vo.legalPersonName}}</div></li>
+                                    {{/if}}
+                                    <li>
+                                        {{#if (vo.comAbnoInfo  > 0) }}
+                                        <div class="red">4.企业司法风险经营风险共计 {{vo.comAbnoInfo}} 条</div>
+                                        <div class="font_low_color">最近日期：{{vo.comAbnoInfo_time}}</div>
+                                        <div class="font_low_color">异常情况：{{vo.comAbnoInfo_des}}</div>
+                                        {{else}}
+                                        <div>4.企业司法风险经营风险共计 {{vo.comAbnoInfo}} 条</div>
+                                        {{/if}}
+                                    </li>
+                                {{else}}
+                                <li><div>未查询到企业信息</div></li>
+                                {{/if}}
+                            </ul>
+                        </div>
+                        {{/if}}
+                        <!---- 手机号信息 ---->
+                        <div class="credit_info">
+                            <div class="credit_info_title">手机号信息</div>
+                            <ul>
+                                <li>
+                                    <div>
+                                    1.使用状况：
+                                        {{#if (vo.phone_status  === 0) }}
+                                            正常
+                                        {{elseif (vo.phone_status  === 1) }}
+                                            停机
+                                        {{elseif (vo.phone_status  === 2) }}
+                                            销号
+                                        {{elseif (vo.phone_status  === 3) }}
+                                            预销号
+                                        {{elseif (vo.phone_status  === 4) }}
+                                            未启用
+                                        {{elseif (vo.phone_status  === -1) }}
+                                            查无结果
+                                        {{/if}}
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="font_high_color">
+                                        2.在网时长：
+                                        {{#if (vo.phone_time  === "1" || vo.phone_time  === "2") }}
+                                        1年以内
+                                        {{elseif (vo.phone_time  === "3") }}
+                                        1年-2年
+                                        {{elseif (vo.phone_time  === "4") }}
+                                        2年以上
+                                        {{else}}
+                                        未知
+                                        {{/if}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!---- 配偶信息 ---->
+                        {{#if (vo.is_marry  === 1) }}
+                        <div class="credit_info">
+                            <div class="credit_info_title">配偶信息</div>
+                            <ul>
+                                <li>
+                                    {{#if (vo.is_blacklist_spouse  === 0) }}
+                                        <div>1.身份证号未被标记为黑名单</div>
+                                    {{elseif (vo.is_blacklist_spouse  === 1) }}
+                                        <div class="red">1.身份证号被标记为黑名单</div>
+                                    {{/if}}
+                                </li>
+                                <li><div>2.极致车网申请购买汽车 {{vo.buy_count_spouse}} 次</div></li>
+                            </ul>
+                        </div>
+                        {{/if}}
+                        <div class="dis_none info_from">本报告由北京快收单科技有限公司提供</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script>
+    (function ($) {
+        /**
+         *  面包屑跳转预审详情页
+         *  Created by wyt on 2018-07-24
+         */
+        function toPretrialDetail () {
+            var target = $('.toPretrialDetail');
+            target.off('click').on('click', function () {
+                var _this = $(this);
+                var pretrialId = $("#preId").val();
+                locationTo({
+                    action : contextPath + markUri + '/customer/JZPretrial/detail',
+                    param : {
+                        pre_id : pretrialId
+                    }
+                });
+            });
+        }
+
+        /**
+         *  面包屑回跳客户详情页
+         *  Created by wyt on 2018-07-24
+         */
+        function toOrderDetail() {
+            var btn = $(".toOrderDetail");
+            btn.off('click').on('click', function () {
+                var advanceId = $("#advanceId").val();
+                var financeId = $("#financeId").val();
+                var navigation = $("#navigation").val().trim();
+                var nodeUrl = $("#nodeUrl").val().trim();
+                locationTo({
+                    action : contextPath + markUri + '/customer/loan/detail',
+                    param : {
+                        advance_id : advanceId,
+                        finance_id : financeId,
+                        navigation : navigation,
+                        url : nodeUrl
+                    }
+                });
+            });
+        }
+
+        /**
+         *  面包屑跳转贷款-预审详情页
+         *  Created by wyt on 2018-07-24
+         */
+        function toOrderPretrial () {
+            var target = $('.toOrderPretrial');
+            target.off('click').on('click', function () {
+                var _this = $(this);
+                var pretrialId = $("#preId").val();
+                var advanceId = $("#advanceId").val();
+                var financeId = $("#financeId").val();
+                var navigation = $("#navigation").val().trim();
+                var nodeUrl = $("#nodeUrl").val().trim();
+                locationTo({
+                    action : contextPath + markUri + '/customer/loan/JZPretrial/detail',
+                    param : {
+                        pre_id : pretrialId,
+                        advance_id : advanceId,
+                        finance_id : financeId,
+                        navigation : navigation,
+                        url : nodeUrl
+                    }
+                });
+            });
+        }
+
+        $(function() {
+            toPretrialDetail();     // 面包屑跳转预审详情页
+            toOrderDetail();        // 面包屑跳转订单详情页
+            toOrderPretrial();      // 面包屑跳转贷款-预审详情页
+        });
+    })(jQuery,undefined);
+</script>
+</html>

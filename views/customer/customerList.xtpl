@@ -96,6 +96,7 @@
                 _this.off('click');
                 listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
                 listForm.find('.filtrate_select').val('');
+                listForm.find('.filtrate_text').val('');
                 listForm.submit();
             });
         };
@@ -186,10 +187,12 @@
             } else {
                 for (var i = 0, len = res.length; i < len; i++) {
                     var str = '';
-                    str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" title="' + res[i].account + '">\
-                                <div class="name nowrap">' + res[i].name + '</div>\
-                                <div class="p_dep nowrap">' + (res[i].account ? res[i].account : '没有匹配到任何结果') + '</div>\
-                            </li>'
+                    str += "<li class='res_item' data-id='"+ res[i].id +"' data-name='" + res[i].name + "' title= '"+ res[i].account +"'>";
+                    str += "<div class='name'><span class='nowrap'>" + res[i].name + "</span>";
+                    if (res[i].status == 0) {
+                        str += "<em class='resignation'></em>";
+                    }
+                    str += "</div><div class='p_dep nowrap'>" + (res[i].account ? res[i].account : '没有匹配到任何结果') + "</div></li>";
                     html.push(str);
                     $('.search_list').html(html.join(""));
                     var orderId = '';

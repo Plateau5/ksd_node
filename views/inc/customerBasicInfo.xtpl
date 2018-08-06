@@ -1,7 +1,14 @@
 <!-- 客户进件资料 -->
 <div class="detail_box clearfix" >
 	<div class="classify_item location">
-			<div class="classify_title">客户信息</div>
+			<div class="classify_title">
+				客户信息
+				{{#if(startWith(markUri + '/customer/loan/detail'))}}
+					{{#if (vo.jizhi_preId) }}
+					<a href="javascript:;" class="pretrial_title toPretrialDetail mar_left_20">查看预审信息</a>
+					{{/if}}
+				{{/if}}
+			</div>
 			<div class="btn_box customer_btn_box">
 				{{#if (url === markUri + '/customer/loan/passed')}}
 					{{#if (verifyCode(1522)) }}
@@ -380,7 +387,7 @@
                                             }
                                         }
                                     }
-                                    if (data.rebate_car) {
+                                    if (data.rebate_car || data.rebate_car == '0') {
                                         data.rebate_car = data.rebate_car.toFixed(2).number();
                                         if (data.financed_charge_rebate || data.financed_charge_rebate == '0') {
                                             $('#financed_amount').html(data.rebate_car + '元(已请' + data.financed_charge_rebate + '元)');
@@ -390,7 +397,7 @@
                                     } else {
                                         $('#financed_amount').html('--');
                                     }
-                                    if (data.rebate_gps) {
+                                    if (data.rebate_gps || data.rebate_gps == '0') {
                                         data.rebate_gps = data.rebate_gps.toFixed(2).number();
                                         if (data.gps_rebate || data.gps_rebate == '0') {
                                             $('#gps_rebate').html(data.rebate_gps + '元(已请' + data.gps_rebate + '元)');
@@ -400,7 +407,7 @@
                                     } else {
                                         $('#gps_rebate').html('--');
                                     }
-                                    if (data.rebate_service) {
+                                    if (data.rebate_service || data.rebate_service == '0') {
                                         data.rebate_service = data.rebate_service.toFixed(2).number();
                                         if (data.service_charge_rebate || data.service_charge_rebate == '0') {
                                             $('#rebate_service').html(data.rebate_service + '元(已请' + data.service_charge_rebate + '元)');
@@ -410,7 +417,7 @@
                                     } else {
                                         $('#rebate_service').html('--');
                                     }
-                                    if (data.rebate_insurance) {
+                                    if (data.rebate_insurance || data.rebate_insurance == '0') {
                                         data.rebate_insurance = data.rebate_insurance.toFixed(2).number();
                                         if (data.insurance_rebate || data.insurance_rebate == '0') {
                                             $('#rebate_insurance').html(data.rebate_insurance + '元(已请' + data.insurance_rebate + '元)');
