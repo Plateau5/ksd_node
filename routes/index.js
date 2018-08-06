@@ -19,7 +19,7 @@ var merchantsCtrl = require('../controller/viewsController/merchantsController')
 var dockingCtrl = require('../controller/viewsController/dockingController');
 var schoolCtrl = require('../controller/viewsController/schoolController');
 var carModelCtrl = require('../controller/viewsController/carModelController');
-
+var testCtrl = require('../controller/viewsController/testController');
 
 var markUri = '/ksd';
 
@@ -567,9 +567,20 @@ router.post(markUri + '/docking/pingan/detailCredit', dockingCtrl.VIEW_DOCKING_P
 router.all(markUri + '/404', function(req, res, next) {
     res.render('./errorpage/404', {title: '404'});
 });
+
+
+
+
+/************** TEST CONTROLLER START **************/
+// These router are only used to testing. In the production plat are not used.
+router.all(markUri + '/test/kindEditor', testCtrl.VIEW_TEST_KINDEDITOR);
+/************** TEST CONTROLLER END **************/
+
+
+
+
 router.get('*', function(req, res, next) {
     /*res.redirect('./errorpage/404', {title: '404'});*/
     res.render('./errorpage/404');
 });
-
 module.exports = router;
