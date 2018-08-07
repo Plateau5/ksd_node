@@ -1,5 +1,8 @@
 /**
  * Created by Arley Joe on 06/08/2018
+ * @description This controller is for testing purposes only. Not used on production platforms.
+ *              Don't write anything here without testing.
+ * @copyright arleyjoe@163.com
  */
 
 var fs = require('fs');
