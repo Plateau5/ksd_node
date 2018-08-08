@@ -578,7 +578,7 @@ router.all(markUri + '/404', function(req, res, next) {
 
 /************** TEST CONTROLLER START **************/
 // These routers are for testing purposes only. Not used on production platforms.
-router.all(markUri + '/test/kindEditor', testCtrl.VIEW_TEST_KINDEDITOR);
+router.get(markUri + '/test/kindEditor', testCtrl.VIEW_TEST_KINDEDITOR);
 /************** TEST CONTROLLER END **************/
 
 
