@@ -6,17 +6,114 @@
 </head>
 <body>
 <textarea id="editor_id" name="content" style="width:700px;height:300px;">
-&lt;strong&gt;HTML内容&lt;/strong&gt;
+    <p>
+	<strong>HTML内容</strong>
+</p>
+<p>
+	<strong>范德萨范德萨发</strong>
+</p>
+<p>
+	<strong><img src="http://loan-file.oss-cn-beijing.aliyuncs.com/1533714080859f3afcffae2d0485b959dba4924ee6bbc.jpg" alt="" /><br />
+</strong>
+</p>
+<p>
+	<ol>
+		<li>
+			<strong>辅导辅导费</strong>
+		</li>
+		<li>
+			<strong>发的发的说法规范</strong>
+		</li>
+		<li>
+			<strong>烦得很广东省发大水发</strong>
+		</li>
+		<li>
+			<strong>反倒是个地方地方</strong>
+		</li>
+	</ol>
+	<p>
+		<b>反对反对说</b>
+	</p>
+	<p>
+		<ul>
+			<li>
+				<b>辅导辅导费
+				<p class="MsoListParagraph" style="margin-left:21.0pt;text-indent:-21.0pt;">
+					<span style="font-family:Wingdings;"><span>l<span>&nbsp; </span></span></span><span style="font-family:宋体;">是打发第三方</span>
+				</p>
+				<p class="MsoListParagraph" style="margin-left:21.0pt;text-indent:-21.0pt;">
+					<span style="font-family:Wingdings;"><span>l<span>&nbsp; </span></span></span><span>Fdsfds</span>
+				</p>
+				<p class="MsoListParagraph" style="margin-left:21.0pt;text-indent:-21.0pt;">
+					<span style="font-family:Wingdings;"><span>l<span>&nbsp; </span></span></span><span style="font-family:宋体;">范德萨发的</span>
+				</p>
+				<p class="MsoListParagraph" style="margin-left:21.0pt;text-indent:-21.0pt;">
+					<span style="font-family:Wingdings;"><span>l<span>&nbsp; </span></span></span><span style="font-family:宋体;">佛挡杀佛</span>
+				</p>
+				<p class="MsoListParagraph" style="margin-left:21.0pt;text-indent:-21.0pt;">
+					<span style="font-family:Wingdings;"><span>l<span>&nbsp; </span></span></span><span style="font-family:宋体;">复方丹参</span>
+				</p>
+				<p class="MsoListParagraph" style="margin-left:21.0pt;text-indent:-21.0pt;">
+					<span style="font-family:Wingdings;"><span>l<span>&nbsp; </span></span></span><span style="font-family:宋体;">第三方</span>
+				</p>
+				<p class="MsoNormal">
+					<span style="font-family:宋体;">辅导辅导费</span>
+				</p>
+				<p class="MsoNormal">
+					<span></span>
+				</p>
+				<p class="MsoNormal">
+					<span></span>
+				</p>
+				<p class="MsoNormal">
+					<span style="font-family:宋体;">范德萨范德萨</span>
+				</p>
+				<p class="MsoNormal">
+					<span></span>
+				</p>
+				<p class="MsoNormal">
+					<span></span>
+				</p>
+				<p class="MsoNormal">
+					<span></span>
+				</p>
+				<p class="MsoNormal">
+					<span></span>
+				</p>
+				<p class="MsoNormal">
+					<span style="font-family:宋体;">所说的缝纫机分手大师发给过几年</span>
+				</p>
+				<p class="MsoNormal">
+					<span></span>
+				</p>
+				<p class="MsoNormal">
+					<br />
+				</p>
+<br />
+    </b>
+    </li>
+    </ul>
+    </p>
+    </p>
 </textarea>
+<br>
+<br>
+<br>
+<button id="submit">提交</button>
 </body>
 <script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-all.js"></script>
 <script charset="utf-8" src="{{markUri}}/static/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-init.js"></script>
 <script>
-    KindEditor.ready(function(K) {
-        window.editor = K.create('#editor_id', {
-            uploadJson : contextPath + '/api/file/upload',
-            allowFileManager : true
-        });
-    });
+    initKindEditor();
+    var btn = document.getElementById('submit');
+    btn.onclick = function () {
+        var str = kindEditor.html();
+        console.log(str);
+        str = kindEditorObject.escape(str);
+        console.log(str);
+        str = kindEditorObject.unescape(str);
+        console.log(str);
+    }
 </script>
 </html>
