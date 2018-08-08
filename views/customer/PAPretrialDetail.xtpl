@@ -157,33 +157,29 @@
                         {{/if}}
                         <!-- 担保人信息部分 End -->
                         <!-- 附件信息部分 Begin -->
+                        {{#if (file_list.length > 0) }}
                         <div class="details_item base_info">
                             <div class="detail_title">附件信息</div>
                             <div class="detail_box clearfix">
                                 <div class="classify_item">
                                     <div class="classify_content">
                                         <ul class="img_list" id="img_list">
+                                            {{#each (file_list) }}
                                             <a href="javascript:;" target="_blank">
                                                 <div class="list_item imgDetail" style="margin-top:0;" title="">
                                                     <div class="detailBox img_item">
-                                                        <img class=" detailImgBox" data-original="http://loan-file.oss-cn-beijing.aliyuncs.com/1533284670854a00db5b42c314cde8a823c823343b017.jpg" src="http://loan-file.img-cn-beijing.aliyuncs.com/1533284670854a00db5b42c314cde8a823c823343b017.jpg@120w_90h_100q.jpg" alt="身份证.jpg">
+                                                        <img class=" detailImgBox" data-original="{{this.thumbnail}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
                                                     </div>
-                                                    <div class="img_desc nor_wrap">身份证.jpg</div>
+                                                    <div class="img_desc nor_wrap">{{this.file_name}}</div>
                                                 </div>
                                             </a>
-                                            <a href="javascript:;" target="_blank">
-                                                <div class="list_item imgDetail" style="margin-top:0;" title="">
-                                                    <div class="detailBox img_item">
-                                                        <img class=" detailImgBox" data-original="http://loan-file.oss-cn-beijing.aliyuncs.com/15332846716483898ce3110d04fc285e9059c83e7d8bf.jpg" src="http://loan-file.img-cn-beijing.aliyuncs.com/15332846716483898ce3110d04fc285e9059c83e7d8bf.jpg@120w_90h_100q.jpg" alt="驾驶证.jpg">
-                                                    </div>
-                                                    <div class="img_desc nor_wrap">驾驶证.jpg</div>
-                                                </div>
-                                            </a>
+                                            {{/each}}
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {{/if}}
                         <!-- 附件信息部分 End -->
                     </div>
                 </div>
