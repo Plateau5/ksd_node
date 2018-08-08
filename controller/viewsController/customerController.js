@@ -904,7 +904,7 @@ exports.VIEW_CUSTOMER_JZPRETRIAL_DETAIL = function(req, res, next) {
 // 客户-预审管理-平安预审信息详情
 exports.VIEW_CUSTOMER_PAPRETRIAL_DETAIL = function(req, res, next) {
     common.getPageData({
-        url : '/api/jizhipretrial/getDetail',
+        url : '/api/docking/pre/getdetail',
         title : '预审信息详情',
         page : './customer/PAPretrialDetail'
     }, req, res, next);

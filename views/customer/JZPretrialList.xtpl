@@ -51,27 +51,53 @@
                         <tbody>
                             {{#if (count > 0) }}
                                 {{#each (list) }}
-                                    <tr data-id="{{this.id}}">
+                                    <tr data-id="{{this.id}}" data-name="{{this.applicantName}}">
                                         <td style="padding: 0 0 0 8px;"></td>
-                                        <td class="text_left" title="{{this.name}}">{{this.name}}</td>
-                                        <td class="text_left">{{this.phone}}</td>
+                                        <td class="text_left" title="{{#if (this.name) }}{{this.name}}{{elseif (this.applicantName) }}{{this.applicantName}}{{/if}}">
+                                            {{#if (this.name) }}
+                                                {{this.name}}
+                                            {{elseif (this.applicantName) }}
+                                                {{this.applicantName}}
+                                            {{/if}}
+                                        </td>
+                                        <td class="text_left">
+                                            {{#if (this.phone) }}
+                                                {{this.phone}}
+                                            {{elseif (this.applicantPhone) }}
+                                                {{this.applicantPhone}}
+                                            {{/if}}
+                                        </td>
                                         <td>
                                             {{#if (this.gender  === 0) }}
                                                 女
                                             {{elseif (this.gender  === 1) }}
                                                 男
+                                            {{elseif (this.sex  === 0) }}
+                                                女
+                                            {{elseif (this.sex  === 1) }}
+                                                男
                                             {{/if}}
                                         </td>
                                         <td class="text_left">
-                                            {{#if (this.is_marry  === 0) }}
-                                                未婚、离婚或丧偶
-                                            {{elseif (this.is_marry  === 1) }}
+                                            {{#if (this.is_marry  === 1) }}
+                                                未婚
+                                            {{elseif (this.is_marry  === 2) }}
                                                 已婚
+                                            {{elseif (this.is_marry  === 3) }}
+                                                离异
+                                            {{elseif (this.is_marry  === 4) }}
+                                                丧偶
                                             {{/if}}
                                         </td>
                                         <td class="text_left" title="{{this.create_name}}">{{this.create_name}}</td>
                                         <td>
-                                            {{#if (this.status  === 2) }}
+                                            {{#if (this.status  === 103 || this.status  === 105 || this.status  === 106 || this.status  === 112) }}
+                                                <div class="pretrial_type pretrial_type_third">未通过</div>
+                                            {{elseif (this.status  === 101 || this.status  === 102) }}
+                                                <div class="pretrial_type pretrial_type_sec">审核中</div>
+                                            {{elseif (this.status  === 104 || this.status  === 110 || this.status  === 111 || this.status  === 113) }}
+                                                <div class="pretrial_type">已通过</div>
+                                            {{elseif (this.status  === 2) }}
                                                 <div class="pretrial_type pretrial_type_sec">已评估</div>
                                             {{elseif (this.status  === 3) }}
                                                 <div class="pretrial_type">已进件</div>
@@ -262,12 +288,37 @@
                 var _this = $(this);
                 if (!_this.hasClass('no_data')) {
                     var pretrialId = $.trim(_this.data('id'));
+                    var name = $.trim(_this.data('name'));
+                    var url = "";
+                    if (name) {
+                        url = contextPath + markUri + '/customer/PAPretrial/detail';
+                    } else {
+                        url = contextPath + markUri + '/customer/JZPretrial/detail';
+                    }
                     locationTo({
-                        action : contextPath + markUri + '/customer/JZPretrial/detail',
+                        action : url,
                         param : {
                             pre_id : pretrialId
                         }
                     });
+                }
+            });
+        }
+
+        /**
+         *  预审类型切换
+         *  Created by wyt on 2018-08-08
+         */
+        function typeSelect () {
+            var pretrialType = $("#pretrialType");
+            pretrialType.on('change',function () {
+                var _this = $(this);
+                var status = $("#status");
+                $("#status option").remove();
+                if (_this.val() == "2") {
+                    status.append("<option value=''>全部</option><option value='1'>审核中</option><option value='2'>已通过</option><option value='3'>未通过</option>");
+                } else {
+                    status.append("<option value=''>全部</option><option value='2'>已评估</option><option value='3'>已进件</option>");
                 }
             });
         }
@@ -280,6 +331,7 @@
             paginationSwitch();     // 分页切换
             delName (); // 删除订单所属人
             initDateStartEnd('#start_time','#end_time');  //日期筛选
+            typeSelect();     //预审类型切换
         });
     })(jQuery,undefined);
 </script>

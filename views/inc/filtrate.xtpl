@@ -157,12 +157,12 @@
         <div class="filtrate_item inline_block">
             <div class="conditions_name inline_block filtrate_audit_type">预审类型：</div>
             <select name="pretrialType" class="filtrate_select risk_type_select customer_select" id="pretrialType">
-                {{#if(condition.pretrialType === 2)}}
+                {{#if(condition.pretrialType === 1)}}
                 <option value="1" selected="selected">极致车网</option>
                 {{else}}
                 <option value="1">极致车网</option>
                 {{/if}}
-                {{#if(condition.pretrialType === 3)}}
+                {{#if(condition.pretrialType === 2)}}
                 <option value="2" selected="selected">平安租赁</option>
                 {{else}}
                 <option value="2">平安租赁</option>
@@ -173,15 +173,33 @@
             <div class="conditions_name inline_block filtrate_audit_type">预审状态：</div>
             <select name="status" class="filtrate_select risk_type_select customer_select" id="status">
                 <option value="">全部</option>
-                {{#if(condition.status === 2)}}
-                <option value="2" selected="selected">已评估</option>
+                {{#if(condition.pretrialType === 2)}}
+                    {{#if(condition.status === 1)}}
+                    <option value="1" selected="selected">审核中</option>
+                    {{else}}
+                    <option value="1">审核中</option>
+                    {{/if}}
+                    {{#if(condition.status === 2)}}
+                    <option value="2" selected="selected">已通过</option>
+                    {{else}}
+                    <option value="2">已通过</option>
+                    {{/if}}
+                    {{#if(condition.status === 3)}}
+                    <option value="3" selected="selected">未通过</option>
+                    {{else}}
+                    <option value="3">未通过</option>
+                    {{/if}}
                 {{else}}
-                <option value="2">已评估</option>
-                {{/if}}
-                {{#if(condition.status === 3)}}
-                <option value="3" selected="selected">已进件</option>
-                {{else}}
-                <option value="3">已进件</option>
+                    {{#if(condition.status === 2)}}
+                    <option value="2" selected="selected">已评估</option>
+                    {{else}}
+                    <option value="2">已评估</option>
+                    {{/if}}
+                    {{#if(condition.status === 3)}}
+                    <option value="3" selected="selected">已进件</option>
+                    {{else}}
+                    <option value="3">已进件</option>
+                    {{/if}}
                 {{/if}}
             </select>
         </div>
