@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerDetails.css">
+    <title>{{title}}</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                {{#if(startWith(markUri + '/customer/loan/JZPretrial/detail'))}}
+                    <a href="{{markUri}}/customer/loan/system" class="crumbs_item">贷款管理</a>
+                    <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                    <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
+                    <a href="javascript:;" class="crumbs_item">预审信息</a>
+                {{else}}
+                    <a href="{{markUri}}/customer/JZPretrial/system" class="crumbs_item">预审管理</a>
+                    <a href="javascript:;" class="crumbs_item">预审信息</a>
+                {{/if}}
+            </div>
+
+            <!-- 面包屑跳转所需隐藏域 -->
+            <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
+            <input type="hidden" id="nodeUrl" value="{{reqParams.url}}">
+            <input type="hidden" id="financeId" value="{{reqParams.finance_id}}">
+            <input type="hidden" id="advanceId" value="{{reqParams.advance_id}}">
+            <input id="reportNo" value="{{vo.report_no}}" name="report_no" type="hidden">
+            <input id="preId" value="{{vo.id}}" name="pre_id" type="hidden">
+
+            <!-- 预审信息详情 -->
+            <div class="details_content">
+                <div class="pretrial_details">
+                    <div class="pretrial_desc">
+                        <!-- 基本信息部分 Begin -->
+                        <div class="details_item base_info">
+                            <div class="detail_title">基本信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{vo.name}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{vo.phone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{vo.id_num}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">住址：</div>
+                                                <div class="item_value long_text">{{vo.address}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">婚姻状况：</div>
+                                                <div class="item_value">
+                                                    {{#if (vo.is_marry  === 0) }}
+                                                    未婚、离婚或丧偶
+                                                    {{elseif (vo.is_marry  === 1) }}
+                                                    已婚
+                                                    {{/if}}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 基本信息部分 End -->
+                        <!-- 配偶信息部分 Begin -->
+                        {{#if (vo.is_marry  === 1) }}
+                        <div class="details_item base_info">
+                            <div class="detail_title">配偶信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{vo.spouse_name}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{vo.spouse_phone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{vo.spouse_idnum}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        <!-- 配偶信息部分 End -->
+                        <!-- 担保人信息部分 Begin -->
+                        <div class="details_item base_info">
+                            <div class="detail_title">担保人信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{vo.spouse_name}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{vo.spouse_phone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{vo.spouse_idnum}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 担保人信息部分 End -->
+                        <!-- 附件信息部分 Begin -->
+                        <div class="details_item base_info">
+                            <div class="detail_title">附件信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="img_list" id="img_list">
+                                            <a href="javascript:;" target="_blank">
+                                                <div class="list_item imgDetail" style="margin-top:0;" title="">
+                                                    <div class="detailBox img_item">
+                                                        <img class=" detailImgBox" data-original="http://loan-file.oss-cn-beijing.aliyuncs.com/1533284670854a00db5b42c314cde8a823c823343b017.jpg" src="http://loan-file.img-cn-beijing.aliyuncs.com/1533284670854a00db5b42c314cde8a823c823343b017.jpg@120w_90h_100q.jpg" alt="身份证.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">身份证.jpg</div>
+                                                </div>
+                                            </a>
+                                            <a href="javascript:;" target="_blank">
+                                                <div class="list_item imgDetail" style="margin-top:0;" title="">
+                                                    <div class="detailBox img_item">
+                                                        <img class=" detailImgBox" data-original="http://loan-file.oss-cn-beijing.aliyuncs.com/15332846716483898ce3110d04fc285e9059c83e7d8bf.jpg" src="http://loan-file.img-cn-beijing.aliyuncs.com/15332846716483898ce3110d04fc285e9059c83e7d8bf.jpg@120w_90h_100q.jpg" alt="驾驶证.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">驾驶证.jpg</div>
+                                                </div>
+                                            </a>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 附件信息部分 End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/finance/img_detail.js"></script>
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    /**
+     *  预审详情页逻辑
+     *  Created by wyt on 2018-07-24
+     */
+    (function ($) {
+        //面包屑回跳客户详情页
+        function toOrderDetail() {
+            var btn = $(".toOrderDetail");
+            btn.off('click').on('click', function () {
+                var advanceId = $("#advanceId").val();
+                var financeId = $("#financeId").val();
+                locationTo({
+                    action : contextPath + markUri + '/customer/loan/detail',
+                    param : {
+                        advance_id : advanceId,
+                        finance_id : financeId
+                    }
+                });
+            });
+        }
+
+        //跳转个人信用报告
+        function credit () {
+            var btn = $(".credit");
+            btn.off('click').on('click', function () {
+                var reportNo = $("#reportNo").val().trim();
+                var preId = $("#preId").val().trim();
+                var navigation = $("#navigation").val().trim();
+                var nodeUrl = $("#nodeUrl").val().trim();
+                var financeId = $("#financeId").val();
+                var advanceId = $("#advanceId").val();
+                var url = "";
+                if (navigation) {
+                    url = contextPath + markUri + '/customer/loan/JZPretrial/credit';
+                } else {
+                    url = contextPath + markUri + '/customer/JZPretrial/credit';
+                }
+                locationTo({
+                    action : url,
+                    param : {
+                        report_no : reportNo,
+                        pre_id : preId,
+                        ctype : 1,
+                        finance_id : financeId,
+                        advance_id : advanceId,
+                        navigation : navigation,
+                        nodeUrl : nodeUrl
+                    }
+                });
+            });
+        }
+        $(function() {
+            credit();       //跳转个人信用报告
+            toOrderDetail();    //面包屑回跳客户详情页
+            viewLargeImage('#img_list');       // 附件信息查看大图
+        });
+    })(jQuery,undefined);
+</script>
+</html>
