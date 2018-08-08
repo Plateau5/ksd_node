@@ -327,6 +327,21 @@ router.post(markUri + '/supplier/organization/policies/edit', supplierCtrl.VIEW_
 router.post(markUri + '/supplier/organization/policies/history', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST);
 
 
+// 供应商部分-金融机构-发布新产品基本信息页跳转  1077  new
+router.post(markUri + '/supplier/organization/productBasicCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTBASICCREATE);
+// 供应商部分-金融机构-发布新产品政策页跳转   new
+router.post(markUri + '/supplier/organization/productPolicyCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCPOLICYCREATE);
+
+
+
+
+
+
+
+
+
+
+
 // 业务管理-主导航节点跳转
 router.get(markUri + '/business/system', workflowCtrl.VIEW_BUSINESS_SYSTEM);
 // 业务管理-城市管理 1357

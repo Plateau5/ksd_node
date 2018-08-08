@@ -368,8 +368,25 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICIESLIST_HISTORYLIST = function(req, res,
 
 
 
-
-
+// 供应商部分-金融机构-发布新产品页跳转  1077  new
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTBASICCREATE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/toAdd',
+        title : '供应商-发布新产品',
+        page : './organization/productBasicCreate',
+        callback : function (data) {
+            data.list_city = JSON.stringify(data.list_city);
+        }
+    }, req, res, next);
+};
+// 供应商部分-金融机构-发布新产品政策页跳转   new
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCPOLICYCREATE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/to/policy',
+        title : '供应商-发布新产品',
+        page : './organization/productPolicyCreate'
+    }, req, res, next);
+};
 
 
 

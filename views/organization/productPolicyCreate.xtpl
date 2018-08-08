@@ -1,0 +1,331 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main product_policy_create">
+            <div class="crumbs_nav">
+                <a href="javascript:;" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item">{{reqParams.parent_name}}</a>
+                <a href="javascript:;" class="crumbs_item">发布新产品</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="product_policy_create_form" method="post">
+                    <div class="base_info">
+                        <div class="detail_title">申请政策及资料</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" placeholder="请输入最小金额" id="financeamount_start" class="financeamount" name="financeamount_start" maxlength="7" style="width:145px;"/>
+                                <span style="padding:0 8px;">-</span>
+                                <input type="text" placeholder="请输入最大金额" id="financeamount_end" class="financeamount" name="financeamount_end"  maxlength="7" style="width:145px;margin-right: 10px;"/>
+                                <span>万</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付类型：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="downpayment_type" id="downpayment_select">
+                                    <option value="-1">请选择</option>
+                                    <option value="1">首付比例</option>
+                                    <option value="2">首付金额</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item downpayment_rate">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                            </div>
+                            <div class="column_val term">
+                                {{#each (rate_list) }}
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates" name="term" value="{{this.id}}" />
+                                    <label>{{this.value}}</label>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="option_item downpayment_money">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                            </div>
+                            <div class="column_val downpayment_money_box">
+                                <div class="downpayment_add">
+                                    <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>费率：</span>
+                            </div>
+                            <div class="column_val rate_box">
+                                <div class="rate_add">
+                                    <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
+                            </div>
+                            <div class="column_val term">
+                                {{#each (term_list) }}
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates" name="term" value="{{this.id}}" />
+                                    <label>{{this.value}}</label>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>申请资料：</span>
+                            </div>
+                            <div class="column_val" style="padding-top: 20px;">
+                                {{#each (material_list) }}
+                                <div class="big_class">
+                                    <div class="big_class_name">{{this.type_value}}</div>
+                                    <div class="require">
+                                        <div class="form_group">
+                                            <input id="must_send" type="radio" class="must_send" name="must_send{{this.type}}" value="1">
+                                            <label for="must_send">必传</label>
+                                        </div>
+                                        <div class="form_group">
+                                            <input id="must_nosend" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
+                                            <label for="must_nosend" class="checked">非必传</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="small_class">
+                                    <div class="selector_box">
+                                        <div class="form_group">
+                                            <input type="checkbox" class="check_all" name="" value="">
+                                            <label class="check_all">全选</label>
+                                        </div>
+                                        {{#each (this.mlist) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="check_all" name="" value="">
+                                            <label class="check_all">{{this.material_name}}</label>
+                                        </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="prevPage">上一步</a>
+                        <a href="javascript:" class="btn orange_btn confirm">发布</a>
+                        <a href="javascript:" class="btn orange_btn confirm">保存到仓库</a>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        /**
+         * 切换首付类型事件
+         * @author Plateau 2018年8月8日13:20:46
+         */
+        function togDownpaymentType () {
+            $('#downpayment_select').on('change', function (){
+                var val = $(this).val();
+                if(val == '1'){
+                    $('.downpayment_rate').show();
+                    $('.downpayment_money').hide();
+                }else if(val == '2'){
+                    $('.downpayment_rate').hide();
+                    $('.downpayment_money').show();
+                }else{
+                    $('.downpayment_rate').hide();
+                    $('.downpayment_money').hide();
+                }
+            });
+        }
+        /**
+         * 添加首付金额事件
+         * @author Plateau 2018年8月8日13:26:29
+         * @description  规则：最多添加五个&不能有重复金额
+         */
+        function addDownpaymentMoney () {
+            var downpayment_money_box = $('.downpayment_money_box');
+            downpayment_money_box.on("click",".downpayment_add_txt",function(){
+                var _this = $(this);
+                var money = $('.downpayment_add input').val();
+                if(money == ''){
+                    $alert('请填写首付金额');
+                    return;
+                } else {
+                    var downpayment_add_ready = $('.downpayment_add_ready');
+                    if(money && downpayment_add_ready.length > 0){
+                        for(var i = 0;i < downpayment_add_ready.length; i++){
+                            var val = $('.downpayment_add_ready').eq(i).find('input').val();
+                            if(money == val){
+                                $alert('此首付金额已存在,请重新输入');
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                var inner = '<div class="downpayment_add_ready"><input type="text" readonly="readonly" class="money_valite" name="downpayment_money" placeholder="请输入首付金额" value="' + money + '" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div>';
+                $('.downpayment_add').before(inner);
+                $('.downpayment_add input').val("");
+
+                var del = $('.downpayment_add_del').length;
+                if (del == 4) {
+                    var delbtn = '<span class="cursor downpayment_add_del">删除</span>';
+                    _this.before(delbtn);
+                    _this.parents('.downpayment_add').addClass('downpayment_add_ready').removeClass('downpayment_add');
+                    _this.remove();
+                }
+            });
+        }
+        /**
+         * 删除首付金额事件
+         * @author Plateau 2018年8月8日13:56:29
+         */
+        function delDownpaymentMoney () {
+            var downpayment_money_box = $('.downpayment_money_box');
+            downpayment_money_box.on("click",".downpayment_add_del",function(){
+                var _this = $(this);
+
+                _this.parents('.downpayment_add_ready').remove();
+
+                var del = $('.downpayment_add_ready').length;
+                if (del == 4) {
+                    var addbtn = '<span class="cursor downpayment_add_txt">添加</span>';
+                    downpayment_money_box.find('.downpayment_add_ready').last().find('input').attr('readonly',false);
+                    downpayment_money_box.find('.downpayment_add_ready').last().find('.downpayment_add_del').before(addbtn);
+                    downpayment_money_box.find('.downpayment_add_ready').last().find('.downpayment_add_del').remove();
+                    downpayment_money_box.find('.downpayment_add_ready').last().addClass('downpayment_add').removeClass('downpayment_add_ready');
+                }
+            });
+        }
+        /**
+         * 添加费率事件
+         * @author Plateau 2018年8月8日14:44:25
+         * @description  规则：最多添加五个&不能有重复
+         */
+        function addRate () {
+            var rate_box = $('.rate_box');
+            rate_box.on("click",".rate_add_txt",function(){
+                var _this = $(this);
+                var money = $('.rate_add input').val();
+                if(money == ''){
+                    $alert('请填写当前费率');
+                    return;
+                } else {
+                    var rate_add_ready = $('.rate_add_ready');
+                    if(money && rate_add_ready.length > 0){
+                        for(var i = 0;i < rate_add_ready.length; i++){
+                            var val = $('.rate_add_ready').eq(i).find('input').val();
+                            if(money == val){
+                                $alert('此费率已存在，请重新输入');
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                var inner = '<div class="rate_add_ready"><input type="text" readonly="readonly" class="rate_valite" name="interest_rate" placeholder="请输入费率" value="' + money + '" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div>';
+                $('.rate_add').before(inner);
+                $('.rate_add input').val("");
+
+                var del = $('.rate_add_del').length;
+                if (del == 4) {
+                    var delbtn = '<span class="cursor rate_add_del">删除</span>';
+                    _this.before(delbtn);
+                    _this.parents('.rate_add').addClass('rate_add_ready').removeClass('rate_add');
+                    _this.remove();
+                }
+            });
+        }
+        /**
+         * 删除费率事件
+         * @author Plateau 2018年8月8日14:49:59
+         */
+        function delRate () {
+            var rate_box = $('.rate_box');
+            rate_box.on("click",".rate_add_del",function(){
+                var _this = $(this);
+
+                _this.parents('.rate_add_ready').remove();
+
+                var del = $('.rate_add_ready').length;
+                if (del == 4) {
+                    var addbtn = '<span class="cursor rate_add_txt">添加</span>';
+                    rate_box.find('.rate_add_ready').last().find('input').attr('readonly',false);
+                    rate_box.find('.rate_add_ready').last().find('.rate_add_del').before(addbtn);
+                    rate_box.find('.rate_add_ready').last().find('.rate_add_del').remove();
+                    rate_box.find('.rate_add_ready').last().addClass('rate_add').removeClass('rate_add_ready');
+                }
+            });
+        }
+
+
+        $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            numAndAmount('.financeamount',{//控制融资金额范围输入框只能输入数字和小数
+                type : 1,
+                maxInteger : 3,
+                maxDecimal : 3,
+                addDecimal : 1
+            });
+            numAndAmount('.money_valite',{//首付金额：只可输入数字，七位整数，超出不可输
+                type : 0,
+                maxInteger : 7,
+                maxDecimal : 0,
+                addDecimal : 1
+            });
+            numAndAmount('.rate_valite',{//费率：只可输入数字，两位整数，小数点后保留两位，超出不可输入
+                type : 1,
+                maxInteger : 2,
+                maxDecimal : 2,
+                addDecimal : 1
+            });
+            togDownpaymentType();//切换首付类型事件
+            addDownpaymentMoney();//添加首付金额事件
+            delDownpaymentMoney();//删除首付金额事件
+            addRate();//添加费率事件
+            delRate();//删除费率事件
+        });
+    })(jQuery,undefined);
+</script>
+</html>

@@ -1,0 +1,121 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main edit_material">
+            <div class="crumbs_nav">
+                <a href="javascript:;" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item">先锋太盟</a>
+                <a href="javascript:;" class="crumbs_item">编辑请款资料（新车）</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="material_edit_form" method="post">
+
+                    <div class="big_class">
+                        <div class="big_class_name">发票</div>
+                        <div class="require">
+                            <div class="form_group">
+                                <input id="must_send" type="radio" class="must_send" name="must_send" value="1">
+                                <label for="must_send">必传</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="must_nosend" type="radio" class="must_nosend" name="must_send" value="0" checked="checked">
+                                <label for="must_nosend" class="checked">非必传</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="small_class">
+                        <div class="selector_box">
+                            <div class="form_group">
+                                <input type="checkbox" class="check_all" name="" value="">
+                                <label class="check_all">全选</label>
+                            </div>
+                            <div class="form_group">
+                                <input type="checkbox" class="check_all" name="" value="">
+                                <label class="check_all">发票</label>
+                            </div>
+                        </div>
+                        <div class="img_box">
+                            <div class="img_item">
+                                <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="big_class">
+                        <div class="big_class_name">发票</div>
+                        <div class="require">
+                            <div class="form_group">
+                                <input id="must_send" type="radio" class="must_send" name="must_send" value="1">
+                                <label for="must_send">必传</label>
+                            </div>
+                            <div class="form_group">
+                                <input id="must_nosend" type="radio" class="must_nosend" name="must_send" value="0" checked="checked">
+                                <label for="must_nosend" class="checked">非必传</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="small_class" style="border-bottom: 1px solid #E4E4E4;">
+                        <div class="selector_box">
+                            <div class="form_group">
+                                <input type="checkbox" class="check_all" name="" value="">
+                                <label class="check_all">全选</label>
+                            </div>
+                            <div class="form_group">
+                                <input type="checkbox" class="check_all" name="" value="">
+                                <label class="check_all">发票</label>
+                            </div>
+                        </div>
+                        <div class="img_box">
+                            <div class="img_item">
+                                <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
+                        <a href="javascript:;" class="btn bg_btn cancel">取消</a>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+
+
+        $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+        });
+    })(jQuery,undefined);
+</script>
+</html>

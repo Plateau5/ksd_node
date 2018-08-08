@@ -1,0 +1,300 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main product_basic_create">
+            <div class="crumbs_nav">
+                <a href="javascript:;" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item product_list">{{parent_name}}</a>
+                <a href="javascript:;" class="crumbs_item">发布新产品</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="product_basic_create_form" method="post">
+                    <input type="hidden" value="{{parent_name}}" name="parent_name" id="orgName">
+                    <input type="hidden" value="{{parent_id}}" name="parent_id">
+                    <div class="base_info">
+                        <div class="detail_title">基本信息</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">产品名称：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="productname" type="text" class="required" name="name" maxlength="20" placeholder="请输入产品名称" />
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用业务：</span>
+                            </div>
+                            <div id="applyto_business" class="column_val">
+                                {{#if (applyto_business.indexOf(',') !== -1) }}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="0">
+                                    <div class="form_group">
+                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                        <label for="new_car" class="checked">新车</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                        <label for="old_car" class="old_car">二手车</label>
+                                    </div>
+                                {{else}}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                    {{#if (applyto_business === '0' ) }}
+                                        <div class="form_group">
+                                            <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                            <label for="new_car" class="checked">新车</label>
+                                        </div>
+                                    {{elseif (applyto_business === '1' )}}
+                                        <div class="form_group">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                            <label for="old_car" class="old_car checked">二手车</label>
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用类型：</span>
+                            </div>
+                            <div id="" class="column_val">
+                                <div class="form_group">
+                                    <input type="checkbox" class="applyto_type" name="applyto_type"  value="1"  checked="checked"/>
+                                    <label class="checked">快收单</label>
+                                </div>
+                                <div class="form_group">
+                                    <input type="checkbox" class="applyto_type" name="applyto_type" value="2" />
+                                    <label>经销商</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="applyto_city" class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
+                            </div>
+                            <div class="column_val select_city_div">
+                                <input type="hidden" class="city_ids" name="city_ids"  value=""/>
+                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择省市" readonly/>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用车型：</span>
+                            </div>
+                            <div class="column_val">
+                                {{#each (ApplytoCar) }}
+                                <div class="form_group">
+                                    {{#if (this.id === 22) }}
+                                        <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
+                                        <label class="checked">{{this.value}}</label>
+                                    {{else}}
+                                        <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
+                                        <label>{{this.value}}</label>
+                                    {{/if}}
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm next_confirm">下一步</a>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
+<script>
+    (function ($) {
+        var city_list = '{{{list_city}}}';//所有城市
+        if (city_list.length > 0 ) {
+            city_list = JSON.parse(city_list);
+        }
+
+        /**
+         * 选择城市
+         * @author  Plateau  2018年8月8日16:14:35
+         * @param city_list: 城市数据；
+         * @param condition_city_list : 回显城市数据；
+         * @param dataType数据类型：1-两级数据、2-三级数据
+         * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
+         * */
+        function getSelectedCitys () {
+            $('.select_city_input').citySelect({
+                data : city_list,
+                defaultData : [],
+                dataType : 1,
+                type : 2
+            }, function (data) {
+                var cityArr = [];
+                var cityName = '';
+                if (data) {
+                    for (var i = 0,leni = data.length;i < leni;i++) {
+                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                            if (i == 0 && j == 0) {
+                                cityName = data[i].city_list[j].name;
+                            }
+                            cityArr.push(data[i].city_list[j].id);
+                        }
+                    }
+                    if (cityArr.length != 0) {
+                        $('.city_ids').val(cityArr.join(','));
+                        if (cityArr.length == 1){
+                            $('.select_city_input').val(cityName);
+                        } else {
+                            $('.select_city_input').val(cityName + '等' + cityArr.length + '个城市');
+                        }
+                    } else {
+                        $('.city_ids').val('');
+                        $('.select_city_input').val('全部');
+                    }
+                }
+            });
+        }
+        /**
+         * 注册提交点击事件
+         * @author  Plateau  2018年8月8日16:32:56
+         * */
+        function bindSubmitEvent () {
+            var btn = $('.next_confirm');
+            btn.off('click').on('click', function () {
+                submitValid();
+            });
+        }
+        /**
+         * 提交校验
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function submitValid () {
+            var productname = $('#productname').val();
+            if (productname == '') {
+                $alert('产品名称不能为空');
+                return;
+            }
+
+            var applyto_business = $('.applyto_business').val();
+            if (applyto_business == '') {
+                $alert('请选择产品的适用业务');
+                return;
+            }
+
+            var applyto_type = $('.applyto_type');
+            if (applyto_type.eq(0).attr('checked') != 'checked' && applyto_type.eq(0).attr('checked') != 'checked') {
+                $alert('请选择一项产品来源');
+                return;
+            }
+            var city = $('.select_city_input').val();
+            if (city == '') {
+                $alert('请选择适用城市');
+                return;
+            }
+
+            var applyto_car = $('.applyto_car');
+            var applyto_num = 0;
+            applyto_car.each(function () {
+                if (this.checked) {
+                    applyto_num++;
+                }
+            });
+            if (applyto_num == 0) {
+                $alert('请选择适用车型');
+                return;
+            }
+            ajaxSubmit();
+        }
+
+        /**
+         * ajax提交參數
+         * @author  Plateau  2018年8月8日16:53:14
+         * */
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('product_basic_create_form'));
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : contextPath + "/api/product/commit/bseinfo",
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        locationTo({
+                            action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
+                            param : {
+                                parent_name : $('#orgName').val()
+                            }
+                        });
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年8月8日18:18:36
+         * */
+        function goProductList () {
+            var btn = $('.product_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                    param : reqParamsStr
+                })
+            });
+        }
+
+        $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            getSelectedCitys();//选择城市
+            bindSubmitEvent();//注册提交点击事件
+            // goProductList();//面包屑跳转
+        });
+    })(jQuery,undefined);
+</script>
+</html>
