@@ -99,7 +99,8 @@ function numAndAmount (selector,opt) {
     var selector = $(selector);
     var minDecimalStr = "";
     selector.on('input', function(){	//oninput 事件在用户输入时触发。
-        var value = selector.val();
+        var _this = $(this);
+        var value = _this.val();
         if (typeStr == 0) {
             //把非数字的都替换掉
             value = value.replace(/[^\d]/g,'');
@@ -140,7 +141,7 @@ function numAndAmount (selector,opt) {
                 value = String(value).slice(0,maxInteger);
             }
         }
-        selector.val(value);
+        _this.val(value);
     });
     if (addDecimal == 0) {
         selector.on('blur', function(){		//输入框移除光标时，如果为整数，自动补小数0
@@ -169,7 +170,8 @@ function numAndAmount (selector,opt) {
 function chnAndEng (selector,type) {
     var selector = $(selector);
     selector.on('input', function(){
-        var value = selector.val();
+        var _this = $(this);
+        var value = _this.val();
         if (type == 0) {	//只允许输入纯英文
             value = value.replace(/[^a-zA-Z]/g,'');
         } else if (type == 1) {		//只允许输入纯中文
@@ -179,7 +181,7 @@ function chnAndEng (selector,type) {
         } else if (type == 3) {		//只允许输入英文、数字
             value = value.replace(/[^a-zA-Z\d]/g,'');
         }
-        selector.val(value);
+        _this.val(value);
     });
 }
 // ----------------------------------------------------------------------
