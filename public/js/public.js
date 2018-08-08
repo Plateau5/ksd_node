@@ -1394,6 +1394,7 @@ function searchBusinessList (firstLetter) {
     var merchantsStatus = $("select#merchantsState option:selected").val();   // 商户-状态
     var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
     var settlementType = $("select#settlementType option:selected").val();   // 商户-结算方式
+    var applytoType = $("select#applytoType option:selected").val();   // 商户-商户来源
 
     /*var CustomerStart = $("#start_loan_time").val() || '';  // 客户-放款时间开始
     var CustomerEnd = $("#end_loan_time").val() || '';   // 客户-放款时间结束
@@ -1421,6 +1422,7 @@ function searchBusinessList (firstLetter) {
     merchantsStatus && $("#"+id).append('<input type="hidden" id="status" name="status" value="'+ merchantsStatus +'" />');
     ownType && $("#"+id).append('<input type="hidden" id="own_type" name="own_type" value="'+ ownType +'" />');
     settlementType && $("#"+id).append('<input type="hidden" id="settlement_type" name="settlement_type" value="'+ settlementType +'" />');
+    applytoType && $("#"+id).append('<input type="hidden" id="applyto_type" name="applyto_type" value="'+ applytoType +'" />');
 
     /*CustomerStart && $("#"+id).append('<input type="hidden" id="start_loan_time" name="start_loan_time" value="'+ CustomerStart + '" />');
     CustomerEnd && $("#"+id).append('<input type="hidden" id="end_loan_time" name="end_loan_time" value="'+ CustomerEnd + '" />');
@@ -1629,6 +1631,7 @@ function $alert (text, callback) {
 function toOrderDetail () {
     var input = $("#financeId");
     var advance = $('#advanceId');
+    var finance_type = $('#financeType');
     var form = $("#to_order_detail");
     var orderList = $(".business_list .list_item .list_item_detail");
     var url = LOCALURL;
@@ -1640,8 +1643,10 @@ function toOrderDetail () {
             var t = $(this);
             var financeId = $.trim(t.parents(".list_item").attr("lang"));
             var advanceId = $.trim(t.parents('.list_item').data('advance_id'));
+            var financeType = $.trim(t.parents('.list_item').data('finance_type'));
             input.val(financeId);
             advance.val(advanceId);
+            finance_type.val(financeType);
             form.submit();
         });
     });

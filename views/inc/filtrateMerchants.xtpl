@@ -79,6 +79,22 @@
                 {{/each}}
             </select>
         </div>
+        <div class="filtrate_item select_item inline_block">
+            <div class="conditions_name inline_block" style="vertical-align: top;">商户来源：</div>
+            <select name="applyto_type"  class="filtrate_select merchants_tags" id="applytoType">
+                <option value="">全部</option>
+                {{#if (vo.applyto_type === 1) }}
+                    <option selected value="1">快收单</option>
+                {{else}}
+                    <option value="1">快收单</option>
+                {{/if}}
+                {{#if (vo.applyto_type === 2) }}
+                    <option selected value="2">KA渠道</option>
+                {{else}}
+                    <option value="2">KA渠道</option>
+                {{/if}}
+            </select>
+        </div>
         {{/if}}
         {{#if (startWith(markUri + '/loan')) }}
         <div class="filtrate_item select_item  inline_block">
