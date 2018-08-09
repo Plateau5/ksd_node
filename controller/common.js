@@ -122,7 +122,7 @@ exports.checkPrivilege = function (p, req) {
  * @param next {Object} ：下一步需要执行的入口
  */
 exports.httpRequest = function (opt, callback, req, res, next) {
-    // var cookies = this.getCookies(req, res, next);
+    // var cookies = req.cookies;
     var option = {
         method : 'post',
         url : '',
@@ -155,7 +155,14 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                 } else if (result.error_code === 0) {
                     callback(result);
                 } else {
-                    LOGERROR(ERRORTYPES.HttpRequest + '：[Node] Background server (Java) returned an error message. Data:' + JSON.stringify(result));
+                    LOGERROR(
+                        ERRORTYPES.HttpRequest + '：[Node] Background server (Java) returned an error message. Data:' + JSON.stringify(result),
+                        "API-router: " + options.url
+                        + "\n"
+                        + "Method: " + options.method
+                        + "\n"
+                        + "data: " + JSON.stringify(options.formData)
+                    );
                     callback(result);
                 }
             } catch (e) {
@@ -180,7 +187,14 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                     LOGERROR(e.stack);
                 }
                 // callback(result);
-                LOGERROR(ERRORTYPES.HttpRequest + '：The result of server return is not need to parse.');
+                LOGERROR(
+                    ERRORTYPES.HttpRequest + '：The result of server return is not need to parse.',
+                    "API-router: " + options.url
+                    + " \n "
+                    + " Method: " + options.method
+                    + " \n "
+                    + " data: " + JSON.stringify(options.formData)
+                );
             }
         } else {
             // LOGERROR(ERRORTYPES.HttpRequest + '：' + error);

@@ -18,6 +18,7 @@ global.apiServerPath = '';
 global.contextPath = '';
 global.domain = '';
 global.markUri = '/ksd';
+global.user = {};
 
 // 获取域名信息（host）
 app.use(function (req, res, next) {
@@ -60,6 +61,24 @@ app.use(function (req, res, next) {
     } else {
         next();
     }
+});
+
+/**
+ * Grab the information of the user who logged into this application.
+ * uid - User primary key ID.
+ * privilege - user's privileges.
+ * companyId - user's company id.
+ */
+app.use(function (req, res, next) {
+    var cookies = req.cookies;
+    var userInfo = {};
+    var JSESSIONID = cookies.JSESSIONID;
+    userInfo.JSESSIONID = JSESSIONID;
+    userInfo.uid = COMMONUTIL.decrypt(cookies.inner_logininfo);
+    userInfo.privilege = COMMONUTIL.decrypt(cookies.logininfo);
+    userInfo.companyId = COMMONUTIL.decrypt(cookies.comp_info);
+    global.user = userInfo;
+    next();
 });
 
 app.use('/', index);
