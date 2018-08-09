@@ -259,10 +259,15 @@
                 success : function (res) {
                     $('#loading').hide();
                     if (res.error_code == 0) {
+                        var parent_name = $('#orgName').val();
+                        var product_id = res.product_id;
+                        var product_name = $('#productname').val();
                         locationTo({
                             action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
                             param : {
-                                parent_name : $('#orgName').val()
+                                parent_name : parent_name,
+                                product_id : product_id,
+                                product_name : product_name
                             }
                         });
                     } else {
