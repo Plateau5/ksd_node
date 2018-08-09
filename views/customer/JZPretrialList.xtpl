@@ -33,8 +33,8 @@
                             <col style="width: 14%;" />
                             <col style="width: 14%;" />
                             <col style="width: 20%;" />
-                            <col style="width: 26%;" />
-                            <col style="width: 12%;" />
+                            <col style="width: 16%;" />
+                            <col style="width: 18%;" />
                             <col style="width: 12%;" />
                         </colgroup>
                         <thead>
@@ -125,10 +125,6 @@
         <!---- Part of Main info End ---->
     </div>
     <!-------- Part of main End -------->
-
-    <!-------- Part of footer Begin -------->
-    <!--<div id="footer" class="footer"></div>-->
-    <!-------- Part of footer End -------->
 </div>
 <div class="mask" style="display: none;"></div>
 </body>
@@ -137,9 +133,9 @@
 <script src="{{markUri}}/static/js/customerService.js"></script>
 </html>
 <script>
-    var emp_list = '{{emp_list}}';
+    var emp_list = '{{{emp_list}}}';
     if (emp_list.length > 0 ){
-        emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
+        emp_list = JSON.parse(emp_list);
     }
     (function ($) {
         /**
