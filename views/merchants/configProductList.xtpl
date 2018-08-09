@@ -1,0 +1,171 @@
+<!-- 商户列表页 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+    <title>商户管理-配置金融产品列表</title>
+    <style>
+        .no_data_tr{
+            margin: 20px 0;
+        }
+        .no_hover:hover{
+            background: #FFFFFF !important;
+            cursor: default !important;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item merchant_name" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item">配置金融产品</a>
+            </div>
+            <div class="policies_container merchant_policies">
+                <div class="title org_title">{{reqParams.supplier_name}}</div>
+                <div class="module_list org_list">
+                    <div class="title org_list_tile">
+                        <span class="module_name font14">机构名称</span>
+                    </div>
+                    {{#if (organization_list.length > 0) }}
+                        <ul class="org_select_list clearfix">
+                            {{#each (organization_list) }}
+                            <li class="list_item nowrap {{#if (root.organization_id === this.organization_id) }}active{{/if}}" data-id="{{this.organization_id}}" data-name="{{this.organization_name}}">{{this.organization_name}}</li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                </div>
+                <div class="module_list">
+                    <form method="post" class="">
+                    {{#if (PolicyList )}}
+                        <table class="normal">
+                            <colgroup>
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 20%;">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>产品名称</th>
+                                <th>融资范围</th>
+                                <th>费率</th>
+                                <th>融资期限</th>
+                                <th>首付比例/金额</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>快易融优质套餐B</td>
+                                    <td>2-10万</td>
+                                    <td>79%</td>
+                                    <td>
+                                        12、24
+                                    </td>
+                                    <td>100%</td>
+                                    <td class="merchants_operate_btn">
+                                        <a href="javascript:"class="merchants_edit"></a>
+                                        <div class="r_radio inline_block off" type="off">
+                                            <span></span>
+                                            <span></span>
+                                            <div></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="page" style="display: none;">
+                            <a href="javascript:" class="page-item home disabled" data-currentPage="1" data-limit="20"></a>
+                            <a href="javascript:" class="page-item prev disabled" data-currentPage="" data-limit="20"></a>
+                            <a href="javascript:" class="page-item next" data-currentPage="" data-limit="20"></a>
+                            <a href="javascript:" class="page-item end" data-currentPage="" data-limit="20"></a>
+                            <span class="total_page">共<span class="num">0</span>条</span>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<input type="hidden" id="orgId" value="{{organization_id}}">
+<input type="hidden" id="supplierId" value="{{reqParams.supplier_id}}">
+<input type="hidden" id="orgName" value="{{reqParams.supplier_name}}">
+<input type="hidden" id="carType" value="{{reqParams.car_type}}">
+<input type="hidden" name="list_origin" value="1" id="listOrigin">
+<input type="hidden" name="limit" value="10" id="limit">
+<input type="hidden" name="current_page" value="1" id="currentPage">
+<input type="hidden" name="rebate_type" value="" id="rebateType">
+<input type="hidden" id="url" value="{{reqParams.url}}">
+<input type="hidden" id="navigation" value="{{reqParams.navigation}}">
+<input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
+<input type="hidden" id="cityName" value="{{detail.city_name}}">
+<input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_car}}">
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        /*启用/禁用切换*/
+        $(".r_radio").mousedown(function() {
+            var _this = $(this);
+            if (_this.attr('type') == 'off') {
+                _this.find('div').stop().animate({
+                    'left' : '14px'
+                },200);
+                $('.merchants_edit').hide();
+                _this.removeClass('off').attr('type', 'on')
+            }else {
+                _this.find('div').stop().animate({
+                    'left' : '2px'
+                },200);
+                $('.merchants_edit').show();
+                _this.addClass('off').attr("type","off")
+            }
+        });
+        //点击编辑跳转编辑详情页
+
+        $(function() {
+
+        });
+    })(jQuery,undefined);
+</script>
+</html>

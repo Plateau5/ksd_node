@@ -231,7 +231,14 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
         }
     }, req, res, next);
 };
-
+//商户-商户管理-配置金融产品列表页
+exports.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST = function(req,res,next) {
+    common.getPageData({
+        url : 'api/supplier/deploy',
+        title : '商户管理-配置金融产品',
+        page : './merchants/configProductList'
+    })
+};
 
 // 商户-放款管理-侧导航跳转
 exports.VIEW_LOAN_SYSTEM = function(req, res, next) {

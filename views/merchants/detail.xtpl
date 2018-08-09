@@ -112,7 +112,7 @@
                                 {{#if (verifyCode(1385)) }}
                                     <a href="javascript:" class="edit_sm_btn edit_sm_btn_icon">编辑</a>
                                 {{/if}}
-                                    <a href="javascript:" class="configuration_financial_product">配置金融产品</a>
+                                    <a href="javascript:" class="config_product">配置金融产品</a>
                                 {{#if (verifyCode(1060)) }}
                                     <a href="javascript:" class="delete_sm_btn delete_sm_btn_icon">删除</a>
                                 {{/if}}
@@ -242,14 +242,6 @@
                                                 {{/if}}
                                             </div>
                                         </li>
-
-                                        <li class="item_row">
-                                            <div class="item_name">是否为KA渠道商户：</div>
-                                            <div class="item_value" title="">
-                                                    是
-                                                    否
-                                            </div>
-                                        </li>
                                         <li class="item_row">
                                             <div class="item_name">款项结算方式：</div>
                                             <div class="item_value">
@@ -258,6 +250,22 @@
                                                 {{else}}
                                                 月结
                                                 {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name long_text">是否为KA渠道商户：</div>
+                                            <div class="item_value" title="{{detail.applyto_type_value}}">
+                                                {{#if  (detail.applyto_type === 2)}}
+                                                    是
+                                                {{else}}
+                                                    否
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name">车商邮箱：</div>
+                                            <div class="item_value" title="{{detail.account}}">
+                                                {{detail.account}}
                                             </div>
                                         </li>
                                     </ul>
@@ -736,7 +744,24 @@
                 })
             });
         }
+        /*跳转配置金融产品列表页面*/
+        function toConfigProductList () {
+            var btn = $('.config_product');
+            btn.off('click').on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/config/products/list',
+                    param : {
+                        supplier_id : merchantId,
+                        url : LOCALURL,
+                        applyto_car : mBusinessType,
+                        city_id : mCityId,
+                        navigation : navigation,
+                        supplier_name : merchantName
 
+                    }
+                })
+            })
+        }
         /* 商户删除 */
         // 绑定删除操作
         function deleteMerchant () {
@@ -818,6 +843,7 @@
             toEdit();   // 跳转编辑页面
             deleteMerchant();       // 删除商户
             merchantsAddTag();      // 标签管理
+            toConfigProductList();  //跳转配置金融产品列表页
             // 通过及不通过的跳转
             toNextPage('.audit_agree, .audit_disagree', {
                 supplier_id : merchantId,
