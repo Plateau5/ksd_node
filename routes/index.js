@@ -331,7 +331,8 @@ router.post(markUri + '/supplier/organization/policies/history', supplierCtrl.VI
 router.post(markUri + '/supplier/organization/productBasicCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTBASICCREATE);
 // 供应商部分-金融机构-发布新产品政策页跳转   new
 router.post(markUri + '/supplier/organization/productPolicyCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCPOLICYCREATE);
-
+// 供应商部分-金融机构-产品详情页跳转   new
+router.post(markUri + '/supplier/organization/productDetailNew', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW);
 
 
 

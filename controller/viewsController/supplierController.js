@@ -387,7 +387,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCPOLICYCREATE = function(req, res, next)
         page : './organization/productPolicyCreate'
     }, req, res, next);
 };
-
+// 供应商部分-金融机构-产品详情页跳转   new
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/detail',
+        title : '供应商-发布新产品',
+        page : './organization/productDetailNew'
+    }, req, res, next);
+};
 
 
 
