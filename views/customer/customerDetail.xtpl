@@ -68,7 +68,8 @@
                 <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
                 <input type="hidden" name="present_id" value="{{present_id}}" id="present_id">
                 <input type="hidden" name="responsible" value="{{vo.responsible}}" id="responsible">
-                <input type="hidden" name="jizhi_preId" value="{{vo.jizhi_preId}}" id="preId">
+                <input type="hidden" name="jizhi_preId" value="{{vo.jizhi_preId}}" id="JZpreId">
+                <input type="hidden" name="pre_id" value="{{vo.pre_id}}" id="PApreId">
 
 
                 <!--本次提交材料-->
@@ -742,13 +743,23 @@
         function toPretrialDetail () {
             var btn = $(".toPretrialDetail");
             btn.off('click').on('click', function () {
-                var preId = $("#preId").val();
+                var preId = "";
                 var navigation = $('#navigation').val();
                 var nodeUrl = $('#nodeUrl').val();
                 var financeId =$('#finance_id').val();
                 var advance_id = $('#advance_id').val();
+                var _this = $(this);
+                var url = "";
+                var dataId =_this.data('id');
+                if (dataId) {
+                    url = contextPath + markUri + '/customer/loan/PAPretrial/detail';
+                    preId = $("#PApreId").val();
+                } else {
+                    url = contextPath + markUri + '/customer/loan/JZPretrial/detail';
+                    preId = $("#JZpreId").val();
+                }
                 locationTo({
-                    action : contextPath + markUri + '/customer/loan/JZPretrial/detail',
+                    action : url,
                     param : {
                         pre_id : preId,
                         navigation : navigation,

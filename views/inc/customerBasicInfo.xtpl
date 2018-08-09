@@ -5,7 +5,9 @@
 				客户信息
 				{{#if(startWith(markUri + '/customer/loan/detail'))}}
 					{{#if (vo.jizhi_preId) }}
-					<a href="javascript:;" class="pretrial_title toPretrialDetail mar_left_20">查看预审信息</a>
+					<a href="javascript:;" class="pretrial_title toPretrialDetail mar_left_20" data-id="">查看预审信息</a>
+					{{elseif (vo.pre_id) }}
+					<a href="javascript:;" class="pretrial_title toPretrialDetail mar_left_20" data-id="{{vo.pre_id}}">查看预审信息</a>
 					{{/if}}
 				{{/if}}
 			</div>
