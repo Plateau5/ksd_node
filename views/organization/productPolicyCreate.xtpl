@@ -120,12 +120,12 @@
                                         <div class="big_class_name">{{this.type_value}}</div>
                                         <div class="require">
                                             <div class="form_group">
-                                                <input id="must_send" type="radio" class="must_send" name="must_send{{this.type}}" value="1">
-                                                <label for="must_send">必传</label>
+                                                <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{this.type}}" value="1">
+                                                <label for="must_send{{xindex}}">必传</label>
                                             </div>
                                             <div class="form_group">
-                                                <input id="must_nosend" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
-                                                <label for="must_nosend" class="checked">非必传</label>
+                                                <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
+                                                <label for="must_nosend{{xindex}}" class="checked">非必传</label>
                                             </div>
                                         </div>
                                     </div>
@@ -682,7 +682,7 @@
                             } else {
                                 var url = '/supplier/organization/unpublishedProducts';
                             }
-                            var parent_id = $('#parent_id').val();
+                            var parent_id = $('#orgId').val();
                             locationTo({
                                 action : contextPath + markUri + url,
                                 param : {

@@ -178,45 +178,50 @@
 
     (function ($) {
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
-        //上架按钮
-        $(".update_btn").off("click").on("click", function () {
-            var _this = $(this);
-            dialog('open', {
-                title : '上架提醒',
-                content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>选中产品将发布上架，确认继续上架？</span></div>',
-                onConfirm : function (d) {
-                    d.close();
-                    $.ajax({
-                        type:'post',
-                        timeout:3000,
-                        url : contextPath + "/api/product/shelve",
-                        data : {
-                            product_id : _this.data('id'),
-                            publish_type : 2
-                        },
-                        processData : false,      //序列化参数为String类型，默认：true。
-                        contentType : false,      //内容编码，文件上传时设为FALSE
-                        success : function (res) {
-                            if (res.error_code == 0) {
-                                $alert('上架成功', function () {
-                                    window.location.reload();
-                                });
-                            } else if (res.error_code == 1013) {
-                                $alert('您选择了有信息填写不完整的产品，请先填写完整！');
-                            } else {
-                                $alert(res.error_msg);
+        /**
+         * 上架事件
+         * @author Plateau  2018年8月9日16:36:03
+         * */
+        function updateEvent () {
+            $(".update_btn").off("click").on("click", function () {
+                var _this = $(this);
+                var product_id = _this.data('id');
+                dialog('open', {
+                    title : '上架提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>选中产品将发布上架，确认继续上架？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        $.ajax({
+                            type:'post',
+                            timeout:3000,
+                            url : contextPath + "/api/product/publish",
+                            data : {
+                                product_id : product_id,
+                                publish_type : 2
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('上架成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else if (res.error_code == 1013) {
+                                    $alert('您选择了有信息填写不完整的产品，请先填写完整！');
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('上架失败，请重新尝试');
                             }
-                        },
-                        error : function () {
-                            $alert('上架失败，请重新尝试');
-                        }
-                    });
-                },
-                onCancel : function (d) {
-                    d.close();
-                }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
             });
-        });
+        }
+
 
         /**
          * 删除事件
@@ -323,6 +328,7 @@
             filterData();//筛选
             toProductDetail();//跳转产品详情页
             delEvent();//删除事件
+            updateEvent();//上架事件
             // goProductList();//面包屑跳转
         });
     })(jQuery,undefined);
