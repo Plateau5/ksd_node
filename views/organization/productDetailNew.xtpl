@@ -31,27 +31,31 @@
             <div class="org_detail_header">
                 <div class="header_left">
                     <div class="header_left_img">
-                        <img src="http://loan-file.oss-cn-beijing.aliyuncs.com/qita.png" alt="">
+                        <img src="{{vo.parent_logo}}" alt="">
                     </div>
                     <div class="header_txt">
                         <div class="header_txt_name">
-                            <div class="header_txt_top">先锋太盟</div>
+                            <div class="header_txt_top">{{vo.name}}</div>
                             <div class="header_txt_bottom">
+                                <input type="hidden" value="{{vo.product_applyto_business}}" id="supplier_car_type">
+                                {{#if (vo.product_applyto_business === 0) }}
                                 <div class="header_txt_newcar">新车</div>
+                                {{elseif (vo.product_applyto_business === 1) }}
                                 <div class="header_txt_usedcar">二手车</div>
+                                {{/if}}
                             </div>
                         </div>
 
                         <div class="header_right">
                             <div class="header_personal">
                                 <span>创建人：</span>
-                                <span>沈国彬</span>
+                                <span>{{vo.create_name}}</span>
                             </div>
                         </div>
                         <div class="header_right">
                             <div class="header_time">
                                 <span>创建时间：</span>
-                                <span>2018-6-15 9:56</span>
+                                <span>{{vo.create_time}}</span>
                             </div>
                         </div>
                     </div>
@@ -67,40 +71,52 @@
                         </div>
                     </div>
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">系统地址：</div>
-                        <div class="detail_about_data">
-                            <a href="http://www.xianfeng" target="_blank" style="color:#6699FF;">http://www.xianfeng</a>
-                        </div>
+                        <div class="detail_about_label">适用城市：</div>
+                        <div class="detail_about_data">{{vo.applyto_cityname}}</div>
                     </div>
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">产品数量：</div>
-                        <div class="detail_about_data">1</div>
+                        <div class="detail_about_label">适用车型：</div>
+                        <div class="detail_about_data">{{vo.applyto_car}}</div>
                     </div>
                 </div>
-
+                {{#each (policy_list) }}
                 <div class="detail_about">
                     <div class="detail_about_title">
-                        <div class="detail_about_label">申请政策及资料1</div>
+                        <div class="detail_about_label">申请政策及资料{{xindex + 1}}</div>
                         <div class="rf_30">
                             <a href="javascript:;" class="detail_title_btn edit_btn edit_rebate_type" lang="">编辑</a>
                             <a href="javascript:;" class="detail_title_btn edit_btn edit_rebate_type" lang="">删除</a>
                         </div>
                     </div>
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">系统地址：</div>
-                        <div class="detail_about_data">
-                            <a href="http://www.xianfeng" target="_blank" style="color:#6699FF;">http://www.xianfeng</a>
-                        </div>
+                        <div class="detail_about_label">融资金额范围：</div>
+                        <div class="detail_about_data">{{this.financeamount_start}}-{{this.financeamount_end}}万</div>
                     </div>
                     <div class="detail_about_txt">
-                        <div class="detail_about_label">产品数量：</div>
-                        <div class="detail_about_data">1</div>
+                        {{#if (this.downpayment_type === 1) }}
+                        <div class="detail_about_label">首付比例：</div>
+                        <div class="detail_about_data">{{this.downpayment_value}}</div>
+                        {{elseif (this.downpayment_type === 2) }}
+                        <div class="detail_about_label">首付金额：</div>
+                        <div class="detail_about_data">{{this.downpayment_value}}</div>
+                        {{/if}}
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">费率：</div>
+                        <div class="detail_about_data">{{this.interest_rate}}</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">融资期限：</div>
+                        <div class="detail_about_data">{{this.term}}</div>
                     </div>
                     <div class="detail_about_txt">
                         <div class="detail_about_label" style="vertical-align: top;">申请资料：</div>
                         <div class="detail_about_data">
+                            {{#each (this.policy_list) }}
                             <div class="">
+                                {{#if (this.is_must === 1) }}
                                 <em class="require_icon">*</em>
+                                {{/if}}
                                 <span class="">收入类：</span>
                                 <span class="">申请表、征信授权书、承诺与授权</span>
                             </div>
@@ -115,10 +131,11 @@
                                     <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
                                 </div>
                             </div>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
-
+                {{/each}}
                 <a href="javascript:;" class="add_policy_btn">添加申请政策及资料</a>
 
             </div>
