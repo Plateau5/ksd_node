@@ -42,7 +42,7 @@
                             <img  src="{{markUri}}/static/img/merchant_photo.png" class="img_responsive" alt="商户封面图" target="商户封面图">
                         {{/if}}
                     </div>
-                    <div class="name"><em class="name_icon"></em><span style="width: 596px;display: block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{detail.name}}</span></div>
+                    <div class="name"><em class="name_icon"></em><span style="width: 545px;display: block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{detail.name}}</span></div>
                     <div class="create_info">
                         <span class="founder">创建人：<samp>{{detail.emp_name}}</samp></span>
                         <span class="create_time">创建时间：<samp>{{detail.create_time}}</samp></span>
@@ -107,19 +107,20 @@
                     {{#if (detail.flag === 3) }}
                         <div class="btn_box text_left setting_merchant">
                                 {{#if (verifyCode(1480)) }}
-                                <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                                <a href="javascript:" class="add_sm_btn_policies add_sm_btn_policies_icon">制定返佣政策</a>
                                 {{/if}}
                                 {{#if (verifyCode(1385)) }}
-                                    <a href="javascript:" class="edit_sm_btn">编辑</a>
+                                    <a href="javascript:" class="edit_sm_btn edit_sm_btn_icon">编辑</a>
                                 {{/if}}
+                                    <a href="javascript:" class="configuration_financial_product">配置金融产品</a>
                                 {{#if (verifyCode(1060)) }}
-                                    <a href="javascript:" class="delete_sm_btn">删除</a>
+                                    <a href="javascript:" class="delete_sm_btn delete_sm_btn_icon">删除</a>
                                 {{/if}}
                         </div>
                     {{else}}
                         <div class="btn_box text_left setting_merchant">
                             {{#if (verifyCode(1480)) }}
-                            <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                            <a href="javascript:" class="add_sm_btn_policies add_sm_btn_policies_icon">制定返佣政策</a>
                             {{/if}}
                         </div>
                     {{/if}}
@@ -239,6 +240,14 @@
                                                 {{else}}
                                                     {{detail.address}}
                                                 {{/if}}
+                                            </div>
+                                        </li>
+
+                                        <li class="item_row">
+                                            <div class="item_name">是否为KA渠道商户：</div>
+                                            <div class="item_value" title="">
+                                                    是
+                                                    否
                                             </div>
                                         </li>
                                         <li class="item_row">
