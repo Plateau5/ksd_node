@@ -25,8 +25,7 @@
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">{{parent_name}}</a>
-                <a href="javascript:;" class="crumbs_item">产品列表</a>
+                <a href="javascript:;" class="crumbs_item">产品列表（{{parent_name}}）</a>
             </div>
             <div class="filtrate">
                 <form action="{{markUri}}/supplier/organization/publishedProducts" method="post" id="form_search" role='form'>
@@ -165,19 +164,25 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    //发布新产品
     (function ($) {
-        //发布新产品
         function createProduct () {
             var btn = $("#publish_product");
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var productId = $.trim(t.attr("lang"));
                 var parentId = $.trim(t.data("parent_id"));
+                var params = {
+                    product_id : productId,
+                    parent_id : parentId
+                };
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/productBasicCreate",
                     param : {
                         product_id : productId,
-                        parent_id : parentId
+                        parent_id : parentId,
+                        prevParams : params
                     }
                 });
             });
@@ -190,12 +195,13 @@
                 var t = $(this);
                 var productId = $.trim(t.attr("lang"));
                 var parentId = $.trim(t.data("parent_id"));
+                var params = {
+                    product_id : productId,
+                    parent_id : parentId
+                };
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
-                    param : {
-                        product_id : productId,
-                        parent_id : parentId
-                    }
+                    param : params
                 });
             })
         }

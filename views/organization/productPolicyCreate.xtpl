@@ -23,8 +23,8 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main product_policy_create">
             <div class="crumbs_nav">
-                <a href="javascript:;" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item">{{reqParams.parent_name}}</a>
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item product_list">产品列表（{{reqParams.parent_name}}）</a>
                 <a href="javascript:;" class="crumbs_item">发布新产品</a>
             </div>
 
@@ -32,6 +32,7 @@
                 <form action="" id="product_policy_create_form" method="post">
                     <input type="hidden" value="{{reqParams.product_id}}" id="product_id">
                     <input type="hidden" value="{{reqParams.product_name}}" id="product_name">
+                    <input type="hidden" value="{{reqParams.parent_id}}" name="parent_id" id="orgId">
                     <div class="base_info">
                         <div class="detail_title">申请政策及资料</div>
                         <div class="option_item">
@@ -157,7 +158,7 @@
 
                     <div class="btn_box clearfix create_wf_btn_box">
                         <a href="javascript:" class="prevPage">上一步</a>
-                        <a href="javascript:" class="btn orange_btn confirm">发布</a>
+                        <a href="javascript:" class="btn orange_btn confirm save_publish">发布</a>
                         <a href="javascript:" class="btn orange_btn confirm save_warehouse">保存到仓库</a>
                     </div>
                 </form>
@@ -175,6 +176,7 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         /**
          * 切换首付类型事件
          * @author Plateau 2018年8月8日13:20:46
@@ -482,20 +484,26 @@
 
 
         /**
-         * 注册保存到仓库事件
+         * 注册保存到仓库和发布事件
          * @author  Plateau  2018年8月9日09:34:31
          * */
-        function bindSaveWarehouseEvent () {
-            var btn = $('.save_warehouse');
-            btn.off('click').on('click', function () {
-                submitValid();
+        function bindSaveEvent () {
+            var save_warehouse = $('.save_warehouse');
+            save_warehouse.off('click').on('click', function () {
+                var url = contextPath + "/api/product/commit/policy";
+                submitValid(1, url);
+            });
+            var save_publish = $('.save_publish');
+            save_publish.off('click').on('click', function () {
+                var url = contextPath + "/api/product/publish";
+                submitValid(2, url);
             });
         }
         /**
          * 提交校验
          * @author  Plateau  2018年8月9日09:36:58
          * */
-        function submitValid () {
+        function submitValid (save_flag, url) {
             var financeamount_start = $('#financeamount_start').val();
             var financeamount_end = $('#financeamount_end').val();
             if (financeamount_start == '') {
@@ -622,28 +630,41 @@
             var product_id = $('#product_id').val();
             var product_name = $('#product_name').val();
             var material_data = JSON.stringify(material_data_arr);
+            if (save_flag ==1) {
+                var parameters = {
+                    product_id : product_id,
+                    product_name : product_name,
+                    financeamount_start : financeamount_start,
+                    financeamount_end : financeamount_end,
+                    downpayment_type : downpayment_type,
+                    downpayment_value : downpayment_value,
+                    interest_rate : interest_rate,
+                    term : term,
+                    material_data : material_data
+                };
+            } else {
+                var parameters = {
+                    product_id : product_id,
+                    publish_type : 1,
+                    product_name : product_name,
+                    financeamount_start : financeamount_start,
+                    financeamount_end : financeamount_end,
+                    downpayment_type : downpayment_type,
+                    downpayment_value : downpayment_value,
+                    interest_rate : interest_rate,
+                    term : term,
+                    material_data : material_data
+                };
+            }
 
-            var parameters = {
-                product_id : product_id,
-                name : product_name,
-                financeamount_start : financeamount_start,
-                financeamount_end : financeamount_end,
-                downpayment_type : downpayment_type,
-                downpayment_value : downpayment_value,
-                interest_rate : interest_rate,
-                term : term,
-                material_data : material_data
-            };
-
-            ajaxSubmit(parameters);
+            ajaxSubmit(url, parameters);
         }
 
         /**
          * ajax提交參數
          * @author  Plateau  2018年8月9日12:21:16
          * */
-        function ajaxSubmit (parameters) {
-            var url = contextPath + "/api/product/commit/policy";
+        function ajaxSubmit (url, parameters) {
             $.ajax({
                 type:'post',
                 timeout:50000,
@@ -655,7 +676,20 @@
                 success : function (res) {
                     $('#loading').hide();
                     if (res.error_code == 0) {
-                        $alert('修改成功');
+                        $alert('保存成功', function () {
+                            if (parameters.publish_type) {
+                                var url = '/supplier/organization/publishedProducts';
+                            } else {
+                                var url = '/supplier/organization/unpublishedProducts';
+                            }
+                            var parent_id = $('#parent_id').val();
+                            locationTo({
+                                action : contextPath + markUri + url,
+                                param : {
+                                    parent_id : parent_id
+                                }
+                            });
+                        });
                     } else {
                         $alert(res.error_msg);
                     }
@@ -701,7 +735,19 @@
                 }
             });
         }
-
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年8月8日18:18:36
+         * */
+        function goProductList () {
+            var btn = $('.product_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                    param : getPrevParams(reqParamsStr, {})
+                })
+            });
+        }
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             numAndAmount('.financeamount',{//控制融资金额范围输入框只能输入数字和小数
@@ -732,7 +778,8 @@
             uploadImage();      // 图片上传注册
             monitorSelectAll();//监听是否全选
             checkAll(".check_all");//全选
-            bindSaveWarehouseEvent();//注册保存到仓库事件
+            bindSaveEvent();//注册保存到仓库和发布事件
+            // goProductList();//面包屑跳转
         });
     })(jQuery,undefined);
 </script>

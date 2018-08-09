@@ -224,6 +224,7 @@ exports.getPageData = function(options, req, res, next) {
                 data.apiServerPath = apiServerPath;
                 data.domain = domain;
                 data.reqParams = body;
+                data.reqParamsStr = JSON.stringify(data.reqParams);
                 options.callback && options.callback(data);
                 res.render(options.page, data);
             } else {

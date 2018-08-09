@@ -2656,8 +2656,25 @@ $(function () {
     disabledFormAutoSubmit();
 });
 
-
-
+/**
+ * 获取上一页请求参数
+ * @author  Plateau  2018年8月9日15:01:21
+ * @param  reqParamsStr {String} 上一页的请求参数JSON字符串
+ * */
+function getPrevParams () {
+    var reqParams, prevParams;
+    if (reqParamsStr.length > 0 ) {
+        reqParams = JSON.parse(reqParamsStr);
+        if (reqParams.prevParams == undefined) {
+            prevParams = reqParams;
+        } else {
+            prevParams = reqParams.prevParams;
+        }
+    } else {
+        prevParams = {};
+    }
+    return prevParams.toString();
+}
 
 
 
