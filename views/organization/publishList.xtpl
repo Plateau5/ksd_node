@@ -120,24 +120,17 @@
                         {{else}}
                             {{#each (list) }}
                             <tr>
-                                <td title="{{this.name}}">{{this.name}}</td>
-                                <td>
-                                    {{#if (this.downpayment_type === 1) }}
-                                    {{this.downpayment_rate }}%
-                                    {{/if}}
-                                    {{#if (this.downpayment_type === 2) }}
-                                    {{this.downpayment_money }}元
-                                    {{/if}}
-                                </td>
+                                <td title="{{this.product_name}}">{{this.product_name}}</td>
+                                <td>{{this.downpayment_value }}</td>
                                 <td>{{this.interest_rate}}%</td>
                                 <td>{{this.apply_count }}</td>
                                 <td>{{this.pass_rate }}%</td>
                                 <td class="operate_btn">
                                     {{#if (root.verifyCode(1079)) }}
-                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="查看" class="view view_detail"></a>
+                                    <a href="javascript:;" lang="{{this.product_id }}" data_num="0" title="查看" class="view view_detail"></a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1087)) }}
-                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
+                                    <a href="javascript:;" lang="{{this.product_id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
                                     {{/if}}
                                     <!-- {{#if (root.verifyCode(1193)) }}
                                          <a href="javascript:;" lang="{{this.id }}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>

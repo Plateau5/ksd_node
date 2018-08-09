@@ -205,7 +205,18 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PUBLISHEDPRODUCTS_LIST = function(req, res, n
     common.getPageData({
         url : '/api/product/publishList',
         title : '供应商-已发布产品',
-        page : './organization/publishList'
+        page : './organization/publishList',
+        callback : function (data) {
+            if (data) {
+                for (var i = 0, len = data.list.length; i < len; i++) {
+                    if (data.list[i].downpayment_type == 1) {
+                        data.list[i].downpayment_value = data.list[i].downpayment_value.replace(/,/g,'% / ') + '%';
+                    } else if (data.list[i].downpayment_type == 2) {
+                        data.list[i].downpayment_value = data.list[i].downpayment_value.replace(/,/g,'元 / ') + '元';
+                    }
+                }
+            }
+        }
     }, req, res, next);
 };
 // 供应商部分-金融机构-产品列表-未发布页  1076
