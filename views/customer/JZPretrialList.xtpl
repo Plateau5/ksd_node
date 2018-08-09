@@ -284,6 +284,7 @@
                 var _this = $(this);
                 if (!_this.hasClass('no_data')) {
                     var pretrialId = $.trim(_this.data('id'));
+                    var pretrialType = $("#pretrialType").val();
                     var name = $.trim(_this.data('name'));
                     var url = "";
                     if (name) {
@@ -294,7 +295,8 @@
                     locationTo({
                         action : url,
                         param : {
-                            pre_id : pretrialId
+                            pre_id : pretrialId,
+                            pretrialType : pretrialType
                         }
                     });
                 }

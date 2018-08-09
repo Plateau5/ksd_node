@@ -26,7 +26,7 @@
                     <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
                     <a href="javascript:;" class="crumbs_item">预审信息</a>
                 {{else}}
-                    <a href="{{markUri}}/customer/JZPretrial/system" class="crumbs_item">预审管理</a>
+                    <a href="javascript:;" class="crumbs_item toPretrialList">预审管理</a>
                     <a href="javascript:;" class="crumbs_item">预审信息</a>
                 {{/if}}
             </div>
@@ -38,6 +38,7 @@
             <input type="hidden" id="advanceId" value="{{reqParams.advance_id}}">
             <input id="reportNo" value="{{vo.report_no}}" name="report_no" type="hidden">
             <input id="preId" value="{{vo.id}}" name="pre_id" type="hidden">
+            <input type="hidden" id="pretrialType" value="{{reqParams.pretrialType}}">
 
             <!-- 预审信息详情 -->
             <div class="details_content">
@@ -199,6 +200,19 @@
      *  Created by wyt on 2018-07-24
      */
     (function ($) {
+        //面包屑回跳预审列表页
+        function toPretrialList() {
+            var btn = $(".toPretrialList");
+            btn.off('click').on('click', function () {
+                var pretrialType = $("#pretrialType").val();
+                locationTo({
+                    action : contextPath + markUri + '/customer/JZPretrial/list',
+                    param : {
+                        pretrialType : pretrialType
+                    }
+                });
+            });
+        }
         //面包屑回跳客户详情页
         function toCustomerDetail() {
             var btn = $(".toOrderDetail");
@@ -216,6 +230,7 @@
         }
 
         $(function() {
+            toPretrialList();   //面包屑回跳预审列表页
             toCustomerDetail();    //面包屑回跳客户详情页
             viewLargeImage('#img_list');       // 附件信息查看大图
         });
