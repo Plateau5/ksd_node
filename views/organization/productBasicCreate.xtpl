@@ -84,12 +84,12 @@
                             </div>
                             <div id="" class="column_val">
                                 <div class="form_group">
-                                    <input type="checkbox" class="applyto_type" name="applyto_type"  value="1"  checked="checked"/>
-                                    <label class="checked">快收单</label>
+                                    <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
+                                    <label class="applyto_type checked">快收单</label>
                                 </div>
                                 <div class="form_group">
-                                    <input type="checkbox" class="applyto_type" name="applyto_type" value="2" />
-                                    <label>经销商</label>
+                                    <input type="checkbox" name="applyto_type" value="2" />
+                                    <label class="applyto_type">经销商</label>
                                 </div>
                             </div>
                         </div>
@@ -216,7 +216,7 @@
             }
 
             var applyto_type = $('.applyto_type');
-            if (applyto_type.eq(0).attr('checked') != 'checked' && applyto_type.eq(0).attr('checked') != 'checked') {
+            if (!applyto_type.eq(0).hasClass('checked') && !applyto_type.eq(1).hasClass('checked')) {
                 $alert('请选择一项产品来源');
                 return;
             }
