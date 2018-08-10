@@ -70,6 +70,7 @@
                 <input type="hidden" name="responsible" value="{{vo.responsible}}" id="responsible">
                 <input type="hidden" name="jizhi_preId" value="{{vo.jizhi_preId}}" id="JZpreId">
                 <input type="hidden" name="pre_id" value="{{vo.pre_id}}" id="PApreId">
+                <input id="finance_type" value="{{reqParams.finance_type}}" name="finance_type" type="hidden">
 
 
                 <!--本次提交材料-->
@@ -605,6 +606,7 @@
                 var thisMaterialIds = $.trim($('#materialIds').val());
                 var materialIds = $.trim($('#materialIdTotal').val());
                 var materialName = $.trim($('#materialName').val());
+                var financeType = $.trim($('#finance_type').val());
                 var url = "{{url}}";
                 locationTo({
                     action : contextPath +'{{detailUrl}}',
@@ -617,7 +619,8 @@
                         photo_type : photo_type,
                         material_ids: materialIds,
                         material_names : materialName,
-                        this_material_ids: thisMaterialIds
+                        this_material_ids: thisMaterialIds,
+                        finance_type: financeType
                     }
                 });
             });
@@ -708,6 +711,44 @@
                 }
             });
         }
+        //确认归档
+        bindEvents("click", ".confirm_archive", function (e) {
+            var financeId = $(e.target).data("id");
+            var advance_id = $(e.target).data("advance_id");
+            dialog("open", {
+                closeBtn : false,
+                "title" : "归档提醒",
+                "button" : ["确认","取消"],
+                "content" : "确认将此订单归档？",
+                onConfirm : function (dia) {
+                    confirmArchive(dia, financeId, advance_id);
+                }
+            });
+        });
+        //确认归档逻辑
+        function confirmArchive (dialog, fid, advance_id) {
+            var url = contextPath + "/api/requestPayout/pigeonhole";
+            var data = {
+                finance_id : fid,
+                advance_id : advance_id
+            };
+            if (fid) {
+                $ajax("POST", url, data, function (res) {
+                    var data = eval(res);
+                    if (data.error_code == 0) {
+                        dialog.close();
+                        //window.location.href = document.referrer;
+                        window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
+                    } else {
+                        dialog.close();
+                        $alert(res.error_msg);
+                    }
+                }, function () {
+                    $alert("操作失败，请重新尝试");
+                });
+            }
+        }
+        confirmArchive();
 
         function  pageJumpCheck (selector, opt) {
             var options = {};
@@ -738,7 +779,6 @@
                 }
             });
         }
-
         // 跳转预审详情
         function toPretrialDetail () {
             var btn = $(".toPretrialDetail");

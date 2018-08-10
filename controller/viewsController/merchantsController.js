@@ -231,14 +231,7 @@ exports.VIEW_MERCHANTS_POLICIES_HISTORY_LIST = function(req, res, next) {
         }
     }, req, res, next);
 };
-//商户-商户管理-配置金融产品列表页
-exports.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST = function(req,res,next) {
-    common.getPageData({
-        url : 'api/supplier/deploy',
-        title : '商户管理-配置金融产品',
-        page : './merchants/configProductList'
-    })
-};
+
 
 // 商户-放款管理-侧导航跳转
 exports.VIEW_LOAN_SYSTEM = function(req, res, next) {
@@ -267,7 +260,7 @@ exports.VIEW_LOAN_PENDING = function(req, res, next) {
     }, req, res, next);
 };
 
- //商户-放款管理-已审批 1488
+//商户-放款管理-已审批 1488
 exports.VIEW_LOAN_PASS = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/passList',
@@ -401,3 +394,32 @@ exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
         page : './merchants/loanTransfer'
     }, req, res, next);
 };
+
+//商户-商户管理-配置金融产品列表页
+exports.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST = function(req,res,next) {
+    common.getPageData({
+        url : '/api/supplier/deploy',
+        title : '商户管理-配置金融产品',
+        page : './merchants/configProductList'
+    }, req, res, next);
+};
+
+//商户-商户管理-配置金融产品列表页-编辑跳转
+exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
+    /*common.getPageData({
+        url : '/api/supplier/deploy',
+        title : '商户管理-配置金融产品-编辑',
+        page : './merchants/configProductEdit'
+    }, req, res, next);*/
+    var data = {};
+    var localUrl = req.originalUrl;
+    data.title = '商户管理-配置金融产品-编辑';
+    data.originUrl = localUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    var body = req.body;
+    data.reqParams = body;
+    res.render('./merchants/configProductEdit', data);
+};
+

@@ -34,8 +34,8 @@
         <div id="main" class="main merchants">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
-                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
-                <a href="javascript:;" class="crumbs_item merchant_name" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
+                <a href="{{markUri}}/merchants/pass" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item merchant_name toMerchantDetail" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
                 <a href="javascript:;" class="crumbs_item">配置金融产品</a>
             </div>
             <div class="policies_container merchant_policies">
@@ -44,17 +44,38 @@
                     <div class="title org_list_tile">
                         <span class="module_name font14">机构名称</span>
                     </div>
-                    {{#if (organization_list.length > 0) }}
+                    {{#if (data.length > 0) }}
                         <ul class="org_select_list clearfix">
-                            {{#each (organization_list) }}
+                            {{#each (data) }}
                             <li class="list_item nowrap {{#if (root.organization_id === this.organization_id) }}active{{/if}}" data-id="{{this.organization_id}}" data-name="{{this.organization_name}}">{{this.organization_name}}</li>
                             {{/each}}
                         </ul>
                     {{/if}}
                 </div>
+                {{#if (reqParams.applyto_car === "2")}}
+                    <div class="filtrate">
+                        <div class="filtrate">
+                            <div class="filtrate_item select_item  inline_block">
+                                <div class="conditions_name inline_block" style="vertical-align: top;">适用业务：</div>
+                                <select name="car_type" class="filtrate_select" id="typeBusiness">
+                                    <option value="">全部</option>
+                                    {{#if (reqParams.applyto_car === "0") }}
+                                    <option selected value="0">新车</option>
+                                    {{else}}
+                                    <option value="0">新车</option>
+                                    {{/if}}
+                                    {{#if (reqParams.applyto_car === "1") }}
+                                    <option selected value="1">二手车</option>
+                                    {{else}}
+                                    <option value="1">二手车</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
                 <div class="module_list">
                     <form method="post" class="">
-                    {{#if (PolicyList )}}
                         <table class="normal">
                             <colgroup>
                                 <col style="width: 15%;">
@@ -75,16 +96,16 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {{#if (PolicyList.length >0)}}
+                            {{#each (PolicyList)}}
                                 <tr>
-                                    <td>快易融优质套餐B</td>
-                                    <td>2-10万</td>
-                                    <td>79%</td>
-                                    <td>
-                                        12、24
-                                    </td>
-                                    <td>100%</td>
+                                    <td>{{this.product_name}}</td>
+                                    <td>{{this.financeamount_start}}-{{this.financeamount_end}}</td>
+                                    <td>{{this.interest_rate}}</td>
+                                    <td>{{this.term}}</td>
+                                    <td>{{this.downpayment_value}}</td>
                                     <td class="merchants_operate_btn">
-                                        <a href="javascript:"class="merchants_edit"></a>
+                                        <a href="javascript:"class="merchants_edit config_product_edit"></a>
                                         <div class="r_radio inline_block off" type="off">
                                             <span></span>
                                             <span></span>
@@ -92,35 +113,27 @@
                                         </div>
                                     </td>
                                 </tr>
+                            {{/each}}
+                            {{/if}}
+                            <!-- 没有数据部分 -->
+                            {{#if (PolicyList.length === 0) }}
+                                <tr class="no_data">
+                                    <td colspan="6">
+                                        {{include('./../inc/empty_data')}}
+                                    </td>
+                                </tr>
+                            {{/if}}
                             </tbody>
                         </table>
-                        <div class="page" style="display: none;">
-                            <a href="javascript:" class="page-item home disabled" data-currentPage="1" data-limit="20"></a>
-                            <a href="javascript:" class="page-item prev disabled" data-currentPage="" data-limit="20"></a>
-                            <a href="javascript:" class="page-item next" data-currentPage="" data-limit="20"></a>
-                            <a href="javascript:" class="page-item end" data-currentPage="" data-limit="20"></a>
-                            <span class="total_page">共<span class="num">0</span>条</span>
-                        </div>
+                        <!--分页部分 Begin-->
+
+                        {{include('./../inc/paginations')}}
+
+                        <!--分页部分 End-->
                     </form>
                 </div>
 
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </div>
         <!---- Part of Main info End ---->
@@ -143,6 +156,11 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
+    var productList ='{{{reqParams.productList}}}';
     (function ($) {
         /*启用/禁用切换*/
         $(".r_radio").mousedown(function() {
@@ -162,9 +180,33 @@
             }
         });
         //点击编辑跳转编辑详情页
-
+        function toProductEdit () {
+            var btn = $('.config_product_edit');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                locationTo({
+                    action : contextPath + markUri + '/merchants/config/products/edit',
+                    param : {
+                        navigation : navigation,
+                        productEdit : F.set(reqParamsStr)
+                    }
+                })
+            });
+        }
+        //面包屑跳转
+        function toMerchantDetail () {
+            var btn = $('.toMerchantDetail');
+            var merchantDetail = F.get(productList);
+            btn.off('click').on('click',function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/detail',
+                    param : merchantDetail
+                })
+            })
+        }
         $(function() {
-
+            toProductEdit(); //跳转编辑页
+            toMerchantDetail(); //面包屑跳转到详情
         });
     })(jQuery,undefined);
 </script>
