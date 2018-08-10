@@ -2658,24 +2658,45 @@ $(function () {
 });
 
 /**
- * 获取上一页请求参数
- * @author  Plateau  2018年8月9日15:01:21
- * @param  reqParamsStr {String} 上一页的请求参数JSON字符串
- * */
-function getPrevParams () {
-    var reqParams, prevParams;
-    if (reqParamsStr.length > 0 ) {
-        reqParams = JSON.parse(reqParamsStr);
-        if (reqParams.prevParams == undefined) {
-            prevParams = reqParams;
+ * 格式化数据-对象与查询字符串互相转化
+ * @author Arley Joe 2018-8-10 14:32:35
+ * @function set
+ *
+ */
+var F = {
+    set : function (o) {
+        if (Object.isEmpty(o)) {
+            return "";
         } else {
-            prevParams = reqParams.prevParams;
+            return Object.toQuerystring(o);
         }
-    } else {
-        prevParams = {};
+    },
+    get : function (str) {
+        if (str === '') {
+            return {};
+        } else {
+            var o = {};
+            var _arr = str.split('&');
+            var reg = /^[0-9]*$/;
+            for (var index = 0, len = _arr.length; index < len; index++) {
+                var _this = _arr[index].split('=');
+                if (reg.test(_this[1])) {
+
+                }
+                o[_this[0]] = reg.test(_this[1]) ? Number(_this[1]) : _this[1];
+            }
+            return o;
+        }
+    },
+    one : function (obj, param) {
+        if (typeof(obj) === 'string') {
+            var o = this.get(obj);
+            return o[param];
+        } else if (obj instanceof Object) {
+            return obj[param];
+        }
     }
-    return prevParams.toString();
-}
+};
 
 
 
