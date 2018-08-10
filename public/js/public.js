@@ -2660,8 +2660,16 @@ $(function () {
 /**
  * 格式化数据-对象与查询字符串互相转化
  * @author Arley Joe 2018-8-10 14:32:35
- * @function set
- *
+ * @function set 把对象转化为一个查询字符串
+ *                  @param o {Object} 被转化的对象
+ *                  @return {String} 转化完成的查询字符串
+ * @function get 把一个查询字符串转化为对象
+ *                  @param str {String} 被转化的查询字符串
+ *                  @return {Object} 转化完成的对象
+ * @function one 获取查询字符串或对象中的某一个属性的值
+ *                  @param obj   {Object|String} 被查询的源数据
+ *                  @param param {String} 查询的属性名
+ *                  @return {Object} 查询出的属性值
  */
 var F = {
     set : function (o) {
