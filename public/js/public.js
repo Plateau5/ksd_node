@@ -11,7 +11,6 @@
 /**
  * 扩展Date()方法的格式化
  * @author Arley   07|04|2017
- *
  * @param fmt {string} :  "yyyy/MM/dd qq hh/mm/ss" 注：该规则字符串可随意删减部分传入。
  * @returns {*}
  */
@@ -2688,9 +2687,6 @@ var F = {
             var reg = /^[0-9]*$/;
             for (var index = 0, len = _arr.length; index < len; index++) {
                 var _this = _arr[index].split('=');
-                if (reg.test(_this[1])) {
-
-                }
                 o[_this[0]] = reg.test(_this[1]) ? Number(_this[1]) : _this[1];
             }
             return o;
