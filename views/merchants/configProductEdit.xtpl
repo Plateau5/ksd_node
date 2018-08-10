@@ -1,0 +1,234 @@
+<!-- 商户编辑页 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+    <title>商户管理-配置金融产品编辑页</title>
+    <style>
+        .no_data_tr{
+            margin: 20px 0;
+        }
+        .no_hover:hover{
+            background: #FFFFFF !important;
+            cursor: default !important;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
+                <a href="{{markUri}}/merchants/pass}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item merchant_name" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item back_policies_list">配置金融产品</a>
+                <a href="javascript:;" class="crumbs_item">编辑</a>
+            </div>
+            <div class="form_content form_options merchants_create">
+                <form action="" class="basic_info_edit">
+                    <!-- 基本信息 Begin -->
+                    <div class="options_title financial_product_title">基本信息</div>
+                    <div class="financial_product_content">
+                        <ul class="financial_product_list clearfix">
+                            <li class="list_row">
+                                <div class="list_name">产品名称：</div>
+                                <div class="list_value">汇通租赁</div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">适用业务：</div>
+                                <div class="list_value">新车</div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">适用类型：</div>
+                                <div class="list_value">快收单</div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">适用城市：</div>
+                                <div class="list_value">北京</div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">适用车型：</div>
+                                <div class="list_value">轻卡</div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="options_title financial_product_title">申请政策及资料</div>
+                    <div class="financial_product_content">
+                        <ul class="financial_product_list clearfix">
+                            <li class="list_row">
+                                <div class="list_name">融资金融范围：</div>
+                                <div class="list_value">10-100万</div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">首付类型：</div>
+                                <div class="list_value">首付比例</div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">首付比例：</div>
+                                <div class="list_value">
+                                    <div class="form_group" style="margin-left:-4px;">
+                                        <input type="checkbox" class="rates" name="term" value="30%">
+                                        <label>30%</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="60%">
+                                        <label>60%</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">费率：</div>
+                                <div class="list_value">
+                                    <div class="form_group" style="margin-left:-4px;">
+                                        <input type="checkbox" class="rates" name="term" value="2.1%">
+                                        <label>2.1%</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="6.8%">
+                                        <label>6.8%</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="6.9%">
+                                        <label>6.9%</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">融资期限：</div>
+                                <div class="list_value">
+                                    <div class="form_group" style="margin-left:-4px;">
+                                        <input type="checkbox" class="rates" name="term" value="6">
+                                        <label>6</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="12">
+                                        <label>12</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="18">
+                                        <label>18</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="24">
+                                        <label>24</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="30">
+                                        <label>30</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="36">
+                                        <label>36</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="42">
+                                        <label>42</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="48">
+                                        <label>48</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="52">
+                                        <label>52</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="term" value="60">
+                                        <label>60</label>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li class="list_row">
+                                <div class="list_name">申请资料：</div>
+                                <div class="list_value">
+                                    <div class="apply_data">
+                                        <ul>
+                                            <li class="clearfix">
+                                                <div class="item_name">身份证：</div>
+                                                <div class="apply_data_item">
+                                                    <div class="item_img">
+                                                        <img src="../static/img/timg.jpg" alt="身份证.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">身份证.jpg</div>
+                                                </div>
+                                                <div class="apply_data_item">
+                                                    <div class="item_img">
+                                                        <img src="../static/img/timg.jpg" alt="身份证.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">身份证.jpg</div>
+                                                </div>
+                                            </li>
+                                            <li class="clearfix">
+                                                <div class="item_name">申请类：</div>
+                                                <div class="apply_data_item">
+                                                    <div class="item_img">
+                                                        <img src="../img/view_docking_detail.jpg" alt="申请表.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
+                                                </div>
+                                                <div class="apply_data_item">
+                                                    <div class="item_img">
+                                                        <img src="../static/img/timg.jpg" alt="申请表.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
+                                                </div>
+                                                <div class="apply_data_item">
+                                                    <div class="item_img">
+                                                        <img src="../static/img/timg.jpg" alt="申请表.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
+                                                </div>
+                                                <div class="apply_data_item">
+                                                    <div class="item_img">
+                                                        <img src="../static/img/timg.jpg" alt="申请表.jpg">
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn_box text_left clearfix" style="margin-top:50px;margin-left:3%">
+                <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存并启用</a>
+                <a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>
+            </div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+
+        $(function() {
+
+        });
+    })(jQuery,undefined);
+</script>
+</html>

@@ -25,6 +25,7 @@
         <input type="hidden" id="cityName" value="{{detail.city_name}}">
         <input type="hidden" id="url" value="{{url}}">
         <input type="hidden" id="navigation" value="{{navigation}}">
+        <input type="hidden" id="merchantSource" value="{{detail.applyto_type}}">
         <input type="hidden" name="type"/><!--标识：商户标签删除type=1,标签库删除标签type=2，新增公库及商户增加标签type=3，公库增加给商户type=4-->
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
@@ -112,7 +113,9 @@
                                 {{#if (verifyCode(1385)) }}
                                     <a href="javascript:" class="edit_sm_btn edit_sm_btn_icon">编辑</a>
                                 {{/if}}
+                                {{#if (detail.applyto_type === 2)}}
                                     <a href="javascript:" class="config_product">配置金融产品</a>
+                                {{/if}}
                                 {{#if (verifyCode(1060)) }}
                                     <a href="javascript:" class="delete_sm_btn delete_sm_btn_icon">删除</a>
                                 {{/if}}
@@ -254,10 +257,10 @@
                                         </li>
                                         <li class="item_row">
                                             <div class="item_name long_text">是否为KA渠道商户：</div>
-                                            <div class="item_value" title="{{detail.applyto_type_value}}">
+                                            <div class="item_value"  id="mSource" title="{{detail.applyto_type_value}}">
                                                 {{#if  (detail.applyto_type === 2)}}
                                                     是
-                                                {{else}}
+                                                {{elseif (detail.applyto_type === 1)}}
                                                     否
                                                 {{/if}}
                                             </div>
@@ -590,6 +593,11 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
+
     (function ($) {
         var supplierType = '{{detail.type}}';       // 商户店面类型
         var credentialsType = '{{detail.id_type}}';  // 证件类型
@@ -599,6 +607,7 @@
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
         var mCityId = $('#merchantCity').val().trim();      // 商户城市id
         var cityName = $('#cityName').val().trim();         // 商户城市名称
+        var merchantSource = $('#merchantSource').val().trim();   //商户来源
         var mCarType = null;
         if (mBusinessType == 0 || mBusinessType == 2) {
             mCarType = 0;
@@ -756,7 +765,9 @@
                         applyto_car : mBusinessType,
                         city_id : mCityId,
                         navigation : navigation,
-                        supplier_name : merchantName
+                        supplier_name : merchantName,
+                        applyto_type : merchantSource,
+                        productList : F.set(reqParamsStr)
 
                     }
                 })

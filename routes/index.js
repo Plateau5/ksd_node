@@ -245,8 +245,9 @@ router.all(markUri + '/merchants/policies/edit', merchantsCtrl.VIEW_MERCHANTS_PO
 // 商户-商户管理-返佣政策历史页 1478
 router.all(markUri + '/merchants/policies/history/list', merchantsCtrl.VIEW_MERCHANTS_POLICIES_HISTORY_LIST);
 //商户-商户管理-跳转配置金融产品列表页
-router.all(markUri + '/merchants/config/products/list',merchantsCtrl.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST);
-
+router.post(markUri + '/merchants/config/products/list',merchantsCtrl.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST);
+//商户-商户管理-编辑跳转
+router.all(markUri + '/merchants/config/products/edit',merchantsCtrl.VIEW_MERCHANTS_PRODUCTS_EDIT);
 
 // 商户-放款管理-侧导航跳转 1490
 router.all(markUri + '/loan/system', merchantsCtrl.VIEW_LOAN_SYSTEM);
