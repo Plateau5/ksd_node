@@ -40,9 +40,9 @@
                                 <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
                             </div>
                             <div class="column_val">
-                                <input type="text" placeholder="请输入最小金额" id="financeamount_start" class="financeamount" name="financeamount_start" maxlength="7" style="width:145px;"/>
+                                <input type="text" placeholder="请输入最小金额" id="financeamount_start" class="financeamount" name="financeamount_start" maxlength="7" style="width:145px;" value="{{#if (reqParams.policy_id) }}{{policy_list[0].financeamount_start}}{{/if}}"/>
                                 <span style="padding:0 8px;">-</span>
-                                <input type="text" placeholder="请输入最大金额" id="financeamount_end" class="financeamount" name="financeamount_end"  maxlength="7" style="width:145px;margin-right: 10px;"/>
+                                <input type="text" placeholder="请输入最大金额" id="financeamount_end" class="financeamount" name="financeamount_end"  maxlength="7" style="width:145px;margin-right: 10px;" value="{{#if (reqParams.policy_id) }}{{policy_list[0].financeamount_end}}{{/if}}"/>
                                 <span>万</span>
                             </div>
                         </div>
@@ -53,42 +53,132 @@
                             <div class="column_val">
                                 <select name="downpayment_type" id="downpayment_type">
                                     <option value="-1">请选择</option>
+                                    {{#if (policy_list[0].downpayment_type === 1) }}
+                                    <option value="1" selected>首付比例</option>
+                                    {{else}}
                                     <option value="1">首付比例</option>
+                                    {{/if}}
+                                    {{#if (policy_list[0].downpayment_type === 2) }}
+                                    <option value="2" selected>首付金额</option>
+                                    {{else}}
                                     <option value="2">首付金额</option>
+                                    {{/if}}
                                 </select>
                             </div>
                         </div>
-                        <div class="option_item downpayment_rate_div" style="display: none">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
-                            </div>
-                            <div class="column_val downpayment_rate">
-                                {{#each (rate_list) }}
-                                <div class="form_group">
-                                    <input type="checkbox" class="rates" name="" value="{{this.id}}" />
-                                    <label data-id="{{this.id}}">{{this.value}}</label>
+                        {{#if (reqParams.policy_id) }}
+                            {{#if (policy_list[0].downpayment_type === 1)}}
+                                <div class="option_item downpayment_rate_div">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                                    </div>
+                                    <div class="column_val downpayment_rate">
+                                        {{#each (rate_list) }}
+                                            {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
+                                                {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
+                                                {{#if (downpayment_value_arr.indexOf(this.id) !== -1) }}
+                                                    <input type="checkbox" class="rates" name="" value="{{this.id}}" checked="checked"/>
+                                                    <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
+                                                {{else}}
+                                                    <input type="checkbox" class="rates" name="" value="{{this.id}}" />
+                                                    <label data-id="{{this.id}}">{{this.value}}</label>
+                                                {{/if}}
+                                            {{else}}
+                                                <div class="form_group">
+                                                    {{#if (this.id === policy_list[0].downpayment_value) }}
+                                                        <input type="checkbox" class="rates" name="" value="{{this.id}}" checked="checked"/>
+                                                        <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
+                                                    {{else}}
+                                                        <input type="checkbox" class="rates" name="" value="{{this.id}}" />
+                                                        <label data-id="{{this.id}}">{{this.value}}</label>
+                                                    {{/if}}
+                                                </div>
+                                            {{/if}}
+                                        {{/each}}
+                                    </div>
                                 </div>
-                                {{/each}}
-                            </div>
-                        </div>
-                        <div class="option_item downpayment_money" style="display: none">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
-                            </div>
-                            <div class="column_val downpayment_money_box">
-                                <div class="downpayment_add">
-                                    <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                            {{elseif (policy_list[0].downpayment_type === 2) }}
+                                <div class="option_item downpayment_money">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                                    </div>
+                                    <div class="column_val downpayment_money_box">
+                                        {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
+                                            {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
+                                            {{#each (downpayment_value_arr) }}
+                                                {{#if (xindex === downpayment_value_arr.length - 1) }}
+                                                    <div class="downpayment_add">
+                                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="downpayment_add_ready">
+                                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
+                                                    </div>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{else}}
+                                            <div class="downpayment_add">
+                                                <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{policy_list[0].downpayment_value}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                            </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            {{/if}}
+                        {{else}}
+                            <div class="option_item downpayment_rate_div" style="display: none">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                                </div>
+                                <div class="column_val downpayment_rate">
+                                    {{#each (rate_list) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates" name="" value="{{this.id}}" />
+                                        <label data-id="{{this.id}}">{{this.value}}</label>
+                                    </div>
+                                    {{/each}}
                                 </div>
                             </div>
-                        </div>
+                            <div class="option_item downpayment_money" style="display: none">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                                </div>
+                                <div class="column_val downpayment_money_box">
+                                    <div class="downpayment_add">
+                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/if}}
+
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>费率：</span>
                             </div>
                             <div class="column_val rate_box">
-                                <div class="rate_add">
-                                    <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
-                                </div>
+                                {{#if (reqParams.policy_id)}}
+                                    {{#if (policy_list[0].interest_rate.indexOf (',') !== -1 ) }}
+                                        {{set (interest_rate_arr = policy_list[0].interest_rate.split(',')) }}
+                                        {{#each (interest_rate_arr) }}
+                                            {{#if (xindex === interest_rate_arr.length - 1) }}
+                                            <div class="rate_add">
+                                                <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                            </div>
+                                            {{else}}
+                                            <div class="rate_add_ready">
+                                                <input type="text" placeholder="请输入费率" name="interest_rate" class="rate_valite" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span>
+                                            </div>
+                                            {{/if}}
+                                        {{/each}}
+                                    {{else}}
+                                        <div class="rate_add">
+                                            <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{policy_list[0].interest_rate}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                        </div>
+                                    {{/if}}
+                                {{else}}
+                                    <div class="rate_add">
+                                        <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div class="option_item">
@@ -98,8 +188,29 @@
                             <div class="column_val term">
                                 {{#each (term_list) }}
                                 <div class="form_group">
-                                    <input type="checkbox" class="term" name="term" value="{{this.id}}" />
-                                    <label data-id="{{this.id}}">{{this.value}}</label>
+                                    {{#if (reqParams.policy_id)}}
+                                        {{#if (policy_list[0].term.indexOf(',') !== -1) }}
+                                            {{set (term_arr = policy_list[0].term.split(',')) }}
+                                            {{#if (term_arr.indexOf(this.id.toString()) !== -1) }}
+                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" checked="checked"/>
+                                            <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
+                                            {{else}}
+                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" />
+                                            <label data-id="{{this.id}}">{{this.value}}</label>
+                                            {{/if}}
+                                        {{else}}
+                                            {{#if (this.id === policy_list[0].term) }}
+                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" checked="checked"/>
+                                            <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
+                                            {{else}}
+                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" />
+                                            <label data-id="{{this.id}}">{{this.value}}</label>
+                                            {{/if}}
+                                        {{/if}}
+                                    {{else}}
+                                        <input type="checkbox" class="term" name="term" value="{{this.id}}" />
+                                        <label data-id="{{this.id}}">{{this.value}}</label>
+                                    {{/if}}
                                 </div>
                                 {{/each}}
                             </div>
@@ -110,46 +221,166 @@
                             </div>
                             <div class="column_val" style="padding-top: 20px;">
                                 {{#each (material_list) }}
-
                                 {{#if (xindex === material_list.length - 1) }}
                                 <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}">
                                 {{else}}
                                 <div class="material_list" data-id="{{this.type}}">
                                 {{/if}}
-                                    <div class="big_class">
-                                        <div class="big_class_name">{{this.type_value}}</div>
-                                        <div class="require">
-                                            <div class="form_group">
-                                                <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{this.type}}" value="1">
-                                                <label for="must_send{{xindex}}">必传</label>
-                                            </div>
-                                            <div class="form_group">
-                                                <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
-                                                <label for="must_nosend{{xindex}}" class="checked">非必传</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="small_class">
-                                        <div class="selector_box">
-                                            <div class="form_group check_all_box">
-                                                <input type="checkbox" class="" name="" value="">
-                                                <label class="check_all">全选</label>
-                                            </div>
-                                            <div class="form_container inline_block">
-                                                {{#each (this.mlist) }}
-                                                <div class="form_group">
-                                                    <input type="checkbox" class="" name="" value="">
-                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                    {{#if (reqParams.policy_id) }}
+                                        {{#each (policy_list[0].policy_list) }}
+                                            <div class="big_class">
+                                                <div class="big_class_name">{{../this.type_value}}</div>
+                                                <div class="require">
+                                                    <div class="form_group">
+                                                        {{#if (this.is_must === 1) }}
+                                                        <input id="must_send{{../xindex}}" type="radio" class="must_send" name="must_send{{../this.type}}" value="1" checked="checked">
+                                                        <label for="must_send{{../xindex}}" class="checked">必传</label>
+                                                        {{else}}
+                                                        <input id="must_send{{../xindex}}" type="radio" class="must_send" name="must_send{{../this.type}}" value="1">
+                                                        <label for="must_send{{../xindex}}">必传</label>
+                                                        {{/if}}
+                                                    </div>
+                                                    <div class="form_group">
+                                                        {{#if (this.is_must === 0) }}
+                                                        <input id="must_nosend{{../xindex}}" type="radio" class="must_nosend" name="must_send{{../this.type}}" value="0" checked="checked">
+                                                        <label for="must_nosend{{../xindex}}" class="checked">非必传</label>
+                                                        {{else}}
+                                                        <input id="must_nosend{{../xindex}}" type="radio" class="must_nosend" name="must_send{{../this.type}}" value="0">
+                                                        <label for="must_nosend{{../xindex}}">非必传</label>
+                                                        {{/if}}
+                                                    </div>
                                                 </div>
-                                                {{/each}}
                                             </div>
-                                            <div class="img_md_box file_upload" style="padding-left: 0px;">
-                                                <input type="hidden" class="file_ids" name="file_ids">
-                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
-                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                            <div class="small_class">
+                                                <div class="selector_box">
+                                                    <div class="form_group check_all_box">
+                                                        {{#if (this.material_datas === '') }}
+                                                            <div class="form_group">
+                                                                <input type="checkbox" class="" name="" value="">
+                                                                <label class="check_all">全选</label>
+                                                            </div>
+                                                            {{#each (../this.mlist) }}
+                                                            <div class="form_group">
+                                                                <input type="checkbox" class="" name="" value="">
+                                                                <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                            </div>
+                                                            {{/each}}
+                                                        {{else}}
+                                                            {{#if (this.material_datas.indexOf(',') !== -1) }}
+                                                                {{set (material_datas_arr = this.material_datas.split(',')) }}
+                                                                {{#if (material_datas_arr.length ===  ../this.mlist.length) }}
+                                                                    <div class="form_group">
+                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                        <label class="check_all checked">全选</label>
+                                                                    </div>
+                                                                    {{#each (../this.mlist) }}
+                                                                    <div class="form_group">
+                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                        <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                    </div>
+                                                                    {{/each}}
+                                                                {{else}}
+                                                                    <div class="form_group">
+                                                                        <input type="checkbox" class="" name="" value="">
+                                                                        <label class="check_all">全选</label>
+                                                                    </div>
+                                                                    {{#each (../this.mlist) }}
+                                                                    <div class="form_group">
+                                                                        {{#if (material_datas_arr.indexOf(this.material_id) !== -1) }}
+                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                        <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                        {{else}}
+                                                                        <input type="checkbox" class="" name="" value="">
+                                                                        <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                        {{/if}}
+                                                                    </div>
+                                                                    {{/each}}
+                                                                {{/if}}
+                                                            {{else}}
+                                                                <div class="form_group">
+                                                                    <input type="checkbox" class="" name="" value="">
+                                                                    <label class="check_all">全选</label>
+                                                                </div>
+                                                                {{#each (../this.mlist) }}
+                                                                <div class="form_group">
+                                                                    {{#if (../this.material_datas === this.material_id) }}
+                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                        <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                    {{else}}
+                                                                        <input type="checkbox" class="" name="" value="">
+                                                                        <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                    {{/if}}
+                                                                </div>
+                                                                {{/each}}
+                                                            {{/if}}
+                                                        {{/if}}
+                                                    </div>
+                                                    <div class="img_md_box file_upload" style="padding-left: 0px;">
+                                                        <input type="hidden" class="file_ids" name="file_ids">
+                                                        {{#if (this.file_ids && this.data_type === ../this.type) }}
+                                                            {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                                                {{set (file_ids_arr = this.file_ids.split(',')) }}
+                                                                {{#each (file_ids_arr) }}
+                                                                    <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                                        <img data-original="{{../this.image_url}}{{this}}" src="{{../this.thumbnail_url}}{{this}}{{../this.thumbnail_proportion}}">
+                                                                        <div class="img_md_operate_box">
+                                                                            <em class="img_md_operate_btn view" data-url="{{../this.image_url}}{{this}}" title="查看"></em>
+                                                                            <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
+                                                                        </div>
+                                                                    </a>
+                                                                {{/each}}
+                                                            {{else}}
+                                                                <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                                    <img data-original="{{this.image_url}}{{this.file_ids}}" src="{{this.thumbnail_url}}{{this.file_ids}}{{this.thumbnail_proportion}}">
+                                                                    <div class="img_md_operate_box">
+                                                                        <em class="img_md_operate_btn view" data-url="{{this.image_url}}{{this.file_ids}}" title="查看"></em>
+                                                                        <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
+                                                                    </div>
+                                                                </a>
+                                                            {{/if}}
+                                                        {{/if}}
+                                                        <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                                        <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{/each}}
+                                    {{else}}
+                                        <div class="big_class">
+                                            <div class="big_class_name">{{this.type_value}}</div>
+                                            <div class="require">
+                                                <div class="form_group">
+                                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{this.type}}" value="1">
+                                                    <label for="must_send{{xindex}}">必传</label>
+                                                </div>
+                                                <div class="form_group">
+                                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
+                                                    <label for="must_nosend{{xindex}}" class="checked">非必传</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <div class="small_class">
+                                            <div class="selector_box">
+                                                <div class="form_group check_all_box">
+                                                    <div class="form_group">
+                                                        <input type="checkbox" class="" name="" value="">
+                                                        <label class="check_all">全选</label>
+                                                    </div>
+                                                    {{#each (this.mlist) }}
+                                                    <div class="form_group">
+                                                        <input type="checkbox" class="" name="" value="">
+                                                        <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    </div>
+                                                    {{/each}}
+                                                </div>
+                                                <div class="img_md_box file_upload" style="padding-left: 0px;">
+                                                    <input type="hidden" class="file_ids" name="file_ids">
+                                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                                    <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{/if}}
                                 </div>
                                 {{/each}}
                             </div>
@@ -157,8 +388,11 @@
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
-                        {{#if (reqParams.jump_flag === '1') }}
+                        {{#if (reqParams.jump_flag === '2') }}
                         <a href="javascript:" class="btn orange_btn confirm save_policy">保存</a>
+                        <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
+                        {{elseif (reqParams.jump_flag === '1') }}
+                        <a href="javascript:" class="btn orange_btn confirm update_policy">保存</a>
                         <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
                         {{else}}
                         <a href="javascript:" class="prevPage">上一步</a>
@@ -495,19 +729,35 @@
          * */
         function bindSaveEvent () {
             var save_warehouse = $('.save_warehouse');
-            save_warehouse.off('click').on('click', function () {
+            save_warehouse.off('click').on('click', function () {//保存到仓库
                 var url = contextPath + "/api/product/commit/policy";
                 submitValid(1, url);
             });
             var save_publish = $('.save_publish');
-            save_publish.off('click').on('click', function () {
+            save_publish.off('click').on('click', function () {//发布
                 var url = contextPath + "/api/product/publish";
                 submitValid(2, url);
             });
             var save_policy = $('.save_policy');
-            save_policy.off('click').on('click', function () {
+            save_policy.off('click').on('click', function () {//添加政策保存，相当于保存到仓库
                 var url = contextPath + "/api/product/commit/policy";
                 submitValid(1, url);
+            });
+            var update_policy = $('.update_policy');
+            update_policy.off('click').on('click', function () {//编辑政策保存
+                var url = contextPath + "/api/product/update/policy";
+                submitValid(3, url);
+            });
+            var prevPage = $('.prevPage');
+            prevPage.off('click').on('click', function () {//上一步操作，相当于编辑产品基本信息
+                var product_id = $('#product_id').val();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/productEditBase',
+                    param : {
+                        product_id : product_id,
+                        prev_flag : 1
+                    }
+                });
             });
         }
         /**
@@ -640,7 +890,9 @@
             var product_id = $('#product_id').val();
             var product_name = $('#product_name').val();
             var material_data = JSON.stringify(material_data_arr);
-            if (save_flag ==1) {
+            if (save_flag ==3) {//编辑保存
+
+            } else if (save_flag ==1) {
                 var parameters = {
                     product_id : product_id,
                     product_name : product_name,
@@ -746,6 +998,27 @@
             });
         }
         /**
+         * 全选操作
+         * @author Plateau 2018年8月10日15:53:03
+         */
+        function checkAllClass () {
+            var check_all = $('.check_all');
+            check_all.on('click', function () {
+                var _this = $(this);
+                var small_name = _this.parents('.check_all_box').find('.small_name');
+                if (!_this.hasClass('checked')) {
+                    small_name.each(function () {
+                        small_name.addClass('checked');
+                    });
+                } else {
+                    small_name.each(function () {
+                        small_name.removeClass('checked');
+                    });
+                }
+            });
+        }
+
+        /**
          * 面包屑跳转
          * @author Plateau  2018年8月8日18:18:36
          * */
@@ -787,7 +1060,7 @@
             deleteImages();     // 图片删除
             uploadImage();      // 图片上传注册
             monitorSelectAll();//监听是否全选
-            checkAll(".check_all");//全选
+            checkAllClass();//全选操作
             bindSaveEvent();//注册保存到仓库和发布事件
             // goProductList();//面包屑跳转
         });

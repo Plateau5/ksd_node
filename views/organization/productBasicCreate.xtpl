@@ -25,14 +25,16 @@
         <div id="main" class="main product_basic_create">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item product_list">产品列表（{{parent_name}}）</a>
+                <a href="javascript:;" class="crumbs_item product_list">产品列表（{{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}}）</a>
                 <a href="javascript:;" class="crumbs_item">发布新产品</a>
             </div>
 
             <div class="form_options">
                 <form action="" id="product_basic_create_form" method="post">
-                    <input type="hidden" value="{{parent_name}}" name="parent_name" id="orgName">
-                    <input type="hidden" value="{{parent_id}}" name="parent_id" id="orgId">
+                    <input type="hidden" value="{{#if (reqParams.product_id) }}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}}" name="parent_name" id="orgName">
+                    <input type="hidden" value="{{#if (reqParams.product_id) }}{{detail.parent_id}}{{else}}{{parent_id}}{{/if}}" name="parent_id" id="orgId">
+                    <input type="hidden" value="{{reqParams.product_id}}" name="product_id" id="productId">
+                    <input type="hidden" value="{{reqParams.prev_flag}}" name="" id="prev_flag">
                     <div class="base_info">
                         <div class="detail_title">基本信息</div>
                         <div class="option_item">
@@ -41,7 +43,7 @@
                                 <span class="options_name">产品名称：</span>
                             </div>
                             <div class="column_val">
-                                <input id="productname" type="text" class="required" name="product_name" maxlength="20" placeholder="请输入产品名称" />
+                                <input id="productname" type="text" class="required" name="product_name" maxlength="20" placeholder="请输入产品名称" value="{{#if (reqParams.product_id) }}{{detail.product_name}}{{/if}}"/>
                                 <span class="tips_info">(*<span class="tips_text"></span>)</span>
                             </div>
                         </div>
@@ -51,28 +53,68 @@
                                 <span class="options_name">适用业务：</span>
                             </div>
                             <div id="applyto_business" class="column_val">
-                                {{#if (applyto_business.indexOf(',') !== -1) }}
-                                    <input type="hidden" class="applyto_business" name="applyto_business" value="0">
-                                    <div class="form_group">
-                                        <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
-                                        <label for="new_car" class="checked">新车</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
-                                        <label for="old_car" class="old_car">二手车</label>
-                                    </div>
-                                {{else}}
-                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
-                                    {{#if (applyto_business === '0' ) }}
+                                {{#if (reqParams.product_id) }}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{detail.product_applyto_business}}">
+                                    {{#if (detail.applyto_business.toString().indexOf(',') !== -1) }}
+                                        {{#if (detail.product_applyto_business === 0) }}
+                                            <div class="form_group">
+                                                <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                                <label for="new_car" class="checked">新车</label>
+                                            </div>
+                                        {{else}}
+                                            <div class="form_group">
+                                                <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" >
+                                                <label for="new_car" class="checked">新车</label>
+                                            </div>
+                                        {{/if}}
+                                        {{#if (detail.product_applyto_business === 1) }}
+                                            <div class="form_group">
+                                                <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                                <label for="old_car" class="old_car checked">二手车</label>
+                                            </div>
+                                        {{else}}
+                                            <div class="form_group">
+                                                <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                                <label for="old_car" class="old_car">二手车</label>
+                                            </div>
+                                        {{/if}}
+                                    {{else}}
+                                        {{#if (detail.applyto_business === 0 ) }}
                                         <div class="form_group">
                                             <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
                                             <label for="new_car" class="checked">新车</label>
                                         </div>
-                                    {{elseif (applyto_business === '1' )}}
+                                        {{elseif (detail.applyto_business === 1 )}}
                                         <div class="form_group">
-                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
                                             <label for="old_car" class="old_car checked">二手车</label>
                                         </div>
+                                        {{/if}}
+                                    {{/if}}
+                                {{else}}
+                                    {{#if (applyto_business.indexOf(',') !== -1) }}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="0">
+                                        <div class="form_group">
+                                            <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                            <label for="new_car" class="checked">新车</label>
+                                        </div>
+                                        <div class="form_group">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                            <label for="old_car" class="old_car">二手车</label>
+                                        </div>
+                                    {{else}}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                        {{#if (applyto_business === '0' ) }}
+                                        <div class="form_group">
+                                            <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                            <label for="new_car" class="checked">新车</label>
+                                        </div>
+                                        {{elseif (applyto_business === '1' )}}
+                                        <div class="form_group">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                            <label for="old_car" class="old_car checked">二手车</label>
+                                        </div>
+                                        {{/if}}
                                     {{/if}}
                                 {{/if}}
                             </div>
@@ -98,8 +140,8 @@
                                 <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
                             </div>
                             <div class="column_val select_city_div">
-                                <input type="hidden" class="city_ids" name="city_ids"  value=""/>
-                                <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择省市" readonly/>
+                                <input type="hidden" class="city_ids" name="city_ids"  value="{{detail.applyto_city}}"/>
+                                <input type="text" class="select_city_input cursor" name=""  value="{{detail.applyto_cityname}}" placeholder="请选择省市" readonly/>
                             </div>
                         </div>
                         <div class="option_item">
@@ -110,12 +152,34 @@
                             <div class="column_val">
                                 {{#each (ApplytoCar) }}
                                 <div class="form_group">
-                                    {{#if (this.id === 12) }}
-                                        <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
-                                        <label class="checked">{{this.value}}</label>
+                                    {{#if (reqParams.product_id) }}
+                                        {{#if (detail.applyto_car.indexOf(',') !== -1) }}
+                                            {{set (applyto_car_arr = detail.applyto_car.split(',')) }}
+
+                                            {{#if (applyto_car_arr.indexOf(this.id.toString()) !== -1) }}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
+                                                <label class="checked">{{this.value}}</label>
+                                            {{else}}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
+                                                <label>{{this.value}}</label>
+                                            {{/if}}
+                                        {{else}}
+                                            {{#if (../detail.applyto_car === this.id) }}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
+                                                <label class="checked">{{this.value}}</label>
+                                            {{else}}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
+                                                <label>{{this.value}}</label>
+                                            {{/if}}
+                                        {{/if}}
                                     {{else}}
-                                        <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
-                                        <label>{{this.value}}</label>
+                                        {{#if (this.id === 12) }}
+                                            <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
+                                            <label class="checked">{{this.value}}</label>
+                                        {{else}}
+                                            <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
+                                            <label>{{this.value}}</label>
+                                        {{/if}}
                                     {{/if}}
                                 </div>
                                 {{/each}}
@@ -125,7 +189,12 @@
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
+                        {{#if (reqParams.jump_flag === '1') }}
+                        <a href="javascript:" class="btn orange_btn confirm save_baseinfo">保存</a>
+                        <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
+                        {{else}}
                         <a href="javascript:" class="btn orange_btn confirm next_confirm">下一步</a>
+                        {{/if}}
                     </div>
                 </form>
             </div>
@@ -147,6 +216,12 @@
         if (city_list.length > 0 ) {
             city_list = JSON.parse(city_list);
         }
+        var condition_city_list = '{{{condition_city_list}}}';//回显城市
+        if (condition_city_list == '') {
+            condition_city_list = [];
+        } else {
+            condition_city_list = JSON.parse(condition_city_list);
+        }
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         /**
          * 选择城市
@@ -157,11 +232,18 @@
          * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
          * */
         function getSelectedCitys () {
+            if ($('#productId').val() == '' || $('#prev_flag').val() != '') {
+                var dataType = 1;
+                var type = 2;
+            } else {
+                var dataType = 1;
+                var type = 1;
+            }
             $('.select_city_input').citySelect({
                 data : city_list,
-                defaultData : [],
-                dataType : 1,
-                type : 2
+                defaultData : condition_city_list,
+                dataType : dataType,
+                type : type
             }, function (data) {
                 var cityArr = [];
                 var cityName = '';
@@ -193,16 +275,22 @@
          * @author  Plateau  2018年8月8日16:32:56
          * */
         function bindSubmitEvent () {
-            var btn = $('.next_confirm');
-            btn.off('click').on('click', function () {
-                submitValid();
+            var next_confirm = $('.next_confirm');
+            next_confirm.off('click').on('click', function () {
+                var url = "/api/product/commit/bseinfo";
+                submitValid(url);
+            });
+            var save_baseinfo = $('.save_baseinfo');
+            save_baseinfo.off('click').on('click', function () {
+                var url = "/api/product/update/base";
+                submitValid(url);
             });
         }
         /**
          * 提交校验
          * @author  Plateau  2018年7月24日17:24:54
          * */
-        function submitValid () {
+        function submitValid (url) {
             var productname = $('#productname').val();
             if (productname == '') {
                 $alert('产品名称不能为空');
@@ -237,19 +325,19 @@
                 $alert('请选择适用车型');
                 return;
             }
-            ajaxSubmit();
+            ajaxSubmit(url);
         }
 
         /**
          * ajax提交參數
          * @author  Plateau  2018年8月8日16:53:14
          * */
-        function ajaxSubmit () {
+        function ajaxSubmit (url) {
             var parameters = new FormData(document.getElementById('product_basic_create_form'));
             $.ajax({
                 type:'post',
                 timeout:20000,
-                url : contextPath + "/api/product/commit/bseinfo",
+                url : contextPath + url,
                 data : parameters,
                 processData : false,      //序列化参数为String类型，默认：true。
                 contentType : false,      //内容编码，文件上传时设为FALSE
@@ -259,19 +347,35 @@
                 success : function (res) {
                     $('#loading').hide();
                     if (res.error_code == 0) {
-                        var parent_name = $('#orgName').val();
                         var product_id = res.product_id;
-                        var product_name = $('#productname').val();
-                        var parent_id = $('#orgId').val();
-                        locationTo({
-                            action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
-                            param : {
-                                parent_name : parent_name,
-                                product_id : product_id,
-                                product_name : product_name,
-                                parent_id : parent_id
-                            }
-                        });
+                        if (product_id) {
+                            var parent_name = $('#orgName').val();
+                            var product_id = res.product_id;
+                            var product_name = $('#productname').val();
+                            var parent_id = $('#orgId').val();
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
+                                param : {
+                                    parent_name : parent_name,
+                                    product_id : product_id,
+                                    product_name : product_name,
+                                    parent_id : parent_id
+                                }
+                            });
+                        } else {
+                            var productId = $('#productId').val();
+                            $alert('保存成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + "/supplier/organization/productDetailNew",
+                                    param : {
+                                        product_id : productId,
+                                        data_num : 1,
+                                        page_flag : 0
+                                    }
+                                });
+                            });
+                        }
+
                     } else {
                         $alert(res.error_msg);
                     }

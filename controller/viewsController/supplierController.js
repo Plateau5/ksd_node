@@ -423,8 +423,26 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW = function(req, res, next) {
         }
     }, req, res, next);
 };
-
-
+// 供应商部分-金融机构-编辑产品基本信息跳转   new
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITBASE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/toUpdate/baseinfo',
+        title : '供应商-发布新产品',
+        page : './organization/productBasicCreate',
+        callback : function (data) {
+            data.list_city = JSON.stringify(data.list_city);
+            data.condition_city_list = JSON.stringify(data.condition_city_list);
+        }
+    }, req, res, next);
+};
+// 供应商部分-金融机构-编辑产品政策跳转   new
+exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITPOLICY = function(req, res, next) {
+    common.getPageData({
+        url : '/api/product/toUpdate/policy',
+        title : '供应商-发布新产品',
+        page : './organization/productPolicyCreate'
+    }, req, res, next);
+};
 
 
 

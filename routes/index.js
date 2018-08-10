@@ -334,8 +334,10 @@ router.post(markUri + '/supplier/organization/productBasicCreate', supplierCtrl.
 router.post(markUri + '/supplier/organization/productPolicyCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCPOLICYCREATE);
 // 供应商部分-金融机构-产品详情页跳转   new
 router.post(markUri + '/supplier/organization/productDetailNew', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW);
-
-
+// 供应商部分-金融机构-编辑产品基本信息跳转   new
+router.post(markUri + '/supplier/organization/productEditBase', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITBASE);
+// 供应商部分-金融机构-编辑产品政策跳转   new
+router.post(markUri + '/supplier/organization/productEditPolicy', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITPOLICY);
 
 
 
