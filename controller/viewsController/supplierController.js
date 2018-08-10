@@ -214,6 +214,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PUBLISHEDPRODUCTS_LIST = function(req, res, n
                     } else if (data.list[i].downpayment_type == 2) {
                         data.list[i].downpayment_value = data.list[i].downpayment_value.replace(/,/g,'元 / ') + '元';
                     }
+                    data.list[i].interest_rate = data.list[i].interest_rate.replace(/,/g,'% / ') + '%';
                 }
             }
         }
@@ -403,7 +404,23 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW = function(req, res, next) {
     common.getPageData({
         url : '/api/product/detail',
         title : '供应商-发布新产品',
-        page : './organization/productDetailNew'
+        page : './organization/productDetailNew',
+        callback : function (data) {
+            if (data) {
+                for (var i = 0, len = data.policy_list.length; i < len; i++) {
+                    if (data.policy_list[i].downpayment_type == 1) {
+                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'%、') + '%';
+                    } else if (data.policy_list[i].downpayment_type == 2) {
+                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'元、') + '元';
+                    }
+                    data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/,/g,'%、') + '%';
+                    data.policy_list[i].term = data.policy_list[i].term.replace(/,/g,'、');
+                    for (var j = 0, lenj = data.policy_list[i].policy_list.length; j <lenj; j++) {
+                        data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name.replace(/,/g,'、');
+                    }
+                }
+            }
+        }
     }, req, res, next);
 };
 

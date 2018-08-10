@@ -648,12 +648,53 @@
                 border-right: 1px solid #E4E4E4;
                 .img_md_box{
                     .add_img_md_btn, .img_item{
-                        width: 134px;
-                        height: 84px;
+                        width: 130px;
+                        height: 80px;
                         margin: 0 12px 12px 0;
                         background-image: url('../img/add_img_btn.png');
                         &:before{
                             display: none;
+                        }
+                    }
+                    .img_md_operate_box {
+                        position: absolute;
+                        bottom: -40px;
+                        width: 100%;
+                        height: 40px;
+                        line-height: 40px;
+                        background: rgba(0,0,0,0.7);
+                        text-align: center;
+                        cursor: default;
+                        -webkit-transition: all 1s;
+                        -moz-transition: all .2s;
+                        -ms-transition: all .2s;
+                        -o-transition: all .2s;
+                        transition: all .2s;
+                    }
+                    .img_item:hover .img_md_operate_box {
+                        bottom: 0;
+                    }
+                    .img_md_operate_btn {
+                        display: inline-block;
+                        background: url('../img/operation_small_icon.png') no-repeat;
+                        vertical-align: middle;
+                        cursor: pointer;
+                    }
+                    .img_md_operate_btn.view {
+                        width: 33px;
+                        height: 24px;
+                        margin-right: 20px;
+                        background-position: 0 -855px;
+                        &:hover {
+                            background-position: 0 -1067px;
+                        }
+                    }
+                    .img_md_operate_btn.delete {
+                        width: 28px;
+                        height: 28px;
+                        background-position: 0 -815px;
+                        &:hover {
+                            background-position: 0 -1043px;
                         }
                     }
                 }
@@ -732,14 +773,23 @@
                     .look_policy{
                         color:#1DC6BC;
                     }
-                    .img_item{
-                        display: inline-block;
-                        width:120px;
-                        height:76px;
-                        margin: 0 12px 12px 0;
-                        img{
-                            width:120px;
-                            height:76px;
+                    .img_list{
+                        height: auto;
+                        overflow: hidden;
+                        .list_item {
+                            float: left;
+                            width: 120px;
+                            height: 76px;
+                            margin: 12px 12px 0 0;
+                            overflow: hidden;
+                        }
+                    }
+                    .show_more_pic, .hide_more_pic{
+                        display: none;
+                        color:#666666;
+                        font-size: 12px;
+                        &:hover{
+                            color:#1DC6BC;
                         }
                     }
                 }

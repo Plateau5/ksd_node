@@ -35,7 +35,7 @@
                     </div>
                     <div class="header_txt">
                         <div class="header_txt_name">
-                            <div class="header_txt_top">{{vo.name}}</div>
+                            <div class="header_txt_top">{{vo.product_name}}</div>
                             <div class="header_txt_bottom">
                                 <input type="hidden" value="{{vo.product_applyto_business}}" id="supplier_car_type">
                                 {{#if (vo.product_applyto_business === 0) }}
@@ -66,9 +66,11 @@
                 <div class="detail_about">
                     <div class="detail_about_title">
                         <div class="detail_about_label">基本信息</div>
+                        {{#if (reqParams.page_flag === '0') }}
                         <div class="rf_30">
                             <a href="javascript:;" class="detail_title_btn edit_btn edit_rebate_type" lang="">编辑</a>
                         </div>
+                        {{/if}}
                     </div>
                     <div class="detail_about_txt">
                         <div class="detail_about_label">适用城市：</div>
@@ -80,13 +82,21 @@
                     </div>
                 </div>
                 {{#each (policy_list) }}
-                <div class="detail_about">
+                <div class="detail_about policy_list">
                     <div class="detail_about_title">
+                        {{#if (../policy_list.length === 1) }}
+                        <div class="detail_about_label">申请政策及资料</div>
+                        {{else}}
                         <div class="detail_about_label">申请政策及资料{{xindex + 1}}</div>
+                        {{/if}}
+                        {{#if (reqParams.page_flag === '0') }}
                         <div class="rf_30">
                             <a href="javascript:;" class="detail_title_btn edit_btn edit_rebate_type" lang="">编辑</a>
+                            {{#if (../policy_list.length !== 1) }}
                             <a href="javascript:;" class="detail_title_btn edit_btn edit_rebate_type" lang="">删除</a>
+                            {{/if}}
                         </div>
+                        {{/if}}
                     </div>
                     <div class="detail_about_txt">
                         <div class="detail_about_label">融资金额范围：</div>
@@ -113,36 +123,60 @@
                         <div class="detail_about_label" style="vertical-align: top;">申请资料：</div>
                         <div class="detail_about_data">
                             {{#each (this.policy_list) }}
-                            <div class="">
-                                {{#if (this.is_must === 1) }}
-                                <em class="require_icon">*</em>
+                                <div class="">
+                                    {{#if (this.is_must === 1) }}
+                                    <em class="require_icon">*</em>
+                                    {{/if}}
+                                    <span class="">{{this.type_name}}：</span>
+                                    <span class="">{{this.material_name}}</span>
+                                </div>
+                                {{#if (this.file_ids) }}
+                                <div class="detail_img">
+                                    <ul class="img_list">
+                                        {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                            {{set (img_list = this.file_ids.split(',')) }}
+                                            {{#each (img_list) }}
+                                            <a href="javascript:;" target="_blank">
+                                                <div class="list_item imgDetail" title="">
+                                                    <div class="detailBox img_item">
+                                                        <img class=" detailImgBox" data-original="{{../this.image_url}}{{this}}" src="{{../this.thumbnail_url}}{{this}}{{../this.thumbnail_proportion}}"/>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            {{/each}}
+                                        {{else}}
+                                            <a href="javascript:;" target="_blank">
+                                                <div class="list_item imgDetail" title="">
+                                                    <div class="detailBox img_item">
+                                                        <img class=" detailImgBox" data-original="{{this.image_url}}{{this.file_ids}}" src="{{this.thumbnail_url}}{{this.file_ids}}{{this.thumbnail_proportion}}"/>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        {{/if}}
+                                    </ul>
+                                    <a href="javascript:;" class="show_more_pic">更多图片</a>
+                                    <a href="javascript:;" class="hide_more_pic">收起图片</a>
+                                </div>
                                 {{/if}}
-                                <span class="">收入类：</span>
-                                <span class="">申请表、征信授权书、承诺与授权</span>
-                            </div>
-                            <div class="detail_img">
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                            </div>
                             {{/each}}
                         </div>
                     </div>
                 </div>
                 {{/each}}
-                <a href="javascript:;" class="add_policy_btn">添加申请政策及资料</a>
-
+                {{#if (reqParams.page_flag === '0') }}
+                <a href="javascript:;" class="add_policy_btn">
+                    <span style="font-size: 24px;display: inline-block;line-height: 36px;">+</span>
+                    <span style="vertical-align: top;">添加申请政策及资料</span>
+                </a>
+                {{/if}}
             </div>
         </div>
         <!--listCon end-->
     </div>
 </div>
+<input type="hidden" value="{{parent_name}}" name="parent_name" id="orgName">
+<input type="hidden" value="{{parent_id}}" name="parent_id" id="orgId">
+<input type="hidden" value="{{vo.product_id}}" name="product_id" id="productId">
 <!--container end-->
 <div class="loading" id="loading"></div>
 </body>
@@ -150,10 +184,80 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        /**
+         * 添加申请政策及资料
+         * @author Plateau  2018年8月10日10:38:13
+         * */
+        function addPolicyMaterial () {
+            var btn = $('.add_policy_btn');
+            btn.off('click').on('click', function () {
+                var parent_name = $('#orgName').val();
+                var product_id = $('#productId').val();
+                var product_name = $('.header_txt_top').text();
+                var parent_id = $('#orgId').val();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
+                    param : {
+                        parent_name : parent_name,
+                        product_id : product_id,
+                        product_name : product_name,
+                        parent_id : parent_id,
+                        jump_flag : 1
+                    }
+                });
+            });
+        }
+        /**
+         * 显示隐藏图片
+         * @author Plateau  2018年8月10日13:06:43
+         * */
+        function showMorePic () {
+            var policy_list = $('.policy_list');
+            policy_list.each(function () {
+                var _this = $(this);
+                var img_list_a = _this.find('.img_list a');
+                if (img_list_a.length > 6) {
+                    for (var i = 0, len = img_list_a.length; i < len; i++) {
+                        if (i > 5){
+                            img_list_a.eq(i).hide();
+                        }
+                    }
+                    _this.find('.show_more_pic').show();
+                } else {
+                    _this.find('.show_more_pic').hide();
+                    _this.find('.hide_more_pic').hide();
+                }
+            });
 
+            var show_more_pic = $('.show_more_pic');
+            show_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.policy_list').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    img_list_a.eq(i).show();
+                }
+                _this.hide();
+                _this.siblings('.hide_more_pic').show();
+            });
+
+            var hide_more_pic = $('.hide_more_pic');
+            hide_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.policy_list').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    if (i > 5) {
+                        img_list_a.eq(i).hide();
+                    }
+                }
+                _this.siblings('.show_more_pic').show();
+                _this.hide();
+            });
+        }
 
         $(function() {
-            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            viewLargeImage('.img_list');       // 查看大图
+            showMorePic();//显示隐藏图片
+            addPolicyMaterial();//添加申请政策及资料事件
         });
     })(jQuery,undefined);
 </script>

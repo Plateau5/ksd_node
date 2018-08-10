@@ -99,7 +99,7 @@
                                 {{#each (term_list) }}
                                 <div class="form_group">
                                     <input type="checkbox" class="term" name="term" value="{{this.id}}" />
-                                    <label>{{this.value}}</label>
+                                    <label data-id="{{this.id}}">{{this.value}}</label>
                                 </div>
                                 {{/each}}
                             </div>
@@ -157,9 +157,15 @@
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
+                        {{#if (reqParams.jump_flag === '1') }}
+                        <a href="javascript:" class="btn orange_btn confirm save_policy">保存</a>
+                        <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
+                        {{else}}
                         <a href="javascript:" class="prevPage">上一步</a>
                         <a href="javascript:" class="btn orange_btn confirm save_publish">发布</a>
                         <a href="javascript:" class="btn orange_btn confirm save_warehouse">保存到仓库</a>
+                        {{/if}}
+
                     </div>
                 </form>
             </div>
@@ -390,7 +396,7 @@
                     ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
                     '             </div>\n' +
                     '             </a>';
-                if (type == 4) {
+                if (type == 29) {
                     btn.hide();
                 }
                 btn.before(imgEle);
@@ -438,7 +444,7 @@
                                 var btn = $('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
                                 btn.data('type',type.number() - 1);
-                                if (btn.data('type') == 4) {
+                                if (btn.data('type') == 29) {
                                     btn.show();
                                 }
                                 // 获取父元素
@@ -497,6 +503,11 @@
             save_publish.off('click').on('click', function () {
                 var url = contextPath + "/api/product/publish";
                 submitValid(2, url);
+            });
+            var save_policy = $('.save_policy');
+            save_policy.off('click').on('click', function () {
+                var url = contextPath + "/api/product/commit/policy";
+                submitValid(1, url);
             });
         }
         /**
@@ -598,12 +609,11 @@
                 material_list.each(function () {
                     var _this = $(this);
                     var id = _this.data('id');
-                    var must_label = _this.find('.big_class label');
+                    var must_input = _this.find('.big_class input');
                     var is_must = 0;
-                    must_label.each(function () {
-                        var t = $(this);
-                        if (t.hasClass('checked')) {
-                            is_must = t.siblings('input').val();
+                    must_input.each(function () {
+                        if (this.checked) {
+                            is_must = this.value;
                         }
                     });
                     var small_name = _this.find('.small_class .form_container .small_name');
