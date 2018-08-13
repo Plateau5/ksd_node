@@ -455,8 +455,30 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITPOLICY = function(req, res, next) 
         }
     }, req, res, next);
 };
-
-
+// 供应商部分-金融机构-创建机构跳转  1068   new
+exports.VIEW_SUPPLIER_ORGANIZATION_CREATENEW = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/toAdd',
+        title : '供应商-发布新产品',
+        page : './organization/organizationCreate'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构编辑页跳转  1070   new
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITNEW = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/toEdit',
+        title : '供应商-发布新产品',
+        page : './organization/organizationCreate'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构详情页跳转  1071   new
+exports.VIEW_SUPPLIER_ORGANIZATION_DETAILNEW = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/detail',
+        title : '供应商-发布新产品',
+        page : './organization/organizationDetail'
+    }, req, res, next);
+};
 
 
 

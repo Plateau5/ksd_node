@@ -168,10 +168,12 @@
                 </div>
                 {{/each}}
                 {{#if (reqParams.page_flag === '0') }}
-                <a href="javascript:;" class="add_policy_btn"  data-release_time="{{vo.release_time}}">
-                    <span style="font-size: 24px;display: inline-block;line-height: 36px;">+</span>
-                    <span style="vertical-align: top;">添加申请政策及资料</span>
-                </a>
+                    {{#if (policy_list.length < 10) }}
+                    <a href="javascript:;" class="add_policy_btn"  data-release_time="{{vo.release_time}}">
+                        <span style="font-size: 24px;display: inline-block;line-height: 36px;">+</span>
+                        <span style="vertical-align: top;">添加申请政策及资料</span>
+                    </a>
+                    {{/if}}
                 {{/if}}
             </div>
         </div>

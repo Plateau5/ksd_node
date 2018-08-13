@@ -1,0 +1,550 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main org_create">
+            <div class="crumbs_nav">
+                <a href="javascript:;" class="crumbs_item">机构管理</a>
+                <a href="javascript:;" class="crumbs_item">新建</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="org_create_form" method="post">
+                    <div class="base_info">
+                        <div class="detail_title">基本信息</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">机构名称：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="orgname" type="text" class="required" name="name" maxlength="20" placeholder="请输入机构名称" />
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用业务：</span>
+                            </div>
+                            <div id="applyto_business" class="column_val">
+                                <input id="applyto_business_input" type="hidden" name="applyto_business" value="">
+                                <div class="form_group">
+                                    <input id="newCars" type="checkbox" class="apply_scope" name="newCars"  value="0" />
+                                    <label for="newCars">新车</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="usedCars" type="checkbox" class="apply_scope" name="usedCars" value="1" />
+                                    <label for="usedCars">二手车</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">机构类别：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="type" class="" id="org_type">
+                                    <option value="0">请选择</option>
+                                    <option value="1">融资租赁</option>
+                                    <option value="2">银行</option>
+                                    <option value="3">信托</option>
+                                    <option value="4">汽车金融</option>
+                                    <option value="5">担保公司</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">机构logo：</span>
+                            </div>
+                            <div class="column_val">
+                                <div class="organization_logo" id="image_url">
+                                    <input type="radio" name="image_url" value="" hidden="hidden">
+                                    <img src="" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">有无系统：</span>
+                            </div>
+                            <div id="have_system" class="column_val">
+                                <input id="have_sys_input" type="hidden" name="have_system" value="1">
+                                <div class="form_group mar6">
+                                    <input id="have_sys" type="radio" checked="checked" name="have_sys" value="1">
+                                    <label for="have_sys" class="checked">有</label>
+                                </div>
+                                <div class="form_group mar6">
+                                    <input id="nohave_system" type="radio" name="have_sys" value="0">
+                                    <label for="nohave_system">无</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item have_system_url">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">系统地址：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="system_url" type="text" class="system_url required" name="system_url" placeholder="请输入系统地址" maxlength="100">
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">官方电话：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" placeholder="请输入官方电话" maxlength="20" id="mobile" name="mobile" value=""/>
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">联系人：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" placeholder="请输入联系人姓名" maxlength="20" id="link_name" name="link_name" value=""/>
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">联系人手机：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" maxlength="11" placeholder="请输入联系人手机号" id="link_phone" name="link_phone" value=""/>
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">联系人座机：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" maxlength="12" placeholder="请输入联系人座机电话" id="link_mobile" name="link_mobile" value=""/>
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="org_intro">
+                        <div class="detail_title">机构介绍</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">审批速度：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="approve_speed" class="" id="approval">
+                                    <option value="1">1-20分钟</option>
+                                    <option value="2">1-3个小时</option>
+                                    <option value="3">半个工作日</option>
+                                    <option value="4">1个工作日</option>
+                                    <option value="5">1-2个工作日</option>
+                                    <option value="6">3个工作日</option>
+                                </select>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        <div class="option_item carage_limit" style="display: none;">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">车龄限制：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="carage_start" type="text" class="carAge required" name="carage_start" placeholder="1" value="1" maxlength="4" style="width:150px;">
+                                <span class="" style="padding:0 4px;">-</span>
+                                <input id="carage_end" type="text" class="carAge required" name="carage_end" placeholder="9" value="9" maxlength="4" style="width:150px;">
+                                <span class="" style="padding-left:8px;">年</span>
+                                <span class="tips_info">(*<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item evaluation_des" style="display:none;margin-top: 20px;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">评估描述：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="请输入内容"></textarea>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">背户情况：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="hidden" class="bei_hu" name="bei_hu" value="1">
+                                <div class="form_group mar6">
+                                    <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
+                                    <label for="back_door_need" class="checked">可以</label>
+                                </div>
+                                <div class="form_group mar6">
+                                    <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
+                                    <label for="back_door_noneed">不可以</label>
+                                </div>
+                                <span class="remark_text add_txt">备注</span>
+                                <div class="remarks_box" style="display: none;">
+                                    <textarea placeholder="请输入内容" name="bei_hu_remark" id="bei_hu_remark" maxlength="200"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">机构特点：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="hidden" class="special" name="special">
+                                <div class="form_group">
+                                    <input id="org_feature1" type="checkbox" class="org_feature" name="special1"  value="9" />
+                                    <label for="org_feature1">审批快</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature2" type="checkbox" class="org_feature" name="special1" value="1" />
+                                    <label for="org_feature2">材料少</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature3" type="checkbox" class="org_feature" name="special1" value="2" />
+                                    <label for="org_feature3">利息低</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature4" type="checkbox" class="org_feature" name="special1" value="3" />
+                                    <label for="org_feature4">利润大</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature5" type="checkbox" class="org_feature" name="special1" value="4" />
+                                    <label for="org_feature5">灵活</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature6" type="checkbox" class="org_feature" name="special1" value="5" />
+                                    <label for="org_feature6">首付低</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature7" type="checkbox" class="org_feature" name="special1" value="6" />
+                                    <label for="org_feature7">尺寸大</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature8" type="checkbox" class="org_feature" name="special1" value="7" />
+                                    <label for="org_feature8">可做黑户</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="org_feature9" type="checkbox" class="org_feature" name="special1" value="8" />
+                                    <label for="org_feature9">无驾照</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">附加可融项目：</span>
+                            </div>
+                            <div class="column_val addition_finances">
+                                <input type="hidden" class="addition_finance" name="addition_finance">
+                                <div class="form_group">
+                                    <input id="additional_project1" type="checkbox" class="additional_project" name="addition_finance1"  value="1" />
+                                    <label for="additional_project1">GPS</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project2" type="checkbox" class="additional_project" name="addition_finance1" value="2" />
+                                    <label for="additional_project2">保险</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project3" type="checkbox" class="additional_project" name="addition_finance1" value="3" />
+                                    <label for="additional_project3">服务费</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project4" type="checkbox" class="additional_project" name="addition_finance1" value="4" />
+                                    <label for="additional_project4">人身意外险</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project5" type="checkbox" class="additional_project" name="addition_finance1" value="5" />
+                                    <label for="additional_project5">购置税</label>
+                                </div>
+                                <div class="form_group">
+                                    <input id="additional_project6" type="checkbox" class="additional_project" name="addition_finance1" value="6" />
+                                    <label for="additional_project6">金融方自营保险</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">附加可融项目说明：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="请输入内容"></textarea>
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name">
+                                <span class="options_name">征信尺度：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="credit" class="">
+                                    <option value="">请选择</option>
+                                    <option value="1">宽松</option>
+                                    <option value="2">适中</option>
+                                    <option value="3">严格</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">电核尺度：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="electricity" class="">
+                                    <option value="">请选择</option>
+                                    <option value="1">宽松</option>
+                                    <option value="2">适中</option>
+                                    <option value="3">严格</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">大数据审查：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="bigdata_review" class="">
+                                    <option value="">请选择</option>
+                                    <option value="1">宽松</option>
+                                    <option value="2">适中</option>
+                                    <option value="3">严格</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">审批政策：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="请输入内容"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
+                        <a href="javascript:;" class="btn bg_btn cancel">取消</a>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        /**
+         * 添加备注
+         * @author Plateau 2018-8-6 17:41:42
+         * */
+        function addRemark () {
+            var add_txt = $('.add_txt');
+            add_txt.off("click").on("click", function () {
+                var remarks_box = $(this).siblings('.remarks_box');
+                if(remarks_box.is(':hidden')){
+                    $(this).siblings('.remarks_box').show();
+                } else {
+                    $(this).siblings('.remarks_box').hide();
+                }
+            });
+        }
+        /**
+         * 点击二手车事件
+         * @author Plateau 2018年8月6日18:09:07
+         * */
+        function usedCarsEvent () {
+            var usedCars = $('#usedCars');
+            usedCars.off("click").on("click", function () {
+                var carage_limit = $('.carage_limit');//车龄限制
+                var evaluation_des = $('.evaluation_des');//评估描述
+                if (this.checked) {
+                    carage_limit.hide();
+                    evaluation_des.hide();
+                } else {
+                    carage_limit.show();
+                    evaluation_des.show();
+                }
+            });
+        }
+        /**
+         * 单选有无系统
+         * @author Plateau 2018年8月6日18:22:07
+         * */
+        function systemEvent () {
+            var have_system = $('#have_system input');
+            have_system.off("click").on("click", function () {
+                var _this = $(this);
+                var val = _this.val().trim();
+                if (val == 1) {
+                    $('.have_system_url').show();
+                } else if (val == 0) {
+                    $('.have_system_url').hide();
+                }
+                $('#have_sys_input').val(val);
+            });
+        }
+        /**
+         * 输入框焦点离开校验
+         * @author Plateau 2018年8月7日10:24:34
+         * @desc 所有必传项的input必须含有兄弟元素’tips_info‘
+         */
+        function validateBlur () {
+            $('#orgname').on('blur', function () {
+                var reg = /^[\u4E00-\u9FA5\w]+$/;
+                var error_txt = '机构名称不能包含特殊字符';
+                validate_form(1,$('#name'),reg,error_txt);
+            });
+
+            $('#system_url').on('blur', function () {
+                //var reg = /^(http|https|ftp)\:\/\/([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.[a-zA-Z]{2,4})(\:[0-9]+)?(\/[^\/][a-zA-Z0-9\.\,\?\'\/\/\+&%\$\=~_\-@]*)*$/;
+                var regStr = "(ht|f)tp(s?)\\:\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\\\+&amp;%\\$#_]*)?";
+                var reg = new RegExp(regStr);
+                var error_txt = '请输入有效的系统地址';
+                validate_form(1,$('#system_url'),reg,error_txt);
+            });
+
+            $('.carAge').on('blur', function () {
+                var _this = $(this);
+                carAge_validate(_this);
+            });
+
+            $('#mobile').on('blur', function () {
+                // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
+                var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
+                var error_txt = '请输入正确格式的电话号码';
+                validate_form(0,$('#mobile'),reg,error_txt);
+            });
+
+            $('#link_name').on('blur', function () {
+                var reg = /^[\u4E00-\u9FA5a-zA-Z]+$/;
+                var error_txt = "请输入中文、英文、中文+英文字符";
+                validate_form(0,$('#link_name'),reg,error_txt);
+            });
+
+            $('#link_phone').on('blur', function () {
+                var reg = /^1[3|4|5|6|9|8|7]\d{9}$/;
+                var error_txt = "请输入11位数字";
+                validate_form(0,$('#link_phone'),reg,error_txt);
+            });
+
+            $('#link_mobile').on('blur', function () {
+                // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
+                var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
+                var error_txt = '请输入正确格式的电话号码';
+                validate_form(0,$('#link_mobile'),reg,error_txt);
+            });
+        }
+        /**
+         * 校验判断
+         * @author Plateau 2018年8月7日12:48:59
+         * @param  required         ：   是否为必填项          0为非必填；1为必填
+         * @param  obj              ：   当前输入框selector对象
+         * @param  reg              ：   正则表达式
+         * @param  error_txt        ：   错误提示信息
+         */
+        function validate_form(required,obj,reg,error_txt){
+            var val = obj.val();
+            var reg = reg;
+            if(required == '1'){
+                if(!val){
+                    obj.siblings('.tips_info').show().find('.tips_text').text('此项内容不能为空');
+                    obj.css('border-color','#FB2741');
+                    return;
+                }
+            }else{
+                if(!val){
+                    obj.siblings('.tips_info').hide();
+                    obj.css('border-color','#ccc');
+                    return;
+                }
+            }
+            if(!reg.test(val)){
+                obj.siblings('.tips_info').show().find('.tips_text').text(error_txt);
+                obj.css('border-color','#FB2741');
+                return;
+            }
+            obj.siblings('.tips_info').hide();
+            obj.css('border-color','#ccc');
+        }
+        /**
+         * 车龄校验
+         * @author Plateau 2018年8月7日12:46:36
+         * @desc  规则如下
+         *        1.如若选中二手车，则车龄为必填项
+         *        2.车龄不能低于0.5年
+         *        3.车龄不能超过15年
+         *        4.车龄范围，后者大于前者
+         */
+        function carAge_validate (_this) {
+            var val = _this.val();
+            if(val == ''){
+                _this.siblings('.tips_info').show().find('.tips_text').text('车龄限制不能为空');
+                _this.css('border-color','#ccc');
+                return;
+            }
+            if(parseFloat(val) < 0.5){
+                _this.siblings('.tips_info').show().find('.tips_text').text('车龄不能低于0.5年');
+                _this.css('border-color','#FB2741');
+                return;
+            }
+            if(parseFloat(val) > 15){
+                _this.siblings('.tips_info').show().find('.tips_text').text('车龄不能超过15年');
+                _this.css('border-color','#FB2741');
+                return;
+            }
+            var val1 = $('#carage_start').val();
+            var val2 = $('#carage_end').val();
+            if(parseFloat(val1) >= parseFloat(val2)){
+                _this.siblings('.tips_info').show().find('.tips_text').text('请输入正确的车龄范围');
+                _this.css('border-color','#FB2741');
+                return;
+            }
+            _this.siblings('.tips_info').hide();
+            _this.css('border-color','#e4e4e4');
+            _this.css('border-color','#e4e4e4');
+        }
+        $(function() {
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            addRemark();//添加备注
+            usedCarsEvent();//点击二手车事件
+            systemEvent();//单选有无系统
+            validateBlur();//输入框失去焦点事件
+            numAndAmount('.carAge',{
+                type : 1,
+                maxInteger : 2,
+                maxDecimal : 1,
+                addDecimal : 1
+            });//控制车龄输入框只能输入数字和以为小数
+        });
+    })(jQuery,undefined);
+</script>
+</html>

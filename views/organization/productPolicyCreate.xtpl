@@ -85,16 +85,18 @@
                                         {{#each (rate_list) }}
                                             {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
                                                 {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
-                                                {{#if (downpayment_value_arr.indexOf(this.id) !== -1) }}
+                                                <div class="form_group">
+                                                {{#if (downpayment_value_arr.indexOf(this.id.toString()) !== -1) }}
                                                     <input type="checkbox" class="rates" name="" value="{{this.id}}" checked="checked"/>
                                                     <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
                                                 {{else}}
                                                     <input type="checkbox" class="rates" name="" value="{{this.id}}" />
                                                     <label data-id="{{this.id}}">{{this.value}}</label>
                                                 {{/if}}
+                                                </div>
                                             {{else}}
                                                 <div class="form_group">
-                                                    {{#if (this.id === policy_list[0].downpayment_value) }}
+                                                    {{#if (this.id.toString() === policy_list[0].downpayment_value) }}
                                                         <input type="checkbox" class="rates" name="" value="{{this.id}}" checked="checked"/>
                                                         <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
                                                     {{else}}
@@ -208,7 +210,7 @@
                                             <label data-id="{{this.id}}">{{this.value}}</label>
                                             {{/if}}
                                         {{else}}
-                                            {{#if (this.id === policy_list[0].term) }}
+                                            {{#if (this.id.toString() === policy_list[0].term) }}
                                             <input type="checkbox" class="term" name="term" value="{{this.id}}" checked="checked"/>
                                             <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
                                             {{else}}
@@ -323,7 +325,7 @@
                                                     {{/if}}
                                                 </div>
                                                 <div class="img_md_box file_upload" style="padding-left: 0px;">
-                                                    <input type="hidden" class="file_ids" name="file_ids">
+                                                    <input type="hidden" class="file_ids" name="file_ids" value="{{this.file_ids}}">
                                                     {{#if (this.file_ids) }}
                                                         {{#if (this.file_ids.indexOf(',') !== -1) }}
                                                             {{set (file_ids_arr = this.file_ids.split(',')) }}
@@ -595,7 +597,17 @@
         function getSuccess (res, btn, type, fileName) {
             if (res.error_code == 0) {
                 btn.data('type',type.number() + 1);
-                file_ids.push(res.file_id);
+                var file_id_input =  btn.siblings('input[name=file_ids]');
+                var file_ids = [];
+                if (file_id_input.val() == '') {
+                    file_id_input.val(res.file_id);
+                } else {
+                    file_ids.push(file_id_input.val());
+                    file_ids.push(res.file_id);
+                    file_id_input.val(file_ids.join(','));
+                }
+
+                // file_ids.push(res.file_id);
                 $alert('图片上传成功');
                 var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
                     '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
@@ -632,6 +644,7 @@
                 e.stopPropagation();
                 e.preventDefault();
                 var _this = $(this);
+                var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
                 var id  = $.trim(_this.data('id'));
                 /*var ids = [];
                 ids.push(id);
@@ -643,11 +656,22 @@
                     url : contextPath + '/api/supplier/file/delete',
                     success : function (res) {
                         if (res.error_code == 0) {
-                            for (var i = 0,len = file_ids.length;i<len;i++) {
-                                if (file_ids[i] == id) {
-                                    file_ids.splice(i,1);
+                            if (file_id_input.val().indexOf(',') !== -1) {
+                                var file_id_arr = file_id_input.val().split(',');
+                                for (var i = 0,len = file_id_arr.length;i<len;i++) {
+                                    if (file_id_arr[i] == id) {
+                                        file_id_arr.splice(i,1);
+                                    }
                                 }
+                                file_id_input.val(file_id_arr.join(','));
+                            } else {
+                                file_id_input.val('');
                             }
+                            // for (var i = 0,len = file_ids.length;i<len;i++) {
+                            //     if (file_ids[i] == id) {
+                            //         file_ids.splice(i,1);
+                            //     }
+                            // }
                             $alert('图片删除成功', function () {
                                 var btn = $('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
@@ -832,6 +856,7 @@
                 var material_list = $('.material_list');
                 material_list.each(function () {
                     var _this = $(this);
+                    var file_ids = _this.find('.small_class .img_md_box input[name=file_ids]');
                     var id = _this.data('id');
                     var big_class = _this.find('.big_class .big_class_name').text();
                     var must_input = _this.find('.big_class input');
@@ -855,13 +880,13 @@
                             data_type : id,
                             is_must : is_must,
                             material_datas : material_datas.join(','),
-                            file_ids : file_ids.join(',')
+                            file_ids : file_ids.val()
                         };
                         material_data_arr.push(obj);
                     } else {
                         if (is_must == 1) {
                             $alert('请选择'+ big_class +'里面对应的资料。');
-                            return;
+                            return false;
                         }
                     }
                 });
@@ -895,7 +920,7 @@
                     var file_ids = _this.find('.img_md_box .file_ids').val();
 
                     for (var i = 0, leni = policy_list.length; i < leni; i++) {
-                        if (policy_list[0].data_type == data_type) {
+                        if (policy_list[i].data_type == data_type) {
                             if (material_datas.length == 0) {
                                 var is_delete = 1;
                             } else {
@@ -909,15 +934,17 @@
                                 is_delete : is_delete
                             };
                             update_data.push(obj);
+                            break;
                         } else {
                             if (material_datas.length != 0) {
-                                var obj = {
+                                var obj1 = {
                                     data_type : data_type,
                                     material_datas : material_datas.join(','),
                                     is_must : is_must,
                                     file_ids : file_ids
                                 };
-                                insert_data.push(obj);
+                                insert_data.push(obj1);
+                                break;
                             }
                         }
                     }
