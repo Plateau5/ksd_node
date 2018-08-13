@@ -95,7 +95,7 @@
                         {{/if}}
                         {{#if (reqParams.page_flag === '0') }}
                         <div class="rf_30">
-                            <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}">编辑</a>
+                            <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}" data-num="{{xindex + 1}}">编辑</a>
                             {{#if (../policy_list.length !== 1) }}
                             <a href="javascript:;" class="detail_title_btn edit_btn del_policy" lang="">删除</a>
                             {{/if}}
@@ -294,6 +294,7 @@
                 var applyto_business = $('#supplier_car_type').val();
                 var city_ids = $('#city_ids').val();
                 var applyto_type = $('#applyto_type').val();
+                var policy_num = _this.data('num');
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/productEditPolicy',
                     param : {
@@ -303,6 +304,7 @@
                         parent_id : parent_id,
                         city_ids : city_ids,
                         applyto_type : applyto_type,
+                        policy_num : policy_num,
                         jump_flag : 1
                     }
                 });

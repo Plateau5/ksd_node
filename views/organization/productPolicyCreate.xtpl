@@ -38,7 +38,11 @@
                     <input type="hidden" value="{{reqParams.applyto_type}}" name="applyto_type" id="applyto_type">
                     <input type="hidden" value="{{policy_list[0].policy_id}}" id="policy_id">
                     <div class="base_info">
+                        {{#if (reqParams.policy_num === 0) }}
                         <div class="detail_title">申请政策及资料</div>
+                        {{else}}
+                        <div class="detail_title">申请政策及资料{{reqParams.policy_num }}</div>
+                        {{/if}}
                         <div class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
@@ -225,167 +229,128 @@
                             </div>
                             <div class="column_val" style="padding-top: 20px;">
                                 {{#each (material_list) }}
-                                {{#if (xindex === material_list.length - 1) }}
-                                <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}" data-change_version="{{this.change_version}}">
-                                {{else}}
-                                <div class="material_list" data-id="{{this.type}}" data-change_version="{{this.change_version}}">
-                                {{/if}}
-                                    {{#if (reqParams.policy_id) }}
-                                        {{#each (policy_list[0].policy_list) }}
-                                            <div class="big_class">
-                                                <div class="big_class_name">{{../this.type_value}}</div>
-                                                <div class="require">
-                                                    <div class="form_group">
-                                                        {{#if (this.is_must === 1) }}
-                                                        <input id="must_send{{../xindex}}" type="radio" class="must_send" name="must_send{{../this.type}}" value="1" checked="checked">
-                                                        <label for="must_send{{../xindex}}" class="checked">必传</label>
-                                                        {{else}}
-                                                        <input id="must_send{{../xindex}}" type="radio" class="must_send" name="must_send{{../this.type}}" value="1">
-                                                        <label for="must_send{{../xindex}}">必传</label>
-                                                        {{/if}}
-                                                    </div>
-                                                    <div class="form_group">
-                                                        {{#if (this.is_must === 0) }}
-                                                        <input id="must_nosend{{../xindex}}" type="radio" class="must_nosend" name="must_send{{../this.type}}" value="0" checked="checked">
-                                                        <label for="must_nosend{{../xindex}}" class="checked">非必传</label>
-                                                        {{else}}
-                                                        <input id="must_nosend{{../xindex}}" type="radio" class="must_nosend" name="must_send{{../this.type}}" value="0">
-                                                        <label for="must_nosend{{../xindex}}">非必传</label>
-                                                        {{/if}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="small_class">
-                                                <div class="selector_box">
-                                                    <div class="form_group check_all_box">
-                                                        {{#if (this.material_datas === '') }}
-                                                            <div class="form_group">
-                                                                <input type="checkbox" class="" name="" value="">
-                                                                <label class="check_all">全选</label>
-                                                            </div>
-                                                            {{#each (../this.mlist) }}
-                                                            <div class="form_group">
-                                                                <input type="checkbox" class="" name="" value="">
-                                                                <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                            </div>
-                                                            {{/each}}
-                                                        {{else}}
-                                                            {{#if (this.material_datas.indexOf(',') !== -1) }}
-                                                                {{set (material_datas_arr = this.material_datas.split(',')) }}
-                                                                {{#if (material_datas_arr.length ===  ../this.mlist.length) }}
-                                                                    <div class="form_group">
-                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                        <label class="check_all checked">全选</label>
-                                                                    </div>
-                                                                    {{#each (../this.mlist) }}
-                                                                    <div class="form_group">
-                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                        <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                    </div>
-                                                                    {{/each}}
-                                                                {{else}}
-                                                                    <div class="form_group">
-                                                                        <input type="checkbox" class="" name="" value="">
-                                                                        <label class="check_all">全选</label>
-                                                                    </div>
-                                                                    {{#each (../this.mlist) }}
-                                                                    <div class="form_group">
-                                                                        {{#if (material_datas_arr.indexOf(this.material_id) !== -1) }}
-                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                        <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                        {{else}}
-                                                                        <input type="checkbox" class="" name="" value="">
-                                                                        <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                        {{/if}}
-                                                                    </div>
-                                                                    {{/each}}
-                                                                {{/if}}
-                                                            {{else}}
-                                                                <div class="form_group">
-                                                                    <input type="checkbox" class="" name="" value="">
-                                                                    <label class="check_all">全选</label>
-                                                                </div>
-                                                                {{#each (../this.mlist) }}
-                                                                <div class="form_group">
-                                                                    {{#if (../this.material_datas === this.material_id) }}
-                                                                        <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                        <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                    {{else}}
-                                                                        <input type="checkbox" class="" name="" value="">
-                                                                        <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                    {{/if}}
-                                                                </div>
-                                                                {{/each}}
-                                                            {{/if}}
-                                                        {{/if}}
-                                                    </div>
-                                                    <div class="img_md_box file_upload" style="padding-left: 0px;">
-                                                        <input type="hidden" class="file_ids" name="file_ids">
-                                                        {{#if (this.file_ids && this.data_type === ../this.type) }}
-                                                            {{#if (this.file_ids.indexOf(',') !== -1) }}
-                                                                {{set (file_ids_arr = this.file_ids.split(',')) }}
-                                                                {{#each (file_ids_arr) }}
-                                                                    <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
-                                                                        <img data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{this.thumbnail_proportion}}">
-                                                                        <div class="img_md_operate_box">
-                                                                            <em class="img_md_operate_btn view" data-url="{{../this.image_url}}{{this}}" title="查看"></em>
-                                                                            <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
-                                                                        </div>
-                                                                    </a>
-                                                                {{/each}}
-                                                            {{else}}
-                                                                <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
-                                                                    <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
-                                                                    <div class="img_md_operate_box">
-                                                                        <em class="img_md_operate_btn view" data-url="{{this.image_url}}{{this.file_ids}}" title="查看"></em>
-                                                                        <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
-                                                                    </div>
-                                                                </a>
-                                                            {{/if}}
-                                                        {{/if}}
-                                                        <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
-                                                        <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {{/each}}
+                                    {{#if (xindex === material_list.length - 1) }}
+                                    <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}">
                                     {{else}}
+                                    <div class="material_list" data-id="{{this.type}}">
+                                    {{/if}}
                                         <div class="big_class">
                                             <div class="big_class_name">{{this.type_value}}</div>
                                             <div class="require">
                                                 <div class="form_group">
+                                                    {{#if (this.is_musts === 1) }}
+                                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{this.type}}" value="1" checked="checked">
+                                                    <label for="must_send{{xindex}}" class="checked">必传</label>
+                                                    {{else}}
                                                     <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{this.type}}" value="1">
                                                     <label for="must_send{{xindex}}">必传</label>
+                                                    {{/if}}
                                                 </div>
                                                 <div class="form_group">
+                                                    {{#if (this.is_musts === 0) }}
                                                     <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
                                                     <label for="must_nosend{{xindex}}" class="checked">非必传</label>
+                                                    {{else}}
+                                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0">
+                                                    <label for="must_nosend{{xindex}}">非必传</label>
+                                                    {{/if}}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="small_class">
                                             <div class="selector_box">
                                                 <div class="form_group check_all_box">
-                                                    <div class="form_group">
-                                                        <input type="checkbox" class="" name="" value="">
-                                                        <label class="check_all">全选</label>
-                                                    </div>
-                                                    {{#each (this.mlist) }}
-                                                    <div class="form_group">
-                                                        <input type="checkbox" class="" name="" value="">
-                                                        <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                    </div>
-                                                    {{/each}}
+                                                    {{#if (this.material_datas) }}
+                                                        {{#if (this.material_datas.indexOf(',') !== -1) }}
+                                                            {{set (material_datas_arr = this.material_datas.split(',')) }}
+                                                            {{#if (material_datas_arr.length ===  this.mlist.length) }}
+                                                                <div class="form_group">
+                                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                    <label class="check_all checked">全选</label>
+                                                                </div>
+                                                                {{#each (this.mlist) }}
+                                                                <div class="form_group">
+                                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                </div>
+                                                                {{/each}}
+                                                            {{else}}
+                                                                <div class="form_group">
+                                                                    <input type="checkbox" class="" name="" value="">
+                                                                    <label class="check_all">全选</label>
+                                                                </div>
+                                                                {{#each (this.mlist) }}
+                                                                <div class="form_group">
+                                                                    {{#if (material_datas_arr.indexOf(this.material_id) !== -1) }}
+                                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                    {{else}}
+                                                                    <input type="checkbox" class="" name="" value="">
+                                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                    {{/if}}
+                                                                </div>
+                                                                {{/each}}
+                                                            {{/if}}
+                                                        {{else}}
+                                                            <div class="form_group">
+                                                                <input type="checkbox" class="" name="" value="">
+                                                                <label class="check_all">全选</label>
+                                                            </div>
+                                                            {{#each (this.mlist) }}
+                                                            <div class="form_group">
+                                                                {{#if (this.material_id === ../this.material_datas) }}
+                                                                <input type="checkbox" class="" name="" value="" checked="checked">
+                                                                <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                {{else}}
+                                                                <input type="checkbox" class="" name="" value="">
+                                                                <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                                {{/if}}
+                                                            </div>
+                                                            {{/each}}
+                                                        {{/if}}
+                                                    {{else}}
+                                                        <div class="form_group">
+                                                            <input type="checkbox" class="" name="" value="">
+                                                            <label class="check_all">全选</label>
+                                                        </div>
+                                                        {{#each (this.mlist) }}
+                                                        <div class="form_group">
+                                                            <input type="checkbox" class="" name="" value="">
+                                                            <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                        </div>
+                                                        {{/each}}
+                                                    {{/if}}
                                                 </div>
                                                 <div class="img_md_box file_upload" style="padding-left: 0px;">
                                                     <input type="hidden" class="file_ids" name="file_ids">
+                                                    {{#if (this.file_ids) }}
+                                                        {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                                            {{set (file_ids_arr = this.file_ids.split(',')) }}
+                                                            {{#each (file_ids_arr) }}
+                                                                <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                                    <img data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}">
+                                                                    <div class="img_md_operate_box">
+                                                                        <em class="img_md_operate_btn view" data-url="{{image_url}}{{this}}" title="查看"></em>
+                                                                        <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
+                                                                    </div>
+                                                                </a>
+                                                            {{/each}}
+                                                        {{else}}
+                                                            <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                                <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
+                                                                <div class="img_md_operate_box">
+                                                                    <em class="img_md_operate_btn view" data-url="{{image_url}}{{this.file_ids}}" title="查看"></em>
+                                                                    <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
+                                                                </div>
+                                                            </a>
+                                                        {{/if}}
+                                                    {{/if}}
                                                     <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
                                                     <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                 </div>
                                             </div>
                                         </div>
-                                    {{/if}}
-                                </div>
+                                    </div>
                                 {{/each}}
                             </div>
                         </div>
@@ -918,7 +883,6 @@
                         }
                     });
                     var file_ids = _this.find('.img_md_box .file_ids').val();
-                    var change_version = _this.data('change_version');
 
                     if (policy_list.data_type == data_type) {
                         if (material_datas.length == 0) {
@@ -931,8 +895,7 @@
                             material_datas : material_datas.join(','),
                             is_must : is_must,
                             file_ids : file_ids,
-                            is_delete : is_delete,
-                            change_version : change_version
+                            is_delete : is_delete
                         };
                         update_data.push(obj);
                     } else {
