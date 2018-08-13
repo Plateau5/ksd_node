@@ -37,6 +37,7 @@
                     <input type="hidden" value="{{reqParams.city_ids}}" name="city_ids" id="city_ids">
                     <input type="hidden" value="{{reqParams.applyto_type}}" name="applyto_type" id="applyto_type">
                     <input type="hidden" value="{{policy_list[0].policy_id}}" id="policy_id">
+                    <input type="hidden" value="{{reqParams.release_time}}" id="release_time">
                     <div class="base_info">
                         {{#if (reqParams.policy_num === 0) }}
                         <div class="detail_title">申请政策及资料</div>
@@ -915,6 +916,7 @@
                 var applyto_business = $('#applyto_business').val();
                 var city_ids = $('#city_ids').val();
                 var applyto_type = $('#applyto_type').val();
+                var release_time = $('#release_time').val();
                 var parameters = {
                     product_id : product_id,
                     policy_id : policy_id,
@@ -929,7 +931,8 @@
                     interest_rate : interest_rate,
                     term : term,
                     update_data : JSON.stringify(update_data),
-                    insert_data : JSON.stringify(insert_data)
+                    insert_data : JSON.stringify(insert_data),
+                    release_time : release_time
                 };
             } else if (save_flag ==1) {
                 var applyto_business = $('#applyto_business').val();
