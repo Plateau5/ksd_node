@@ -440,7 +440,10 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITPOLICY = function(req, res, next) 
     common.getPageData({
         url : '/api/product/toUpdate/policy',
         title : '供应商-发布新产品',
-        page : './organization/productPolicyCreate'
+        page : './organization/productPolicyCreate',
+        callback : function (data) {
+            data.policy_lists = JSON.stringify(data.policy_list[0].policy_list);
+        }
     }, req, res, next);
 };
 

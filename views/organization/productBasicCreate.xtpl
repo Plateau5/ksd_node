@@ -353,13 +353,30 @@
                             var product_id = res.product_id;
                             var product_name = $('#productname').val();
                             var parent_id = $('#orgId').val();
+                            var applyto_business = 0;
+                            $('.radio_applyto_business').each(function () {
+                                if (this.checked) {
+                                    applyto_business = this.value;
+                                }
+                            });
+                            var applyto_type = [];
+                            $('.applyto_type').each(function () {
+                                var _this = $(this);
+                                if (_this.hasClass('checked')) {
+                                    applyto_type.push(_this.val());
+                                }
+                            });
+                            var city_ids = $('.city_ids').val();
                             locationTo({
                                 action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
                                 param : {
                                     parent_name : parent_name,
                                     product_id : product_id,
                                     product_name : product_name,
-                                    parent_id : parent_id
+                                    parent_id : parent_id,
+                                    applyto_business : applyto_business,
+                                    city_ids : city_ids,
+                                    applyto_type : applyto_type.join(',')
                                 }
                             });
                         } else {
