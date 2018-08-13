@@ -44,95 +44,108 @@
                     <div class="title org_list_tile">
                         <span class="module_name font14">机构名称</span>
                     </div>
-                    {{#if (data.length > 0) }}
+                    {{#if (organization_list.length > 0) }}
                         <ul class="org_select_list clearfix">
-                            {{#each (data) }}
+                            {{#each (organization_list) }}
                             <li class="list_item nowrap {{#if (root.organization_id === this.organization_id) }}active{{/if}}" data-id="{{this.organization_id}}" data-name="{{this.organization_name}}">{{this.organization_name}}</li>
                             {{/each}}
                         </ul>
                     {{/if}}
                 </div>
-                {{#if (reqParams.applyto_car === "2")}}
-                    <div class="filtrate">
+                <form action="{{markUri}}/merchants/config/products/list" method="post" id="toProductList">
+                    {{#if (reqParams.applyto_business === "2")}}
                         <div class="filtrate">
-                            <div class="filtrate_item select_item  inline_block">
-                                <div class="conditions_name inline_block" style="vertical-align: top;">适用业务：</div>
-                                <select name="car_type" class="filtrate_select" id="typeBusiness">
-                                    <option value="">全部</option>
-                                    {{#if (reqParams.applyto_car === "0") }}
-                                    <option selected value="0">新车</option>
-                                    {{else}}
-                                    <option value="0">新车</option>
-                                    {{/if}}
-                                    {{#if (reqParams.applyto_car === "1") }}
-                                    <option selected value="1">二手车</option>
-                                    {{else}}
-                                    <option value="1">二手车</option>
-                                    {{/if}}
-                                </select>
+                            <div class="filtrate_item date_conditions" style="margin-top:10px;margin-bottom:10px">
+                                <div class="inline_block">
+                                    <div class="conditions_name inline_block filtrate_business">适用业务：</div>
+                                    <select name="applyto_business" class="filtrate_select" id="applyBusiness">
+                                        {{#if (reqParams.applyto_car === -1 || reqParams.applyto_car) }}
+                                        <option value="-1" selected="selected">全部</option>
+                                        {{else}}
+                                        <option value="-1">全部</option>
+                                        {{/if}}
+                                        {{#if (reqParams.applyto_car === 0) }}
+                                        <option value="0" selected="selected">新车</option>
+                                        {{else}}
+                                        <option value="0">新车</option>
+                                        {{/if}}
+                                        {{#if (reqParams.applyto_car === 1) }}
+                                        <option value="1" selected="selected">二手车</option>
+                                        {{else}}
+                                        <option value="1">二手车</option>
+                                        {{/if}}
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {{/if}}
-                <div class="module_list">
-                    <form method="post" class="">
-                        <table class="normal">
-                            <colgroup>
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
-                                <col style="width: 15%;">
-                                <col style="width: 20%;">
-                                <col>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th>产品名称</th>
-                                <th>融资范围</th>
-                                <th>费率</th>
-                                <th>融资期限</th>
-                                <th>首付比例/金额</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {{#if (PolicyList.length >0)}}
-                            {{#each (PolicyList)}}
+                    {{/if}}
+                    <div class="module_list">
+                            <table class="normal">
+                                <colgroup>
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 15%;">
+                                    <col style="width: 20%;">
+                                    <col>
+                                </colgroup>
+                                <thead>
                                 <tr>
-                                    <td>{{this.product_name}}</td>
-                                    <td>{{this.financeamount_start}}-{{this.financeamount_end}}</td>
-                                    <td>{{this.interest_rate}}</td>
-                                    <td>{{this.term}}</td>
-                                    <td>{{this.downpayment_value}}</td>
-                                    <td class="merchants_operate_btn">
-                                        <a href="javascript:"class="merchants_edit config_product_edit"></a>
-                                        <div class="r_radio inline_block off" type="off">
-                                            <span></span>
-                                            <span></span>
-                                            <div></div>
-                                        </div>
-                                    </td>
+                                    <th>产品名称</th>
+                                    <th>融资范围</th>
+                                    <th>费率</th>
+                                    <th>融资期限</th>
+                                    <th>首付比例/金额</th>
+                                    <th>操作</th>
                                 </tr>
-                            {{/each}}
-                            {{/if}}
-                            <!-- 没有数据部分 -->
-                            {{#if (PolicyList.length === 0) }}
-                                <tr class="no_data">
-                                    <td colspan="6">
-                                        {{include('./../inc/empty_data')}}
-                                    </td>
-                                </tr>
-                            {{/if}}
-                            </tbody>
-                        </table>
-                        <!--分页部分 Begin-->
+                                </thead>
+                                <tbody>
+                                {{#if (PolicyList.length >0)}}
+                                {{#each (PolicyList)}}
+                                    <tr>
+                                        <td>{{this.product_name}}</td>
+                                        <td>{{this.financeamount_start}}-{{this.financeamount_end}}</td>
+                                        <td>{{this.interest_rate}}</td>
+                                        <td>{{this.term}}</td>
+                                        <td>{{this.downpayment_value}}</td>
+                                        <td class="merchants_operate_btn">
+                                            {{#if (status === 1) }}
+                                            <a href="javascript:"class="merchants_edit config_product_edit" style="display:none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
+                                                <div class="r_radio inline_block" type="on" data-status="1" id="closeBtn">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <div style="left: 15px"></div>
+                                                </div>
+                                            {{/if}}
+                                            {{#if (status === 0) }}
+                                            <a href="javascript:"class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
+                                                <div class="r_radio inline_block off" type="off"  data-status="0" id="openBtn">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <div></div>
+                                                </div>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                                {{/if}}
+                                <!-- 没有数据部分 -->
+                                {{#if (PolicyList.length === 0) }}
+                                    <tr class="no_data">
+                                        <td colspan="6">
+                                            {{include('./../inc/empty_data')}}
+                                        </td>
+                                    </tr>
+                                {{/if}}
+                                </tbody>
+                            </table>
+                            <!--分页部分 Begin-->
 
-                        {{include('./../inc/paginations')}}
+                            {{include('./../inc/paginations')}}
 
-                        <!--分页部分 End-->
-                    </form>
-                </div>
-
+                            <!--分页部分 End-->
+                    </div>
+            </form>
             </div>
 
         </div>
@@ -151,9 +164,11 @@
 <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
 <input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
 <input type="hidden" id="cityName" value="{{detail.city_name}}">
-<input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_car}}">
+<input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_business}}">
+<input type="hidden" id="applytoType" value="{{reqParams.applyto_type}}">
 </body>
 {{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
@@ -162,21 +177,106 @@
     }
     var productList ='{{{reqParams.productList}}}';
     (function ($) {
-        /*启用/禁用切换*/
-        $(".r_radio").mousedown(function() {
+
+        // 全局数据
+
+        var orgId = $('#orgId').val().trim().number();      // 机构Id
+        var supplierName = $('#orgName').val().trim();      // 商户名称
+        var supplierId = $('#supplierId').val().trim();     // 商户Id
+        var carType = $('#carType').val().trim().number();  //车辆类型
+        var limit = $('#limit').val().trim().number();      // 列表加载条目数
+        var listOrigin = 1;     // 加载列表类型： 1-机构返点类型列表页  2-历史记录页
+        var listUrl = $('#url').val().trim();       // 列表页的路由
+        var navigation = $('#navigation').val().trim();     // 列表页的节点
+        var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+        var cityName = $('#cityName').val().trim();         // 商户城市名称
+        var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+        var applytoType = $('#applytoType').val().trim();  //商户来源
+        var applyBusiness = $("select#applyBusiness option:selected").val();  //适用业务
+
+        /*启用*/
+        $("#openBtn").mousedown(function() {
             var _this = $(this);
-            if (_this.attr('type') == 'off') {
-                _this.find('div').stop().animate({
-                    'left' : '14px'
-                },200);
-                $('.merchants_edit').hide();
-                _this.removeClass('off').attr('type', 'on')
-            }else {
-                _this.find('div').stop().animate({
-                    'left' : '2px'
-                },200);
-                $('.merchants_edit').show();
-                _this.addClass('off').attr("type","off")
+            var oldStatus = $.trim(_this.data('status'));
+            var configId = $.trim($('.config_product_edit').data('id'));
+            var origin = $.trim($('.config_product_edit').data('origin'));
+            var productPolicyId = $.trim($('.config_product_edit').data('product_policy_id'));
+            redefineAjax({
+                data : {
+                    status : oldStatus,
+                    id : configId,
+                    origin : origin,
+                    product_policy_id : productPolicyId
+                },
+                url : contextPath + '/api/supplier/deploy/open',
+                success : function (res) {
+                    if (res.error_code == 0) {
+                        if (status == 0) {
+                            $('.r_radio').data('status', 1);
+                            $('.config_product_edit').hide();
+                            window.location.reload();
+                        }
+                    } else {
+                        $alert(res.error_msg, function () {
+                            $alert("启用失败，请稍后重试");
+                        });
+                    }
+                },
+                error : function () {
+                    $alert(res.error_msg, function () {
+                        $alert("启用失败，请稍后重试");
+                    });
+                }
+            });
+
+        })
+
+        //禁用
+        $("#closeBtn").mousedown(function() {
+            var _this = $(this);
+            var oldStatus = $.trim(_this.data('status'));
+            var configId = $.trim($('.config_product_edit').data('id'));
+            redefineAjax({
+                data : {
+                    status : oldStatus,
+                    id : configId,
+                },
+                url : contextPath + '/api/supplier/deploy/cease',
+                success : function (res) {
+                    if (res.error_code == 0) {
+                        if (status == 1) {
+                            $('.r_radio').data('status', 0);
+                            $('.config_product_edit').show();
+                            window.location.reload();
+                        }
+                    } else {
+                        $alert(res.error_msg, function () {
+                            $alert("启用失败，请稍后重试");
+                        });
+                    }
+                },
+                error : function () {
+                    $alert(res.error_msg, function () {
+                        $alert("启用失败，请稍后重试");
+                    });
+                }
+            });
+
+        })
+
+
+        var target = $('#merchantsList tbody tr, .crumbs_item.merchant_name, .edit_cancel');
+        target.off('click').on('click', function () {
+            var _this = $(this);
+            if (!_this.hasClass('no_data')) {
+                var mid = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + '/merchants/detail',
+                    param : {
+                        supplier_id : mid,
+                        url : LOCALURL
+                    }
+                });
             }
         });
         //点击编辑跳转编辑详情页
@@ -184,13 +284,27 @@
             var btn = $('.config_product_edit');
             btn.off('click').on('click', function () {
                 var _this = $(this);
+                var configId = $.trim(_this.data('id'));
+                var productId = $.trim(_this.data('product_id'));
+                var origin = $.trim(_this.data('origin'));
+                var productPolicyid = $.trim(_this.data('product_policy_id'));
+                var mid = $.trim(_this.data('supplier_id'));
                 locationTo({
                     action : contextPath + markUri + '/merchants/config/products/edit',
                     param : {
+                        applyto_business : mBusinessType,
+                        id : configId,
+                        product_id : productId,
                         navigation : navigation,
-                        productEdit : F.set(reqParamsStr)
+                        origin : origin,
+                        product_policy_id : productPolicyid,
+                        supplier_id : supplierId,
+                        city_id : mCityId,
+                        applyto_type : applytoType,
+                        organization_id : orgId,
+                        productList : F.set(reqParamsStr)
                     }
-                })
+                });
             });
         }
         //面包屑跳转
@@ -204,9 +318,68 @@
                 })
             })
         }
+        // 机构切换
+        function changeOrgGetNewPoliciesData () {
+            var orgItem = $('.org_select_list .list_item');     // 机构
+            var orgIdE = $('#orgId');
+            var orgNameE = $('#orgName');
+            orgItem.off('click').on('click', function () {
+                var _this = $(this);
+                if (_this.hasClass('active')) {
+                    return false;
+                } else {
+                    var orgName = _this.data('name');       // 机构名称
+                    var oid = _this.data('id');       // 机构ID
+                    orgIdE.val(oid);
+                    orgNameE.val(orgName);
+                    orgId = oid;
+
+                    _this.addClass('active').siblings('.list_item').removeClass('active');
+
+//                    initRebateList();      // 重新初始化数据
+                    locationTo({
+                        action : contextPath + markUri + '/merchants/config/products/list',
+                        param : {
+                            applyto_business : mBusinessType,
+                            city_id : mCityId,
+                            supplier_id : supplierId,
+                            supplier_name : supplierName,
+                            url : listUrl,
+                            navigation : navigation,
+                            applyto_type : applytoType,
+                            organization_id : orgId
+                        }
+                    })
+                }
+            });
+        }
+        //适用业务筛选
+        function selectListChange () {
+            var s = $(".filtrate_select");
+            s.on("change", function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/config/products/list',
+                    param : {
+                        applyto_business : mBusinessType,
+                        city_id : mCityId,
+                        supplier_id : supplierId,
+                        supplier_name : supplierName,
+                        url : listUrl,
+                        navigation : navigation,
+                        applyto_type : applytoType,
+                        organization_id : orgId,
+                        car_type: applyBusiness
+                    }
+                })
+            })
+        }
+        //
+
         $(function() {
             toProductEdit(); //跳转编辑页
             toMerchantDetail(); //面包屑跳转到详情
+            changeOrgGetNewPoliciesData();      // 机构切换
+            selectListChange(); //适用业务
         });
     })(jQuery,undefined);
 </script>

@@ -16,6 +16,9 @@
             background: #FFFFFF !important;
             cursor: default !important;
         }
+        .merchants_create{
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -34,8 +37,8 @@
         <div id="main" class="main merchants">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
-                <a href="{{markUri}}/merchants/pass}}" class="crumbs_item">{{reqParams.navigation}}</a>
-                <a href="javascript:;" class="crumbs_item merchant_name" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
+                <a href="{{markUri}}/merchants/pass" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item merchant_name toMerchantList" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
                 <a href="javascript:;" class="crumbs_item back_policies_list">配置金融产品</a>
                 <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
@@ -47,23 +50,37 @@
                         <ul class="financial_product_list clearfix">
                             <li class="list_row">
                                 <div class="list_name">产品名称：</div>
-                                <div class="list_value">汇通租赁</div>
+                                <div class="list_value" title="{{vo.name}}">{{vo.name}}</div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">适用业务：</div>
-                                <div class="list_value">新车</div>
+                                <div class="list_value" title="{{vo.applyto_car}}">
+                                    {{#if (vo.applyto_business === 0)}}
+                                        新车
+                                    {{elseif (vo.applyto_business === 1)}}
+                                        二手车
+                                    {{/if}}
+                                </div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">适用类型：</div>
-                                <div class="list_value">快收单</div>
+                                <div class="list_value">
+                                    {{#if (vo.applyto_type.indexOf('1,2') !== -1)}}
+                                        快收单、经销商
+                                    {{elseif (vo.applyto_type.indexOf('1') !== -1)}}
+                                        快收单
+                                    {{elseif (vo.applyto_type.indexOf('2') !== -1)}}
+                                        经销商
+                                    {{/if}}
+                                </div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">适用城市：</div>
-                                <div class="list_value">北京</div>
+                                <div class="list_value">{{vo.city_name}}</div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">适用车型：</div>
-                                <div class="list_value">轻卡</div>
+                                <div class="list_value">{{vo.applyto_car}}</div>
                             </li>
 
                         </ul>
@@ -73,137 +90,108 @@
                         <ul class="financial_product_list clearfix">
                             <li class="list_row">
                                 <div class="list_name">融资金融范围：</div>
-                                <div class="list_value">10-100万</div>
+                                <div class="list_value">{{vo.financeamount_start}} - {{vo.financeamount_end}}万</div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">首付类型：</div>
-                                <div class="list_value">首付比例</div>
+                                <div class="list_value">
+                                    {{#if (vo.downpayment_type === 1)}}
+                                        首付比例
+                                    {{elseif (vo.downpayment_type === 2)}}
+                                        首付金额
+                                    {{/if}}
+                                </div>
                             </li>
                             <li class="list_row">
-                                <div class="list_name">首付比例：</div>
+                                <div class="list_name">
+                                    {{#if (vo.downpayment_type === 1)}}
+                                        首付比例：
+                                    {{elseif (vo.downpayment_type === 2)}}
+                                        首付金额：
+                                    {{/if}}
+                                </div>
                                 <div class="list_value">
-                                    <div class="form_group" style="margin-left:-4px;">
-                                        <input type="checkbox" class="rates" name="term" value="30%">
-                                        <label>30%</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="60%">
-                                        <label>60%</label>
-                                    </div>
+                                    {{#if (vo.downpayment_type === 1)}}
+                                        {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
+                                        {{#each (downpaymentValue)}}
+                                            <div class="form_group" style="margin-left:-4px;">
+                                                <input type="checkbox" class="rates" name="downpaymentValue" id="downpaymentValue" value="{{this}}" checked="checked">
+                                                <label class="checked">{{this}}%</label>
+                                            </div>
+                                        {{/each}}
+                                    {{elseif (vo.downpayment_type === 2)}}
+                                        {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
+                                        {{#each (downpaymentValue)}}
+                                            <div class="form_group" style="margin-left:-4px;">
+                                                <input type="checkbox" class="rates" name="downpaymentValue" id="downpaymentValue" value="{{this}}" checked="checked">
+                                                <label class="checked">{{this}}</label>
+                                            </div>
+                                        {{/each}}
+                                    {{/if}}
                                 </div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">费率：</div>
                                 <div class="list_value">
-                                    <div class="form_group" style="margin-left:-4px;">
-                                        <input type="checkbox" class="rates" name="term" value="2.1%">
-                                        <label>2.1%</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="6.8%">
-                                        <label>6.8%</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="6.9%">
-                                        <label>6.9%</label>
-                                    </div>
+                                    {{#if (vo.interest_rate.length > 0)}}
+                                        {{set (interestRate = vo.interest_rate.split(','))}}
+                                        {{#each (interestRate)}}
+                                            <div class="form_group" style="margin-left:-4px;">
+                                                <input type="checkbox" class="rates" name="interest_rate"  id="interest_rate" value="{{this}}" checked="checked">
+                                                <label class="checked">{{this}}%</label>
+                                            </div>
+                                        {{/each}}
+                                    {{/if}}
                                 </div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">融资期限：</div>
                                 <div class="list_value">
+                                    {{#if (vo.term.length > 0)}}
+                                    {{set (term = vo.term.split(','))}}
+                                    {{#each (term)}}
                                     <div class="form_group" style="margin-left:-4px;">
-                                        <input type="checkbox" class="rates" name="term" value="6">
-                                        <label>6</label>
+                                        <input type="checkbox" class="rates" name="term"  id="term"  value="{{this}}" checked="checked">
+                                        <label class="checked">{{this}}%</label>
                                     </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="12">
-                                        <label>12</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="18">
-                                        <label>18</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="24">
-                                        <label>24</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="30">
-                                        <label>30</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="36">
-                                        <label>36</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="42">
-                                        <label>42</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="48">
-                                        <label>48</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="52">
-                                        <label>52</label>
-                                    </div>
-                                    <div class="form_group">
-                                        <input type="checkbox" class="rates" name="term" value="60">
-                                        <label>60</label>
-                                    </div>
-
+                                    {{/each}}
+                                    {{/if}}
                                 </div>
                             </li>
                             <li class="list_row">
                                 <div class="list_name">申请资料：</div>
                                 <div class="list_value">
-                                    <div class="apply_data">
-                                        <ul>
-                                            <li class="clearfix">
-                                                <div class="item_name">身份证：</div>
-                                                <div class="apply_data_item">
-                                                    <div class="item_img">
-                                                        <img src="../static/img/timg.jpg" alt="身份证.jpg">
-                                                    </div>
-                                                    <div class="img_desc nor_wrap">身份证.jpg</div>
-                                                </div>
-                                                <div class="apply_data_item">
-                                                    <div class="item_img">
-                                                        <img src="../static/img/timg.jpg" alt="身份证.jpg">
-                                                    </div>
-                                                    <div class="img_desc nor_wrap">身份证.jpg</div>
-                                                </div>
-                                            </li>
-                                            <li class="clearfix">
-                                                <div class="item_name">申请类：</div>
-                                                <div class="apply_data_item">
-                                                    <div class="item_img">
-                                                        <img src="../img/view_docking_detail.jpg" alt="申请表.jpg">
-                                                    </div>
-                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
-                                                </div>
-                                                <div class="apply_data_item">
-                                                    <div class="item_img">
-                                                        <img src="../static/img/timg.jpg" alt="申请表.jpg">
-                                                    </div>
-                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
-                                                </div>
-                                                <div class="apply_data_item">
-                                                    <div class="item_img">
-                                                        <img src="../static/img/timg.jpg" alt="申请表.jpg">
-                                                    </div>
-                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
-                                                </div>
-                                                <div class="apply_data_item">
-                                                    <div class="item_img">
-                                                        <img src="../static/img/timg.jpg" alt="申请表.jpg">
-                                                    </div>
-                                                    <div class="img_desc nor_wrap">申请表.jpg</div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    {{#each (list) }}
+                                    <div class="apply_data_item">
+                                        <div class="">
+                                            <em class="require_icon">*</em>
+                                            <span class="">{{this.type_name}}：</span>
+                                            <span class="">{{this.material_name}}</span>
+                                        </div>
+                                        {{#if (this.file_ids) }}
+                                        <div class="detail_img">
+                                            <ul class="img_list clearfix">
+                                                {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                                {{set (img_list = this.file_ids.split(',')) }}
+                                                {{#each (img_list) }}
+                                                <li class="" style="width:20%;float:left">
+                                                    <a href="javascript:;" target="_blank">
+                                                        <div class="list_item imgDetail" title="">
+                                                            <div class="detailBox img_item">
+                                                                <img class=" detailImgBox" data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}"/>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                {{/each}}
+                                                {{/if}}
+                                            </ul>
+                                            <a href="javascript:;" class="show_more_pic">更多图片</a>
+                                            <a href="javascript:;" class="hide_more_pic">收起图片</a>
+                                        </div>
+                                        {{/if}}
                                     </div>
+                                    {{/each}}
                                 </div>
                             </li>
                         </ul>
@@ -213,21 +201,166 @@
 
             <div class="btn_box text_left clearfix" style="margin-top:50px;margin-left:3%">
                 <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存并启用</a>
-                <a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>
+                <a href="{{markUri}}/merchants/config/products/list" class="btn bg_btn edit_cancel">取消</a>
             </div>
 
         </div>
         <!---- Part of Main info End ---->
     </div>
 </div>
+<input type="hidden" id="orgName" value="{{reqParams.supplier_name}}">
+<input type="hidden" id="configEditId" value="{{reqParams.id}}">
+<input type="hidden" id="origin" value="{{reqParams.origin}}">
+<input type="hidden" id="productPolicyId" value="{{reqParams.product_policy_id}}">
+<input type="hidden" id="productId" value="{{reqParams.product_id}}">
+<input type="hidden" id="productName" value="{{vo.name}}">
+<input type="hidden" id="supplierId" value="{{reqParams.supplier_id}}">
+<input type="hidden" id="financeamountStart" value="{{vo.financeamount_start}}">
+<input type="hidden" id="financeamountEnd" value="{{vo.financeamount_end}}">
+<input type="hidden" id="downpaymentType" value="{{vo.downpayment_type}}">
+<input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_business}}">
+<input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
+<input type="hidden" id="applytoType" value="{{reqParams.applyto_type}}">
+<input type="hidden" id="orgId" value="{{reqParams.organization_id}}">
 </body>
 {{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
+    var productList ='{{{reqParams.productList}}}';
     (function ($) {
+        var supplierId = $('#supplierId').val().trim(); //商户id
+        var configEditId = $('#configEditId').val().trim();  //产品政策id
+        var origin = $('#origin').val().trim();  //产品政策与商户产品政策标识
+        var productPolicyId = $('#productPolicyId').val().trim();
+        var productId = $('#productId').val().trim();
+        var productName = $('#productName').val().trim();
+        var financeamountStart = $('#financeamountStart').val().trim(); //融资范围最小值
+        var financeamountEnd = $('#financeamountEnd').val().trim(); //融资范围最大值
+        var downpaymentType = $('#downpaymentType').val().trim(); //首付类型
+        var downpaymentValue = $('#downpaymentValue').val().trim(); //首付比例或者是首付金额
+        var interestRate = $('#interest_rate').val().trim();  //费率
+        var term = $('#term').val().trim();  //融资期限
+        var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+        var merchantCity = $('#merchantCity').val().trim();
+        var applytoType = $('#applytoType').val().trim();
+        var orgId = $('#orgId').val().trim();
+        //显示隐藏图片
+        function showMorePic () {
+            var apply_item = $('.apply_data_item');
+            apply_item.each(function () {
+                var _this = $(this);
+                var img_list_a = _this.find('.img_list a');
+                if (img_list_a.length > 6) {
+                    for (var i = 0, len = img_list_a.length; i < len; i++) {
+                        if (i > 5){
+                            img_list_a.eq(i).hide();
+                        }
+                    }
+                    _this.find('.show_more_pic').show();
+                } else {
+                    _this.find('.show_more_pic').hide();
+                    _this.find('.hide_more_pic').hide();
+                }
+            });
+
+            var show_more_pic = $('.show_more_pic');
+            show_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.apply_item').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    img_list_a.eq(i).show();
+                }
+                _this.hide();
+                _this.siblings('.hide_more_pic').show();
+            });
+
+            var hide_more_pic = $('.hide_more_pic');
+            hide_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.apply_item').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    if (i > 5) {
+                        img_list_a.eq(i).hide();
+                    }
+                }
+                _this.siblings('.show_more_pic').show();
+                _this.hide();
+            });
+        }
+        //面包屑跳转
+        function toMerchantList () {
+            var btn = $('.toMerchantList');
+            var merchantList = F.get(productList);
+            btn.off('click').on('click',function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/config/products/list',
+                    param : merchantList
+                })
+            })
+        }
+        //保存并启用
+        function saveEnable () {
+            var btn = $('.edit_confirm');
+            btn.off('click').on('click',function () {
+                redefineAjax({
+                    timeout:5000,
+                    url : contextPath + '/api/supplier/deploy/save',
+                    data : {
+                        id : configEditId,
+                        origin : origin,
+                        supplier_id : supplierId,
+                        product_id : productId,
+                        product_policy_id : productPolicyId,
+                        product_name : productName,
+                        financeamount_start : financeamountStart,
+                        financeamount_end : financeamountEnd,
+                        downpayment_type : downpaymentType,
+                        downpayment_value : downpaymentValue,
+                        interest_rate :interestRate,
+                        term: term
+                    },
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            $alert('操作成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/merchants/config/products/list',
+                                    param : {
+                                        id : configEditId,
+                                        origin : origin,
+                                        supplier_id : supplierId,
+                                        product_id : productId,
+                                        product_policy_id : productPolicyId,
+                                        applyto_business : mBusinessType,
+                                        city_id : merchantCity,
+                                        applyto_type : applytoType,
+                                        organization_id : orgId,
+                                    }
+                                });
+                            })
+                        } else {
+                            $alert(res.error_msg, function () {
+                                $alert("提交失败，请稍后重试");
+                            });
+                        }
+                    },
+                    error : function () {
+                        $alert("提交失败，请稍后重试");
+                    }
+                });
+            })
+        }
+        //取消
 
         $(function() {
-
+            viewLargeImage('.img_list');       // 查看大图
+            showMorePic();//显示隐藏图片
+            saveEnable(); //保存并启用
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
         });
     })(jQuery,undefined);
 </script>
