@@ -214,11 +214,16 @@
                         if (status == 0) {
                             $('.r_radio').data('status', 1);
                             $('.config_product_edit').hide();
-                            window.location.reload();
+                            if (status == 0) {
+                                _this.find('div').stop().animate({
+                                    'left' : '14px'
+                                },200);
+                                _this.removeClass('off').attr('type', 'on');
+                            }
                         }
                     } else {
                         $alert(res.error_msg, function () {
-                            $alert("启用失败，请稍后重试");
+                            $alert("提交失败，请稍后重试");
                         });
                     }
                 },
@@ -247,7 +252,12 @@
                         if (status == 1) {
                             $('.r_radio').data('status', 0);
                             $('.config_product_edit').show();
-                            window.location.reload();
+                            if (status == 1) {
+                                _this.find('div').stop().animate({
+                                    'left' : '2px'
+                                },200);
+                                _this.removeClass('off').attr('type', 'on');
+                            }
                         }
                     } else {
                         $alert(res.error_msg, function () {
@@ -264,21 +274,6 @@
 
         })
 
-
-        var target = $('#merchantsList tbody tr, .crumbs_item.merchant_name, .edit_cancel');
-        target.off('click').on('click', function () {
-            var _this = $(this);
-            if (!_this.hasClass('no_data')) {
-                var mid = $.trim(_this.data('id'));
-                locationTo({
-                    action : contextPath + markUri + '/merchants/detail',
-                    param : {
-                        supplier_id : mid,
-                        url : LOCALURL
-                    }
-                });
-            }
-        });
         //点击编辑跳转编辑详情页
         function toProductEdit () {
             var btn = $('.config_product_edit');

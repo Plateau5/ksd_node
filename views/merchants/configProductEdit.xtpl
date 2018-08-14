@@ -38,7 +38,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
                 <a href="{{markUri}}/merchants/pass" class="crumbs_item">{{reqParams.navigation}}</a>
-                <a href="javascript:;" class="crumbs_item merchant_name toMerchantList" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item merchant_name toMerchantList" data-id="{{vo.supplier_id}}">{{vo.supplier_name}}</a>
                 <a href="javascript:;" class="crumbs_item back_policies_list">配置金融产品</a>
                 <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
@@ -115,7 +115,7 @@
                                         {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
                                         {{#each (downpaymentValue)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates" name="downpaymentValue" id="downpaymentValue" value="{{this}}" checked="checked">
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}" checked="checked">
                                                 <label class="checked">{{this}}%</label>
                                             </div>
                                         {{/each}}
@@ -123,7 +123,7 @@
                                         {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
                                         {{#each (downpaymentValue)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates" name="downpaymentValue" id="downpaymentValue" value="{{this}}" checked="checked">
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}" checked="checked">
                                                 <label class="checked">{{this}}</label>
                                             </div>
                                         {{/each}}
@@ -137,7 +137,7 @@
                                         {{set (interestRate = vo.interest_rate.split(','))}}
                                         {{#each (interestRate)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates" name="interest_rate"  id="interest_rate" value="{{this}}" checked="checked">
+                                                <input type="checkbox" class="rates interest_rate" name="interest_rate" value="{{this}}" checked="checked">
                                                 <label class="checked">{{this}}%</label>
                                             </div>
                                         {{/each}}
@@ -151,7 +151,7 @@
                                     {{set (term = vo.term.split(','))}}
                                     {{#each (term)}}
                                     <div class="form_group" style="margin-left:-4px;">
-                                        <input type="checkbox" class="rates" name="term"  id="term"  value="{{this}}" checked="checked">
+                                        <input type="checkbox" class="rates term" name="term"   value="{{this}}" checked="checked">
                                         <label class="checked">{{this}}%</label>
                                     </div>
                                     {{/each}}
@@ -201,27 +201,31 @@
 
             <div class="btn_box text_left clearfix" style="margin-top:50px;margin-left:3%">
                 <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存并启用</a>
-                <a href="{{markUri}}/merchants/config/products/list" class="btn bg_btn edit_cancel">取消</a>
+                <a href="javascript:" class="btn bg_btn edit_cancel">取消</a>
             </div>
 
         </div>
         <!---- Part of Main info End ---->
     </div>
 </div>
-<input type="hidden" id="orgName" value="{{reqParams.supplier_name}}">
+<input type="hidden" id="orgName" value="{{vo.supplier_name}}">
 <input type="hidden" id="configEditId" value="{{reqParams.id}}">
 <input type="hidden" id="origin" value="{{reqParams.origin}}">
 <input type="hidden" id="productPolicyId" value="{{reqParams.product_policy_id}}">
 <input type="hidden" id="productId" value="{{reqParams.product_id}}">
 <input type="hidden" id="productName" value="{{vo.name}}">
-<input type="hidden" id="supplierId" value="{{reqParams.supplier_id}}">
+<input type="hidden" id="supplierId" value="{{vo.supplier_id}}">
 <input type="hidden" id="financeamountStart" value="{{vo.financeamount_start}}">
 <input type="hidden" id="financeamountEnd" value="{{vo.financeamount_end}}">
 <input type="hidden" id="downpaymentType" value="{{vo.downpayment_type}}">
+<input type="hidden" id="downpaymentValue" value="{{vo.downpayment_value}}">
+<input type="hidden" id="interest_rate" value="{{vo.interest_rate}}">
+<input type="hidden" id="term" value="{{vo.term}}">
 <input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_business}}">
 <input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
 <input type="hidden" id="applytoType" value="{{reqParams.applyto_type}}">
 <input type="hidden" id="orgId" value="{{reqParams.organization_id}}">
+<input type="hidden" id="navigation" value="{{reqParams.navigation}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -233,6 +237,7 @@
     }
     var productList ='{{{reqParams.productList}}}';
     (function ($) {
+        var navigation = $('#navigation').val().trim();     // 列表页的节点
         var supplierId = $('#supplierId').val().trim(); //商户id
         var configEditId = $('#configEditId').val().trim();  //产品政策id
         var origin = $('#origin').val().trim();  //产品政策与商户产品政策标识
@@ -249,6 +254,7 @@
         var merchantCity = $('#merchantCity').val().trim();
         var applytoType = $('#applytoType').val().trim();
         var orgId = $('#orgId').val().trim();
+        var orgName = $('#orgName').val().trim();
         //显示隐藏图片
         function showMorePic () {
             var apply_item = $('.apply_data_item');
@@ -294,7 +300,7 @@
         }
         //面包屑跳转
         function toMerchantList () {
-            var btn = $('.toMerchantList');
+            var btn = $('.back_policies_list');
             var merchantList = F.get(productList);
             btn.off('click').on('click',function () {
                 locationTo({
@@ -302,11 +308,64 @@
                     param : merchantList
                 })
             })
-        }
+        };
+        function toMerchantDetail () {
+            var btn = $('.toMerchantList');
+            var merchantList = F.get(productList);
+            btn.off('click').on('click',function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/detail',
+                    param : merchantList
+                })
+            })
+        };
         //保存并启用
         function saveEnable () {
             var btn = $('.edit_confirm');
             btn.off('click').on('click',function () {
+                //首付比例或金额校验
+                var downpaymentValue = $('.downpaymentValue');
+                var downpaymentValue_num = 0;
+                downpaymentValue.each(function () {
+                    var _this = $(this);
+                    if (_this.is(":checked")) {
+                        downpaymentValue_num  ++;
+                    }
+                });
+                //首付比例或金额校验
+                if (downpaymentValue_num == 0) {
+                    $alert('请选择首付比例');
+                    return;
+                }
+                //费率
+                var interest_rate = $('.interest_rate');
+                var interest_rate_num = 0;
+
+                interest_rate.each(function () {
+                    var _this = $(this);
+                    if (_this.is(":checked")) {
+                        interest_rate_num ++;
+                    }
+                });
+                //费率
+                if (interest_rate_num == 0) {
+                    $alert('请选择费率');
+                    return;
+                }
+                //融资期限
+                var term = $('.term');
+                var term_num = 0;
+                term.each(function () {
+                    var _this = $(this);
+                    if (_this.hasClass('checked')) {
+                        term_num ++;
+                    }
+                });
+                //融资期限
+                if (term_num == 0) {
+                    $alert('请选择融资期限');
+                    return;
+                }
                 redefineAjax({
                     timeout:5000,
                     url : contextPath + '/api/supplier/deploy/save',
@@ -355,12 +414,33 @@
             })
         }
         //取消
-
+        var target = $('.edit_cancel');
+        target.off('click').on('click', function () {
+            var _this = $(this);
+            locationTo({
+                action : contextPath + markUri + '/merchants/config/products/list',
+                param : {
+                    id : configEditId,
+                    origin : origin,
+                    supplier_id : supplierId,
+                    product_id : productId,
+                    product_policy_id : productPolicyId,
+                    applyto_business : mBusinessType,
+                    city_id : merchantCity,
+                    applyto_type : applytoType,
+                    organization_id : orgId,
+                    navigation : navigation,
+                    supplier_name :  orgName
+                }
+            });
+        });
         $(function() {
             viewLargeImage('.img_list');       // 查看大图
             showMorePic();//显示隐藏图片
             saveEnable(); //保存并启用
-            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            resetCheckboxAndRadio('checkbox', ".form_group label", ".checked"); //复选框选中
+            toMerchantList(); //面包屑跳转
+            toMerchantDetail();
         });
     })(jQuery,undefined);
 </script>
