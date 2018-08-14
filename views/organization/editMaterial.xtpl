@@ -24,8 +24,8 @@
         <div id="main" class="main edit_material">
             <div class="crumbs_nav">
                 <a href="javascript:;" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item">先锋太盟</a>
-                <a href="javascript:;" class="crumbs_item">编辑请款资料（新车）</a>
+                <a href="javascript:;" class="crumbs_item">{{reqParams.org_name}}</a>
+                <a href="javascript:;" class="crumbs_item">{{reqParams.car_type_flag}}</a>
             </div>
 
             <div class="form_options">
@@ -34,26 +34,30 @@
                     <input type="hidden" name="car_type" value="{{reqParams.car_type}}" id="car_type">
                     <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
                     {{#each (materialList) }}
+                    {{#if (xindex === materialList.length - 1) }}
+                    <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}">
+                    {{else}}
                     <div class="material_list" data-id="{{this.type}}">
+                    {{/if}}
                         <div class="big_class">
                             <div class="big_class_name">{{this.type_value}}</div>
                             <div class="require">
                                 <div class="form_group">
                                     {{#if (this.is_must === 1) }}
-                                    <input id="must_send" type="radio" class="must_send" name="must_send" value="1" checked="checked">
-                                    <label for="must_send" class="checked">必传</label>
+                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" checked="checked">
+                                    <label for="must_send{{xindex}}" class="checked">必传</label>
                                     {{else}}
-                                    <input id="must_send" type="radio" class="must_send" name="must_send" value="1">
-                                    <label for="must_send">必传</label>
+                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1">
+                                    <label for="must_send{{xindex}}">必传</label>
                                     {{/if}}
                                 </div>
                                 <div class="form_group">
-                                    {{#if (this.is_must === 1) }}
-                                    <input id="must_nosend" type="radio" class="must_nosend" name="must_send" value="0" checked="checked">
-                                    <label for="must_nosend" class="checked">非必传</label>
+                                    {{#if (this.is_must === 0) }}
+                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0" checked="checked">
+                                    <label for="must_nosend{{xindex}}" class="checked">非必传</label>
                                     {{else}}
-                                    <input id="must_nosend" type="radio" class="must_nosend" name="must_send" value="0">
-                                    <label for="must_nosend">非必传</label>
+                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0">
+                                    <label for="must_nosend{{xindex}}">非必传</label>
                                     {{/if}}
                                 </div>
                             </div>
@@ -61,37 +65,84 @@
                         <div class="small_class">
                             <div class="selector_box">
                                 <div class="form_group check_all_box">
-                                    <div class="form_group">
-                                        <input type="checkbox" class="check_all" name="" value="">
-                                        <label class="check_all">全选</label>
-                                    </div>
-                                    {{#each (this.mlist) }}
-                                    <div class="form_group">
-                                        {{#if (../this.data_ids) }}
-                                            {{#if (../this.data_ids.indexOf(',') !== -1) }}
-                                                {{set (data_ids_arr = ../this.data_ids.split(',')) }}
-                                                {{#if (data_ids_arr.indexOf(this.material_id) !== -1) }}
-                                                    <input type="checkbox" class="check_all" name="" value="" checked="checked">
-                                                    <label class="check_all checked">{{this.material_name}}</label>
-                                                {{else}}
-                                                    <input type="checkbox" class="check_all" name="" value="">
-                                                    <label class="check_all">{{this.material_name}}</label>
-                                                {{/if}}
+                                    {{#if (this.data_ids) }}
+                                        {{#if (this.data_ids.indexOf(',') !== -1) }}
+                                            {{set (data_ids_arr = this.data_ids.split(',')) }}
+                                            {{#if (data_ids_arr.length ===  this.mlist.length) }}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="check_all checked">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                </div>
+                                                {{/each}}
                                             {{else}}
-                                                {{#if (../this.data_ids === this.material_id) }}
-                                                    <input type="checkbox" class="check_all" name="" value="" checked="checked">
-                                                    <label class="check_all checked">{{this.material_name}}</label>
-                                                {{else}}
-                                                    <input type="checkbox" class="check_all" name="" value="">
-                                                    <label class="check_all">{{this.material_name}}</label>
-                                                {{/if}}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="check_all">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    {{#if (data_ids_arr.indexOf(this.material_id.toString()) !== -1) }}
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{else}}
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                </div>
+                                                {{/each}}
                                             {{/if}}
                                         {{else}}
-                                            <input type="checkbox" class="check_all" name="" value="">
-                                            <label class="check_all">{{this.material_name}}</label>
+                                            {{#if (this.mlist.length === 1) }}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="check_all checked">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    {{#if (this.material_id.toString() === ../this.data_ids) }}
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{else}}
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                </div>
+                                                {{/each}}
+                                            {{else}}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="check_all">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    {{#if (this.material_id.toString() === ../this.data_ids) }}
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{else}}
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                </div>
+                                                {{/each}}
+                                            {{/if}}
                                         {{/if}}
-                                    </div>
-                                    {{/each}}
+                                    {{else}}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="" name="" value="">
+                                            <label class="check_all">全选</label>
+                                        </div>
+                                        {{#each (this.mlist) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="" name="" value="">
+                                            <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                        </div>
+                                        {{/each}}
+                                    {{/if}}
                                 </div>
                                 <div class="img_md_box file_upload" style="padding-left: 0px;">
                                     <input type="hidden" class="file_ids" name="file_ids" value="{{this.file_ids}}">
@@ -144,6 +195,10 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
+        var policy_list = '{{{policy_lists}}}';//编辑前政策集合
+        if (policy_list.length > 0 ) {
+            policy_list = JSON.parse(policy_list);
+        }
         /**
          * 图片上传功能
          * @author Plateau 2018年8月9日11:19:51
@@ -389,14 +444,14 @@
         function saveMaterial () {
             var save_material = $('.save_material');
             save_material.off('click').on('click', function () {
-                submitEvent(save_material);
+                submitEvent();
             });
         }
         /**
          * 判断类别是否选中
          * @author Plateau 2018年8月14日09:41:50
          */
-        function validateEmpty () {
+        function submitEvent () {
             var small_name = $('.small_name');
             var material_nums = 0;
             small_name.each(function () {
@@ -406,8 +461,7 @@
                 }
             });
             if (material_nums == 0) {
-                $alert('请至少选中一项类别资料。');
-                isVerify = false;
+                $alert('请选择申请资料');
                 return;
             } else {
                 var material_data_arr = [];
@@ -449,58 +503,69 @@
                     }
                 });
             }
-        }
-        //提交保存
-        var isVerify = false;//提交的标志位
-        function submitEvent (btn) {
-            btn.off('click');
-            validateEmpty();
-            if (isVerify) {
-                var data_use = $('.data_use');
-                var organization_id = $('#organization_id').val();
-                var car_type = $('#car_type').val();
-                var material_type = $('#material_type').val();
-                var jsonData = [];
-                data_use.each(function () {
-                    var _this = $(this);
-                    /* var org_mid = _this.find('.org_mid').val();*/
-                    var type = _this.find('.detail_about_lf').find('input').val();
-                    var must_send = _this.find('input.must_send[type="radio"]:checked');
-                    var must_nosend = _this.find('input.must_nosend[type="radio"]:checked');
-                    if (must_send.length != 0) {
-                        var is_must = _this.find('.must_send').val();
-                    }
-                    if (must_nosend.length != 0) {
-                        var is_must = _this.find('.must_nosend').val();
-                    }
-                    var material_ids = _this.find('.detail_about_rt_bot').find('.data_ids');
-                    var data_ids = [];
-                    material_ids.each(function () {
-                        var cur_id = $(this);
-                        if (cur_id.attr('checked') == 'checked') {
-                            data_ids.push(cur_id.val());
-                        }
-                    });
-                    if (data_ids.length != 0 ) {
-                        var obj = {
-                            'type' : type,
-                            /*'org_mid' : org_mid,*/
-                            'data_ids' : data_ids.join(','),
-                            'is_must' : is_must
-                        };
-                        jsonData.push(obj);
+            var update_data = [];//有更新的材料数据
+            var insert_data = [];//有新增的材料数据
+            var material_list = $('.material_list');
+            material_list.each(function () {
+                var _this = $(this);
+                var data_type = _this.data('id');
+                var big_class = _this.find('.big_class');
+                if (big_class.find('input')[0].checked) {
+                    var is_must = big_class.find('input').val();
+                } else if (big_class.find('input')[1].checked) {
+                    var is_must = big_class.find('input').val();
+                }
+
+                var small_name = _this.find('.small_class .small_name');
+                var material_datas = [];
+                small_name.each(function () {
+                    var s = $(this);
+                    if (s.hasClass('checked')) {
+                        material_datas.push(s.data('id'));
                     }
                 });
-                var parameters = {
-                    organization_id : organization_id,
-                    car_type : car_type,
-                    material_type : material_type,
-                    update_data : JSON.stringify(jsonData)
-                };
-                ajaxSubmit(parameters);
-            } else {
-                saveMaterial();
-            }
+                var file_ids = _this.find('.img_md_box .file_ids').val();
+                for (var i = 0, leni = policy_list.length; i < leni; i++) {
+                    if (policy_list[i].type == data_type) {
+                        if (material_datas.length == 0) {
+                            var is_delete = 1;
+                        } else {
+                            var is_delete = 0;
+                        }
+                        var obj = {
+                            type : data_type,
+                            data_ids : material_datas.join(','),
+                            is_must : is_must,
+                            file_ids : file_ids,
+                            is_delete : is_delete
+                        };
+                        update_data.push(obj);
+                        break;
+                    } else {
+                        if (material_datas.length != 0) {
+                            var obj1 = {
+                                type : data_type,
+                                data_ids : material_datas.join(','),
+                                is_must : is_must,
+                                file_ids : file_ids
+                            };
+                            insert_data.push(obj1);
+                            break;
+                        }
+                    }
+                }
+            });
+            var organization_id = $('#organization_id').val();
+            var car_type = $('#car_type').val();
+            var material_type = $('#material_type').val();
+            var parameters = {
+                organization_id : organization_id,
+                car_type : car_type,
+                material_type : material_type,
+                update_data : JSON.stringify(update_data),
+                insert_data : JSON.stringify(insert_data)
+            };
+            ajaxSubmit(parameters);
         }
 
         //ajax提交參數
@@ -516,7 +581,7 @@
                     if (res.error_code == 0) {
                         $alert('操作成功', function () {
                             locationTo({
-                                action : contextPath + markUri + '/supplier/organization/detail',
+                                action : contextPath + markUri + '/supplier/organization/detailnew',
                                 param : {
                                     organization_id : parameters.organization_id,
                                     material_type : parameters.material_type

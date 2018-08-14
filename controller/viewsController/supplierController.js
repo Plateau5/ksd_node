@@ -484,7 +484,10 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_REQUEST = function(req, res, nex
     common.getPageData({
         url : '/api/organization/requestMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/editMaterial'
+        page : './organization/editMaterial',
+        callback : function (data) {
+            data.policy_lists = JSON.stringify(data.organizationMaterialList);
+        }
     }, req, res, next);
 };
 // 供应商部分-金融机构-机构归档资料编辑页跳转 NEW
@@ -492,7 +495,10 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_PLACEFILE = function(req, res, n
     common.getPageData({
         url : '/api/organization/pigeonholeMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/editMaterial'
+        page : './organization/editMaterial',
+        callback : function (data) {
+            data.policy_lists = JSON.stringify(data.organizationMaterialList);
+        }
     }, req, res, next);
 };
 // 供应商部分-金融机构-跳往机构查看政策页   new
