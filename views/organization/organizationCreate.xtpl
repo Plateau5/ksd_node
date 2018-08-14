@@ -29,6 +29,7 @@
 
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
+                    <input type="hidden" name="id" id="orgId" value="{{vo.id}}">
                     <div class="base_info">
                         <div class="detail_title">基本信息</div>
                         <div class="option_item">
@@ -870,10 +871,15 @@
             var parameters = new FormData(document.getElementById('organization_info_create'));
             var policy_desc = kindEditor.html();
             parameters.append('policy_desc', policy_desc);
+            if ($('#orgId').val() == '') {
+                var url = '/api/organization/create';
+            } else {
+                var url = '/api/organization/update';
+            }
             $.ajax({
                 type:'post',
                 timeout:5000,
-                url : contextPath + "/api/organization/create",
+                url : contextPath + url,
                 data : parameters,
                 processData : false,      //序列化参数为String类型，默认：true。
                 contentType : false,      //内容编码，文件上传时设为FALSE
