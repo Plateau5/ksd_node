@@ -232,10 +232,18 @@
                             </div>
                             <div class="column_val" style="padding-top: 20px;">
                                 {{#each (material_list) }}
-                                    {{#if (xindex === material_list.length - 1) }}
-                                    <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}">
+                                    {{#if (this.material_datas) }}
+                                        {{#if (xindex === material_list.length - 1) }}
+                                        <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}"  data-histrory="1">
+                                            {{else}}
+                                            <div class="material_list" data-id="{{this.type}}" data-histrory="1">
+                                                {{/if}}
                                     {{else}}
-                                    <div class="material_list" data-id="{{this.type}}">
+                                        {{#if (xindex === material_list.length - 1) }}
+                                        <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}" data-histrory="0">
+                                            {{else}}
+                                            <div class="material_list" data-id="{{this.type}}" data-histrory="0">
+                                                {{/if}}
                                     {{/if}}
                                         <div class="big_class">
                                             <div class="big_class_name">{{this.type_value}}</div>
@@ -902,6 +910,7 @@
                 material_list.each(function () {
                     var _this = $(this);
                     var data_type = _this.data('id');
+                    var is_histrory = _this.data('histrory');
                     var big_class = _this.find('.big_class');
                     if (big_class.find('input')[0].checked) {
                         var is_must = big_class.find('input').val();
@@ -936,7 +945,7 @@
                             update_data.push(obj);
                             break;
                         } else {
-                            if (material_datas.length != 0) {
+                            if (material_datas.length != 0 && is_histrory == 0) {
                                 var obj1 = {
                                     data_type : data_type,
                                     material_datas : material_datas.join(','),
