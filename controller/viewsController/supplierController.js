@@ -495,7 +495,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_PLACEFILE = function(req, res, n
         page : './organization/editMaterial'
     }, req, res, next);
 };
-
+// 供应商部分-金融机构-跳往机构查看政策页   new
+exports.VIEW_SUPPLIER_ORGANIZATION_POLICYDETAIL = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/policy/detail',
+        title : '供应商-机构详情页',
+        page : './organization/organizationPolicyDetail'
+    }, req, res, next);
+};
 
 
 

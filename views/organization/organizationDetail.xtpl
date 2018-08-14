@@ -23,7 +23,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_detail">
             <div class="crumbs_nav">
-                <a href="javascript:;" class="crumbs_item">机构管理</a>
+                <a href="javascript:;" class="crumbs_item">金融机构</a>
                 <a href="javascript:;" class="crumbs_item">先锋太盟</a>
             </div>
             <div class="org_detail_header">
@@ -174,10 +174,12 @@
                         </div>
                     </div>
                     {{/if}}
+                    {{#if (vo.assess_desc !== null && vo.assess_desc !== '' && vo.assess_desc) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">评估描述：</div>
-                        <div class="detail_about_data">1</div>
+                        <div class="detail_about_data">{{vo.assess_desc}}</div>
                     </div>
+                    {{/if}}
                     {{#if (vo.bei_hu !== null && vo.bei_hu !== '' && vo.bei_hu) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">背户情况：</div>
@@ -190,19 +192,19 @@
                         </div>
                     </div>
                     {{/if}}
-                    {{#if (vo.specialstr !== null && vo.specialstr !== '' && vo.specialstr) }}
+                    {{#if (vo.special_value !== null && vo.special_value !== '' && vo.special_value) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">机构特点：</div>
                         <div class="detail_about_data">
-                            {{vo.specialstr}}
+                            {{vo.special_value}}
                         </div>
                     </div>
                     {{/if}}
-                    {{#if (vo.addition_financestr !== null && vo.addition_financestr !== '' && vo.addition_financestr) }}
+                    {{#if (vo.addition_finance_value !== null && vo.addition_finance_value !== '' && vo.addition_finance_value) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">附加可融项目：</div>
                         <div class="detail_about_data">
-                            {{vo.addition_financestr}}
+                            {{vo.addition_finance_value}}
                         </div>
                     </div>
                     {{/if}}
@@ -256,15 +258,17 @@
                         </div>
                     </div>
                     {{/if}}
+                    {{#if (vo.policy_desc !== null && vo.policy_desc !== '')}}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">审批政策：</div>
                         <div class="detail_about_data">
-                            <a href="javascript:;" class="look_policy">查看政策</a>
+                            <a href="javascript:;" class="look_policy" lang="{{vo.id}}">查看政策</a>
                         </div>
                     </div>
+                    {{/if}}
                 </div>
 
-                {{#if (material_type === 2) }}
+                {{#if (material_type === 2 || material_type === 3 ) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
@@ -272,90 +276,111 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">新车</div>
                         <div class="rf_30">
-                            {{#if (data_flag !== '' || data_flag.indexOf(',') !== -1) }}
-                                {{#if (verifyCode(1504) || verifyCode(1505) || verifyCode(1506)) }}
-                                <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}">编辑</a>
-                                {{/if}}
+                            {{#if (verifyCode(1504) || verifyCode(1505) || verifyCode(1506)) }}
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}">编辑</a>
                             {{/if}}
                         </div>
                     </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">
-                            <em class="require_icon">*</em>
-                            <span>发票：</span>
-                        </div>
-                        <div class="detail_about_data">发票</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">
-                            <em class="require_icon">*</em>
-                            <span>发票：</span>
-                        </div>
-                        <div class="detail_about_data">发票</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label" style="vertical-align: top;">
-                            <span>发票：</span>
-                        </div>
-                        <div class="detail_about_data">
-                            <div class="">发票</div>
-                            <div class="detail_img">
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
+                    {{#each(list) }}
+                        {{#if(this.car_type === 0) }}
+                            {{#if (this.material_name) }}
+                                <div class="detail_about_txt policy_list">
+                                    <div class="detail_about_label">
+                                        {{#if (this.is_must === 1) }}
+                                        <em class="require_icon">*</em>
+                                        {{/if}}
+                                        <span>{{this.type_value}}：</span>
+                                    </div>
+                                    <div class="detail_about_data">
+                                        <div class="">{{this.material_name}}</div>
+                                        {{#if (this.file_ids) }}
+                                        <div class="detail_img">
+                                            <ul class="img_list">
+                                                {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                                    {{set (img_list = this.file_ids.split(',')) }}
+                                                    {{#each (img_list) }}
+                                                    <a href="javascript:;" target="_blank">
+                                                        <div class="list_item imgDetail" title="">
+                                                            <div class="detailBox img_item">
+                                                                <img class=" detailImgBox" data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}"/>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    {{/each}}
+                                                {{else}}
+                                                    <a href="javascript:;" target="_blank">
+                                                        <div class="list_item imgDetail" title="">
+                                                            <div class="detailBox img_item">
+                                                                <img class=" detailImgBox" data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}"/>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                {{/if}}
+                                            </ul>
+                                            <a href="javascript:;" class="show_more_pic">更多图片</a>
+                                            <a href="javascript:;" class="hide_more_pic">收起图片</a>
+                                        </div>
+                                        {{/if}}
+                                    </div>
                                 </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                                <div class="img_item">
-                                    <img  src="../static/img/merchant_photo.png" class="img_responsive" alt="" target="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
                     <div class="detail_about_title">
                         <div class="detail_about_label">二手车</div>
                         <div class="rf_30">
-                            <a href="javascript:;" class="detail_title_btn edit_btn edit_rebate_type" lang="">编辑</a>
+                            {{#if (verifyCode(1504) || verifyCode(1505) || verifyCode(1506)) }}
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}">编辑</a>
+                            {{/if}}
                         </div>
                     </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">
-                            <em class="require_icon">*</em>
-                            <span class="options_name">发票：</span>
-                        </div>
-                        <div class="detail_about_data">发票</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">产品数量：</div>
-                        <div class="detail_about_data">1</div>
-                    </div>
-                    <div class="detail_about_txt">
-                        <div class="detail_about_label">审批政策：</div>
-                        <div class="detail_about_data">
-                            <a href="javascript:;" class="look_policy">查看政策</a>
-                        </div>
-                    </div>
+                    {{#each(list) }}
+                        {{#if(this.car_type === 1) }}
+                            {{#if (this.material_name) }}
+                                <div class="detail_about_txt policy_list">
+                                    <div class="detail_about_label">
+                                        {{#if (this.is_must === 1) }}
+                                        <em class="require_icon">*</em>
+                                        {{/if}}
+                                        <span>{{this.type_value}}：</span>
+                                    </div>
+                                    <div class="detail_about_data">
+                                        <div class="">{{this.material_name}}</div>
+                                        {{#if (this.file_ids) }}
+                                        <div class="detail_img">
+                                            <ul class="img_list">
+                                                {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                                    {{set (img_list = this.file_ids.split(',')) }}
+                                                    {{#each (img_list) }}
+                                                    <a href="javascript:;" target="_blank">
+                                                        <div class="list_item imgDetail" title="">
+                                                            <div class="detailBox img_item">
+                                                                <img class=" detailImgBox" data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}"/>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    {{/each}}
+                                                {{else}}
+                                                    <a href="javascript:;" target="_blank">
+                                                        <div class="list_item imgDetail" title="">
+                                                            <div class="detailBox img_item">
+                                                                <img class=" detailImgBox" data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}"/>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                {{/if}}
+                                            </ul>
+                                            <a href="javascript:;" class="show_more_pic">更多图片</a>
+                                            <a href="javascript:;" class="hide_more_pic">收起图片</a>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
                 </div>
-
-
-
             </div>
-
-
-
         </div>
         <!--listCon end-->
     </div>
@@ -450,7 +475,7 @@
                             locationTo({
                                 action :contextPath + markUri + "/supplier/organization/list",
                                 param : {
-                                    orgId :orgId,
+                                    orgId :orgId
                                 }
                             });
                         });
@@ -461,11 +486,76 @@
                 });
             }
         }
+        /**
+         * 显示隐藏图片
+         * @author Plateau  2018年8月10日13:06:43
+         * */
+        function showMorePic () {
+            var policy_list = $('.policy_list');
+            policy_list.each(function () {
+                var _this = $(this);
+                var img_list_a = _this.find('.img_list a');
+                if (img_list_a.length > 6) {
+                    for (var i = 0, len = img_list_a.length; i < len; i++) {
+                        if (i > 5){
+                            img_list_a.eq(i).hide();
+                        }
+                    }
+                    _this.find('.show_more_pic').show();
+                } else {
+                    _this.find('.show_more_pic').hide();
+                    _this.find('.hide_more_pic').hide();
+                }
+            });
 
+            var show_more_pic = $('.show_more_pic');
+            show_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.policy_list').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    img_list_a.eq(i).show();
+                }
+                _this.hide();
+                _this.siblings('.hide_more_pic').show();
+            });
+
+            var hide_more_pic = $('.hide_more_pic');
+            hide_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.policy_list').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    if (i > 5) {
+                        img_list_a.eq(i).hide();
+                    }
+                }
+                _this.siblings('.show_more_pic').show();
+                _this.hide();
+            });
+        }
+        /**
+         * 跳往机构政策页
+         * @author Plateau  2018年8月14日13:24:15
+         * */
+        function toOrgPolicy () {
+            var look_policy = $('.look_policy');
+            look_policy.off('click').on('click', function () {
+                var t = $(this);
+                var orgId = $.trim(t.attr("lang"));
+                locationTo({
+                    action :contextPath + markUri + "/supplier/organization/list",
+                    param : {
+                        id :orgId
+                    }
+                });
+            });
+        }
         $(function() {
             switchTab();
             deleteOrg();
             editOrg();
+            viewLargeImage('.img_list');       // 查看大图
+            showMorePic();//显示隐藏图片
+            toOrgPolicy();//跳往机构政策页
         });
     })(jQuery,undefined);
 </script>

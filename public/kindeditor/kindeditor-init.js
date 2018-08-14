@@ -17,7 +17,7 @@ var config = {
         'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen',
         'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
         'italic', 'underline', 'strikethrough', 'removeformat', '|', 'image',
-        'insertfile', 'table', 'hr', 'pagebreak', 'link', 'unlink'
+        'insertfile', 'hr', 'pagebreak', 'link', 'unlink'
     ],
     uploadJson : '/api/rich/txt/upload',
     // filePostName : 'file',

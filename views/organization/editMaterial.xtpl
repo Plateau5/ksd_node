@@ -60,66 +60,68 @@
                         </div>
                         <div class="small_class">
                             <div class="selector_box">
-                                <div class="form_group">
-                                    <input type="checkbox" class="check_all" name="" value="">
-                                    <label class="check_all">全选</label>
-                                </div>
-                                {{#each (this.mlist) }}
-                                <div class="form_group">
-                                    {{#if (../this.data_ids.indexOf(',') !== -1) }}
-                                        {{set (data_ids_arr = ../this.data_ids.split(',')) }}
-                                        {{#if (data_ids_arr.indexOf(this.material_id) !== -1) }}
-                                            <input type="checkbox" class="check_all" name="" value="" checked="checked">
-                                            <label class="check_all checked">{{this.material_name}}</label>
+                                <div class="form_group check_all_box">
+                                    <div class="form_group">
+                                        <input type="checkbox" class="check_all" name="" value="">
+                                        <label class="check_all">全选</label>
+                                    </div>
+                                    {{#each (this.mlist) }}
+                                    <div class="form_group">
+                                        {{#if (../this.data_ids) }}
+                                            {{#if (../this.data_ids.indexOf(',') !== -1) }}
+                                                {{set (data_ids_arr = ../this.data_ids.split(',')) }}
+                                                {{#if (data_ids_arr.indexOf(this.material_id) !== -1) }}
+                                                    <input type="checkbox" class="check_all" name="" value="" checked="checked">
+                                                    <label class="check_all checked">{{this.material_name}}</label>
+                                                {{else}}
+                                                    <input type="checkbox" class="check_all" name="" value="">
+                                                    <label class="check_all">{{this.material_name}}</label>
+                                                {{/if}}
+                                            {{else}}
+                                                {{#if (../this.data_ids === this.material_id) }}
+                                                    <input type="checkbox" class="check_all" name="" value="" checked="checked">
+                                                    <label class="check_all checked">{{this.material_name}}</label>
+                                                {{else}}
+                                                    <input type="checkbox" class="check_all" name="" value="">
+                                                    <label class="check_all">{{this.material_name}}</label>
+                                                {{/if}}
+                                            {{/if}}
                                         {{else}}
                                             <input type="checkbox" class="check_all" name="" value="">
                                             <label class="check_all">{{this.material_name}}</label>
                                         {{/if}}
-                                    {{else}}
-                                        {{#if (../this.data_ids === this.material_id) }}
-                                            <input type="checkbox" class="check_all" name="" value="" checked="checked">
-                                            <label class="check_all checked">{{this.material_name}}</label>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                                <div class="img_md_box file_upload" style="padding-left: 0px;">
+                                    <input type="hidden" class="file_ids" name="file_ids" value="{{this.file_ids}}">
+                                    {{#if (this.file_ids) }}
+                                        {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                            {{set (file_ids_arr = this.file_ids.split(',')) }}
+                                            {{#each (file_ids_arr) }}
+                                                <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                    <img data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}">
+                                                    <div class="img_md_operate_box">
+                                                        <em class="img_md_operate_btn view" data-url="{{image_url}}{{this}}" title="查看"></em>
+                                                        <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
+                                                    </div>
+                                                </a>
+                                            {{/each}}
                                         {{else}}
-                                            <input type="checkbox" class="check_all" name="" value="">
-                                            <label class="check_all">{{this.material_name}}</label>
+                                            <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
+                                                <div class="img_md_operate_box">
+                                                    <em class="img_md_operate_btn view" data-url="{{image_url}}{{this.file_ids}}" title="查看"></em>
+                                                    <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
+                                                </div>
+                                            </a>
                                         {{/if}}
                                     {{/if}}
+                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                    <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                 </div>
-                                {{/each}}
                             </div>
-                            {{#if (this.file_ids.indexOf(',') !== -1) }}
-                                {{set (file_ids_arr = ../this.file_ids.split(',')) }}
 
-                            {{else}}
-
-                            {{/if}}
-                            <div class="img_md_box file_upload" style="padding-left: 0px;">
-                                <input type="hidden" class="file_ids" name="file_ids" value="{{this.file_ids}}">
-                                {{#if (this.file_ids) }}
-                                    {{#if (this.file_ids.indexOf(',') !== -1) }}
-                                        {{set (file_ids_arr = this.file_ids.split(',')) }}
-                                        {{#each (file_ids_arr) }}
-                                        <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
-                                            <img data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}">
-                                            <div class="img_md_operate_box">
-                                                <em class="img_md_operate_btn view" data-url="{{image_url}}{{this}}" title="查看"></em>
-                                                <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
-                                            </div>
-                                        </a>
-                                        {{/each}}
-                                    {{else}}
-                                        <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
-                                            <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
-                                            <div class="img_md_operate_box">
-                                                <em class="img_md_operate_btn view" data-url="{{image_url}}{{this.file_ids}}" title="查看"></em>
-                                                <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
-                                            </div>
-                                        </a>
-                                    {{/if}}
-                                {{/if}}
-                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
-                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                            </div>
                         </div>
                     </div>
                     {{/each}}
