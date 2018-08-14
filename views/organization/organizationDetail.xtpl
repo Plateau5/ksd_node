@@ -59,10 +59,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="delete_org" id="delete_org" lang="">
-                    <img  style="margin-top:-2px;vertical-align: middle;" src="../static/img/delete_white_icon.png" alt="">
+                {{#if (verifyCode(1073)) }}
+                <div class="delete_org" id="delete_org" lang="{{vo.id}}">
+                    <img  style="margin-right:5px;margin-top:-2px;vertical-align: middle;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
                     <span>删除机构</span>
                 </div>
+                {{/if}}
             </div>
             <div class="tab">
                 <ul class="tab_list inline_block">
@@ -427,9 +429,9 @@
                     var car_type_flag = t.data('car_type');
                     var flow_type = $('#flow_type').val();
                     if (flow_type == 2) {
-                        var str = '编辑请款资料（'+car_type_flag+'）';
+                        var str = '编辑请款资料('+car_type_flag+')';
                     } else if (flow_type == 3) {
-                        var str = '编辑归档资料（'+car_type_flag+'）';
+                        var str = '编辑归档资料('+car_type_flag+')';
                     }
                     var applyto_business = car_type;
                     var url = "/supplier/organization/editMaterial";

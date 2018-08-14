@@ -24,7 +24,7 @@
         <div id="main" class="main product_policy_create">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item product_list">产品列表（{{reqParams.parent_name}}）</a>
+                <a href="javascript:;" class="crumbs_item product_list">产品列表({{reqParams.parent_name}})</a>
                 <a href="javascript:;" class="crumbs_item">发布新产品</a>
             </div>
 
@@ -230,20 +230,12 @@
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>申请资料：</span>
                             </div>
-                            <div class="column_val" style="padding-top: 20px;">
+                            <div class="column_val" style="margin-top: 20px;border: 1px solid #E4E4E4;">
                                 {{#each (material_list) }}
                                     {{#if (this.material_datas) }}
-                                        {{#if (xindex === material_list.length - 1) }}
-                                        <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}"  data-histrory="1">
-                                            {{else}}
-                                            <div class="material_list" data-id="{{this.type}}" data-histrory="1">
-                                                {{/if}}
+                                        <div class="material_list" data-id="{{this.type}}" data-histrory="1">
                                     {{else}}
-                                        {{#if (xindex === material_list.length - 1) }}
-                                        <div class="material_list" style="border-bottom: 1px solid #E4E4E4;" data-id="{{this.type}}" data-histrory="0">
-                                            {{else}}
-                                            <div class="material_list" data-id="{{this.type}}" data-histrory="0">
-                                                {{/if}}
+                                        <div class="material_list" data-id="{{this.type}}" data-histrory="0">
                                     {{/if}}
                                         <div class="big_class">
                                             <div class="big_class_name">{{this.type_value}}</div>

@@ -24,7 +24,7 @@
         <div id="main" class="main product_detail">
             <div class="crumbs_nav">
                 <a href="javascript:;" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item">产品列表（{{parent_name}}）</a>
+                <a href="javascript:;" class="crumbs_item">产品列表({{parent_name}})</a>
                 {{#if (reqParams.page_flag === '0') }}
                 <a href="javascript:;" class="crumbs_item">仓库中的产品</a>
                 {{/if}}
@@ -279,6 +279,7 @@
                     action : contextPath + markUri + '/supplier/organization/productEditBase',
                     param : {
                         product_id : product_id,
+                        prev_flag : 1,
                         jump_flag : 1
                     }
                 });

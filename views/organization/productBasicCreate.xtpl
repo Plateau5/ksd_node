@@ -25,7 +25,7 @@
         <div id="main" class="main product_basic_create">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item product_list">产品列表（{{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}}）</a>
+                <a href="javascript:;" class="crumbs_item product_list">产品列表({{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}})</a>
                 <a href="javascript:;" class="crumbs_item">发布新产品</a>
             </div>
 
@@ -141,7 +141,13 @@
                             </div>
                             <div class="column_val select_city_div">
                                 <input type="hidden" class="city_ids" name="city_ids"  value="{{detail.city_ids}}"/>
-                                <input type="text" class="select_city_input cursor" name=""  value="{{detail.applyto_cityname}}" placeholder="请选择省市" readonly/>
+                                <input type="text" class="select_city_input cursor" name=""  value="{{#if (detail) }}
+                                    {{#if (detail.city_arr.length !== 0) }}
+                                        {{detail.city_arr[0]}}等{{detail.city_arr.length}}个城市
+                                    {{else}}
+                                        {{detail.city_arr[0]}}
+                                    {{/if}}
+                                {{/if}}" placeholder="请选择省市" readonly/>
                             </div>
                         </div>
                         <div class="option_item">

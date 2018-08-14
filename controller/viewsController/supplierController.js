@@ -407,6 +407,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW = function(req, res, next) {
         page : './organization/productDetailNew',
         callback : function (data) {
             if (data) {
+                data.vo.applyto_cityname = data.vo.applyto_cityname.replace(/,/g,'、');
                 for (var i = 0, len = data.policy_list.length; i < len; i++) {
                     if (data.policy_list[i].downpayment_type == 1) {
                         data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'%、') + '%';
@@ -432,6 +433,15 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITBASE = function(req, res, next) {
         callback : function (data) {
             data.list_city = JSON.stringify(data.list_city);
             data.condition_city_list = JSON.stringify(data.condition_city_list);
+            if (data.detail.city_ids.indexOf(',') !== -1) {
+                var city_name_arr = data.detail.applyto_cityname.split(',');
+                data.detail.city_arr = [];
+                for (var i = 0, len = city_name_arr.length; i < len; i++) {
+                    data.detail.city_arr.push(city_name_arr[i]);
+                }
+            } else {
+                data.detail.city_arr = [data.detail.applyto_cityname];
+            }
         }
     }, req, res, next);
 };
