@@ -25,10 +25,10 @@ var config = {
     allowFileManager : true
 };
 
-function initKindEditor (options) {
+function initKindEditor (selector, options) {
     KindEditor.ready(function(K) {
         window.kindEditorObject = K;
-        window.kindEditor = K.create('#editor_id', config);
+        window.kindEditor = K.create(selector, config);
         defaultData(kindEditorObject);
     });
 

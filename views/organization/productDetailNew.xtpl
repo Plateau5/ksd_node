@@ -97,7 +97,7 @@
                         <div class="rf_30">
                             <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}" data-num="{{xindex + 1}}" data-release_time="{{vo.release_time}}">编辑</a>
                             {{#if (../policy_list.length !== 1) }}
-                            <a href="javascript:;" class="detail_title_btn edit_btn del_policy" lang="">删除</a>
+                            <a href="javascript:;" class="detail_title_btn edit_btn del_policy" data-policy_id="{{this.policy_id}}">删除</a>
                             {{/if}}
                         </div>
                         {{/if}}
@@ -320,6 +320,45 @@
                 });
             });
         }
+        /**
+         * 删除政策
+         * @author Plateau  2018年8月14日09:22:49
+         * */
+        function delPolicy () {
+            var del_policy = $('.del_policy');
+            del_policy.off('click').on('click', function () {
+                var _this = $(this);
+                var policy_id = _this.data('policy_id');
+                var data = {
+                    policy_id : policy_id
+                };
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '确认删除此政策？',
+                    onConfirm : function (d) {
+                        delConfirm(data, d);
+                    }
+                });
+                function delConfirm (data, d) {
+                    var url  = contextPath + "/api/product/delete/policy";
+                    $ajax('post',url, data, function (req) {
+                        var res = eval(req);
+                        if (res.error_code == 0) {
+                            d.close();
+                            $alert('删除成功', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            d.close();
+                            $alert(res.error_msg);
+                        }
+                    }, function () {
+                        d.close();
+                        $alert('删除失败，请稍后重试');
+                    });
+                }
+            });
+        }
 
         $(function() {
             viewLargeImage('.img_list');       // 查看大图
@@ -327,6 +366,7 @@
             addPolicyMaterial();//添加申请政策及资料事件
             toEditBaseInfo();//跳转产品基本信息编辑
             toEditPolicy();//跳转产品政策息编辑
+            delPolicy();//删除政策
         });
     })(jQuery,undefined);
 </script>

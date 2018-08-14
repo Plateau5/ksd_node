@@ -479,7 +479,22 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAILNEW = function(req, res, next) {
         page : './organization/organizationDetail'
     }, req, res, next);
 };
-
+// 供应商部分-金融机构-机构请款资料编辑页跳转  NEW
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_REQUEST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/requestMaterial/toEdit',
+        title : '供应商-机构详情页',
+        page : './organization/editMaterial'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构归档资料编辑页跳转 NEW
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_PLACEFILE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/pigeonholeMaterial/toEdit',
+        title : '供应商-机构详情页',
+        page : './organization/editMaterial'
+    }, req, res, next);
+};
 
 
 

@@ -28,7 +28,7 @@
             </div>
 
             <div class="form_options">
-                <form action="" id="org_create_form" method="post">
+                <form action="" id="organization_info_create" method="post">
                     <div class="base_info">
                         <div class="detail_title">基本信息</div>
                         <div class="option_item">
@@ -79,10 +79,12 @@
                                 <span class="options_name">机构logo：</span>
                             </div>
                             <div class="column_val">
-                                <div class="organization_logo" id="image_url">
-                                    <input type="radio" name="image_url" value="" hidden="hidden">
-                                    <img src="" alt="">
+                                {{#each (logo_list)}}
+                                <div class="organization_logo">
+                                    <input type="radio" name="image_url" value="{{this.image_url}}" hidden="hidden">
+                                    <img src="{{this.image_url}}" alt="">
                                 </div>
+                                {{/each}}
                             </div>
                         </div>
                         <div class="option_item">
@@ -175,9 +177,9 @@
                                 <span class="options_name">车龄限制：</span>
                             </div>
                             <div class="column_val">
-                                <input id="carage_start" type="text" class="carAge required" name="carage_start" placeholder="1" value="1" maxlength="4" style="width:150px;">
+                                <input id="carage_start" type="text" class="carAge minCarAge required" name="age_start" placeholder="1" value="1" maxlength="4" style="width:150px;">
                                 <span class="" style="padding:0 4px;">-</span>
-                                <input id="carage_end" type="text" class="carAge required" name="carage_end" placeholder="9" value="9" maxlength="4" style="width:150px;">
+                                <input id="carage_end" type="text" class="carAge maxCarAge required" name="age_end" placeholder="9" value="9" maxlength="4" style="width:150px;">
                                 <span class="" style="padding-left:8px;">年</span>
                                 <span class="tips_info">(*<span class="tips_text"></span>)</span>
                             </div>
@@ -187,7 +189,7 @@
                                 <span class="options_name">评估描述：</span>
                             </div>
                             <div class="column_val">
-                                <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="请输入内容"></textarea>
+                                <textarea class="remark" name="assess_desc" cols="30" rows="6" maxlength="200" placeholder="请输入内容"></textarea>
                             </div>
                         </div>
                         <div class="option_item">
@@ -338,13 +340,13 @@
                                 <span class="options_name">审批政策：</span>
                             </div>
                             <div class="column_val">
-                                <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="请输入内容"></textarea>
+                                <textarea id="approval_policy" class="remark" name="" cols="30" rows="6" placeholder="请输入内容"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
-                        <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
+                        <a href="javascript:" class="btn orange_btn confirm save_org">保存</a>
                         <a href="javascript:;" class="btn bg_btn cancel">取消</a>
                     </div>
                 </form>
@@ -360,6 +362,9 @@
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-all.js"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-init.js"></script>
 <script>
     (function ($) {
         /**
@@ -532,6 +537,132 @@
             _this.css('border-color','#e4e4e4');
             _this.css('border-color','#e4e4e4');
         }
+
+        //保存按钮
+        function saveOrg () {
+            var btn = $(".save_org");
+            btn.off("click").on("click", function () {
+                send_organization_form(btn);
+            });
+        }
+        //保存更新函数
+        function send_organization_form(btn){
+            btn.attr('disabled',true);
+
+            var name = $('#orgname');
+            if(!name.val()){
+                $alert('机构名称不能为空');
+                return;
+            }
+            //适用业务
+            var applyto_business = $('#applyto_business');
+            var applyto_business1 = applyto_business.find('label').eq(0);
+            var applyto_business2 = applyto_business.find('label').eq(1);
+            if(!applyto_business1.hasClass('checked') && !applyto_business2.hasClass('checked')){
+                $alert('请选择机构的适用业务');
+                return;
+            }
+            //有无机构LOGO
+            var have_logo = $('.organization_logo .icon_check').length;
+            if(have_logo == '0'){
+                $alert('请选择机构LOGO');
+                return;
+            }
+            //有无系统
+            var have_system = $('#have_system');
+            var have_system1 = have_system.find('input[type="radio"]').eq(0).prop('checked');
+            var have_system2 = have_system.find('input[type="radio"]').eq(1).prop('checked');
+            if(!have_system1 && !have_system2){
+                $alert('请选择机构有无系统');
+                return;
+            }
+            //有无系统地址
+            var have_system_url = $('.have_system_url').css('display');
+            var system_url = $('#system_url');
+            if(have_system_url == 'block'){
+                var have_system_url_val = system_url.val();
+                if(!have_system_url_val){
+                    $alert('系统地址不能为空');
+                    return;
+                }
+            }
+
+            //审批速度
+            var approval =$('#approval');
+            if (approval.val() == '') {
+                $alert('请选择审批速度');
+                return;
+            }
+            //车龄限制--只针对二手车
+            var usedCar_status = $('#usedCars')[0].checked;
+            var minCarAge = $('.minCarAge');
+            var maxCarAge = $('.maxCarAge');
+            if (usedCar_status == 'checked') {
+                if (minCarAge.val() == '' || maxCarAge.val() == '') {
+                    $alert('请输入车龄区间');
+                    return;
+                }
+            }
+
+            //获取机构特点val
+            var org_features = [];
+            var org_feature = $('.org_feature');
+            org_feature.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    org_features.push(_cur.val());
+                }
+            });
+            $('.special').val(org_features.join(','));
+            //附加可融项目val
+            var additional_projects = [];
+            var additional_project = $('.additional_project');
+            additional_project.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    additional_projects.push(_cur.val());
+                }
+            });
+            $('.addition_finance').val(additional_projects.join(','));
+            ajaxSubmit();
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('organization_info_create'));
+            var policy_desc = kindEditor.html();
+            parameters.append('policy_desc', policy_desc);
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + "/api/organization/create",
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/list'
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            saveOrg();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    saveOrg();
+                }
+            });
+        }
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             addRemark();//添加备注
@@ -544,6 +675,7 @@
                 maxDecimal : 1,
                 addDecimal : 1
             });//控制车龄输入框只能输入数字和以为小数
+            initKindEditor('#approval_policy');//审批政策
         });
     })(jQuery,undefined);
 </script>
