@@ -103,35 +103,46 @@
                                 {{#if (PolicyList.length >0)}}
                                 {{#each (PolicyList)}}
                                     <tr>
-                                        <td>{{this.product_name}}</td>
-                                        <td>{{this.financeamount_start}}-{{this.financeamount_end}}</td>
-                                        <td>{{this.interest_rate}}</td>
-                                        <td>{{this.term}}</td>
-                                        <td>{{this.downpayment_value}}</td>
+                                        <td title="{{this.product_name}}">{{this.product_name}}</td>
+                                        <td>{{this.financeamount_start}}-{{this.financeamount_end}}万</td>
+                                        <td title="{{this.interest_rate}}">{{this.interest_rate}}</td>
+                                        <td title="{{this.term}}">{{this.term}}</td>
+                                        <td title="{{this.downpayment_value}}">
+                                            {{#if (this.downpayment_type === 1)}}
+                                                {{this.downpayment_value}}%
+                                            {{elseif(this.downpayment_type === 2)}}
+                                                {{this.downpayment_value}}
+                                            {{/if}}
+                                        </td>
                                         <td class="merchants_operate_btn">
-                                            {{#if (status === 1) }}
-                                            <a href="javascript:"class="merchants_edit config_product_edit" style="display:none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
-                                                <div class="r_radio inline_block" type="on" data-status="1" id="closeBtn">
-                                                    <span></span>
-                                                    <span></span>
-                                                    <div style="left: 15px"></div>
-                                                </div>
+                                            {{#if (root.verifyCode(1590))}}
+                                                {{#if (status === 1) }}
+                                                <a href="javascript:"class="merchants_edit config_product_edit" style="display:none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
+                                                    <div class="r_radio inline_block" type="on" data-status="1" id="closeBtn">
+                                                        <span></span>
+                                                        <span></span>
+                                                        <div style="left: 15px"></div>
+                                                    </div>
+                                                {{/if}}
                                             {{/if}}
                                             {{#if (status === 0) }}
-                                            <a href="javascript:"class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
-                                                <div class="r_radio inline_block off" type="off"  data-status="0" id="openBtn">
-                                                    <span></span>
-                                                    <span></span>
-                                                    <div></div>
-                                                </div>
+                                                {{#if (root.verifyCode(1588)) }}
+                                                    <a href="javascript:"class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
+                                                {{/if}}
+                                                {{#if (root.verifyCode(1591)) }}
+                                                    <div class="r_radio inline_block off" type="off"  data-status="0" id="openBtn">
+                                                        <span></span>
+                                                        <span></span>
+                                                        <div></div>
+                                                    </div>
+                                                {{/if}}
                                             {{/if}}
                                         </td>
                                     </tr>
                                 {{/each}}
-                                {{/if}}
+                                {{else}}
                                 <!-- 没有数据部分 -->
-                                {{#if (PolicyList.length === 0) }}
-                                    <tr class="no_data">
+                                    <tr class="no_data no_hover">
                                         <td colspan="6">
                                             {{include('./../inc/empty_data')}}
                                         </td>

@@ -107,14 +107,16 @@
                     <!-- 编辑删除操作 -->
                     {{#if (detail.flag === 3) }}
                         <div class="btn_box text_left setting_merchant">
+                                {{#if (verifyCode(1587)) }}
+                                    {{#if (detail.applyto_type === 2)}}
+                                        <a href="javascript:" class="config_product">配置金融产品</a>
+                                    {{/if}}
+                                {{/if}}
                                 {{#if (verifyCode(1480)) }}
                                 <a href="javascript:" class="add_sm_btn_policies add_sm_btn_policies_icon">制定返佣政策</a>
                                 {{/if}}
                                 {{#if (verifyCode(1385)) }}
                                     <a href="javascript:" class="edit_sm_btn edit_sm_btn_icon">编辑</a>
-                                {{/if}}
-                                {{#if (detail.applyto_type === 2)}}
-                                    <a href="javascript:" class="config_product">配置金融产品</a>
                                 {{/if}}
                                 {{#if (verifyCode(1060)) }}
                                     <a href="javascript:" class="delete_sm_btn delete_sm_btn_icon">删除</a>

@@ -115,8 +115,8 @@
                                         {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
                                         {{#each (downpaymentValue)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}" checked="checked">
-                                                <label class="checked">{{this}}%</label>
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}%" checked="checked">
+                                                <label class="paymentCheck checked">{{this}}%</label>
                                             </div>
                                         {{/each}}
                                     {{elseif (vo.downpayment_type === 2)}}
@@ -198,12 +198,12 @@
                     </div>
                 </form>
             </div>
-
-            <div class="btn_box text_left clearfix" style="margin-top:50px;margin-left:3%">
-                <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存并启用</a>
-                <a href="javascript:" class="btn bg_btn edit_cancel">取消</a>
-            </div>
-
+            {{#if (verifyCode(1589))}}
+                <div class="btn_box text_left clearfix" style="margin-top:50px;margin-left:3%">
+                    <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存并启用</a>
+                    <a href="javascript:" class="btn bg_btn edit_cancel">取消</a>
+                </div>
+            {{/if}}
         </div>
         <!---- Part of Main info End ---->
     </div>
@@ -322,14 +322,17 @@
         //保存并启用
         function saveEnable () {
             var btn = $('.edit_confirm');
+            var down_arr = [];
             btn.off('click').on('click',function () {
                 //首付比例或金额校验
-                var downpaymentValue = $('.downpaymentValue');
+                var downpayment_value = $('.paymentCheck');
                 var downpaymentValue_num = 0;
-                downpaymentValue.each(function () {
+                downpayment_value.each(function () {
                     var _this = $(this);
-                    if (_this.is(":checked")) {
+                    if (_this.hasClass("checked")) {
                         downpaymentValue_num  ++;
+                        down_arr.push(_this.siblings('input').val());
+                        console.log(down_arr);
                     }
                 });
                 //首付比例或金额校验
@@ -338,7 +341,7 @@
                     return;
                 }
                 //费率
-                var interest_rate = $('.interest_rate');
+                /*var interest_rate = $('.interest_rate');
                 var interest_rate_num = 0;
 
                 interest_rate.each(function () {
@@ -357,7 +360,7 @@
                 var term_num = 0;
                 term.each(function () {
                     var _this = $(this);
-                    if (_this.hasClass('checked')) {
+                    if (_this.is(":checked")) {
                         term_num ++;
                     }
                 });
@@ -365,52 +368,52 @@
                 if (term_num == 0) {
                     $alert('请选择融资期限');
                     return;
-                }
-                redefineAjax({
-                    timeout:5000,
-                    url : contextPath + '/api/supplier/deploy/save',
-                    data : {
-                        id : configEditId,
-                        origin : origin,
-                        supplier_id : supplierId,
-                        product_id : productId,
-                        product_policy_id : productPolicyId,
-                        product_name : productName,
-                        financeamount_start : financeamountStart,
-                        financeamount_end : financeamountEnd,
-                        downpayment_type : downpaymentType,
-                        downpayment_value : downpaymentValue,
-                        interest_rate :interestRate,
-                        term: term
-                    },
-                    success : function (res) {
-                        if (res.error_code == 0) {
-                            $alert('操作成功', function () {
-                                locationTo({
-                                    action : contextPath + markUri + '/merchants/config/products/list',
-                                    param : {
-                                        id : configEditId,
-                                        origin : origin,
-                                        supplier_id : supplierId,
-                                        product_id : productId,
-                                        product_policy_id : productPolicyId,
-                                        applyto_business : mBusinessType,
-                                        city_id : merchantCity,
-                                        applyto_type : applytoType,
-                                        organization_id : orgId,
-                                    }
-                                });
-                            })
-                        } else {
-                            $alert(res.error_msg, function () {
-                                $alert("提交失败，请稍后重试");
-                            });
-                        }
-                    },
-                    error : function () {
-                        $alert("提交失败，请稍后重试");
-                    }
-                });
+                }*/
+                // redefineAjax({
+                //     timeout:5000,
+                //     url : contextPath + '/api/supplier/deploy/save',
+                //     data : {
+                //         id : configEditId,
+                //         origin : origin,
+                //         supplier_id : supplierId,
+                //         product_id : productId,
+                //         product_policy_id : productPolicyId,
+                //         product_name : productName,
+                //         financeamount_start : financeamountStart,
+                //         financeamount_end : financeamountEnd,
+                //         downpayment_type : downpaymentType,
+                //         downpayment_value : downpaymentValue,
+                //         interest_rate :interestRate,
+                //         term: term
+                //     },
+                //     success : function (res) {
+                //         if (res.error_code == 0) {
+                //             $alert('修改成功', function () {
+                //                 locationTo({
+                //                     action : contextPath + markUri + '/merchants/config/products/list',
+                //                     param : {
+                //                         id : configEditId,
+                //                         origin : origin,
+                //                         supplier_id : supplierId,
+                //                         product_id : productId,
+                //                         product_policy_id : productPolicyId,
+                //                         applyto_business : mBusinessType,
+                //                         city_id : merchantCity,
+                //                         applyto_type : applytoType,
+                //                         organization_id : orgId,
+                //                     }
+                //                 });
+                //             })
+                //         } else {
+                //             $alert(res.error_msg, function () {
+                //                 $alert("修改失败，请稍后重试");
+                //             });
+                //         }
+                //     },
+                //     error : function () {
+                //         $alert("修改失败，请稍后重试");
+                //     }
+                // });
             })
         }
         //取消

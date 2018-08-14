@@ -400,7 +400,22 @@ exports.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST = function(req,res,next) {
     common.getPageData({
         url : '/api/supplier/deploy',
         title : '商户管理-配置金融产品',
-        page : './merchants/configProductList'
+        page : './merchants/configProductList',
+        callback : function (data) {
+            if (data) {
+                if( data.PolicyList){
+                    for (var i = 0, len = data.PolicyList.length; i < len; i++) {
+                        if (data.PolicyList[i].downpayment_type == 1) {//首付比例
+                            data.PolicyList[i].downpayment_value = data.PolicyList[i].downpayment_value.replace(/[,]/g, '% 、') + '%';
+                        } else if (data.PolicyList[i].downpayment_type == 2) {//首付金额
+                            data.PolicyList[i].downpayment_value = data.PolicyList[i].downpayment_value.replace(/[,]/g, ' 、') + '元';
+                        }
+                        data.PolicyList[i].interest_rate = data.PolicyList[i].interest_rate.replace(/[,]/g,' %、') + '%';
+                        data.PolicyList[i].term = data.PolicyList[i].term.replace(/[,]/g, ' 、');
+                    }
+                }
+            }
+        }
     }, req, res, next);
 };
 
@@ -409,7 +424,16 @@ exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
     common.getPageData({
         url : '/api/supplier/deploy/toedit',
         title : '商户管理-配置金融产品-编辑',
-        page : './merchants/configProductEdit'
+        page : './merchants/configProductEdit',
+        callback : function (data) {
+            if (data) {
+                for (var i = 0, len = data.list.length; i < len; i++) {
+                    for (var j = 0, lenj = data.list[i].length; j <lenj; j++) {
+                        data.list[i].list[j].material_name = data.list[i].list[j].material_name.replace(/[,]/g, '、');
+                    }
+                }
+            }
+        }
     }, req, res, next);
 };
 
