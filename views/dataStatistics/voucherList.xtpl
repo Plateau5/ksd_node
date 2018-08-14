@@ -140,7 +140,13 @@
 									<div class="report_account">{{this.advance_no}}</div>
 									<div class="report_account">{{this.vin}}</div>
 								</td>
-								<td class="text_left" title="{{this.summary}}">{{this.summary}}</td>
+								<td class="text_left" title="{{this.summary}}">
+                                    {{#if (this.summary) }}
+                                        {{this.summary}}
+                                    {{else}}
+                                        - -
+                                    {{/if}}
+                                </td>
 								<td class="text_left" title="{{this.money}}">{{this.money}}</td>
 							</tr>
 						{{/each}}
@@ -169,7 +175,7 @@
         function voucherDateStartEnd (startSelector, endSelector) {
             var start = {
                 format: 'YYYY-MM-DD',
-                minDate: '2018-08-01', //设定最小日期为当前日期
+                //minDate: '2018-08-01', //设定最小日期为当前日期
                 //festival:true,
                 maxDate: $.nowDate({DD:0}), //最大日期,
                 isClear : false,
