@@ -146,6 +146,11 @@
             <a href="{{markUri}}/statistics/operating/system" class="">运营报表</a>
         </li>
         {{/if}}
+        {{#if (verifyCode(1514)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/statistics/voucher/list'))}}active{{/if}}">
+            <a href="{{markUri}}/statistics/voucher/system" class="">财务凭证</a>
+        </li>
+        {{/if}}
     </ul>
 </div>
 {{ elseif (startWith(markUri + '/school'))}}

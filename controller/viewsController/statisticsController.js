@@ -21,8 +21,10 @@ exports.VIEW_STATISTICS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/statistics/merchants/synthesize');
         } else if (common.checkPrivilege(1514, req)) {
             res.redirect(markUri + '/statistics/operating/system');
+        } else if (common.checkPrivilege(1592, req)) {
+            res.redirect(markUri + '/statistics/voucher/system');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1327 | 1328 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1327 | 1328 | 1464 | 1514 | 1592 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
@@ -312,5 +314,27 @@ exports.VIEW_STATISTICS_OPERATING_LIST = function(req, res, next) {
                 data.condition_city_list = JSON.stringify(data.condition_city_list);
             }
         }
+    }, req, res, next);
+};
+
+// 数据统计-财务凭证-财务凭证列表页跳转1592
+exports.VIEW_STATISTICS_VOUCHER_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1592, req)) {
+            res.redirect(markUri + '/statistics/voucher/list');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1592 is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 数据统计-财务凭证-财务凭证列表页跳转
+exports.VIEW_STATISTICS_VOUCHER_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/reportForm/finance/getVoucherList',
+        title : '数据统计-财务凭证列表',
+        page : './dataStatistics/voucherList'
     }, req, res, next);
 };

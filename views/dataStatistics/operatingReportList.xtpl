@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/statistics.css"/>
-    <title>数据统计-人效统计</title>
+    <title>数据统计-运营报表</title>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -139,7 +139,7 @@
 					<span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
 					<div class="rf">
 						{{#if (verifyCode(1515)) }}
-							<a href="javascript:" id="download_btn" class="detail_title_btn download_btn">导出</a>
+							<a href="javascript:" id="download_btn" class="detail_title_btn download_btn operatingBtn">导出</a>
 						{{/if}}
 					</div>
 				</div>
@@ -198,24 +198,33 @@
 <div class="download_report_box">
 	<div class="download_report_bg"></div>
 	<div class="download_report_dia">
-		<div class="title">请勾选下载字段</div>
+		<div class="title">请勾选导出字段</div>
 		<div class="middle">
-			<div class="selectAll form_group">
-				<input id="selectAll" type="checkbox" class="select_all" name="" value="" checked="checked">
-				<label for="selectAll" class="checked">全选</label>
-			</div>
+			<!--<div class="selectAll form_group">-->
+				<!--<input id="selectAll" type="checkbox" class="select_all" name="" value="" checked="checked">-->
+				<!--<label for="selectAll" class="checked">全选</label>-->
+			<!--</div>-->
 			<div class="column_data">
-				{{#each (column_data) }}
+				{{#each (commonly_data) }}
 					<div class="form_group inline_block">
 						<input id="{{this.id}}" type="checkbox" name="" value="{{this.id}}" checked="checked">
 						<label for="{{this.id}}" class="checked">{{this.name}}</label>
 					</div>
 				{{/each}}
 			</div>
+			<div class="column_data">
+				{{#each (uncommonly_data) }}
+					<div class="form_group inline_block">
+						<input id="{{this.id}}" type="checkbox" name="" value="{{this.id}}">
+						<label for="{{this.id}}" class="">{{this.name}}</label>
+					</div>
+				{{/each}}
+			</div>
 			<div class="form_error">至少勾选一个字段</div>
 		</div>
 		<div class="download_report_bottom_btn">
-			<a href="javascript:" class="btn orange_btn download_confirm confirm">下载</a>
+			<a href="javascript:" class="btn orange_btn download_confirm confirm">确认</a>
+			<a href="javascript:" class="btn bg_btn cancel_confirm">取消</a>
 		</div>
 	</div>
 </div>
@@ -257,6 +266,7 @@
         //下载选中字段的事件
         function downloadSelectField () {
 		    var btn = $('.download_confirm');
+		    var cancelBtn = $('.cancel_confirm');
             btn.off('click').on('click', function () {
                 var fields = $('.column_data label');
                 var select_flag = false;
@@ -276,6 +286,9 @@
                     $('.download_report_dia .form_error').show();
                 }
             });
+            cancelBtn.off('click').on('click', function () {
+                $( ".download_report_box" ).hide();
+			});
         }
 
         //下载请求
@@ -395,7 +408,7 @@
             getListByCondtions();
             downloadField();
             downloadSelectField();
-            closeDownDia();
+            //closeDownDia();		//关闭下载弹框
         });
     })(jQuery,undefined);
 </script>
