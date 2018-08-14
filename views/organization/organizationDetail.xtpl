@@ -277,7 +277,7 @@
                         <div class="detail_about_label">新车</div>
                         <div class="rf_30">
                             {{#if (verifyCode(1504) || verifyCode(1505) || verifyCode(1506)) }}
-                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="新车">编辑</a>
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="新车" data-type="0">编辑</a>
                             {{/if}}
                         </div>
                     </div>
@@ -330,7 +330,7 @@
                         <div class="detail_about_label">二手车</div>
                         <div class="rf_30">
                             {{#if (verifyCode(1504) || verifyCode(1505) || verifyCode(1506)) }}
-                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="二手车">编辑</a>
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="二手车" data-type="1">编辑</a>
                             {{/if}}
                         </div>
                     </div>
@@ -433,9 +433,7 @@
                     }
                     var applyto_business = car_type;
                     var url = "/supplier/organization/editMaterial";
-                    if (car_type.indexOf(',') != -1) {
-                        car_type = 0;
-                    }
+                    var car_type = t.data('type');
                     var paras = {
                         organization_id : orgId,
                         car_type : car_type.number(),
