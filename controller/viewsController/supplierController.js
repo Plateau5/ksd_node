@@ -229,7 +229,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/product/detail',
         title : '供应商-发布新产品',
-        page : './organization/productDetail',
+        page : './organization/productDetailNew',
         callback : function (data) {
             if (data) {
                 data.vo.applyto_cityname = data.vo.applyto_cityname.replace(/,/g,'、');
