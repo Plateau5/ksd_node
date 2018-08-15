@@ -257,6 +257,7 @@
             var btn = $('#download_btn');
             btn.off('click').on('click', function () {
                 if ($('.total_count').data('count') != 0) {
+                    $('.download_report_dia .form_error').hide();
                     $( ".download_report_box" ).show();
                 } else {
                     $alert('当前列表内数据为空，不能导出');
