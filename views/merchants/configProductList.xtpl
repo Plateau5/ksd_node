@@ -226,18 +226,18 @@
             $(".config_product_btn .r_radio").on('mousedown', function() {
                 var _this = $(this);
                 var oldStatus = _this.data('status');
-                var configId = $('.config_product_edit').data('id');
-                var origin = $.trim($('.config_product_edit').data('origin'));
-                var productPolicyId = $.trim($('.config_product_edit').data('product_policy_id'));
+                var configId = _this.siblings('.config_product_edit').data('id');
+                var origin = _this.siblings('.config_product_edit').data('origin');
+                var productPolicyId = _this.siblings('.config_product_edit').data('product_policy_id');
                 var data, apiUrl = '', tipMsg = '';
                 data = {
                     status : oldStatus == 0 ? 1 : 0,
                     id : configId,
                     origin : origin,
-                    product_policy_id : productPolicyId,
-
-                    supplier_id : supplierId,
                     product_id : productId,
+
+                    product_policy_id : productPolicyId,
+                    supplier_id : supplierId,
                     product_name : productName,
                     financeamount_start : financeamountStart,
                     financeamount_end : financeamountEnd,
@@ -261,20 +261,22 @@
                     success : function (res) {
                         if (res.error_code == 0) {
                             if (oldStatus == 0) {
-                                $alert('启用成功');
-                                _this.find('div').animate({
-                                    'left' : '14px'
-                                },200);
-                                _this.removeClass('off').addClass('on').attr('type', 'on');
-                                $('.config_product_edit').hide();
-                                _this.data('status', 1);
+                                $alert('启用成功', function () {
+                                    _this.find('div').animate({
+                                        'left' : '14px'
+                                    },200);
+                                    _this.removeClass('off').addClass('on').attr('type', 'on');
+                                    $('.config_product_edit').hide();
+                                    _this.data('status', 1);
+                                });
                             } else {
-                                $alert('停用成功');
-                                _this.find('div').animate({
-                                    'left' : '2px'
-                                },200);
-                                _this.removeClass('on').addClass('off').attr('type', 'off');
-                                _this.data('status', 0);
+                                $alert('停用成功', function () {
+                                    _this.find('div').animate({
+                                        'left' : '2px'
+                                    },200);
+                                    _this.removeClass('on').addClass('off').attr('type', 'off');
+                                    _this.data('status', 0);
+                                });
                             }
                         } else {
                             $alert(res.error_msg);
