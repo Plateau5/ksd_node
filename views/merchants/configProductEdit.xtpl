@@ -115,7 +115,7 @@
                                         {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
                                         {{#each (downpaymentValue)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}%" checked="checked">
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}" checked="checked">
                                                 <label class="paymentCheck checked">{{this}}%</label>
                                             </div>
                                         {{/each}}
@@ -124,7 +124,7 @@
                                         {{#each (downpaymentValue)}}
                                             <div class="form_group" style="margin-left:-4px;">
                                                 <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}" checked="checked">
-                                                <label class="checked">{{this}}</label>
+                                                <label class="paymentCheck checked">{{this}}</label>
                                             </div>
                                         {{/each}}
                                     {{/if}}
@@ -138,7 +138,7 @@
                                         {{#each (interestRate)}}
                                             <div class="form_group" style="margin-left:-4px;">
                                                 <input type="checkbox" class="rates interest_rate" name="interest_rate" value="{{this}}" checked="checked">
-                                                <label class="checked">{{this}}%</label>
+                                                <label class="ratesCheck checked">{{this}}%</label>
                                             </div>
                                         {{/each}}
                                     {{/if}}
@@ -152,7 +152,7 @@
                                     {{#each (term)}}
                                     <div class="form_group" style="margin-left:-4px;">
                                         <input type="checkbox" class="rates term" name="term"   value="{{this}}" checked="checked">
-                                        <label class="checked">{{this}}%</label>
+                                        <label class="termCheck checked">{{this}}%</label>
                                     </div>
                                     {{/each}}
                                     {{/if}}
@@ -218,7 +218,6 @@
 <input type="hidden" id="financeamountStart" value="{{vo.financeamount_start}}">
 <input type="hidden" id="financeamountEnd" value="{{vo.financeamount_end}}">
 <input type="hidden" id="downpaymentType" value="{{vo.downpayment_type}}">
-<input type="hidden" id="downpaymentValue" value="{{vo.downpayment_value}}">
 <input type="hidden" id="interest_rate" value="{{vo.interest_rate}}">
 <input type="hidden" id="term" value="{{vo.term}}">
 <input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_business}}">
@@ -242,14 +241,11 @@
         var configEditId = $('#configEditId').val().trim();  //产品政策id
         var origin = $('#origin').val().trim();  //产品政策与商户产品政策标识
         var productPolicyId = $('#productPolicyId').val().trim();
-        var productId = $('#productId').val().trim();
-        var productName = $('#productName').val().trim();
+        var productId = $('#productId').val().trim(); //产品id
+        var productName = $('#productName').val().trim(); //产品名称
         var financeamountStart = $('#financeamountStart').val().trim(); //融资范围最小值
         var financeamountEnd = $('#financeamountEnd').val().trim(); //融资范围最大值
         var downpaymentType = $('#downpaymentType').val().trim(); //首付类型
-        var downpaymentValue = $('#downpaymentValue').val().trim(); //首付比例或者是首付金额
-        var interestRate = $('#interest_rate').val().trim();  //费率
-        var term = $('#term').val().trim();  //融资期限
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
         var merchantCity = $('#merchantCity').val().trim();
         var applytoType = $('#applytoType').val().trim();
@@ -332,7 +328,6 @@
                     if (_this.hasClass("checked")) {
                         downpaymentValue_num  ++;
                         down_arr.push(_this.siblings('input').val());
-                        console.log(down_arr);
                     }
                 });
                 //首付比例或金额校验
@@ -340,80 +335,89 @@
                     $alert('请选择首付比例');
                     return;
                 }
+                var new_down_arr = down_arr.toString();
                 //费率
-                /*var interest_rate = $('.interest_rate');
+                var rate_arr = [];
+                var interest_rate = $('.ratesCheck');
                 var interest_rate_num = 0;
 
                 interest_rate.each(function () {
                     var _this = $(this);
-                    if (_this.is(":checked")) {
-                        interest_rate_num ++;
+                    if (_this.hasClass("checked")) {
+                        interest_rate_num  ++;
+                        rate_arr.push(_this.siblings('input').val());
                     }
                 });
+                var new_rate_arr = rate_arr.toString();
                 //费率
                 if (interest_rate_num == 0) {
                     $alert('请选择费率');
                     return;
                 }
                 //融资期限
-                var term = $('.term');
+                var term_arr = [];
+                var term = $('.termCheck');
                 var term_num = 0;
                 term.each(function () {
                     var _this = $(this);
-                    if (_this.is(":checked")) {
+                    if (_this.hasClass("checked")) {
                         term_num ++;
+                        term_arr.push(_this.siblings('input').val());
                     }
                 });
+                var new_term_arr = term_arr.toString();
                 //融资期限
                 if (term_num == 0) {
                     $alert('请选择融资期限');
                     return;
-                }*/
-                // redefineAjax({
-                //     timeout:5000,
-                //     url : contextPath + '/api/supplier/deploy/save',
-                //     data : {
-                //         id : configEditId,
-                //         origin : origin,
-                //         supplier_id : supplierId,
-                //         product_id : productId,
-                //         product_policy_id : productPolicyId,
-                //         product_name : productName,
-                //         financeamount_start : financeamountStart,
-                //         financeamount_end : financeamountEnd,
-                //         downpayment_type : downpaymentType,
-                //         downpayment_value : downpaymentValue,
-                //         interest_rate :interestRate,
-                //         term: term
-                //     },
-                //     success : function (res) {
-                //         if (res.error_code == 0) {
-                //             $alert('修改成功', function () {
-                //                 locationTo({
-                //                     action : contextPath + markUri + '/merchants/config/products/list',
-                //                     param : {
-                //                         id : configEditId,
-                //                         origin : origin,
-                //                         supplier_id : supplierId,
-                //                         product_id : productId,
-                //                         product_policy_id : productPolicyId,
-                //                         applyto_business : mBusinessType,
-                //                         city_id : merchantCity,
-                //                         applyto_type : applytoType,
-                //                         organization_id : orgId,
-                //                     }
-                //                 });
-                //             })
-                //         } else {
-                //             $alert(res.error_msg, function () {
-                //                 $alert("修改失败，请稍后重试");
-                //             });
-                //         }
-                //     },
-                //     error : function () {
-                //         $alert("修改失败，请稍后重试");
-                //     }
-                // });
+                }
+                redefineAjax({
+                    timeout:5000,
+                    url : contextPath + '/api/supplier/deploy/save',
+                    data : {
+                        id : configEditId,
+                        origin : origin,
+                        supplier_id : supplierId,
+                        product_id : productId,
+                        product_policy_id : productPolicyId,
+                        product_name : productName,
+                        financeamount_start : financeamountStart,
+                        financeamount_end : financeamountEnd,
+                        downpayment_type : downpaymentType,
+                        downpayment_value : new_down_arr,
+                        interest_rate :new_rate_arr,
+                        term: new_term_arr
+                    },
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            $alert('修改成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/merchants/config/products/list',
+                                    param : {
+                                        id : configEditId,
+                                        origin : origin,
+                                        supplier_id : supplierId,
+                                        product_id : productId,
+                                        product_policy_id : productPolicyId,
+                                        applyto_business : mBusinessType,
+                                        city_id : merchantCity,
+                                        applyto_type : applytoType,
+                                        organization_id : orgId,
+                                        navigation : navigation,
+                                        supplier_name : orgName
+                                    }
+                                });
+                            })
+                        } else {
+                            $alert(res.error_msg, function () {
+                                $alert("修改失败，请稍后重试");
+                            });
+                        }
+                    },
+                    error : function () {
+                        $alert("修改失败，请稍后重试");
+                    }
+                });
             })
         }
         //取消

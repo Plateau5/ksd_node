@@ -109,7 +109,7 @@
                                         <td title="{{this.term}}">{{this.term}}</td>
                                         <td title="{{this.downpayment_value}}">
                                             {{#if (this.downpayment_type === 1)}}
-                                                {{this.downpayment_value}}%
+                                                {{this.downpayment_value}}
                                             {{elseif(this.downpayment_type === 2)}}
                                                 {{this.downpayment_value}}
                                             {{/if}}
@@ -118,10 +118,10 @@
                                             {{#if (root.verifyCode(1590))}}
                                                 {{#if (status === 1) }}
                                                 <a href="javascript:"class="merchants_edit config_product_edit" style="display:none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
-                                                    <div class="r_radio inline_block" type="on" data-status="1" id="closeBtn">
+                                                    <div class="r_radio inline_block on" type="on" data-status="1">
                                                         <span></span>
                                                         <span></span>
-                                                        <div style="left: 15px"></div>
+                                                        <div style="left: 14px"></div>
                                                     </div>
                                                 {{/if}}
                                             {{/if}}
@@ -130,7 +130,7 @@
                                                     <a href="javascript:"class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
                                                 {{/if}}
                                                 {{#if (root.verifyCode(1591)) }}
-                                                    <div class="r_radio inline_block off" type="off"  data-status="0" id="openBtn">
+                                                    <div class="r_radio inline_block off" type="off" data-status="0">
                                                         <span></span>
                                                         <span></span>
                                                         <div></div>
@@ -177,6 +177,14 @@
 <input type="hidden" id="cityName" value="{{detail.city_name}}">
 <input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_business}}">
 <input type="hidden" id="applytoType" value="{{reqParams.applyto_type}}">
+<input type="hidden" id="productId" value="{{PolicyList.product_id}}">
+<input type="hidden" id="productName" value="{{PolicyList.name}}">
+<input type="hidden" id="financeamountStart" value="{{PolicyList.financeamount_start}}">
+<input type="hidden" id="financeamountEnd" value="{{PolicyList.financeamount_end}}">
+<input type="hidden" id="downpaymentType" value="{{PolicyList.downpayment_type}}">
+<input type="hidden" id="downpaymentValue" value="{{PolicyList.downpayment_value}}">
+<input type="hidden" id="interestRate" value="{{PolicyList.interest_rate}}">
+<input type="hidden" id="term" value="{{PolicyList.term}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -204,44 +212,69 @@
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
         var applytoType = $('#applytoType').val().trim();  //商户来源
         var applyBusiness = $("select#applyBusiness option:selected").val();  //适用业务
+        var productId = $('#productId').val().trim(); //产品id
+        var productName = $('#productName').val().trim(); //产品名称
+        var financeamountStart = $('#financeamountStart').val().trim(); //融资范围最小值
+        var financeamountEnd = $('#financeamountEnd').val().trim(); //融资范围最大值
+        var downpaymentType = $('#downpaymentType').val().trim(); //首付类型
+        var downpaymentValue = $('#downpaymentValue').val().trim(); //首付金额或比例
+        var interestRate = $('#interestRate').val().trim(); //费率
+        var term = $('#term').val().trim(); //融资期限
 
         /*启用*/
-        $("#openBtn").mousedown(function() {
+        $(".r_radio").mousedown(function() {
             var _this = $(this);
             var oldStatus = $.trim(_this.data('status'));
             var configId = $.trim($('.config_product_edit').data('id'));
             var origin = $.trim($('.config_product_edit').data('origin'));
             var productPolicyId = $.trim($('.config_product_edit').data('product_policy_id'));
+            var params = {
+                status : oldStatus,
+                id : configId,
+                origin : origin,
+                supplier_id : supplierId,
+                product_id : productId,
+                product_name : productName,
+                financeamount_start : financeamountStart,
+                financeamount_end : financeamountEnd,
+                downpayment_type : downpaymentType,
+                downpayment_value : downpaymentValue,
+                interest_rate : interestRate,
+                term : term
+            };
+            var param ={
+                status : oldStatus,
+                id : configId,
+                origin : origin,
+                product_policy_id : productPolicyId
+            }
+            /*if( origin === 1) {
+                data: params
+            } else if( origin === 2 ) {
+                data: param
+            }*/
             redefineAjax({
-                data : {
-                    status : oldStatus,
-                    id : configId,
-                    origin : origin,
-                    product_policy_id : productPolicyId
-                },
+                data: param,
                 url : contextPath + '/api/supplier/deploy/open',
                 success : function (res) {
                     if (res.error_code == 0) {
-                        if (status == 0) {
-                            $('.r_radio').data('status', 1);
-                            $('.config_product_edit').hide();
-                            if (status == 0) {
+                            if(_this.attr('type') == 'off'){
                                 _this.find('div').stop().animate({
                                     'left' : '14px'
                                 },200);
                                 _this.removeClass('off').attr('type', 'on');
+                                _this.addClass('on');
+                                $('.config_product_edit').hide();
+                                $('.r_radio').data('status', 1);
+                                $('#openBtn').hide();
+                                $('#closeBtn').show();
                             }
-                        }
                     } else {
-                        $alert(res.error_msg, function () {
-                            $alert("提交失败，请稍后重试");
-                        });
+                        $alert("启用失败，请稍后重试");
                     }
                 },
                 error : function () {
-                    $alert(res.error_msg, function () {
-                        $alert("启用失败，请稍后重试");
-                    });
+                    $alert("启用失败，请稍后重试");
                 }
             });
 
@@ -254,32 +287,29 @@
             var configId = $.trim($('.config_product_edit').data('id'));
             redefineAjax({
                 data : {
-                    status : oldStatus,
+                    status : 0,
                     id : configId,
                 },
                 url : contextPath + '/api/supplier/deploy/cease',
                 success : function (res) {
                     if (res.error_code == 0) {
-                        if (status == 1) {
-                            $('.r_radio').data('status', 0);
+                        if(_this.attr('type') == 'on'){
+                            _this.find('div').stop().animate({
+                                'left' : '2px'
+                            },200);
+                            _this.removeClass('on').attr('type', 'off');
+                            _this.addClass('off');
                             $('.config_product_edit').show();
-                            if (status == 1) {
-                                _this.find('div').stop().animate({
-                                    'left' : '2px'
-                                },200);
-                                _this.removeClass('off').attr('type', 'on');
-                            }
+                            $('.r_radio').data('status', 0);
+                            $('#openBtn').show();
                         }
                     } else {
-                        $alert(res.error_msg, function () {
-                            $alert("启用失败，请稍后重试");
-                        });
+                        $alert("禁用失败，请稍后重试");
+
                     }
                 },
                 error : function () {
-                    $alert(res.error_msg, function () {
-                        $alert("启用失败，请稍后重试");
-                    });
+                    $alert("禁用失败，请稍后重试");
                 }
             });
 
