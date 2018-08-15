@@ -113,8 +113,8 @@
 						<col style="width: 12%;" />
 						<col style="width: 12%;" />
 						<col style="width: 12%;" />
-						<col style="width: 25%;" />
 						<col style="width: 20%;" />
+						<col style="width: 25%;" />
 						<col />
 					</colgroup>
 					<tr>
@@ -139,7 +139,7 @@
 								<td class="text_left" title="{{this.lending_date}}">{{this.lending_date}}</td>
 								<td class="text_left" title="{{this.subject_code}}">{{this.subject_code}}</td>
 								<td class="text_left" title="{{this.subject_name}}">{{this.subject_name}}</td>
-								<td class="text_left" title="{{this.compact_no}}-{{this.vin}}" style="padding: 6px 2%">
+								<td class="text_left" title="{{this.compact_no}}-{{this.vin}}" style="padding: 9px 2%">
 									<div class="report_account">{{this.compact_no}}</div>
 									<div class="report_account">{{this.vin}}</div>
 								</td>
@@ -260,6 +260,7 @@
         $(function() {
             voucherDateStartEnd('#queryStartDate','#queryEndDate');//日期插件
             getListByCondtions();//筛选
+            paginationSwitch();// 分页切换
             downloadField();// 导出下载
         });
     })(jQuery,undefined);
