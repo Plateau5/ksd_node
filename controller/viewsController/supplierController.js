@@ -387,7 +387,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTBASICCREATE = function(req, res, next)
         title : '供应商-发布新产品',
         page : './organization/productBasicCreate',
         callback : function (data) {
-            data.list_city = JSON.stringify(data.list_city);
+            data.city_list = JSON.stringify(data.list_city);
         }
     }, req, res, next);
 };

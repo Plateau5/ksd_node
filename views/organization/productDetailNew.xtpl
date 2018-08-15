@@ -226,7 +226,7 @@
          * @author Plateau  2018年8月10日13:06:43
          * */
         function showMorePic () {
-            var policy_list = $('.policy_list');
+            var policy_list = $('.detail_img');
             policy_list.each(function () {
                 var _this = $(this);
                 var img_list_a = _this.find('.img_list a');
@@ -246,7 +246,7 @@
             var show_more_pic = $('.show_more_pic');
             show_more_pic.off('click').on('click', function () {
                 var _this = $(this);
-                var img_list_a = _this.parents('.policy_list').find('.img_list a');
+                var img_list_a = _this.parents('.detail_img').find('.img_list a');
                 for (var i = 0, len = img_list_a.length; i < len; i++) {
                     img_list_a.eq(i).show();
                 }
@@ -257,7 +257,7 @@
             var hide_more_pic = $('.hide_more_pic');
             hide_more_pic.off('click').on('click', function () {
                 var _this = $(this);
-                var img_list_a = _this.parents('.policy_list').find('.img_list a');
+                var img_list_a = _this.parents('.detail_img').find('.img_list a');
                 for (var i = 0, len = img_list_a.length; i < len; i++) {
                     if (i > 5) {
                         img_list_a.eq(i).hide();
