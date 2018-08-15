@@ -96,6 +96,8 @@
 					<input id="time_start" value="{{condition.time_start}}" name="time_start" type="hidden">
 					<input id="time_end" value="{{condition.time_end}}" name="time_end" type="hidden">
 					<input id="car_type" value="{{condition.car_type}}" name="car_type" type="hidden">
+					<input id="bankNo" value="{{condition.bank_no}}" name="bank_no" type="hidden">
+					<input id="subjectType" value="{{condition.subject_type}}" name="subject_type" type="hidden">
 					<input id="count" value="{{count}}" name="count" type="hidden">
 				</form>
 				<div class="detail_btn_box left">
@@ -137,8 +139,8 @@
 								<td class="text_left" title="{{this.lending_date}}">{{this.lending_date}}</td>
 								<td class="text_left" title="{{this.subject_code}}">{{this.subject_code}}</td>
 								<td class="text_left" title="{{this.subject_name}}">{{this.subject_name}}</td>
-								<td class="text_left" title="{{this.advance_no}}-{{this.vin}}" style="padding: 6px 2%">
-									<div class="report_account">{{this.advance_no}}</div>
+								<td class="text_left" title="{{this.compact_no}}-{{this.vin}}" style="padding: 6px 2%">
+									<div class="report_account">{{this.compact_no}}</div>
 									<div class="report_account">{{this.vin}}</div>
 								</td>
 								<td class="text_left" title="{{this.summary}}">
@@ -233,11 +235,21 @@
             var btn = $('.download_btn');
             btn.off('click').on('click', function () {
                 var count = $('#count');
+                var time_start = $('#time_start').val();
+                var time_end = $('#time_end').val();
+                var bank_no = $('#bankNo').val();
+                var subject_type = $('#subjectType').val();
+                var car_type = $('#car_type').val();
+
                 if (count.val() != 0) {
                     locationTo({
-                        action : contextPath + "",
+                        action : contextPath + "/reportForm/finance/export/VoucherExcel",
                         param : {
-
+                            time_start : time_start,
+                            time_end : time_end,
+                            car_type : car_type,
+                            subject_type : subject_type,
+                            bank_no : bank_no
                         }
                     });
                 } else {
