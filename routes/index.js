@@ -292,31 +292,10 @@ router.get(markUri + '/supplier/system', supplierCtrl.VIEW_SUPPLIER_SYSTEM);
 router.all(markUri + '/supplier/organization/system', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_SYSTEM);
 // 供应商部分-金融机构-机构列表页  1067
 router.all(markUri + '/supplier/organization/list', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_LIST);
-// 供应商部分-金融机构-创建机构跳转  1068
-router.post(markUri + '/supplier/organization/create', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_CREATE);
-// 供应商部分-金融机构-机构编辑页跳转  1070
-router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDIT);
-
-// 供应商部分-金融机构-机构进件资料编辑页跳转
-router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_INTOPIECES);
-// 供应商部分-金融机构-机构请款资料编辑页跳转
-router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_REQUEST);
-// 供应商部分-金融机构-机构归档资料编辑页跳转
-router.post(markUri + '/supplier/organization/intoPieces', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PLACEFILE);
-
-
-// 供应商部分-金融机构-机构详情页跳转  1071
-router.post(markUri + '/supplier/organization/detail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_DETAIL);
 // 供应商部分-金融机构-产品列表-已发布页  1075
 router.post(markUri + '/supplier/organization/publishedProducts', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PUBLISHEDPRODUCTS_LIST);
 // 供应商部分-金融机构-产品列表-未发布页  1076
 router.post(markUri + '/supplier/organization/unpublishedProducts', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_UNPUBLISHEDPRODUCTS_LIST);
-// 供应商部分-金融机构-发布新产品页跳转  1077
-router.post(markUri + '/supplier/organization/productCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTCREATE);
-// 供应商部分-金融机构-产品详情页跳转  1079
-router.post(markUri + '/supplier/organization/productDetail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAIL);
-// 供应商部分-金融机构-产品详情页跳转  1078
-router.post(markUri + '/supplier/organization/productEdit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDIT);
 // 供应商部分-金融机构-产品材料库页跳转  1193
 router.post(markUri + '/supplier/organization/productMaterial', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTMATERIAL);
 // 供应商部分-金融机构-模板发布页跳转
@@ -333,18 +312,18 @@ router.post(markUri + '/supplier/organization/policies/history', supplierCtrl.VI
 router.post(markUri + '/supplier/organization/productBasicCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTBASICCREATE);
 // 供应商部分-金融机构-发布新产品政策页跳转   new
 router.post(markUri + '/supplier/organization/productPolicyCreate', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCPOLICYCREATE);
-// 供应商部分-金融机构-产品详情页跳转   new
-router.post(markUri + '/supplier/organization/productDetailNew', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW);
-// 供应商部分-金融机构-编辑产品基本信息跳转   new
+// 供应商部分-金融机构-产品详情页跳转 1079  new
+router.post(markUri + '/supplier/organization/productDetail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAIL);
+// 供应商部分-金融机构-编辑产品基本信息跳转  1078  new
 router.post(markUri + '/supplier/organization/productEditBase', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITBASE);
 // 供应商部分-金融机构-编辑产品政策跳转   new
 router.post(markUri + '/supplier/organization/productEditPolicy', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITPOLICY);
 // 供应商部分-金融机构-创建机构跳转  1068   new
-router.post(markUri + '/supplier/organization/createnew', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_CREATENEW);
+router.post(markUri + '/supplier/organization/create', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_CREATE);
 // 供应商部分-金融机构-机构编辑页跳转  1070   new
-router.post(markUri + '/supplier/organization/editnew', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITNEW);
+router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDIT);
 // 供应商部分-金融机构-机构详情页跳转  1071   new
-router.post(markUri + '/supplier/organization/detailnew', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_DETAILNEW);
+router.post(markUri + '/supplier/organization/detail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_DETAIL);
 // 供应商部分-金融机构-机构请款资料编辑页跳转   new
 router.post(markUri + '/supplier/organization/editMaterial', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_REQUEST);
 // 供应商部分-金融机构-机构归档资料编辑页跳转   new

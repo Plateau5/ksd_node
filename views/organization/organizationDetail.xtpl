@@ -73,7 +73,7 @@
                     <li class="tab_item type_others {{#if (material_type === 3) }}active{{/if}}" data-type="3"><span></span>归档资料</li>
                 </ul>
             </div>
-            <form action="{{markUri}}/supplier/organization/detailnew" method="POST" id="form_search" role="form">
+            <form action="{{markUri}}/supplier/organization/detail" method="POST" id="form_search" role="form">
                 <input type="hidden" name="organization_id" value="{{vo.id}}">
                 <input type="hidden" name="material_type" value="{{material_type}}" id="flow_type">
             </form>
@@ -421,7 +421,7 @@
                 var flow_type = $('#flow_type');
                 var material_type = $.trim(flow_type.val());
                 if (material_type == 0) {
-                    var url = "/supplier/organization/editnew";//基本信息
+                    var url = "/supplier/organization/edit";//基本信息
                     var paras = {
                         id : orgId
                     };
