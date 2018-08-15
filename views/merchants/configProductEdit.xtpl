@@ -19,6 +19,22 @@
         .merchants_create{
             background: #fff;
         }
+        .edit_cancel{
+            display: inline-block;
+            width: 80px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            color: #1DC6BC !important;
+            background: #fff;
+            border-radius: 4px;
+            border: 1px solid #1DC6BC;
+        }
+        .edit_cancel:hover{
+            background: #fff;
+            color: #0B9C94 !important;
+            border: 1px solid #0B9C94;
+        }
     </style>
 </head>
 <body>
@@ -112,18 +128,18 @@
                                 </div>
                                 <div class="list_value">
                                     {{#if (vo.downpayment_type === 1)}}
-                                        {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
+                                        {{set (downpaymentValue = vo.downpayment_values.split(',')) }}
                                         {{#each (downpaymentValue)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}" checked="checked">
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_values" value="{{this}}" checked="checked">
                                                 <label class="paymentCheck checked">{{this}}%</label>
                                             </div>
                                         {{/each}}
                                     {{elseif (vo.downpayment_type === 2)}}
-                                        {{set (downpaymentValue = vo.downpayment_value.split(',')) }}
+                                        {{set (downpaymentValue = vo.downpayment_values.split(',')) }}
                                         {{#each (downpaymentValue)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_value" value="{{this}}" checked="checked">
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_values" value="{{this}}" checked="checked">
                                                 <label class="paymentCheck checked">{{this}}</label>
                                             </div>
                                         {{/each}}
@@ -133,11 +149,11 @@
                             <li class="list_row">
                                 <div class="list_name">费率：</div>
                                 <div class="list_value">
-                                    {{#if (vo.interest_rate.length > 0)}}
-                                        {{set (interestRate = vo.interest_rate.split(','))}}
+                                    {{#if (vo.interest_rates.length > 0)}}
+                                        {{set (interestRate = vo.interest_rates.split(','))}}
                                         {{#each (interestRate)}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates interest_rate" name="interest_rate" value="{{this}}" checked="checked">
+                                                <input type="checkbox" class="rates interest_rate" name="interest_rates" value="{{this}}" checked="checked">
                                                 <label class="ratesCheck checked">{{this}}%</label>
                                             </div>
                                         {{/each}}
@@ -147,11 +163,11 @@
                             <li class="list_row">
                                 <div class="list_name">融资期限：</div>
                                 <div class="list_value">
-                                    {{#if (vo.term.length > 0)}}
-                                    {{set (term = vo.term.split(','))}}
+                                    {{#if (vo.terms.length > 0)}}
+                                    {{set (term = vo.terms.split(','))}}
                                     {{#each (term)}}
                                     <div class="form_group" style="margin-left:-4px;">
-                                        <input type="checkbox" class="rates term" name="term"   value="{{this}}" checked="checked">
+                                        <input type="checkbox" class="rates term" name="term" value="{{this}}" checked="checked">
                                         <label class="termCheck checked">{{this}}%</label>
                                     </div>
                                     {{/each}}
@@ -225,6 +241,8 @@
 <input type="hidden" id="applytoType" value="{{reqParams.applyto_type}}">
 <input type="hidden" id="orgId" value="{{reqParams.organization_id}}">
 <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
+<input type="hidden" id="downpayment_value" value="{{vo.downpayment_value}}">
+<input type="hidden" id="downpayment_values" value="{{vo.downpayment_values}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -251,15 +269,30 @@
         var applytoType = $('#applytoType').val().trim();
         var orgId = $('#orgId').val().trim();
         var orgName = $('#orgName').val().trim();
+        var downpaymentValues =  $('#downpayment_values').val();
+        var downpayment_value =  $('#downpayment_value').val();
+
+        //回显首付比例或金额校验
+        function echoMoney () {
+            var echo_arr = downpaymentValues.split(',');
+            var downpayment_arr = downpayment_value.split(',');
+            if (downpayment_arr.indexOf() != -1) {
+                if( $(this).siblings().hasClass("checked"))  {
+                    $(this).siblings().removeClass('checked');
+                }
+            }
+            console.log(echo_arr,downpayment_arr);
+        }
+
         //显示隐藏图片
         function showMorePic () {
             var apply_item = $('.apply_data_item');
             apply_item.each(function () {
                 var _this = $(this);
                 var img_list_a = _this.find('.img_list a');
-                if (img_list_a.length > 6) {
+                if (img_list_a.length > 5) {
                     for (var i = 0, len = img_list_a.length; i < len; i++) {
-                        if (i > 5){
+                        if (i > 4){
                             img_list_a.eq(i).hide();
                         }
                     }
@@ -404,7 +437,8 @@
                                         applyto_type : applytoType,
                                         organization_id : orgId,
                                         navigation : navigation,
-                                        supplier_name : orgName
+                                        supplier_name : orgName,
+                                        productList : productList
                                     }
                                 });
                             })
@@ -437,7 +471,8 @@
                     applyto_type : applytoType,
                     organization_id : orgId,
                     navigation : navigation,
-                    supplier_name :  orgName
+                    supplier_name :  orgName,
+                    productList : productList
                 }
             });
         });
@@ -448,6 +483,7 @@
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked"); //复选框选中
             toMerchantList(); //面包屑跳转
             toMerchantDetail();
+            echoMoney(); //回显
         });
     })(jQuery,undefined);
 </script>
