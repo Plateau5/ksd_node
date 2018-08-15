@@ -26,7 +26,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a href="javascript:;" class="crumbs_item go_product_list">产品列表({{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}})</a>
-                <a href="javascript:;" class="crumbs_item">发布新产品</a>
+                <a href="javascript:;" class="crumbs_item">{{#if (reqParams.product_id)}}编辑基本信息{{else}}发布新产品{{/if}}</a>
             </div>
 
             <div class="form_options">
@@ -192,7 +192,7 @@
                     <div class="btn_box clearfix create_wf_btn_box">
                         {{#if (reqParams.jump_flag === '1') }}
                         <a href="javascript:" class="btn orange_btn confirm save_baseinfo">保存</a>
-                        <a href="javascript:;" class="btn bg_btn create_cancel">取消</a>
+                        <a href="javascript:;" class="btn bg_btn create_cancel go_product_detail">取消</a>
                         {{else}}
                         <a href="javascript:" class="btn orange_btn confirm next_confirm">下一步</a>
                         {{/if}}
@@ -224,6 +224,8 @@
             condition_city_list = JSON.parse(condition_city_list);
         }
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
+        var warehouse_list = '{{{reqParams.warehouse_list}}}';//仓库产品列表参数
         /**
          * 选择城市
          * @author  Plateau  2018年8月8日16:14:35
@@ -408,8 +410,8 @@
          * @author Plateau  2018年8月8日18:18:36
          * */
         function goProductList () {
-            var btn = $('.go_product_list');
-            btn.on('click', function () {
+            var go_product_list = $('.go_product_list');
+            go_product_list.on('click', function () {
                 var orgId = $('#orgId').val();
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/publishedProducts",
@@ -417,6 +419,21 @@
                         parent_id : orgId
                     }
                 })
+            });
+            //取消跳转详情页
+            var go_product_detail = $('.go_product_detail');
+            go_product_detail.on('click', function () {
+                var productId = $('#productId').val();
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/productDetailNew",
+                    param : {
+                        product_id : productId,
+                        data_num : 1,
+                        page_flag : 0,
+                        publish_list : publish_list,
+                        warehouse_list : warehouse_list
+                    }
+                });
             });
         }
 

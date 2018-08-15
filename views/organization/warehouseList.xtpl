@@ -141,6 +141,11 @@
 <script>
     (function ($) {
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
+        var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
+
         /**
          * 上架事件
          * @author Plateau  2018年8月9日16:36:03
@@ -253,11 +258,12 @@
                     param : {
                         product_id : id,
                         data_num : data_num,
-                        page_flag : 0
+                        page_flag : 0,
+                        publish_list : publish_list,
+                        warehouse_list : F.set(reqParamsStr)
                     }
                 });
             });
-
         }
         /**
          * 面包屑跳转
@@ -268,7 +274,7 @@
             btn.on('click', function () {
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/publishedProducts",
-                    param : getPrevParams(reqParamsStr, {})
+                    param : F.get(publish_list)
                 })
             });
         }

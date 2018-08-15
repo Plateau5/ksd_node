@@ -157,9 +157,12 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
-    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
     //发布新产品
     (function ($) {
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         function createProduct () {
             var btn = $("#publish_product");
             btn.off("click").on("click", function () {
@@ -190,7 +193,8 @@
                 var parentId = $.trim(t.data("parent_id"));
                 var params = {
                     product_id : productId,
-                    parent_id : parentId
+                    parent_id : parentId,
+                    publish_list : F.set(reqParamsStr)
                 };
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
@@ -225,7 +229,8 @@
                     param : {
                         product_id : productId,
                         data_num : data_num,
-                        page_flag : 1
+                        page_flag : 1,
+                        publish_list : F.set(reqParamsStr)
                     }
                 });
             })

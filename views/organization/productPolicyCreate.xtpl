@@ -25,7 +25,7 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a href="javascript:;" class="crumbs_item go_product_list">产品列表({{reqParams.parent_name}})</a>
-                <a href="javascript:;" class="crumbs_item">发布新产品</a>
+                <a href="javascript:;" class="crumbs_item">{{#if(reqParams.product_id)}}{{#if (reqParams.policy_num === 0) }}申请政策及资料{{else}}申请政策及资料{{reqParams.policy_num }}{{/if}}{{else}}发布新产品{{/if}}</a>
             </div>
 
             <div class="form_options">
