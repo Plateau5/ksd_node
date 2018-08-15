@@ -151,7 +151,9 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                 } else if (result.error_code === 801) {     // 无此方法
                     res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>无此方法</title></head><body></body><script>alert(\'请求无效，无此方法\');</script></html>');
                 } else if (result.error_code === 1022) {     // 拦截数据合法性
-                    res.send('<script>alert(\'该订单已被处理，请刷新页面\');</script>');
+                    res.send('<script>alert("'+ result.error_msg +'");</script>');
+                } else if (result.error_code === 1030) {     // 拦截空数据
+                    res.send('<script>alert("'+ result.error_msg +'");window.history.back();</script>');
                 } else if (result.error_code === 0) {
                     callback(result);
                 } else {
@@ -178,7 +180,9 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                 } else if (result.error_code === 801) {     // 无此方法
                     res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>无此方法</title></head><body></body><script>alert(\'请求无效，无此方法\');</script></html>');
                 } else if (result.error_code === 1022) {     // 拦截数据合法性
-                    res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>该订单已被处理，请刷新页面</title></head><body></body><script>alert(\'该订单已被处理，请刷新页面\');</script></html>');
+                    res.send('<script>alert("'+ result.error_msg +'");</script>');
+                } else if (result.error_code === 1030) {     // 拦截空数据
+                    res.send('<script>alert("'+ result.error_msg +'");window.history.back();</script>');
                 } else if (result.error_code === 0) {
                     callback(result);
                 } else {
