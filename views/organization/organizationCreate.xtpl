@@ -888,9 +888,20 @@
                     $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('操作成功', function () {
-                            locationTo({
-                                action : contextPath + markUri + '/supplier/organization/list'
-                            });
+                            if ($('#orgId').val() == '') {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/detailnew',
+                                    param : {
+                                        organization_id : $('#orgId').val(),
+                                        material_type : 0
+                                    }
+                                });
+                            } else {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/list',
+                                    param : {}
+                                });
+                            }
                         })
                     } else {
                         $alert(res.error_msg);

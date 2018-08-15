@@ -870,6 +870,7 @@
                     material_nums++;
                 }
             });
+            var is_must_flag = false;
             if (material_nums == 0) {
                 $alert('请选择申请资料');
                 return;
@@ -907,11 +908,15 @@
                         material_data_arr.push(obj);
                     } else {
                         if (is_must == 1) {
+                            is_must_flag = true;
                             $alert('请选择'+ big_class +'里面对应的资料。');
                             return false;
                         }
                     }
                 });
+            }
+            if (is_must_flag) {
+                return false;
             }
 
             var product_id = $('#product_id').val();
@@ -1052,15 +1057,23 @@
                         $alert('保存成功', function () {
                             if (parameters.publish_type) {
                                 var url = '/supplier/organization/publishedProducts';
-                            } else {
-                                var url = '/supplier/organization/unpublishedProducts';
-                            }
-                            var parent_id = $('#orgId').val();
-                            locationTo({
-                                action : contextPath + markUri + url,
-                                param : {
+                                var parent_id = $('#orgId').val();
+                                var data = {
                                     parent_id : parent_id
                                 }
+                            } else {
+                                var url = '/supplier/organization/productDetailNew';
+                                var data = {
+                                    product_id : $('#product_id').val(),
+                                    data_num : 1,
+                                    page_flag : 0,
+                                    publish_list : publish_list,
+                                    warehouse_list : F.set(warehouse_list)
+                                };
+                            }
+                            locationTo({
+                                action : contextPath + markUri + url,
+                                param : data
                             });
                         });
                     } else {
