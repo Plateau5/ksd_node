@@ -24,7 +24,7 @@
         <div id="main" class="main warehouse_list">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item product_list">产品列表（{{parent_name}}）</a>
+                <a href="javascript:;" class="crumbs_item go_product_list">产品列表({{parent_name}})</a>
                 <a href="javascript:;" class="crumbs_item">仓库中的产品</a>
             </div>
             <div class="listConHeader relative selectBox">
@@ -139,25 +139,6 @@
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/product/shelves_list.js"></script>
 <script>
-    //$('.product_table>tbody>tr[class="product_tr"]').eq(0).find('td').css('paddingTop','30px');
-    // $(function () {
-    //     $('.TS').on('click', function () {
-    //         var _this = $(this);
-    //         var parent_id = $.trim(_this.data('id'));
-    //         locationTo({
-    //             action : contextPath + markUri + "/supplier/organization/publishedProducts",
-    //             param : {
-    //                 parent_id : parent_id
-    //             }
-    //         })
-    //     });
-    //     paginationSwitch();// 分页切换
-    //     pageJump(".go_forward", {
-    //         parent_id : "{{parent_id}}"
-    //     });
-    // });
-
-
     (function ($) {
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         /**
@@ -283,7 +264,7 @@
          * @author Plateau  2018年8月8日18:18:36
          * */
         function goProductList () {
-            var btn = $('.product_list');
+            var btn = $('.go_product_list');
             btn.on('click', function () {
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/publishedProducts",
@@ -297,7 +278,7 @@
             toProductDetail();//跳转产品详情页
             delEvent();//删除事件
             updateEvent();//上架事件
-            // goProductList();//面包屑跳转
+            goProductList();//面包屑跳转
         });
     })(jQuery,undefined);
 </script>

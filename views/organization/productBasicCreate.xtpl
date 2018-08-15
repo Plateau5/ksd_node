@@ -25,7 +25,7 @@
         <div id="main" class="main product_basic_create">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item product_list">产品列表({{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}})</a>
+                <a href="javascript:;" class="crumbs_item go_product_list">产品列表({{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}})</a>
                 <a href="javascript:;" class="crumbs_item">发布新产品</a>
             </div>
 
@@ -408,11 +408,14 @@
          * @author Plateau  2018年8月8日18:18:36
          * */
         function goProductList () {
-            var btn = $('.product_list');
+            var btn = $('.go_product_list');
             btn.on('click', function () {
+                var orgId = $('#orgId').val();
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/publishedProducts",
-                    param : getPrevParams(reqParamsStr, {})
+                    param :{
+                        parent_id : orgId
+                    }
                 })
             });
         }
@@ -421,7 +424,7 @@
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             getSelectedCitys();//选择城市
             bindSubmitEvent();//注册提交点击事件
-            // goProductList();//面包屑跳转
+            goProductList();//面包屑跳转
         });
     })(jQuery,undefined);
 </script>

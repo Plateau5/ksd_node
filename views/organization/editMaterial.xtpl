@@ -24,7 +24,7 @@
         <div id="main" class="main edit_material">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item">{{reqParams.org_name}}</a>
+                <a href="javascript:;" class="crumbs_item go_orgdetail">{{reqParams.org_name}}</a>
                 <a href="javascript:;" class="crumbs_item">{{reqParams.car_type_flag}}</a>
             </div>
 
@@ -181,7 +181,7 @@
             </div>
             <div class="btn_box clearfix create_wf_btn_box">
                 <a href="javascript:" class="btn orange_btn confirm save_material">保存</a>
-                <a href="javascript:;" class="btn bg_btn cancel">取消</a>
+                <a href="javascript:;" class="btn bg_btn cancel go_orgdetail">取消</a>
             </div>
 
         </div>
@@ -602,7 +602,23 @@
                 }
             });
         }
-
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrgdetail () {
+            var go_orgdetail = $('.go_orgdetail');
+            go_orgdetail.off("click").on("click", function () {
+                var organization_id = $('#organization_id').val();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detailnew',
+                    param : {
+                        organization_id : organization_id,
+                        material_type : $('#material_type').val()
+                    }
+                });
+            });
+        }
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
             viewImages();       // 查看大图
@@ -611,6 +627,7 @@
             monitorSelectAll();//监听是否全选
             checkAllClass();//全选操作
             saveMaterial();//保存资料
+            goOrgdetail();//取消事件
         });
     })(jQuery,undefined);
 </script>

@@ -24,7 +24,7 @@
         <div id="main" class="main org_create">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item">新建</a>
+                <a href="javascript:;" class="crumbs_item">{{#if (vo.id) }}编辑机构信息{{else}}新建{{/if}}</a>
             </div>
 
             <div class="form_options">
@@ -564,7 +564,7 @@
 
                     <div class="btn_box clearfix create_wf_btn_box">
                         <a href="javascript:" class="btn orange_btn confirm save_org">保存</a>
-                        <a href="javascript:;" class="btn bg_btn cancel">取消</a>
+                        <a href="javascript:;" class="btn bg_btn cancel go_orglist">取消</a>
                     </div>
                 </form>
             </div>
@@ -774,13 +774,11 @@
         function saveOrg () {
             var btn = $(".save_org");
             btn.off("click").on("click", function () {
-                send_organization_form(btn);
+                send_organization_form();
             });
         }
         //保存更新函数
-        function send_organization_form(btn){
-            btn.attr('disabled',true);
-
+        function send_organization_form(){
             var name = $('#orgname');
             if(!name.val()){
                 $alert('机构名称不能为空');
@@ -895,16 +893,37 @@
                             });
                         })
                     } else {
-                        $alert(res.error_msg, function () {
-                            saveOrg();
-                        });
+                        $alert(res.error_msg);
                     }
                 },
                 error : function () {
                     $('#loading').hide();
                     $alert("提交失败，请稍后重试");
-                    saveOrg();
                 }
+            });
+        }
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrglist () {
+            var go_orglist = $('.go_orglist');
+            go_orglist.off("click").on("click", function () {
+                var organization_id = $('#orgId').val()
+                if (organization_id == '') {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/list'
+                    });
+                } else {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/detailnew',
+                        param : {
+                            organization_id : organization_id,
+                            material_type : 0
+                        }
+                    });
+                }
+
             });
         }
         $(function() {
@@ -922,6 +941,7 @@
             });//控制车龄输入框只能输入数字和以为小数
             initKindEditor('#approval_policy');//审批政策
             saveOrg();//保存机构
+            goOrglist();//取消事件
         });
     })(jQuery,undefined);
 </script>
