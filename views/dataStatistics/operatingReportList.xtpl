@@ -122,7 +122,8 @@
 							</select>
 						</div>
 						<div class="btn_box text_right">
-							<a href="javascript:" class="btn orange_btn search_btn confirm">搜索</a>
+                            <a href="javascript:" class="btn bg_btn cancel search_cancel">清空</a>
+                            <a href="javascript:" class="btn orange_btn search_btn confirm">筛选</a>
 						</div>
 					</div>
 				</form>
@@ -246,9 +247,20 @@
         //筛选
 		function getListByCondtions () {
 			var btn = $('.search_btn');
+            var cancelBtn = $('.search_cancel');
             btn.off('click').on('click', function () {
                 $('.currentPage').val('1');
                 $('#operat_list').submit();
+            });
+            //清空按钮点击
+            cancelBtn.off('click').on('click', function () {
+                var listForm = $('#operat_list');
+                listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('');
+                listForm.find('.filtrate_date').val('');
+                listForm.find('.city_ids').val('');
+                listForm.find('.select_city_input').val('全部');
+                listForm.submit();
             });
 		}
 
