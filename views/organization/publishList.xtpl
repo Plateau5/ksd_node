@@ -159,9 +159,9 @@
 <script>
     //发布新产品
     (function ($) {
-        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
-        if (reqParamsStr.length > 0 ) {
-            reqParamsStr = JSON.parse(reqParamsStr);
+        var publish_list = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (publish_list.length > 0 ) {
+            publish_list = JSON.parse(publish_list);
         }
         function createProduct () {
             var btn = $("#publish_product");
@@ -194,7 +194,7 @@
                 var params = {
                     product_id : productId,
                     parent_id : parentId,
-                    publish_list : F.set(reqParamsStr)
+                    publish_list : F.set(publish_list)
                 };
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
@@ -230,7 +230,7 @@
                         product_id : productId,
                         data_num : data_num,
                         page_flag : 1,
-                        publish_list : F.set(reqParamsStr)
+                        publish_list : F.set(publish_list)
                     }
                 });
             })

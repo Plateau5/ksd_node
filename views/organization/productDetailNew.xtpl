@@ -194,6 +194,9 @@
 <script>
     (function ($) {
         var product_detail = '{{{reqParamsStr}}}';  // 产品详情页参数
+        if (product_detail.length > 0 ) {
+            product_detail = JSON.parse(product_detail);
+        }
         var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
         var warehouse_list = '{{{reqParams.warehouse_list}}}';//仓库产品列表参数
         /**
@@ -225,7 +228,7 @@
                         release_time : release_time,
                         publish_list : publish_list,
                         warehouse_list : warehouse_list,
-                        product_detail : product_detail
+                        product_detail : F.set(product_detail)
                     }
                 });
             });
@@ -387,9 +390,11 @@
             });
             var go_warehouse_list = $('.go_warehouse_list');
             go_warehouse_list.on('click', function () {
+                var data = F.get(warehouse_list);
+                data.publish_list = publish_list;
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
-                    param : F.get(warehouse_list)
+                    param : data
                 });
             });
         }

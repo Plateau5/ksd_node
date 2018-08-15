@@ -408,7 +408,6 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
-        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         var policy_list = '{{{policy_lists}}}';//编辑前政策集合
         if (policy_list.length > 0 ) {
             policy_list = JSON.parse(policy_list);
@@ -1137,26 +1136,28 @@
         function goProductList () {
             var go_product_list = $('.go_product_list');
             go_product_list.on('click', function () {
-                var orgId = $('#orgId').val();
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/publishedProducts",
-                    param :{
-                        parent_id : orgId
-                    }
+                    param : F.get(publish_list)
                 })
             });
             var go_warehouse_list = $('.go_warehouse_list');
             go_warehouse_list.on('click', function () {
+                var data = F.get(warehouse_list);
+                data.publish_list = publish_list;
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
-                    param : F.get(warehouse_list)
+                    param : data
                 });
             });
             var go_product_detail = $('.go_product_detail');
             go_product_detail.on('click', function () {
+                var data = F.get(product_detail);
+                data.publish_list = publish_list;
+                data.warehouse_list = warehouse_list;
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/productDetailNew",
-                    param : F.get(product_detail)
+                    param : data
                 });
             });
         }

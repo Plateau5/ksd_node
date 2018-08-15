@@ -140,9 +140,9 @@
 <script src="{{markUri}}/static/js/product/shelves_list.js"></script>
 <script>
     (function ($) {
-        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
-        if (reqParamsStr.length > 0 ) {
-            reqParamsStr = JSON.parse(reqParamsStr);
+        var warehouse_list = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (warehouse_list.length > 0 ) {
+            warehouse_list = JSON.parse(warehouse_list);
         }
         var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
 
@@ -260,7 +260,7 @@
                         data_num : data_num,
                         page_flag : 0,
                         publish_list : publish_list,
-                        warehouse_list : F.set(reqParamsStr)
+                        warehouse_list : F.set(warehouse_list)
                     }
                 });
             });
