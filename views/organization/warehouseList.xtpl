@@ -211,22 +211,8 @@
          * */
         function delEvent () {
             $(".delete_btn").off("click").on("click", function () {
-                var check = $('.icon_check').length;
-                if(check == '0'){
-                    $alert('未选中产品，请选择需要删除的产品！');
-                    return;
-                }
-                var delete_check = $('.product_tr .icon_check');
-                var delete_arr = [];
-                for(var i = 0; i < delete_check.length; i++){
-                    var id = delete_check.eq(i).attr('id');
-                    delete_arr.push(id);
-                }
-                if(delete_arr.length == '0'){
-                    return;
-                }
-                $('#delete_id').val(delete_arr.join(','));
-                var data = new FormData(document.getElementById('delete_info'));
+                var _this = $(this);
+                var product_id = _this.data('id');
                 dialog('open', {
                     title : '删除提醒',
                     content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后产品将不可恢复，确认继续删除？</span></div>',
@@ -236,9 +222,9 @@
                             type:'post',
                             timeout:3000,
                             url : contextPath + "/api/product/delete",
-                            data : data,
-                            processData : false,      //序列化参数为String类型，默认：true。
-                            contentType : false,      //内容编码，文件上传时设为FALSE
+                            data : {
+                                product_id : product_id
+                            },
                             success : function (res) {
                                 if (res.error_code == 0) {
                                     $alert('删除成功', function () {

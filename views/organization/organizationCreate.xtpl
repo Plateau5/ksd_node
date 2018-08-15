@@ -151,7 +151,7 @@
                                 <span class="options_name">有无系统：</span>
                             </div>
                             <div id="have_system" class="column_val">
-                                {{#if (vo.have_system) }}
+                                {{#if (vo.have_system || vo.have_system === 0) }}
                                     <input id="have_sys_input" type="hidden" name="have_system" value="{{vo.have_system}}">
                                     <div class="form_group mar6">
                                         {{#if (vo.have_system === 1) }}
@@ -184,7 +184,7 @@
                                 {{/if}}
                             </div>
                         </div>
-                        {{#if (vo.have_system) }}
+                        {{#if (vo.have_system || vo.have_system === 0) }}
                             {{#if (vo.have_system === 1) }}
                                 <div class="option_item have_system_url">
                             {{else}}

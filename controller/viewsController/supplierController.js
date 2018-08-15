@@ -417,7 +417,9 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAILNEW = function(req, res, next) {
                     data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/,/g,'%、') + '%';
                     data.policy_list[i].term = data.policy_list[i].term.replace(/,/g,'、');
                     for (var j = 0, lenj = data.policy_list[i].policy_list.length; j <lenj; j++) {
-                        data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name.replace(/,/g,'、');
+                        if (data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name) {
+                            data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name.replace(/,/g,'、');
+                        }
                     }
                 }
             }
