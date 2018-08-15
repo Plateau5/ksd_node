@@ -250,7 +250,7 @@
                                                     {{/if}}
                                                 </div>
                                                 <div class="form_group">
-                                                    {{#if (this.is_must === 0) }}
+                                                    {{#if (this.is_must === 0 || !this.is_must) }}
                                                     <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
                                                     <label for="must_nosend{{xindex}}" class="checked">非必传</label>
                                                     {{else}}
@@ -338,6 +338,13 @@
                                                                     </div>
                                                                 </a>
                                                             {{/each}}
+                                                            {{#if (file_ids_arr.length === 30) }}
+                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;display: none;"></a>
+                                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                                            {{else}}
+                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                                            {{/if}}
                                                         {{else}}
                                                             <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
                                                                 <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
@@ -346,10 +353,13 @@
                                                                     <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
                                                                 </div>
                                                             </a>
+                                                            <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                         {{/if}}
+                                                    {{else}}
+                                                        <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                                        <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                     {{/if}}
-                                                    <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
-                                                    <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                 </div>
                                             </div>
                                         </div>

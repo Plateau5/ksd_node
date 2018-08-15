@@ -431,7 +431,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITBASE = function(req, res, next) {
         title : '供应商-发布新产品',
         page : './organization/productBasicCreate',
         callback : function (data) {
-            data.list_city = JSON.stringify(data.list_city);
+            data.city_list = JSON.stringify(data.city_list);
             data.condition_city_list = JSON.stringify(data.condition_city_list);
             if (data.detail.city_ids.indexOf(',') !== -1) {
                 var city_name_arr = data.detail.applyto_cityname.split(',');

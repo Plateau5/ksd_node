@@ -70,7 +70,7 @@
                         <div class="detail_about_label">基本信息</div>
                         {{#if (reqParams.page_flag === '0') }}
                         <div class="rf_30">
-                            <a href="javascript:;" class="detail_title_btn edit_btn edit_baseinfo" lang="">编辑</a>
+                            <a href="javascript:;" class="detail_title_btn edit_btn edit_baseinfo" lang="{{vo.status}}">编辑</a>
                         </div>
                         {{/if}}
                     </div>
@@ -275,11 +275,13 @@
             var edit_baseinfo = $('.edit_baseinfo');
             edit_baseinfo.off('click').on('click', function () {
                 var product_id = $('#productId').val();
+                var status = $(this).attr('lang');
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/productEditBase',
                     param : {
                         product_id : product_id,
                         prev_flag : 1,
+                        status : status,
                         jump_flag : 1
                     }
                 });

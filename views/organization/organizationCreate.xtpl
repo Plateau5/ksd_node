@@ -381,7 +381,7 @@
                                         {{set (special_arr = vo.special.split(',') ) }}
                                         {{#each (feature_list) }}
                                         <div class="form_group">
-                                            {{#if (special_arr.indexOf(this.index) !== -1) }}
+                                            {{#if (special_arr.indexOf(this.index.toString()) !== -1) }}
                                             <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.index}}" checked="checked"/>
                                             <label for="org_feature{{xindex}}" class="checked">{{this.name}}</label>
                                             {{else}}
@@ -393,7 +393,7 @@
                                     {{else}}
                                         {{#each (feature_list) }}
                                         <div class="form_group">
-                                            {{#if (this.index === vo.special) }}
+                                            {{#if (this.index.toString() === vo.special) }}
                                             <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.index}}" checked="checked"/>
                                             <label for="org_feature{{xindex}}" class="checked">{{this.name}}</label>
                                             {{else}}
@@ -425,7 +425,7 @@
                                         {{set (addition_finance_arr = vo.addition_finance.split(',') ) }}
                                         {{#each (addition_list) }}
                                             <div class="form_group">
-                                                {{#if (addition_finance_arr.indexOf(this.index) !== 01) }}
+                                                {{#if (addition_finance_arr.indexOf(this.index.toString()) !== -1) }}
                                                 <input id="additional_project{{xindex}}" type="checkbox" class="additional_project"  value="{{this.index}}" checked="checked"/>
                                                 <label for="additional_project{{xindex}}" class="checked">{{this.name}}</label>
                                                 {{else}}
@@ -437,7 +437,7 @@
                                     {{else}}
                                         {{#each (addition_list) }}
                                             <div class="form_group">
-                                                {{#if (this.index === vo.addition_finance) }}
+                                                {{#if (this.index.toString() === vo.addition_finance) }}
                                                 <input id="additional_project{{xindex}}" type="checkbox" class="additional_project"  value="{{this.index}}" checked="checked"/>
                                                 <label for="additional_project{{xindex}}" class="checked">{{this.name}}</label>
                                                 {{else}}

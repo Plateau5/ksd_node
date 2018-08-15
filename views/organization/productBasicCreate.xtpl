@@ -35,6 +35,7 @@
                     <input type="hidden" value="{{#if (reqParams.product_id) }}{{detail.parent_id}}{{else}}{{parent_id}}{{/if}}" name="parent_id" id="orgId">
                     <input type="hidden" value="{{reqParams.product_id}}" name="product_id" id="productId">
                     <input type="hidden" value="{{reqParams.prev_flag}}" name="" id="prev_flag">
+                    <input type="hidden" value="{{reqParams.status}}" name="" id="product_status">
                     <div class="base_info">
                         <div class="detail_title">基本信息</div>
                         <div class="option_item">
@@ -141,13 +142,7 @@
                             </div>
                             <div class="column_val select_city_div">
                                 <input type="hidden" class="city_ids" name="city_ids"  value="{{detail.city_ids}}"/>
-                                <input type="text" class="select_city_input cursor" name=""  value="{{#if (detail) }}
-                                    {{#if (detail.city_arr.length !== 0) }}
-                                        {{detail.city_arr[0]}}等{{detail.city_arr.length}}个城市
-                                    {{else}}
-                                        {{detail.city_arr[0]}}
-                                    {{/if}}
-                                {{/if}}" placeholder="请选择省市" readonly/>
+                                <input type="text" class="select_city_input cursor" name=""  value="{{#if (detail) }}{{#if (detail.city_arr.length !== 0) }}{{detail.city_arr[0]}}等{{detail.city_arr.length}}个城市{{else}}{{detail.city_arr[0]}}{{/if}}{{/if}}" placeholder="请选择省市" readonly/>
                             </div>
                         </div>
                         <div class="option_item">
@@ -218,7 +213,7 @@
 <script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script>
     (function ($) {
-        var city_list = '{{{list_city}}}';//所有城市
+        var city_list = '{{{city_list}}}';//所有城市
         if (city_list.length > 0 ) {
             city_list = JSON.parse(city_list);
         }
@@ -238,17 +233,15 @@
          * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
          * */
         function getSelectedCitys () {
-            if ($('#productId').val() == '' || $('#prev_flag').val() != '') {
-                var dataType = 1;
+            if ($('#product_status').val() == '1') {
                 var type = 2;
-            } else {
-                var dataType = 1;
+            } else if ($('#product_status').val() == '3') {
                 var type = 1;
             }
             $('.select_city_input').citySelect({
                 data : city_list,
                 defaultData : condition_city_list,
-                dataType : dataType,
+                dataType : 1,
                 type : type
             }, function (data) {
                 var cityArr = [];
