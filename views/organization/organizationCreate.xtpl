@@ -306,11 +306,7 @@
                         </div>
                         {{#if (vo.applyto_business) }}
                             {{#if (vo.applyto_business.indexOf("1")!== -1) }}
-                                {{#if (vo.assess_desc) }}
-                                    <div class="option_item evaluation_des" style="display:block;margin-top: 20px;">
-                                {{else}}
-                                    <div class="option_item evaluation_des" style="display:none;margin-top: 20px;">
-                                {{/if}}
+                                <div class="option_item evaluation_des" style="display:block;margin-top: 20px;">
                             {{else}}
                                 <div class="option_item evaluation_des" style="display:none;margin-top: 20px;">
                             {{/if}}
@@ -330,22 +326,21 @@
                             </div>
                             <div class="column_val">
                                 {{#if (vo.bei_hu) }}
-                                    <input type="hidden" class="bei_hu" name="bei_hu" value="{{vo.bei_hu}}">
                                     <div class="form_group mar6">
                                         {{#if (vo.bei_hu === 1) }}
-                                        <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
+                                        <input id="back_door_need" type="radio" checked="checked" name="bei_hu" value="1">
                                         <label for="back_door_need" class="checked">可以</label>
                                         {{else}}
-                                        <input id="back_door_need" type="radio" name="back_door_need" value="1">
+                                        <input id="back_door_need" type="radio" name="bei_hu" value="1">
                                         <label for="back_door_need">可以</label>
                                         {{/if}}
                                     </div>
                                     <div class="form_group mar6">
                                         {{#if (vo.bei_hu === 2) }}
-                                        <input id="back_door_noneed" type="radio" checked="checked" name="back_door_need" value="2">
+                                        <input id="back_door_noneed" type="radio" checked="checked" name="bei_hu" value="2">
                                         <label for="back_door_noneed" class="checked">不可以</label>
                                         {{else}}
-                                        <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
+                                        <input id="back_door_noneed" type="radio" name="bei_hu" value="2">
                                         <label for="back_door_noneed">不可以</label>
                                         {{/if}}
                                     </div>

@@ -191,6 +191,9 @@
                             {{elseif (vo.bei_hu === 2 ) }}
                             不可以
                             {{/if}}
+                            {{#if (vo.bei_hu_remark) }}
+                            ({{vo.bei_hu_remark}})
+                            {{/if}}
                         </div>
                     </div>
                     {{/if}}
@@ -264,7 +267,7 @@
                     <div class="detail_about_txt">
                         <div class="detail_about_label">审批政策：</div>
                         <div class="detail_about_data">
-                            <a href="javascript:;" class="look_policy" lang="{{vo.id}}">查看政策</a>
+                            <a href="javascript:;" class="look_policy" lang="{{vo.id}}">查看详情</a>
                         </div>
                     </div>
                     {{/if}}
@@ -275,6 +278,7 @@
                 {{else}}
                 <div class="detail_about" style="display:none">
                 {{/if}}
+                    {{#if (vo.applyto_business.indexOf('0') !== -1) }}
                     <div class="detail_about_title">
                         <div class="detail_about_label">新车</div>
                         <div class="rf_30">
@@ -283,6 +287,7 @@
                             {{/if}}
                         </div>
                     </div>
+                    {{/if}}
                     {{#each(list) }}
                         {{#if(this.car_type === 0) }}
                             {{#if (this.material_name) }}
@@ -328,6 +333,7 @@
                             {{/if}}
                         {{/if}}
                     {{/each}}
+                    {{#if (vo.applyto_business.indexOf('1') !== -1) }}
                     <div class="detail_about_title">
                         <div class="detail_about_label">二手车</div>
                         <div class="rf_30">
@@ -336,6 +342,7 @@
                             {{/if}}
                         </div>
                     </div>
+                    {{/if}}
                     {{#each(list) }}
                         {{#if(this.car_type === 1) }}
                             {{#if (this.material_name) }}

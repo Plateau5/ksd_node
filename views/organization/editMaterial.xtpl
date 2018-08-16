@@ -460,6 +460,7 @@
                     material_nums++;
                 }
             });
+            var is_must_flag = false;
             if (material_nums == 0) {
                 $alert('请选择申请资料');
                 return;
@@ -497,11 +498,15 @@
                         material_data_arr.push(obj);
                     } else {
                         if (is_must == 1) {
+                            is_must_flag = true;
                             $alert('请选择'+ big_class +'里面对应的资料。');
                             return false;
                         }
                     }
                 });
+            }
+            if (is_must_flag) {
+                return false;
             }
             var update_data = [];//有更新的材料数据
             var insert_data = [];//有新增的材料数据
@@ -621,6 +626,7 @@
         }
         $(function() {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
+            viewLargeImage('.img_md_box');
             viewImages();       // 查看大图
             deleteImages();     // 图片删除
             uploadImage();      // 图片上传注册

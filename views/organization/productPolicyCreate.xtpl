@@ -349,10 +349,10 @@
                                                                 </a>
                                                             {{/each}}
                                                             {{#if (file_ids_arr.length === 30) }}
-                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;display: none;"></a>
+                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{file_ids_arr.length-1}}" style="padding: 0px;display: none;"></a>
                                                                 <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                             {{else}}
-                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{file_ids_arr.length-1}}" style="padding: 0px;"></a>
                                                                 <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                             {{/if}}
                                                         {{else}}
@@ -363,7 +363,7 @@
                                                                     <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
                                                                 </div>
                                                             </a>
-                                                            <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                                            <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="1" style="padding: 0px;"></a>
                                                             <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                         {{/if}}
                                                     {{else}}
@@ -638,7 +638,7 @@
                     ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
                     '             </div>\n' +
                     '             </a>';
-                if (type == 29) {
+                if (type == 1) {
                     btn.hide();
                 }
                 btn.before(imgEle);
@@ -698,7 +698,7 @@
                                 var btn = $('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
                                 btn.data('type',type.number() - 1);
-                                if (btn.data('type') == 29) {
+                                if (btn.data('type') == 0) {
                                     btn.show();
                                 }
                                 // 获取父元素

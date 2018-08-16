@@ -126,14 +126,46 @@
                                 <span class="options_name">适用类型：</span>
                             </div>
                             <div id="" class="column_val">
-                                <div class="form_group">
-                                    <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
-                                    <label class="applyto_type checked">快收单</label>
-                                </div>
-                                <div class="form_group">
-                                    <input type="checkbox" name="applyto_type" value="2" />
-                                    <label class="applyto_type">经销商</label>
-                                </div>
+                                {{#if (detail) }}
+                                    {{#if (detail.applyto_type.indexOf(',') !== -1) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
+                                            <label class="applyto_type checked">快收单</label>
+                                        </div>
+                                        <div class="form_group">
+                                            <input type="checkbox" name="applyto_type" value="2" checked="checked"/>
+                                            <label class="applyto_type checked">经销商</label>
+                                        </div>
+                                    {{else}}
+                                        <div class="form_group">
+                                            {{#if (detail.applyto_type === '1') }}
+                                            <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
+                                            <label class="applyto_type checked">快收单</label>
+                                            {{else}}
+                                            <input type="checkbox" class="" name="applyto_type"  value="1"/>
+                                            <label class="applyto_type">快收单</label>
+                                            {{/if}}
+                                        </div>
+                                        <div class="form_group">
+                                            {{#if (detail.applyto_type === '2') }}
+                                            <input type="checkbox" name="applyto_type" value="2" checked="checked"/>
+                                            <label class="applyto_type checked">经销商</label>
+                                            {{else}}
+                                            <input type="checkbox" name="applyto_type" value="2" />
+                                            <label class="applyto_type">经销商</label>
+                                            {{/if}}
+                                        </div>
+                                    {{/if}}
+                                {{else}}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
+                                        <label class="applyto_type checked">快收单</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" name="applyto_type" value="2" />
+                                        <label class="applyto_type">经销商</label>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                         <div id="applyto_city" class="option_item">
