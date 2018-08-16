@@ -335,7 +335,12 @@
                 $alert('产品名称不能为空');
                 return;
             }
-
+            var radio_applyto_business = $('.radio_applyto_business');
+            if (radio_applyto_business[0].checked) {
+                $('.applyto_business').val(radio_applyto_business[0].value);
+            } else if (radio_applyto_business[1].checked) {
+                $('.applyto_business').val(radio_applyto_business[1].value);
+            }
             var applyto_business = $('.applyto_business').val();
             if (applyto_business == '') {
                 $alert('请选择产品的适用业务');
