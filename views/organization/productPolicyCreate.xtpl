@@ -143,7 +143,7 @@
                                                     </div>
                                                 {{else}}
                                                     <div class="downpayment_add_ready">
-                                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
+                                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
                                                     </div>
                                                 {{/if}}
                                             {{/each}}
@@ -209,7 +209,7 @@
                                             </div>
                                             {{else}}
                                             <div class="rate_add_ready">
-                                                <input type="text" placeholder="请输入费率" name="interest_rate" class="rate_valite" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span>
+                                                <input type="text" placeholder="请输入费率" name="interest_rate" class="rate_valite" maxlength="5" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span>
                                             </div>
                                             {{/if}}
                                         {{/each}}
@@ -483,7 +483,7 @@
                     }
                 }
 
-                var inner = '<div class="downpayment_add_ready"><input type="text" readonly="readonly" class="money_valite" name="downpayment_money" placeholder="请输入首付金额" value="' + money + '" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div>';
+                var inner = '<div class="downpayment_add_ready"><input type="text" readonly="readonly" class="money_valite" name="downpayment_money" maxlength="7" placeholder="请输入首付金额" value="' + money + '" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div>';
                 $('.downpayment_add').before(inner);
                 $('.downpayment_add input').val("");
 
@@ -543,7 +543,7 @@
                     }
                 }
 
-                var inner = '<div class="rate_add_ready"><input type="text" readonly="readonly" class="rate_valite" name="interest_rate" placeholder="请输入费率" value="' + money + '" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div>';
+                var inner = '<div class="rate_add_ready"><input type="text" readonly="readonly" class="rate_valite" maxlength="5" name="interest_rate" placeholder="请输入费率" value="' + money + '" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div>';
                 $('.rate_add').before(inner);
                 $('.rate_add input').val("");
 
