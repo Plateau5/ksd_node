@@ -358,6 +358,17 @@
                 $alert('请选择适用车型');
                 return;
             }
+            var tips_info = $('.tips_info');
+            var error_flag = false;
+            tips_info.each(function () {
+                var _this = $(this);
+                if (!_this.is(':hidden')) {
+                    error_flag = true;
+                }
+            });
+            if (error_flag) {
+                return false;
+            }
             ajaxSubmit(url);
         }
 

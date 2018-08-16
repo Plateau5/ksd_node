@@ -297,9 +297,9 @@
                                 <span class="options_name">车龄限制：</span>
                             </div>
                             <div class="column_val">
-                                <input id="carage_start" type="text" class="carAge minCarAge required" name="carage_start" placeholder="1" value="1" maxlength="4" style="width:150px;">
+                                <input id="carage_start" type="text" class="carAge minCarAge required" name="carage_start" placeholder="1" value="{{#if (vo.carage_start) }}{{vo.carage_start}}{{else}}1{{/if}}" maxlength="4" style="width:150px;">
                                 <span class="" style="padding:0 4px;">-</span>
-                                <input id="carage_end" type="text" class="carAge maxCarAge required" name="carage_end" placeholder="9" value="9" maxlength="4" style="width:150px;">
+                                <input id="carage_end" type="text" class="carAge maxCarAge required" name="carage_end" placeholder="9" value="{{#if (vo.carage_end) }}{{vo.carage_end}}{{else}}9{{/if}}" maxlength="4" style="width:150px;">
                                 <span class="" style="padding-left:8px;">年</span>
                                 <span class="tips_info">(*<span class="tips_text"></span>)</span>
                             </div>
@@ -835,7 +835,17 @@
                     return;
                 }
             }
-
+            var tips_info = $('.tips_info');
+            var error_flag = false;
+            tips_info.each(function () {
+                var _this = $(this);
+                if (!_this.is(':hidden')) {
+                    error_flag = true;
+                }
+            });
+            if (error_flag) {
+                return false;
+            }
             //获取机构特点val
             var org_features = [];
             var org_feature = $('.org_feature');
