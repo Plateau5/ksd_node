@@ -403,15 +403,15 @@ exports.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST = function(req,res,next) {
         page : './merchants/configProductList',
         callback : function (data) {
             if (data) {
-                if( data.PolicyList){
-                    for (var i = 0, len = data.PolicyList.length; i < len; i++) {
-                        if (data.PolicyList[i].downpayment_type == 1) {//首付比例
-                            data.PolicyList[i].downpayment_value = data.PolicyList[i].downpayment_value.replace(/[,]/g, '% 、') + '%';
-                        } else if (data.PolicyList[i].downpayment_type == 2) {//首付金额
-                            data.PolicyList[i].downpayment_value = data.PolicyList[i].downpayment_value.replace(/[,]/g, '元、') + '元';
+                if( data.policy_list){
+                    for (var i = 0, len = data.policy_list.length; i < len; i++) {
+                        if (data.policy_list[i].downpayment_type == 1) {//首付比例
+                            data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/[,]/g, '% 、') + '%';
+                        } else if (data.policy_list[i].downpayment_type == 2) {//首付金额
+                            data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/[,]/g, '元、') + '元';
                         }
-                        data.PolicyList[i].interest_rate = data.PolicyList[i].interest_rate.replace(/[,]/g,'%、') + '%';
-                        data.PolicyList[i].term = data.PolicyList[i].term.replace(/[,]/g, ' 、');
+                        data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/[,]/g,'%、') + '%';
+                        data.policy_list[i].term = data.policy_list[i].term.replace(/[,]/g, ' 、');
                     }
                 }
             }

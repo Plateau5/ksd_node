@@ -1403,6 +1403,7 @@ function searchBusinessList (firstLetter) {
     var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
     var settlementType = $("select#settlementType option:selected").val();   // 商户-结算方式
     var applytoType = $("select#applytoType option:selected").val();   // 商户-商户来源
+    var applytoBusiness = $("select#applyBusiness option:selected").val();   // 商户-配置金融产品-适用业务
 
     /*var CustomerStart = $("#start_loan_time").val() || '';  // 客户-放款时间开始
     var CustomerEnd = $("#end_loan_time").val() || '';   // 客户-放款时间结束
@@ -1431,7 +1432,7 @@ function searchBusinessList (firstLetter) {
     ownType && $("#"+id).append('<input type="hidden" id="own_type" name="own_type" value="'+ ownType +'" />');
     settlementType && $("#"+id).append('<input type="hidden" id="settlement_type" name="settlement_type" value="'+ settlementType +'" />');
     applytoType && $("#"+id).append('<input type="hidden" id="applyto_type" name="applyto_type" value="'+ applytoType +'" />');
-
+    /*applytoBusiness && $("#"+id).append('<input type="hidden" id="applyto_car" name="car_type" value="'+ applytoBusiness +'" />');*/
     /*CustomerStart && $("#"+id).append('<input type="hidden" id="start_loan_time" name="start_loan_time" value="'+ CustomerStart + '" />');
     CustomerEnd && $("#"+id).append('<input type="hidden" id="end_loan_time" name="end_loan_time" value="'+ CustomerEnd + '" />');
     pigeonholeStatus && $("#"+id).append('<input type="hidden" id="pigeonholeStatus" name="pigeonhole_status" value="'+ pigeonholeStatus +'" />');
