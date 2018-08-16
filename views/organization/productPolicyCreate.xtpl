@@ -294,7 +294,7 @@
                                                                 </div>
                                                                 {{#each (this.mlist) }}
                                                                 <div class="form_group">
-                                                                    {{#if (material_datas_arr.indexOf(this.material_id) !== -1) }}
+                                                                    {{#if (material_datas_arr.indexOf(this.material_id.toString()) !== -1) }}
                                                                     <input type="checkbox" class="" name="" value="" checked="checked">
                                                                     <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
                                                                     {{else}}
@@ -311,7 +311,7 @@
                                                             </div>
                                                             {{#each (this.mlist) }}
                                                             <div class="form_group">
-                                                                {{#if (this.material_id === ../this.material_datas) }}
+                                                                {{#if (this.material_id.toString() === ../this.material_datas) }}
                                                                 <input type="checkbox" class="" name="" value="" checked="checked">
                                                                 <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
                                                                 {{else}}
