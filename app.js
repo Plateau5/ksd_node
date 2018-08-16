@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
     var inner_logininfo = req.cookies.inner_logininfo;
     // console.log((url !== markUri + '/login' && url !== markUri + '/' && url !== markUri + '/logout'));
     // console.log((logininfo === undefined));
-    if((url !== markUri + '/login' && url !== markUri + '/' && url !== markUri + '/logout') && (logininfo === undefined || comp_info === undefined || inner_logininfo === undefined)){ //通过判断控制用户登录后不能访问登录页面；
+    if((url !== markUri + '/login' && url !== markUri + '/' && url !== markUri + '/logout') && (comp_info === undefined || inner_logininfo === undefined)){ //通过判断控制用户登录后不能访问登录页面；
         res.clearCookie();
         res.redirect('/');    // 页面重定向
     } else {
