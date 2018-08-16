@@ -262,7 +262,6 @@
          */
         function getSuccess (res, btn, type, fileName) {
             if (res.error_code == 0) {
-                btn.data('type',type.number() + 1);
                 var file_id_input =  btn.siblings('input[name=file_ids]');
                 var file_ids = [];
                 if (file_id_input.val() == '') {
@@ -282,7 +281,7 @@
                     ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
                     '             </div>\n' +
                     '             </a>';
-                if (type == 29) {
+                if (btn.parents('.img_md_box').find('img').length > 29) {
                     btn.hide();
                 }
                 btn.before(imgEle);
@@ -342,7 +341,7 @@
                                 var btn = $('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
                                 btn.data('type',type.number() - 1);
-                                if (btn.data('type') == 29) {
+                                if (btn.parents('.img_md_box').find('img').length < 30) {
                                     btn.show();
                                 }
                                 // 获取父元素
