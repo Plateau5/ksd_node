@@ -35,9 +35,9 @@
                     <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
                     {{#each (materialList) }}
                     {{#if (this.data_ids) }}
-                        <div class="material_list" data-id="{{this.type}}" data-histrory="1">
+                        <div class="material_list" data-id="{{this.type}}" data-histrory="1" data-org_material_id="{{this.organization_material_id}}">
                     {{else}}
-                        <div class="material_list" data-id="{{this.type}}" data-histrory="0">
+                        <div class="material_list" data-id="{{this.type}}" data-histrory="0" data-org_material_id="{{this.organization_material_id}}">
                     {{/if}}
 
                         <div class="big_class">
@@ -515,6 +515,7 @@
                 var _this = $(this);
                 var data_type = _this.data('id');
                 var is_histrory = _this.data('histrory');
+                var organization_material_id = _this.data('org_material_id');
                 var big_class = _this.find('.big_class');
                 if (big_class.find('input')[0].checked) {
                     var is_must = big_class.find('input').val();
@@ -544,7 +545,8 @@
                             data_ids : material_datas.join(','),
                             is_must : is_must,
                             file_ids : file_ids,
-                            is_delete : is_delete
+                            is_delete : is_delete,
+                            organization_material_id : organization_material_id
                         };
                         update_data.push(obj);
                         break;
