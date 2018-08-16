@@ -463,6 +463,10 @@ router.post(markUri + '/statistics/merchants/detail', statisticsCtrl.VIEW_STATIS
 router.all(markUri + '/statistics/operating/system', statisticsCtrl.VIEW_STATISTICS_OPERATING_SYSTEM);
 // 数据统计-运营报表-报表列表页跳转1514
 router.all(markUri + '/statistics/operating/list', statisticsCtrl.VIEW_STATISTICS_OPERATING_LIST);
+// 数据统计-财务凭证-财务凭证列表页跳转1592
+router.all(markUri + '/statistics/voucher/system', statisticsCtrl.VIEW_STATISTICS_VOUCHER_SYSTEM);
+// 数据统计-财务凭证-财务凭证列表页跳转1592
+router.all(markUri + '/statistics/voucher/list', statisticsCtrl.VIEW_STATISTICS_VOUCHER_LIST);
 
 
 

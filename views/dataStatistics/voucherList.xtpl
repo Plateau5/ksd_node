@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+	<link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/statistics.css"/>
+    <title>数据统计-财务凭证</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main report_list">
+			<div class="statistics_list">
+				<form action="{{markUri}}/statistics/voucher/list" id="voucher_list" method="post" role='form'>
+					<input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+					<div class="filtrate border_filtrate">
+						<div class="filtrate_item date_conditions inline_block">
+							<div class="conditions_name inline_block">选择日期：</div>
+							<input type="text" id="queryStartDate" readonly class="filtrate_date" name="time_start" value="{{condition.time_start}}" />
+                            <span class="inline_block"> — </span>
+							<input type="text" id="queryEndDate" readonly class="filtrate_date" name="time_end" value="{{condition.time_end}}" />
+						</div>
+						<div class="filtrate_item inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">业务类型：</div>
+							<select name="car_type" class="filtrate_select filtrate_select_report" id="type_business">
+								{{#if (condition.car_type === '' && condition.car_type !== 0) }}
+									<option value="" selected>全部</option>
+								{{else}}
+									<option value="">全部</option>
+								{{/if}}
+								{{#if (condition.car_type === 0) }}
+									<option value="0" selected>新车</option>
+								{{else}}
+									<option value="0">新车</option>
+								{{/if}}
+								{{#if (condition.car_type === 1) }}
+									<option value="1" selected>二手车</option>
+								{{else}}
+									<option value="1">二手车</option>
+								{{/if}}
+							</select>
+						</div>
+						<div class="filtrate_item inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">科目：</div>
+							<select name="subject_type" class="filtrate_select filtrate_select_report" id="subject_type">
+								{{#if (condition.subject_type === '' && condition.subject_type !== 0) }}
+								<option value="" selected>全部</option>
+								{{else}}
+								<option value="">全部</option>
+								{{/if}}
+								{{#if (condition.subject_type === 0) }}
+								<option value="0" selected>代垫款项</option>
+								{{else}}
+								<option value="0">代垫款项</option>
+								{{/if}}
+								{{#if (condition.subject_type === 1) }}
+								<option value="1" selected>代理佣金</option>
+								{{else}}
+								<option value="1">代理佣金</option>
+								{{/if}}
+							</select>
+						</div>
+						<div class="filtrate_item select_item inline_block">
+							<div class="conditions_name inline_block" style="vertical-align: top;">付款账户：</div>
+							<select name="bank_no"  class="filtrate_select" id="bank_no" style="width:290px;">
+								<option value="">全部</option>
+								{{#each (bank_list) }}
+								{{#if (this.bank_no === condition.bank_no) }}
+								<option value="{{this.bank_no}}" selected>{{this.bank_name}}，{{this.bank_no}}</option>
+								{{else}}
+								<option value="{{this.bank_no}}">{{this.bank_name}}，{{this.bank_no}}</option>
+								{{/if}}
+								{{/each}}
+							</select>
+						</div>
+						<div class="btn_box text_right">
+							<a href="javascript:" class="btn bg_btn cancel search_cancel">清空</a>
+							<a href="javascript:" class="btn orange_btn search_btn confirm">筛选</a>
+						</div>
+					</div>
+				</form>
+				<form action="" id="fields_download" method="">
+					<input id="time_start" value="{{condition.time_start}}" name="time_start" type="hidden">
+					<input id="time_end" value="{{condition.time_end}}" name="time_end" type="hidden">
+					<input id="car_type" value="{{condition.car_type}}" name="car_type" type="hidden">
+					<input id="bankNo" value="{{condition.bank_no}}" name="bank_no" type="hidden">
+					<input id="subjectType" value="{{condition.subject_type}}" name="subject_type" type="hidden">
+					<input id="count" value="{{count}}" name="count" type="hidden">
+				</form>
+				<div class="detail_btn_box left">
+					<div class="rf">
+						{{#if (verifyCode(1593)) }}
+							<a href="javascript:" id="download_btn" class="detail_title_btn download_btn operatingBtn">导出</a>
+						{{/if}}
+					</div>
+				</div>
+				<table class="normal">
+					<colgroup style="width: 100%;">
+						<col style="width: 4%;" />
+						<col style="width: 12%;" />
+						<col style="width: 12%;" />
+						<col style="width: 12%;" />
+						<col style="width: 20%;" />
+						<col style="width: 23%;" />
+						<col />
+					</colgroup>
+					<tr>
+						<th style="padding: 0 0 0 8px;"></th>
+						<th class="text_left pd_left">日期</th>
+						<th class="text_left pd_left">科目编码</th>
+						<th class="text_left pd_left">科目</th>
+						<th class="text_left pd_left">核算维度</th>
+						<th class="text_left pd_left">摘要</th>
+						<th class="text_left pd_left">借方金额(元)</th>
+					</tr>
+					{{#if (count === 0) }}
+					<tr>
+						<td colspan="7" class="no_hover">
+							{{include('./../inc/empty_data')}}
+						</td>
+					</tr>
+					{{else}}
+						{{#each (list) }}
+							<tr>
+								<td class="text_left" style="padding: 0 0 0 8px;"></td>
+								<td class="text_left" title="{{this.lending_date}}">{{this.lending_date}}</td>
+								<td class="text_left" title="{{this.subject_code}}">{{this.subject_code}}</td>
+								<td class="text_left" title="{{this.subject_name}}">{{this.subject_name}}</td>
+								<td class="text_left" title="{{this.compact_no}}-{{this.vin}}" style="padding: 9px 2%">
+									<div class="report_account">{{this.compact_no}}</div>
+									<div class="report_account">{{this.vin}}</div>
+								</td>
+								<td class="text_left" title="{{this.summary}}">
+                                    {{#if (this.summary) }}
+                                        {{this.summary}}
+                                    {{else}}
+                                        - -
+                                    {{/if}}
+                                </td>
+								<td class="text_left" title="{{this.money}}">{{this.money}}</td>
+							</tr>
+						{{/each}}
+					{{/if}}
+				</table>
+				{{include('./../inc/paginations')}}
+			</div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script>
+    (function ($) {
+        /**
+         * 时间联动（开始结束）的逻辑封装
+         * @author wyt 2018年8月14日15:28:05
+         * @param startSelector {string} : 开始时间
+         * @param endSelector {string} : 结束时间
+         */
+        function voucherDateStartEnd (startSelector, endSelector) {
+            var start = {
+                format: 'YYYY-MM-DD',
+                //minDate: '2018-08-01', //设定最小日期为当前日期
+                //festival:true,
+                maxDate: $.nowDate({DD:0}), //最大日期,
+                isClear : false,
+                isToday :false,
+                choosefun: function(elem,datas){
+                    end.minDate = datas; //开始日选好后，重置结束日的最小日期
+                    endDates();
+                },
+                okfun:function (elem,datas) {
+                    end.minDate = datas; //开始日选好后，重置结束日的最小日期
+                    endDates();
+                }
+            };
+            var end = {
+                format: 'YYYY-MM-DD',
+                minDate:  '2018-08-01', //设定最小日期为当前日期
+                // festival:true,
+                maxDate: $.nowDate({DD:0}), //最大日期
+                isClear : false,
+                isToday :false,
+                choosefun: function(elem,datas){
+                    start.maxDate = datas; //将结束日的初始值设定为开始日的最大日期
+                }
+            };
+            function endDates() {
+                end.trigger = false;
+                $(endSelector).jeDate(end);
+            }
+            $(startSelector + ' , '+ endSelector).addClass('datainp wicon');
+            $(startSelector).jeDate(start);
+            $(endSelector).jeDate(end);
+        }
+
+        //筛选
+		function getListByCondtions () {
+			var btn = $('.search_btn');
+			var cancelBtn = $('.search_cancel');
+            btn.off('click').on('click', function () {
+                $('.currentPage').val('1');
+                $('#voucher_list').submit();
+            });
+            //清空按钮点击
+            cancelBtn.off('click').on('click', function () {
+                var listForm = $('#voucher_list');
+                listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('');
+                listForm.find('.filtrate_date').val('');
+                listForm.submit();
+            });
+		}
+
+        // 导出下载
+        function downloadField () {
+            var btn = $('.download_btn');
+            btn.off('click').on('click', function () {
+                var count = $('#count');
+                var time_start = $('#time_start').val();
+                var time_end = $('#time_end').val();
+                var bank_no = $('#bankNo').val();
+                var subject_type = $('#subjectType').val();
+                var car_type = $('#car_type').val();
+
+                if (count.val() != 0) {
+                    locationTo({
+                        action : contextPath + "/reportForm/finance/export/VoucherExcel",
+                        param : {
+                            time_start : time_start,
+                            time_end : time_end,
+                            car_type : car_type,
+                            subject_type : subject_type,
+                            bank_no : bank_no
+                        }
+                    });
+                } else {
+                    $alert('当前列表内数据为空，不能导出');
+				}
+            });
+        }
+        $(function() {
+            voucherDateStartEnd('#queryStartDate','#queryEndDate');//日期插件
+            getListByCondtions();//筛选
+            paginationSwitch();// 分页切换
+            downloadField();// 导出下载
+        });
+    })(jQuery,undefined);
+</script>
+</html>
