@@ -72,7 +72,7 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">基本信息</div>
                         {{#if (reqParams.page_flag === '0') }}
-                        {{#if (root.verifyCode(1600)) }}
+                        {{#if (verifyCode(1600)) }}
                         <div class="rf_30">
                             <a href="javascript:;" class="detail_title_btn edit_btn edit_baseinfo" lang="{{vo.release_time}}">编辑</a>
                         </div>
@@ -176,7 +176,7 @@
                     </div>
                 </div>
                 {{/each}}
-                {{#if (root.verifyCode(1599)) }}
+                {{#if (verifyCode(1599)) }}
                 {{#if (reqParams.page_flag === '0') }}
                     {{#if (policy_list.length < 10) }}
                     <a href="javascript:;" class="add_policy_btn"  data-release_time="{{vo.release_time}}">
