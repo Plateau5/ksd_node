@@ -149,13 +149,43 @@
                             <li class="list_row">
                                 <div class="list_name">费率：</div>
                                 <div class="list_value">
-                                    {{#if (vo.interest_rates.length > 0)}}
-                                        {{set (interestRate = vo.interest_rates.split(','))}}
-                                        {{#each (interestRate)}}
-                                            <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates interest_rate" name="interest_rates" value="{{this}}" checked="checked">
-                                                <label class="ratesCheck checked">{{this}}%</label>
-                                            </div>
+                                    {{#if (vo.interest_rate)}}
+                                        {{#if (vo.interest_rate.indexOf(',') !== -1) }}
+                                            {{set (interestRate = vo.interest_rate.split(','))}}
+                                            {{#each (vo.interest_rates_arr)}}
+                                                {{#if (interestRate.indexOf(this) !== -1)}}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates interest_rate" name="interest_rates" value="{{this}}" checked="checked">
+                                                        <label class="ratesCheck checked">{{this}}%</label>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates interest_rate" name="interest_rates" value="{{this}}">
+                                                        <label class="ratesCheck">{{this}}%</label>
+                                                    </div>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{else}}
+                                            {{#each (vo.interest_rates_arr)}}
+                                                {{#if (this === vo.interest_rate) }}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates interest_rate" name="interest_rates" value="{{this}}" checked="checked">
+                                                        <label class="ratesCheck checked">{{this}}%</label>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates interest_rate" name="interest_rates" value="{{this}}">
+                                                        <label class="ratesCheck">{{this}}%</label>
+                                                    </div>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                     {{else}}
+                                        {{#each (vo.interest_rates_arr)}}
+                                        <div class="form_group" style="margin-left:-4px;">
+                                            <input type="checkbox" class="rates interest_rate" name="interest_rates" value="{{this}}" checked="checked">
+                                            <label class="ratesCheck checked">{{this}}%</label>
+                                        </div>
                                         {{/each}}
                                     {{/if}}
                                 </div>

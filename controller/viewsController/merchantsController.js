@@ -427,6 +427,16 @@ exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
         page : './merchants/configProductEdit',
         callback : function (data) {
             if (data) {
+                var interest_rates = data.vo.interest_rates;
+                var interest_rates_arr = [];
+                if (interest_rates.indexOf(',') != -1) {
+                    for (var i = 0, len = interest_rates.split(',').length; i < len; i++) {
+                        interest_rates_arr.push(interest_rates.split(',')[i]);
+                    }
+                } else {
+                    interest_rates_arr.push(interest_rates);
+                }
+                data.vo.interest_rates_arr = interest_rates_arr;
                 for (var i = 0, len = data.list.length; i < len; i++) {
                     for (var j = 0, lenj = data.list[i].length; j <lenj; j++) {
                         data.list[i].list[j].material_name = data.list[i].list[j].material_name.replace(/[,]/g, '、');
