@@ -5,7 +5,7 @@ var log4js = require('log4js'); // 日志模块
 var logger = require('./util/log4Config');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var lessMiddleware = require('less-middleware');
+// var lessMiddleware = require('less-middleware');
 var crypto = require('crypto'); // 加密模块
 var COMMONUTIL = require('./util/commonUtil');  // 主加密方法类文件
 var LOGERROR = require('./util/logger').logError;
@@ -39,7 +39,7 @@ app.use(favicon(path.join(__dirname, 'public/img', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(markUri + '/static', lessMiddleware(path.join(__dirname, 'public')));
+// app.use(markUri + '/static', lessMiddleware(path.join(__dirname, 'public')));
 app.use(markUri + '/static', express.static(path.join(__dirname, 'public')));
 app.use(common.startWith);
 app.use(common.getUserInfo);
