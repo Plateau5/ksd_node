@@ -118,6 +118,16 @@
                                         {{/each}}
                                     </div>
                                 </div>
+                                <div class="option_item downpayment_money" style="display: none">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                                    </div>
+                                    <div class="column_val downpayment_money_box">
+                                        <div class="downpayment_add">
+                                            <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                        </div>
+                                    </div>
+                                </div>
                             {{elseif (policy_list[0].downpayment_type === 2) }}
                                 <div class="option_item downpayment_money">
                                     <div class="column_name">
@@ -142,6 +152,19 @@
                                                 <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{policy_list[0].downpayment_value}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
                                             </div>
                                         {{/if}}
+                                    </div>
+                                </div>
+                                <div class="option_item downpayment_rate_div" style="display: none">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                                    </div>
+                                    <div class="column_val downpayment_rate">
+                                        {{#each (rate_list) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="rates" name="" value="{{this.id}}" />
+                                            <label data-id="{{this.id}}">{{this.value}}</label>
+                                        </div>
+                                        {{/each}}
                                     </div>
                                 </div>
                             {{/if}}
