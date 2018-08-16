@@ -635,7 +635,7 @@
                         ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
                         '             </div>\n' +
                         '             </a>';
-                    if (btn.parents('.img_md_box').find('img').length > 29) {
+                    if (btn.parents('.img_md_box').find('img').length >= 29) {
                         btn.hide();
                     }
                     btn.before(imgEle);
@@ -688,7 +688,7 @@
                                 var btn = $('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
                                 btn.data('type',type.number() - 1);
-                                if (btn.parents('.img_md_box').find('img').length < 30) {
+                                if (btn.parents('.img_md_box').find('img').length <= 30) {
                                     btn.show();
                                 }
                                 // 获取父元素
