@@ -127,7 +127,7 @@
                                     {{/if}}
                                     {{#if (status === 0) }}
                                         {{#if (root.verifyCode(1588)) }}
-                                            <a href="javascript:" class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}"></a>
+                                            <a href="javascript:" class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
                                         {{/if}}
                                         {{#if (root.verifyCode(1591)) }}
                                             <div class="r_radio inline_block off" type="off" data-status="0">
@@ -211,6 +211,7 @@
                 var configId = _this.siblings('.config_product_edit').data('id');
                 var origin = _this.siblings('.config_product_edit').data('origin');
                 var productId = _this.siblings('.config_product_edit').data('product_id');
+                var productPolicyId = _this.siblings('.config_product_edit').data('product_policy_id');
                 var data, apiUrl = '', tipMsg = '';
                 data = {
                     status : oldStatus == 0 ? 1 : 0,
@@ -218,6 +219,7 @@
                     origin : origin,
                     product_id : productId,
                     supplier_id : supplierId,
+                    product_policy_id : productPolicyId
                 };
                 if (oldStatus == 0) {
                     apiUrl = contextPath + '/api/supplier/deploy/open';

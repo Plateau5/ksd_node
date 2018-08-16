@@ -1247,9 +1247,11 @@ function onUpdate () {
     btn.off('click').on('click', function () {
         var emailpattern = EMAILPATTERN;
         var merchantEmail= $.trim($('.merchant_email').val());
-        if(!emailpattern.test(merchantEmail)){
-            $alert("邮箱格式不正确");
-            return false;
+        if (merchantEmail.length> 0) {
+            if(!emailpattern.test(merchantEmail)){
+                $alert("邮箱格式不正确");
+                return false;
+            }
         }
         submitEvent(btn);
     });
