@@ -172,7 +172,11 @@ function numAndAmount (selector,opt) {
  */
 function chnAndEng (selector,type) {
     var selector = $(selector);
-    selector.on('input', function(){
+    var body = $('body');
+    body.on('input', selector,function(e){	//oninput 事件在用户输入时触发。
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         var value = _this.val();
         if (type == 0) {	//只允许输入纯英文
