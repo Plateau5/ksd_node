@@ -95,9 +95,13 @@ function numAndAmount (selector,opt) {
     var maxInteger = options.maxInteger;		//获取配置的最大整数
     var maxDecimal = options.maxDecimal;		//获取配置的小数点位数
     var addDecimal = options.addDecimal;		//值为0时，自动补位小数点0，否则不补位
-    var selector = $(selector);
+    // var selector = $(selector);
     var minDecimalStr = "";
-    selector.on('input', function(){	//oninput 事件在用户输入时触发。
+    var body = $('body');
+    body.on('input', selector,function(e){	//oninput 事件在用户输入时触发。
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
         var _this = $(this);
         var value = _this.val();
         if (typeStr == 0) {

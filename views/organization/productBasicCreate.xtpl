@@ -56,7 +56,7 @@
                             <div id="applyto_business" class="column_val">
                                 {{#if (reqParams.product_id) }}
                                     <input type="hidden" class="applyto_business" name="applyto_business" value="{{detail.product_applyto_business}}">
-                                    {{#if (detail.applyto_business.toString().indexOf(',') !== -1) }}
+                                    {{#if (detail.org_applyto_business.indexOf(',') !== -1) }}
                                         {{#if (detail.product_applyto_business === 0) }}
                                             <div class="form_group">
                                                 <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
@@ -80,12 +80,12 @@
                                             </div>
                                         {{/if}}
                                     {{else}}
-                                        {{#if (detail.applyto_business === 0 ) }}
+                                        {{#if (detail.org_applyto_business === '0' ) }}
                                         <div class="form_group">
                                             <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
                                             <label for="new_car" class="checked">新车</label>
                                         </div>
-                                        {{elseif (detail.applyto_business === 1 )}}
+                                        {{elseif (detail.org_applyto_business === '1' )}}
                                         <div class="form_group">
                                             <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
                                             <label for="old_car" class="old_car checked">二手车</label>
@@ -93,7 +93,7 @@
                                         {{/if}}
                                     {{/if}}
                                 {{else}}
-                                    {{#if (applyto_business.indexOf(',') !== -1) }}
+                                    {{#if (org_applyto_business.indexOf(',') !== -1) }}
                                         <input type="hidden" class="applyto_business" name="applyto_business" value="0">
                                         <div class="form_group">
                                             <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
@@ -104,13 +104,13 @@
                                             <label for="old_car" class="old_car">二手车</label>
                                         </div>
                                     {{else}}
-                                        <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
-                                        {{#if (applyto_business === '0' ) }}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="{{org_applyto_business}}">
+                                        {{#if (org_applyto_business === '0' ) }}
                                         <div class="form_group">
                                             <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
                                             <label for="new_car" class="checked">新车</label>
                                         </div>
-                                        {{elseif (applyto_business === '1' )}}
+                                        {{elseif (org_applyto_business === '1' )}}
                                         <div class="form_group">
                                             <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
                                             <label for="old_car" class="old_car checked">二手车</label>
