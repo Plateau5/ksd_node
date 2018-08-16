@@ -26,7 +26,13 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a href="javascript:;" class="crumbs_item go_product_list">产品列表({{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}})</a>
-                <a href="javascript:;" class="crumbs_item">{{#if (reqParams.product_id && reqParams.prev_flag === '1' )}}编辑基本信息{{else}}发布新产品{{/if}}</a>
+                {{#if (reqParams.jump_flag === '1') }}
+                <a href="javascript:;" class="crumbs_item go_warehouse_list">仓库中的产品</a>
+                <a href="javascript:;" class="crumbs_item go_product_detail">{{reqParams.product_name}}</a>
+                <a href="javascript:;" class="crumbs_item">编辑基本信息</a>
+                {{else}}
+                <a href="javascript:;" class="crumbs_item">发布新产品</a>
+                {{/if}}
             </div>
 
             <div class="form_options">
@@ -329,7 +335,12 @@
                 $alert('产品名称不能为空');
                 return;
             }
-
+            var radio_applyto_business = $('.radio_applyto_business');
+            if (radio_applyto_business[0].checked) {
+                $('.applyto_business').val(radio_applyto_business[0].value);
+            } else if (radio_applyto_business[1].checked) {
+                $('.applyto_business').val(radio_applyto_business[1].value);
+            }
             var applyto_business = $('.applyto_business').val();
             if (applyto_business == '') {
                 $alert('请选择产品的适用业务');
@@ -464,6 +475,15 @@
                         parent_id : orgId
                     }
                 })
+            });
+            var go_warehouse_list = $('.go_warehouse_list');
+            go_warehouse_list.on('click', function () {
+                var data = F.get(warehouse_list);
+                data.publish_list = publish_list;
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
+                    param : data
+                });
             });
             //取消跳转详情页
             var go_product_detail = $('.go_product_detail');

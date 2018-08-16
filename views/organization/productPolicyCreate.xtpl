@@ -1019,7 +1019,7 @@
                 };
             }
 
-            ajaxSubmit(url, parameters);
+            ajaxSubmit(url, parameters, save_flag);
         }
 
         /**
@@ -1039,7 +1039,7 @@
                     $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('保存成功', function () {
-                            if (save_flag == 3) {
+                            if (save_flag == 3 || save_flag == 1) {
                                 var url = '/supplier/organization/productDetail';
                                 var data = {
                                     product_id : $('#product_id').val(),
