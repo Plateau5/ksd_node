@@ -628,28 +628,27 @@
                     file_ids.push(res.file_id);
                     file_id_input.val(file_ids.join(','));
                 }
-
-                // file_ids.push(res.file_id);
-                $alert('图片上传成功');
-                var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
-                    '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
-                    '             <div class="img_md_operate_box">\n' +
-                    '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" title="查看"></em>\n' +
-                    ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
-                    '             </div>\n' +
-                    '             </a>';
-                if (type == 1) {
-                    btn.hide();
-                }
-                btn.before(imgEle);
-                /* 赋予新图片查看的实例属性 */
-                var parents = btn.parents('.img_md_box');
-                // 销毁父元素
-                var img = parents.find('.img_item');
-                if (img.length > 1) {
-                    parents[0].viewer.destroy();
-                }
-                viewLargeImage(parents[0]);
+                $alert('图片上传成功',function () {
+                    var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
+                        '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
+                        '             <div class="img_md_operate_box">\n' +
+                        '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" title="查看"></em>\n' +
+                        ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
+                        '             </div>\n' +
+                        '             </a>';
+                    if (type == 30) {
+                        btn.hide();
+                    }
+                    btn.before(imgEle);
+                    /* 赋予新图片查看的实例属性 */
+                    var parents = btn.parents('.img_md_box');
+                    // 销毁父元素
+                    var img = parents.find('.img_item');
+                    if (img.length > 1) {
+                        parents[0].viewer.destroy();
+                    }
+                    viewLargeImage(parents[0]);
+                });
             } else {
                 $alert('图片上传失败，请重试');
             }
@@ -668,9 +667,6 @@
                 var _this = $(this);
                 var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
                 var id  = $.trim(_this.data('id'));
-                /*var ids = [];
-                ids.push(id);
-                ids = JSON.stringify(ids);*/
                 redefineAjax({
                     data : {
                         file_ids : id
@@ -689,16 +685,11 @@
                             } else {
                                 file_id_input.val('');
                             }
-                            // for (var i = 0,len = file_ids.length;i<len;i++) {
-                            //     if (file_ids[i] == id) {
-                            //         file_ids.splice(i,1);
-                            //     }
-                            // }
                             $alert('图片删除成功', function () {
                                 var btn = $('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
                                 btn.data('type',type.number() - 1);
-                                if (btn.data('type') == 0) {
+                                if (btn.data('type') < 30) {
                                     btn.show();
                                 }
                                 // 获取父元素
@@ -706,12 +697,6 @@
                                 // 销毁父元素的viewer实例
                                 parents[0].viewer.destroy();
                                 _this.parents('.img_item').remove();
-                                // 删除图片后从新实例化
-                                /*var viewer = new Viewer(parents[0], {
-                                    url: 'data-original',
-                                    interval : 2000,
-                                    loop : true
-                                });*/
                                 viewLargeImage(parents[0]);
                             });
                         } else {
