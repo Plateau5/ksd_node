@@ -1055,22 +1055,28 @@
                     $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('保存成功', function () {
-                            if (parameters.publish_type) {
-                                var url = '/supplier/organization/publishedProducts';
-                                var parent_id = $('#orgId').val();
-                                var data = {
-                                    parent_id : parent_id
-                                }
-                            } else {
-                                var url = '/supplier/organization/productDetail';
-                                var data = {
-                                    product_id : $('#product_id').val(),
-                                    data_num : 1,
-                                    page_flag : 0,
-                                    publish_list : publish_list,
-                                    warehouse_list : F.set(warehouse_list)
-                                };
+                            // if (parameters.publish_type) {
+                            //     var url = '/supplier/organization/publishedProducts';
+                            //     var parent_id = $('#orgId').val();
+                            //     var data = {
+                            //         parent_id : parent_id
+                            //     }
+                            // } else {
+                            //     var url = '/supplier/organization/productDetail';
+                            //     var data = {
+                            //         product_id : $('#product_id').val(),
+                            //         data_num : 1,
+                            //         page_flag : 0,
+                            //         publish_list : publish_list,
+                            //         warehouse_list : F.get(warehouse_list)
+                            //     };
+                            // }
+                            var url = '/supplier/organization/publishedProducts';
+                            var parent_id = $('#orgId').val();
+                            var data = {
+                                parent_id : parent_id
                             }
+
                             locationTo({
                                 action : contextPath + markUri + url,
                                 param : data
