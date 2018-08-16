@@ -410,7 +410,7 @@ exports.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST = function(req,res,next) {
                         } else if (data.PolicyList[i].downpayment_type == 2) {//首付金额
                             data.PolicyList[i].downpayment_value = data.PolicyList[i].downpayment_value.replace(/[,]/g, '元、') + '元';
                         }
-                        data.PolicyList[i].interest_rate = data.PolicyList[i].interest_rate.replace(/[,]/g,' %、') + '%';
+                        data.PolicyList[i].interest_rate = data.PolicyList[i].interest_rate.replace(/[,]/g,'%、') + '%';
                         data.PolicyList[i].term = data.PolicyList[i].term.replace(/[,]/g, ' 、');
                     }
                 }
