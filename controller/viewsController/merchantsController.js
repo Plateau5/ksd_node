@@ -427,13 +427,14 @@ exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
         page : './merchants/configProductEdit',
         callback : function (data) {
             if (data) {
+                //首付金额、比例
                 var downpayment_values = data.vo.downpayment_values;
                 var downpayment_value = data.vo.downpayment_value;
                 if (downpayment_value.indexOf(',') != -1) {
                     if (data.vo.downpayment_type == 1) {//首付比例
                         data.vo.downpayment_value = data.vo.downpayment_value.replace(/[,]/g, '%,') + '%';
                     } else if (data.vo.downpayment_type == 2) {//首付金额
-                        data.vo.downpayment_value = data.vo.downpayment_value.replace(/[,]/g, '元，') + '元';
+                        data.vo.downpayment_value = data.vo.downpayment_value.replace(/[,]/g, '元,') + '元';
                     }
                 } else {
                     if (data.vo.downpayment_type == 1) {
@@ -459,6 +460,7 @@ exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
                         data.vo.downpayment_values = data.vo.downpayment_values + '元';
                     }
                 }
+                //费率
                 var interest_rates = data.vo.interest_rates;
                 var interest_rates_arr = [];
                 if (interest_rates.indexOf(',') != -1) {
@@ -469,6 +471,19 @@ exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
                     interest_rates_arr.push(interest_rates);
                 }
                 data.vo.interest_rates_arr = interest_rates_arr;
+
+                //融资期限
+                var terms = data.vo.terms;
+                var terms_arr = [];
+                if (terms.indexOf(',') != -1) {
+                    for (var i = 0, len = terms.split(',').length; i < len; i++) {
+                        terms_arr.push(terms.split(',')[i]);
+                    }
+                } else {
+                    terms_arr.push(terms);
+                }
+                data.vo.terms_arr = terms_arr;
+
                 for (var i = 0, len = data.list.length; i < len; i++) {
                     for (var j = 0, lenj = data.list[i].length; j <lenj; j++) {
                         data.list[i].list[j].material_name = data.list[i].list[j].material_name.replace(/[,]/g, '、');

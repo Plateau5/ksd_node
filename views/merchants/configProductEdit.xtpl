@@ -231,14 +231,44 @@
                             <li class="list_row">
                                 <div class="list_name">融资期限：</div>
                                 <div class="list_value">
-                                    {{#if (vo.terms.length > 0)}}
-                                    {{set (term = vo.terms.split(','))}}
-                                    {{#each (term)}}
-                                    <div class="form_group" style="margin-left:-4px;">
-                                        <input type="checkbox" class="rates term" name="term" value="{{this}}" checked="checked">
-                                        <label class="termCheck checked">{{this}}%</label>
-                                    </div>
-                                    {{/each}}
+                                    {{#if (vo.term)}}
+                                        {{#if (vo.term.indexOf(',') !== -1) }}
+                                            {{set (terms = vo.term.split(','))}}
+                                            {{#each (vo.terms_arr)}}
+                                                {{#if (terms.indexOf(this) !== -1)}}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates term" name="term" value="{{this}}" checked="checked">
+                                                        <label class="termCheck checked">{{this}}</label>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates term" name="term" value="{{this}}">
+                                                        <label class="termCheck">{{this}}</label>
+                                                    </div>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{else}}
+                                            {{#each (vo.terms_arr)}}
+                                                {{#if (this === vo.term) }}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates term" name="term" value="{{this}}" checked="checked">
+                                                        <label class="termCheck checked">{{this}}</label>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="form_group" style="margin-left:-4px;">
+                                                        <input type="checkbox" class="rates term" name="term" value="{{this}}">
+                                                        <label class="termCheck">{{this}}</label>
+                                                    </div>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                    {{else}}
+                                        {{#each (vo.termss_arr)}}
+                                            <div class="form_group" style="margin-left:-4px;">
+                                                <input type="checkbox" class="rates term" name="term" value="{{this}}" checked="checked">
+                                                <label class="termCheck checked">{{this}}</label>
+                                            </div>
+                                        {{/each}}
                                     {{/if}}
                                 </div>
                             </li>
@@ -340,17 +370,6 @@
         var downpaymentValues =  $('#downpayment_values').val();
         var downpayment_value =  $('#downpayment_value').val();
 
-        //回显首付比例或金额校验
-        function echoMoney () {
-            var echo_arr = downpaymentValues.split(',');
-            var downpayment_arr = downpayment_value.split(',');
-            if (downpayment_arr.indexOf() != -1) {
-                if( $(this).siblings().hasClass("checked"))  {
-                    $(this).siblings().removeClass('checked');
-                }
-            }
-            console.log(echo_arr,downpayment_arr);
-        }
 
         //显示隐藏图片
         function showMorePic () {
@@ -551,7 +570,6 @@
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked"); //复选框选中
             toMerchantList(); //面包屑跳转
             toMerchantDetail();
-            echoMoney(); //回显
         });
     })(jQuery,undefined);
 </script>
