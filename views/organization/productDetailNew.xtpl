@@ -80,6 +80,20 @@
                         {{/if}}
                     </div>
                     <div class="detail_about_txt">
+                        <div class="detail_about_label">适用类型：</div>
+                        <div class="detail_about_data">
+                            {{#if (vo.applyto_type.indexOf(',') !== -1) }}
+                                快收单、KA渠道
+                            {{else}}
+                                {{#if (vo.applyto_type === '1') }}
+                                    快收单
+                                {{elseif (vo.applyto_type === '2') }}
+                                    KA渠道
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="detail_about_txt">
                         <div class="detail_about_label">适用城市：</div>
                         <input type="hidden" id="city_ids" value="{{vo.city_ids}}">
                         <input type="hidden" id="applyto_type" value="{{vo.applyto_type}}">
