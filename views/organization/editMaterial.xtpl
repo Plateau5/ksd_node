@@ -216,6 +216,10 @@
             });
             // 上传逻辑
             var onChoose = function (btn, file, success) {
+                if (file.size > 5242880) {
+                    $alert('上传文件大于5M');
+                    return false;
+                }
                 if (!success) {
                     $alert('上传文件格式不正确');
                     return false;
