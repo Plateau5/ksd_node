@@ -669,6 +669,13 @@
                 carAge_validate(_this);
             });
 
+            $('#mobile').on('input', function () {
+                var _this = $(this);
+                var value = _this.val();
+                value = value.replace(/[^\d\-\(\（\)\）]/g,'');
+                _this.val(value);
+            });
+
             $('#mobile').on('blur', function () {
                 // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
                 var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
