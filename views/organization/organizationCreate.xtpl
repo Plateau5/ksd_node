@@ -834,10 +834,10 @@
                 return;
             }
             //车龄限制--只针对二手车
-            var usedCar_status = $('#usedCars')[0].checked;
+            var usedCar_status = $('#usedCars').siblings('label');
             var minCarAge = $('.minCarAge');
             var maxCarAge = $('.maxCarAge');
-            if (!usedCar_status) {
+            if (usedCar_status.hasClass('checked')) {
                 if (minCarAge.val() == '' || maxCarAge.val() == '') {
                     $alert('请输入车龄区间');
                     return;
