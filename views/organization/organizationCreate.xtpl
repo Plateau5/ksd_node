@@ -653,7 +653,7 @@
             $('#orgname').on('blur', function () {
                 var reg = /^[\u4E00-\u9FA5\w]+$/;
                 var error_txt = '机构名称不能包含特殊字符';
-                validate_form(1,$('#name'),reg,error_txt);
+                validate_form(1,$('#orgname'),reg,error_txt);
             });
 
             $('#system_url').on('blur', function () {
@@ -955,6 +955,13 @@
                 maxDecimal : 1,
                 addDecimal : 1
             });//控制车龄输入框只能输入数字和以为小数
+            chnAndEng('#link_name', 2);
+            numAndAmount('#link_phone',{
+                type : 0
+            });
+            numAndAmount('#link_mobile',{
+                type : 0
+            });
             initKindEditor('#approval_policy');//审批政策
             saveOrg();//保存机构
             goOrglist();//取消事件

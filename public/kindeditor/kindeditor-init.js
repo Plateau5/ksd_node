@@ -14,10 +14,10 @@ var config = {
         'source', '|', 'undo', 'redo', '|', 'preview', 'cut', 'copy', 'paste',
         'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
         'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-        'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen',
+        'superscript', 'clearhtml', 'quickformat', 'selectall', '|',
         'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
-        'italic', 'underline', 'strikethrough', 'removeformat', '|', 'image',
-        'insertfile', 'hr', 'pagebreak', 'link', 'unlink'
+        'italic', 'strikethrough', 'removeformat', '|', 'image',
+        'insertfile', 'pagebreak', 'link', 'unlink'
     ],
     uploadJson : '/api/rich/txt/upload',
     // filePostName : 'file',
