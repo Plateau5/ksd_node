@@ -171,10 +171,9 @@ function numAndAmount (selector,opt) {
  * 英文、中英文、中文、英文数字校验
  * Created by wyt on 2018-07-24
  * selector : 目标元素选择器  必传项
- * type::  0：纯英文，1：纯中文，2：中英文，3：英文、数字  	必传项
+ * type::  0：纯英文，1：纯中文，2：中英文，3：英文、数字，4：中文、英文、数字 （不包含特殊字符） 	必传项
  */
 function chnAndEng (selector,type) {
-    var selector = $(selector);
     var body = $('body');
     body.on('input', selector,function(e){	//oninput 事件在用户输入时触发。
         var ev = e || window.event;
