@@ -189,6 +189,8 @@ function chnAndEng (selector,type) {
             value = value.replace(/[^a-zA-Z\u4E00-\u9FA5]/g,'');
         } else if (type == 3) {		//只允许输入英文、数字
             value = value.replace(/[^a-zA-Z\d]/g,'');
+        }else if (type == 4) {		//只允许输入中文、英文、数字
+            value = value.replace(/[^a-zA-Z\d\u4e00-\u9fa5]/g,'');
         }
         _this.val(value);
     });
