@@ -58,7 +58,7 @@
                 <a href="javascript:;" class="crumbs_item back_policies_list">配置金融产品</a>
                 <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
-            <div class="form_content form_options merchants_create">
+            <div class="form_content form_options merchants_create" style="padding:20px 0 0 40px;">
                 <form action="" class="basic_info_edit">
                     <!-- 基本信息 Begin -->
                     <div class="options_title financial_product_title">基本信息</div>
@@ -162,8 +162,8 @@
                                             {{/if}}
                                         {{else}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_values" value="{{this}}" checked="checked">
-                                                <label class="paymentCheck checked">{{this}}</label>
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_values" value="{{vo.downpayment_values}}" checked="checked">
+                                                <label class="paymentCheck checked">{{vo.downpayment_values}}</label>
                                             </div>
                                         {{/if}}
                                     {{else}}
@@ -177,8 +177,8 @@
                                             {{/each}}
                                         {{else}}
                                             <div class="form_group" style="margin-left:-4px;">
-                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_values" value="{{this}}" checked="checked">
-                                                <label class="paymentCheck checked">{{this}}</label>
+                                                <input type="checkbox" class="rates downpaymentValue" name="downpayment_values" value="{{vo.downpayment_values}}" checked="checked">
+                                                <label class="paymentCheck checked">{{vo.downpayment_values}}</label>
                                             </div>
                                         {{/if}}
                                     {{/if}}
@@ -313,7 +313,7 @@
                 </form>
             </div>
             {{#if (verifyCode(1589))}}
-                <div class="btn_box text_left clearfix" style="margin-top:50px;margin-left:3%">
+                <div class="btn_box text_left clearfix" style="margin-left:3%">
                     <a href="javascript:" class="btn orange_btn confirm edit_confirm">保存并启用</a>
                     <a href="javascript:" class="btn bg_btn edit_cancel">取消</a>
                 </div>
