@@ -52,33 +52,42 @@
                         </ul>
                     {{/if}}
                 </div>
-                <form action="{{markUri}}/merchants/config/products/list" method="post" id="toProductList">
+                <form action="{{markUri}}/merchants/config/products/list" method="post" id="form_search" role='form'>
+                    <input type="hidden" value="{{reqParams.applyto_business}}" id="merchantBusinessType" name="applyto_business">
+                    <input type="hidden" value="{{reqParams.applyto_car}}" name="applyto_car">
+                    <input type="hidden" id="merchantCity"  name="city_id" value="{{condition.city_id}}">
+                    <input type="hidden" id="navigation" value="{{reqParams.navigation}}" name="navigation">
+                    <input type="hidden" id="supplierId" name="supplier_id" value="{{reqParams.supplier_id}}">
+                    <input type="hidden" id="organizationId" name="organization_id" value="{{condition.organization_id}}">
+                    <input type="hidden" id="applytoType" name="applyto_type" value="{{reqParams.applyto_type}}">
+                    <input type="hidden" id="productList" value="{{reqParams.productList}}" name="productList">
+                    <input type="hidden" id="orgName" value="{{reqParams.supplier_name}}" name="supplier_name">
                     {{#if (reqParams.applyto_business === "2")}}
-                        <div class="filtrate">
-                            <div class="filtrate_item date_conditions" style="margin-top:10px;margin-bottom:10px">
-                                <div class="inline_block">
-                                    <div class="conditions_name inline_block filtrate_business">适用业务：</div>
-                                    <select name="applyto_business" class="filtrate_select" id="applyBusiness">
-                                        {{#if (reqParams.applyto_car === -1 || reqParams.applyto_car) }}
-                                            <option value="-1" selected="selected">全部</option>
-                                        {{else}}
-                                            <option value="-1">全部</option>
-                                        {{/if}}
-                                        {{#if (reqParams.applyto_car === 0) }}
-                                            <option value="0" selected="selected">新车</option>
-                                        {{else}}
-                                            <option value="0">新车</option>
-                                        {{/if}}
-                                        {{#if (reqParams.applyto_car === 1) }}
-                                            <option value="1" selected="selected">二手车</option>
-                                        {{else}}
-                                            <option value="1">二手车</option>
-                                        {{/if}}
-                                    </select>
-                                </div>
+                    <div class="filtrate">
+                        <div class="filtrate_item date_conditions" style="margin-top:-10px;margin-bottom:10px">
+                            <div class="inline_block">
+                                <div class="conditions_name inline_block filtrate_business">适用业务：</div>
+                                <select name="car_type" class="filtrate_select" id="applyBusiness">
+
+                                    <option value="">全部</option>
+
+                                    {{#if (condition.car_type === 0  ) }}
+                                    <option value="0" selected="selected">新车</option>
+                                    {{else}}
+                                    <option value="0">新车</option>
+                                    {{/if}}
+                                    {{#if (condition.car_type === 1) }}
+                                    <option value="1" selected="selected">二手车</option>
+                                    {{else}}
+                                    <option value="1">二手车</option>
+                                    {{/if}}
+                                </select>
                             </div>
                         </div>
+                    </div>
                     {{/if}}
+                </form>
+                <form action="{{markUri}}/merchants/config/products/list" method="post" id="toProductList">
                     <div class="module_list">
                         <table class="normal">
                             <colgroup>
@@ -100,8 +109,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {{#if (PolicyList.length >0)}}
-                            {{#each (PolicyList)}}
+                            {{#if (policy_list.length >0)}}
+                            {{#each (policy_list)}}
                             <tr>
                                 <td title="{{this.product_name}}">{{this.product_name}}</td>
                                 <td>{{this.financeamount_start}}-{{this.financeamount_end}}万</td>
@@ -117,7 +126,7 @@
                                 <td class="merchants_operate_btn config_product_btn">
                                     {{#if (root.verifyCode(1590))}}
                                         {{#if (status === 1) }}
-                                            <a href="javascript:" class="merchants_edit config_product_edit none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}" style="display:none;"></a>
+                                            <a href="javascript:" title="编辑" class="merchants_edit config_product_edit none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}" style="display:none;"></a>
                                             <div class="r_radio inline_block on" type="on" data-status="1">
                                                 <span></span>
                                                 <span></span>
@@ -127,7 +136,7 @@
                                     {{/if}}
                                     {{#if (status === 0) }}
                                         {{#if (root.verifyCode(1588)) }}
-                                            <a href="javascript:" class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
+                                            <a href="javascript:" title="编辑" class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
                                         {{/if}}
                                         {{#if (root.verifyCode(1591)) }}
                                             <div class="r_radio inline_block off" type="off" data-status="0">
@@ -163,19 +172,11 @@
         <!---- Part of Main info End ---->
     </div>
 </div>
-<input type="hidden" id="orgId" value="{{organization_id}}">
-<input type="hidden" id="supplierId" value="{{reqParams.supplier_id}}">
-<input type="hidden" id="orgName" value="{{reqParams.supplier_name}}">
-<input type="hidden" id="carType" value="{{reqParams.car_type}}">
+<input type="hidden" id="orgId" value="{{organization_id}}" name="supplier_name">
+<input type="hidden" id="cityName" value="{{detail.city_name}}" name="city_name">
 <input type="hidden" name="limit" value="10" id="limit">
 <input type="hidden" name="current_page" value="1" id="currentPage">
-<input type="hidden" name="rebate_type" value="" id="rebateType">
 <input type="hidden" id="url" value="{{reqParams.url}}">
-<input type="hidden" id="navigation" value="{{reqParams.navigation}}">
-<input type="hidden" id="merchantCity" value="{{reqParams.city_id}}">
-<input type="hidden" id="cityName" value="{{detail.city_name}}">
-<input type="hidden" id="merchantBusinessType" value="{{reqParams.applyto_business}}">
-<input type="hidden" id="applytoType" value="{{reqParams.applyto_type}}">
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -193,7 +194,7 @@
         var orgId = $('#orgId').val().trim().number();      // 机构Id
         var supplierName = $('#orgName').val().trim();      // 商户名称
         var supplierId = $('#supplierId').val().trim();     // 商户Id
-        var carType = $('#carType').val().trim().number();  //车辆类型
+        var carType = $('#carType').val();  //业务类型
         var limit = $('#limit').val().trim().number();      // 列表加载条目数
         var listUrl = $('#url').val().trim();       // 列表页的路由
         var navigation = $('#navigation').val().trim();     // 列表页的节点
@@ -201,7 +202,6 @@
         var cityName = $('#cityName').val().trim();         // 商户城市名称
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
         var applytoType = $('#applytoType').val().trim();  //商户来源
-        var applyBusiness = $("select#applyBusiness option:selected").val();  //适用业务
 
         /*启用*/
         function openOrcloseConfig () {
@@ -333,40 +333,20 @@
                             url : listUrl,
                             navigation : navigation,
                             applyto_type : applytoType,
-                            organization_id : orgId
+                            organization_id : orgId,
+                            productList : productList
                         }
                     })
                 }
             });
         }
-        //适用业务筛选
-        function selectListChange () {
-            var s = $(".filtrate_select");
-            s.on("change", function () {
-                locationTo({
-                    action : contextPath + markUri + '/merchants/config/products/list',
-                    param : {
-                        applyto_business : mBusinessType,
-                        city_id : mCityId,
-                        supplier_id : supplierId,
-                        supplier_name : supplierName,
-                        url : listUrl,
-                        navigation : navigation,
-                        applyto_type : applytoType,
-                        organization_id : orgId,
-                        car_type: applyBusiness
-                    }
-                })
-            })
-        }
-        //
 
         $(function() {
             openOrcloseConfig();
             toProductEdit(); //跳转编辑页
             toMerchantDetail(); //面包屑跳转到详情
             changeOrgGetNewPoliciesData();      // 机构切换
-            selectListChange(); //适用业务
+            selectChange(); //适用业务
         });
     })(jQuery,undefined);
 </script>

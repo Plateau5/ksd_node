@@ -28,11 +28,12 @@
                 <a href="javascript:;" class="crumbs_item">产品列表（{{parent_name}}）</a>
             </div>
             <div class="filtrate">
+                <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
                 <form action="{{markUri}}/supplier/organization/publishedProducts" method="post" id="form_search" role='form'>
                     <input type="hidden" id="parent_id" name="parent_id" value="{{parent_id}}">
                     <input type="hidden" id="parent_name" name="parent_name" value="{{parent_name}}">
-                    <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
-                    <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
+                    <input type="hidden" name="publish_list" value="{{reqParams.publish_list}}">
                     <div class="filtrate_item date_conditions">
                         <div class="inline_block">
                             <div class="conditions_name inline_block filtrate_business">适用业务：</div>
