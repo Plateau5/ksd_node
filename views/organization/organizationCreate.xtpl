@@ -317,7 +317,7 @@
                                 <span class="options_name">评估描述：</span>
                             </div>
                             <div class="column_val">
-                                <textarea class="remark" name="assess_desc" cols="30" rows="6" maxlength="200" placeholder="请输入内容">{{vo.assess_desc}}</textarea>
+                                <textarea class="remark assess_desc" name="assess_desc" cols="30" rows="6" maxlength="200" placeholder="请输入内容">{{vo.assess_desc}}</textarea>
                             </div>
                         </div>
                         <div class="option_item">
@@ -836,11 +836,16 @@
             var usedCar_status = $('#usedCars')[0].checked;
             var minCarAge = $('.minCarAge');
             var maxCarAge = $('.maxCarAge');
-            if (usedCar_status == 'checked') {
+            if (usedCar_status) {
                 if (minCarAge.val() == '' || maxCarAge.val() == '') {
                     $alert('请输入车龄区间');
                     return;
                 }
+            } else {
+                minCarAge.val('');
+                maxCarAge.val('');
+                $('.assess_desc').val('');
+
             }
             var tips_info = $('.tips_info');
             var error_flag = false;
