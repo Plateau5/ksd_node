@@ -806,6 +806,10 @@
                 $alert('请输入融资金额的最大金额');
                 return;
             }
+            if (financeamount_start.number() >= financeamount_end.number()) {
+                $alert('请输入正确的融资金额范围');
+                return;
+            }
 
             var downpayment_type = $('#downpayment_type').val();
             if (downpayment_type == '-1') {
