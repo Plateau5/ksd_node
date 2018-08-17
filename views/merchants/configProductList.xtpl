@@ -125,21 +125,21 @@
                                 </td>
                                 <td class="merchants_operate_btn config_product_btn">
                                     {{#if (root.verifyCode(1590))}}
-                                        {{#if (status === 1) }}
+                                        {{#if (status === 2) }}
                                             <a href="javascript:" title="编辑" class="merchants_edit config_product_edit none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}" style="display:none;"></a>
-                                            <div class="r_radio inline_block on" type="on" data-status="1">
+                                            <div class="r_radio inline_block on" type="on" data-status="2">
                                                 <span></span>
                                                 <span></span>
                                                 <div style="left: 14px"></div>
                                             </div>
                                         {{/if}}
                                     {{/if}}
-                                    {{#if (status === 0) }}
+                                    {{#if (status === 1) }}
                                         {{#if (root.verifyCode(1588)) }}
                                             <a href="javascript:" title="编辑" class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
                                         {{/if}}
                                         {{#if (root.verifyCode(1591)) }}
-                                            <div class="r_radio inline_block off" type="off" data-status="0">
+                                            <div class="r_radio inline_block off" type="off" data-status="1">
                                                 <span></span>
                                                 <span></span>
                                                 <div></div>
@@ -159,13 +159,14 @@
                             {{/if}}
                             </tbody>
                         </table>
-                        <!--分页部分 Begin-->
-
-                        {{include('./../inc/paginations')}}
-
-                        <!--分页部分 End-->
                     </div>
                 </form>
+
+                <!--分页部分 Begin-->
+
+                {{include('./../inc/paginations')}}
+
+                <!--分页部分 End-->
             </div>
 
         </div>
@@ -218,17 +219,17 @@
                 var productPolicyId = _this.siblings('.config_product_edit').data('product_policy_id');
                 var data, apiUrl = '', tipMsg = '';
                 data = {
-                    status : oldStatus == 0 ? 1 : 0,
+                    status : oldStatus == 1 ? 2 : 1,
                     id : configId,
                     origin : origin,
                     product_id : productId,
                     supplier_id : supplierId,
                     product_policy_id : productPolicyId
                 };
-                if (oldStatus == 0) {
+                if (oldStatus == 1) {
                     apiUrl = contextPath + '/api/supplier/deploy/open';
                     tipMsg = '启用失败，请稍后重试';
-                } else if (oldStatus == 1) {
+                } else if (oldStatus == 2) {
                     apiUrl = contextPath + '/api/supplier/deploy/cease';
                     tipMsg = '停用失败，请稍后重试';
                 } else {
@@ -239,14 +240,14 @@
                     url : apiUrl,
                     success : function (res) {
                         if (res.error_code == 0) {
-                            if (oldStatus == 0) {
+                            if (oldStatus == 1) {
                                 $alert('启用成功', function () {
                                     _this.find('div').animate({
                                         'left' : '14px'
                                     },200);
                                     _this.removeClass('off').addClass('on').attr('type', 'on');
                                     _this.siblings('.config_product_edit').hide();
-                                    _this.data('status', 1);
+                                    _this.data('status', 2);
                                 });
                             } else {
                                 $alert('停用成功', function () {
@@ -255,7 +256,7 @@
                                     },200);
                                     _this.removeClass('on').addClass('off').attr('type', 'off');
                                     _this.siblings('.config_product_edit').show();
-                                    _this.data('status', 0);
+                                    _this.data('status', 1);
                                 });
                             }
                         } else {
@@ -357,6 +358,7 @@
         }
 
         $(function() {
+            paginationSwitch();// 分页切换
             openOrcloseConfig();//启用禁用
             toProductEdit(); //跳转编辑页
             toMerchantDetail(); //面包屑跳转到详情
