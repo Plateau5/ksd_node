@@ -44,7 +44,7 @@
                 </form>
                 {{/if}}
                 <div class="detail_btn_box left">
-                    <span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
+                    <!--<span class="total_count" data-count="{{count}}">共{{count}}条数据</span>-->
                     <div class="rf" style="width:150px;">
                         {{#if (verifyCode(1583)) }}
                         <a href="javascript:" id="download_btn" class="detail_title_btn export_btn rf">导出</a>
@@ -57,7 +57,7 @@
                 {{#if (verifyCode(1579)) }}
                 <table class="normal">
                     <colgroup style="width: 100%;">
-                        <col style="width: 19%;" />
+                        <col style="width: 16%;" />
                         <col style="width: 8%;" />
                         <col style="width: 9%;" />
                         <col style="width: 9%;" />
@@ -157,12 +157,17 @@
                             <td class="operate_btn">
                                 {{#if (root.verifyCode(1581)) }}
                                     {{#if (this.status !== 4 && this.status !== 2) }}
-                                        <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit edit go_forward"></a>
+                                        <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit edit"></a>
+                                    {{/if}}
+                                {{/if}}
+                                {{#if (root.verifyCode(1586)) }}
+                                    {{#if (this.status === 3) }}
+                                        <a href="javascript:;" title="解绑" data-id="{{this.id}}" data-status="{{this.status}}" class="untie"></a>
                                     {{/if}}
                                 {{/if}}
                                 {{#if (root.verifyCode(1288)) }}
                                     {{#if (this.status === 1) }}
-                                        <a href="javascript:;" title="删除" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsdel delete go_forward"></a>
+                                        <a href="javascript:;" title="删除" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsdel delete"></a>
                                     {{/if}}
                                 {{/if}}
                             </td>
@@ -345,6 +350,7 @@
     <!-------- Part of main End -------->
 
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
@@ -808,6 +814,62 @@
                 });
             });
         }
+
+        /**
+         * GPS解绑逻辑
+         * @author  Wyt  2018年8月14日13:10:55
+         * */
+        function GPSUntie () {
+            var btn = $('.untie');
+            btn.off("click").on("click", function () {
+                var gps_id = $(this).data('id');
+                dialog("open", {
+                    closeBtn : false,
+                    "title" : "提醒",
+                    "button" : ["确认","取消"],
+                    "content" : "您确定解绑么？",
+                    "maskClose" : false,
+                    onConfirm : function (d) {
+                        d.close();
+                        untieSubmit(gps_id);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        /**
+         * GPS解绑点击确认
+         * @author  Wyt  2018年8月14日13:10:55
+         * */
+        function untieSubmit (id) {
+            var gpsId = id;
+            redefineAjax({
+                url : contextPath + '/api/gps/untie',
+                data : {
+                    gps_id : gpsId
+                },
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('解绑成功', function () {
+                            window.location.reload();
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("解绑失败，请稍后重试");
+                }
+            });
+        }
         /**************************GPS申请列表页  end**********************************/
 
         $(function() {
@@ -820,6 +882,7 @@
             resDownload();//下载请求
             goPutIn();//跳转新增入库
             goGpsEdit();//跳转编辑gps
+            GPSUntie();//GPS解绑逻辑
             deleteSN();//删除SN码
 
             goCreateWarehouse();//跳转新建仓库
