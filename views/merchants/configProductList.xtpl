@@ -203,7 +203,11 @@
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
         var applytoType = $('#applytoType').val().trim();  //商户来源
 
-        /*启用*/
+        /**
+         * 启用、禁用
+         * @author qi 2018年8月17日10:50:11
+         */
+
         function openOrcloseConfig () {
             $(".config_product_btn .r_radio").on('mousedown', function() {
                 var _this = $(this);
@@ -266,7 +270,11 @@
             });
         }
 
-        //点击编辑跳转编辑详情页
+        /**
+         * 点击编辑跳转编辑详情页
+         * @author qi 2018年8月17日10:50:11
+         */
+
         function toProductEdit () {
             var btn = $('.config_product_edit');
             btn.off('click').on('click', function () {
@@ -293,7 +301,10 @@
                 });
             });
         }
-        //面包屑跳转
+        /**
+         * 面包屑跳转
+         * @author qi 2018年8月17日10:50:11
+         */
         function toMerchantDetail () {
             var btn = $('.toMerchantDetail');
             var merchantDetail = F.get(productList);
@@ -304,7 +315,11 @@
                 })
             })
         }
-        // 机构切换
+        //
+        /**
+         * 机构切换
+         * @author qi 2018年8月17日10:50:11
+         */
         function changeOrgGetNewPoliciesData () {
             var orgItem = $('.org_select_list .list_item');     // 机构
             var orgIdE = $('#orgId');
@@ -342,7 +357,7 @@
         }
 
         $(function() {
-            openOrcloseConfig();
+            openOrcloseConfig();//启用禁用
             toProductEdit(); //跳转编辑页
             toMerchantDetail(); //面包屑跳转到详情
             changeOrgGetNewPoliciesData();      // 机构切换

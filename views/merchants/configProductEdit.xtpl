@@ -300,8 +300,8 @@
                                                 {{/each}}
                                                 {{/if}}
                                             </ul>
-                                            <a href="javascript:;" class="show_more_pic">更多图片</a>
-                                            <a href="javascript:;" class="hide_more_pic">收起图片</a>
+                                            <a href="javascript:;" class="config_show_more_pic">更多图片</a>
+                                            <a href="javascript:;" class="config_hide_more_pic">收起图片</a>
                                         </div>
                                         {{/if}}
                                     </div>
@@ -377,44 +377,47 @@
             apply_item.each(function () {
                 var _this = $(this);
                 var img_list_a = _this.find('.img_list a');
-                if (img_list_a.length > 5) {
+                if (img_list_a.length > 6) {
                     for (var i = 0, len = img_list_a.length; i < len; i++) {
-                        if (i > 4){
+                        if (i > 5){
                             img_list_a.eq(i).hide();
                         }
                     }
-                    _this.find('.show_more_pic').show();
+                    _this.find('.config_show_more_pic').show();
                 } else {
-                    _this.find('.show_more_pic').hide();
-                    _this.find('.hide_more_pic').hide();
+                    _this.find('.config_show_more_pic').hide();
+                    _this.find('.config_hide_more_pic').hide();
                 }
             });
 
-            var show_more_pic = $('.show_more_pic');
+            var show_more_pic = $('.config_show_more_pic');
             show_more_pic.off('click').on('click', function () {
                 var _this = $(this);
-                var img_list_a = _this.parents('.apply_item').find('.img_list a');
+                var img_list_a = _this.parents('.detail_img').find('.img_list a');
                 for (var i = 0, len = img_list_a.length; i < len; i++) {
                     img_list_a.eq(i).show();
                 }
                 _this.hide();
-                _this.siblings('.hide_more_pic').show();
+                _this.siblings('.config_hide_more_pic').show();
             });
 
-            var hide_more_pic = $('.hide_more_pic');
+            var hide_more_pic = $('.config_hide_more_pic');
             hide_more_pic.off('click').on('click', function () {
                 var _this = $(this);
-                var img_list_a = _this.parents('.apply_item').find('.img_list a');
+                var img_list_a = _this.parents('.detail_img').find('.img_list a');
                 for (var i = 0, len = img_list_a.length; i < len; i++) {
                     if (i > 5) {
                         img_list_a.eq(i).hide();
                     }
                 }
-                _this.siblings('.show_more_pic').show();
+                _this.siblings('.config_show_more_pic').show();
                 _this.hide();
             });
         }
-        //面包屑跳转
+        /**
+         * 面包屑跳转
+         * @author qi 2018年8月17日11:05:21
+         */
         function toMerchantList () {
             var btn = $('.back_policies_list');
             var merchantList = F.get(productList);
@@ -425,6 +428,7 @@
                 })
             })
         };
+
         function toMerchantDetail () {
             var btn = $('.toMerchantList');
             var merchantList = F.get(productList);
@@ -435,7 +439,10 @@
                 })
             })
         };
-        //保存并启用
+        /**
+         * 保存并启用
+         * @author qi 2018年8月17日11:04:58
+         */
         function saveEnable () {
             var btn = $('.edit_confirm');
             var down_arr = [];
@@ -541,7 +548,10 @@
                 });
             })
         }
-        //取消
+        /**
+         * 取消
+         * @author qi 2018年8月17日11:04:38
+         */
         var target = $('.edit_cancel');
         target.off('click').on('click', function () {
             var _this = $(this);
