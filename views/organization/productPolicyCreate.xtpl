@@ -768,7 +768,7 @@
             var save_policy = $('.save_policy');
             save_policy.off('click').on('click', function () {//添加政策保存，相当于保存到仓库
                 var url = contextPath + "/api/product/commit/policy";
-                submitValid(1, url);
+                submitValid(4, url);
             });
             var update_policy = $('.update_policy');
             update_policy.off('click').on('click', function () {//编辑政策保存
@@ -1007,7 +1007,7 @@
                     insert_data : JSON.stringify(insert_data),
                     release_time : release_time
                 };
-            } else if (save_flag ==1) {
+            } else if (save_flag ==1 || save_flag == 4) {
                 var applyto_business = $('#applyto_business').val();
                 var parent_id = $('#orgId').val();
                 var city_ids = $('#city_ids').val();
