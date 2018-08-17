@@ -147,7 +147,10 @@ function numAndAmount (selector,opt) {
         _this.val(value);
     });
     if (addDecimal == 0) {
-        selector.on('blur', function(){		//输入框移除光标时，如果为整数，自动补小数0
+        body.on('input', selector,function(e){		//输入框移除光标时，如果为整数，自动补小数0
+            var ev = e || window.event;
+            ev.stopPropagation();
+            ev.preventDefault();
             if (typeStr == 1) {
                 var _this = $(this).val();
                 if (_this.indexOf(".")!=-1) {
