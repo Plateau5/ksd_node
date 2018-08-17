@@ -342,7 +342,7 @@
                             //     }
                             // }
                             $alert('图片删除成功', function () {
-                                var btn = $('.add_img_md_btn');
+                                var btn = _this.parents('.img_md_box').find('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
                                 btn.data('type',type.number() - 1);
                                 if (btn.parents('.img_md_box').find('img').length <= 30) {
