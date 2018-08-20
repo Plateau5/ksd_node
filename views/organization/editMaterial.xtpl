@@ -267,6 +267,7 @@
         function getSuccess (res, btn, type, fileName) {
             if (res.error_code == 0) {
                 var file_id_input =  btn.siblings('input[name=file_ids]');
+                file_id_input.data('upload_image',true);
                 var file_ids = [];
                 if (file_id_input.val() == '') {
                     file_id_input.val(res.file_id);
@@ -325,6 +326,7 @@
                     url : contextPath + '/api/supplier/file/delete',
                     success : function (res) {
                         if (res.error_code == 0) {
+                            file_id_input.data('upload_image',true);
                             if (file_id_input.val().indexOf(',') !== -1) {
                                 var file_id_arr = file_id_input.val().split(',');
                                 for (var i = 0,len = file_id_arr.length;i<len;i++) {
@@ -539,19 +541,31 @@
                     if (policy_list[i].type == data_type) {
                         if (material_datas.length == 0) {
                             var is_delete = 1;
+                            var obj = {
+                                type : data_type,
+                                change_version : policy_list[i].change_version,
+                                data_ids : material_datas.join(','),
+                                is_must : is_must,
+                                file_ids : file_ids,
+                                is_delete : is_delete,
+                                organization_material_id : organization_material_id
+                            };
+                            update_data.push(obj);
                         } else {
                             var is_delete = 0;
+                            if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                                var obj = {
+                                    type : data_type,
+                                    change_version : policy_list[i].change_version,
+                                    data_ids : material_datas.join(','),
+                                    is_must : is_must,
+                                    file_ids : file_ids,
+                                    is_delete : is_delete,
+                                    organization_material_id : organization_material_id
+                                };
+                                update_data.push(obj);
+                            }
                         }
-                        var obj = {
-                            type : data_type,
-                            change_version : policy_list[i].change_version,
-                            data_ids : material_datas.join(','),
-                            is_must : is_must,
-                            file_ids : file_ids,
-                            is_delete : is_delete,
-                            organization_material_id : organization_material_id
-                        };
-                        update_data.push(obj);
                         break;
                     } else {
                         if (material_datas.length != 0 && is_histrory == 0) {
