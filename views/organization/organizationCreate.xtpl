@@ -326,7 +326,7 @@
                                 <span class="options_name">背户情况：</span>
                             </div>
                             <div class="column_val">
-                                {{#if (vo.bei_hu) }}
+                                {{#if (vo.bei_hu || vo.bei_hu === 0) }}
                                     <div class="form_group mar6">
                                         {{#if (vo.bei_hu === 1) }}
                                         <input id="back_door_need" type="radio" checked="checked" name="bei_hu" value="1">
@@ -337,11 +337,11 @@
                                         {{/if}}
                                     </div>
                                     <div class="form_group mar6">
-                                        {{#if (vo.bei_hu === 2) }}
-                                        <input id="back_door_noneed" type="radio" checked="checked" name="bei_hu" value="2">
+                                        {{#if (vo.bei_hu === 0) }}
+                                        <input id="back_door_noneed" type="radio" checked="checked" name="bei_hu" value="0">
                                         <label for="back_door_noneed" class="checked">不可以</label>
                                         {{else}}
-                                        <input id="back_door_noneed" type="radio" name="bei_hu" value="2">
+                                        <input id="back_door_noneed" type="radio" name="bei_hu" value="0">
                                         <label for="back_door_noneed">不可以</label>
                                         {{/if}}
                                     </div>
@@ -352,7 +352,7 @@
                                         <label for="back_door_need" class="checked">可以</label>
                                     </div>
                                     <div class="form_group mar6">
-                                        <input id="back_door_noneed" type="radio" name="back_door_need" value="2">
+                                        <input id="back_door_noneed" type="radio" name="back_door_need" value="0">
                                         <label for="back_door_noneed">不可以</label>
                                     </div>
                                 {{/if}}
