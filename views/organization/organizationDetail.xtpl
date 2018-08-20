@@ -182,13 +182,13 @@
                         <div class="detail_about_data"  style="line-height: 25px;padding-top:12px;">{{vo.assess_desc}}</div>
                     </div>
                     {{/if}}
-                    {{#if (vo.bei_hu !== null && vo.bei_hu !== '' && vo.bei_hu) }}
+                    {{#if (vo.bei_hu !== null && vo.bei_hu !== '' && vo.bei_hu || vo.bei_hu === 0) }}
                     <div class="detail_about_txt">
                         <div class="detail_about_label">背户情况：</div>
                         <div class="detail_about_data" style="line-height: 25px;padding-top:12px;">
                             {{#if (vo.bei_hu === 1 ) }}
                             可以
-                            {{elseif (vo.bei_hu === 2 ) }}
+                            {{elseif (vo.bei_hu === 0 ) }}
                             不可以
                             {{/if}}
                             {{#if (vo.bei_hu_remark) }}
