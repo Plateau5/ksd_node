@@ -539,8 +539,8 @@
                 var file_ids = _this.find('.img_md_box .file_ids').val();
                 for (var i = 0, leni = policy_list.length; i < leni; i++) {
                     if (policy_list[i].type == data_type) {
-                        if (material_datas.length == 0) {
-                            var is_delete = 1;
+                        if (policy_list[i].is_must.toString() != is_must) {
+                            var is_delete = 0;
                             var obj = {
                                 type : data_type,
                                 change_version : policy_list[i].change_version,
@@ -552,8 +552,8 @@
                             };
                             update_data.push(obj);
                         } else {
-                            var is_delete = 0;
-                            if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                            if (material_datas.length == 0) {
+                                var is_delete = 1;
                                 var obj = {
                                     type : data_type,
                                     change_version : policy_list[i].change_version,
@@ -564,6 +564,20 @@
                                     organization_material_id : organization_material_id
                                 };
                                 update_data.push(obj);
+                            } else {
+                                var is_delete = 0;
+                                if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                                    var obj = {
+                                        type : data_type,
+                                        change_version : policy_list[i].change_version,
+                                        data_ids : material_datas.join(','),
+                                        is_must : is_must,
+                                        file_ids : file_ids,
+                                        is_delete : is_delete,
+                                        organization_material_id : organization_material_id
+                                    };
+                                    update_data.push(obj);
+                                }
                             }
                         }
                         break;
@@ -596,7 +610,9 @@
 
         //ajax提交參數
         function ajaxSubmit (parameters) {
-            redefineAjax({
+            $.ajax({
+                type:'post',
+                timeout:50000,
                 url : contextPath + '/api/organization/material/save',
                 data : parameters,
                 beforeSend : function () {

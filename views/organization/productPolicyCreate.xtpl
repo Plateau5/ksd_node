@@ -967,8 +967,8 @@
 
                     for (var i = 0, leni = policy_list.length; i < leni; i++) {
                         if (policy_list[i].data_type == data_type) {
-                            if (material_datas.length == 0) {
-                                var is_delete = 1;
+                            if (policy_list[i].is_must.toString() != is_must) {
+                                var is_delete = 0;
                                 var obj = {
                                     data_type : data_type,
                                     material_datas : material_datas.join(','),
@@ -978,8 +978,8 @@
                                 };
                                 update_data.push(obj);
                             } else {
-                                var is_delete = 0;
-                                if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                                if (material_datas.length == 0) {
+                                    var is_delete = 1;
                                     var obj = {
                                         data_type : data_type,
                                         material_datas : material_datas.join(','),
@@ -988,6 +988,18 @@
                                         is_delete : is_delete
                                     };
                                     update_data.push(obj);
+                                } else {
+                                    var is_delete = 0;
+                                    if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                                        var obj = {
+                                            data_type : data_type,
+                                            material_datas : material_datas.join(','),
+                                            is_must : is_must,
+                                            file_ids : file_ids,
+                                            is_delete : is_delete
+                                        };
+                                        update_data.push(obj);
+                                    }
                                 }
                             }
                             break;
