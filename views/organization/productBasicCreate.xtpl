@@ -273,7 +273,7 @@
          * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
          * */
         function getSelectedCitys () {
-            if ($('#product_status').val() == '0' || $('#product_status').val() == '') {
+            if ($('#product_status').val().trim() == '0' || $('#product_status').val().trim() == '') {
                 var type = 2;
             } else {
                 var type = 1;
@@ -330,7 +330,7 @@
          * @author  Plateau  2018年7月24日17:24:54
          * */
         function submitValid (url) {
-            var productname = $('#productname').val();
+            var productname = $('#productname').val().trim();
             if (productname == '') {
                 $alert('产品名称不能为空');
                 return;
@@ -341,7 +341,7 @@
             } else if (radio_applyto_business[1].checked) {
                 $('.applyto_business').val(radio_applyto_business[1].value);
             }
-            var applyto_business = $('.applyto_business').val();
+            var applyto_business = $('.applyto_business').val().trim();
             if (applyto_business == '') {
                 $alert('请选择产品的适用业务');
                 return;
@@ -352,7 +352,7 @@
                 $alert('请选择适用类型');
                 return;
             }
-            var city = $('.select_city_input').val();
+            var city = $('.select_city_input').val().trim();
             if (city == '') {
                 $alert('请选择适用城市');
                 return;
@@ -404,10 +404,10 @@
                     if (res.error_code == 0) {
                         var product_id = res.product_id;
                         if (product_id) {
-                            var parent_name = $('#orgName').val();
+                            var parent_name = $('#orgName').val().trim();
                             var product_id = res.product_id;
-                            var product_name = $('#productname').val();
-                            var parent_id = $('#orgId').val();
+                            var product_name = $('#productname').val().trim();
+                            var parent_id = $('#orgId').val().trim();
                             var applyto_business = 0;
                             $('.radio_applyto_business').each(function () {
                                 if (this.checked) {
@@ -421,7 +421,7 @@
                                     applyto_type.push(_this.siblings('input[name=applyto_type]').val());
                                 }
                             });
-                            var city_ids = $('.city_ids').val();
+                            var city_ids = $('.city_ids').val().trim();
                             locationTo({
                                 action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
                                 param : {
@@ -436,7 +436,7 @@
                                 }
                             });
                         } else {
-                            var productId = $('#productId').val();
+                            var productId = $('#productId').val().trim();
                             $alert('保存成功', function () {
                                 locationTo({
                                     action : contextPath + markUri + "/supplier/organization/productDetail",
@@ -468,7 +468,7 @@
         function goProductList () {
             var go_product_list = $('.go_product_list');
             go_product_list.on('click', function () {
-                var orgId = $('#orgId').val();
+                var orgId = $('#orgId').val().trim();
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/publishedProducts",
                     param :{
@@ -488,7 +488,7 @@
             //取消跳转详情页
             var go_product_detail = $('.go_product_detail');
             go_product_detail.on('click', function () {
-                var productId = $('#productId').val();
+                var productId = $('#productId').val().trim();
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/productDetail",
                     param : {

@@ -444,7 +444,7 @@
          */
         function togDownpaymentType () {
             $('#downpayment_type').on('change', function (){
-                var val = $(this).val();
+                var val = $(this).val().trim();
                 if(val == '1'){
                     $('.downpayment_rate_div').show();
                     $('.downpayment_money').hide();
@@ -466,7 +466,7 @@
             var downpayment_money_box = $('.downpayment_money_box');
             downpayment_money_box.on("click",".downpayment_add_txt",function(){
                 var _this = $(this);
-                var money = $('.downpayment_add input').val();
+                var money = $('.downpayment_add input').val().trim();
                 if(money == ''){
                     $alert('请填写首付金额');
                     return;
@@ -474,7 +474,7 @@
                     var downpayment_add_ready = $('.downpayment_add_ready');
                     if(money && downpayment_add_ready.length > 0){
                         for(var i = 0;i < downpayment_add_ready.length; i++){
-                            var val = $('.downpayment_add_ready').eq(i).find('input').val();
+                            var val = $('.downpayment_add_ready').eq(i).find('input').val().trim();
                             if(money == val){
                                 $alert('此首付金额已存在,请重新输入');
                                 return;
@@ -526,7 +526,7 @@
             var rate_box = $('.rate_box');
             rate_box.on("click",".rate_add_txt",function(){
                 var _this = $(this);
-                var money = $('.rate_add input').val();
+                var money = $('.rate_add input').val().trim();
                 if(money == ''){
                     $alert('请填写当前费率');
                     return;
@@ -534,7 +534,7 @@
                     var rate_add_ready = $('.rate_add_ready');
                     if(money && rate_add_ready.length > 0){
                         for(var i = 0;i < rate_add_ready.length; i++){
-                            var val = $('.rate_add_ready').eq(i).find('input').val();
+                            var val = $('.rate_add_ready').eq(i).find('input').val().trim();
                             if(money == val){
                                 $alert('此费率已存在，请重新输入');
                                 return;
@@ -649,7 +649,7 @@
                 var file_id_input =  btn.siblings('input[name=file_ids]');
                 file_id_input.data('upload_image',true);
                 var file_ids = [];
-                if (file_id_input.val() == '') {
+                if (file_id_input.val().trim() == '') {
                     file_id_input.val(res.file_id);
                 } else {
                     file_ids.push(file_id_input.val());
@@ -703,8 +703,8 @@
                     success : function (res) {
                         if (res.error_code == 0) {
                             file_id_input.data('upload_image',true);
-                            if (file_id_input.val().indexOf(',') !== -1) {
-                                var file_id_arr = file_id_input.val().split(',');
+                            if (file_id_input.val().trim().indexOf(',') !== -1) {
+                                var file_id_arr = file_id_input.val().trim().split(',');
                                 for (var i = 0,len = file_id_arr.length;i<len;i++) {
                                     if (file_id_arr[i] == id) {
                                         file_id_arr.splice(i,1);
@@ -784,7 +784,7 @@
             });
             var prevPage = $('.prevPage');
             prevPage.off('click').on('click', function () {//上一步操作，相当于编辑产品基本信息
-                var product_id = $('#product_id').val();
+                var product_id = $('#product_id').val().trim();
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/productEditBase',
                     param : {
@@ -799,8 +799,8 @@
          * @author  Plateau  2018年8月9日09:36:58
          * */
         function submitValid (save_flag, url) {
-            var financeamount_start = $('#financeamount_start').val();
-            var financeamount_end = $('#financeamount_end').val();
+            var financeamount_start = $('#financeamount_start').val().trim();
+            var financeamount_end = $('#financeamount_end').val().trim();
             if (financeamount_start == '') {
                 $alert('请输入融资金额的最小金额');
                 return;
@@ -814,12 +814,12 @@
                 return;
             }
 
-            var downpayment_type = $('#downpayment_type').val();
+            var downpayment_type = $('#downpayment_type').val().trim();
             if (downpayment_type == '-1') {
                 $alert('请选择首付类型');
                 return;
             }else if (downpayment_type == '2') {
-                if ($('.downpayment_add input').val() == '') {
+                if ($('.downpayment_add input').val().trim() == '') {
                     $alert('请输入首付金额');
                     return;
                 } else {
@@ -827,7 +827,7 @@
                     var downpayment_moneys_vals = [];
                     downpayment_moneys.each(function () {
                         var _this = $(this);
-                        downpayment_moneys_vals.push(_this.val());
+                        downpayment_moneys_vals.push(_this.val().trim());
                     });
                     var downpayment_value = downpayment_moneys_vals.join(',');
                 }
@@ -850,7 +850,7 @@
                 }
             }
 
-            if ($('.rate_add input').val() == '') {
+            if ($('.rate_add input').val().trim() == '') {
                 $alert('请输入费率');
                 return;
             } else {
@@ -858,7 +858,7 @@
                 var interest_rate_vals = [];
                 interest_rate.each(function () {
                     var _this = $(this);
-                    interest_rate_vals.push(_this.val());
+                    interest_rate_vals.push(_this.val().trim());
                 });
                 var interest_rate = interest_rate_vals.join(',');
             }
@@ -899,7 +899,7 @@
                     var _this = $(this);
                     var file_ids = _this.find('.small_class .img_md_box input[name=file_ids]');
                     var id = _this.data('id');
-                    var big_class = _this.find('.big_class .big_class_name').text();
+                    var big_class = _this.find('.big_class .big_class_name').text().trim();
                     var must_input = _this.find('.big_class input');
                     var is_must = 0;
                     must_input.each(function () {
@@ -921,7 +921,7 @@
                             data_type : id,
                             is_must : is_must,
                             material_datas : material_datas.join(','),
-                            file_ids : file_ids.val()
+                            file_ids : file_ids.val().trim()
                         };
                         material_data_arr.push(obj);
                     } else {
@@ -937,8 +937,8 @@
                 return false;
             }
 
-            var product_id = $('#product_id').val();
-            var product_name = $('#product_name').val();
+            var product_id = $('#product_id').val().trim();
+            var product_name = $('#product_name').val().trim();
             var material_data = JSON.stringify(material_data_arr);
             if (save_flag ==3) {//编辑保存
                 var update_data = [];//有更新的材料数据
@@ -950,9 +950,9 @@
                     var is_histrory = _this.data('histrory');
                     var big_class = _this.find('.big_class');
                     if (big_class.find('input')[0].checked) {
-                        var is_must = big_class.find('input').val();
+                        var is_must = big_class.find('input').val().trim();
                     } else if (big_class.find('input')[1].checked) {
-                        var is_must = big_class.find('input').val();
+                        var is_must = big_class.find('input').val().trim();
                     }
 
                     var small_name = _this.find('.small_class .small_name');
@@ -963,7 +963,7 @@
                             material_datas.push(s.data('id'));
                         }
                     });
-                    var file_ids = _this.find('.img_md_box .file_ids').val();
+                    var file_ids = _this.find('.img_md_box .file_ids').val().trim();
 
                     for (var i = 0, leni = policy_list.length; i < leni; i++) {
                         if (policy_list[i].data_type == data_type) {
@@ -1017,12 +1017,12 @@
                         }
                     }
                 });
-                var policy_id = $('#policy_id').val();
-                var parent_id = $('#orgId').val();
-                var applyto_business = $('#applyto_business').val();
-                var city_ids = $('#city_ids').val();
-                var applyto_type = $('#applyto_type').val();
-                var release_time = $('#release_time').val();
+                var policy_id = $('#policy_id').val().trim();
+                var parent_id = $('#orgId').val().trim();
+                var applyto_business = $('#applyto_business').val().trim();
+                var city_ids = $('#city_ids').val().trim();
+                var applyto_type = $('#applyto_type').val().trim();
+                var release_time = $('#release_time').val().trim();
                 var parameters = {
                     product_id : product_id,
                     policy_id : policy_id,
@@ -1041,10 +1041,10 @@
                     release_time : release_time
                 };
             } else if (save_flag ==1 || save_flag == 4) {
-                var applyto_business = $('#applyto_business').val();
-                var parent_id = $('#orgId').val();
-                var city_ids = $('#city_ids').val();
-                var applyto_type = $('#applyto_type').val();
+                var applyto_business = $('#applyto_business').val().trim();
+                var parent_id = $('#orgId').val().trim();
+                var city_ids = $('#city_ids').val().trim();
+                var applyto_type = $('#applyto_type').val().trim();
                 var parameters = {
                     product_id : product_id,
                     product_name : product_name,
@@ -1098,7 +1098,7 @@
                             if (save_flag == 3 || save_flag == 4) {
                                 var url = '/supplier/organization/productDetail';
                                 var data = {
-                                    product_id : $('#product_id').val(),
+                                    product_id : $('#product_id').val().trim(),
                                     data_num : 1,
                                     page_flag : 0,
                                     publish_list : publish_list,
@@ -1106,7 +1106,7 @@
                                 };
                             } else {
                                 var url = '/supplier/organization/publishedProducts';
-                                var parent_id = $('#orgId').val();
+                                var parent_id = $('#orgId').val().trim();
                                 var data = {
                                     parent_id : parent_id
                                 }

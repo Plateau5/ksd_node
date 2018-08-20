@@ -672,7 +672,7 @@
 
             $('#mobile').on('input', function () {
                 var _this = $(this);
-                var value = _this.val();
+                var value = _this.val().trim();
                 value = value.replace(/[^\d\-\(\（\)\）]/g,'');
                 _this.val(value);
             });
@@ -712,7 +712,7 @@
          * @param  error_txt        ：   错误提示信息
          */
         function validate_form(required,obj,reg,error_txt){
-            var val = obj.val();
+            var val = obj.val().trim();
             var reg = reg;
             if(required == '1'){
                 if(!val){
@@ -745,7 +745,7 @@
          *        4.车龄范围，后者大于前者
          */
         function carAge_validate (_this) {
-            var val = _this.val();
+            var val = _this.val().trim();
             if(val == ''){
                 _this.siblings('.tips_info').show().find('.tips_text').text('车龄限制不能为空');
                 _this.css('border-color','#ccc');
@@ -761,8 +761,8 @@
                 _this.css('border-color','#FB2741');
                 return;
             }
-            var val1 = $('#carage_start').val();
-            var val2 = $('#carage_end').val();
+            var val1 = $('#carage_start').val().trim();
+            var val2 = $('#carage_end').val().trim();
             if(parseFloat(val1) >= parseFloat(val2)){
                 _this.siblings('.tips_info').show().find('.tips_text').text('请输入正确的车龄范围');
                 _this.css('border-color','#FB2741');
@@ -783,7 +783,7 @@
         //保存更新函数
         function send_organization_form(){
             var name = $('#orgname');
-            if(!name.val()){
+            if(!name.val().trim()){
                 $alert('机构名称不能为空');
                 return;
             }
@@ -820,7 +820,7 @@
             var have_system_url = $('.have_system_url').css('display');
             var system_url = $('#system_url');
             if(have_system_url == 'block'){
-                var have_system_url_val = system_url.val();
+                var have_system_url_val = system_url.val().trim();
                 if(!have_system_url_val){
                     $alert('系统地址不能为空');
                     return;
@@ -829,7 +829,7 @@
 
             //审批速度
             var approval =$('#approval');
-            if (approval.val() == '') {
+            if (approval.val().trim() == '') {
                 $alert('请选择审批速度');
                 return;
             }
@@ -838,7 +838,7 @@
             var minCarAge = $('.minCarAge');
             var maxCarAge = $('.maxCarAge');
             if (usedCar_status.hasClass('checked')) {
-                if (minCarAge.val() == '' || maxCarAge.val() == '') {
+                if (minCarAge.val().trim() == '' || maxCarAge.val().trim() == '') {
                     $alert('请输入车龄区间');
                     return;
                 }
@@ -887,7 +887,7 @@
             var parameters = new FormData(document.getElementById('organization_info_create'));
             var policy_desc = kindEditor.html();
             parameters.append('policy_desc', policy_desc);
-            if ($('#orgId').val() == '') {
+            if ($('#orgId').val().trim() == '') {
                 var url = '/api/organization/create';
             } else {
                 var url = '/api/organization/update';
@@ -906,11 +906,11 @@
                     $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('操作成功', function () {
-                            if ($('#orgId').val() != '') {
+                            if ($('#orgId').val().trim() != '') {
                                 locationTo({
                                     action : contextPath + markUri + '/supplier/organization/detail',
                                     param : {
-                                        organization_id : $('#orgId').val(),
+                                        organization_id : $('#orgId').val().trim(),
                                         material_type : 0
                                     }
                                 });
@@ -938,7 +938,7 @@
         function goOrglist () {
             var go_orglist = $('.go_orglist');
             go_orglist.off("click").on("click", function () {
-                var organization_id = $('#orgId').val()
+                var organization_id = $('#orgId').val().trim()
                 if (organization_id == '') {
                     locationTo({
                         action : contextPath + markUri + '/supplier/organization/list'
