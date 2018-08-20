@@ -977,6 +977,7 @@
                                     is_delete : is_delete
                                 };
                                 update_data.push(obj);
+                                break;
                             } else {
                                 if (material_datas.length == 0) {
                                     var is_delete = 1;
@@ -988,8 +989,20 @@
                                         is_delete : is_delete
                                     };
                                     update_data.push(obj);
+                                    break;
                                 } else {
                                     var is_delete = 0;
+                                    if (policy_list[i].data_ids != material_datas.join(',')) {
+                                        var obj = {
+                                            data_type : data_type,
+                                            material_datas : material_datas.join(','),
+                                            is_must : is_must,
+                                            file_ids : file_ids,
+                                            is_delete : is_delete
+                                        };
+                                        update_data.push(obj);
+                                        break;
+                                    }
                                     if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
                                         var obj = {
                                             data_type : data_type,
@@ -999,10 +1012,10 @@
                                             is_delete : is_delete
                                         };
                                         update_data.push(obj);
+                                        break;
                                     }
                                 }
                             }
-                            break;
                         } else {
                             if (material_datas.length != 0 && is_histrory == 0) {
                                 var obj1 = {

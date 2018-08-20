@@ -278,26 +278,27 @@
                 }
 
                 // file_ids.push(res.file_id);
-                $alert('图片上传成功');
-                var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
-                    '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
-                    '             <div class="img_md_operate_box">\n' +
-                    '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" title="查看"></em>\n' +
-                    ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
-                    '             </div>\n' +
-                    '             </a>';
-                if (btn.parents('.img_md_box').find('img').length >= 29) {
-                    btn.hide();
-                }
-                btn.before(imgEle);
-                /* 赋予新图片查看的实例属性 */
-                var parents = btn.parents('.img_md_box');
-                // 销毁父元素
-                var img = parents.find('.img_item');
-                if (img.length > 1) {
-                    parents[0].viewer.destroy();
-                }
-                viewLargeImage(parents[0]);
+                $alert('图片上传成功', function () {
+                    var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
+                        '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
+                        '             <div class="img_md_operate_box">\n' +
+                        '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" title="查看"></em>\n' +
+                        ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
+                        '             </div>\n' +
+                        '             </a>';
+                    if (btn.parents('.img_md_box').find('img').length >= 29) {
+                        btn.hide();
+                    }
+                    btn.before(imgEle);
+                    /* 赋予新图片查看的实例属性 */
+                    var parents = btn.parents('.img_md_box');
+                    // 销毁父元素
+                    var img = parents.find('.img_item');
+                    if (img.length > 1) {
+                        parents[0].viewer.destroy();
+                    }
+                    viewLargeImage(parents[0]);
+                });
             } else {
                 $alert('图片上传失败，请重试');
             }
@@ -551,6 +552,7 @@
                                 organization_material_id : organization_material_id
                             };
                             update_data.push(obj);
+                            break;
                         } else {
                             if (material_datas.length == 0) {
                                 var is_delete = 1;
@@ -564,8 +566,22 @@
                                     organization_material_id : organization_material_id
                                 };
                                 update_data.push(obj);
+                                break;
                             } else {
                                 var is_delete = 0;
+                                if (policy_list[i].data_ids != material_datas.join(',')) {
+                                    var obj = {
+                                        type : data_type,
+                                        change_version : policy_list[i].change_version,
+                                        data_ids : material_datas.join(','),
+                                        is_must : is_must,
+                                        file_ids : file_ids,
+                                        is_delete : is_delete,
+                                        organization_material_id : organization_material_id
+                                    };
+                                    update_data.push(obj);
+                                    break;
+                                }
                                 if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
                                     var obj = {
                                         type : data_type,
@@ -577,10 +593,10 @@
                                         organization_material_id : organization_material_id
                                     };
                                     update_data.push(obj);
+                                    break;
                                 }
                             }
                         }
-                        break;
                     } else {
                         if (material_datas.length != 0 && is_histrory == 0) {
                             var obj1 = {
