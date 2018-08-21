@@ -157,6 +157,7 @@ $('#disagree_sub').click(function() {
         return;
     } else {
         $('.error_prom').text('');
+        $('#loading').show();
     }
     $('#select_question_ids').val(question_id_arr.join(','));
     $('#select_reason').val(reason_arr.join(','));
@@ -167,6 +168,7 @@ $('#disagree_sub').click(function() {
         var data = JSON.parse(response);
         //成功
         if (data.error_code == '0') {
+            $('#loading').hide();
             //window.location.href = contextPath + '/requestPayout/waitList';
             $alert('提交成功', function (){
                 window.location.href = localUrl;
