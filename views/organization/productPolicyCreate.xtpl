@@ -703,10 +703,9 @@
                     success : function (res) {
                         if (res.error_code == 0) {
                             file_id_input.data('upload_image',true);
-                            // var fileNum = btn.data('file_num');
-                            // fileNum--;
-                            // fileCount = fileNum;
-                            btn.data('file_num', fileNum);
+                            var fileNum = _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num');
+                            fileNum--;
+                            _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num', fileNum);
                             if (file_id_input.val().trim().indexOf(',') !== -1) {
                                 var file_id_arr = file_id_input.val().trim().split(',');
                                 for (var i = 0,len = file_id_arr.length;i<len;i++) {
@@ -824,7 +823,7 @@
                 $alert('请选择首付类型');
                 return;
             }else if (downpayment_type == '2') {
-                if ($('.downpayment_add input').val().trim() == '') {
+                if ($('.downpayment_add input').val().trim() == '' || $('.downpayment_add_ready input').eq(4).val().trim() == '') {
                     $alert('请输入首付金额');
                     return;
                 } else {
@@ -855,7 +854,7 @@
                 }
             }
 
-            if ($('.rate_add input').val().trim() == '') {
+            if ($('.rate_add input').val().trim() == '' || $('.rate_add_ready input').eq(4).val().trim() == '') {
                 $alert('请输入费率');
                 return;
             } else {
