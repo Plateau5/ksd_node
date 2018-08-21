@@ -823,9 +823,16 @@
                 $alert('请选择首付类型');
                 return;
             }else if (downpayment_type == '2') {
-                if ($('.downpayment_add input').val().trim() == '' || $('.downpayment_add_ready input').eq(4).val().trim() == '') {
-                    $alert('请输入首付金额');
-                    return;
+                if ($('.downpayment_add input')) {
+                    if ($('.downpayment_add input').val().trim() == '') {
+                        $alert('请输入首付金额');
+                        return;
+                    }
+                } else if ($('.downpayment_add_ready input').eq(4)) {
+                    if ($('.downpayment_add_ready input').eq(4).val().trim() == '') {
+                        $alert('请输入首付金额');
+                        return;
+                    }
                 } else {
                     var downpayment_moneys = $('.downpayment_money_box input[name=downpayment_money]');
                     var downpayment_moneys_vals = [];
@@ -853,10 +860,16 @@
                     var downpayment_value = downpayment_rate_vals.join(',');
                 }
             }
-
-            if ($('.rate_add input').val().trim() == '' || $('.rate_add_ready input').eq(4).val().trim() == '') {
-                $alert('请输入费率');
-                return;
+            if ($('.rate_add input')) {
+                if ($('.rate_add input').val().trim() == '') {
+                    $alert('请输入费率');
+                    return;
+                }
+            } else if ($('.rate_add_ready input').eq(4)) {
+                if ($('.rate_add_ready input').eq(4).val().trim() == '') {
+                    $alert('请输入费率');
+                    return;
+                }
             } else {
                 var interest_rate = $('.rate_box input[name=interest_rate]');
                 var interest_rate_vals = [];
