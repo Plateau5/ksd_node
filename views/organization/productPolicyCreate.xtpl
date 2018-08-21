@@ -827,11 +827,27 @@
                     if ($('.downpayment_add input').val().trim() == '') {
                         $alert('请输入首付金额');
                         return;
+                    } else {
+                        var downpayment_moneys = $('.downpayment_money_box input[name=downpayment_money]');
+                        var downpayment_moneys_vals = [];
+                        downpayment_moneys.each(function () {
+                            var _this = $(this);
+                            downpayment_moneys_vals.push(_this.val().trim());
+                        });
+                        var downpayment_value = downpayment_moneys_vals.join(',');
                     }
                 } else if ($('.downpayment_add_ready input').eq(4)) {
                     if ($('.downpayment_add_ready input').eq(4).val().trim() == '') {
                         $alert('请输入首付金额');
                         return;
+                    } else {
+                        var downpayment_moneys = $('.downpayment_money_box input[name=downpayment_money]');
+                        var downpayment_moneys_vals = [];
+                        downpayment_moneys.each(function () {
+                            var _this = $(this);
+                            downpayment_moneys_vals.push(_this.val().trim());
+                        });
+                        var downpayment_value = downpayment_moneys_vals.join(',');
                     }
                 } else {
                     var downpayment_moneys = $('.downpayment_money_box input[name=downpayment_money]');
@@ -864,11 +880,27 @@
                 if ($('.rate_add input').val().trim() == '') {
                     $alert('请输入费率');
                     return;
+                } else {
+                    var interest_rate = $('.rate_box input[name=interest_rate]');
+                    var interest_rate_vals = [];
+                    interest_rate.each(function () {
+                        var _this = $(this);
+                        interest_rate_vals.push(_this.val().trim());
+                    });
+                    var interest_rate = interest_rate_vals.join(',');
                 }
             } else if ($('.rate_add_ready input').eq(4)) {
                 if ($('.rate_add_ready input').eq(4).val().trim() == '') {
                     $alert('请输入费率');
                     return;
+                } else {
+                    var interest_rate = $('.rate_box input[name=interest_rate]');
+                    var interest_rate_vals = [];
+                    interest_rate.each(function () {
+                        var _this = $(this);
+                        interest_rate_vals.push(_this.val().trim());
+                    });
+                    var interest_rate = interest_rate_vals.join(',');
                 }
             } else {
                 var interest_rate = $('.rate_box input[name=interest_rate]');
