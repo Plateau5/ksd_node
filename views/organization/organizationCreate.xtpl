@@ -887,7 +887,7 @@
             var parameters = new FormData(document.getElementById('organization_info_create'));
             var policy_desc = kindEditor.html();
             parameters.append('policy_desc', policy_desc);
-            if (old_policy_desc == policy_desc) {
+            if (old_policy_desc == policy_desc || old_policy_desc == '') {
                 parameters.append('change_version', '0');
             } else {
                 parameters.append('change_version', '1');
