@@ -580,6 +580,7 @@
 <script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-init.js"></script>
 <script>
     (function ($) {
+        var old_policy_desc = $('#approval_policy').val();
         /**
          * 选择机构logo
          * @author Plateau 2018年8月14日11:59:30
@@ -887,6 +888,11 @@
             var parameters = new FormData(document.getElementById('organization_info_create'));
             var policy_desc = kindEditor.html();
             parameters.append('policy_desc', policy_desc);
+            if (old_policy_desc == policy_desc) {
+                parameters.append('change_version', '0');
+            } else {
+                parameters.append('change_version', '1');
+            }
             if ($('#orgId').val().trim() == '') {
                 var url = '/api/organization/create';
             } else {
