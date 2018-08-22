@@ -29,7 +29,7 @@
 						<div class="item_name">客户：</div>
 						<!--<div class="item_value">{{vo.user_name}}</div>-->
 						<div class="item_value">
-							<a href="javascript:" data-name="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="{{#if (vo.order_count > 0) }}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0)}}{{vo.order_count}}{{/if}}</em></a>
+							<a href="javascript:" data-name="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="{{#if (vo.order_count > 0 && vo.customer_id !== 0)}}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0 && vo.customer_id !== 0)}}{{vo.order_count}}{{/if}}</em></a>
 						</div>
 					</li>
 					{{/if}}
