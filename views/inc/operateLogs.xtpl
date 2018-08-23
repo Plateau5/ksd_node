@@ -22,7 +22,11 @@
 				<li class="list_item log_item">
 					<div class="log_item_info">
 						<div class="date light_color">{{this.modify_time }}</div>
-						<div class="text">{{this.modify_des}}/{{this.status_value}}&nbsp;&nbsp;{{this.position_desc}}：{{this.modify_name}} &nbsp;&nbsp;
+						<div class="text">{{this.modify_des}}/{{this.status_value}}&nbsp;&nbsp;
+							{{#if (this.modify_name && this.modify_name !=='' && this.modify_name !== null)}}
+								{{this.position_desc}}：{{this.modify_name}}
+							{{/if}}
+							&nbsp;&nbsp;
 							{{#if (this.reason) }}
 							{{this.parent_value}} {{this.reason}}
 							{{/if}}
