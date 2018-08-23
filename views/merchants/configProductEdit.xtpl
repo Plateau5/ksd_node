@@ -278,7 +278,9 @@
                                     {{#each (list) }}
                                     <div class="apply_data_item">
                                         <div class="">
+                                            {{#if (this.is_must === 1) }}
                                             <em class="require_icon">*</em>
+                                            {{/if}}
                                             <span class="">{{this.type_name}}：</span>
                                             <span class="">{{this.material_name}}</span>
                                         </div>
@@ -513,7 +515,8 @@
                         downpayment_type : downpaymentType,
                         downpayment_value : new_down_arr,
                         interest_rate :new_rate_arr,
-                        term: new_term_arr
+                        term: new_term_arr,
+                        organization_id : orgId
                     },
                     success : function (res) {
                         if (res.error_code == 0) {
