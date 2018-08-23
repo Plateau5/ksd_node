@@ -839,7 +839,9 @@
                     var downpayment_moneys_vals = [];
                     downpayment_moneys.each(function () {
                         var _this = $(this);
-                        downpayment_moneys_vals.push(_this.val().trim());
+                        if (_this.val() != '') {
+                            downpayment_moneys_vals.push(_this.val().trim());
+                        }
                     });
                     var downpayment_value = downpayment_moneys_vals.join(',');
                 }
@@ -877,7 +879,9 @@
                 var interest_rate_vals = [];
                 interest_rate.each(function () {
                     var _this = $(this);
-                    interest_rate_vals.push(_this.val().trim());
+                    if (_this.val() != '') {
+                        interest_rate_vals.push(_this.val().trim());
+                    }
                 });
                 var interest_rate = interest_rate_vals.join(',');
             }
