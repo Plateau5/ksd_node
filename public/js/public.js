@@ -175,24 +175,35 @@ function numAndAmount (selector,opt) {
  */
 function chnAndEng (selector,type) {
     var body = $('body');
+    var flag = true;
+    body.on('compositionstart',selector,function(){
+        flag = false;
+    });
+    body.on('compositionend',selector,function(){
+        flag = true;
+    });
     body.on('input', selector,function(e){	//oninput 事件在用户输入时触发。
         var ev = e || window.event;
         ev.stopPropagation();
         ev.preventDefault();
         var _this = $(this);
         var value = _this.val();
-        if (type == 0) {	//只允许输入纯英文
-            value = value.replace(/[^a-zA-Z]/g,'');
-        } else if (type == 1) {		//只允许输入纯中文
-            value = value.replace(/[^\u4E00-\u9FA5]/g,'');
-        } else if (type == 2) {		//只允许输入中英文
-            value = value.replace(/[^a-zA-Z\u4E00-\u9FA5]/g,'');
-        } else if (type == 3) {		//只允许输入英文、数字
-            value = value.replace(/[^a-zA-Z\d]/g,'');
-        }else if (type == 4) {		//只允许输入中文、英文、数字
-            value = value.replace(/[^a-zA-Z\d\u4e00-\u9fa5]/g,'');
-        }
-        _this.val(value);
+        setTimeout(function(){
+            if(flag){
+                if (type == 0) {	//只允许输入纯英文
+                    value = value.replace(/[^a-zA-Z]/g,'');
+                } else if (type == 1) {		//只允许输入纯中文
+                    value = value.replace(/[^\u4E00-\u9FA5]/g,'');
+                } else if (type == 2) {		//只允许输入中英文
+                    value = value.replace(/[^a-zA-Z\u4E00-\u9FA5]/g,'');
+                } else if (type == 3) {		//只允许输入英文、数字
+                    value = value.replace(/[^a-zA-Z\d]/g,'');
+                }else if (type == 4) {		//只允许输入中文、英文、数字
+                    value = value.replace(/[^a-zA-Z\d\u4e00-\u9fa5]/g,'');
+                }
+                _this.val(value);
+            }
+        },0)
     });
 }
 // ----------------------------------------------------------------------
