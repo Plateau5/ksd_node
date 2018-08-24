@@ -720,13 +720,14 @@
                 "title" : "归档提醒",
                 "button" : ["确认","取消"],
                 "content" : "确认将此订单归档？",
-                onConfirm : function (dia) {
-                    confirmArchive(dia, financeId, advance_id);
+                onConfirm : function (d) {
+                    d.close();
+                    confirmArchive(financeId, advance_id);
                 }
             });
         });
         //确认归档逻辑
-        function confirmArchive (dialog, fid, advance_id) {
+        function confirmArchive (fid, advance_id) {
             var url = contextPath + "/api/requestPayout/pigeonhole";
             var data = {
                 finance_id : fid,
@@ -734,21 +735,39 @@
             };
             if (fid) {
                 $ajax("POST", url, data, function (res) {
-                    var data = eval(res);
-                    if (data.error_code == 0) {
-                        dialog.close();
+                    console.log(res);
+                    if (res.error_code == 0) {
                         //window.location.href = document.referrer;
                         window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
                     } else {
-                        dialog.close();
                         $alert(res.error_msg);
                     }
                 }, function () {
                     $alert("操作失败，请重新尝试");
                 });
+
+                // $.ajax({
+                //     type:'post',
+                //     url : url,
+                //     data : data,
+                //     beforeSend : function () {
+                //         $('#loading').show();
+                //     },
+                //     success : function (res) {
+                //         $('#loading').hide();
+                //         if (res.error_code == 0) {
+                //             window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
+                //         } else {
+                //             $alert(res.error_msg);
+                //         }
+                //     },
+                //     error : function () {
+                //         $('#loading').hide();
+                //         $alert("操作失败，请稍后重试");
+                //     }
+                // });
             }
         }
-        confirmArchive();
 
         function  pageJumpCheck (selector, opt) {
             var options = {};
