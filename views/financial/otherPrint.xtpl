@@ -37,7 +37,13 @@
 					</tr>
 					<tr>
 						<td colspan="2">申请人</td>
-						<td colspan="4">{{this.create_name}}</td>
+						<td colspan="4">
+							{{#if (this.finance_type === 4)}}
+								{{this.supplier_name}}
+							{{else}}
+								{{this.create_name}}
+							{{/if}}
+						</td>
 						<td colspan="2">上牌抵押城市</td>
 						<td colspan="4">{{this.pledge_city}}</td>
 					</tr>
