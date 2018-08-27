@@ -551,89 +551,37 @@
                     }
                 });
                 var file_ids = _this.find('.img_md_box .file_ids').val().trim();
+                var obj = {
+                    type : data_type,
+                    data_ids : material_datas.join(','),
+                    is_must : is_must,
+                    file_ids : file_ids
+                };
                 for (var i = 0, leni = policy_list.length; i < leni; i++) {
                     if (policy_list[i].type == data_type) {
-                        if (policy_list[i].is_must.toString() != is_must) {
-                            if (material_datas.length == 0) {
-                                var is_delete = 1;
-                                var obj = {
-                                    type : data_type,
-                                    change_version : policy_list[i].change_version,
-                                    data_ids : material_datas.join(','),
-                                    is_must : is_must,
-                                    file_ids : file_ids,
-                                    is_delete : is_delete,
-                                    organization_material_id : organization_material_id
-                                };
+                        obj.change_version = policy_list[i].change_version;
+                        obj.organization_material_id = organization_material_id;
+                        if (material_datas.length == 0) {
+                            obj.is_delete = 1;
+                        } else {
+                            obj.is_delete = 0;
+                        }
+                        if (policy_list[i].is_must.toString() == is_must) {
+                            if (policy_list[i].data_ids != material_datas.join(',')) {
                                 update_data.push(obj);
                                 break;
-                            } else {
-                                var is_delete = 0;
-                                var obj = {
-                                    type : data_type,
-                                    change_version : policy_list[i].change_version,
-                                    data_ids : material_datas.join(','),
-                                    is_must : is_must,
-                                    file_ids : file_ids,
-                                    is_delete : is_delete,
-                                    organization_material_id : organization_material_id
-                                };
+                            }
+                            if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
                                 update_data.push(obj);
                                 break;
                             }
                         } else {
-                            if (material_datas.length == 0) {
-                                var is_delete = 1;
-                                var obj = {
-                                    type : data_type,
-                                    change_version : policy_list[i].change_version,
-                                    data_ids : material_datas.join(','),
-                                    is_must : is_must,
-                                    file_ids : file_ids,
-                                    is_delete : is_delete,
-                                    organization_material_id : organization_material_id
-                                };
-                                update_data.push(obj);
-                                break;
-                            } else {
-                                var is_delete = 0;
-                                if (policy_list[i].data_ids != material_datas.join(',')) {
-                                    var obj = {
-                                        type : data_type,
-                                        change_version : policy_list[i].change_version,
-                                        data_ids : material_datas.join(','),
-                                        is_must : is_must,
-                                        file_ids : file_ids,
-                                        is_delete : is_delete,
-                                        organization_material_id : organization_material_id
-                                    };
-                                    update_data.push(obj);
-                                    break;
-                                }
-                                if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
-                                    var obj = {
-                                        type : data_type,
-                                        change_version : policy_list[i].change_version,
-                                        data_ids : material_datas.join(','),
-                                        is_must : is_must,
-                                        file_ids : file_ids,
-                                        is_delete : is_delete,
-                                        organization_material_id : organization_material_id
-                                    };
-                                    update_data.push(obj);
-                                    break;
-                                }
-                            }
+                            update_data.push(obj);
+                            break;
                         }
                     } else {
                         if (material_datas.length != 0 && is_histrory == 0) {
-                            var obj1 = {
-                                type : data_type,
-                                data_ids : material_datas.join(','),
-                                is_must : is_must,
-                                file_ids : file_ids
-                            };
-                            insert_data.push(obj1);
+                            insert_data.push(obj);
                             break;
                         }
                     }
