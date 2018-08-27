@@ -367,9 +367,10 @@
                                                                     <img data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}">
                                                                     <div class="img_md_operate_box">
                                                                         <em class="img_md_operate_btn view" data-url="{{image_url}}{{this}}" title="查看"></em>
-                                                                        <em class="img_md_operate_btn delete" data-id="{{this}}" title="删除"></em>
+                                                                        <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
                                                                     </div>
                                                                 </a>
+                                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                             {{/each}}
                                                             {{#if (file_ids_arr.length >= 30) }}
                                                                 <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{file_ids_arr.length-1}}" style="padding: 0px;display: none;"></a>
@@ -383,9 +384,10 @@
                                                                 <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
                                                                 <div class="img_md_operate_box">
                                                                     <em class="img_md_operate_btn view" data-url="{{image_url}}{{this.file_ids}}" title="查看"></em>
-                                                                    <em class="img_md_operate_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
+                                                                    <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
                                                                 </div>
                                                             </a>
+                                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                             <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="1" style="padding: 0px;"></a>
                                                             <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
                                                         {{/if}}
@@ -616,7 +618,7 @@
                 form.append("file_type", type);
                 form.append("supplier_id", merchantId);
                 form.append("file_name", fileName);     // 用于后台重命名图片物理名字
-                var url = contextPath + '/api/product/uploadfile';
+                var url = contextPath + '/api/file/upload';
                 $.ajax({
                     type : "post",
                     url : url,
@@ -650,18 +652,18 @@
                 file_id_input.data('upload_image',true);
                 var file_ids = [];
                 if (file_id_input.val().trim() == '') {
-                    file_id_input.val(res.file_id);
+                    file_id_input.val(res.data[0].file_id);
                 } else {
                     file_ids.push(file_id_input.val());
-                    file_ids.push(res.file_id);
+                    file_ids.push(res.data[0].file_id);
                     file_id_input.val(file_ids.join(','));
                 }
                 $alert('图片上传成功',function () {
                     var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
-                        '             <img data-original="'+ res.image_url +'" src="'+ res.thumbnail +'" alt="'+ fileName +'"/>\n' +
+                        '             <img data-original="'+ res.data[0].image_url +'" src="'+ res.data[0].thumbnail +'" alt="'+ fileName +'"/>\n' +
                         '             <div class="img_md_operate_box">\n' +
-                        '             <em class="img_md_operate_btn view" data-url="'+ res.image_url +'" title="查看"></em>\n' +
-                        ((type != '99') ?('<em class="img_md_operate_btn delete" data-id="'+ res.file_id +'" title="删除"></em>') : '') +
+                        '             <em class="img_md_operate_btn view" data-url="'+ res.data[0].image_url +'" title="查看"></em>\n' +
+                        ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.data[0].file_id +'" title="删除"></em>') : '') +
                         '             </div>\n' +
                         '             </a>';
                     if (btn.parents('.img_md_box').find('img').length >= 29) {
