@@ -118,7 +118,7 @@
                                 {{#if (verifyCode(1385)) }}
                                     <a href="javascript:" class="edit_sm_btn edit_sm_btn_icon">编辑</a>
                                 {{/if}}
-                                {{#if (verifyCode(1060)) }}
+                                {{#if (verifyCode(1609)) }}
                                     <a href="javascript:" class="delete_sm_btn delete_sm_btn_icon">删除</a>
                                 {{/if}}
                         </div>
@@ -802,7 +802,7 @@
                 data : {
                     supplier_id : merchantId
                 },
-                url : contextPath + '/api/supplier/delete',
+                url : contextPath + '/api/supplier/web/delete',
                 success : function (res) {
                     if (res.error_code == 0) {
                         $alert('删除商户成功', function () {
