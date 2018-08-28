@@ -258,12 +258,12 @@
                                             </div>
                                         </li>
                                         <li class="item_row">
-                                            <div class="item_name long_text">是否为KA渠道商户：</div>
+                                            <div class="item_name long_text">商户来源：</div>
                                             <div class="item_value"  id="mSource" title="{{detail.applyto_type_value}}">
                                                 {{#if  (detail.applyto_type === 2)}}
-                                                    是
+                                                    KA渠道
                                                 {{elseif (detail.applyto_type === 1)}}
-                                                    否
+                                                    快收单
                                                 {{/if}}
                                             </div>
                                         </li>
@@ -637,7 +637,7 @@
                         renderBusinessInfo(false, res);
                     }
                 },
-                error : function () {
+                error : function (res) {
                     renderBusinessInfo(false, res);
                 }
             });
