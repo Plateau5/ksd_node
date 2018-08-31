@@ -51,6 +51,10 @@
                                         <div class="pop_name">标签：</div>
                                         <div class="pop_value" id="merchant_label_names"></div>
                                     </div>
+                                    <div class="pop_row">
+                                        <div class="pop_name">商户来源：</div>
+                                        <div class="pop_value" id="applyto_type_value"></div>
+                                    </div>
                                     <div id="imgDetail_merchant" class="pop_img_detail  clearfix">
                                     </div>
                                 </div>
@@ -388,8 +392,13 @@
                                     车架号：{{#if (this.vin) }}{{this.vin}}{{else}}--{{/if}}
                                 </div>
                                 <div class="loan_row">
-                                    <div class="loan_name">贷前：</div>
-                                    <div class="loan_value">{{this.emp_name}}</div>
+                                    {{#if (this.finance_type === 4)}}
+                                        <div class="loan_name">订单归属：</div>
+                                        <div class="loan_value">{{this.supplier_name}}</div>
+                                    {{else}}
+                                        <div class="loan_name">贷前：</div>
+                                        <div class="loan_value">{{this.emp_name}}</div>
+                                    {{/if}}
                                 </div>
                                 <div class="loan_row">
                                     <div class="loan_name">款项类型：</div>
@@ -702,6 +711,11 @@
                                     } else {
                                         $('#merchant_remark').html('--');
                                     }
+                                    if (data.supplierDetail.applyto_type) {
+                                        $('#applyto_type_value').html(data.supplierDetail.applyto_type_value);
+                                    } else {
+                                        $('#applyto_type_value').html('--');
+                                    }
                                     //所属商户弹出层的标签名
                                     if(data.supplierDetail){
                                         if (data.supplierDetail.type_value) {
@@ -713,6 +727,11 @@
                                             $('#merchant_status').html(data.supplierDetail.status_value);
                                         } else {
                                             $('#merchant_status').html('--');
+                                        }
+                                        if (data.supplierDetail.applyto_type) {
+                                            $('#applyto_type_value').html(data.supplierDetail.applyto_type_value);
+                                        } else {
+                                            $('#applyto_type_value').html('--');
                                         }
                                         if(data.supplierDetail.label_name){
                                             if(data.supplierDetail.label_name.indexOf(",")!=-1){
@@ -732,6 +751,7 @@
                                         $('#merchant_type').html('--');
                                         $('#merchant_status').html('--');
                                         $('#merchant_label_names').html('--');
+                                        $('#applyto_type_value').html('--');
                                     }
 
                                 }

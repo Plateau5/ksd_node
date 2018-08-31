@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <title>产品管理</title>
     {{include ("./../inc/cssSources")}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/common/base.css">
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/product/shelves_list.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -22,25 +21,24 @@
         <!---- Part of slide nav End ---->
 
         <!---- Part of Main info Begin ---->
-        <div id="main" class="main">
+        <div id="main" class="main warehouse_list">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a data-id="{{parent_id}}" class="TS crumbs_item" style="cursor: pointer;">{{parent_name}}</a>
+                <a href="javascript:;" class="crumbs_item go_product_list">产品列表({{parent_name}})</a>
                 <a href="javascript:;" class="crumbs_item">仓库中的产品</a>
             </div>
-            <div class="listConHeader relative selectBox" style="margin-bottom:2px;">
-                <form action="" id="shelves_info">
-                    <input type="hidden" id="shelves_id" name="ids" value="">
-                </form>
+            <div class="listConHeader relative selectBox">
                 <form action="" id="delete_info">
                     <input type="hidden" id="delete_id" name="ids" value="">
                 </form>
+                <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
                 <form action="{{markUri}}/supplier/organization/unpublishedProducts" method="post" id="form_search" role='form'>
                     <input type="hidden" id="parent_id" name="parent_id" value="{{parent_id}}">
                     <input type="hidden" id="parent_name" name="parent_name" value="{{parent_name}}">
-                    <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
-                    <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
-                    <div class="select" style="margin-top: 40px;">
+                    <input type="hidden" name="publish_list" value="{{reqParams.publish_list}}">
+                    <input type="hidden" name="warehouse_list" value="{{reqParams.warehouse_list}}">
+                    <div class="select">
                         <div class="select_firm">
                             <label  style="margin-right:15px;font-weight: normal;">适用业务:</label>
                             <select name="applyto_business" class="select_condition" id="applyto_business">
@@ -82,23 +80,9 @@
                         {{/if}}
                     </div>
                 </form>
-                <div class="shelves_btn_box" style="height:26px;">
+               <!-- <div class="shelves_btn_box">
                     <div class="prount_count">共<span>{{count}}</span>个产品</div>
-                    {{#if (verifyCode(1088)) }}
-                    <div class="delete_btn">
-                        <a href="javascript:" class="detail_title_btn delete_btn delete_rebate_type" style="padding-top: 2px;">删除</a>
-                        <!--<img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/icon_delete.png" alt="">
-                        <span>删除</span>-->
-                    </div>
-                    {{/if}}
-                    {{#if (verifyCode(1086)) }}
-                    <div class="update_btn" style="line-height: 20px;">
-                        <a href="javascript:" class="detail_title_btn grounding" style="padding-left: 29px;padding-top: 2px;">上架</a>
-                        <!--<img  style="margin-right:5px;margin-top:-2px;" src="{{markUri}}/static/img/product/icon_update1.png" alt="">
-                        <span>上架</span>-->
-                    </div>
-                    {{/if}}
-                </div>
+                </div>-->
 
                 <!--tableList start-->
                 <table class="normal product_table">
@@ -109,17 +93,9 @@
                     </colgroup>
                     <thead>
                     <tr class="table_header_tr">
-                        <!--<td style="width:20%">所属机构</td>-->
-                        <td>
-                            <div class="check">
-                                <div class="check_img icon_uncheck selectall_check" style="margin-top: 24px;"></div>
-                                <div class="ellipsis">
-                                    <span class="product_name">产品名称</span>
-                                </div>
-                            </div>
-                        </td>
+                        <td>产品名称</td>
                         <td>下架原因</td>
-                        <td>操作</td>
+                        <td style="text-align: center">操作</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -132,31 +108,18 @@
                     {{else}}
                         {{#each (list) }}
                         <tr class="product_tr">
-                            <td>
-                                <div class="check">
-                                    <div class="check_img icon_uncheck" id="{{this.id }}"></div>
-                                    <!--<div class="ellipsis">${bean.parent_name }</div>-->
-                                    <div class="ellipsis">
-                                        <span class="product_name">{{this.name}}</span>
-                                        {{#if ((!this.downpayment_rate && !this.downpayment_money) ||
-                                            !this.interest_rate ||
-                                            !this.financeamount_end  ||
-                                            !this.term ) }}
-                                            <span  class="shelves_name" style="color:#FB2741;">
-                                            (信息未填写完整)
-                                            </span>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </td>
+                            <td title="{{this.name}}">{{this.product_name}}</td>
                             <!--<td></td>-->
                             <td title="{{bean.unShelve_reason }}">{{this.unShelve_reason }}</td>
-                            <td class="cursor" >
+                            <td class="cursor" style="text-align: center">
                                 {{#if (root.verifyCode(1079)) }}
-                                <em class="small_icon view_detail_icon mar_r_10" lang="{{this.id }}" data_num="1" title="查看"></em>
+                                <a href="javascript:;" title="查看" class="view view_detail view_detail_icon" lang="{{this.product_id}}" data_num="1"></a>
                                 {{/if}}
-                                {{#if (root.verifyCode(1078)) }}
-                                <em class="small_icon edit_detail_icon" lang="{{this.id }}" title="编辑"></em>
+                                {{#if (root.verifyCode(1086)) }}
+                                <a href="javascript:;" title="上架" class="grounding update_btn" data-id="{{this.product_id}}"></a>
+                                {{/if}}
+                                {{#if (root.verifyCode(1088)) }}
+                                <a href="javascript:;" title="删除" class="delete delete_btn" data-id="{{this.product_id}}"></a>
                                 {{/if}}
                             </td>
                         </tr>
@@ -178,23 +141,154 @@
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/product/shelves_list.js"></script>
 <script>
-    //$('.product_table>tbody>tr[class="product_tr"]').eq(0).find('td').css('paddingTop','30px');
-    $(function () {
-        $('.TS').on('click', function () {
-            var _this = $(this);
-            var parent_id = $.trim(_this.data('id'));
-            locationTo({
-                action : contextPath + markUri + "/supplier/organization/publishedProducts",
-                param : {
-                    parent_id : parent_id
-                }
-            })
+    (function ($) {
+        var warehouse_list = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (warehouse_list.length > 0 ) {
+            warehouse_list = JSON.parse(warehouse_list);
+        }
+        var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
+
+        /**
+         * 上架事件
+         * @author Plateau  2018年8月9日16:36:03
+         * */
+        function updateEvent () {
+            $(".update_btn").off("click").on("click", function () {
+                var _this = $(this);
+                var product_id = _this.data('id');
+                dialog('open', {
+                    title : '上架提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>选中产品将发布上架，确认继续上架？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        $.ajax({
+                            type:'post',
+                            timeout:3000,
+                            url : contextPath + "/api/product/publish",
+                            data : {
+                                product_id : product_id,
+                                publish_type : 2
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('上架成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else if (res.error_code == 1013) {
+                                    $alert('您选择了有信息填写不完整的产品，请先填写完整！');
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('上架失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+
+        /**
+         * 删除事件
+         * @author Plateau  2018年8月9日14:22:03
+         * */
+        function delEvent () {
+            $(".delete_btn").off("click").on("click", function () {
+                var _this = $(this);
+                var product_id = _this.data('id');
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后产品将不可恢复，确认继续删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        $.ajax({
+                            type:'post',
+                            timeout:3000,
+                            url : contextPath + "/api/product/delete",
+                            data : {
+                                id : product_id
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        /**
+         * 筛选
+         * @author Plateau  2018年8月9日14:21:02
+         * */
+        function filterData () {
+            $('.select_condition').change(function() {
+                $('#form_search').submit();
+            });
+        }
+
+
+        /**
+         * 跳转产品详情页
+         * @author Plateau  2018年8月9日14:16:38
+         * */
+        function toProductDetail () {
+            var btn = $(".view_detail_icon");
+            btn.off("click").on("click", function () {
+                var _this = $(this);
+                var id = _this.attr('lang');
+                var data_num = _this.attr('data_num');
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/productDetail",
+                    param : {
+                        product_id : id,
+                        data_num : data_num,
+                        page_flag : 0,
+                        publish_list : publish_list,
+                        warehouse_list : F.set(warehouse_list)
+                    }
+                });
+            });
+        }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年8月8日18:18:36
+         * */
+        function goProductList () {
+            var btn = $('.go_product_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                    param : F.get(publish_list)
+                })
+            });
+        }
+        $(function() {
+            paginationSwitch();// 分页切换
+            filterData();//筛选
+            toProductDetail();//跳转产品详情页
+            delEvent();//删除事件
+            updateEvent();//上架事件
+            goProductList();//面包屑跳转
         });
-        paginationSwitch();// 分页切换
-        pageJump(".go_forward", {
-            parent_id : "{{parent_id}}"
-        });
-    });
+    })(jQuery,undefined);
 </script>
 </html>
 

@@ -36,13 +36,24 @@
 				</tr>
 				<tr>
 					<td>申请人</td>
-					<td colspan="3">{{this.create_name}}</td>
+					<td colspan="3">
+						{{#if (this.finance_type === 4)}}
+							{{this.supplier_name}}
+						{{else}}
+							{{this.create_name}}
+						{{/if}}
+					</td>
 					<td>上牌抵押城市</td>
 					<td colspan="4">{{this.pledge_city}}</td>
 				</tr>
 				<tr>
 					<td>申请人部门</td>
-					<td colspan="3">{{this.dpartment_name}}</td>
+					<td colspan="3">
+						{{#if (this.finance_type === 4)}}
+						{{else}}
+							{{this.dpartment_name}}
+						{{/if}}
+					</td>
 					<td>上牌方</td>
 					<td colspan="4">{{this.regist_type_value}}</td>
 					<!-- <c:if test="${this.car_type eq 0 }">

@@ -5,7 +5,7 @@ var log4js = require('log4js'); // 日志模块
 var logger = require('./util/log4Config');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var lessMiddleware = require('less-middleware');
+// var lessMiddleware = require('less-middleware');
 var crypto = require('crypto'); // 加密模块
 var COMMONUTIL = require('./util/commonUtil');  // 主加密方法类文件
 var LOGERROR = require('./util/logger').logError;
@@ -18,6 +18,7 @@ global.apiServerPath = '';
 global.contextPath = '';
 global.domain = '';
 global.markUri = '/ksd';
+global.user = {};
 
 // 获取域名信息（host）
 app.use(function (req, res, next) {
@@ -38,7 +39,7 @@ app.use(favicon(path.join(__dirname, 'public/img', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(markUri + '/static', lessMiddleware(path.join(__dirname, 'public')));
+// app.use(markUri + '/static', lessMiddleware(path.join(__dirname, 'public')));
 app.use(markUri + '/static', express.static(path.join(__dirname, 'public')));
 app.use(common.startWith);
 app.use(common.getUserInfo);
@@ -54,12 +55,30 @@ app.use(function (req, res, next) {
     var inner_logininfo = req.cookies.inner_logininfo;
     // console.log((url !== markUri + '/login' && url !== markUri + '/' && url !== markUri + '/logout'));
     // console.log((logininfo === undefined));
-    if((url !== markUri + '/login' && url !== markUri + '/' && url !== markUri + '/logout') && (logininfo === undefined || comp_info === undefined || inner_logininfo === undefined)){ //通过判断控制用户登录后不能访问登录页面；
+    if((url !== markUri + '/login' && url !== markUri + '/' && url !== markUri + '/logout') && (comp_info === undefined || inner_logininfo === undefined)){ //通过判断控制用户登录后不能访问登录页面；
         res.clearCookie();
         res.redirect('/');    // 页面重定向
     } else {
         next();
     }
+});
+
+/**
+ * Grab the information of the user who logged into this application.
+ * uid - User primary key ID.
+ * privilege - user's privileges.
+ * companyId - user's company id.
+ */
+app.use(function (req, res, next) {
+    var cookies = req.cookies;
+    var userInfo = {};
+    var JSESSIONID = cookies.JSESSIONID;
+    userInfo.JSESSIONID = JSESSIONID;
+    userInfo.uid = COMMONUTIL.decrypt(cookies.inner_logininfo);
+    userInfo.privilege = COMMONUTIL.decrypt(cookies.logininfo);
+    userInfo.companyId = COMMONUTIL.decrypt(cookies.comp_info);
+    global.user = userInfo;
+    next();
 });
 
 app.use('/', index);

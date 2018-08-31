@@ -25,15 +25,15 @@
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">{{parent_name}}</a>
-                <a href="javascript:;" class="crumbs_item">产品列表</a>
+                <a href="javascript:;" class="crumbs_item">产品列表（{{parent_name}}）</a>
             </div>
             <div class="filtrate">
+                <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
                 <form action="{{markUri}}/supplier/organization/publishedProducts" method="post" id="form_search" role='form'>
                     <input type="hidden" id="parent_id" name="parent_id" value="{{parent_id}}">
                     <input type="hidden" id="parent_name" name="parent_name" value="{{parent_name}}">
-                    <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
-                    <input type="hidden" name="current_page" value="{{reqParams.current_page}}" class="currentPage">
+                    <input type="hidden" name="publish_list" value="{{reqParams.publish_list}}">
                     <div class="filtrate_item date_conditions">
                         <div class="inline_block">
                             <div class="conditions_name inline_block filtrate_business">适用业务：</div>
@@ -79,13 +79,13 @@
             </div>
             <!-- 产品操作按钮 Begin -->
             <div class="detail_btn_box left">
-                <span>共{{count}}个产品</span>
+                <!--<span>共{{count}}个产品</span>-->
                 <div class="rf">
-                    {{#if (verifyCode(1077)) }}
-                        <a href="javascript:" id="publish_product" data-parent_id="{{parent_id}}" class="detail_title_btn operation_small_icon publish_product">发布新产品</a>
-                    {{/if}}
                     {{#if (verifyCode(1076)) }}
-                        <a href="javascript:" id="store_product" data-parent_id="{{parent_id}}" class="detail_title_btn store_product">仓库中的产品</a>
+                    <a href="javascript:" id="store_product" data-parent_id="{{parent_id}}" class="detail_title_btn store_product" style="float: right">仓库中的产品</a>
+                    {{/if}}
+                    {{#if (verifyCode(1594)) }}
+                        <a href="javascript:" id="publish_product" data-parent_id="{{parent_id}}" class="detail_title_btn operation_small_icon publish_product" style="float: right">发布新产品</a>
                     {{/if}}
                 </div>
             </div>
@@ -104,7 +104,7 @@
                         <thead>
                         <tr>
                             <th>产品名称</th>
-                            <th>首付比例</th>
+                            <th>首付比例/金额</th>
                             <th>费率</th>
                             <th>申请人数</th>
                             <th>通过率</th>
@@ -121,24 +121,17 @@
                         {{else}}
                             {{#each (list) }}
                             <tr>
-                                <td title="{{this.name}}">{{this.name}}</td>
-                                <td>
-                                    {{#if (this.downpayment_type === 1) }}
-                                    {{this.downpayment_rate }}%
-                                    {{/if}}
-                                    {{#if (this.downpayment_type === 2) }}
-                                    {{this.downpayment_money }}元
-                                    {{/if}}
-                                </td>
-                                <td>{{this.interest_rate}}%</td>
+                                <td title="{{this.product_name}}">{{this.product_name}}</td>
+                                <td>{{this.downpayment_value }}</td>
+                                <td>{{this.interest_rate}}</td>
                                 <td>{{this.apply_count }}</td>
                                 <td>{{this.pass_rate }}%</td>
                                 <td class="operate_btn">
                                     {{#if (root.verifyCode(1079)) }}
-                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="查看" class="view view_detail"></a>
+                                    <a href="javascript:;" lang="{{this.product_id }}" data_num="0" title="查看" class="view view_detail"></a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1087)) }}
-                                    <a href="javascript:;" lang="{{this.id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
+                                    <a href="javascript:;" lang="{{this.product_id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
                                     {{/if}}
                                     <!-- {{#if (root.verifyCode(1193)) }}
                                          <a href="javascript:;" lang="{{this.id }}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
@@ -165,19 +158,29 @@
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    //发布新产品
     (function ($) {
-        //发布新产品
+        var publish_list = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (publish_list.length > 0 ) {
+            publish_list = JSON.parse(publish_list);
+        }
         function createProduct () {
             var btn = $("#publish_product");
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var productId = $.trim(t.attr("lang"));
                 var parentId = $.trim(t.data("parent_id"));
+                var params = {
+                    product_id : productId,
+                    parent_id : parentId
+                };
                 locationTo({
-                    action : contextPath + markUri + "/supplier/organization/productCreate",
+                    action : contextPath + markUri + "/supplier/organization/productBasicCreate",
                     param : {
                         product_id : productId,
-                        parent_id : parentId
+                        parent_id : parentId,
+                        prevParams : params,
+                        publish_list : F.set(publish_list)
                     }
                 });
             });
@@ -190,12 +193,14 @@
                 var t = $(this);
                 var productId = $.trim(t.attr("lang"));
                 var parentId = $.trim(t.data("parent_id"));
+                var params = {
+                    product_id : productId,
+                    parent_id : parentId,
+                    publish_list : F.set(publish_list)
+                };
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
-                    param : {
-                        product_id : productId,
-                        parent_id : parentId
-                    }
+                    param : params
                 });
             })
         }
@@ -224,9 +229,10 @@
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/productDetail",
                     param : {
-                        id : productId,
+                        product_id : productId,
                         data_num : data_num,
-                        page_flag : 1
+                        page_flag : 1,
+                        publish_list : F.set(publish_list)
                     }
                 });
             })

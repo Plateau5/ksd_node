@@ -249,7 +249,7 @@ K.options = {
 	resizeType : 2,
 	syncType : 'form',
 	pasteType : 2,
-	dialogAlignType : 'page',
+	dialogAlignType : 'k-page',
 	useContextmenu : true,
 	fullscreenShortcut : false,
 	bodyClass : 'ke-content',
@@ -5469,7 +5469,7 @@ KEditor.prototype = {
 				}
 			}
 		});
-		if (self.dialogAlignType != 'page') {
+		if (self.dialogAlignType != 'k-page') {
 			options.alignEl = self.container;
 		}
 		options.cls = 'ke-dialog-' + self.themeType;
@@ -7211,7 +7211,7 @@ KindEditor.plugin('image', function(K) {
 		imageTabIndex = K.undef(self.imageTabIndex, 0),
 		imgPath = self.pluginsPath + 'image/images/',
 		extraParams = K.undef(self.extraFileUploadParams, {}),
-		filePostName = K.undef(self.filePostName, 'file'),
+		filePostName = K.undef(self.filePostName, 'imgFile'),
 		fillDescAfterUploadImage = K.undef(self.fillDescAfterUploadImage, false),
 		lang = self.lang(name + '.');
 	self.plugin.imageDialog = function(options) {
@@ -7367,7 +7367,7 @@ KindEditor.plugin('image', function(K) {
 			width: 60,
 			afterUpload : function(data) {
 				dialog.hideLoading();
-				if (data.error_code === 0) {
+				if (data.error === 0) {
 					var url = data.url;
 					if (formatUploadUrl) {
 						url = K.formatUrl(url, 'absolute');
@@ -7383,7 +7383,7 @@ KindEditor.plugin('image', function(K) {
 						K(".ke-refresh-btn", div).click();
 					}
 				} else {
-					alert(data.error_msg);
+					alert(data.message);
 				}
 			},
 			afterError : function(html) {

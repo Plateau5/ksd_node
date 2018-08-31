@@ -50,10 +50,10 @@
                 <div class="tab">
                     <ul class="tab_list inline_block" id="query_tab">
                         <li class="tab_item type_normal {{#if (query_type === 1) }}active{{/if}}" data-queryType="1" style="border-left:0 ;"><span></span>进件资料</li>
-                        {{#if (vo.status > 5 ) }}
+                        {{#if (vo.status >= 5 && vo.status !== 6 && vo.status !== 7) }}
                             <li class="tab_item type_others {{#if (query_type === 2) }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
                         {{/if}}
-                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
+                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
                             <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
@@ -68,8 +68,9 @@
                 <input type="hidden" name="photo_type" value="{{photo_type}}" id="photo_type">
                 <input type="hidden" name="present_id" value="{{present_id}}" id="present_id">
                 <input type="hidden" name="responsible" value="{{vo.responsible}}" id="responsible">
-                <input type="hidden" name="jizhi_preId" value="{{vo.jizhi_preId}}" id="preId">
-
+                <input type="hidden" name="jizhi_preId" value="{{vo.jizhi_preId}}" id="JZpreId">
+                <input type="hidden" name="pre_id" value="{{vo.pre_id}}" id="PApreId">
+                <input id="finance_type" value="{{reqParams.finance_type}}" name="finance_type" type="hidden">
 
                 <!--本次提交材料-->
                 <input type="hidden" id="materialIds" value="{{haveMaterial.material_ids }}">
@@ -119,10 +120,10 @@
                 <div class="tab">
                     <ul class="tab_list inline_block" id="photo_tab">
                         <li class="tab_item type_normal {{#if (photo_type === 1) }}active{{/if}}" data-photoType="1" style="border-left:0;"><span></span>进件附件</li>
-                        {{#if (vo.status > 5 ) }}
+                        {{#if (vo.status >= 5 && vo.status !== 6 && vo.status !== 7) }}
                             <li class="tab_item type_others {{#if (photo_type === 2) }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
                         {{/if}}
-                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
+                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
                             <li class="tab_item type_others {{#if (photo_type === 3) }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
@@ -604,6 +605,7 @@
                 var thisMaterialIds = $.trim($('#materialIds').val());
                 var materialIds = $.trim($('#materialIdTotal').val());
                 var materialName = $.trim($('#materialName').val());
+                var financeType = $.trim($('#finance_type').val());
                 var url = "{{url}}";
                 locationTo({
                     action : contextPath +'{{detailUrl}}',
@@ -616,7 +618,8 @@
                         photo_type : photo_type,
                         material_ids: materialIds,
                         material_names : materialName,
-                        this_material_ids: thisMaterialIds
+                        this_material_ids: thisMaterialIds,
+                        finance_type: financeType
                     }
                 });
             });
@@ -707,6 +710,63 @@
                 }
             });
         }
+        //确认归档
+        bindEvents("click", ".confirm_archive", function (e) {
+            var financeId = $(e.target).data("id");
+            var advance_id = $(e.target).data("advance_id");
+            dialog("open", {
+                closeBtn : false,
+                "title" : "归档提醒",
+                "button" : ["确认","取消"],
+                "content" : "确认将此订单归档？",
+                onConfirm : function (d) {
+                    d.close();
+                    confirmArchive(financeId, advance_id);
+                }
+            });
+        });
+        //确认归档逻辑
+        function confirmArchive (fid, advance_id) {
+            var url = contextPath + "/api/requestPayout/pigeonhole";
+            var data = {
+                finance_id : fid,
+                advance_id : advance_id
+            };
+            if (fid) {
+                // $ajax("POST", url, data, function (res) {
+                //     console.log(res);
+                //     if (res.error_code == 0) {
+                //         //window.location.href = document.referrer;
+                //         window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
+                //     } else {
+                //         $alert(res.error_msg);
+                //     }
+                // }, function () {
+                //     $alert("操作失败，请重新尝试");
+                // });
+
+                $.ajax({
+                    type:'post',
+                    url : url,
+                    data : data,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            window.location.href = contextPath + markUri + "/customer/pigeonhole/pending";
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert("操作失败，请稍后重试");
+                    }
+                });
+            }
+        }
 
         function  pageJumpCheck (selector, opt) {
             var options = {};
@@ -737,18 +797,27 @@
                 }
             });
         }
-
         // 跳转预审详情
         function toPretrialDetail () {
             var btn = $(".toPretrialDetail");
             btn.off('click').on('click', function () {
-                var preId = $("#preId").val();
+                var preId = "";
                 var navigation = $('#navigation').val();
                 var nodeUrl = $('#nodeUrl').val();
                 var financeId =$('#finance_id').val();
                 var advance_id = $('#advance_id').val();
+                var _this = $(this);
+                var url = "";
+                var dataId =_this.data('id');
+                if (dataId) {
+                    url = contextPath + markUri + '/customer/loan/PAPretrial/detail';
+                    preId = $("#PApreId").val();
+                } else {
+                    url = contextPath + markUri + '/customer/loan/JZPretrial/detail';
+                    preId = $("#JZpreId").val();
+                }
                 locationTo({
-                    action : contextPath + markUri + '/customer/loan/JZPretrial/detail',
+                    action : url,
                     param : {
                         pre_id : preId,
                         navigation : navigation,

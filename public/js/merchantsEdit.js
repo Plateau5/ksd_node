@@ -910,7 +910,7 @@ function verifyLicenseNumber () {
     var ele = $('#licenseNum');     // 证件号码
     // 身份证校验规则（注：含15位和19位，闰年不能禁止29+天数）
     // var IDReg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
-    var IDReg = IDPATTERN;s
+    var IDReg = IDPATTERN;
     ele.on('focus', function (){
         var t = $(this);
         var isChecked = t.data('isChecked');    // 唯一性是否已经校验过。1：校验过，2：未校验
@@ -1245,6 +1245,14 @@ function getLinkOrRecordInfo () {
 function onUpdate () {
     var btn = $('.edit_confirm');
     btn.off('click').on('click', function () {
+        var emailpattern = EMAILPATTERN;
+        var merchantEmail= $.trim($('.merchant_email').val());
+        if (merchantEmail.length> 0) {
+            if(!emailpattern.test(merchantEmail)){
+                $alert("邮箱格式不正确");
+                return false;
+            }
+        }
         submitEvent(btn);
     });
 }

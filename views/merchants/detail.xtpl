@@ -25,6 +25,7 @@
         <input type="hidden" id="cityName" value="{{detail.city_name}}">
         <input type="hidden" id="url" value="{{url}}">
         <input type="hidden" id="navigation" value="{{navigation}}">
+        <input type="hidden" id="merchantSource" value="{{detail.applyto_type}}">
         <input type="hidden" name="type"/><!--标识：商户标签删除type=1,标签库删除标签type=2，新增公库及商户增加标签type=3，公库增加给商户type=4-->
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
@@ -42,7 +43,7 @@
                             <img  src="{{markUri}}/static/img/merchant_photo.png" class="img_responsive" alt="商户封面图" target="商户封面图">
                         {{/if}}
                     </div>
-                    <div class="name"><em class="name_icon"></em><span style="width: 596px;display: block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{detail.name}}</span></div>
+                    <div class="name"><em class="name_icon"></em><span style="width: 545px;display: block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{detail.name}}</span></div>
                     <div class="create_info">
                         <span class="founder">创建人：<samp>{{detail.emp_name}}</samp></span>
                         <span class="create_time">创建时间：<samp>{{detail.create_time}}</samp></span>
@@ -106,20 +107,25 @@
                     <!-- 编辑删除操作 -->
                     {{#if (detail.flag === 3) }}
                         <div class="btn_box text_left setting_merchant">
+                                {{#if (verifyCode(1587)) }}
+                                    {{#if (detail.applyto_type === 2)}}
+                                        <a href="javascript:" class="config_product">配置金融产品</a>
+                                    {{/if}}
+                                {{/if}}
                                 {{#if (verifyCode(1480)) }}
-                                <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                                    <a href="javascript:" class="add_sm_btn_policies add_sm_btn_policies_icon">制定返佣政策</a>
                                 {{/if}}
                                 {{#if (verifyCode(1385)) }}
-                                    <a href="javascript:" class="edit_sm_btn">编辑</a>
+                                    <a href="javascript:" class="edit_sm_btn edit_sm_btn_icon">编辑</a>
                                 {{/if}}
-                                {{#if (verifyCode(1060)) }}
-                                    <a href="javascript:" class="delete_sm_btn">删除</a>
+                                {{#if (verifyCode(1609)) }}
+                                    <a href="javascript:" class="delete_sm_btn delete_sm_btn_icon">删除</a>
                                 {{/if}}
                         </div>
                     {{else}}
                         <div class="btn_box text_left setting_merchant">
                             {{#if (verifyCode(1480)) }}
-                            <a href="javascript:" class="add_sm_btn_policies">制定返佣政策</a>
+                            <a href="javascript:" class="add_sm_btn_policies add_sm_btn_policies_icon">制定返佣政策</a>
                             {{/if}}
                         </div>
                     {{/if}}
@@ -251,6 +257,24 @@
                                                 {{/if}}
                                             </div>
                                         </li>
+                                        <li class="item_row">
+                                            <div class="item_name long_text">商户来源：</div>
+                                            <div class="item_value"  id="mSource" title="{{detail.applyto_type_value}}">
+                                                {{#if  (detail.applyto_type === 2)}}
+                                                    KA渠道
+                                                {{elseif (detail.applyto_type === 1)}}
+                                                    快收单
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        {{#if (detail.account)}}
+                                            <li class="item_row">
+                                                <div class="item_name">车商邮箱：</div>
+                                                <div class="item_value" title="{{detail.account}}">
+                                                    {{detail.account}}
+                                                </div>
+                                            </li>
+                                        {{/if}}
                                     </ul>
                                 </div>
                             </div>
@@ -573,6 +597,11 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/js/merchants.js"></script>
 <script>
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
+
     (function ($) {
         var supplierType = '{{detail.type}}';       // 商户店面类型
         var credentialsType = '{{detail.id_type}}';  // 证件类型
@@ -582,6 +611,7 @@
         var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
         var mCityId = $('#merchantCity').val().trim();      // 商户城市id
         var cityName = $('#cityName').val().trim();         // 商户城市名称
+        var merchantSource = $('#merchantSource').val().trim();   //商户来源
         var mCarType = null;
         if (mBusinessType == 0 || mBusinessType == 2) {
             mCarType = 0;
@@ -607,7 +637,7 @@
                         renderBusinessInfo(false, res);
                     }
                 },
-                error : function () {
+                error : function (res) {
                     renderBusinessInfo(false, res);
                 }
             });
@@ -727,7 +757,25 @@
                 })
             });
         }
-
+        /*跳转配置金融产品列表页面*/
+        function toConfigProductList () {
+            var btn = $('.config_product');
+            btn.off('click').on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/config/products/list',
+                    param : {
+                        supplier_id : merchantId,
+                        url : LOCALURL,
+                        applyto_business : mBusinessType,
+                        city_id : mCityId,
+                        navigation : navigation,
+                        supplier_name : merchantName,
+                        applyto_type : merchantSource,
+                        productList : F.set(reqParamsStr)
+                    }
+                })
+            })
+        }
         /* 商户删除 */
         // 绑定删除操作
         function deleteMerchant () {
@@ -754,7 +802,7 @@
                 data : {
                     supplier_id : merchantId
                 },
-                url : contextPath + '/api/supplier/delete',
+                url : contextPath + '/api/supplier/web/delete',
                 success : function (res) {
                     if (res.error_code == 0) {
                         $alert('删除商户成功', function () {
@@ -809,6 +857,7 @@
             toEdit();   // 跳转编辑页面
             deleteMerchant();       // 删除商户
             merchantsAddTag();      // 标签管理
+            toConfigProductList();  //跳转配置金融产品列表页
             // 通过及不通过的跳转
             toNextPage('.audit_agree, .audit_disagree', {
                 supplier_id : merchantId,

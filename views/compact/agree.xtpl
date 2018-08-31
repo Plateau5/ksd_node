@@ -40,9 +40,18 @@
                     <input type="hidden" value="{{vo.account}}" id="account" name="email">
                     <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject" id="subject">
                     <input type="hidden" value="{{reqParams.dataType}}" name="dataType" id="dataType">
-                    <div class="recipient">
+                    <div class="recipient" style="height:auto;">
                         <span class="item_key">收件人：</span>
-                        <span style="background: #f5f5f5;padding-left:10px;width: 220px;" class="item_val inline_block">{{vo.create_name }} 【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】 </span>
+                        <span style="background: #f5f5f5;padding-left:10px;width: 220px;height:auto;" class="item_val inline_block">
+                            {{#if (vo.finance_type !== 4)}}
+                                    {{vo.create_name }}
+                            {{/if}}
+                            {{#if (vo.account !== '' && vo.account !== null)}}
+                                【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】
+                            {{else}}
+                                <span id="emailAccount" class="inline_block" style="width:100%;word-wrap:break-word;" contenteditable="true"></span>
+                            {{/if}}
+                        </span>
                     </div>
 
                     <div class="recipient">

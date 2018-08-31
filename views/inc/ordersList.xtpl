@@ -2,7 +2,7 @@
 {{#if (list.length !== 0) }}
     <ul class="finance_list">
         {{#each (list) }}
-            <li class="list_item"  lang="{{this.finance_id}}" data-advance_id="{{advance_id}}">
+            <li class="list_item"  lang="{{this.finance_id}}" data-advance_id="{{advance_id}}" data-finance_type="{{this.finance_type}}">
                 {{#if(root.startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/otherfund'))}}
                 <div class="create_date">进件时间：{{this.create_time }} / {{this.city_name}}</div>
                 {{/if}}
@@ -16,6 +16,9 @@
                     <div class="shake_box">
                         {{#if (this.urgent_type === 1) }}
                             <div class=" urgent lf urgent_newStore">新店加急</div>
+                        {{/if}}
+                        {{#if (this.finance_type === 4)}}
+                            <div class="lf car_dealer">车商</div>
                         {{/if}}
                         {{#if (this.is_throw === 1) }}
                             <div class="shake shook_sign">甩单</div>
@@ -70,8 +73,13 @@
                             <dd class="font14">{{this.pay_periods}}</dd>
                         </dl>
                         <dl  class="effect_two">
-                            <dt class="font12">{{this.position_desc}}</dt>
-                            <dd class="nor_wrap font14">{{this.create_name}}</dd>
+                            {{#if (finance_type === 1 || finance_type === 2 || finance_type === 3 )}}
+                                <dt class="font12">{{this.position_desc}}</dt>
+                                <dd class="nor_wrap font14">{{this.create_name}}</dd>
+                            {{elseif (finance_type === 4) }}
+                                <dt class="font12">订单归属</dt>
+                                <dd class="nor_wrap font14">{{this.supplier_name}}</dd>
+                            {{/if}}
                         </dl>
                         <div class="operate_btn clearfix">
                             {{#if (show_time === '1' && root.startWith(markUri + '/customer/loan')) }}

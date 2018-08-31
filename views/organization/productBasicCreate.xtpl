@@ -1,0 +1,515 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main product_basic_create">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item go_product_list">产品列表({{#if (detail)}}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}})</a>
+                {{#if (reqParams.jump_flag === '1') }}
+                <a href="javascript:;" class="crumbs_item go_warehouse_list">仓库中的产品</a>
+                <a href="javascript:;" class="crumbs_item go_product_detail">{{reqParams.product_name}}</a>
+                <a href="javascript:;" class="crumbs_item">编辑基本信息</a>
+                {{else}}
+                <a href="javascript:;" class="crumbs_item">发布新产品</a>
+                {{/if}}
+            </div>
+
+            <div class="form_options">
+                <form action="" id="product_basic_create_form" method="post">
+                    <input type="hidden" value="{{#if (reqParams.product_id) }}{{detail.parent_name}}{{else}}{{parent_name}}{{/if}}" name="parent_name" id="orgName">
+                    <input type="hidden" value="{{#if (reqParams.product_id) }}{{detail.parent_id}}{{else}}{{parent_id}}{{/if}}" name="parent_id" id="orgId">
+                    <input type="hidden" value="{{reqParams.product_id}}" name="product_id" id="productId">
+                    <input type="hidden" value="{{reqParams.prev_flag}}" name="" id="prev_flag">
+                    <input type="hidden" value="{{reqParams.status}}" name="" id="product_status">
+                    <input type="hidden" value="{{parent_logo}}" name="parent_logo" id="parent_logo">
+                    <div class="base_info">
+                        <div class="detail_title">基本信息</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">产品名称：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="productname" type="text" class="required" name="product_name" maxlength="20" placeholder="请输入产品名称" value="{{#if (reqParams.product_id) }}{{detail.product_name}}{{/if}}"/>
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用业务：</span>
+                            </div>
+                            <div id="applyto_business" class="column_val">
+                                {{#if (reqParams.product_id) }}
+                                    <input type="hidden" class="applyto_business" name="applyto_business" value="{{detail.product_applyto_business}}">
+                                    {{#if (detail.org_applyto_business.indexOf(',') !== -1) }}
+                                        {{#if (detail.product_applyto_business === 0) }}
+                                            <div class="form_group">
+                                                <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                                <label for="new_car" class="checked">新车</label>
+                                            </div>
+                                        {{else}}
+                                            <div class="form_group">
+                                                <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" >
+                                                <label for="new_car" class="checked">新车</label>
+                                            </div>
+                                        {{/if}}
+                                        {{#if (detail.product_applyto_business === 1) }}
+                                            <div class="form_group">
+                                                <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                                <label for="old_car" class="old_car checked">二手车</label>
+                                            </div>
+                                        {{else}}
+                                            <div class="form_group">
+                                                <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                                <label for="old_car" class="old_car">二手车</label>
+                                            </div>
+                                        {{/if}}
+                                    {{else}}
+                                        {{#if (detail.org_applyto_business === '0' ) }}
+                                        <div class="form_group">
+                                            <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                            <label for="new_car" class="checked">新车</label>
+                                        </div>
+                                        {{elseif (detail.org_applyto_business === '1' )}}
+                                        <div class="form_group">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                            <label for="old_car" class="old_car checked">二手车</label>
+                                        </div>
+                                        {{/if}}
+                                    {{/if}}
+                                {{else}}
+                                    {{#if (applyto_business.indexOf(',') !== -1) }}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="0">
+                                        <div class="form_group">
+                                            <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                            <label for="new_car" class="checked">新车</label>
+                                        </div>
+                                        <div class="form_group">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business">
+                                            <label for="old_car" class="old_car">二手车</label>
+                                        </div>
+                                    {{else}}
+                                        <input type="hidden" class="applyto_business" name="applyto_business" value="{{applyto_business}}">
+                                        {{#if (applyto_business === '0' ) }}
+                                        <div class="form_group">
+                                            <input id="new_car" type="radio" name="new_car" value="0" class="radio_applyto_business" checked="checked">
+                                            <label for="new_car" class="checked">新车</label>
+                                        </div>
+                                        {{elseif (applyto_business === '1' )}}
+                                        <div class="form_group">
+                                            <input id="old_car" type="radio" name="new_car" value="1" class="radio_applyto_business" checked="checked">
+                                            <label for="old_car" class="old_car checked">二手车</label>
+                                        </div>
+                                        {{/if}}
+                                    {{/if}}
+                                {{/if}}
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用类型：</span>
+                            </div>
+                            <div id="" class="column_val">
+                                {{#if (detail) }}
+                                    {{#if (detail.applyto_type.indexOf(',') !== -1) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
+                                            <label class="applyto_type checked">快收单</label>
+                                        </div>
+                                        <div class="form_group">
+                                            <input type="checkbox" name="applyto_type" value="2" checked="checked"/>
+                                            <label class="applyto_type checked">KA渠道</label>
+                                        </div>
+                                    {{else}}
+                                        <div class="form_group">
+                                            {{#if (detail.applyto_type === '1') }}
+                                            <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
+                                            <label class="applyto_type checked">快收单</label>
+                                            {{else}}
+                                            <input type="checkbox" class="" name="applyto_type"  value="1"/>
+                                            <label class="applyto_type">快收单</label>
+                                            {{/if}}
+                                        </div>
+                                        <div class="form_group">
+                                            {{#if (detail.applyto_type === '2') }}
+                                            <input type="checkbox" name="applyto_type" value="2" checked="checked"/>
+                                            <label class="applyto_type checked">KA渠道</label>
+                                            {{else}}
+                                            <input type="checkbox" name="applyto_type" value="2" />
+                                            <label class="applyto_type">KA渠道</label>
+                                            {{/if}}
+                                        </div>
+                                    {{/if}}
+                                {{else}}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="" name="applyto_type"  value="1"  checked="checked"/>
+                                        <label class="applyto_type checked">快收单</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" name="applyto_type" value="2" />
+                                        <label class="applyto_type">KA渠道</label>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <div id="applyto_city" class="option_item">
+                            <div class="column_name">
+                                <span class="options_name"><span class="require_icon">*</span>适用城市：</span>
+                            </div>
+                            <div class="column_val select_city_div">
+                                <input type="hidden" class="city_ids" name="city_ids"  value="{{detail.city_ids}}"/>
+                                <input type="text" class="select_city_input cursor" name=""  value="{{#if (detail) }}{{#if (detail.city_arr.length > 1) }}{{detail.city_arr[0]}}等{{detail.city_arr.length}}个城市{{else}}{{detail.city_arr[0]}}{{/if}}{{/if}}" placeholder="请选择省市" readonly/>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用车型：</span>
+                            </div>
+                            <div class="column_val">
+                                {{#each (ApplytoCar) }}
+                                <div class="form_group">
+                                    {{#if (reqParams.product_id) }}
+                                        {{#if (detail.applyto_car.indexOf(',') !== -1) }}
+                                            {{set (applyto_car_arr = detail.applyto_car.split(',')) }}
+
+                                            {{#if (applyto_car_arr.indexOf(this.id.toString()) !== -1) }}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
+                                                <label class="checked">{{this.value}}</label>
+                                            {{else}}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
+                                                <label>{{this.value}}</label>
+                                            {{/if}}
+                                        {{else}}
+                                            {{#if (../detail.applyto_car === this.id.toString()) }}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
+                                                <label class="checked">{{this.value}}</label>
+                                            {{else}}
+                                                <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
+                                                <label>{{this.value}}</label>
+                                            {{/if}}
+                                        {{/if}}
+                                    {{else}}
+                                        {{#if (this.id === 12) }}
+                                            <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}" checked="checked"/>
+                                            <label class="checked">{{this.value}}</label>
+                                        {{else}}
+                                            <input type="checkbox" class="applyto_car" name="applyto_car"  value="{{this.id}}"/>
+                                            <label>{{this.value}}</label>
+                                        {{/if}}
+                                    {{/if}}
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        {{#if (reqParams.jump_flag === '1') }}
+                        <a href="javascript:" class="btn orange_btn confirm save_baseinfo">保存</a>
+                        <a href="javascript:;" class="btn bg_btn create_cancel go_product_detail">取消</a>
+                        {{else}}
+                        <a href="javascript:" class="btn orange_btn confirm next_confirm">下一步</a>
+                        {{/if}}
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
+<script>
+    (function ($) {
+        var city_list = '{{{city_list}}}';//所有城市
+        if (city_list.length > 0 ) {
+            city_list = JSON.parse(city_list);
+        }
+        var condition_city_list = '{{{condition_city_list}}}';//回显城市
+        if (condition_city_list == '') {
+            condition_city_list = [];
+        } else {
+            condition_city_list = JSON.parse(condition_city_list);
+        }
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
+        var warehouse_list = '{{{reqParams.warehouse_list}}}';//仓库产品列表参数
+        /**
+         * 选择城市
+         * @author  Plateau  2018年8月8日16:14:35
+         * @param city_list: 城市数据；
+         * @param condition_city_list : 回显城市数据；
+         * @param dataType数据类型：1-两级数据、2-三级数据
+         * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
+         * */
+        function getSelectedCitys () {
+            if ($('#product_status').val().trim() == '0' || $('#product_status').val().trim() == '') {
+                var type = 2;
+            } else {
+                var type = 1;
+            }
+            $('.select_city_input').citySelect({
+                data : city_list,
+                defaultData : condition_city_list,
+                dataType : 1,
+                type : type
+            }, function (data) {
+                var cityArr = [];
+                var cityName = '';
+                if (data) {
+                    for (var i = 0,leni = data.length;i < leni;i++) {
+                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                            if (i == 0 && j == 0) {
+                                cityName = data[i].city_list[j].name;
+                            }
+                            cityArr.push(data[i].city_list[j].id);
+                        }
+                    }
+                    if (cityArr.length != 0) {
+                        $('.city_ids').val(cityArr.join(','));
+                        if (cityArr.length == 1){
+                            $('.select_city_input').val(cityName);
+                        } else {
+                            $('.select_city_input').val(cityName + '等' + cityArr.length + '个城市');
+                        }
+                    } else {
+                        $('.city_ids').val('');
+                        $('.select_city_input').val('全部');
+                    }
+                }
+            });
+        }
+        /**
+         * 注册提交点击事件
+         * @author  Plateau  2018年8月8日16:32:56
+         * */
+        function bindSubmitEvent () {
+            var next_confirm = $('.next_confirm');
+            next_confirm.off('click').on('click', function () {
+                var url = "/api/product/commit/bseinfo";
+                submitValid(url);
+            });
+            var save_baseinfo = $('.save_baseinfo');
+            save_baseinfo.off('click').on('click', function () {
+                var url = "/api/product/update/base";
+                submitValid(url);
+            });
+        }
+        /**
+         * 提交校验
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function submitValid (url) {
+            var productname = $('#productname').val().trim();
+            if (productname == '') {
+                $alert('产品名称不能为空');
+                return;
+            }
+            var radio_applyto_business = $('.radio_applyto_business');
+            if (radio_applyto_business[0].checked) {
+                $('.applyto_business').val(radio_applyto_business[0].value);
+            } else if (radio_applyto_business[1].checked) {
+                $('.applyto_business').val(radio_applyto_business[1].value);
+            }
+            var applyto_business = $('.applyto_business').val().trim();
+            if (applyto_business == '') {
+                $alert('请选择产品的适用业务');
+                return;
+            }
+
+            var applyto_type = $('.applyto_type');
+            if (!applyto_type.eq(0).hasClass('checked') && !applyto_type.eq(1).hasClass('checked')) {
+                $alert('请选择适用类型');
+                return;
+            }
+            var city = $('.select_city_input').val().trim();
+            if (city == '') {
+                $alert('请选择适用城市');
+                return;
+            }
+
+            var applyto_car = $('.applyto_car');
+            var applyto_num = 0;
+            applyto_car.each(function () {
+                if (this.checked) {
+                    applyto_num++;
+                }
+            });
+            if (applyto_num == 0) {
+                $alert('请选择适用车型');
+                return;
+            }
+            var tips_info = $('.tips_info');
+            var error_flag = false;
+            tips_info.each(function () {
+                var _this = $(this);
+                if (!_this.is(':hidden')) {
+                    error_flag = true;
+                }
+            });
+            if (error_flag) {
+                return false;
+            }
+            ajaxSubmit(url);
+        }
+
+        /**
+         * ajax提交參數
+         * @author  Plateau  2018年8月8日16:53:14
+         * */
+        function ajaxSubmit (url) {
+            var parameters = new FormData(document.getElementById('product_basic_create_form'));
+            $.ajax({
+                type:'post',
+                timeout:20000,
+                url : contextPath + url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        var product_id = res.product_id;
+                        if (product_id) {
+                            var parent_name = $('#orgName').val().trim();
+                            var product_id = res.product_id;
+                            var product_name = $('#productname').val().trim();
+                            var parent_id = $('#orgId').val().trim();
+                            var applyto_business = 0;
+                            $('.radio_applyto_business').each(function () {
+                                if (this.checked) {
+                                    applyto_business = this.value;
+                                }
+                            });
+                            var applyto_type = [];
+                            $('.applyto_type').each(function () {
+                                var _this = $(this);
+                                if (_this.hasClass('checked')) {
+                                    applyto_type.push(_this.siblings('input[name=applyto_type]').val());
+                                }
+                            });
+                            var city_ids = $('.city_ids').val().trim();
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
+                                param : {
+                                    parent_name : parent_name,
+                                    product_id : product_id,
+                                    product_name : product_name,
+                                    parent_id : parent_id,
+                                    applyto_business : applyto_business,
+                                    city_ids : city_ids,
+                                    applyto_type : applyto_type.join(','),
+                                    release_time : 0,
+                                    publish_list : publish_list
+                                }
+                            });
+                        } else {
+                            var productId = $('#productId').val().trim();
+                            $alert('保存成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + "/supplier/organization/productDetail",
+                                    param : {
+                                        product_id : productId,
+                                        data_num : 1,
+                                        page_flag : 0,
+                                        publish_list : publish_list,
+                                        warehouse_list : warehouse_list
+                                    }
+                                });
+                            });
+                        }
+
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年8月8日18:18:36
+         * */
+        function goProductList () {
+            var go_product_list = $('.go_product_list');
+            go_product_list.on('click', function () {
+                var orgId = $('#orgId').val().trim();
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                    param :{
+                        parent_id : orgId
+                    }
+                })
+            });
+            var go_warehouse_list = $('.go_warehouse_list');
+            go_warehouse_list.on('click', function () {
+                var data = F.get(warehouse_list);
+                data.publish_list = publish_list;
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
+                    param : data
+                });
+            });
+            //取消跳转详情页
+            var go_product_detail = $('.go_product_detail');
+            go_product_detail.on('click', function () {
+                var productId = $('#productId').val().trim();
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/productDetail",
+                    param : {
+                        product_id : productId,
+                        data_num : 1,
+                        page_flag : 0,
+                        publish_list : publish_list,
+                        warehouse_list : warehouse_list
+                    }
+                });
+            });
+        }
+
+        $(function() {
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
+            getSelectedCitys();//选择城市
+            bindSubmitEvent();//注册提交点击事件
+            goProductList();//面包屑跳转
+        });
+    })(jQuery,undefined);
+</script>
+</html>

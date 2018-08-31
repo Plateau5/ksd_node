@@ -11,7 +11,6 @@
 /**
  * 扩展Date()方法的格式化
  * @author Arley   07|04|2017
- *
  * @param fmt {string} :  "yyyy/MM/dd qq hh/mm/ss" 注：该规则字符串可随意删减部分传入。
  * @returns {*}
  */
@@ -96,10 +95,15 @@ function numAndAmount (selector,opt) {
     var maxInteger = options.maxInteger;		//获取配置的最大整数
     var maxDecimal = options.maxDecimal;		//获取配置的小数点位数
     var addDecimal = options.addDecimal;		//值为0时，自动补位小数点0，否则不补位
-    var selector = $(selector);
+    // var selector = $(selector);
     var minDecimalStr = "";
-    selector.on('input', function(){	//oninput 事件在用户输入时触发。
-        var value = selector.val();
+    var body = $('body');
+    body.on('input', selector,function(e){	//oninput 事件在用户输入时触发。
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
+        var _this = $(this);
+        var value = _this.val();
         if (typeStr == 0) {
             //把非数字的都替换掉
             value = value.replace(/[^\d]/g,'');
@@ -140,10 +144,13 @@ function numAndAmount (selector,opt) {
                 value = String(value).slice(0,maxInteger);
             }
         }
-        selector.val(value);
+        _this.val(value);
     });
     if (addDecimal == 0) {
-        selector.on('blur', function(){		//输入框移除光标时，如果为整数，自动补小数0
+        body.on('blur', selector,function(e){		//输入框移除光标时，如果为整数，自动补小数0
+            var ev = e || window.event;
+            ev.stopPropagation();
+            ev.preventDefault();
             if (typeStr == 1) {
                 var _this = $(this).val();
                 if (_this.indexOf(".")!=-1) {
@@ -164,22 +171,39 @@ function numAndAmount (selector,opt) {
  * 英文、中英文、中文、英文数字校验
  * Created by wyt on 2018-07-24
  * selector : 目标元素选择器  必传项
- * type::  0：纯英文，1：纯中文，2：中英文，3：英文、数字  	必传项
+ * type::  0：纯英文，1：纯中文，2：中英文，3：英文、数字，4：中文、英文、数字 （不包含特殊字符） 	必传项
  */
 function chnAndEng (selector,type) {
-    var selector = $(selector);
-    selector.on('input', function(){
-        var value = selector.val();
-        if (type == 0) {	//只允许输入纯英文
-            value = value.replace(/[^a-zA-Z]/g,'');
-        } else if (type == 1) {		//只允许输入纯中文
-            value = value.replace(/[^\u4E00-\u9FA5]/g,'');
-        } else if (type == 2) {		//只允许输入中英文
-            value = value.replace(/[^a-zA-Z\u4E00-\u9FA5]/g,'');
-        } else if (type == 3) {		//只允许输入英文、数字
-            value = value.replace(/[^a-zA-Z\d]/g,'');
-        }
-        selector.val(value);
+    var body = $('body');
+    var flag = true;
+    body.on('compositionstart',selector,function(){
+        flag = false;
+    });
+    body.on('compositionend',selector,function(){
+        flag = true;
+    });
+    body.on('input', selector,function(e){	//oninput 事件在用户输入时触发。
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
+        var _this = $(this);
+        var value = _this.val();
+        setTimeout(function(){
+            if(flag){
+                if (type == 0) {	//只允许输入纯英文
+                    value = value.replace(/[^a-zA-Z]/g,'');
+                } else if (type == 1) {		//只允许输入纯中文
+                    value = value.replace(/[^\u4E00-\u9FA5]/g,'');
+                } else if (type == 2) {		//只允许输入中英文
+                    value = value.replace(/[^a-zA-Z\u4E00-\u9FA5]/g,'');
+                } else if (type == 3) {		//只允许输入英文、数字
+                    value = value.replace(/[^a-zA-Z\d]/g,'');
+                }else if (type == 4) {		//只允许输入中文、英文、数字
+                    value = value.replace(/[^a-zA-Z\d\u4e00-\u9fa5]/g,'');
+                }
+                _this.val(value);
+            }
+        },0)
     });
 }
 // ----------------------------------------------------------------------
@@ -263,6 +287,7 @@ var PHONEPATTERN = /^1[3|4|5|8|7|9|6]\d{9}$/;
 var IDPATTERN = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9]$)/;
 var TENCENTAPPID = '1256864073';
 var MAXINTEGER = 7;
+var EMAILPATTERN = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 /**
  * **************** END ****************
  * GLOBAL PATTERN FOR REGEXP
@@ -1392,6 +1417,7 @@ function searchBusinessList (firstLetter) {
     var merchantsStatus = $("select#merchantsState option:selected").val();   // 商户-状态
     var ownType = $("select#hadType option:selected").val();   // 商户-拥有状态
     var settlementType = $("select#settlementType option:selected").val();   // 商户-结算方式
+    var applytoType = $("select#applytoType option:selected").val();   // 商户-商户来源
 
     /*var CustomerStart = $("#start_loan_time").val() || '';  // 客户-放款时间开始
     var CustomerEnd = $("#end_loan_time").val() || '';   // 客户-放款时间结束
@@ -1419,6 +1445,7 @@ function searchBusinessList (firstLetter) {
     merchantsStatus && $("#"+id).append('<input type="hidden" id="status" name="status" value="'+ merchantsStatus +'" />');
     ownType && $("#"+id).append('<input type="hidden" id="own_type" name="own_type" value="'+ ownType +'" />');
     settlementType && $("#"+id).append('<input type="hidden" id="settlement_type" name="settlement_type" value="'+ settlementType +'" />');
+    applytoType && $("#"+id).append('<input type="hidden" id="applyto_type" name="applyto_type" value="'+ applytoType +'" />');
 
     /*CustomerStart && $("#"+id).append('<input type="hidden" id="start_loan_time" name="start_loan_time" value="'+ CustomerStart + '" />');
     CustomerEnd && $("#"+id).append('<input type="hidden" id="end_loan_time" name="end_loan_time" value="'+ CustomerEnd + '" />');
@@ -1627,6 +1654,7 @@ function $alert (text, callback) {
 function toOrderDetail () {
     var input = $("#financeId");
     var advance = $('#advanceId');
+    var finance_type = $('#financeType');
     var form = $("#to_order_detail");
     var orderList = $(".business_list .list_item .list_item_detail");
     var url = LOCALURL;
@@ -1638,8 +1666,10 @@ function toOrderDetail () {
             var t = $(this);
             var financeId = $.trim(t.parents(".list_item").attr("lang"));
             var advanceId = $.trim(t.parents('.list_item').data('advance_id'));
+            var financeType = $.trim(t.parents('.list_item').data('finance_type'));
             input.val(financeId);
             advance.val(advanceId);
+            finance_type.val(financeType);
             form.submit();
         });
     });
@@ -2649,8 +2679,51 @@ $(function () {
     disabledFormAutoSubmit();
 });
 
-
-
+/**
+ * 格式化数据-对象与查询字符串互相转化
+ * @author Arley Joe 2018-8-10 14:32:35
+ * @function set 把对象转化为一个查询字符串
+ *                  @param o {Object} 被转化的对象
+ *                  @return {String} 转化完成的查询字符串
+ * @function get 把一个查询字符串转化为对象
+ *                  @param str {String} 被转化的查询字符串
+ *                  @return {Object} 转化完成的对象
+ * @function one 获取查询字符串或对象中的某一个属性的值
+ *                  @param obj   {Object|String} 被查询的源数据
+ *                  @param param {String} 查询的属性名
+ *                  @return {Object} 查询出的属性值
+ */
+var F = {
+    set : function (o) {
+        if (Object.isEmpty(o)) {
+            return "";
+        } else {
+            return Object.toQuerystring(o);
+        }
+    },
+    get : function (str) {
+        if (str === '') {
+            return {};
+        } else {
+            var o = {};
+            var _arr = str.split('&');
+            var reg = /^[0-9]*$/;
+            for (var index = 0, len = _arr.length; index < len; index++) {
+                var _this = _arr[index].split('=');
+                o[_this[0]] = reg.test(_this[1]) ? Number(_this[1]) : _this[1];
+            }
+            return o;
+        }
+    },
+    one : function (obj, param) {
+        if (typeof(obj) === 'string') {
+            var o = this.get(obj);
+            return o[param];
+        } else if (obj instanceof Object) {
+            return obj[param];
+        }
+    }
+};
 
 
 

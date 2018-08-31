@@ -1,0 +1,995 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main org_create">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item">{{#if (vo.id) }}编辑机构信息{{else}}新建机构{{/if}}</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="organization_info_create" method="post">
+                    <input type="hidden" name="id" id="orgId" value="{{vo.id}}">
+                    <div class="base_info">
+                        <div class="detail_title">基本信息</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">机构名称：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="orgname" type="text" class="required" name="name" maxlength="20" placeholder="请输入机构名称" value="{{vo.name}}"/>
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">适用业务：</span>
+                            </div>
+                            <div id="applyto_business" class="column_val">
+                                <input type="hidden" class="applyto_business_val" name="applyto_business" value="{{vo.applyto_business}}">
+                                {{#if (vo.applyto_business) }}
+                                    <div class="form_group">
+                                        {{#if (vo.applyto_business.indexOf("0")!== -1) }}
+                                        <input id="newCars" type="checkbox" class="apply_scope" value="0" checked="checked"/>
+                                        <label for="newCars" class="checked">新车</label>
+                                        {{else}}
+                                        <input id="newCars" type="checkbox" class="apply_scope" value="0" />
+                                        <label for="newCars">新车</label>
+                                        {{/if}}
+                                    </div>
+                                    <div class="form_group">
+                                        {{#if (vo.applyto_business.indexOf("1")!== -1) }}
+                                        <input id="usedCars" type="checkbox" class="apply_scope" value="1" checked="checked"/>
+                                        <label for="usedCars" class="checked">二手车</label>
+                                        {{else}}
+                                        <input id="usedCars" type="checkbox" class="apply_scope" value="1" />
+                                        <label for="usedCars">二手车</label>
+                                        {{/if}}
+                                    </div>
+                                {{else}}
+                                    <div class="form_group">
+                                        <input id="newCars" type="checkbox" class="apply_scope" value="0" />
+                                        <label for="newCars">新车</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input id="usedCars" type="checkbox" class="apply_scope" value="1" />
+                                        <label for="usedCars">二手车</label>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">机构类别：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="type" class="" id="org_type">
+                                    {{#if (vo.type === 0 || !vo.type) }}
+                                    <option value="0" selected>请选择</option>
+                                    {{else}}
+                                    <option value="0">请选择</option>
+                                    {{/if}}
+                                    {{#if (vo.type === 1) }}
+                                    <option value="1" selected>融资租赁</option>
+                                    {{else}}
+                                    <option value="1">融资租赁</option>
+                                    {{/if}}
+                                    {{#if (vo.type === 2) }}
+                                    <option value="2" selected>银行</option>
+                                    {{else}}
+                                    <option value="2">银行</option>
+                                    {{/if}}
+                                    {{#if (vo.type === 3) }}
+                                    <option value="3" selected>信托</option>
+                                    {{else}}
+                                    <option value="3">信托</option>
+                                    {{/if}}
+                                    {{#if (vo.type === 4) }}
+                                    <option value="4" selected>汽车金融</option>
+                                    {{else}}
+                                    <option value="4">汽车金融</option>
+                                    {{/if}}
+                                    {{#if (vo.type === 5) }}
+                                    <option value="5" selected>担保公司</option>
+                                    {{else}}
+                                    <option value="5">担保公司</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">机构logo：</span>
+                            </div>
+                            <div class="column_val">
+                                {{#each (logo_list)}}
+                                <div class="organization_logo">
+                                    {{#if (vo.image_url) }}
+                                        {{#if (this.image_url === vo.image_url) }}
+                                        <input type="radio" name="image_url" checked="checked" value="{{this.image_url}}" hidden="hidden">
+                                        {{else}}
+                                        <input type="radio" name="image_url" value="{{this.image_url}}" hidden="hidden">
+                                        {{/if}}
+                                        <img src="{{this.image_url}}" alt="">
+                                        {{#if (this.image_url === vo.image_url) }}
+                                        <div class="icon_check logo_check"></div>
+                                        {{/if}}
+                                    {{else}}
+                                        <input type="radio" name="image_url" value="{{this.image_url}}" hidden="hidden">
+                                        <img src="{{this.image_url}}" alt="">
+                                    {{/if}}
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">有无系统：</span>
+                            </div>
+                            <div id="have_system" class="column_val">
+                                {{#if (vo.have_system || vo.have_system === 0) }}
+                                    <input id="have_sys_input" type="hidden" name="have_system" value="{{vo.have_system}}">
+                                    <div class="form_group mar6">
+                                        {{#if (vo.have_system === 1) }}
+                                        <input id="have_sys" type="radio" checked="checked" name="have_sys" value="1">
+                                        <label for="have_sys" class="checked">有</label>
+                                        {{else}}
+                                        <input id="have_sys" type="radio" name="have_sys" value="1">
+                                        <label for="have_sys">有</label>
+                                        {{/if}}
+                                    </div>
+                                    <div class="form_group mar6">
+                                        {{#if (vo.have_system === 0) }}
+                                        <input id="nohave_system" type="radio" name="have_sys" value="0" checked="checked">
+                                        <label for="nohave_system" class="checked">无</label>
+                                        {{else}}
+                                        <input id="nohave_system" type="radio" name="have_sys" value="0">
+                                        <label for="nohave_system">无</label>
+                                        {{/if}}
+                                    </div>
+                                {{else}}
+                                    <input id="have_sys_input" type="hidden" name="have_system" value="1">
+                                    <div class="form_group mar6">
+                                        <input id="have_sys" type="radio" checked="checked" name="have_sys" value="1">
+                                        <label for="have_sys" class="checked">有</label>
+                                    </div>
+                                    <div class="form_group mar6">
+                                        <input id="nohave_system" type="radio" name="have_sys" value="0">
+                                        <label for="nohave_system">无</label>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{#if (vo.have_system || vo.have_system === 0) }}
+                            {{#if (vo.have_system === 1) }}
+                                <div class="option_item have_system_url">
+                            {{else}}
+                                <div class="option_item have_system_url" style="display:none;">
+                            {{/if}}
+                        {{else}}
+                        <div class="option_item have_system_url">
+                        {{/if}}
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">系统地址：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="system_url" type="text" class="system_url required" name="system_url" placeholder="请输入系统地址" maxlength="100" value="{{vo.system_url }}">
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">官方电话：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" placeholder="请输入官方电话" maxlength="24" id="mobile" name="mobile" value="{{vo.mobile}}"/>
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">联系人：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" placeholder="请输入联系人姓名" maxlength="20" id="link_name" name="link_name" value="{{vo.link_name}}"/>
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">联系人手机：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" maxlength="11" placeholder="请输入联系人手机号" id="link_phone" name="link_phone" value="{{vo.link_phone}}"/>
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">联系人座机：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="text" maxlength="12" placeholder="请输入联系人座机电话" id="link_mobile" name="link_mobile" value="{{vo.link_mobile}}"/>
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="org_intro">
+                        <div class="detail_title">机构介绍</div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">审批速度：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="approve_speed" class="" id="approval">
+                                    {{#if (vo.approve_speed === 1) }}
+                                    <option value="1" selected="selected">1-20分钟</option>
+                                    {{else}}
+                                    <option value="1">1-20分钟</option>
+                                    {{/if}}
+                                    {{#if (vo.approve_speed === 2) }}
+                                    <option value="2" selected="selected">1-3个小时</option>
+                                    {{else}}
+                                    <option value="2">1-3个小时</option>
+                                    {{/if}}
+                                    {{#if (vo.approve_speed === 3) }}
+                                    <option value="3" selected>半个工作日</option>
+                                    {{else}}
+                                    <option value="3">半个工作日</option>
+                                    {{/if}}
+                                    {{#if (vo.approve_speed === 4) }}
+                                    <option value="4" selected>1个工作日</option>
+                                    {{else}}
+                                    <option value="4">1个工作日</option>
+                                    {{/if}}
+                                    {{#if (vo.approve_speed === 5) }}
+                                    <option value="5" selected>1-2个工作日</option>
+                                    {{else}}
+                                    <option value="5">1-2个工作日</option>
+                                    {{/if}}
+                                    {{#if (vo.approve_speed === 6) }}
+                                    <option value="6" selected>3个工作日</option>
+                                    {{else}}
+                                    <option value="6">3个工作日</option>
+                                    {{/if}}
+                                </select>
+                                <span class="formError"></span>
+                            </div>
+                        </div>
+                        {{#if (vo.applyto_business) }}
+                            {{#if (vo.applyto_business.indexOf("1")!== -1) }}
+                                <div class="option_item carage_limit" style="display: block;">
+                            {{else}}
+                                <div class="option_item carage_limit" style="display: none;">
+                            {{/if}}
+                        {{else}}
+                            <div class="option_item carage_limit" style="display: none;">
+                        {{/if}}
+                            <div class="column_name">
+                                <em class="require_icon">*</em>
+                                <span class="options_name">车龄限制：</span>
+                            </div>
+                            <div class="column_val">
+                                <input id="carage_start" type="text" class="carAge minCarAge required" name="carage_start" placeholder="1" value="{{#if (vo.carage_start) }}{{vo.carage_start}}{{else}}1{{/if}}" maxlength="4" style="width:150px;">
+                                <span class="" style="padding:0 4px;">-</span>
+                                <input id="carage_end" type="text" class="carAge maxCarAge required" name="carage_end" placeholder="9" value="{{#if (vo.carage_end) }}{{vo.carage_end}}{{else}}9{{/if}}" maxlength="4" style="width:150px;">
+                                <span class="" style="padding-left:8px;">年</span>
+                                <span class="tips_info">(<span class="tips_text"></span>)</span>
+                            </div>
+                        </div>
+                        {{#if (vo.applyto_business) }}
+                            {{#if (vo.applyto_business.indexOf("1")!== -1) }}
+                                <div class="option_item evaluation_des" style="display:block;margin-top: 20px;">
+                            {{else}}
+                                <div class="option_item evaluation_des" style="display:none;margin-top: 20px;">
+                            {{/if}}
+                        {{else}}
+                             <div class="option_item evaluation_des" style="display:none;margin-top: 20px;">
+                        {{/if}}
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">评估描述：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea class="remark assess_desc" name="assess_desc" cols="30" rows="6" maxlength="200" placeholder="请输入内容">{{vo.assess_desc}}</textarea>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">背户情况：</span>
+                            </div>
+                            <div class="column_val">
+                                {{#if (vo.bei_hu || vo.bei_hu === 0) }}
+                                    <div class="form_group mar6">
+                                        {{#if (vo.bei_hu === 1) }}
+                                        <input id="back_door_need" type="radio" checked="checked" name="bei_hu" value="1">
+                                        <label for="back_door_need" class="checked">可以</label>
+                                        {{else}}
+                                        <input id="back_door_need" type="radio" name="bei_hu" value="1">
+                                        <label for="back_door_need">可以</label>
+                                        {{/if}}
+                                    </div>
+                                    <div class="form_group mar6">
+                                        {{#if (vo.bei_hu === 0) }}
+                                        <input id="back_door_noneed" type="radio" checked="checked" name="bei_hu" value="0">
+                                        <label for="back_door_noneed" class="checked">不可以</label>
+                                        {{else}}
+                                        <input id="back_door_noneed" type="radio" name="bei_hu" value="0">
+                                        <label for="back_door_noneed">不可以</label>
+                                        {{/if}}
+                                    </div>
+                                {{else}}
+                                    <input type="hidden" class="bei_hu" name="bei_hu" value="1">
+                                    <div class="form_group mar6">
+                                        <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
+                                        <label for="back_door_need" class="checked">可以</label>
+                                    </div>
+                                    <div class="form_group mar6">
+                                        <input id="back_door_noneed" type="radio" name="back_door_need" value="0">
+                                        <label for="back_door_noneed">不可以</label>
+                                    </div>
+                                {{/if}}
+                                <span class="remark_text add_txt">备注</span>
+                                {{#if (vo.bei_hu_remark) }}
+                                <div class="remarks_box">
+                                {{else}}
+                                <div class="remarks_box" style="display: none;">
+                                {{/if}}
+                                    <textarea placeholder="请输入内容" name="bei_hu_remark" id="bei_hu_remark" class="form-control" maxlength="200">{{vo.bei_hu_remark}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">机构特点：</span>
+                            </div>
+                            <div class="column_val">
+                                <input type="hidden" name="special" class="special" value="{{vo.special}}">
+                                {{#if (vo.special) }}
+                                    {{#if (vo.special.indexOf(',') !== -1) }}
+                                        {{set (special_arr = vo.special.split(',') ) }}
+                                        {{#each (feature_list) }}
+                                        <div class="form_group">
+                                            {{#if (special_arr.indexOf(this.index.toString()) !== -1) }}
+                                            <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.index}}" checked="checked"/>
+                                            <label for="org_feature{{xindex}}" class="checked">{{this.name}}</label>
+                                            {{else}}
+                                            <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.index}}" />
+                                            <label for="org_feature{{xindex}}">{{this.name}}</label>
+                                            {{/if}}
+                                        </div>
+                                        {{/each}}
+                                    {{else}}
+                                        {{#each (feature_list) }}
+                                        <div class="form_group">
+                                            {{#if (this.index.toString() === vo.special) }}
+                                            <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.index}}" checked="checked"/>
+                                            <label for="org_feature{{xindex}}" class="checked">{{this.name}}</label>
+                                            {{else}}
+                                            <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.index}}" />
+                                            <label for="org_feature{{xindex}}">{{this.name}}</label>
+                                            {{/if}}
+                                        </div>
+                                        {{/each}}
+                                    {{/if}}
+                                {{else}}
+                                    {{#each (feature_list) }}
+                                    <div class="form_group">
+                                        <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.index}}" />
+                                        <label for="org_feature{{xindex}}">{{this.name}}</label>
+                                    </div>
+                                    {{/each}}
+                                {{/if}}
+
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">附加可融项目：</span>
+                            </div>
+                            <div class="column_val addition_finances">
+                                <input type="hidden" name="addition_finance" class="addition_finance" value="{{vo.addition_finance}}">
+                                {{#if (vo.addition_finance) }}
+                                    {{#if (vo.addition_finance.indexOf(',') !== -1) }}
+                                        {{set (addition_finance_arr = vo.addition_finance.split(',') ) }}
+                                        {{#each (addition_list) }}
+                                            <div class="form_group">
+                                                {{#if (addition_finance_arr.indexOf(this.index.toString()) !== -1) }}
+                                                <input id="additional_project{{xindex}}" type="checkbox" class="additional_project"  value="{{this.index}}" checked="checked"/>
+                                                <label for="additional_project{{xindex}}" class="checked">{{this.name}}</label>
+                                                {{else}}
+                                                <input id="additional_project{{xindex}}" type="checkbox" class="additional_project"  value="{{this.index}}" />
+                                                <label for="additional_project{{xindex}}">{{this.name}}</label>
+                                                {{/if}}
+                                            </div>
+                                        {{/each}}
+                                    {{else}}
+                                        {{#each (addition_list) }}
+                                            <div class="form_group">
+                                                {{#if (this.index.toString() === vo.addition_finance) }}
+                                                <input id="additional_project{{xindex}}" type="checkbox" class="additional_project"  value="{{this.index}}" checked="checked"/>
+                                                <label for="additional_project{{xindex}}" class="checked">{{this.name}}</label>
+                                                {{else}}
+                                                <input id="additional_project{{xindex}}" type="checkbox" class="additional_project"  value="{{this.index}}" />
+                                                <label for="additional_project{{xindex}}">{{this.name}}</label>
+                                                {{/if}}
+                                            </div>
+                                        {{/each}}
+                                    {{/if}}
+                                {{else}}
+                                    {{#each (addition_list) }}
+                                    <div class="form_group">
+                                        <input id="additional_project{{xindex}}" type="checkbox" class="additional_project"  value="{{this.index}}" />
+                                        <label for="additional_project{{xindex}}">{{this.name}}</label>
+                                    </div>
+                                    {{/each}}
+                                {{/if}}
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">附加可融项目说明：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea class="remark" name="addition_finance_explain" cols="30" rows="6" maxlength="200" placeholder="请输入内容">{{vo.addition_finance_explain}}</textarea>
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name">
+                                <span class="options_name">征信尺度：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="credit" class="">
+                                    {{#if (vo.credit) }}
+                                    <option value="">请选择</option>
+                                    {{else}}
+                                    <option value="" selected="selected">请选择</option>
+                                    {{/if}}
+                                    {{#if (vo.credit === 1) }}
+                                    <option value="1" selected="selected">宽松</option>
+                                    {{else}}
+                                    <option value="1">宽松</option>
+                                    {{/if}}
+                                    {{#if (vo.credit === 2) }}
+                                    <option value="2" selected="selected">适中</option>
+                                    {{else}}
+                                    <option value="2">适中</option>
+                                    {{/if}}
+                                    {{#if (vo.credit === 3) }}
+                                    <option value="3" selected="selected">严格</option>
+                                    {{else}}
+                                    <option value="3">严格</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">电核尺度：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="electricity" class="">
+                                    {{#if (vo.electricity) }}
+                                    <option value="">请选择</option>
+                                    {{else}}
+                                    <option value="" selected="selected">请选择</option>
+                                    {{/if}}
+                                    {{#if (vo.electricity === 1) }}
+                                    <option value="1" selected="selected">宽松</option>
+                                    {{else}}
+                                    <option value="1">宽松</option>
+                                    {{/if}}
+                                    {{#if (vo.electricity === 2) }}
+                                    <option value="2" selected="selected">适中</option>
+                                    {{else}}
+                                    <option value="2">适中</option>
+                                    {{/if}}
+                                    {{#if (vo.electricity === 3) }}
+                                    <option value="3" selected="selected">严格</option>
+                                    {{else}}
+                                    <option value="3">严格</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item">
+                            <div class="column_name">
+                                <span class="options_name">大数据审查：</span>
+                            </div>
+                            <div class="column_val">
+                                <select name="bigdata_review" class="">
+                                    {{#if (vo.bigdata_review) }}
+                                    <option value="">请选择</option>
+                                    {{else}}
+                                    <option value="" selected="selected">请选择</option>
+                                    {{/if}}
+                                    {{#if (vo.bigdata_review === 1) }}
+                                    <option value="1" selected="selected">宽松</option>
+                                    {{else}}
+                                    <option value="1">宽松</option>
+                                    {{/if}}
+                                    {{#if (vo.bigdata_review === 2) }}
+                                    <option value="2" selected="selected">适中</option>
+                                    {{else}}
+                                    <option value="2">适中</option>
+                                    {{/if}}
+                                    {{#if (vo.bigdata_review === 3) }}
+                                    <option value="3" selected="selected">严格</option>
+                                    {{else}}
+                                    <option value="3">严格</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option_item" style="margin-top: 20px;">
+                            <div class="column_name" style="line-height: 20px;">
+                                <span class="options_name">审批政策：</span>
+                            </div>
+                            <div class="column_val">
+                                <textarea id="approval_policy" class="remark" name="" cols="30" rows="6" placeholder="请输入内容">{{vo.policy_desc}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm save_org">保存</a>
+                        <a href="javascript:;" class="btn bg_btn cancel go_orglist">取消</a>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-all.js"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-init.js"></script>
+<script>
+    (function ($) {
+        var old_policy_desc = $('#approval_policy').val();
+        /**
+         * 选择机构logo
+         * @author Plateau 2018年8月14日11:59:30
+         * */
+        function selectLogo () {
+            var organization_logo = $('.organization_logo');
+            organization_logo.off("click").on("click", function () {
+                $('.organization_logo').find('.icon_check').remove();
+                $('.organization_logo input').prop('checked','false');
+                $(this).find('input').prop('checked','true');
+                var inner = '<div class="icon_check logo_check"></div>';
+                $(this).append(inner);
+            });
+        }
+
+        /**
+         * 添加备注
+         * @author Plateau 2018-8-6 17:41:42
+         * */
+        function addRemark () {
+            var add_txt = $('.add_txt');
+            add_txt.off("click").on("click", function () {
+                var remarks_box = $(this).siblings('.remarks_box');
+                if(remarks_box.is(':hidden')){
+                    $(this).siblings('.remarks_box').show();
+                } else {
+                    $(this).siblings('.remarks_box').hide();
+                }
+            });
+        }
+        /**
+         * 点击二手车事件
+         * @author Plateau 2018年8月6日18:09:07
+         * */
+        function usedCarsEvent () {
+            var usedCars = $('#usedCars');
+            usedCars.off("click").on("click", function () {
+                var carage_limit = $('.carage_limit');//车龄限制
+                var evaluation_des = $('.evaluation_des');//评估描述
+                if (this.checked) {
+                    carage_limit.hide();
+                    evaluation_des.hide();
+                } else {
+                    carage_limit.show();
+                    evaluation_des.show();
+                }
+            });
+        }
+        /**
+         * 单选有无系统
+         * @author Plateau 2018年8月6日18:22:07
+         * */
+        function systemEvent () {
+            var have_system = $('#have_system input');
+            have_system.off("click").on("click", function () {
+                var _this = $(this);
+                var val = _this.val().trim();
+                if (val == 1) {
+                    $('.have_system_url').show();
+                } else if (val == 0) {
+                    $('.have_system_url').hide();
+                }
+                $('#have_sys_input').val(val);
+            });
+        }
+        /**
+         * 输入框焦点离开校验
+         * @author Plateau 2018年8月7日10:24:34
+         * @desc 所有必传项的input必须含有兄弟元素’tips_info‘
+         */
+        function validateBlur () {
+            $('#orgname').on('blur', function () {
+                var reg = /^[\u4E00-\u9FA5\w]+$/;
+                var error_txt = '机构名称不能包含特殊字符';
+                validate_form(1,$('#orgname'),reg,error_txt);
+            });
+
+            $('#system_url').on('blur', function () {
+                //var reg = /^(http|https|ftp)\:\/\/([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&%\$\-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.[a-zA-Z]{2,4})(\:[0-9]+)?(\/[^\/][a-zA-Z0-9\.\,\?\'\/\/\+&%\$\=~_\-@]*)*$/;
+                var regStr = "(ht|f)tp(s?)\\:\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\\\+&amp;%\\$#_]*)?";
+                var reg = new RegExp(regStr);
+                var error_txt = '请输入有效的系统地址';
+                validate_form(1,$('#system_url'),reg,error_txt);
+            });
+
+            $('.carAge').on('blur', function () {
+                var _this = $(this);
+                carAge_validate(_this);
+            });
+
+            $('#mobile').on('input', function () {
+                var _this = $(this);
+                var value = _this.val().trim();
+                value = value.replace(/[^\d\-\(\（\)\）]/g,'');
+                _this.val(value);
+            });
+
+            $('#mobile').on('blur', function () {
+                // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
+                var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
+                var error_txt = '请输入正确格式的电话号码';
+                validate_form(0,$('#mobile'),reg,error_txt);
+            });
+
+            $('#link_name').on('blur', function () {
+                var reg = /^[\u4E00-\u9FA5a-zA-Z]+$/;
+                var error_txt = "请输入中文、英文、中文+英文字符";
+                validate_form(0,$('#link_name'),reg,error_txt);
+            });
+
+            $('#link_phone').on('blur', function () {
+                var reg = /^1[3|4|5|6|9|8|7]\d{9}$/;
+                var error_txt = "请输入正确格式的手机号";
+                validate_form(0,$('#link_phone'),reg,error_txt);
+            });
+
+            $('#link_mobile').on('blur', function () {
+                // var reg = /^((\d{7,8})|(\d{4}|\d{3})(\d{7,8})|(\d{4}|\d{3})(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})(\d{4}|\d{3}|\d{2}|\d{1}))$/;
+                var reg = /^$|(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+((\-[0-9]{1,6})|(\([0-9]{1,6}\))|(\（[0-9]{1,6}\）))?$/;
+                var error_txt = '请输入正确格式的电话号码';
+                validate_form(0,$('#link_mobile'),reg,error_txt);
+            });
+        }
+        /**
+         * 校验判断
+         * @author Plateau 2018年8月7日12:48:59
+         * @param  required         ：   是否为必填项          0为非必填；1为必填
+         * @param  obj              ：   当前输入框selector对象
+         * @param  reg              ：   正则表达式
+         * @param  error_txt        ：   错误提示信息
+         */
+        function validate_form(required,obj,reg,error_txt){
+            var val = obj.val().trim();
+            var reg = reg;
+            if(required == '1'){
+                if(!val){
+                    obj.siblings('.tips_info').show().find('.tips_text').text('此项内容不能为空');
+                    obj.css('border-color','#FB2741');
+                    return;
+                }
+            }else{
+                if(!val){
+                    obj.siblings('.tips_info').hide();
+                    obj.css('border-color','#ccc');
+                    return;
+                }
+            }
+            if(!reg.test(val)){
+                obj.siblings('.tips_info').show().find('.tips_text').text(error_txt);
+                obj.css('border-color','#FB2741');
+                return;
+            }
+            obj.siblings('.tips_info').hide();
+            obj.css('border-color','#ccc');
+        }
+        /**
+         * 车龄校验
+         * @author Plateau 2018年8月7日12:46:36
+         * @desc  规则如下
+         *        1.如若选中二手车，则车龄为必填项
+         *        2.车龄不能低于0.5年
+         *        3.车龄不能超过15年
+         *        4.车龄范围，后者大于前者
+         */
+        function carAge_validate (_this) {
+            var val = _this.val().trim();
+            if(val == ''){
+                _this.siblings('.tips_info').show().find('.tips_text').text('车龄限制不能为空');
+                _this.css('border-color','#ccc');
+                return;
+            }
+            if(parseFloat(val) < 0.5){
+                _this.siblings('.tips_info').show().find('.tips_text').text('车龄不能低于0.5年');
+                _this.css('border-color','#FB2741');
+                return;
+            }
+            if(parseFloat(val) > 15){
+                _this.siblings('.tips_info').show().find('.tips_text').text('车龄不能超过15年');
+                _this.css('border-color','#FB2741');
+                return;
+            }
+            var val1 = $('#carage_start').val().trim();
+            var val2 = $('#carage_end').val().trim();
+            if(parseFloat(val1) >= parseFloat(val2)){
+                _this.siblings('.tips_info').show().find('.tips_text').text('请输入正确的车龄范围');
+                _this.css('border-color','#FB2741');
+                return;
+            }
+            _this.siblings('.tips_info').hide();
+            _this.css('border-color','#e4e4e4');
+            _this.css('border-color','#e4e4e4');
+        }
+
+        //保存按钮
+        function saveOrg () {
+            var btn = $(".save_org");
+            btn.off("click").on("click", function () {
+                send_organization_form();
+            });
+        }
+        //保存更新函数
+        function send_organization_form(){
+            var name = $('#orgname');
+            if(!name.val().trim()){
+                $alert('机构名称不能为空');
+                return;
+            }
+            //适用业务
+            var applyto_business = $('#applyto_business').find('label');
+            var applyto_business_arr = [];
+            applyto_business.each(function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    applyto_business_arr.push(_this.siblings('input').val());
+                }
+            });
+            if (applyto_business_arr.length != 0) {
+                $('.applyto_business_val').val(applyto_business_arr.join(','));
+            } else{
+                $alert('请选择机构的适用业务');
+                return;
+            }
+            //有无机构LOGO
+            var have_logo = $('.organization_logo .icon_check').length;
+            if(have_logo == '0'){
+                $alert('请选择机构LOGO');
+                return;
+            }
+            //有无系统
+            var have_system = $('#have_system');
+            var have_system1 = have_system.find('input[type="radio"]').eq(0).prop('checked');
+            var have_system2 = have_system.find('input[type="radio"]').eq(1).prop('checked');
+            if(!have_system1 && !have_system2){
+                $alert('请选择机构有无系统');
+                return;
+            }
+            //有无系统地址
+            var have_system_url = $('.have_system_url').css('display');
+            var system_url = $('#system_url');
+            if(have_system_url == 'block'){
+                var have_system_url_val = system_url.val().trim();
+                if(!have_system_url_val){
+                    $alert('系统地址不能为空');
+                    return;
+                }
+            }
+
+            //审批速度
+            var approval =$('#approval');
+            if (approval.val().trim() == '') {
+                $alert('请选择审批速度');
+                return;
+            }
+            //车龄限制--只针对二手车
+            var usedCar_status = $('#usedCars').siblings('label');
+            var minCarAge = $('.minCarAge');
+            var maxCarAge = $('.maxCarAge');
+            if (usedCar_status.hasClass('checked')) {
+                if (minCarAge.val().trim() == '' || maxCarAge.val().trim() == '') {
+                    $alert('请输入车龄区间');
+                    return;
+                }
+            } else {
+                minCarAge.val('');
+                maxCarAge.val('');
+                $('.assess_desc').val('');
+
+            }
+            var tips_info = $('.tips_info');
+            var error_flag = false;
+            tips_info.each(function () {
+                var _this = $(this);
+                if (!_this.is(':hidden')) {
+                    error_flag = true;
+                }
+            });
+            if (error_flag) {
+                return false;
+            }
+            //获取机构特点val
+            var org_features = [];
+            var org_feature = $('.org_feature');
+            org_feature.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    org_features.push(_cur.val());
+                }
+            });
+            $('.special').val(org_features.join(','));
+            //附加可融项目val
+            var additional_projects = [];
+            var additional_project = $('.additional_project');
+            additional_project.each(function () {
+                var _cur = $(this);
+                if (_cur.siblings('label').hasClass('checked')) {
+                    additional_projects.push(_cur.val());
+                }
+            });
+            $('.addition_finance').val(additional_projects.join(','));
+            ajaxSubmit();
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('organization_info_create'));
+            var policy_desc = kindEditor.html();
+            parameters.append('policy_desc', policy_desc);
+            if ($('#orgId').val() == '') {
+                parameters.append('change_version', '0');
+            } else {
+                if (old_policy_desc != policy_desc) {
+                    parameters.append('change_version', '1');
+                } else {
+                    parameters.append('change_version', '0');
+                }
+            }
+
+            if ($('#orgId').val().trim() == '') {
+                var url = '/api/organization/create';
+            } else {
+                var url = '/api/organization/update';
+            }
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            if ($('#orgId').val().trim() != '') {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/detail',
+                                    param : {
+                                        organization_id : $('#orgId').val().trim(),
+                                        material_type : 0
+                                    }
+                                });
+                            } else {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/list',
+                                    param : {}
+                                });
+                            }
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrglist () {
+            var go_orglist = $('.go_orglist');
+            go_orglist.off("click").on("click", function () {
+                var organization_id = $('#orgId').val().trim()
+                if (organization_id == '') {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/list'
+                    });
+                } else {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/detail',
+                        param : {
+                            organization_id : organization_id,
+                            material_type : 0
+                        }
+                    });
+                }
+
+            });
+        }
+        $(function() {
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
+            selectLogo();//选择机构logo
+            addRemark();//添加备注
+            usedCarsEvent();//点击二手车事件
+            systemEvent();//单选有无系统
+            validateBlur();//输入框失去焦点事件
+            numAndAmount('.carAge',{
+                type : 1,
+                maxInteger : 2,
+                maxDecimal : 1,
+                addDecimal : 1
+            });//控制车龄输入框只能输入数字和以为小数
+            // chnAndEng('#link_name', 2);
+            // chnAndEng('#orgname', 4);
+            numAndAmount('#link_phone',{
+                type : 0
+            });
+            numAndAmount('#link_mobile',{
+                type : 0
+            });
+            initKindEditor('#approval_policy');//审批政策
+            saveOrg();//保存机构
+            goOrglist();//取消事件
+        });
+    })(jQuery,undefined);
+</script>
+</html>

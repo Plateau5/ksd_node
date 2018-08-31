@@ -151,10 +151,17 @@
     <input id="material_ids" value="" name="material_ids" type="hidden">
     <input id="material_names" value="" name="material_names" type="hidden">
     <input id="this_material_ids" value="{{haveMaterial.material_ids}}" name="this_material_ids" type="hidden">
-        {{#if (haveMaterial.material_ids.length > 0)}}
-            {{#if (verifyCode(1513)) }}
-            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-agree_type="1" data-url="{{markUri}}/customer/pigeonhole/agree" data-advance_id="{{vo.advance_id}}" id="customerSubmit">同意</a>
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-agree_type="0" data-url="{{markUri}}/customer/pigeonhole/disagree" data-advance_id="{{vo.advance_id}}" id="customerCancel">不同意</a>
+    <input id="finance_type" value="{{reqParams.finance_type}}" name="finance_type" type="hidden">
+        {{#if(reqParams.finance_type === '4' && vo.status !== 13)}}
+            {{#if (verifyCode(1121))}}
+                <a href="javascript:;" class="detail_high_btn confirm_archive"  data-id="{{finance_id}}" data-advance_id="{{vo.advance_id}}"  data-finance_type="{{reqParams.finance_type}}">确认归档</a>
+            {{/if}}
+        {{else}}
+            {{#if (haveMaterial.material_ids.length > 0 && vo.status !== 13)}}
+                {{#if (verifyCode(1513)) }}
+                    <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-agree_type="1" data-url="{{markUri}}/customer/pigeonhole/agree" data-advance_id="{{vo.advance_id}}" id="customerSubmit">同意</a>
+                    <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-agree_type="0" data-url="{{markUri}}/customer/pigeonhole/disagree" data-advance_id="{{vo.advance_id}}" id="customerCancel">不同意</a>
+                {{/if}}
             {{/if}}
         {{/if}}
     {{/if}}

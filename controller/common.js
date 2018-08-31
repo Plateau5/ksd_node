@@ -122,7 +122,7 @@ exports.checkPrivilege = function (p, req) {
  * @param next {Object} ：下一步需要执行的入口
  */
 exports.httpRequest = function (opt, callback, req, res, next) {
-    // var cookies = this.getCookies(req, res, next);
+    // var cookies = req.cookies;
     var option = {
         method : 'post',
         url : '',
@@ -151,11 +151,20 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                 } else if (result.error_code === 801) {     // 无此方法
                     res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>无此方法</title></head><body></body><script>alert(\'请求无效，无此方法\');</script></html>');
                 } else if (result.error_code === 1022) {     // 拦截数据合法性
-                    res.send('<script>alert(\'该订单已被处理，请刷新页面\');</script>');
+                    res.send('<script>alert("'+ result.error_msg +'");</script>');
+                } else if (result.error_code === 1030) {     // 拦截空数据
+                    res.send('<script>alert("'+ result.error_msg +'");window.history.back();</script>');
                 } else if (result.error_code === 0) {
                     callback(result);
                 } else {
-                    LOGERROR(ERRORTYPES.HttpRequest + '：[Node] Background server (Java) returned an error message. Data:' + JSON.stringify(result));
+                    LOGERROR(
+                        ERRORTYPES.HttpRequest + '：[Node] Background server (Java) returned an error message. Data:' + JSON.stringify(result),
+                        "API-router: " + options.url
+                        + "\n"
+                        + "Method: " + options.method
+                        + "\n"
+                        + "data: " + JSON.stringify(options.formData)
+                    );
                     callback(result);
                 }
             } catch (e) {
@@ -171,7 +180,9 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                 } else if (result.error_code === 801) {     // 无此方法
                     res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>无此方法</title></head><body></body><script>alert(\'请求无效，无此方法\');</script></html>');
                 } else if (result.error_code === 1022) {     // 拦截数据合法性
-                    res.send('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>该订单已被处理，请刷新页面</title></head><body></body><script>alert(\'该订单已被处理，请刷新页面\');</script></html>');
+                    res.send('<script>alert("'+ result.error_msg +'");</script>');
+                } else if (result.error_code === 1030) {     // 拦截空数据
+                    res.send('<script>alert("'+ result.error_msg +'");window.history.back();</script>');
                 } else if (result.error_code === 0) {
                     callback(result);
                 } else {
@@ -180,7 +191,14 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                     LOGERROR(e.stack);
                 }
                 // callback(result);
-                LOGERROR(ERRORTYPES.HttpRequest + '：The result of server return is not need to parse.');
+                LOGERROR(
+                    ERRORTYPES.HttpRequest + '：The result of server return is not need to parse.',
+                    "API-router: " + options.url
+                    + " \n "
+                    + " Method: " + options.method
+                    + " \n "
+                    + " data: " + JSON.stringify(options.formData)
+                );
             }
         } else {
             // LOGERROR(ERRORTYPES.HttpRequest + '：' + error);
@@ -224,6 +242,7 @@ exports.getPageData = function(options, req, res, next) {
                 data.apiServerPath = apiServerPath;
                 data.domain = domain;
                 data.reqParams = body;
+                data.reqParamsStr = JSON.stringify(data.reqParams);
                 options.callback && options.callback(data);
                 res.render(options.page, data);
             } else {

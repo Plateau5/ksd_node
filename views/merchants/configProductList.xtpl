@@ -1,0 +1,372 @@
+<!-- 商户列表页 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+    <title>商户管理-配置金融产品列表</title>
+    <style>
+        .no_data_tr{
+            margin: 20px 0;
+        }
+        .no_hover:hover{
+            background: #FFFFFF !important;
+            cursor: default !important;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/merchants/manage/system" class="crumbs_item">商户管理</a>
+                <a href="{{markUri}}/merchants/pass" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item merchant_name toMerchantDetail" data-id="{{reqParams.supplier_id}}">{{reqParams.supplier_name}}</a>
+                <a href="javascript:;" class="crumbs_item">配置金融产品</a>
+            </div>
+            <div class="policies_container merchant_policies">
+                <div class="title org_title">{{reqParams.supplier_name}}</div>
+                <div class="module_list org_list">
+                    <div class="title org_list_tile">
+                        <span class="module_name font14">机构名称</span>
+                    </div>
+                    {{#if (organization_list.length > 0) }}
+                        <ul class="org_select_list clearfix">
+                            {{#each (organization_list) }}
+                                <li class="list_item nowrap {{#if (root.organization_id === this.organization_id) }}active{{/if}}" data-id="{{this.organization_id}}" data-name="{{this.organization_name}}">{{this.organization_name}}</li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                </div>
+                <form action="{{markUri}}/merchants/config/products/list" method="post" id="form_search" role='form'>
+                    <input type="hidden" value="{{reqParams.applyto_business}}" id="merchantBusinessType" name="applyto_business">
+                    <input type="hidden" value="{{reqParams.applyto_car}}" name="applyto_car">
+                    <input type="hidden" id="merchantCity"  name="city_id" value="{{condition.city_id}}">
+                    <input type="hidden" id="navigation" value="{{reqParams.navigation}}" name="navigation">
+                    <input type="hidden" id="supplierId" name="supplier_id" value="{{reqParams.supplier_id}}">
+                    <input type="hidden" id="organizationId" name="organization_id" value="{{condition.organization_id}}">
+                    <input type="hidden" id="applytoType" name="applyto_type" value="{{reqParams.applyto_type}}">
+                    <input type="hidden" id="productList" value="{{reqParams.productList}}" name="productList">
+                    <input type="hidden" id="orgName" value="{{reqParams.supplier_name}}" name="supplier_name">
+                    {{#if (reqParams.applyto_business === "2")}}
+                    <div class="filtrate">
+                        <div class="filtrate_item date_conditions" style="margin-top:-10px;margin-bottom:10px">
+                            <div class="inline_block">
+                                <div class="conditions_name inline_block filtrate_business">适用业务：</div>
+                                <select name="car_type" class="filtrate_select" id="applyBusiness">
+
+                                    <option value="">全部</option>
+
+                                    {{#if (condition.car_type === 0  ) }}
+                                    <option value="0" selected="selected">新车</option>
+                                    {{else}}
+                                    <option value="0">新车</option>
+                                    {{/if}}
+                                    {{#if (condition.car_type === 1) }}
+                                    <option value="1" selected="selected">二手车</option>
+                                    {{else}}
+                                    <option value="1">二手车</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                </form>
+                <form action="{{markUri}}/merchants/config/products/list" method="post" id="toProductList">
+                    <div class="merchants_list">
+                        <table class="normal">
+                            <colgroup>
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 15%;">
+                                <col style="width: 20%;">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>产品名称</th>
+                                <th>融资范围</th>
+                                <th>费率</th>
+                                <th>融资期限</th>
+                                <th>首付比例/金额</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#if (policy_list.length >0)}}
+                            {{#each (policy_list)}}
+                            <tr class="no_hover">
+                                <td title="{{this.product_name}}">{{this.product_name}}</td>
+                                <td>{{this.financeamount_start}}-{{this.financeamount_end}}万</td>
+                                <td title="{{this.interest_rate}}">{{this.interest_rate}}</td>
+                                <td title="{{this.term}}">{{this.term}}</td>
+                                <td title="{{this.downpayment_value}}">
+                                    {{#if (this.downpayment_type === 1)}}
+                                        {{this.downpayment_value}}
+                                    {{elseif(this.downpayment_type === 2)}}
+                                        {{this.downpayment_value}}
+                                    {{/if}}
+                                </td>
+                                <td class="merchants_operate_btn config_product_btn">
+                                    {{#if (root.verifyCode(1590))}}
+                                        {{#if (status === 2) }}
+                                            <a href="javascript:" title="编辑" class="merchants_edit config_product_edit none" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}" style="display:none;"></a>
+                                            <div class="r_radio inline_block on" type="on" data-status="2">
+                                                <span></span>
+                                                <span></span>
+                                                <div style="left: 14px"></div>
+                                            </div>
+                                        {{/if}}
+                                    {{/if}}
+                                    {{#if (status === 1) }}
+                                        {{#if (root.verifyCode(1588)) }}
+                                            <a href="javascript:" title="编辑" class="merchants_edit config_product_edit" data-id="{{this.id}}" data-product_id="{{this.product_id}}" data-origin="{{this.origin}}" data-product_policy_id="{{this.product_policy_id}}"></a>
+                                        {{/if}}
+                                        {{#if (root.verifyCode(1591)) }}
+                                            <div class="r_radio inline_block off" type="off" data-status="1">
+                                                <span></span>
+                                                <span></span>
+                                                <div></div>
+                                            </div>
+                                        {{/if}}
+                                    {{/if}}
+                                </td>
+                            </tr>
+                            {{/each}}
+                            {{else}}
+                            <!-- 没有数据部分 -->
+                            <tr class="no_data no_hover">
+                                <td colspan="6">
+                                    {{include('./../inc/empty_data')}}
+                                </td>
+                            </tr>
+                            {{/if}}
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+                <!--分页部分 Begin-->
+
+                {{include('./../inc/paginations')}}
+
+                <!--分页部分 End-->
+            </div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+<input type="hidden" id="orgId" value="{{organization_id}}" name="supplier_name">
+<input type="hidden" id="cityName" value="{{detail.city_name}}" name="city_name">
+<input type="hidden" name="limit" value="10" id="limit">
+<input type="hidden" name="current_page" value="1" id="currentPage">
+<input type="hidden" id="url" value="{{reqParams.url}}">
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/js/merchants.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
+    var productList ='{{{reqParams.productList}}}';
+    (function ($) {
+
+        // 全局数据
+
+        var orgId = $('#orgId').val().trim().number();      // 机构Id
+        var supplierName = $('#orgName').val().trim();      // 商户名称
+        var supplierId = $('#supplierId').val().trim();     // 商户Id
+        var carType = $('#carType').val();  //业务类型
+        var limit = $('#limit').val().trim().number();      // 列表加载条目数
+        var listUrl = $('#url').val().trim();       // 列表页的路由
+        var navigation = $('#navigation').val().trim();     // 列表页的节点
+        var mCityId = $('#merchantCity').val().trim();      // 商户城市id
+        var cityName = $('#cityName').val().trim();         // 商户城市名称
+        var mBusinessType = $('#merchantBusinessType').val().trim();       // 商户业务类型
+        var applytoType = $('#applytoType').val().trim();  //商户来源
+
+        /**
+         * 启用、禁用
+         * @author qi 2018年8月17日10:50:11
+         */
+
+        function openOrcloseConfig () {
+            $(".config_product_btn .r_radio").on('mousedown', function() {
+                var _this = $(this);
+                var oldStatus = _this.data('status');
+                var configId = _this.siblings('.config_product_edit').data('id');
+                var origin = _this.siblings('.config_product_edit').data('origin');
+                var productId = _this.siblings('.config_product_edit').data('product_id');
+                var productPolicyId = _this.siblings('.config_product_edit').data('product_policy_id');
+                var data, apiUrl = '', tipMsg = '';
+                data = {
+                    status : oldStatus == 1 ? 2 : 1,
+                    id : configId,
+                    origin : origin,
+                    product_id : productId,
+                    supplier_id : supplierId,
+                    product_policy_id : productPolicyId
+                };
+                if (oldStatus == 1) {
+                    apiUrl = contextPath + '/api/supplier/deploy/open';
+                    tipMsg = '启用失败，请稍后重试';
+                } else if (oldStatus == 2) {
+                    apiUrl = contextPath + '/api/supplier/deploy/cease';
+                    tipMsg = '停用失败，请稍后重试';
+                } else {
+                    // do something here.
+                }
+                redefineAjax({
+                    data: data,
+                    url : apiUrl,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            if (oldStatus == 1) {
+                                $alert('启用成功', function () {
+                                    _this.find('div').animate({
+                                        'left' : '14px'
+                                    },200);
+                                    _this.removeClass('off').addClass('on').attr('type', 'on');
+                                    _this.siblings('.config_product_edit').hide();
+                                    _this.data('status', 2);
+                                    window.location.reload();
+                                });
+                            } else {
+                                $alert('停用成功', function () {
+                                    _this.find('div').animate({
+                                        'left' : '2px'
+                                    },200);
+                                    _this.removeClass('on').addClass('off').attr('type', 'off');
+                                    _this.siblings('.config_product_edit').show();
+                                    _this.data('status', 1);
+                                    window.location.reload();
+                                });
+                            }
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert(tipMsg);
+                    }
+                });
+
+            });
+        }
+
+        /**
+         * 点击编辑跳转编辑详情页
+         * @author qi 2018年8月17日10:50:11
+         */
+
+        function toProductEdit () {
+            var btn = $('.config_product_edit');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var configId = $.trim(_this.data('id'));
+                var productId = $.trim(_this.data('product_id'));
+                var origin = $.trim(_this.data('origin'));
+                var productPolicyid = $.trim(_this.data('product_policy_id'));
+                locationTo({
+                    action : contextPath + markUri + '/merchants/config/products/edit',
+                    param : {
+                        applyto_business : mBusinessType,
+                        id : configId,
+                        product_id : productId,
+                        navigation : navigation,
+                        origin : origin,
+                        product_policy_id : productPolicyid,
+                        supplier_id : supplierId,
+                        city_id : mCityId,
+                        applyto_type : applytoType,
+                        organization_id : orgId,
+                        productList : F.set(reqParamsStr)
+                    }
+                });
+            });
+        }
+        /**
+         * 面包屑跳转
+         * @author qi 2018年8月17日10:50:11
+         */
+        function toMerchantDetail () {
+            var btn = $('.toMerchantDetail');
+            var merchantDetail = F.get(productList);
+            btn.off('click').on('click',function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/detail',
+                    param : merchantDetail
+                })
+            })
+        }
+        //
+        /**
+         * 机构切换
+         * @author qi 2018年8月17日10:50:11
+         */
+        function changeOrgGetNewPoliciesData () {
+            var orgItem = $('.org_select_list .list_item');     // 机构
+            var orgIdE = $('#orgId');
+            var orgNameE = $('#orgName');
+            orgItem.off('click').on('click', function () {
+                var _this = $(this);
+                if (_this.hasClass('active')) {
+                    return false;
+                } else {
+                    var orgName = _this.data('name');       // 机构名称
+                    var oid = _this.data('id');       // 机构ID
+                    orgIdE.val(oid);
+                    orgNameE.val(orgName);
+                    orgId = oid;
+
+                    _this.addClass('active').siblings('.list_item').removeClass('active');
+
+//                    initRebateList();      // 重新初始化数据
+                    locationTo({
+                        action : contextPath + markUri + '/merchants/config/products/list',
+                        param : {
+                            applyto_business : mBusinessType,
+                            city_id : mCityId,
+                            supplier_id : supplierId,
+                            supplier_name : supplierName,
+                            url : listUrl,
+                            navigation : navigation,
+                            applyto_type : applytoType,
+                            organization_id : orgId,
+                            productList : productList
+                        }
+                    })
+                }
+            });
+        }
+
+        $(function() {
+            paginationSwitch();// 分页切换
+            openOrcloseConfig();//启用禁用
+            toProductEdit(); //跳转编辑页
+            toMerchantDetail(); //面包屑跳转到详情
+            changeOrgGetNewPoliciesData();      // 机构切换
+            selectChange(); //适用业务
+        });
+    })(jQuery,undefined);
+</script>
+</html>

@@ -130,8 +130,13 @@
                                         <div class="cust_value inline_block width160" title="{{this.user_name}}">{{this.user_name}}</div>
                                     </div>
                                     <div class="loan_main inline ml_12">
-                                        <div class="loan_name inline_block">贷前：</div>
-                                        <div class="loan_value inline_block width160" title="{{this.emp_name}}">{{this.emp_name}}</div>
+                                        {{#if (this.finance_type === 4)}}
+                                            <div class="loan_name inline_block">订单归属：</div>
+                                            <div class="loan_value inline_block width160" title="{{this.supplier_name}}">{{this.supplier_name}}</div>
+                                        {{else}}
+                                            <div class="loan_name inline_block">贷前：</div>
+                                            <div class="loan_value inline_block width160" title="{{this.emp_name}}">{{this.emp_name}}</div>
+                                        {{/if}}
                                     </div>
                                     <div class="collect_total inline">
                                         <div class="collect_name inline">收款总额：</div>

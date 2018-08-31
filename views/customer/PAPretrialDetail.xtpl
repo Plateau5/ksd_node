@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerDetails.css">
+    <title>{{title}}</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="crumbs_nav">
+                {{#if(startWith(markUri + '/customer/loan/PAPretrial/detail'))}}
+                    <a href="{{markUri}}/customer/loan/system" class="crumbs_item">贷款管理</a>
+                    <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                    <a href="javascript:;" class="crumbs_item toOrderDetail">查看资料</a>
+                    <a href="javascript:;" class="crumbs_item">预审信息</a>
+                {{else}}
+                    <a href="javascript:;" class="crumbs_item toPretrialList">预审管理</a>
+                    <a href="javascript:;" class="crumbs_item">预审信息</a>
+                {{/if}}
+            </div>
+
+            <!-- 面包屑跳转所需隐藏域 -->
+            <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
+            <input type="hidden" id="nodeUrl" value="{{reqParams.url}}">
+            <input type="hidden" id="financeId" value="{{reqParams.finance_id}}">
+            <input type="hidden" id="advanceId" value="{{reqParams.advance_id}}">
+            <input id="reportNo" value="{{vo.report_no}}" name="report_no" type="hidden">
+            <input id="preId" value="{{vo.id}}" name="pre_id" type="hidden">
+            <input type="hidden" id="pretrialType" value="{{reqParams.pretrialType}}">
+
+            <!-- 预审信息详情 -->
+            <div class="details_content">
+                <div class="pretrial_details">
+                    <div class="pretrial_desc">
+                        <!-- 基本信息部分 Begin -->
+                        <div class="details_item base_info">
+                            <div class="detail_title">基本信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{applicantName}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{applicantPhone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{applicantIdCard}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">车辆类型：</div>
+                                                <div class="item_value">
+                                                    {{#if (car_type  === 0) }}
+                                                        新车
+                                                    {{elseif (car_type  === 1) }}
+                                                        二手车
+                                                    {{/if}}
+                                                </div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">婚姻状况：</div>
+                                                <div class="item_value">
+                                                    {{#if (is_marry  === 1) }}
+                                                        未婚
+                                                    {{elseif (is_marry  === 2) }}
+                                                        已婚
+                                                    {{elseif (is_marry  === 3) }}
+                                                        离异
+                                                    {{elseif (is_marry  === 4) }}
+                                                        丧偶
+                                                    {{/if}}
+                                                </div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">是否有担保人：</div>
+                                                <div class="item_value">
+                                                    {{#if (is_guarantee  === 0) }}
+                                                        否
+                                                    {{elseif (is_guarantee  === 1) }}
+                                                        是
+                                                    {{/if}}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 基本信息部分 End -->
+                        <!-- 配偶信息部分 Begin -->
+                        {{#if (is_marry  === 2) }}
+                        <div class="details_item base_info">
+                            <div class="detail_title">配偶信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{spouseName}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{spousePhone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{spouseIdCard}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        <!-- 配偶信息部分 End -->
+                        <!-- 担保人信息部分 Begin -->
+                        {{#if (is_guarantee  === 1) }}
+                        <div class="details_item base_info">
+                            <div class="detail_title">担保人信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="items_list">
+                                            <li class="item_row">
+                                                <div class="item_name">姓名：</div>
+                                                <div class="item_value">{{guaranteeName}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">手机号码：</div>
+                                                <div class="item_value">{{guaranteePhone}}</div>
+                                            </li>
+                                            <li class="item_row">
+                                                <div class="item_name">证件号码：</div>
+                                                <div class="item_value">{{guaranteeIdCard}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        <!-- 担保人信息部分 End -->
+                        <!-- 附件信息部分 Begin -->
+                        {{#if (file_list.length > 0) }}
+                        <div class="details_item base_info">
+                            <div class="detail_title">附件信息</div>
+                            <div class="detail_box clearfix">
+                                <div class="classify_item">
+                                    <div class="classify_content">
+                                        <ul class="img_list" id="img_list">
+                                            {{#each (file_list) }}
+                                            <a href="javascript:;" target="_blank">
+                                                <div class="list_item imgDetail" style="margin-top:0;" title="">
+                                                    <div class="detailBox img_item">
+                                                        <img class=" detailImgBox" data-original="{{this.thumbnail}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
+                                                    </div>
+                                                    <div class="img_desc nor_wrap">{{this.file_name}}</div>
+                                                </div>
+                                            </a>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        <!-- 附件信息部分 End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/finance/img_detail.js"></script>
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    /**
+     *  预审详情页逻辑
+     *  Created by wyt on 2018-07-24
+     */
+    (function ($) {
+        //面包屑回跳预审列表页
+        function toPretrialList() {
+            var btn = $(".toPretrialList");
+            btn.off('click').on('click', function () {
+                var pretrialType = $("#pretrialType").val();
+                locationTo({
+                    action : contextPath + markUri + '/customer/JZPretrial/list',
+                    param : {
+                        pretrialType : pretrialType
+                    }
+                });
+            });
+        }
+        //面包屑回跳客户详情页
+        function toCustomerDetail() {
+            var btn = $(".toOrderDetail");
+            btn.off('click').on('click', function () {
+                var advanceId = $("#advanceId").val();
+                var financeId = $("#financeId").val();
+                locationTo({
+                    action : contextPath + markUri + '/customer/loan/detail',
+                    param : {
+                        advance_id : advanceId,
+                        finance_id : financeId
+                    }
+                });
+            });
+        }
+
+        $(function() {
+            toPretrialList();   //面包屑回跳预审列表页
+            toCustomerDetail();    //面包屑回跳客户详情页
+            viewLargeImage('#img_list');       // 附件信息查看大图
+        });
+    })(jQuery,undefined);
+</script>
+</html>

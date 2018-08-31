@@ -1,0 +1,666 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main edit_material">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item go_orgdetail">{{reqParams.org_name}}</a>
+                <a href="javascript:;" class="crumbs_item">{{reqParams.car_type_flag}}</a>
+            </div>
+
+            <div class="form_options" style="border: 1px solid #E4E4E4;">
+                <form action="" id="material_edit_form" method="post">
+                    <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="organization_id">
+                    <input type="hidden" name="car_type" value="{{reqParams.car_type}}" id="car_type">
+                    <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
+                    {{#each (materialList) }}
+                    {{#if (this.data_ids) }}
+                        <div class="material_list" data-id="{{this.type}}" data-histrory="1" data-org_material_id="{{this.organization_material_id}}">
+                    {{else}}
+                        <div class="material_list" data-id="{{this.type}}" data-histrory="0" data-org_material_id="{{this.organization_material_id}}">
+                    {{/if}}
+
+                        <div class="big_class">
+                            <div class="big_class_name">{{this.type_value}}</div>
+                            <div class="require">
+                                <div class="form_group">
+                                    {{#if (this.is_must === 1) }}
+                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1" checked="checked">
+                                    <label for="must_send{{xindex}}" class="checked">必传</label>
+                                    {{else}}
+                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{xindex}}" value="1">
+                                    <label for="must_send{{xindex}}">必传</label>
+                                    {{/if}}
+                                </div>
+                                <div class="form_group">
+                                    {{#if (this.is_must === 0) }}
+                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0" checked="checked">
+                                    <label for="must_nosend{{xindex}}" class="checked">非必传</label>
+                                    {{else}}
+                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{xindex}}" value="0">
+                                    <label for="must_nosend{{xindex}}">非必传</label>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small_class">
+                            <div class="selector_box">
+                                <div class="form_group check_all_box">
+                                    {{#if (this.data_ids) }}
+                                        {{#if (this.data_ids.indexOf(',') !== -1) }}
+                                            {{set (data_ids_arr = this.data_ids.split(',')) }}
+                                            {{#if (data_ids_arr.length ===  this.mlist.length) }}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="check_all checked">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                </div>
+                                                {{/each}}
+                                            {{else}}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="check_all">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    {{#if (data_ids_arr.indexOf(this.material_id.toString()) !== -1) }}
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{else}}
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                </div>
+                                                {{/each}}
+                                            {{/if}}
+                                        {{else}}
+                                            {{#if (this.mlist.length === 1) }}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="check_all checked">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    {{#if (this.material_id.toString() === ../this.data_ids) }}
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{else}}
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                </div>
+                                                {{/each}}
+                                            {{else}}
+                                                <div class="form_group">
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="check_all">全选</label>
+                                                </div>
+                                                {{#each (this.mlist) }}
+                                                <div class="form_group">
+                                                    {{#if (this.material_id.toString() === ../this.data_ids) }}
+                                                    <input type="checkbox" class="" name="" value="" checked="checked">
+                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{else}}
+                                                    <input type="checkbox" class="" name="" value="">
+                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                                    {{/if}}
+                                                </div>
+                                                {{/each}}
+                                            {{/if}}
+                                        {{/if}}
+                                    {{else}}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="" name="" value="">
+                                            <label class="check_all">全选</label>
+                                        </div>
+                                        {{#each (this.mlist) }}
+                                        <div class="form_group">
+                                            <input type="checkbox" class="" name="" value="">
+                                            <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
+                                        </div>
+                                        {{/each}}
+                                    {{/if}}
+                                </div>
+                                <div class="img_md_box file_upload" style="padding-left: 0px;">
+                                    <input type="hidden" class="file_ids" name="file_ids" value="{{this.file_ids}}">
+                                    {{#if (this.file_ids) }}
+                                        {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                            {{set (file_ids_arr = this.file_ids.split(',')) }}
+                                            {{#each (file_ids_arr) }}
+                                                <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                    <img data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}">
+                                                    <div class="img_md_operate_box">
+                                                        <em class="img_md_operate_btn view" data-url="{{image_url}}{{this}}" title="查看"></em>
+                                                        <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
+                                                    </div>
+                                                </a>
+                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                            {{/each}}
+                                            {{#if (file_ids_arr.length >= 30) }}
+                                            <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{file_ids_arr.length-1}}" style="padding: 0px;display: none;"></a>
+                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                            {{else}}
+                                            <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{file_ids_arr.length-1}}" style="padding: 0px;"></a>
+                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                            {{/if}}
+                                        {{else}}
+                                            <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
+                                                <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
+                                                <div class="img_md_operate_box">
+                                                    <em class="img_md_operate_btn view" data-url="{{image_url}}{{this.file_ids}}" title="查看"></em>
+                                                    <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
+                                                </div>
+                                            </a>
+                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                            <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="1" style="padding: 0px;"></a>
+                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                        {{/if}}
+                                    {{else}}
+                                        <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
+                                        <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
+                                    {{/if}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {{/each}}
+                </form>
+            </div>
+            <div class="btn_box clearfix create_wf_btn_box">
+                <a href="javascript:" class="btn orange_btn confirm save_material">保存</a>
+                <a href="javascript:;" class="btn bg_btn cancel go_orgdetail">取消</a>
+            </div>
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        var policy_list = '{{{policy_lists}}}';//编辑前政策集合
+        if (policy_list.length > 0 ) {
+            policy_list = JSON.parse(policy_list);
+        }
+        /**
+         * 图片上传功能
+         * @author Plateau 2018年8月9日11:19:51
+         */
+        var file_ids = [];//上传图片ids
+        function uploadImage () {
+            fileUpload({
+                maxCount : 30,
+                filesSize : 5,
+                fileFormat : ['png', 'jpg', 'jpeg'],
+                needThumbnails : false,
+                callback : function (btn, file, success) {
+                    onChoose(btn, file, success);
+                }
+            });
+            // 上传逻辑
+            var onChoose = function (btn, file, success) {
+                if (file.size > 5242880) {
+                    $alert('上传文件大于5M');
+                    return false;
+                }
+                if (!success) {
+                    $alert('上传文件格式不正确');
+                    return false;
+                }
+                var type = $.trim(btn.data('type'));
+                var data = file;
+                var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
+                var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
+                var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
+                var fileName = filingName + '_' + (fileCount + 1) + fileExtension;
+                var merchantId = $.trim($('#supplierId').val());
+                var form = new FormData();
+                form.append("file", data);
+                form.append("file_type", type);
+                form.append("supplier_id", merchantId);
+                form.append("file_name", fileName);     // 用于后台重命名图片物理名字
+                var url = contextPath + '/api/file/upload';
+                $.ajax({
+                    type : "post",
+                    url : url,
+                    data : form,
+                    async : false,
+                    timeout : 300000,
+                    processData: false,
+                    contentType: false,
+                    beforeSend : function () {
+                        //elem.loading.show();
+                        btn.removeClass('disabled');
+                        btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
+                    },
+                    success : function (res) {
+                        getSuccess(res, btn, type, fileName);
+                    },
+                    error : function () {
+                        $alert('图片上传失败，请重试');
+                    }
+                });
+            }
+        }
+
+        /**
+         * 图片上传成功方法
+         * @author Plateau 2018年8月9日12:59:37
+         */
+        function getSuccess (res, btn, type, fileName) {
+            if (res.error_code == 0) {
+                var file_id_input =  btn.siblings('input[name=file_ids]');
+                file_id_input.data('upload_image',true);
+                var file_ids = [];
+                if (file_id_input.val().trim() == '') {
+                    file_id_input.val(res.data[0].file_id);
+                } else {
+                    file_ids.push(file_id_input.val());
+                    file_ids.push(res.data[0].file_id);
+                    file_id_input.val(file_ids.join(','));
+                }
+                // file_ids.push(res.file_id);
+                $alert('图片上传成功', function () {
+                    var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
+                        '             <img data-original="'+ res.data[0].image_url +'" src="'+ res.data[0].thumbnail +'" alt="'+ fileName +'"/>\n' +
+                        '             <div class="img_md_operate_box">\n' +
+                        '             <em class="img_md_operate_btn view" data-url="'+ res.data[0].image_url +'" title="查看"></em>\n' +
+                        ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.data[0].file_id +'" title="删除"></em>') : '') +
+                        '             </div>\n' +
+                        '             </a>';
+                    if (btn.parents('.img_md_box').find('img').length >= 29) {
+                        btn.hide();
+                    }
+                    btn.before(imgEle);
+                    /* 赋予新图片查看的实例属性 */
+                    var parents = btn.parents('.img_md_box');
+                    // 销毁父元素
+                    var img = parents.find('.img_item');
+                    if (img.length > 1) {
+                        parents[0].viewer.destroy();
+                    }
+                    viewLargeImage(parents[0]);
+                });
+            } else {
+                $alert('图片上传失败，请重试');
+            }
+        }
+
+        /**
+         * 删除图片
+         * @author Plateau 2018年8月9日11:19:58
+         */
+        function deleteImages () {
+            var imagesParents = $('.edit_material');
+            imagesParents.on('click', '.img_md_operate_box .delete', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
+                var id  = $.trim(_this.data('id'));
+                /*var ids = [];
+                ids.push(id);
+                ids = JSON.stringify(ids);*/
+                redefineAjax({
+                    data : {
+                        file_id : id
+                    },
+                    url : contextPath + '/api/delete/file',
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            file_id_input.data('upload_image',true);
+                            // var fileNum = _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num');
+                            // fileNum--;
+                            // _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num', fileNum);
+                            if (file_id_input.val().trim().indexOf(',') !== -1) {
+                                var file_id_arr = file_id_input.val().trim().split(',');
+                                for (var i = 0,len = file_id_arr.length;i<len;i++) {
+                                    if (file_id_arr[i] == id) {
+                                        file_id_arr.splice(i,1);
+                                    }
+                                }
+                                file_id_input.val(file_id_arr.join(','));
+                            } else {
+                                file_id_input.val('');
+                            }
+                            // for (var i = 0,len = file_ids.length;i<len;i++) {
+                            //     if (file_ids[i] == id) {
+                            //         file_ids.splice(i,1);
+                            //     }
+                            // }
+                            $alert('图片删除成功', function () {
+                                var btn = _this.parents('.img_md_box').find('.add_img_md_btn');
+                                var type = $.trim(btn.data('type'));
+                                btn.data('type',type.number() - 1);
+                                if (btn.parents('.img_md_box').find('img').length <= 30) {
+                                    btn.show();
+                                }
+                                // 获取父元素
+                                var parents = _this.parents('.img_md_box');
+                                // 销毁父元素的viewer实例
+                                parents[0].viewer.destroy();
+                                _this.parents('.img_item').remove();
+                                // 删除图片后从新实例化
+                                /*var viewer = new Viewer(parents[0], {
+                                    url: 'data-original',
+                                    interval : 2000,
+                                    loop : true
+                                });*/
+                                viewLargeImage(parents[0]);
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('图片删除异常，请稍后重试');
+                    }
+                })
+            })
+        }
+        /**
+         * 查看图片跳转
+         * @author Plateau 2018年8月9日11:18:37
+         */
+        function viewImages () {
+            var imagesParents = $('.edit_material');
+            imagesParents.on('click', '.img_md_operate_box .view', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                /*var url  = $.trim(_this.data('url'));
+                window.open(url);*/
+                var img = _this.parents('.img_md_operate_box').siblings('img');
+                img.click();
+            })
+        }
+        /**
+         * 监听是否全选
+         * @author Plateau 2018年8月9日11:41:15
+         */
+        function monitorSelectAll () {
+            var singleCheck = $('.small_name');
+            singleCheck.on('click', function () {
+                var _this = $(this);
+                var checkAll = _this.parents('.selector_box').find('.check_all');
+                var categoryCheck = _this.parents('.selector_box').find('.small_name');
+                if (!_this.hasClass('checked')) {
+                    var count = 0;
+                    categoryCheck.each(function () {
+                        var _this = $(this);
+                        if (_this.hasClass('checked')) {
+                            count++;
+                        }
+                    });
+                    if (count == categoryCheck.length -1) {
+                        checkAll.addClass('checked');
+                    } else {
+                        if (checkAll.hasClass('checked')) {
+                            checkAll.removeClass('checked');
+                        }
+                    }
+                } else {
+                    if (checkAll.hasClass('checked')) {
+                        checkAll.removeClass('checked');
+                    }
+                }
+            });
+        }
+        /**
+         * 全选操作
+         * @author Plateau 2018年8月10日15:53:03
+         */
+        function checkAllClass () {
+            var check_all = $('.check_all');
+            check_all.on('click', function () {
+                var _this = $(this);
+                var small_name = _this.parents('.check_all_box').find('.small_name');
+                if (!_this.hasClass('checked')) {
+                    small_name.each(function () {
+                        small_name.addClass('checked');
+                    });
+                } else {
+                    small_name.each(function () {
+                        small_name.removeClass('checked');
+                    });
+                }
+            });
+        }
+        /**
+         * 保存资料
+         * @author Plateau 2018年8月14日09:34:59
+         */
+        function saveMaterial () {
+            var save_material = $('.save_material');
+            save_material.off('click').on('click', function () {
+                submitEvent();
+            });
+        }
+        /**
+         * 判断类别是否选中
+         * @author Plateau 2018年8月14日09:41:50
+         */
+        function submitEvent () {
+            var small_name = $('.small_name');
+            var material_nums = 0;
+            small_name.each(function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    material_nums++;
+                }
+            });
+            var is_must_flag = false;
+            if (material_nums == 0) {
+                $alert('请至少勾选一条资料');
+                return;
+            } else {
+                var material_data_arr = [];
+                var material_list = $('.material_list');
+                material_list.each(function () {
+                    var _this = $(this);
+                    var file_ids = _this.find('.small_class .img_md_box input[name=file_ids]');
+                    var id = _this.data('id');
+                    var big_class = _this.find('.big_class .big_class_name').text();
+                    var must_input = _this.find('.big_class input');
+                    var is_must = 0;
+                    must_input.each(function () {
+                        if (this.checked) {
+                            is_must = this.value;
+                        }
+                    });
+                    var small_name = _this.find('.small_class .small_name');
+                    var material_datas = [];
+                    small_name.each(function () {
+                        var _t = $(this);
+                        if (_t.hasClass('checked')) {
+                            material_datas.push(_t.data('id'));
+                        }
+                    });
+
+                    if (material_datas.length != 0) {
+                        var obj = {
+                            data_type : id,
+                            is_must : is_must,
+                            material_datas : material_datas.join(','),
+                            file_ids : file_ids.val().trim()
+                        };
+                        material_data_arr.push(obj);
+                    } else {
+                        if (is_must == 1) {
+                            is_must_flag = true;
+                            $alert('请选择'+ big_class +'里面对应的资料。');
+                            return false;
+                        }
+                    }
+                });
+            }
+            if (is_must_flag) {
+                return false;
+            }
+            var update_data = [];//有更新的材料数据
+            var insert_data = [];//有新增的材料数据
+            var material_list = $('.material_list');
+            material_list.each(function () {
+                var _this = $(this);
+                var data_type = _this.data('id');
+                var is_histrory = _this.data('histrory');
+                var organization_material_id = _this.data('org_material_id');
+                var big_class = _this.find('.big_class');
+                if (big_class.find('input')[0].checked) {
+                    var is_must = big_class.find('input')[0].value;
+                } else if (big_class.find('input')[1].checked) {
+                    var is_must = big_class.find('input')[1].value;
+                }
+
+                var small_name = _this.find('.small_class .small_name');
+                var material_datas = [];
+                small_name.each(function () {
+                    var s = $(this);
+                    if (s.hasClass('checked')) {
+                        material_datas.push(s.data('id'));
+                    }
+                });
+                var file_ids = _this.find('.img_md_box .file_ids').val().trim();
+                var obj = {
+                    type : data_type,
+                    data_ids : material_datas.join(','),
+                    is_must : is_must,
+                    file_ids : file_ids
+                };
+                for (var i = 0, leni = policy_list.length; i < leni; i++) {
+                    if (policy_list[i].type == data_type) {
+                        obj.change_version = policy_list[i].change_version;
+                        obj.organization_material_id = organization_material_id;
+                        if (material_datas.length == 0) {
+                            obj.is_delete = 1;
+                        } else {
+                            obj.is_delete = 0;
+                        }
+                        if (policy_list[i].is_must.toString() == is_must) {
+                            if (policy_list[i].data_ids != material_datas.join(',')) {
+                                update_data.push(obj);
+                                break;
+                            }
+                            if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                                update_data.push(obj);
+                                break;
+                            }
+                        } else {
+                            update_data.push(obj);
+                            break;
+                        }
+                    } else {
+                        if (material_datas.length != 0 && is_histrory == 0) {
+                            insert_data.push(obj);
+                            break;
+                        }
+                    }
+                }
+            });
+            var organization_id = $('#organization_id').val().trim();
+            var car_type = $('#car_type').val().trim();
+            var material_type = $('#material_type').val().trim();
+            var parameters = {
+                organization_id : organization_id,
+                car_type : car_type,
+                material_type : material_type,
+                update_data : JSON.stringify(update_data),
+                insert_data : JSON.stringify(insert_data)
+            };
+            ajaxSubmit(parameters);
+        }
+
+        //ajax提交參數
+        function ajaxSubmit (parameters) {
+            $.ajax({
+                type:'post',
+                timeout: 10000,
+                url : contextPath + '/api/organization/material/save',
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/detail',
+                                param : {
+                                    organization_id : parameters.organization_id,
+                                    material_type : parameters.material_type
+                                }
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrgdetail () {
+            var go_orgdetail = $('.go_orgdetail');
+            go_orgdetail.off("click").on("click", function () {
+                var organization_id = $('#organization_id').val().trim();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detail',
+                    param : {
+                        organization_id : organization_id,
+                        material_type : $('#material_type').val().trim()
+                    }
+                });
+            });
+        }
+        $(function() {
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
+            viewLargeImage('.img_md_box');
+            viewImages();       // 查看大图
+            deleteImages();     // 图片删除
+            uploadImage();      // 图片上传注册
+            monitorSelectAll();//监听是否全选
+            checkAllClass();//全选操作
+            saveMaterial();//保存资料
+            goOrgdetail();//取消事件
+        });
+    })(jQuery,undefined);
+</script>
+</html>

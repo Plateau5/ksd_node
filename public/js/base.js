@@ -201,7 +201,25 @@ Object.extend(Array.prototype, {
         return obj;
     }
 });
-
+/**
+ * 转化对象为查询字符串格式
+ */
+Object.toQuerystring = function (o) {
+    var arr = [];
+    for (var key in o) {
+        arr.push(key.toString() + '=' + o[key]);
+    }
+    return arr.join('&');
+};
+/**
+ * 判断一个对象是否为空
+ */
+Object.isEmpty = function (o) {
+    for (var key in o) {
+        return false;
+    }
+    return true;
+};
 
 String.prototype.gblen = function() {
     var len = 0;

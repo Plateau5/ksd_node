@@ -260,7 +260,7 @@ exports.VIEW_LOAN_PENDING = function(req, res, next) {
     }, req, res, next);
 };
 
- //商户-放款管理-已审批 1488
+//商户-放款管理-已审批 1488
 exports.VIEW_LOAN_PASS = function(req, res, next) {
     common.getPageData({
         url: '/api/loan/passList',
@@ -394,3 +394,103 @@ exports.VIEW_LOAN_TURNOVER = function(req, res, next) {
         page : './merchants/loanTransfer'
     }, req, res, next);
 };
+
+//商户-商户管理-配置金融产品列表页
+exports.VIEW_MERCHANTS_CONFIG_PRODUCTS_LIST = function(req,res,next) {
+    common.getPageData({
+        url : '/api/supplier/deploy',
+        title : '商户管理-配置金融产品',
+        page : './merchants/configProductList',
+        callback : function (data) {
+            if (data) {
+                if( data.policy_list){
+                    for (var i = 0, len = data.policy_list.length; i < len; i++) {
+                        if (data.policy_list[i].downpayment_type == 1) {//首付比例
+                            data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/[,]/g, '% 、') + '%';
+                        } else if (data.policy_list[i].downpayment_type == 2) {//首付金额
+                            data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/[,]/g, '元、') + '元';
+                        }
+                        data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/[,]/g,'%、') + '%';
+                        data.policy_list[i].term = data.policy_list[i].term.replace(/[,]/g, ' 、');
+                    }
+                }
+            }
+        }
+    }, req, res, next);
+};
+
+//商户-商户管理-配置金融产品列表页-编辑跳转
+exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
+    common.getPageData({
+        url : '/api/supplier/deploy/toedit',
+        title : '商户管理-配置金融产品-编辑',
+        page : './merchants/configProductEdit',
+        callback : function (data) {
+            if (data) {
+                //首付金额、比例
+                var downpayment_values = data.vo.downpayment_values;
+                var downpayment_value = data.vo.downpayment_value;
+                if (downpayment_value.indexOf(',') != -1) {
+                    if (data.vo.downpayment_type == 1) {//首付比例
+                        data.vo.downpayment_value = data.vo.downpayment_value.replace(/[,]/g, '%,') + '%';
+                    } else if (data.vo.downpayment_type == 2) {//首付金额
+                        data.vo.downpayment_value = data.vo.downpayment_value.replace(/[,]/g, '元,') + '元';
+                    }
+                } else {
+                    if (data.vo.downpayment_type == 1) {
+                        data.vo.downpayment_value = data.vo.downpayment_value + '%';
+                    } else {
+                        data.vo.downpayment_value = data.vo.downpayment_value + '元';
+                    }
+                }
+                var downpayment_values_arr = [];
+                if (downpayment_values.indexOf(',') != -1) {
+                    for (var i = 0, len = downpayment_values.split(',').length; i < len; i++) {
+                        if (data.vo.downpayment_type == 1) {
+                            downpayment_values_arr.push(downpayment_values.split(',')[i] + '%');
+                        } else {
+                            downpayment_values_arr.push(downpayment_values.split(',')[i] + '元');
+                        }
+                    }
+                    data.vo.downpayment_values = downpayment_values_arr.join(',');
+                } else {
+                    if (data.vo.downpayment_type == 1) {
+                        data.vo.downpayment_values = data.vo.downpayment_values + '%';
+                    } else {
+                        data.vo.downpayment_values = data.vo.downpayment_values + '元';
+                    }
+                }
+                //费率
+                var interest_rates = data.vo.interest_rates;
+                var interest_rates_arr = [];
+                if (interest_rates.indexOf(',') != -1) {
+                    for (var i = 0, len = interest_rates.split(',').length; i < len; i++) {
+                        interest_rates_arr.push(interest_rates.split(',')[i]);
+                    }
+                } else {
+                    interest_rates_arr.push(interest_rates);
+                }
+                data.vo.interest_rates_arr = interest_rates_arr;
+
+                //融资期限
+                var terms = data.vo.terms;
+                var terms_arr = [];
+                if (terms.indexOf(',') != -1) {
+                    for (var i = 0, len = terms.split(',').length; i < len; i++) {
+                        terms_arr.push(terms.split(',')[i]);
+                    }
+                } else {
+                    terms_arr.push(terms);
+                }
+                data.vo.terms_arr = terms_arr;
+
+                for (var i = 0, len = data.list.length; i < len; i++) {
+                    for (var j = 0, lenj = data.list[i].length; j <lenj; j++) {
+                        data.list[i].list[j].material_name = data.list[i].list[j].material_name.replace(/[,]/g, '、');
+                    }
+                }
+            }
+        }
+    }, req, res, next);
+};
+

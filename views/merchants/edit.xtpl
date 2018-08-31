@@ -324,6 +324,41 @@
                             </ul>
                         </div>
                     </div>
+                    <!--商户来源-->
+                    <div class="option_item" id="financeType">
+                        <div class="column_name">
+                            <span class="options_name long_text"><span class="require_icon">*</span>商户来源：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="hidden" value="{{detail.applyto_type}}" name="applyto_type_old">
+                            <div class="form_group mar6 v_middle"  style="margin-right: 43px;">
+                                {{#if (detail.applyto_type === 1) }}
+                                    <input id="applytoType1" type="radio" class="applyto_type" name="applyto_type" value="1"  checked="checked" />
+                                    <label for="applytoType1" class="checked">快收单</label>
+                                {{else}}
+                                    <input id="applytoType1" type="radio" class="applyto_type" name="applyto_type" value="1" />
+                                    <label for="applytoType1" class="checked">快收单</label>
+                                {{/if}}
+                            </div>
+                            <div class="form_group v_middle">
+                                {{#if (detail.applyto_type === 2) }}
+                                    <input id="applytoType2" type="radio" class="applyto_type" name="applyto_type" value="2" checked="checked"  />
+                                    <label for="applytoType2">KA渠道</label>
+                                {{else}}
+                                    <input id="applytoType2" type="radio" class="applyto_type" name="applyto_type" value="2" />
+                                    <label for="applytoType2">KA渠道</label>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">商户邮箱：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" id="merchantEmail" class="merchant_email" name="account" value="{{detail.account}}" placeholder="请输入邮箱，如:xiao'dou@jizhicar.com" maxlength="30"  />
+                        </div>
+                    </div>
                     <!-- 头图item -->
                     <div class="option_item" id="doorHead">
                         <div class="column_name">

@@ -1,0 +1,440 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main product_detail">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                {{#if (reqParams.page_flag === '0') }}
+                <a href="javascript:;" class="crumbs_item go_publish_list">产品列表({{parent_name}})</a>
+                <a href="javascript:;" class="crumbs_item go_warehouse_list">仓库中的产品</a>
+                <a href="javascript:;" class="crumbs_item">{{vo.product_name}}</a>
+                {{else}}
+                <a href="javascript:;" class="crumbs_item go_publish_list">产品列表</a>
+                <a href="javascript:;" class="crumbs_item">{{parent_name}}</a>
+                {{/if}}
+            </div>
+            <div class="org_detail_header">
+                <div class="header_left">
+                    <div class="header_left_img">
+                        <img src="{{vo.parent_logo}}" alt="">
+                    </div>
+                    <div class="header_txt">
+                        <div class="header_txt_name">
+                            <div class="header_txt_top">{{vo.product_name}}</div>
+                            <div class="header_txt_bottom">
+                                <input type="hidden" value="{{vo.product_applyto_business}}" id="supplier_car_type">
+                                {{#if (vo.product_applyto_business === 0) }}
+                                <div class="header_txt_newcar">新车</div>
+                                {{elseif (vo.product_applyto_business === 1) }}
+                                <div class="header_txt_usedcar">二手车</div>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="header_right">
+                            <div class="header_personal">
+                                <span>创建人：</span>
+                                <span>{{vo.create_name}}</span>
+                            </div>
+                        </div>
+                        <div class="header_right">
+                            <div class="header_time">
+                                <span>创建时间：</span>
+                                <span>{{vo.create_time}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product_detail_box">
+                <div class="detail_about">
+                    <div class="detail_about_title">
+                        <div class="detail_about_label">基本信息</div>
+                        {{#if (reqParams.page_flag === '0') }}
+                        {{#if (verifyCode(1600)) }}
+                        <div class="rf_30">
+                            <a href="javascript:;" class="detail_title_btn edit_btn edit_baseinfo" lang="{{vo.release_time}}">编辑</a>
+                        </div>
+                        {{/if}}
+                        {{/if}}
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">适用类型：</div>
+                        <div class="detail_about_data">
+                            {{#if (vo.applyto_type.indexOf(',') !== -1) }}
+                                快收单、KA渠道
+                            {{else}}
+                                {{#if (vo.applyto_type === '1') }}
+                                    快收单
+                                {{elseif (vo.applyto_type === '2') }}
+                                    KA渠道
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label" style="vertical-align: top;">适用城市：</div>
+                        <input type="hidden" id="city_ids" value="{{vo.city_ids}}">
+                        <input type="hidden" id="applyto_type" value="{{vo.applyto_type}}">
+                        <div class="detail_about_data" style="line-height: 25px;padding-top:12px;">{{vo.applyto_cityname}}</div>
+                    </div>
+                    <div class="detail_about_txt">
+                        <div class="detail_about_label">适用车型：</div>
+                        <div class="detail_about_data">{{vo.applyto_car}}</div>
+                    </div>
+                </div>
+                {{#each (policy_list) }}
+                <div class="detail_about policy_list">
+                    <div class="detail_about_title">
+                        {{#if (../policy_list.length === 1) }}
+                        <div class="detail_about_label">申请政策及资料</div>
+                        {{else}}
+                        <div class="detail_about_label">申请政策及资料{{xindex + 1}}</div>
+                        {{/if}}
+                        {{#if (reqParams.page_flag === '0') }}
+                        <div class="rf_30">
+                            {{#if (root.verifyCode(1601)) }}
+                            <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}" data-num="{{xindex + 1}}" data-release_time="{{vo.release_time}}">编辑</a>
+                            {{/if}}
+                            {{#if (../policy_list.length !== 1) }}
+                            {{#if (root.verifyCode(1607)) }}
+                            <a href="javascript:;" class="detail_title_btn delete_btn del_policy" data-policy_id="{{this.policy_id}}" style="margin-left: 10px;">删除</a>
+                            {{/if}}
+                            {{/if}}
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="policy_box" style="padding-bottom: 20px;">
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">融资金额范围：</div>
+                            <div class="detail_about_data">{{this.financeamount_start}}-{{this.financeamount_end}}万</div>
+                        </div>
+                        <div class="detail_about_txt">
+                            {{#if (this.downpayment_type === 1) }}
+                            <div class="detail_about_label">首付比例：</div>
+                            <div class="detail_about_data">{{this.downpayment_value}}</div>
+                            {{elseif (this.downpayment_type === 2) }}
+                            <div class="detail_about_label">首付金额：</div>
+                            <div class="detail_about_data">{{this.downpayment_value}}</div>
+                            {{/if}}
+                        </div>
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">费率：</div>
+                            <div class="detail_about_data">{{this.interest_rate}}</div>
+                        </div>
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label">融资期限：</div>
+                            <div class="detail_about_data">{{this.term}}</div>
+                        </div>
+                        <div class="detail_about_txt">
+                            <div class="detail_about_label" style="vertical-align: top;">申请资料：</div>
+                            <div class="detail_about_data">
+                                {{#each (this.policy_list) }}
+                                <div class="">
+                                    {{#if (this.is_must === 1) }}
+                                    <em class="require_icon">*</em>
+                                    {{/if}}
+                                    <span class="">{{this.type_name}}：</span>
+                                    <span class="">{{this.material_name}}</span>
+                                </div>
+                                {{#if (this.file_ids) }}
+                                <div class="detail_img">
+                                    <ul class="img_list">
+                                        {{#if (this.file_ids.indexOf(',') !== -1) }}
+                                        {{set (img_list = this.file_ids.split(',')) }}
+                                        {{#each (img_list) }}
+                                        <a href="javascript:;" target="_blank">
+                                            <div class="list_item imgDetail" title="">
+                                                <div class="detailBox img_item">
+                                                    <img class=" detailImgBox" data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}"/>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {{/each}}
+                                        {{else}}
+                                        <a href="javascript:;" target="_blank">
+                                            <div class="list_item imgDetail" title="">
+                                                <div class="detailBox img_item">
+                                                    <img class=" detailImgBox" data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}"/>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {{/if}}
+                                    </ul>
+                                    <a href="javascript:;" class="show_more_pic">更多图片</a>
+                                    <a href="javascript:;" class="hide_more_pic">收起图片</a>
+                                </div>
+                                {{/if}}
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+                {{#if (verifyCode(1599)) }}
+                {{#if (reqParams.page_flag === '0') }}
+                    {{#if (policy_list.length < 10) }}
+                    <a href="javascript:;" class="add_policy_btn"  data-release_time="{{vo.release_time}}">
+                        <span style="font-size: 24px;display: inline-block;line-height: 36px;">+</span>
+                        <span style="vertical-align: top;">添加申请政策及资料</span>
+                    </a>
+                    {{/if}}
+                {{/if}}
+                {{/if}}
+            </div>
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<input type="hidden" value="{{parent_name}}" name="parent_name" id="orgName">
+<input type="hidden" value="{{parent_id}}" name="parent_id" id="orgId">
+<input type="hidden" value="{{vo.product_id}}" name="product_id" id="productId">
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        var product_detail = '{{{reqParamsStr}}}';  // 产品详情页参数
+        if (product_detail.length > 0 ) {
+            product_detail = JSON.parse(product_detail);
+        }
+        var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
+        var warehouse_list = '{{{reqParams.warehouse_list}}}';//仓库产品列表参数
+        /**
+         * 添加申请政策及资料
+         * @author Plateau  2018年8月10日10:38:13
+         * */
+        function addPolicyMaterial () {
+            var btn = $('.add_policy_btn');
+            btn.off('click').on('click', function () {
+                var parent_name = $('#orgName').val();
+                var product_id = $('#productId').val();
+                var product_name = $('.header_txt_top').text();
+                var parent_id = $('#orgId').val();
+                var applyto_business = $('#supplier_car_type').val();
+                var city_ids = $('#city_ids').val();
+                var applyto_type = $('#applyto_type').val();
+                var release_time = $(this).data('release_time');
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
+                    param : {
+                        parent_name : parent_name,
+                        product_id : product_id,
+                        product_name : product_name,
+                        parent_id : parent_id,
+                        applyto_business : applyto_business,
+                        city_ids : city_ids,
+                        applyto_type : applyto_type,
+                        jump_flag : 2,
+                        release_time : release_time,
+                        publish_list : publish_list,
+                        warehouse_list : warehouse_list,
+                        product_detail : F.set(product_detail)
+                    }
+                });
+            });
+        }
+        /**
+         * 显示隐藏图片
+         * @author Plateau  2018年8月10日13:06:43
+         * */
+        function showMorePic () {
+            var policy_list = $('.detail_img');
+            policy_list.each(function () {
+                var _this = $(this);
+                var img_list_a = _this.find('.img_list a');
+                if (img_list_a.length > 6) {
+                    for (var i = 0, len = img_list_a.length; i < len; i++) {
+                        if (i > 5){
+                            img_list_a.eq(i).hide();
+                        }
+                    }
+                    _this.find('.show_more_pic').show();
+                } else {
+                    _this.find('.show_more_pic').hide();
+                    _this.find('.hide_more_pic').hide();
+                }
+            });
+
+            var show_more_pic = $('.show_more_pic');
+            show_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.detail_img').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    img_list_a.eq(i).show();
+                }
+                _this.hide();
+                _this.siblings('.hide_more_pic').show();
+            });
+
+            var hide_more_pic = $('.hide_more_pic');
+            hide_more_pic.off('click').on('click', function () {
+                var _this = $(this);
+                var img_list_a = _this.parents('.detail_img').find('.img_list a');
+                for (var i = 0, len = img_list_a.length; i < len; i++) {
+                    if (i > 5) {
+                        img_list_a.eq(i).hide();
+                    }
+                }
+                _this.siblings('.show_more_pic').show();
+                _this.hide();
+            });
+        }
+        /**
+         * 跳转产品基本信息编辑
+         * @author Plateau  2018年8月10日13:25:19
+         * */
+        function toEditBaseInfo () {
+            var edit_baseinfo = $('.edit_baseinfo');
+            edit_baseinfo.off('click').on('click', function () {
+                var product_id = $('#productId').val();
+                var status = $(this).attr('lang');
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/productEditBase',
+                    param : {
+                        product_id : product_id,
+                        prev_flag : 1,
+                        status : status,
+                        jump_flag : 1,
+                        product_name : $('.header_txt_top').text(),
+                        publish_list : publish_list,
+                        warehouse_list : warehouse_list
+                    }
+                });
+            });
+        }
+        /**
+         * 跳转产品政策息编辑
+         * @author Plateau  2018年8月10日13:35:24
+         * */
+        function toEditPolicy () {
+            var edit_poicy = $('.edit_poicy');
+            edit_poicy.off('click').on('click', function () {
+                var _this = $(this);
+                var policy_id = _this.data('policy_id');
+                var parent_name = $('#orgName').val();
+                var parent_id = $('#orgId').val();
+                var product_id = $('#productId').val();
+                var product_name = $('.header_txt_top').text();
+                var applyto_business = $('#supplier_car_type').val();
+                var city_ids = $('#city_ids').val();
+                var applyto_type = $('#applyto_type').val();
+                var policy_num = _this.data('num');
+                var release_time = _this.data('release_time');
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/productEditPolicy',
+                    param : {
+                        policy_id : policy_id,
+                        parent_name : parent_name,
+                        product_id : product_id,
+                        product_name : product_name,
+                        applyto_business : applyto_business,
+                        parent_id : parent_id,
+                        city_ids : city_ids,
+                        applyto_type : applyto_type,
+                        policy_num : policy_num,
+                        release_time : release_time,
+                        jump_flag : 1,
+                        publish_list : publish_list,
+                        warehouse_list : warehouse_list,
+                        product_detail : F.set(product_detail)
+                    }
+                });
+            });
+        }
+        /**
+         * 删除政策
+         * @author Plateau  2018年8月14日09:22:49
+         * */
+        function delPolicy () {
+            var del_policy = $('.del_policy');
+            del_policy.off('click').on('click', function () {
+                var _this = $(this);
+                var policy_id = _this.data('policy_id');
+                var data = {
+                    policy_id : policy_id
+                };
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '确认删除此政策？',
+                    onConfirm : function (d) {
+                        delConfirm(data, d);
+                    }
+                });
+                function delConfirm (data, d) {
+                    var url  = contextPath + "/api/product/delete/policy";
+                    $ajax('post',url, data, function (req) {
+                        var res = eval(req);
+                        if (res.error_code == 0) {
+                            d.close();
+                            $alert('删除成功', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            d.close();
+                            $alert(res.error_msg);
+                        }
+                    }, function () {
+                        d.close();
+                        $alert('删除失败，请稍后重试');
+                    });
+                }
+            });
+        }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年8月8日18:18:36
+         * */
+        function goProductList () {
+            var go_publish_list = $('.go_publish_list');
+            go_publish_list.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                    param : F.get(publish_list)
+                })
+            });
+            var go_warehouse_list = $('.go_warehouse_list');
+            go_warehouse_list.on('click', function () {
+                var data = F.get(warehouse_list);
+                data.publish_list = publish_list;
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
+                    param : data
+                });
+            });
+        }
+        $(function() {
+            viewLargeImage('.img_list');       // 查看大图
+            showMorePic();//显示隐藏图片
+            addPolicyMaterial();//添加申请政策及资料事件
+            toEditBaseInfo();//跳转产品基本信息编辑
+            toEditPolicy();//跳转产品政策息编辑
+            delPolicy();//删除政策
+            goProductList();//跳往产品列表
+        });
+    })(jQuery,undefined);
+</script>
+</html>

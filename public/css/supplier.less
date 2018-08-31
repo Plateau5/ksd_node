@@ -1,6 +1,7 @@
 /**
  *   Created by Arley Joe on 2018-3-29 13:46:44
  */
+
 @import "variate";
 .title.org_title{
     height: 60px;
@@ -308,3 +309,897 @@
     }
 }
 /******* 商户政策列表页面  end *****/
+
+/**
+ *   Created by Plateau on 2018年8月7日13:50:58
+ */
+
+/******* 新建机构页面  start *****/
+.org_create, .product_basic_create, .product_policy_create{
+    .form_options{
+        background: #fff;
+        padding: 0;
+        input[type='checkbox'] + label:before {
+            top: 0;
+        }
+        input[type='text']{
+            width:350px;
+        }
+        select{
+            width:382px;
+        }
+        .base_info,.org_intro{
+            position: relative;
+        }
+        .detail_title{
+            height: 40px;
+            line-height: 40px;
+            margin: 30px 0 18px;
+            padding-left: 26px;
+            font-size: 14px;
+            color:#333;
+            background-color: #F7F7F7;
+            &:before{
+                content: '';
+                display: block;
+                position: absolute;
+                top: 12px;
+                left: 16px;
+                height: 16px;
+                border-left: 4px solid #1dc6bc;
+            }
+        }
+        .column_name{
+            width:12%;
+        }
+        .column_val{
+            width:88%;
+            padding-left: 0;
+            textarea{
+                width:97.7%;
+            }
+            .remark_text {
+                color: #1DC6BC;
+                font-size: 12px;
+                cursor: pointer;
+            }
+            .organization_logo {
+                width: 56px;
+                height: 40px;
+                background: #fff;
+                float: left;
+                margin-right: 18px;
+                margin-bottom: 12px;
+                position: relative;
+                cursor: pointer;
+                .icon_check {
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    width: 12px;
+                    height: 12px;
+                    background: url('../img/organization/icon_check.png') center center no-repeat;
+                }
+                img {
+                    width: 56px;
+                    height: 40px;
+                    border: 1px solid #E4E4E4;
+                }
+            }
+        }
+        .btn_box{
+            text-align: left;
+            margin-left: 12%;
+        }
+    }
+}
+/******* 新建机构页面  end *****/
+
+/******* 机构详情页面  start *****/
+.org_detail, .product_detail{
+    .org_detail_header{
+        width: 100%;
+        height: 86px;
+        margin: 36px 0;
+        position: relative;
+        .header_left {
+            width: 100%;
+            height: 100%;
+            .header_left_img{
+                float: left;
+                width: 118px;
+                height: 78px;
+                margin-right: 18px;
+                border: 1px solid #E4E4E4;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .header_txt {
+                float: left;
+                height: 100%;
+                width: 70%;
+                .header_txt_name {
+                    width: 100%;
+                    height: 45%;
+                    .header_txt_top {
+                        float: left;
+                        font-size: 24px;
+                        color: #333;
+                        margin-right: 14px;
+                    }
+                    .header_txt_bottom {
+                        float: left;
+                        margin-top: 5px;
+                        .header_txt_newcar, .header_txt_usedcar {
+                            float: left;
+                            width: 46px;
+                            height: 22px;
+                            line-height: 22px;
+                            border: 1px solid #1DC6BC;
+                            border-radius: 3px;
+                            color: #1DC6BC;
+                            text-align: center;
+                            margin-right: 8px;
+                        }
+                    }
+                }
+                .header_right {
+                    color: #666;
+                    font-size: 12px;
+                    right: 0;
+                    width: 100%;
+                    height: 25px;
+                }
+            }
+        }
+        .delete_org{
+            width: 90px;
+            height: 30px;
+            border-radius: 4px;
+            background: #1DC6BC;
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            &:hover{
+                background: #0B9C94;
+                color: #fff;
+            }
+        }
+    }
+    .tab{
+        height:42px;
+        line-height: 42px;
+        border-bottom: 0;
+        .tab_list{
+            overflow: visible;
+            width:100%;
+            padding-left: 0;
+            border:1px solid #e4e4e4 ;
+            background-color: #F9F9F9;
+            .tab_item{
+                width:116px;
+                height:40px;
+                line-height: 40px;
+                margin-right: 0;
+                &:after{
+                    height:4px;
+                    top:-4px;
+                    border-top-left-radius: 50px;
+                    border-top-right-radius: 50px;
+                }
+                &:hover:after{
+                    display: none;
+                }
+            }
+            .active{
+                background-color: #fff;
+                span{
+                    position: absolute;
+                    width: 116px;
+                    height: 6px;
+                    left: 0;
+                    bottom: -4px;
+                    background-color: #fff;
+                }
+                &:hover:after{
+                    display: block;
+                }
+            }
+        }
+    }
+    .org_detail_box {
+        width: 100%;
+        border: 1px solid #e4e4e4;
+        border-top: 0;
+        background-color: #fff;
+        position: relative;
+        .detail_about {
+            padding: 10px 29px 20px 29px;
+            font-size: 12px;
+            line-height: 50px;
+            .detail_about_title {
+                width: 100%;
+                height: 50px;
+                position: relative;
+                .detail_about_label {
+                    position: relative;
+                    vertical-align: top;
+                    color: #1DC6BC;
+                    width: 12%;
+                    height: 100%;
+                    &:before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        left: -12px;
+                        top: 22px;
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 50%;
+                        background-color: #1DC6BC;
+                    }
+                }
+                .rf_30 {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                }
+
+            }
+            .detail_about_txt {
+                width: 100%;
+                .detail_about_label {
+                    vertical-align: top;
+                    display: inline-block;
+                    width: 12%;
+                    height: 100%;
+                    color:#333;
+                }
+                .detail_about_data {
+                    display: inline-block;
+                    width: 86%;
+                    color: #666;
+                    .look_policy{
+                        color:#1DC6BC;
+                    }
+                    .img_list{
+                        height: auto;
+                        overflow: hidden;
+                        .list_item {
+                            float: left;
+                            width: 120px;
+                            height: 76px;
+                            margin: 0 12px 12px 0;
+                            overflow: hidden;
+                        }
+                    }
+                    .show_more_pic{
+                        display: none;
+                        color:#666666;
+                        font-size: 12px;
+                        padding-right:20px;
+                        position: relative;
+                        &:before{
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 4px;
+                            right: 0;
+                            width:18px;
+                            height: 12px;
+                            vertical-align: middle;
+                            background: url('../img/operation_small_icon.png') no-repeat;
+                            background-position: -66px -920px;
+                        }
+                        &:hover{
+                            color:#1DC6BC;
+                            &:before{
+                                content: '';
+                                display: block;
+                                position: absolute;
+                                top: 4px;
+                                right: 0;
+                                width:18px;
+                                height: 12px;
+                                vertical-align: middle;
+                                background: url('../img/operation_small_icon.png') no-repeat;
+                                background-position: -66px -930px;
+                            }
+                        }
+                    }
+                    .hide_more_pic{
+                        display: none;
+                        color:#666666;
+                        font-size: 12px;
+                        padding-right:20px;
+                        position: relative;
+                        &:before{
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 4px;
+                            right: 0;
+                            width:18px;
+                            height: 12px;
+                            vertical-align: middle;
+                            background: url('../img/operation_small_icon.png') no-repeat;
+                            background-position: -66px -940px;
+                        }
+                        &:hover{
+                            color:#1DC6BC;
+                            &:before{
+                                content: '';
+                                display: block;
+                                position: absolute;
+                                top: 4px;
+                                right: 0;
+                                width:18px;
+                                height: 12px;
+                                vertical-align: middle;
+                                background: url('../img/operation_small_icon.png') no-repeat;
+                                background-position: -66px -950px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/******* 机构详情页面  end *****/
+
+/******* 编辑资料页面  start *****/
+.edit_material{
+    .form_options {
+        background: #fff;
+        padding: 0;
+        .big_class{
+            width:100%;
+            height:36px;
+            line-height: 36px;
+            background-color: #F7F7F7;
+            .big_class_name{
+                display: inline-block;
+                color:#333;
+                padding:0 46px 0 20px;
+            }
+            .require{
+                display: inline-block;
+                label{
+                    color:#333;
+                }
+            }
+        }
+        .small_class{
+            width:100%;
+            .selector_box {
+                padding: 10px 20px;
+                /*border-left: 1px solid #E4E4E4;
+                border-right: 1px solid #E4E4E4;*/
+                .form_group{
+                    line-height: 42px;
+                }
+                .img_md_box{
+                    .add_img_md_btn, .img_item{
+                        width: 130px;
+                        height: 80px;
+                        margin: 0 12px 12px 0;
+                        background-image: url('../img/add_img_btn.png');
+                        &:before{
+                            display: none;
+                        }
+                    }
+                    .img_md_operate_box {
+                        position: absolute;
+                        bottom: -40px;
+                        width: 100%;
+                        height: 40px;
+                        line-height: 40px;
+                        background: rgba(0,0,0,0.7);
+                        text-align: center;
+                        cursor: default;
+                        -webkit-transition: all 1s;
+                        -moz-transition: all .2s;
+                        -ms-transition: all .2s;
+                        -o-transition: all .2s;
+                        transition: all .2s;
+                    }
+                    .img_item:hover .img_md_operate_box {
+                        bottom: 0;
+                    }
+                    .img_md_operate_btn {
+                        display: inline-block;
+                        background: url('../img/operation_small_icon.png') no-repeat;
+                        vertical-align: middle;
+                        cursor: pointer;
+                    }
+                    .img_md_operate_btn.view {
+                        width: 33px;
+                        height: 24px;
+                        margin-right: 20px;
+                        background-position: 0 -855px;
+                        &:hover {
+                            background-position: 0 -1067px;
+                        }
+                    }
+                    .img_md_operate_btn.delete {
+                        width: 28px;
+                        height: 28px;
+                        background-position: 0 -815px;
+                        &:hover {
+                            background-position: 0 -1043px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .btn_box{
+        text-align: left;
+    }
+}
+/******* 编辑资料页面  end *****/
+
+/******* 发布新产品-基本信息页面  start *****/
+.product_basic_create{
+    .form_options{
+        .select_city_div{
+            position: relative;
+            .select_city_input {
+                cursor: pointer;
+                background-image: url('../img/icon_city.png');
+                background-repeat: no-repeat;
+                background-position: 355px center;
+            }
+        }
+    }
+}
+/******* 发布新产品-基本信息页面  end *****/
+
+/******* 发布新产品-政策及资料页面  start *****/
+.product_policy_create{
+    .form_options{
+        .form_group{
+            margin-right: 22px;
+        }
+        .downpayment_add_txt, .rate_add_txt, .downpayment_add_del, .rate_add_del{
+            display: inline-block;
+            margin-left: 10px;
+            color: #1DC6BC;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .big_class {
+            width: 100%;
+            height: 36px;
+            line-height: 36px;
+            background-color: #F7F7F7;
+            .big_class_name {
+                display: inline-block;
+                color: #333;
+                padding: 0 46px 0 20px;
+            }
+            .require {
+                display: inline-block;
+            }
+        }
+        .small_class {
+            width: 100%;
+            .selector_box{
+                padding: 10px 20px;
+                .form_group{
+                    line-height: 42px;
+                }
+                /*border-left: 1px solid #E4E4E4;
+                border-right: 1px solid #E4E4E4;*/
+                .img_md_box{
+                    .add_img_md_btn, .img_item{
+                        width: 130px;
+                        height: 80px;
+                        margin: 0 12px 12px 0;
+                        background-image: url('../img/add_img_btn.png');
+                        &:before{
+                            display: none;
+                        }
+                    }
+                    .img_md_operate_box {
+                        position: absolute;
+                        bottom: -40px;
+                        width: 100%;
+                        height: 40px;
+                        line-height: 40px;
+                        background: rgba(0,0,0,0.7);
+                        text-align: center;
+                        cursor: default;
+                        -webkit-transition: all 1s;
+                        -moz-transition: all .2s;
+                        -ms-transition: all .2s;
+                        -o-transition: all .2s;
+                        transition: all .2s;
+                    }
+                    .img_item:hover .img_md_operate_box {
+                        bottom: 0;
+                    }
+                    .img_md_operate_btn {
+                        display: inline-block;
+                        background: url('../img/operation_small_icon.png') no-repeat;
+                        vertical-align: middle;
+                        cursor: pointer;
+                    }
+                    .img_md_operate_btn.view {
+                        width: 33px;
+                        height: 24px;
+                        margin-right: 20px;
+                        background-position: 0 -855px;
+                        &:hover {
+                            background-position: 0 -1067px;
+                        }
+                    }
+                    .img_md_operate_btn.delete {
+                        width: 28px;
+                        height: 28px;
+                        background-position: 0 -815px;
+                        &:hover {
+                            background-position: 0 -1043px;
+                        }
+                    }
+                }
+            }
+        }
+        .prevPage{
+            display: inline-block;
+            width: 100px;
+            height: 34px;
+            line-height: 30px;
+            text-align: center;
+            color: #1DC6BC;
+            background: #fff;
+            margin-right: 30px;
+            border-radius: 2px;
+            border: 1px solid #1DC6BC;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            &:hover{
+                color: #0D9993;
+                border: 1px solid #0B9C94;
+            }
+        }
+    }
+}
+/******* 发布新产品-政策及资料页面  end *****/
+
+/******* 产品详情页  start *****/
+.product_detail{
+    .product_detail_box{
+        .detail_about{
+            margin-bottom: 30px;
+            border: 1px solid #E4E4E4;
+            .detail_about_title{
+                position: relative;
+                margin-bottom: 10px;
+                .detail_about_label{
+                    height: 40px;
+                    line-height: 40px;
+                    border-bottom: 1px solid #E4E4E4;
+                    padding-left: 30px;
+                    font-size: 14px;
+                    color:#333;
+                    background-color: #F7F7F7;
+                    &:before{
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        top: 12px;
+                        left: 16px;
+                        height: 16px;
+                        border-left: 4px solid #1dc6bc;
+                    }
+                }
+                .rf_30 {
+                    position: absolute;
+                    top: 10px;
+                    right: 20px;
+
+
+                }
+            }
+            .detail_about_txt {
+                width: 100%;
+                font-size: 12px;
+                line-height: 50px;
+                .detail_about_label {
+                    display: inline-block;
+                    width: 10%;
+                    height: 100%;
+                    padding-left: 3%;
+                    color:#333;
+                }
+                .detail_about_data {
+                    display: inline-block;
+                    width: 86%;
+                    color: #666;
+                    .look_policy{
+                        color:#1DC6BC;
+                    }
+                    .img_list{
+                        height: auto;
+                        overflow: hidden;
+                        .list_item {
+                            float: left;
+                            width: 120px;
+                            height: 76px;
+                            margin: 0 12px 12px 0;
+                            overflow: hidden;
+                        }
+                    }
+                    .show_more_pic{
+                        display: none;
+                        color:#666666;
+                        font-size: 12px;
+                        padding-right:20px;
+                        position: relative;
+                        &:before{
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 4px;
+                            right: 0;
+                            width:18px;
+                            height: 12px;
+                            vertical-align: middle;
+                            background: url('../img/operation_small_icon.png') no-repeat;
+                            background-position: -66px -920px;
+                        }
+                        &:hover{
+                            color:#1DC6BC;
+                            &:before{
+                                content: '';
+                                display: block;
+                                position: absolute;
+                                top: 4px;
+                                right: 0;
+                                width:18px;
+                                height: 12px;
+                                vertical-align: middle;
+                                background: url('../img/operation_small_icon.png') no-repeat;
+                                background-position: -66px -930px;
+                            }
+                        }
+                    }
+                    .hide_more_pic{
+                        display: none;
+                        color:#666666;
+                        font-size: 12px;
+                        padding-right:20px;
+                        position: relative;
+                        &:before{
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 4px;
+                            right: 0;
+                            width:18px;
+                            height: 12px;
+                            vertical-align: middle;
+                            background: url('../img/operation_small_icon.png') no-repeat;
+                            background-position: -66px -940px;
+                        }
+                        &:hover{
+                            color:#1DC6BC;
+                            &:before{
+                                content: '';
+                                display: block;
+                                position: absolute;
+                                top: 4px;
+                                right: 0;
+                                width:18px;
+                                height: 12px;
+                                vertical-align: middle;
+                                background: url('../img/operation_small_icon.png') no-repeat;
+                                background-position: -66px -950px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .add_policy_btn{
+            display: inline-block;
+            width:100%;
+            height:40px;
+            line-height: 40px;
+            font-size: 14px;
+            color:#1DC6BC;
+            text-align: center;
+            background:rgba(245,245,245,0.5);
+            border: 1px solid #E4E4E4;
+        }
+    }
+
+}
+/******* 产品详情页  end *****/
+
+/******* 仓库列表页  start *****/
+.warehouse_list{
+  .selectBox {
+    height: 100px;
+    border-bottom: 0;
+    select {
+      width: 108px;
+      height: 30px;
+      border: 1px solid #E4E4E4;
+      padding-left: 5px;
+      background-color: #fff;
+    }
+    .select {
+      width: 100%;
+      height: 60px;
+      margin-top: 40px;
+      color: #333;
+      .select_firm, .select_city {
+        float: left;
+      }
+    }
+    .shelves_btn_box{
+      height:26px;
+      .prount_count {
+        float: left;
+        width: 85%;
+      }
+    }
+    table.normal {
+      table-layout: fixed;
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      .table_header_tr {
+        height: 60px;
+        background-color: #fafafa;
+        line-height: 60px;
+        font-size: 14px;
+        color: #333;
+      }
+      tr {
+        border: 1px solid #e4e4e4;
+        td {
+          height: 60px;
+          line-height: 40px;
+          padding: 0 2%;
+          vertical-align: middle;
+          text-align: left;
+          word-break: break-all;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          .view_detail{
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: url('../img/operation_small_icon.png') no-repeat;
+            background-position: 0 -614px;
+            margin-right: 10px;
+            vertical-align: middle;
+            &:hover{
+              background-position: 0 -638px;
+            }
+          }
+            .grounding{
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                background: url('../img/operation_small_icon.png') no-repeat;
+                background-position: -55px -958px;
+                margin-right: 10px;
+                vertical-align: middle;
+                &:hover{
+                    background-position: -55px -982px;
+                }
+            }
+          .delete{
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: url('../img/operation_small_icon.png') no-repeat;
+            background-position:-54px 0;
+            margin-right: 10px;
+            vertical-align: middle;
+            &:hover{
+              background-position: -54px -24px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/******* 仓库列表页  end *****/
+
+
+
+
+/**
+ *   Created by qcm on 2018年8月8日12:31:55
+ */
+
+
+/***** 配置金融产品列表页 ******/
+.merchants_operate_btn{
+    .merchants_edit{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('../img/merchants_edit.png') no-repeat;
+        vertical-align: middle;
+        margin-right:18px;
+        &:hover{
+            background: url('../img/merchants_edit_hover.png') no-repeat;
+        }
+    }
+}
+/******* 配置金融产品列表页  end *****/
+
+
+/***** 单选按钮-开关效果 Begin ******/
+.r_radio {
+    position: relative;
+    width: 30px;
+    height: 16px;
+    background: #1DC6BC;
+    border-radius: 12px;
+    margin: 0 auto;
+    box-shadow: inset 0px -1px 3px #1DC6BC,inset 0px 1px 3px #1DC6BC;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.r_radio span{
+    float: left;
+    display: block;
+    width: 15px;
+    height: 16px;
+    line-height:16px;
+}
+.r_radio div {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    width:14px;
+    height: 14px;
+    border-radius: 10px;
+    background: #fff;
+}
+.r_radio.off{
+    background: #dddddd;
+    box-shadow: inset 0px -1px 3px #dddddd,inset 0px 1px 3px #dddddd;
+}
+.r_radio.off span{
+    color: #333;
+}
+/***** 单选按钮-开关效果 End ******/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
