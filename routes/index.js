@@ -324,12 +324,24 @@ router.post(markUri + '/supplier/organization/create', supplierCtrl.VIEW_SUPPLIE
 router.post(markUri + '/supplier/organization/edit', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDIT);
 // 供应商部分-金融机构-机构详情页跳转  1071   new
 router.post(markUri + '/supplier/organization/detail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_DETAIL);
+// 供应商部分-金融机构-机构进件资料编辑页跳转   new
+router.post(markUri + '/supplier/organization/editMaterial', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_INCOMING);
 // 供应商部分-金融机构-机构请款资料编辑页跳转   new
 router.post(markUri + '/supplier/organization/editMaterial', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_REQUEST);
 // 供应商部分-金融机构-机构归档资料编辑页跳转   new
 router.post(markUri + '/supplier/organization/editMaterial', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_PLACEFILE);
 // 供应商部分-金融机构-跳往机构查看政策页   new
 router.post(markUri + '/supplier/organization/policyDetail', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_POLICYDETAIL);
+// 供应商部分-金融机构-机构签约方式及合同编辑页跳转
+router.post(markUri + '/supplier/organization/editRichText', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_CONTRACT);
+// 供应商部分-金融机构-机构面签照编辑页跳转
+router.post(markUri + '/supplier/organization/editRichText', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_FACEREG);
+// 供应商部分-金融机构-机构GPS安装编辑页跳转
+router.post(markUri + '/supplier/organization/editRichText', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_GPS);
+// 供应商部分-金融机构-机构附件资料编辑页跳转
+router.post(markUri + '/supplier/organization/editRichText', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX);
+
+
 
 
 
