@@ -34,47 +34,7 @@
                     <input type="hidden" id="parent_id" name="parent_id" value="{{parent_id}}">
                     <input type="hidden" id="parent_name" name="parent_name" value="{{parent_name}}">
                     <input type="hidden" name="publish_list" value="{{reqParams.publish_list}}">
-                    <div class="filtrate_item date_conditions">
-                        <div class="inline_block">
-                            <div class="conditions_name inline_block filtrate_business">适用业务：</div>
-                            <select name="applyto_business" class="filtrate_select" id="filtrate_business">
-                                {{#if (condition.applyto_business === -1 || !condition.applyto_business) }}
-                                <option value="-1" selected="selected">全部</option>
-                                {{else}}
-                                <option value="-1">全部</option>
-                                {{/if}}
-                                {{#if (condition.applyto_business === 0) }}
-                                <option value="0" selected="selected">新车</option>
-                                {{else}}
-                                <option value="0">新车</option>
-                                {{/if}}
-                                {{#if (condition.applyto_business === 1) }}
-                                <option value="1" selected="selected">二手车</option>
-                                {{else}}
-                                <option value="1">二手车</option>
-                                {{/if}}
-                            </select>
-                        </div>
-                        {{#if (list_city.length > 0) }}
-                            <div class="inline_block">
-                                <div class="conditions_name inline_block filtrate_city">适用城市：</div>
-                                <select name="applyto_city" class="filtrate_select" id="filtrate_city">
-                                    {{#if (condition.applyto_city === -1 || !condition.applyto_city) }}
-                                    <option value="-1" selected="selected">全部</option>
-                                    {{else}}
-                                    <option value="-1">全部</option>
-                                    {{/if}}
-                                    {{#each (list_city) }}
-                                        {{#if (condition.applyto_city === this.id) }}
-                                        <option value="{{this.id }}" selected="selected">{{this.name}}</option>
-                                        {{else}}
-                                        <option value="{{this.id }}">{{this.name}}</option>
-                                        {{/if}}
-                                    {{/each}}
-                                </select>
-                            </div>
-                        {{/if}}
-                    </div>
+                    {{include ('./../inc/filtrateOrganization')}}
                 </form>
             </div>
             <!-- 产品操作按钮 Begin -->
@@ -303,14 +263,39 @@
                 }
             });
         }
+        /**
+         * 筛选清空事件
+         * @author  Plateau  2018年9月3日15:31:08
+         * */
+        function filtrateProduct () {
+            var confirmBtn = $('.organization_search_confirm');
+            var cancelBtn = $('.organization_search_cancel');
+            var listForm = $('form[role="form"]');
+            confirmBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                // $("#current_page").val(1);
+
+                listForm.submit();
+            });
+            cancelBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('');
+                listForm.submit();
+            });
+        }
         $(function() {
             paginationSwitch();// 分页切换
-            selectChange();
+            // selectChange();
             editProductsMaterial();
             viewProductDetail();
             unshelvesProduct();
             createProduct();
             storeProduct();
+            filtrateProduct();//筛选清空事件
+            chnAndEng('.product_name', 4);//只能输入中英文和数字
         });
     })(jQuery,undefined);
 </script>
