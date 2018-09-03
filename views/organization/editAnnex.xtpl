@@ -1,0 +1,298 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main edit_annex">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item go_orgdetail">{{reqParams.org_name}}</a>
+                <a href="javascript:;" class="crumbs_item">编辑附件资料</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="material_edit_form" method="post">
+                    <div class="annex_box">
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="../static/img/file_excel.png" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name">申请表.excel</div>
+                                <div class="annex_size">200.00KB</div>
+                            </div>
+                        </div>
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="../static/img/file_img.png" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name">申请表.excel</div>
+                                <div class="annex_size">200.00KB</div>
+                            </div>
+                        </div>
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="../static/img/file_pdf.png" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name">申请表.excel</div>
+                                <div class="annex_size">200.00KB</div>
+                            </div>
+                        </div>
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="../static/img/file_ppt.png" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name">申请表.excel</div>
+                                <div class="annex_size">200.00KB</div>
+                            </div>
+                        </div>
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="../static/img/file_word.png" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name">申请表.excel</div>
+                                <div class="annex_size">200.00KB</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="file_upload">
+                        <div class="file_upload_layer"  data-type="1"><span class="text">上传附件</span></div>
+                        <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
+                        <input type="hidden" value="" id="fileIds" name="file_ids">
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
+                        <a href="javascript:;" class="btn bg_btn cancel">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        var old_policy_desc = $('#approval_policy').val();
+
+        var file_ids = [];//上传图片ids
+        var imgFormat = ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],       // 常见图片格式
+            wordFormat = ['doc', 'docx', 'dot', 'dotx', 'docm', 'dotm'],     // 所有word文档后缀格式
+            excelFormat = ['xls', 'xlsx', 'xlsm'];      // 常用excel文档后缀格式。
+        //上传附件
+        function uploadAnnex () {
+            fileUpload({
+                maxCount : 30,
+                filesSize : 100,
+                fileFormat : ['pages', 'doc', 'docx', 'dot', 'dotx', 'docm', 'dotm', 'pdf', 'bmp', 'jpg', 'png', 'jpeg', 'rar', 'zip', 'tar', 'cab', 'gif', 'svg', '7z'],
+                //imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
+                needThumbnails : true, // 是否需要缩略图
+                callback : function (btn, file) {
+                    onChoose(btn, file);
+                }
+            });
+            // 上传逻辑
+            var onChoose = function (btn, file) {
+                elem.loading.show();
+                var type = $.trim(btn.data('type'));
+                var data = file;
+                var fileExtension = data.name.substring(data.name.lastIndexOf('.') + 1);    // 上传的文件的后缀名
+                var filesSize = data.size / 1024 / 1024; //此处单位为“M”
+                var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
+                var fileName = $.trim(data.name);   // 字段名称
+                var finance_id = $.trim($('#financeId').val());
+                var fileBox = $('.annex_box');
+                var form = new FormData();
+                form.append("file", data);
+                //form.append("file_type", type);
+                //form.append("finance_id", finance_id);
+                //form.append("file_name", fileName);     // 用于后台重命名图片物理名字
+                var url = contextPath + '/api/file/upload';
+                $.ajax({
+                    type : "post",
+                    url : url,
+                    data : form,
+                    async : true,
+                    timeout : 1200000,
+                    processData: false,
+                    contentType: false,
+                    beforeSend : function () {
+                        elem.loading.show();
+//                        btn.removeClass('disabled');
+//                        btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />');
+                    },
+                    success : function (res) {
+                        elem.loading.hide();
+                        if (res.error_code == 0) {
+                            file_ids.push(res.data[0].file_id);
+                            $("#fileIds").val(file_ids);
+                            //$alert('图片上传成功');
+                            if ($.inArray(fileExtension,imgFormat) != -1 ) { // 图片格式的文件
+                                result = res.data[0].thumbnail;    //设置图片的SRC为图片缩略图
+                            } else if (fileExtension == 'pdf') {
+                                result = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAmpJREFUWAljlD225z/DIAYsILc9snRuHIxulDu+t55pMDoM2U2jDkQODXLYoyFITqgh6xkNQeTQIIcNLgeJ1QgqlwipZWRk+MfCyPSXg4n5uxAL63stbp6HEeJSVxz5hV8T0otNniQHYjMAXez/fwam3///Mf3+94/185/ffA9/fJPf8e61rRW/4NmFmvrb2BiYSKq5yHLgVj2zfnSHwfh/Gf4zfvv7j/nT3z9sd759Edj57rX2pa+ftI5+eGcSeuUc20Ydk/UwtcTQZDlQl5v3EzGGMwiKvMiRVrgx6emDa32P74Wc//xRb/bzR5dTJeXuEKUfqIguuThPWuG6Jb/gOZCj1rx+YUKs40Dq6OJAkEWx4tJnQfSd718UQTSxgG4ONOUTeAdy1O9//9me//rFPugc+OznTw6Yo7hZmP7A2IRouoXgyU8fxEGO4Wdh+cjHxPKXkMNg8nRx4C+Gf4wLnz+yBVmqx8N/E2Y5MTTNHfjl3z/m2GsXvB///CHLwsT0u1RO6RgxDoOpIbkcZGRkxFsT/Pj3j+np758cZz69Fzn44Z3ioQ9vDT/9+cPPANSXJiW3xYCb7yPMcmJokh34//9/RmLqZGTLBVhZP+RIK25Lk5S9jSxODJtkB4IMFWRhe8fECKx1sQAmUEOBkfEnNzPLd0VOrhdmvIKPEiVl7pKblshy4Eodo/kanNxfsLiP6kLkeozqDsFl4KgDcYUMseKjIUhsSOFSNxqCuEKGWHGSykFg4Qsu+1iZmP4RawGl6khy4HUz+15KLSRV/2gaJDXE0NWPhiB6iJDKHw1BUkMMXT3jYJ+GAABXtKsh7y/GBwAAAABJRU5ErkJggg==';
+                            } else if ($.inArray(fileExtension, wordFormat) != -1) {
+                                result = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABOhJREFUWAntWWtMm1UY5uuFQS8f7XoBSku7tlwEt8FYcboBoo4ZHS4my2JMjD/cDzOiUaMsKpsZmZgYsz+aTJ1RE43xj2EzJIvLjIEh4ICpK0KkMGi5lFFaeqH0Rr/6vR+c7cDgoy3+4EffpDnveW/nyXPec86XlNB0XY+lbWPhATbbo0+e244Y87t//YCzHYHhmFIAcTaS0VMMJsManpNiEGcjGT3FYDKs4TnMS4IbcP2lob+PdHqcpmgsxsXtuJ7B4QZOqvKvNmr0ZtwO+vHBW/V9Xvdeii2fy1l8Q62/ckqlHV6bD3PWLf5rwVPMBg4KBKlo5qVp6zP2cHgHzJF8bp8ouOmZ38cGDmKDUUrQ5ZnXo7y1IyuDT0nlvT857Ich6VWVrvWYXDmGF7hot5X/7JipDVFURovNUvmpsfQG8n9nt1UxOkHEPjGUfFMqELqRD8Zmq6Wm2zNfQdD+k7maPtyH66wMntUV9gq4XD8ktLnumkqFYh/+a9EVdYm5PB/4f3HNHnAuhfmg/zA7rZ0IBTWgPywUDZ1Q5EzgeUIeb6nf59kN/j1C8p/HJbI50NcTVoBSHi/yrDz7d0icDAbUsG14EZJe6HlFbgfYYKtaxkdNoH81fZ+9N9V6xg92JOfGhw+GKSod2HtHY2hH9vVGVoCQcDa/oFe4wuLX09Yn1hZp0hpvSfj8ebDPRkJkm2tWNRLwG2BeIhANH5bK74KOxBLwCzvcrkqYl4nIgWqJdEP2IGZTgFk0S0dXWJwJh3IuTI6VQCKSDA6HekGR1w5svK7R91yw3alFvga17gF2zltHDkUoig/xb+ezswd1NgUIQU0Mi7wF0L+fmaxdSksjQEfSqDXcfnqn4sadwAJJs2cEe6FAZKnfqbSjGBgHA35Rp9u1H3SaPXMVKXWCziZxAWRYlC334lwkLP/YOroHL0pfBbEvCnf/9tnk/RZoyFuHvTFLVSRG8QgijWrMN3TgNTbS4wIIyWe0xj4Rd5nFHx1TNUGKWpV7yW4zWoOLWog1ZgpHTaRkFTtmv4/s9roqwF8ukgwcjIM9iF21CBg2EjixR2XZneB3RyJSupf2odhwGkVcnLIeQfMqiWzw5cE/j6M5jOetlmq49FfYe6A38VhcjxsgJNEntp9mkbn3Wh32ai+1xDyBZ8aGK2HrIWZXpmB8wO9V06fVgK6l/gWv5A+vuwz8FWKJ+TFS4gI9HkkIILBYr1juRV90Sdw8NmKyhUKZrbMzNWixE8rcHvoSZnr0y6nxOmC3hWYPnjxg7/Qm9x6qg8aEAELS+3QvotejzTlz6K2RgTp4j8FXLs4yN6h0/+am72DuPmD1lSFzHQ14L/grxFm3HyElzJ0J83gkYYAkhxd9Tp7D9OJiNCq8ubJ16RxO+CPDQ9dg0dfUu5gR9Hb33AGaPQ6HIKjTWmMH2BKRhAFC8Xd1hn7EIlqsXpbdXpIpZO7KF5UqaxH9iiAfjPuBPVFi7EFeUgCBxWPynHtfLjI+3/mhvrgHCiJ5T2e8Dj0H82X2CuI+uagGjPQdm5w064v6psMBKf3VomjSFVwT0E8eXqk2S+Y4lae7fNXpKK+XK/tNInLV5xYey6YnDZBOjH1bXHav19ZbhD6xZvit54vXltQWx1v8/4hLAdwqiykGUwxulYGt5qd6cKsMEtv9b4j/AL4uyO/mp2kIAAAAAElFTkSuQmCC';
+                            } else if ($.inArray(fileExtension, excelFormat) != -1) {
+                                result = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABFRJREFUWAntWW1sU1UY9t7de4tJ14+10M19McbWdStrYZuIhkTRiGOiv9ZE/eMkIH6AEmJISAiZ0Rg/MCLRiMBmTPRH5x8FpiSo0cRBBo61ZWxdHaxbWTe6rR802N7entK3cuZ1KfV+GLMfPX/Oe97zvs/73Lenz7lNifK+s6l7lvCggNvEhkc7lyLHinM/HiSXIjE+pzxBfjek2PkOSukaPyffQX43pNgZHRSSeHDcs67bP7EVYhUkGfu6oeloi1IVEpIbQ4jc5Djf4Yv9WQbxZmXhcO+a++1CcgV/xJ0rawbWFqpdABpHaNmroy5bFKECIUV2jjofw+S0NB08YbR+KyQPYgQThOCuusaTOpqZBdsfj5VsH3FsBjvX+GTKa/wpOLcBYiiC4N5ZVWcvYZh4rhz+niiCOopJHKqu76FIMgEgv4XnWz70XavnA/LtgWhEfXjy2tPY96yh7MyWohXTeC1kFkUQADdpdTc6Ssp7MfinvvGnzkdCRXiN51vpc/fyqKs9hpL3gs+iVA29VVV7Ee8LnUUTBOADFasHm1UaB9hsCil2ey63RxD3j/P4otv5+FQ8VgoxWpqZP260fAe22CGJIBQ5YbScXs4oAmBPs/Hi7SPOVrBhHLk+XvdLaG492DRBcu9Vm+wGhmFhLXZIJqilqPR5NNnpO+fxXDjY9P7EVfOFaETzse/vc/ecofSHzVr9jFhiOF4yQQB4WKOb3VZccRqDHfV7t+50O58BGQKfVal2vVlV+zvelzLLIggF91dWO1pUmktgswgxATa+AmyQo25T40mw5QzZBKF4t9HSq7+jj7AmCSIJcgSyBGs54z8hOHwrWngTcYWYCEqlCvqjoWK8ljPLJgjysstz2RZPIgWfyLEpb9uvoaCe75Niyya4w+16AmQGiusZJtCsUg+CnUApZs/YUHuY4wS/kEDe4iGL4Ae+q+a+0HwzgILcHFpd3/OFyXrKwCgy1xl8YTrcg22Li4pZSybYl77ePrvuzbx+QUGQm0fUuoCKpJKHa8w9DEFmXgguRsLWtyf+sIohxY+VRDCS/the8wzZQFYADGQG5AYDP6jSzL9UVrkgMV3+yS0/h+eW430xsySCL4w6W2fYmAEKpa+7G11pmVlcdG/ZqqGH1EUXwJ9AiN7ruWILchy9OO7f1qIJvjs5tqY/HFwHwDRJsB/VNNjVFMVlK3SsznKmmFH4YW82weqfHxl8MltcLp8ogiAbn095F4rsuK/y1EaVdu5uBZQkmTxiNPcoCv46j5duhhs70z8d7hafzS+YIMgFyAbIBwA9oNYO7CuvzvwEyAaMfeuVmuArpSsXXvG/nPa1ng3OZq5DHJNrFkxwm9vRhu9ZA7Ns5nht4/e5gPl7r5dWDW/U6PrBl0gh6o2xK7YAx2YelB+XzRYsot80NEEXFjqRDSyX7yuTFR5I8ENhLMEdxAn/95wnKLfj+Q7mOyi3A3LziaX+N8Rt7k12gfELYf4AAAAASUVORK5CYII=';
+                            } else {
+                                result = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAABNlJREFUWAntmWtMWlccwOUKKC9B8UHFJ8oFRbBa106XbJq2qctqK6uvWVPbL8uaZjHL2n5Zl65Ll2aPLl2s2m3p0jXG2NqHurjNTWdat1qnGFFACaDgg+JERZArL+nuMSEhfPGCpvEDJyH3HO7/nP+P37k5/5uAS3zW8zJkFzc8YJvJP3hlNzImDfRehnYjmDdTENDbRiD9oMFArHnPCRr0thFIf9cb3DyoA/llW825qlNn96wYs/V2G4sUCiFpJMrcpWRuXy41YnWrud73d9zgkstBKB77t+oHva50yemIhEmUKQaeYJFazIIKmeRsg17L8wbYqr+jBs0uF14sk1RrbevJx2JYfTfSBf1ogs1a/8xsiqpTycpvzE2Li+jMhkwKzbIVHLi/YwbX3O5QsWy4SruOpNTGJXTdTBc8/W35P9a9RX2Sze2GCiIYy99xs9rc7pDQz3SqQixwIGZHDAKAMtlwuWrdmlYZy+4+n8iRHpYOvqdE1mCQ5PrMlKFdmHcHQKaSyNOadSQBfI+lbdugKyQEVyaTvKuwWnjHY1h/XU6Fh8TyoU24okjmgDh6T6/BYWdd0aoKAFAMgWhadTkZWOBAzLYNVsglx8esZkExM7b/a07GP8fGhyrVCMIpj4v/4zonYwAk6V5ZzJ+32Zig/8Jhj2YSiEugj6Vty2CFYqRk2GzKBqYaYWHfCbnkxCS6rSXMuD4P3EXN5AFkw0UW0GizncaF+GkbksInU7RY4EBMwAZPToy+/Xx1JbeAETV8m7/3T3SbS8fXzJmHo2L+boCznoLF0W3NaV3UH0khkbU1seyJmonRWgoUar3G4T8B97G0gAyeUUoP9ZuW9udF0EdbMnK6qhUj74xYTKI3GczB2zxRL0j81eyU8CfDbEkiMWwOPW7aT09KT5pdTvrFpLTH8cRwOxY4EOM34FmV7K3eZeMb2dQI+X1BXmftxGgxanLf6/TIkeaMvb+DRevntfzGeW0pixhmqIeFDz9QjlWih3b0+SRO22lWwhSIwdr8AvxIrSjoMi4Uooessk2w79EFtSL/iWnpQA6NPtaamfsLSPrji5n0b2enyqIJxMUmWHjvnEpWtuB0sD5MSHl0Lj5FiRXME4f5GXywaEh8aDQc4pIomgdZeW3hEOR2hrzEo+YkLZm5XeCX3jHMca7p1JVoaVv5nidqrVPJxfN2G/v9PUkdHydw5J6k/lwxA96c1xbRoNA1FOY+FYI2QBJQLTzJQMX4XKeqouLxllt8YQtq96jOhiSfYiV2XUpOl3ri/L1i3mLwViKg0lRxRKLDN0mHcYH9iUZZTYYg5BYsav5UoyxWo1WlAq0qV1PhYd94f8aYAcMgyG7d2Aj3Xbx7xRh3QTNRQ4QgZyNX1PyFTnUQnIWgqnyTxn/uG+/vGDMgj0yZlqPlDNjyJPkVfRlAn7NTEA7nboSzfh5HVpngLARVpR59k/HEbeeK+Rn8Mj2z56h0EK5Ty8806bUqkFSJWLkECGev5wrvFjKYxmwqfZUKEe7WstjT24HynovZYFoYCWkXvtYEzr8Zm40NPiJqhKJTuL/pSGT0Alg0Eo937iQcWBOzQRDMI1GsHVl5j0H/VTXMBl8VkG+eIKCvEX/HQYP+GvONDxr0NeLvOGjQX2O+8bjd/jfE/2Mi4D596XZHAAAAAElFTkSuQmCC';
+                            }
+                            var imgEle = '<div class="file_item" id="'+ res.data[0].file_id +'">'
+                                +     '<img src="'+ result +'" alt="">'
+                                +     '<span class="file_name nor_wrap">'+ fileName +'</span>'
+                                +     '<span class="file_size">'+ filesSize.toFixed(2) +'M</span>'
+                                +     '<div class="remove_mask">'
+                                +         '<em class="remove_btn" data-file_id="'+ res.data[0].file_id +'"></em>'
+                                +     '</div>'
+                                + '</div>';
+
+                            fileBox.append(imgEle);
+                        } else {
+                            $alert('文件上传失败，请重试');
+                        }
+                    },
+                    error : function () {
+                        $alert('文件上传失败，请重试');
+                    }
+                });
+            }
+        }
+        /**
+         * 文件删除监听
+         * @author : Plateau  2018年6月22日13:39:25
+         * @desc : 二次监听文件的删除按钮，移除原始数据file_ids中的文件id.
+         */
+        function deleteFilesEvent () {
+            var fileBox = $('.annex_box');
+            fileBox.off('click').on('click', '.remove_btn', function () {
+                var _this = $(this);
+                var id = _this.data('file_id');
+                file_ids.remove(id);
+            });
+        }
+
+        //保存按钮
+        function saveOrg () {
+            var btn = $(".save_org");
+            btn.off("click").on("click", function () {
+                send_organization_form();
+            });
+        }
+        //保存更新函数
+        function send_organization_form(){
+            ajaxSubmit();
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('organization_info_create'));
+            var policy_desc = kindEditor.html();
+            parameters.append('policy_desc', policy_desc);
+            if ($('#orgId').val() == '') {
+                parameters.append('change_version', '0');
+            } else {
+                if (old_policy_desc != policy_desc) {
+                    parameters.append('change_version', '1');
+                } else {
+                    parameters.append('change_version', '0');
+                }
+            }
+
+            if ($('#orgId').val().trim() == '') {
+                var url = '/api/organization/create';
+            } else {
+                var url = '/api/organization/update';
+            }
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/detail',
+                                param : {
+                                    organization_id : $('#orgId').val().trim(),
+                                    material_type : $('#material_type').val()
+                                }
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrglist () {
+            var go_orglist = $('.go_orglist');
+            go_orglist.off("click").on("click", function () {
+                var organization_id = $('#orgId').val().trim()
+                if (organization_id == '') {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/list'
+                    });
+                } else {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/detail',
+                        param : {
+                            organization_id : organization_id,
+                            material_type : 0
+                        }
+                    });
+                }
+
+            });
+        }
+        $(function() {
+            uploadAnnex();      // 图片上传
+            deleteFilesEvent();     // 删除文件监听
+            saveOrg();//保存机构
+            goOrglist();//取消事件
+        });
+    })(jQuery,undefined);
+</script>
+</html>
