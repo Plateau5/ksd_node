@@ -54,12 +54,13 @@
                     <input type="hidden" name="product_id" value="" id="product_edit_input">
                     <table class="org_product_list">
                         <colgroup style="width: 100%;">
-                            <col style="width: 20%;" />
-                            <col style="width: 15%;" />
-                            <col style="width: 15%;" />
-                            <col style="width: 15%;" />
                             <col style="width: 15%;" />
                             <col style="width: 20%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 10%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 10%;" />
+                            <col style="width: 15%;" />
                         </colgroup>
                         <thead>
                         <tr>
@@ -68,6 +69,7 @@
                             <th>费率</th>
                             <th>申请人数</th>
                             <th>通过率</th>
+                            <th>城市</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -86,6 +88,7 @@
                                 <td>{{this.interest_rate}}</td>
                                 <td>{{this.apply_count }}</td>
                                 <td>{{this.pass_rate }}%</td>
+                                <td></td>
                                 <td class="operate_btn">
                                     {{#if (root.verifyCode(1079)) }}
                                     <a href="javascript:;" lang="{{this.product_id }}" data_num="0" title="查看" class="view view_detail"></a>

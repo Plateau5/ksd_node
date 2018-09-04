@@ -49,111 +49,131 @@
                     <input type="hidden" value="{{policy_list[0].policy_id}}" id="policy_id">
                     <input type="hidden" value="{{reqParams.release_time}}" id="release_time">
                     <div class="base_info">
-                        {{#if (reqParams.policy_num === '1' || reqParams.jump_flag === '2') }}
-                        <div class="detail_title">申请政策及资料</div>
-                        {{else}}
-                        <div class="detail_title">申请政策及资料{{reqParams.policy_num}}</div>
-                        {{/if}}
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
+                        <div class="detail_title">申请政策</div>
+                        <div class="policy_item">
+                            {{#if (reqParams.policy_id) }}
+
+                            {{else}}
+                            <div class="rf_30">
+                                <a href="javascript:;" class="detail_title_btn create_btn add_policy">添加</a>
+                                <a href="javascript:;" class="detail_title_btn delete_btn del_policy none">删除</a>
                             </div>
-                            <div class="column_val">
-                                <input type="text" placeholder="请输入最小金额" id="financeamount_start" class="financeamount" name="financeamount_start" maxlength="7" style="width:145px;" value="{{#if (reqParams.policy_id) }}{{policy_list[0].financeamount_start}}{{/if}}"/>
-                                <span style="padding:0 8px;">-</span>
-                                <input type="text" placeholder="请输入最大金额" id="financeamount_end" class="financeamount" name="financeamount_end"  maxlength="7" style="width:145px;margin-right: 10px;" value="{{#if (reqParams.policy_id) }}{{policy_list[0].financeamount_end}}{{/if}}"/>
-                                <span>万</span>
+                            {{/if}}
+                            <div class="option_item">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
+                                </div>
+                                <div class="column_val">
+                                    <input type="text" placeholder="请输入最小金额" class="financeamount financeamount_start" name="financeamount_start" maxlength="7" style="width:145px;" value="{{#if (reqParams.policy_id) }}{{policy_list[0].financeamount_start}}{{/if}}"/>
+                                    <span style="padding:0 8px;">-</span>
+                                    <input type="text" placeholder="请输入最大金额" class="financeamount financeamount_end" name="financeamount_end"  maxlength="7" style="width:145px;margin-right: 10px;" value="{{#if (reqParams.policy_id) }}{{policy_list[0].financeamount_end}}{{/if}}"/>
+                                    <span>万</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>首付类型：</span>
+                            <div class="option_item">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>首付类型：</span>
+                                </div>
+                                <div class="column_val downpayment_type_box">
+                                    <select name="downpayment_type" class="downpayment_type">
+                                        <option value="-1">请选择</option>
+                                        {{#if (policy_list[0].downpayment_type === 1) }}
+                                        <option value="1" selected>首付比例</option>
+                                        {{else}}
+                                        <option value="1">首付比例</option>
+                                        {{/if}}
+                                        {{#if (policy_list[0].downpayment_type === 2) }}
+                                        <option value="2" selected>首付金额</option>
+                                        {{else}}
+                                        <option value="2">首付金额</option>
+                                        {{/if}}
+                                    </select>
+                                </div>
                             </div>
-                            <div class="column_val">
-                                <select name="downpayment_type" id="downpayment_type">
-                                    <option value="-1">请选择</option>
-                                    {{#if (policy_list[0].downpayment_type === 1) }}
-                                    <option value="1" selected>首付比例</option>
-                                    {{else}}
-                                    <option value="1">首付比例</option>
-                                    {{/if}}
-                                    {{#if (policy_list[0].downpayment_type === 2) }}
-                                    <option value="2" selected>首付金额</option>
-                                    {{else}}
-                                    <option value="2">首付金额</option>
-                                    {{/if}}
-                                </select>
-                            </div>
-                        </div>
-                        {{#if (reqParams.policy_id) }}
-                            {{#if (policy_list[0].downpayment_type === 1)}}
-                                <div class="option_item downpayment_rate_div">
-                                    <div class="column_name">
-                                        <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
-                                    </div>
-                                    <div class="column_val downpayment_rate">
-                                        {{#each (rate_list) }}
-                                            {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
-                                                {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
-                                                <div class="form_group">
-                                                {{#if (downpayment_value_arr.indexOf(this.id.toString()) !== -1) }}
-                                                    <input type="checkbox" class="rates" name="" value="{{this.id}}" checked="checked"/>
-                                                    <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
-                                                {{else}}
-                                                    <input type="checkbox" class="rates" name="" value="{{this.id}}" />
-                                                    <label data-id="{{this.id}}">{{this.value}}</label>
-                                                {{/if}}
-                                                </div>
-                                            {{else}}
-                                                <div class="form_group">
-                                                    {{#if (this.id.toString() === policy_list[0].downpayment_value) }}
+                            {{#if (reqParams.policy_id) }}
+                                {{#if (policy_list[0].downpayment_type === 1)}}
+                                    <div class="option_item downpayment_rate_div">
+                                        <div class="column_name">
+                                            <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                                        </div>
+                                        <div class="column_val downpayment_rate">
+                                            {{#each (rate_list) }}
+                                                {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
+                                                    {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
+                                                    <div class="form_group">
+                                                    {{#if (downpayment_value_arr.indexOf(this.id.toString()) !== -1) }}
                                                         <input type="checkbox" class="rates" name="" value="{{this.id}}" checked="checked"/>
                                                         <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
                                                     {{else}}
                                                         <input type="checkbox" class="rates" name="" value="{{this.id}}" />
                                                         <label data-id="{{this.id}}">{{this.value}}</label>
                                                     {{/if}}
-                                                </div>
-                                            {{/if}}
-                                        {{/each}}
-                                    </div>
-                                </div>
-                                <div class="option_item downpayment_money" style="display: none">
-                                    <div class="column_name">
-                                        <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
-                                    </div>
-                                    <div class="column_val downpayment_money_box">
-                                        <div class="downpayment_add">
-                                            <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            {{elseif (policy_list[0].downpayment_type === 2) }}
-                                <div class="option_item downpayment_money">
-                                    <div class="column_name">
-                                        <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
-                                    </div>
-                                    <div class="column_val downpayment_money_box">
-                                        {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
-                                            {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
-                                            {{#each (downpayment_value_arr) }}
-                                                {{#if (xindex === downpayment_value_arr.length - 1) }}
-                                                    <div class="downpayment_add">
-                                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
                                                     </div>
                                                 {{else}}
-                                                    <div class="downpayment_add_ready">
-                                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
+                                                    <div class="form_group">
+                                                        {{#if (this.id.toString() === policy_list[0].downpayment_value) }}
+                                                            <input type="checkbox" class="rates" name="" value="{{this.id}}" checked="checked"/>
+                                                            <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
+                                                        {{else}}
+                                                            <input type="checkbox" class="rates" name="" value="{{this.id}}" />
+                                                            <label data-id="{{this.id}}">{{this.value}}</label>
+                                                        {{/if}}
                                                     </div>
                                                 {{/if}}
                                             {{/each}}
-                                        {{else}}
-                                            <div class="downpayment_add">
-                                                <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{policy_list[0].downpayment_value}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
-                                            </div>
-                                        {{/if}}
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="option_item downpayment_money" style="display: none">
+                                        <div class="column_name">
+                                            <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                                        </div>
+                                        <div class="column_val downpayment_money_box">
+                                            <div class="downpayment_add">
+                                                <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{elseif (policy_list[0].downpayment_type === 2) }}
+                                    <div class="option_item downpayment_money">
+                                        <div class="column_name">
+                                            <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                                        </div>
+                                        <div class="column_val downpayment_money_box">
+                                            {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
+                                                {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
+                                                {{#each (downpayment_value_arr) }}
+                                                    {{#if (xindex === downpayment_value_arr.length - 1) }}
+                                                        <div class="downpayment_add">
+                                                            <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                                        </div>
+                                                    {{else}}
+                                                        <div class="downpayment_add_ready">
+                                                            <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
+                                                        </div>
+                                                    {{/if}}
+                                                {{/each}}
+                                            {{else}}
+                                                <div class="downpayment_add">
+                                                    <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{policy_list[0].downpayment_value}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                    <div class="option_item downpayment_rate_div" style="display: none">
+                                        <div class="column_name">
+                                            <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                                        </div>
+                                        <div class="column_val downpayment_rate">
+                                            {{#each (rate_list) }}
+                                            <div class="form_group">
+                                                <input type="checkbox" class="rates" name="" value="{{this.id}}" />
+                                                <label data-id="{{this.id}}">{{this.value}}</label>
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                {{/if}}
+                            {{else}}
                                 <div class="option_item downpayment_rate_div" style="display: none">
                                     <div class="column_name">
                                         <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
@@ -167,99 +187,85 @@
                                         {{/each}}
                                     </div>
                                 </div>
-                            {{/if}}
-                        {{else}}
-                            <div class="option_item downpayment_rate_div" style="display: none">
-                                <div class="column_name">
-                                    <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+                                <div class="option_item downpayment_money" style="display: none">
+                                    <div class="column_name">
+                                        <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+                                    </div>
+                                    <div class="column_val downpayment_money_box">
+                                        <div class="downpayment_add">
+                                            <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="column_val downpayment_rate">
-                                    {{#each (rate_list) }}
+                            {{/if}}
+
+                            <div class="option_item">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>费率：</span>
+                                </div>
+                                <div class="column_val rate_box">
+                                    {{#if (reqParams.policy_id)}}
+                                        {{#if (policy_list[0].interest_rate.indexOf (',') !== -1 ) }}
+                                            {{set (interest_rate_arr = policy_list[0].interest_rate.split(',')) }}
+                                            {{#each (interest_rate_arr) }}
+                                                {{#if (xindex === interest_rate_arr.length - 1) }}
+                                                <div class="rate_add">
+                                                    <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                                </div>
+                                                {{else}}
+                                                <div class="rate_add_ready">
+                                                    <input type="text" placeholder="请输入费率" name="interest_rate" class="rate_valite" maxlength="5" value="{{this}}" style="margin-right: 10px;" readonly="readonly"/><span>%</span><span class="cursor rate_add_del">删除</span>
+                                                </div>
+                                                {{/if}}
+                                            {{/each}}
+                                        {{else}}
+                                            <div class="rate_add">
+                                                <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{policy_list[0].interest_rate}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                            </div>
+                                        {{/if}}
+                                    {{else}}
+                                        <div class="rate_add">
+                                            <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                        </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="option_item">
+                                <div class="column_name">
+                                    <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
+                                </div>
+                                <div class="column_val term">
+                                    {{#each (term_list) }}
                                     <div class="form_group">
-                                        <input type="checkbox" class="rates" name="" value="{{this.id}}" />
-                                        <label data-id="{{this.id}}">{{this.value}}</label>
+                                        {{#if (reqParams.policy_id)}}
+                                            {{#if (policy_list[0].term.indexOf(',') !== -1) }}
+                                                {{set (term_arr = policy_list[0].term.split(',')) }}
+                                                {{#if (term_arr.indexOf(this.id.toString()) !== -1) }}
+                                                <input type="checkbox" class="term" name="term" value="{{this.id}}" checked="checked"/>
+                                                <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
+                                                {{else}}
+                                                <input type="checkbox" class="term" name="term" value="{{this.id}}" />
+                                                <label data-id="{{this.id}}">{{this.value}}</label>
+                                                {{/if}}
+                                            {{else}}
+                                                {{#if (this.id.toString() === policy_list[0].term) }}
+                                                <input type="checkbox" class="term" name="term" value="{{this.id}}" checked="checked"/>
+                                                <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
+                                                {{else}}
+                                                <input type="checkbox" class="term" name="term" value="{{this.id}}" />
+                                                <label data-id="{{this.id}}">{{this.value}}</label>
+                                                {{/if}}
+                                            {{/if}}
+                                        {{else}}
+                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" />
+                                            <label data-id="{{this.id}}">{{this.value}}</label>
+                                        {{/if}}
                                     </div>
                                     {{/each}}
                                 </div>
                             </div>
-                            <div class="option_item downpayment_money" style="display: none">
-                                <div class="column_name">
-                                    <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
-                                </div>
-                                <div class="column_val downpayment_money_box">
-                                    <div class="downpayment_add">
-                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
-                                    </div>
-                                </div>
-                            </div>
-                        {{/if}}
-
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>费率：</span>
-                            </div>
-                            <div class="column_val rate_box">
-                                {{#if (reqParams.policy_id)}}
-                                    {{#if (policy_list[0].interest_rate.indexOf (',') !== -1 ) }}
-                                        {{set (interest_rate_arr = policy_list[0].interest_rate.split(',')) }}
-                                        {{#each (interest_rate_arr) }}
-                                            {{#if (xindex === interest_rate_arr.length - 1) }}
-                                            <div class="rate_add">
-                                                <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
-                                            </div>
-                                            {{else}}
-                                            <div class="rate_add_ready">
-                                                <input type="text" placeholder="请输入费率" name="interest_rate" class="rate_valite" maxlength="5" value="{{this}}" style="margin-right: 10px;" readonly="readonly"/><span>%</span><span class="cursor rate_add_del">删除</span>
-                                            </div>
-                                            {{/if}}
-                                        {{/each}}
-                                    {{else}}
-                                        <div class="rate_add">
-                                            <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{policy_list[0].interest_rate}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
-                                        </div>
-                                    {{/if}}
-                                {{else}}
-                                    <div class="rate_add">
-                                        <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
-                                    </div>
-                                {{/if}}
-                            </div>
                         </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
-                            </div>
-                            <div class="column_val term">
-                                {{#each (term_list) }}
-                                <div class="form_group">
-                                    {{#if (reqParams.policy_id)}}
-                                        {{#if (policy_list[0].term.indexOf(',') !== -1) }}
-                                            {{set (term_arr = policy_list[0].term.split(',')) }}
-                                            {{#if (term_arr.indexOf(this.id.toString()) !== -1) }}
-                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" checked="checked"/>
-                                            <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
-                                            {{else}}
-                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" />
-                                            <label data-id="{{this.id}}">{{this.value}}</label>
-                                            {{/if}}
-                                        {{else}}
-                                            {{#if (this.id.toString() === policy_list[0].term) }}
-                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" checked="checked"/>
-                                            <label data-id="{{this.id}}" class="checked">{{this.value}}</label>
-                                            {{else}}
-                                            <input type="checkbox" class="term" name="term" value="{{this.id}}" />
-                                            <label data-id="{{this.id}}">{{this.value}}</label>
-                                            {{/if}}
-                                        {{/if}}
-                                    {{else}}
-                                        <input type="checkbox" class="term" name="term" value="{{this.id}}" />
-                                        <label data-id="{{this.id}}">{{this.value}}</label>
-                                    {{/if}}
-                                </div>
-                                {{/each}}
-                            </div>
-                        </div>
-                        <div class="option_item">
+                        <!--<div class="option_item">
                             <div class="column_name">
                                 <span class="options_name"><span class="require_icon">*</span>申请资料：</span>
                             </div>
@@ -401,7 +407,7 @@
                                     </div>
                                 {{/each}}
                             </div>
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
@@ -426,6 +432,85 @@
         <!--listCon end-->
     </div>
 </div>
+
+<div class="policy_item default_policy none">
+    <div class="rf_30">
+        <a href="javascript:;" class="detail_title_btn create_btn add_policy">添加</a>
+        <a href="javascript:;" class="detail_title_btn delete_btn del_policy">删除</a>
+    </div>
+    <div class="option_item">
+        <div class="column_name">
+            <span class="options_name"><span class="require_icon">*</span>融资金额范围：</span>
+        </div>
+        <div class="column_val">
+            <input type="text" placeholder="请输入最小金额" class="financeamount financeamount_start" name="financeamount_start" maxlength="7" style="width:145px;" value=""/>
+            <span style="padding:0 8px;">-</span>
+            <input type="text" placeholder="请输入最大金额" class="financeamount financeamount_end" name="financeamount_end"  maxlength="7" style="width:145px;margin-right: 10px;" value=""/>
+            <span>万</span>
+        </div>
+    </div>
+    <div class="option_item">
+        <div class="column_name">
+            <span class="options_name"><span class="require_icon">*</span>首付类型：</span>
+        </div>
+        <div class="column_val downpayment_type_box">
+            <select name="downpayment_type" class="downpayment_type">
+                <option value="-1">请选择</option>
+                <option value="1">首付比例</option>
+                <option value="2">首付金额</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="option_item downpayment_rate_div" style="display: none">
+        <div class="column_name">
+            <span class="options_name"><span class="require_icon">*</span>首付比例：</span>
+        </div>
+        <div class="column_val downpayment_rate">
+            {{#each (rate_list) }}
+            <div class="form_group">
+                <input type="checkbox" class="rates" name="" value="{{this.id}}" />
+                <label data-id="{{this.id}}">{{this.value}}</label>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="option_item downpayment_money" style="display: none">
+        <div class="column_name">
+            <span class="options_name"><span class="require_icon">*</span>首付金额：</span>
+        </div>
+        <div class="column_val downpayment_money_box">
+            <div class="downpayment_add">
+                <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="option_item">
+        <div class="column_name">
+            <span class="options_name"><span class="require_icon">*</span>费率：</span>
+        </div>
+        <div class="column_val rate_box">
+            <div class="rate_add">
+                <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+            </div>
+        </div>
+    </div>
+    <div class="option_item">
+        <div class="column_name">
+            <span class="options_name"><span class="require_icon">*</span>融资期限：</span>
+        </div>
+        <div class="column_val term">
+            {{#each (term_list) }}
+            <div class="form_group">
+                <input type="checkbox" class="term" name="term" value="{{this.id}}" />
+                <label data-id="{{this.id}}">{{this.value}}</label>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
 <!--container end-->
 <div class="loading" id="loading"></div>
 </body>
@@ -445,17 +530,18 @@
          * @author Plateau 2018年8月8日13:20:46
          */
         function togDownpaymentType () {
-            $('#downpayment_type').on('change', function (){
-                var val = $(this).val().trim();
+            $('.base_info').on('change',".downpayment_type", function (){
+                var _this = $(this);
+                var val = _this.val().trim();
                 if(val == '1'){
-                    $('.downpayment_rate_div').show();
-                    $('.downpayment_money').hide();
+                    _this.parents('.policy_item').find('.downpayment_rate_div').show();
+                    _this.parents('.policy_item').find('.downpayment_money').hide();
                 }else if(val == '2'){
-                    $('.downpayment_rate_div').hide();
-                    $('.downpayment_money').show();
+                    _this.parents('.policy_item').find('.downpayment_rate_div').hide();
+                    _this.parents('.policy_item').find('.downpayment_money').show();
                 }else{
-                    $('.downpayment_rate_div').hide();
-                    $('.downpayment_money').hide();
+                    _this.parents('.policy_item').find('.downpayment_rate_div').hide();
+                    _this.parents('.policy_item').find('.downpayment_money').hide();
                 }
             });
         }
@@ -465,18 +551,18 @@
          * @description  规则：最多添加五个&不能有重复金额
          */
         function addDownpaymentMoney () {
-            var downpayment_money_box = $('.downpayment_money_box');
+            var downpayment_money_box = $('.base_info');
             downpayment_money_box.on("click",".downpayment_add_txt",function(){
                 var _this = $(this);
-                var money = $('.downpayment_add input').val().trim();
+                var money = _this.parents('.policy_item').find('.downpayment_add input').val().trim();
                 if(money == ''){
                     $alert('请填写首付金额');
                     return;
                 } else {
-                    var downpayment_add_ready = $('.downpayment_add_ready');
+                    var downpayment_add_ready = _this.parents('.policy_item').find('.downpayment_add_ready');
                     if(money && downpayment_add_ready.length > 0){
                         for(var i = 0;i < downpayment_add_ready.length; i++){
-                            var val = $('.downpayment_add_ready').eq(i).find('input').val().trim();
+                            var val = _this.parents('.policy_item').find('.downpayment_add_ready').eq(i).find('input').val().trim();
                             if(money == val){
                                 $alert('此首付金额已存在,请重新输入');
                                 return;
@@ -486,10 +572,10 @@
                 }
 
                 var inner = '<div class="downpayment_add_ready"><input type="text" readonly="readonly" class="money_valite" name="downpayment_money" maxlength="7" placeholder="请输入首付金额" value="' + money + '" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div>';
-                $('.downpayment_add').before(inner);
-                $('.downpayment_add input').val("").focus();
+                _this.parents('.policy_item').find('.downpayment_add').before(inner);
+                _this.parents('.policy_item').find('.downpayment_add input').val("").focus();
 
-                var del = $('.downpayment_add_del').length;
+                var del = _this.parents('.policy_item').find('.downpayment_add_del').length;
                 if (del == 4) {
                     var delbtn = '<span class="cursor downpayment_add_del">删除</span>';
                     _this.before(delbtn);
@@ -503,7 +589,7 @@
          * @author Plateau 2018年8月8日13:56:29
          */
         function delDownpaymentMoney () {
-            var downpayment_money_box = $('.downpayment_money_box');
+            var downpayment_money_box = $('.base_info');
             downpayment_money_box.on("click",".downpayment_add_del",function(){
                 var _this = $(this);
 
@@ -512,10 +598,10 @@
                 var del = $('.downpayment_add_ready').length;
                 if (del == 4) {
                     var addbtn = '<span class="cursor downpayment_add_txt">添加</span>';
-                    downpayment_money_box.find('.downpayment_add_ready').last().find('input').attr('readonly',false);
-                    downpayment_money_box.find('.downpayment_add_ready').last().find('.downpayment_add_del').before(addbtn);
-                    downpayment_money_box.find('.downpayment_add_ready').last().find('.downpayment_add_del').remove();
-                    downpayment_money_box.find('.downpayment_add_ready').last().addClass('downpayment_add').removeClass('downpayment_add_ready');
+                    _this.parents('.policy_item').find('.downpayment_add_ready').last().find('input').attr('readonly',false);
+                    _this.parents('.policy_item').find('.downpayment_add_ready').last().find('.downpayment_add_del').before(addbtn);
+                    _this.parents('.policy_item').find('.downpayment_add_ready').last().find('.downpayment_add_del').remove();
+                    _this.parents('.policy_item').find('.downpayment_add_ready').last().addClass('downpayment_add').removeClass('downpayment_add_ready');
                 }
             });
         }
@@ -525,18 +611,18 @@
          * @description  规则：最多添加五个&不能有重复
          */
         function addRate () {
-            var rate_box = $('.rate_box');
+            var rate_box = $('.base_info');
             rate_box.on("click",".rate_add_txt",function(){
                 var _this = $(this);
-                var money = $('.rate_add input').val().trim();
+                var money = _this.parents('.policy_item').find('.rate_add input').val().trim();
                 if(money == ''){
                     $alert('请填写当前费率');
                     return;
                 } else {
-                    var rate_add_ready = $('.rate_add_ready');
+                    var rate_add_ready = _this.parents('.policy_item').find('.rate_add_ready');
                     if(money && rate_add_ready.length > 0){
                         for(var i = 0;i < rate_add_ready.length; i++){
-                            var val = $('.rate_add_ready').eq(i).find('input').val().trim();
+                            var val = _this.parents('.policy_item').find('.rate_add_ready').eq(i).find('input').val().trim();
                             if(money == val){
                                 $alert('此费率已存在，请重新输入');
                                 return;
@@ -546,10 +632,10 @@
                 }
 
                 var inner = '<div class="rate_add_ready"><input type="text" readonly="readonly" class="rate_valite" maxlength="5" name="interest_rate" placeholder="请输入费率" value="' + money + '" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div>';
-                $('.rate_add').before(inner);
-                $('.rate_add input').val("").focus();
+                _this.parents('.policy_item').find('.rate_add').before(inner);
+                _this.parents('.policy_item').find('.rate_add input').val("").focus();
 
-                var del = $('.rate_add_del').length;
+                var del = _this.parents('.policy_item').find('.rate_add_del').length;
                 if (del == 4) {
                     var delbtn = '<span class="cursor rate_add_del">删除</span>';
                     _this.before(delbtn);
@@ -563,19 +649,19 @@
          * @author Plateau 2018年8月8日14:49:59
          */
         function delRate () {
-            var rate_box = $('.rate_box');
+            var rate_box = $('.base_info');
             rate_box.on("click",".rate_add_del",function(){
                 var _this = $(this);
 
                 _this.parents('.rate_add_ready').remove();
 
-                var del = $('.rate_add_ready').length;
+                var del = _this.parents('.policy_item').find('.rate_add_ready').length;
                 if (del == 4) {
                     var addbtn = '<span class="cursor rate_add_txt">添加</span>';
-                    rate_box.find('.rate_add_ready').last().find('input').attr('readonly',false);
-                    rate_box.find('.rate_add_ready').last().find('.rate_add_del').before(addbtn);
-                    rate_box.find('.rate_add_ready').last().find('.rate_add_del').remove();
-                    rate_box.find('.rate_add_ready').last().addClass('rate_add').removeClass('rate_add_ready');
+                    _this.parents('.policy_item').find('.rate_add_ready').last().find('input').attr('readonly',false);
+                    _this.parents('.policy_item').find('.rate_add_ready').last().find('.rate_add_del').before(addbtn);
+                    _this.parents('.policy_item').find('.rate_add_ready').last().find('.rate_add_del').remove();
+                    _this.parents('.policy_item').find('.rate_add_ready').last().addClass('rate_add').removeClass('rate_add_ready');
                 }
             });
         }
@@ -584,182 +670,182 @@
          * 图片上传功能
          * @author Plateau 2018年8月9日11:19:51
          */
-        var file_ids = [];//上传图片ids
-        function uploadImage () {
-            fileUpload({
-                maxCount : 30,
-                filesSize : 5,
-                fileFormat : ['png', 'jpg', 'jpeg'],
-                needThumbnails : false,
-                callback : function (btn, file, success) {
-                    onChoose(btn, file, success);
-                }
-            });
-            // 上传逻辑
-            var onChoose = function (btn, file, success) {
-                if (file.size > 5242880) {
-                    $('.file_upload_btn').val('');
-                    $alert('上传文件大于5M');
-                    return false;
-                }
-                if (!success) {
-                    $alert('上传文件格式不正确');
-                    return false;
-                }
-                var type = $.trim(btn.data('type'));
-                var data = file;
-                var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
-                var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
-                var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
-                var fileName = filingName + '_' + (fileCount + 1) + fileExtension;
-                var merchantId = $.trim($('#supplierId').val());
-                var form = new FormData();
-                form.append("file", data);
-                form.append("file_type", type);
-                form.append("supplier_id", merchantId);
-                form.append("file_name", fileName);     // 用于后台重命名图片物理名字
-                var url = contextPath + '/api/file/upload';
-                $.ajax({
-                    type : "post",
-                    url : url,
-                    data : form,
-                    async : false,
-                    timeout : 300000,
-                    processData: false,
-                    contentType: false,
-                    beforeSend : function () {
-                        //elem.loading.show();
-                        btn.removeClass('disabled');
-                        btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
-                    },
-                    success : function (res) {
-                        getSuccess(res, btn, type, fileName);
-                    },
-                    error : function () {
-                        $alert('图片上传失败，请重试');
-                    }
-                });
-            }
-        }
+        // var file_ids = [];//上传图片ids
+        // function uploadImage () {
+        //     fileUpload({
+        //         maxCount : 30,
+        //         filesSize : 5,
+        //         fileFormat : ['png', 'jpg', 'jpeg'],
+        //         needThumbnails : false,
+        //         callback : function (btn, file, success) {
+        //             onChoose(btn, file, success);
+        //         }
+        //     });
+        //     // 上传逻辑
+        //     var onChoose = function (btn, file, success) {
+        //         if (file.size > 5242880) {
+        //             $('.file_upload_btn').val('');
+        //             $alert('上传文件大于5M');
+        //             return false;
+        //         }
+        //         if (!success) {
+        //             $alert('上传文件格式不正确');
+        //             return false;
+        //         }
+        //         var type = $.trim(btn.data('type'));
+        //         var data = file;
+        //         var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
+        //         var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
+        //         var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
+        //         var fileName = filingName + '_' + (fileCount + 1) + fileExtension;
+        //         var merchantId = $.trim($('#supplierId').val());
+        //         var form = new FormData();
+        //         form.append("file", data);
+        //         form.append("file_type", type);
+        //         form.append("supplier_id", merchantId);
+        //         form.append("file_name", fileName);     // 用于后台重命名图片物理名字
+        //         var url = contextPath + '/api/file/upload';
+        //         $.ajax({
+        //             type : "post",
+        //             url : url,
+        //             data : form,
+        //             async : false,
+        //             timeout : 300000,
+        //             processData: false,
+        //             contentType: false,
+        //             beforeSend : function () {
+        //                 //elem.loading.show();
+        //                 btn.removeClass('disabled');
+        //                 btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
+        //             },
+        //             success : function (res) {
+        //                 getSuccess(res, btn, type, fileName);
+        //             },
+        //             error : function () {
+        //                 $alert('图片上传失败，请重试');
+        //             }
+        //         });
+        //     }
+        // }
 
         /**
          * 图片上传成功方法
          * @author Plateau 2018年8月9日12:59:37
          */
-        function getSuccess (res, btn, type, fileName) {
-            if (res.error_code == 0) {
-                var file_id_input =  btn.siblings('input[name=file_ids]');
-                file_id_input.data('upload_image',true);
-                var file_ids = [];
-                if (file_id_input.val().trim() == '') {
-                    file_id_input.val(res.data[0].file_id);
-                } else {
-                    file_ids.push(file_id_input.val());
-                    file_ids.push(res.data[0].file_id);
-                    file_id_input.val(file_ids.join(','));
-                }
-                $alert('图片上传成功',function () {
-                    var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
-                        '             <img data-original="'+ res.data[0].image_url +'" src="'+ res.data[0].thumbnail +'" alt="'+ fileName +'"/>\n' +
-                        '             <div class="img_md_operate_box">\n' +
-                        '             <em class="img_md_operate_btn view" data-url="'+ res.data[0].image_url +'" title="查看"></em>\n' +
-                        ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.data[0].file_id +'" title="删除"></em>') : '') +
-                        '             </div>\n' +
-                        '             </a>';
-                    if (btn.parents('.img_md_box').find('img').length >= 29) {
-                        btn.hide();
-                    }
-                    btn.before(imgEle);
-                    /* 赋予新图片查看的实例属性 */
-                    var parents = btn.parents('.img_md_box');
-                    // 销毁父元素
-                    var img = parents.find('.img_item');
-                    if (img.length > 1) {
-                        parents[0].viewer.destroy();
-                    }
-                    viewLargeImage(parents[0]);
-                });
-            } else {
-                $alert('图片上传失败，请重试');
-            }
-        }
+        // function getSuccess (res, btn, type, fileName) {
+        //     if (res.error_code == 0) {
+        //         var file_id_input =  btn.siblings('input[name=file_ids]');
+        //         file_id_input.data('upload_image',true);
+        //         var file_ids = [];
+        //         if (file_id_input.val().trim() == '') {
+        //             file_id_input.val(res.data[0].file_id);
+        //         } else {
+        //             file_ids.push(file_id_input.val());
+        //             file_ids.push(res.data[0].file_id);
+        //             file_id_input.val(file_ids.join(','));
+        //         }
+        //         $alert('图片上传成功',function () {
+        //             var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
+        //                 '             <img data-original="'+ res.data[0].image_url +'" src="'+ res.data[0].thumbnail +'" alt="'+ fileName +'"/>\n' +
+        //                 '             <div class="img_md_operate_box">\n' +
+        //                 '             <em class="img_md_operate_btn view" data-url="'+ res.data[0].image_url +'" title="查看"></em>\n' +
+        //                 ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.data[0].file_id +'" title="删除"></em>') : '') +
+        //                 '             </div>\n' +
+        //                 '             </a>';
+        //             if (btn.parents('.img_md_box').find('img').length >= 29) {
+        //                 btn.hide();
+        //             }
+        //             btn.before(imgEle);
+        //             /* 赋予新图片查看的实例属性 */
+        //             var parents = btn.parents('.img_md_box');
+        //             // 销毁父元素
+        //             var img = parents.find('.img_item');
+        //             if (img.length > 1) {
+        //                 parents[0].viewer.destroy();
+        //             }
+        //             viewLargeImage(parents[0]);
+        //         });
+        //     } else {
+        //         $alert('图片上传失败，请重试');
+        //     }
+        // }
 
         /**
          * 删除图片
          * @author Plateau 2018年8月9日11:19:58
          */
-        function deleteImages () {
-            var imagesParents = $('.product_policy_create');
-            imagesParents.on('click', '.img_md_operate_box .delete', function (e) {
-                var e = e || window.event;
-                e.stopPropagation();
-                e.preventDefault();
-                var _this = $(this);
-                var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
-                var id  = $.trim(_this.data('id'));
-                redefineAjax({
-                    data : {
-                        file_id : id
-                    },
-                    url : contextPath + '/api/delete/file',
-                    success : function (res) {
-                        if (res.error_code == 0) {
-                            file_id_input.data('upload_image',true);
-                            var fileNum = _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num');
-                            fileNum--;
-                            _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num', fileNum);
-                            if (file_id_input.val().trim().indexOf(',') !== -1) {
-                                var file_id_arr = file_id_input.val().trim().split(',');
-                                for (var i = 0,len = file_id_arr.length;i<len;i++) {
-                                    if (file_id_arr[i] == id) {
-                                        file_id_arr.splice(i,1);
-                                    }
-                                }
-                                file_id_input.val(file_id_arr.join(','));
-                            } else {
-                                file_id_input.val('');
-                            }
-                            $alert('图片删除成功', function () {
-                                var btn = _this.parents('.img_md_box').find('.add_img_md_btn');
-                                var type = $.trim(btn.data('type'));
-                                btn.data('type',type.number() - 1);
-                                if (btn.parents('.img_md_box').find('img').length <= 30) {
-                                    btn.show();
-                                }
-                                // 获取父元素
-                                var parents = _this.parents('.img_md_box');
-                                // 销毁父元素的viewer实例
-                                parents[0].viewer.destroy();
-                                _this.parents('.img_item').remove();
-                                viewLargeImage(parents[0]);
-                            });
-                        } else {
-                            $alert(res.error_msg);
-                        }
-                    },
-                    error : function () {
-                        $alert('图片删除异常，请稍后重试');
-                    }
-                })
-            })
-        }
+        // function deleteImages () {
+        //     var imagesParents = $('.product_policy_create');
+        //     imagesParents.on('click', '.img_md_operate_box .delete', function (e) {
+        //         var e = e || window.event;
+        //         e.stopPropagation();
+        //         e.preventDefault();
+        //         var _this = $(this);
+        //         var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
+        //         var id  = $.trim(_this.data('id'));
+        //         redefineAjax({
+        //             data : {
+        //                 file_id : id
+        //             },
+        //             url : contextPath + '/api/delete/file',
+        //             success : function (res) {
+        //                 if (res.error_code == 0) {
+        //                     file_id_input.data('upload_image',true);
+        //                     var fileNum = _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num');
+        //                     fileNum--;
+        //                     _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num', fileNum);
+        //                     if (file_id_input.val().trim().indexOf(',') !== -1) {
+        //                         var file_id_arr = file_id_input.val().trim().split(',');
+        //                         for (var i = 0,len = file_id_arr.length;i<len;i++) {
+        //                             if (file_id_arr[i] == id) {
+        //                                 file_id_arr.splice(i,1);
+        //                             }
+        //                         }
+        //                         file_id_input.val(file_id_arr.join(','));
+        //                     } else {
+        //                         file_id_input.val('');
+        //                     }
+        //                     $alert('图片删除成功', function () {
+        //                         var btn = _this.parents('.img_md_box').find('.add_img_md_btn');
+        //                         var type = $.trim(btn.data('type'));
+        //                         btn.data('type',type.number() - 1);
+        //                         if (btn.parents('.img_md_box').find('img').length <= 30) {
+        //                             btn.show();
+        //                         }
+        //                         // 获取父元素
+        //                         var parents = _this.parents('.img_md_box');
+        //                         // 销毁父元素的viewer实例
+        //                         parents[0].viewer.destroy();
+        //                         _this.parents('.img_item').remove();
+        //                         viewLargeImage(parents[0]);
+        //                     });
+        //                 } else {
+        //                     $alert(res.error_msg);
+        //                 }
+        //             },
+        //             error : function () {
+        //                 $alert('图片删除异常，请稍后重试');
+        //             }
+        //         })
+        //     })
+        // }
         /**
          * 查看图片跳转
          * @author Plateau 2018年8月9日11:18:37
          */
-        function viewImages () {
-            var imagesParents = $('.product_policy_create');
-            imagesParents.on('click', '.img_md_operate_box .view', function (e) {
-                var e = e || window.event;
-                e.stopPropagation();
-                e.preventDefault();
-                var _this = $(this);
-                /*var url  = $.trim(_this.data('url'));
-                window.open(url);*/
-                var img = _this.parents('.img_md_operate_box').siblings('img');
-                img.click();
-            })
-        }
+        // function viewImages () {
+        //     var imagesParents = $('.product_policy_create');
+        //     imagesParents.on('click', '.img_md_operate_box .view', function (e) {
+        //         var e = e || window.event;
+        //         e.stopPropagation();
+        //         e.preventDefault();
+        //         var _this = $(this);
+        //         /*var url  = $.trim(_this.data('url'));
+        //         window.open(url);*/
+        //         var img = _this.parents('.img_md_operate_box').siblings('img');
+        //         img.click();
+        //     })
+        // }
 
 
         /**
@@ -805,282 +891,285 @@
          * @author  Plateau  2018年8月9日09:36:58
          * */
         function submitValid (save_flag, url) {
-            var financeamount_start = $('#financeamount_start').val().trim();
-            var financeamount_end = $('#financeamount_end').val().trim();
-            if (financeamount_start == '') {
-                $alert('请输入融资金额的最小金额');
-                return;
-            }
-            if (financeamount_end == '') {
-                $alert('请输入融资金额的最大金额');
-                return;
-            }
-            if (financeamount_start.number() >= financeamount_end.number()) {
-                $alert('请输入正确的融资金额范围');
-                return;
-            }
+            // var financeamount_start = $('.financeamount_start').val().trim();
+            // var financeamount_end = $('.financeamount_end').val().trim();
+            // if (financeamount_start == '') {
+            //     $alert('请输入融资金额的最小金额');
+            //     return;
+            // }
+            // if (financeamount_end == '') {
+            //     $alert('请输入融资金额的最大金额');
+            //     return;
+            // }
+            // if (financeamount_start.number() >= financeamount_end.number()) {
+            //     $alert('请输入正确的融资金额范围');
+            //     return;
+            // }
+            //
+            // var downpayment_type = $('.downpayment_type').val().trim();
+            // if (downpayment_type == '-1') {
+            //     $alert('请选择首付类型');
+            //     return;
+            // }else if (downpayment_type == '2') {
+            //     var downpayment_money_box = $('.downpayment_money_box').find('input');
+            //     var downpayment_money_flag = false;
+            //     downpayment_money_box.each(function () {
+            //         var _this = $(this);
+            //         if (_this.val().trim() == '') {
+            //             downpayment_money_flag = true;
+            //         }
+            //     });
+            //     if (downpayment_money_flag && downpayment_money_box.length == 1) {
+            //         $alert('请输入首付金额');
+            //         return;
+            //     } else {
+            //         var downpayment_moneys = $('.downpayment_money_box input[name=downpayment_money]');
+            //         var downpayment_moneys_vals = [];
+            //         downpayment_moneys.each(function () {
+            //             var _this = $(this);
+            //             if (_this.val() != '') {
+            //                 downpayment_moneys_vals.push(_this.val().trim());
+            //             }
+            //         });
+            //         var downpayment_value = downpayment_moneys_vals.join(',');
+            //     }
+            // }else if (downpayment_type == '1') {
+            //     var rate_num = 0;
+            //     var downpayment_rate = $('.downpayment_rate label');
+            //     var downpayment_rate_vals = [];
+            //     downpayment_rate.each(function () {
+            //         var _this = $(this);
+            //         if (_this.hasClass('checked')) {
+            //             rate_num++;
+            //             downpayment_rate_vals.push(_this.data('id'));
+            //         }
+            //     });
+            //     if (rate_num == 0) {
+            //         $alert('请选择首付比例');
+            //         return;
+            //     } else {
+            //         var downpayment_value = downpayment_rate_vals.join(',');
+            //     }
+            // }
+            // var rate_box = $('.rate_box').find('input');
+            // var rate_flag = false;
+            // rate_box.each(function () {
+            //     var _this = $(this);
+            //     if (_this.val().trim() == '') {
+            //         rate_flag = true;
+            //     }
+            // });
+            // if (rate_flag && rate_box.length == 1) {
+            //     $alert('请输入费率');
+            //     return;
+            // } else {
+            //     var interest_rate = $('.rate_box input[name=interest_rate]');
+            //     var interest_rate_vals = [];
+            //     interest_rate.each(function () {
+            //         var _this = $(this);
+            //         if (_this.val() != '') {
+            //             interest_rate_vals.push(_this.val().trim());
+            //         }
+            //     });
+            //     var interest_rate = interest_rate_vals.join(',');
+            // }
+            // var term_label = $('.term label');
+            // var term_num = 0;
+            // var term_vals = [];
+            // term_label.each(function () {
+            //     var _this = $(this);
+            //     if (_this.hasClass('checked')) {
+            //         term_num++;
+            //         term_vals.push(_this.data('id'));
+            //     }
+            // });
+            // if (term_num == 0) {
+            //     $alert('请选择融资期限');
+            //     return;
+            // } else {
+            //     var term = term_vals.join(',');
+            // }
+            //
+            // var small_name = $('.small_name');
+            // var material_nums = 0;
+            // small_name.each(function () {
+            //     var _this = $(this);
+            //     if (_this.hasClass('checked')) {
+            //         material_nums++;
+            //     }
+            // });
+            // var is_must_flag = false;
+            // if (material_nums == 0) {
+            //     $alert('请选择申请资料');
+            //     return;
+            // } else {
+            //     var material_data_arr = [];
+            //     var material_list = $('.material_list');
+            //     material_list.each(function () {
+            //         var _this = $(this);
+            //         var file_ids = _this.find('.small_class .img_md_box input[name=file_ids]');
+            //         var id = _this.data('id');
+            //         var big_class = _this.find('.big_class .big_class_name').text().trim();
+            //         var must_input = _this.find('.big_class input');
+            //         var is_must = 0;
+            //         must_input.each(function () {
+            //             if (this.checked) {
+            //                 is_must = this.value;
+            //             }
+            //         });
+            //         var small_name = _this.find('.small_class .small_name');
+            //         var material_datas = [];
+            //         small_name.each(function () {
+            //             var _t = $(this);
+            //             if (_t.hasClass('checked')) {
+            //                 material_datas.push(_t.data('id'));
+            //             }
+            //         });
+            //
+            //         if (material_datas.length != 0) {
+            //             var obj = {
+            //                 data_type : id,
+            //                 is_must : is_must,
+            //                 material_datas : material_datas.join(','),
+            //                 file_ids : file_ids.val().trim()
+            //             };
+            //             material_data_arr.push(obj);
+            //         } else {
+            //             if (is_must == 1) {
+            //                 is_must_flag = true;
+            //                 $alert('请选择'+ big_class +'里面对应的资料。');
+            //                 return false;
+            //             }
+            //         }
+            //     });
+            // }
+            // if (is_must_flag) {
+            //     return false;
+            // }
 
-            var downpayment_type = $('#downpayment_type').val().trim();
-            if (downpayment_type == '-1') {
-                $alert('请选择首付类型');
-                return;
-            }else if (downpayment_type == '2') {
-                var downpayment_money_box = $('.downpayment_money_box').find('input');
-                var downpayment_money_flag = false;
-                downpayment_money_box.each(function () {
-                    var _this = $(this);
-                    if (_this.val().trim() == '') {
-                        downpayment_money_flag = true;
-                    }
-                });
-                if (downpayment_money_flag && downpayment_money_box.length == 1) {
-                    $alert('请输入首付金额');
-                    return;
-                } else {
-                    var downpayment_moneys = $('.downpayment_money_box input[name=downpayment_money]');
-                    var downpayment_moneys_vals = [];
-                    downpayment_moneys.each(function () {
+            var submit_flag = addValid($('.policy_item').not('.default_policy').last());
+            if (submit_flag) {
+                var product_id = $('#product_id').val().trim();
+                var product_name = $('#product_name').val().trim();
+                var material_data = JSON.stringify(material_data_arr);
+                if (save_flag ==3) {//编辑保存
+                    var update_data = [];//有更新的材料数据
+                    var insert_data = [];//有新增的材料数据
+                    var material_list = $('.material_list');
+                    material_list.each(function () {
                         var _this = $(this);
-                        if (_this.val() != '') {
-                            downpayment_moneys_vals.push(_this.val().trim());
+                        var data_type = _this.data('id');
+                        var is_histrory = _this.data('histrory');
+                        var big_class = _this.find('.big_class');
+                        if (big_class.find('input')[0].checked) {
+                            var is_must = big_class.find('input')[0].value;
+                        } else if (big_class.find('input')[1].checked) {
+                            var is_must = big_class.find('input')[1].value;
                         }
-                    });
-                    var downpayment_value = downpayment_moneys_vals.join(',');
-                }
-            }else if (downpayment_type == '1') {
-                var rate_num = 0;
-                var downpayment_rate = $('.downpayment_rate label');
-                var downpayment_rate_vals = [];
-                downpayment_rate.each(function () {
-                    var _this = $(this);
-                    if (_this.hasClass('checked')) {
-                        rate_num++;
-                        downpayment_rate_vals.push(_this.data('id'));
-                    }
-                });
-                if (rate_num == 0) {
-                    $alert('请选择首付比例');
-                    return;
-                } else {
-                    var downpayment_value = downpayment_rate_vals.join(',');
-                }
-            }
-            var rate_box = $('.rate_box').find('input');
-            var rate_flag = false;
-            rate_box.each(function () {
-                var _this = $(this);
-                if (_this.val().trim() == '') {
-                    rate_flag = true;
-                }
-            });
-            if (rate_flag && rate_box.length == 1) {
-                $alert('请输入费率');
-                return;
-            } else {
-                var interest_rate = $('.rate_box input[name=interest_rate]');
-                var interest_rate_vals = [];
-                interest_rate.each(function () {
-                    var _this = $(this);
-                    if (_this.val() != '') {
-                        interest_rate_vals.push(_this.val().trim());
-                    }
-                });
-                var interest_rate = interest_rate_vals.join(',');
-            }
-            var term_label = $('.term label');
-            var term_num = 0;
-            var term_vals = [];
-            term_label.each(function () {
-                var _this = $(this);
-                if (_this.hasClass('checked')) {
-                    term_num++;
-                    term_vals.push(_this.data('id'));
-                }
-            });
-            if (term_num == 0) {
-                $alert('请选择融资期限');
-                return;
-            } else {
-                var term = term_vals.join(',');
-            }
 
-            var small_name = $('.small_name');
-            var material_nums = 0;
-            small_name.each(function () {
-                var _this = $(this);
-                if (_this.hasClass('checked')) {
-                    material_nums++;
-                }
-            });
-            var is_must_flag = false;
-            if (material_nums == 0) {
-                $alert('请选择申请资料');
-                return;
-            } else {
-                var material_data_arr = [];
-                var material_list = $('.material_list');
-                material_list.each(function () {
-                    var _this = $(this);
-                    var file_ids = _this.find('.small_class .img_md_box input[name=file_ids]');
-                    var id = _this.data('id');
-                    var big_class = _this.find('.big_class .big_class_name').text().trim();
-                    var must_input = _this.find('.big_class input');
-                    var is_must = 0;
-                    must_input.each(function () {
-                        if (this.checked) {
-                            is_must = this.value;
-                        }
-                    });
-                    var small_name = _this.find('.small_class .small_name');
-                    var material_datas = [];
-                    small_name.each(function () {
-                        var _t = $(this);
-                        if (_t.hasClass('checked')) {
-                            material_datas.push(_t.data('id'));
-                        }
-                    });
-
-                    if (material_datas.length != 0) {
+                        var small_name = _this.find('.small_class .small_name');
+                        var material_datas = [];
+                        small_name.each(function () {
+                            var s = $(this);
+                            if (s.hasClass('checked')) {
+                                material_datas.push(s.data('id'));
+                            }
+                        });
+                        var file_ids = _this.find('.img_md_box .file_ids').val().trim();
                         var obj = {
-                            data_type : id,
-                            is_must : is_must,
+                            data_type : data_type,
                             material_datas : material_datas.join(','),
-                            file_ids : file_ids.val().trim()
+                            is_must : is_must,
+                            file_ids : file_ids
                         };
-                        material_data_arr.push(obj);
-                    } else {
-                        if (is_must == 1) {
-                            is_must_flag = true;
-                            $alert('请选择'+ big_class +'里面对应的资料。');
-                            return false;
-                        }
-                    }
-                });
-            }
-            if (is_must_flag) {
-                return false;
-            }
-
-            var product_id = $('#product_id').val().trim();
-            var product_name = $('#product_name').val().trim();
-            var material_data = JSON.stringify(material_data_arr);
-            if (save_flag ==3) {//编辑保存
-                var update_data = [];//有更新的材料数据
-                var insert_data = [];//有新增的材料数据
-                var material_list = $('.material_list');
-                material_list.each(function () {
-                    var _this = $(this);
-                    var data_type = _this.data('id');
-                    var is_histrory = _this.data('histrory');
-                    var big_class = _this.find('.big_class');
-                    if (big_class.find('input')[0].checked) {
-                        var is_must = big_class.find('input')[0].value;
-                    } else if (big_class.find('input')[1].checked) {
-                        var is_must = big_class.find('input')[1].value;
-                    }
-
-                    var small_name = _this.find('.small_class .small_name');
-                    var material_datas = [];
-                    small_name.each(function () {
-                        var s = $(this);
-                        if (s.hasClass('checked')) {
-                            material_datas.push(s.data('id'));
+                        for (var i = 0, leni = policy_list.length; i < leni; i++) {
+                            if (policy_list[i].data_type == data_type) {
+                                if (material_datas.length == 0) {
+                                    obj.is_delete = 1;
+                                } else {
+                                    obj.is_delete = 0;
+                                }
+                                if (policy_list[i].is_must.toString() == is_must) {
+                                    if (policy_list[i].material_datas != material_datas.join(',')) {
+                                        update_data.push(obj);
+                                        break;
+                                    }
+                                    if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                                        update_data.push(obj);
+                                        break;
+                                    }
+                                } else {
+                                    update_data.push(obj);
+                                    break;
+                                }
+                            } else {
+                                if (material_datas.length != 0 && is_histrory == 0) {
+                                    insert_data.push(obj);
+                                    break;
+                                }
+                            }
                         }
                     });
-                    var file_ids = _this.find('.img_md_box .file_ids').val().trim();
-                    var obj = {
-                        data_type : data_type,
-                        material_datas : material_datas.join(','),
-                        is_must : is_must,
-                        file_ids : file_ids
+                    var policy_id = $('#policy_id').val().trim();
+                    var parent_id = $('#orgId').val().trim();
+                    var applyto_business = $('#applyto_business').val().trim();
+                    var city_ids = $('#city_ids').val().trim();
+                    var applyto_type = $('#applyto_type').val().trim();
+                    var release_time = $('#release_time').val().trim();
+                    var parameters = {
+                        product_id : product_id,
+                        policy_id : policy_id,
+                        parent_id : parent_id,
+                        applyto_business : applyto_business,
+                        city_ids : city_ids,
+                        applyto_type : applyto_type,
+                        financeamount_start : financeamount_start,
+                        financeamount_end : financeamount_end,
+                        downpayment_type : downpayment_type,
+                        downpayment_value : downpayment_value,
+                        interest_rate : interest_rate,
+                        term : term,
+                        update_data : JSON.stringify(update_data),
+                        insert_data : JSON.stringify(insert_data),
+                        release_time : release_time
                     };
-                    for (var i = 0, leni = policy_list.length; i < leni; i++) {
-                        if (policy_list[i].data_type == data_type) {
-                            if (material_datas.length == 0) {
-                                obj.is_delete = 1;
-                            } else {
-                                obj.is_delete = 0;
-                            }
-                            if (policy_list[i].is_must.toString() == is_must) {
-                                if (policy_list[i].material_datas != material_datas.join(',')) {
-                                    update_data.push(obj);
-                                    break;
-                                }
-                                if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
-                                    update_data.push(obj);
-                                    break;
-                                }
-                            } else {
-                                update_data.push(obj);
-                                break;
-                            }
-                        } else {
-                            if (material_datas.length != 0 && is_histrory == 0) {
-                                insert_data.push(obj);
-                                break;
-                            }
-                        }
-                    }
-                });
-                var policy_id = $('#policy_id').val().trim();
-                var parent_id = $('#orgId').val().trim();
-                var applyto_business = $('#applyto_business').val().trim();
-                var city_ids = $('#city_ids').val().trim();
-                var applyto_type = $('#applyto_type').val().trim();
-                var release_time = $('#release_time').val().trim();
-                var parameters = {
-                    product_id : product_id,
-                    policy_id : policy_id,
-                    parent_id : parent_id,
-                    applyto_business : applyto_business,
-                    city_ids : city_ids,
-                    applyto_type : applyto_type,
-                    financeamount_start : financeamount_start,
-                    financeamount_end : financeamount_end,
-                    downpayment_type : downpayment_type,
-                    downpayment_value : downpayment_value,
-                    interest_rate : interest_rate,
-                    term : term,
-                    update_data : JSON.stringify(update_data),
-                    insert_data : JSON.stringify(insert_data),
-                    release_time : release_time
-                };
-            } else if (save_flag ==1 || save_flag == 4) {
-                var applyto_business = $('#applyto_business').val().trim();
-                var parent_id = $('#orgId').val().trim();
-                var city_ids = $('#city_ids').val().trim();
-                var applyto_type = $('#applyto_type').val().trim();
-                var parameters = {
-                    product_id : product_id,
-                    product_name : product_name,
-                    financeamount_start : financeamount_start,
-                    financeamount_end : financeamount_end,
-                    downpayment_type : downpayment_type,
-                    downpayment_value : downpayment_value,
-                    interest_rate : interest_rate,
-                    term : term,
-                    material_data : material_data,
-                    applyto_business : applyto_business,
-                    parent_id : parent_id,
-                    city_ids : city_ids,
-                    applyto_type : applyto_type
-                };
-            } else {
-                var parameters = {
-                    product_id : product_id,
-                    publish_type : 1,
-                    product_name : product_name,
-                    financeamount_start : financeamount_start,
-                    financeamount_end : financeamount_end,
-                    downpayment_type : downpayment_type,
-                    downpayment_value : downpayment_value,
-                    interest_rate : interest_rate,
-                    term : term,
-                    material_data : material_data
-                };
-            }
+                } else if (save_flag ==1 || save_flag == 4) {
+                    var applyto_business = $('#applyto_business').val().trim();
+                    var parent_id = $('#orgId').val().trim();
+                    var city_ids = $('#city_ids').val().trim();
+                    var applyto_type = $('#applyto_type').val().trim();
+                    var parameters = {
+                        product_id : product_id,
+                        product_name : product_name,
+                        financeamount_start : financeamount_start,
+                        financeamount_end : financeamount_end,
+                        downpayment_type : downpayment_type,
+                        downpayment_value : downpayment_value,
+                        interest_rate : interest_rate,
+                        term : term,
+                        material_data : material_data,
+                        applyto_business : applyto_business,
+                        parent_id : parent_id,
+                        city_ids : city_ids,
+                        applyto_type : applyto_type
+                    };
+                } else {
+                    var parameters = {
+                        product_id : product_id,
+                        publish_type : 1,
+                        product_name : product_name,
+                        financeamount_start : financeamount_start,
+                        financeamount_end : financeamount_end,
+                        downpayment_type : downpayment_type,
+                        downpayment_value : downpayment_value,
+                        interest_rate : interest_rate,
+                        term : term,
+                        material_data : material_data
+                    };
+                }
 
-            ajaxSubmit(url, parameters, save_flag);
+                ajaxSubmit(url, parameters, save_flag);
+            }
         }
 
         /**
@@ -1139,54 +1228,54 @@
          * 监听是否全选
          * @author Plateau 2018年8月9日11:41:15
          */
-        function monitorSelectAll () {
-            var singleCheck = $('.small_name');
-            singleCheck.on('click', function () {
-                var _this = $(this);
-                var checkAll = _this.parents('.selector_box').find('.check_all');
-                var categoryCheck = _this.parents('.selector_box').find('.small_name');
-                if (!_this.hasClass('checked')) {
-                    var count = 0;
-                    categoryCheck.each(function () {
-                        var _this = $(this);
-                        if (_this.hasClass('checked')) {
-                            count++;
-                        }
-                    });
-                    if (count == categoryCheck.length -1) {
-                        checkAll.addClass('checked');
-                    } else {
-                        if (checkAll.hasClass('checked')) {
-                            checkAll.removeClass('checked');
-                        }
-                    }
-                } else {
-                    if (checkAll.hasClass('checked')) {
-                        checkAll.removeClass('checked');
-                    }
-                }
-            });
-        }
+        // function monitorSelectAll () {
+        //     var singleCheck = $('.small_name');
+        //     singleCheck.on('click', function () {
+        //         var _this = $(this);
+        //         var checkAll = _this.parents('.selector_box').find('.check_all');
+        //         var categoryCheck = _this.parents('.selector_box').find('.small_name');
+        //         if (!_this.hasClass('checked')) {
+        //             var count = 0;
+        //             categoryCheck.each(function () {
+        //                 var _this = $(this);
+        //                 if (_this.hasClass('checked')) {
+        //                     count++;
+        //                 }
+        //             });
+        //             if (count == categoryCheck.length -1) {
+        //                 checkAll.addClass('checked');
+        //             } else {
+        //                 if (checkAll.hasClass('checked')) {
+        //                     checkAll.removeClass('checked');
+        //                 }
+        //             }
+        //         } else {
+        //             if (checkAll.hasClass('checked')) {
+        //                 checkAll.removeClass('checked');
+        //             }
+        //         }
+        //     });
+        // }
         /**
          * 全选操作
          * @author Plateau 2018年8月10日15:53:03
          */
-        function checkAllClass () {
-            var check_all = $('.check_all');
-            check_all.on('click', function () {
-                var _this = $(this);
-                var small_name = _this.parents('.check_all_box').find('.small_name');
-                if (!_this.hasClass('checked')) {
-                    small_name.each(function () {
-                        small_name.addClass('checked');
-                    });
-                } else {
-                    small_name.each(function () {
-                        small_name.removeClass('checked');
-                    });
-                }
-            });
-        }
+        // function checkAllClass () {
+        //     var check_all = $('.check_all');
+        //     check_all.on('click', function () {
+        //         var _this = $(this);
+        //         var small_name = _this.parents('.check_all_box').find('.small_name');
+        //         if (!_this.hasClass('checked')) {
+        //             small_name.each(function () {
+        //                 small_name.addClass('checked');
+        //             });
+        //         } else {
+        //             small_name.each(function () {
+        //                 small_name.removeClass('checked');
+        //             });
+        //         }
+        //     });
+        // }
 
         /**
          * 面包屑跳转
@@ -1220,6 +1309,153 @@
                 });
             });
         }
+        /**
+         * 添加政策
+         * @author Plateau  2018年9月4日13:35:48
+         * */
+        function addPolicy () {
+            var base_info = $('.base_info');
+            base_info.on("click",".add_policy",function(){
+                var default_policy = $('.default_policy').clone();
+                var _this = $(this);
+                var add_flag = addValid(_this.parents('.policy_item'));
+                if (add_flag) {
+                    var policy_item = $('.policy_item').not('.default_policy');
+                    if (policy_item.length == 9) {
+                        default_policy.find('.add_policy').addClass('none');
+                    } else {
+                        default_policy.find('.add_policy').removeClass('none');
+                    }
+                    default_policy = default_policy.removeClass('default_policy');
+                    base_info.append(default_policy);
+                    default_policy.removeClass('none');
+                    _this.siblings('.del_policy').removeClass('none');
+                    _this.addClass('none');
+                }
+            });
+        }
+        /**
+         * 删除政策
+         * @author Plateau  2018年9月4日16:29:20
+         * */
+        function delPolicy () {
+            var base_info = $('.base_info');
+            base_info.on("click",".del_policy",function(){
+                var _this = $(this);
+                dialog('open',{
+                    closeBtn : false,
+                    title : '提醒',
+                    content : '您是否确认删除此申请政策？',
+                    "button" : ["确认","取消"],
+                    "maskClose" : false,
+                    onConfirm : function (d) {
+                        d.close();
+                        _this.parents('.policy_item').remove();
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+        /**
+         * 添加政策前校验必填项是否填写
+         * @author Plateau  2018年9月4日14:52:05
+         * */
+        function addValid (el) {
+            var financeamount_start = el.find('.financeamount_start').val().trim();
+            var financeamount_end = el.find('.financeamount_end').val().trim();
+            if (financeamount_start == '') {
+                $alert('请输入融资金额的最小金额');
+                return false;
+            }
+            if (financeamount_end == '') {
+                $alert('请输入融资金额的最大金额');
+                return false;
+            }
+            if (financeamount_start.number() >= financeamount_end.number()) {
+                $alert('请输入正确的融资金额范围');
+                return false;
+            }
+
+            var downpayment_type = el.find('.downpayment_type').val().trim();
+            if (downpayment_type == '-1') {
+                $alert('请选择首付类型');
+                return false;
+            }else if (downpayment_type == '2') {
+                var downpayment_money_box = el.find('.downpayment_money_box').find('input');
+                var downpayment_money_flag = false;
+                downpayment_money_box.each(function () {
+                    var _this = $(this);
+                    if (_this.val().trim() == '') {
+                        downpayment_money_flag = true;
+                    }
+                });
+                if (downpayment_money_flag && downpayment_money_box.length == 1) {
+                    $alert('请输入首付金额');
+                    return false;
+                }
+            }else if (downpayment_type == '1') {
+                var rate_num = 0;
+                var downpayment_rate = el.find('.downpayment_rate label');
+                var downpayment_rate_vals = [];
+                downpayment_rate.each(function () {
+                    var _this = $(this);
+                    if (_this.hasClass('checked')) {
+                        rate_num++;
+                        downpayment_rate_vals.push(_this.data('id'));
+                    }
+                });
+                if (rate_num == 0) {
+                    $alert('请选择首付比例');
+                    return false;
+                }
+            }
+            var rate_box = el.find('.rate_box').find('input');
+            var rate_flag = false;
+            rate_box.each(function () {
+                var _this = $(this);
+                if (_this.val().trim() == '') {
+                    rate_flag = true;
+                }
+            });
+            if (rate_flag && rate_box.length == 1) {
+                $alert('请输入费率');
+                return false;
+            }
+            var term_label = el.find('.term label');
+            var term_num = 0;
+            var term_vals = [];
+            term_label.each(function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    term_num++;
+                    term_vals.push(_this.data('id'));
+                }
+            });
+            if (term_num == 0) {
+                $alert('请选择融资期限');
+                return false;
+            }
+
+            var policy_item = $('.policy_item').not('.default_policy').not(el);
+            var policy_flag = false;
+            policy_item.each(function () {
+                var _this = $(this);
+                var cur_start = _this.find('.financeamount_start').val().trim().number();
+                var cur_end = _this.find('.financeamount_end').val().trim().number();
+                if ((financeamount_start.number() < cur_end && financeamount_start.number() >= cur_start) || (financeamount_end.number() < cur_end && financeamount_end.number() >= cur_start) ) {
+                    policy_flag = true;
+                }
+            });
+
+            if (policy_flag) {
+                $alert('此融资金额范围已存在！');
+                return false;
+            }
+
+            return true;
+        }
         $(function() {
             resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
             numAndAmount('.financeamount',{//控制融资金额范围输入框只能输入数字和小数
@@ -1245,14 +1481,16 @@
             delDownpaymentMoney();//删除首付金额事件
             addRate();//添加费率事件
             delRate();//删除费率事件
-            viewLargeImage('.img_md_box');
-            viewImages();       // 查看大图
-            deleteImages();     // 图片删除
-            uploadImage();      // 图片上传注册
-            monitorSelectAll();//监听是否全选
-            checkAllClass();//全选操作
+            // viewLargeImage('.img_md_box');
+            // viewImages();       // 查看大图
+            // deleteImages();     // 图片删除
+            // uploadImage();      // 图片上传注册
+            // monitorSelectAll();//监听是否全选
+            // checkAllClass();//全选操作
             bindSaveEvent();//注册保存到仓库和发布事件
             goProductList();//面包屑跳转
+            addPolicy();//添加政策
+            delPolicy();//删除政策
         });
     })(jQuery,undefined);
 </script>
