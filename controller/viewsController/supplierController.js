@@ -394,7 +394,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX = function(req, res, next)
         page : './organization/editAnnex'
     }, req, res, next);
 };
-
+// 供应商部分-金融机构-跳转复制产品
+exports.VIEW_SUPPLIER_ORGANIZATION_COPYPRODUCT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/pigeonholeMaterial/toEdit',
+        title : '供应商-机构详情页',
+        page : './organization/copyProduct'
+    }, req, res, next);
+};
 
 
 

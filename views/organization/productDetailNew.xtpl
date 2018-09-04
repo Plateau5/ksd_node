@@ -65,6 +65,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="rf">
+                    {{#if (verifyCode(1594)) }}
+                    <a href="javascript:" class="detail_title_btn operation_small_icon copy_product_btn" style="float: right">复制此产品</a>
+                    {{/if}}
+                </div>
             </div>
 
             <div class="product_detail_box">
@@ -110,13 +115,15 @@
                     <table class="normal product_table">
                         <colgroup style="width: 100%;">
                             {{#if (reqParams.page_flag === '0') }}
+                            <col style="width: 5%;" />
                             <col style="width: 20%;" />
                             <col style="width: 20%;" />
                             <col style="width: 20%;" />
                             <col style="width: 20%;" />
-                            <col style="width: 20%;" />
+                            <col style="width: 15%;" />
                             {{else}}
-                            <col style="width: 25%;" />
+                            <col style="width: 5%;" />
+                            <col style="width: 20%;" />
                             <col style="width: 25%;" />
                             <col style="width: 25%;" />
                             <col style="width: 25%;" />
@@ -124,12 +131,13 @@
                         </colgroup>
                         <thead>
                         <tr class="table_header_tr">
+                            <th></th>
                             <th>融资金额范围</th>
                             <th>首付比例/金额</th>
                             <th>费率</th>
                             <th>融资期限</th>
                             {{#if (reqParams.page_flag === '0') }}
-                            <th>操作</th>
+                            <th style="text-align: center;">操作</th>
                             {{/if}}
                         </tr>
                         </thead>
@@ -143,18 +151,19 @@
                         {{else}}
                         {{#each (policy_list) }}
                         <tr>
+                            <td></td>
                             <td>{{this.financeamount_start}}-{{this.financeamount_end}}万</td>
                             <td>{{this.downpayment_value}}</td>
                             <td>{{this.interest_rate}}</td>
                             <td>{{this.term}}</td>
                             {{#if (reqParams.page_flag === '0') }}
-                            <td class="operate_btn">
+                            <td class="operate_btn" style="text-align: center;">
                                 {{#if (root.verifyCode(1601)) }}
-                                <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}" data-num="{{xindex + 1}}" data-release_time="{{vo.release_time}}">编辑</a>
+                                <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}" data-num="{{xindex + 1}}" data-release_time="{{vo.release_time}}" title="编辑"></a>
                                 {{/if}}
                                 {{#if (../policy_list.length !== 1) }}
                                 {{#if (root.verifyCode(1607)) }}
-                                <a href="javascript:;" class="detail_title_btn delete_btn del_policy" data-policy_id="{{this.policy_id}}" style="margin-left: 10px;">删除</a>
+                                <a href="javascript:;" class="detail_title_btn delete_btn del_policy" data-policy_id="{{this.policy_id}}" title="删除"></a>
                                 {{/if}}
                                 {{/if}}
                             </td>
@@ -491,6 +500,19 @@
                 });
             });
         }
+        /**
+         * 复制产品
+         * @author Plateau  2018年9月4日17:38:35
+         * */
+        function copyProduct () {
+            var del_policy = $('.del_policy');
+            del_policy.off('click').on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/copyProduct",
+                    param : {}
+                })
+            });
+        }
         $(function() {
             viewLargeImage('.img_list');       // 查看大图
             showMorePic();//显示隐藏图片
@@ -499,6 +521,7 @@
             toEditPolicy();//跳转产品政策息编辑
             delPolicy();//删除政策
             goProductList();//跳往产品列表
+            copyProduct();//复制产品
         });
     })(jQuery,undefined);
 </script>

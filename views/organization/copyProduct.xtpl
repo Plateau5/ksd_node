@@ -1,0 +1,159 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main copy_product">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item go_publish_list">产品列表</a>
+                <a href="javascript:;" class="crumbs_item go_product_detail">{{parent_name}}</a>
+                <a href="javascript:;" class="crumbs_item">复制{{parent_name}}</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="organization_info_create" method="post">
+                    <input type="hidden" name="id" id="orgId" value="{{vo.id}}">
+                    <input type="hidden" name="material_type" id="material_type" value="{{reqParams.material_type}}">
+                    <div class="option_item" style="margin-top: 20px;">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">适用城市：</span>
+                        </div>
+                        <div class="column_val">
+                            <a href="javascript:;" class="select_city">选择城市</a>
+                        </div>
+                    </div>
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm save_publish">发布</a>
+                        <a href="javascript:" class="btn orange_btn confirm save_warehouse">保存到仓库</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        var old_policy_desc = $('#approval_policy').val();
+
+
+        //保存按钮
+        function saveOrg () {
+            var btn = $(".save_org");
+            btn.off("click").on("click", function () {
+                send_organization_form();
+            });
+        }
+        //保存更新函数
+        function send_organization_form(){
+            ajaxSubmit();
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var parameters = new FormData(document.getElementById('organization_info_create'));
+            var policy_desc = kindEditor.html();
+            parameters.append('policy_desc', policy_desc);
+            if ($('#orgId').val() == '') {
+                parameters.append('change_version', '0');
+            } else {
+                if (old_policy_desc != policy_desc) {
+                    parameters.append('change_version', '1');
+                } else {
+                    parameters.append('change_version', '0');
+                }
+            }
+
+            if ($('#orgId').val().trim() == '') {
+                var url = '/api/organization/create';
+            } else {
+                var url = '/api/organization/update';
+            }
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/detail',
+                                param : {
+                                    organization_id : $('#orgId').val().trim(),
+                                    material_type : $('#material_type').val()
+                                }
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrglist () {
+            var go_orglist = $('.go_orglist');
+            go_orglist.off("click").on("click", function () {
+                var organization_id = $('#orgId').val().trim()
+                if (organization_id == '') {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/list'
+                    });
+                } else {
+                    locationTo({
+                        action : contextPath + markUri + '/supplier/organization/detail',
+                        param : {
+                            organization_id : organization_id,
+                            material_type : 0
+                        }
+                    });
+                }
+
+            });
+        }
+        $(function() {
+            saveOrg();//保存机构
+            goOrglist();//取消事件
+        });
+    })(jQuery,undefined);
+</script>
+</html>
