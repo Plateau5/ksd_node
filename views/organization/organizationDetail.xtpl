@@ -515,7 +515,19 @@
                         org_name : $('.header_txt_top').text()
                     };
                 } else if (material_type == 4 || material_type == 5 || material_type == 6) {
-
+                    var url = "/supplier/organization/editRichText";
+                    var paras = {
+                        organization_id : orgId,
+                        material_type : material_type,
+                        org_name : $('.header_txt_top').text()
+                    };
+                } else if (material_type == 7) {
+                    var url = "/supplier/organization/editAnnex";
+                    var paras = {
+                        organization_id : orgId,
+                        material_type : material_type,
+                        org_name : $('.header_txt_top').text()
+                    };
                 }
                 locationTo({
                     action : contextPath + markUri + url,

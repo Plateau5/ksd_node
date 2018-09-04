@@ -339,7 +339,7 @@ router.post(markUri + '/supplier/organization/editRichText', supplierCtrl.VIEW_S
 // 供应商部分-金融机构-机构GPS安装编辑页跳转
 router.post(markUri + '/supplier/organization/editRichText', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_GPS);
 // 供应商部分-金融机构-机构附件资料编辑页跳转
-router.post(markUri + '/supplier/organization/editRichText', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX);
+router.post(markUri + '/supplier/organization/editAnnex', supplierCtrl.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX);
 
 
 

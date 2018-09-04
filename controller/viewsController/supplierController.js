@@ -316,6 +316,8 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
         page : './organization/organizationDetail'
     }, req, res, next);
 };
+
+
 // 供应商部分-金融机构-机构进件资料编辑页跳转   new
 exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_INCOMING = function(req, res, next) {
     common.getPageData({
@@ -358,12 +360,14 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICYDETAIL = function(req, res, next) {
     }, req, res, next);
 };
 
+
+
 // 供应商部分-金融机构-机构签约方式及合同编辑页跳转
 exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_CONTRACT = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/pigeonholeMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/editAnnex'
+        page : './organization/editRichText'
     }, req, res, next);
 };
 // 供应商部分-金融机构-机构面签照编辑页跳转
@@ -371,7 +375,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_FACEREG = function(req, res, nex
     common.getPageData({
         url : '/api/organization/pigeonholeMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/editAnnex'
+        page : './organization/editRichText'
     }, req, res, next);
 };
 // 供应商部分-金融机构-机构GPS安装编辑页跳转
@@ -379,7 +383,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_GPS = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/pigeonholeMaterial/toEdit',
         title : '供应商-机构详情页',
-        page : './organization/editAnnex'
+        page : './organization/editRichText'
     }, req, res, next);
 };
 // 供应商部分-金融机构-机构附件资料编辑页跳转
