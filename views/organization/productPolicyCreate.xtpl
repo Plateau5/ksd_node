@@ -1051,7 +1051,108 @@
             if (submit_flag) {
                 var product_id = $('#product_id').val().trim();
                 var product_name = $('#product_name').val().trim();
-                var material_data = JSON.stringify(material_data_arr);
+                var applyto_business = $('#applyto_business').val().trim();
+                var parent_id = $('#orgId').val().trim();
+                var city_ids = $('#city_ids').val().trim();
+                var applyto_type = $('#applyto_type').val().trim();
+                var policy_data_arr = [];
+                var policy_item = $('.policy_item').not('.default_policy');
+                policy_item.each(function () {
+                    var _this = $(this);
+                    var financeamount_start = _this.find('.financeamount_start').val().trim();
+                    var financeamount_end = _this.find('.financeamount_end').val().trim();
+                    var downpayment_type = _this.find('.downpayment_type').val();
+                    if (downpayment_type == '2') {
+                        var downpayment_money_box = _this.find('.downpayment_money_box').find('input');
+                        var downpayment_money_flag = false;
+                        downpayment_money_box.each(function () {
+                            var _this = $(this);
+                            if (_this.val().trim() == '') {
+                                downpayment_money_flag = true;
+                            }
+                        });
+                        if (downpayment_money_flag && downpayment_money_box.length == 1) {
+                            $alert('请输入首付金额');
+                            return;
+                        } else {
+                            var downpayment_moneys = _this.find('.downpayment_money_box input[name=downpayment_money]');
+                            var downpayment_moneys_vals = [];
+                            downpayment_moneys.each(function () {
+                                var _this = $(this);
+                                if (_this.val() != '') {
+                                    downpayment_moneys_vals.push(_this.val().trim());
+                                }
+                            });
+                            var downpayment_value = downpayment_moneys_vals.join(',');
+                        }
+                    }else if (downpayment_type == '1') {
+                        var rate_num = 0;
+                        var downpayment_rate = _this.find('.downpayment_rate label');
+                        var downpayment_rate_vals = [];
+                        downpayment_rate.each(function () {
+                            var _this = $(this);
+                            if (_this.hasClass('checked')) {
+                                rate_num++;
+                                downpayment_rate_vals.push(_this.data('id'));
+                            }
+                        });
+                        if (rate_num == 0) {
+                            $alert('请选择首付比例');
+                            return;
+                        } else {
+                            var downpayment_value = downpayment_rate_vals.join(',');
+                        }
+                    }
+                    var rate_box = _this.find('.rate_box').find('input');
+                    var rate_flag = false;
+                    rate_box.each(function () {
+                        var _this = $(this);
+                        if (_this.val().trim() == '') {
+                            rate_flag = true;
+                        }
+                    });
+                    if (rate_flag && rate_box.length == 1) {
+                        $alert('请输入费率');
+                        return;
+                    } else {
+                        var interest_rate = _this.find('.rate_box input[name=interest_rate]');
+                        var interest_rate_vals = [];
+                        interest_rate.each(function () {
+                            var _this = $(this);
+                            if (_this.val() != '') {
+                                interest_rate_vals.push(_this.val().trim());
+                            }
+                        });
+                        var interest_rate = interest_rate_vals.join(',');
+                    }
+                    var term_label = _this.find('.term label');
+                    var term_num = 0;
+                    var term_vals = [];
+                    term_label.each(function () {
+                        var _this = $(this);
+                        if (_this.hasClass('checked')) {
+                            term_num++;
+                            term_vals.push(_this.data('id'));
+                        }
+                    });
+                    if (term_num == 0) {
+                        $alert('请选择融资期限');
+                        return;
+                    } else {
+                        var term = term_vals.join(',');
+                    }
+                    var obj = {
+                        financeamount_start : financeamount_start,
+                        financeamount_end : financeamount_end,
+                        downpayment_type : downpayment_type,
+                        downpayment_value : downpayment_value,
+                        interest_rate : interest_rate,
+                        term : term
+                    };
+                    policy_data_arr.push(obj);
+                });
+
+                var policy_data = JSON.stringify(policy_data_arr);
                 if (save_flag ==3) {//编辑保存
                     var update_data = [];//有更新的材料数据
                     var insert_data = [];//有新增的材料数据
@@ -1133,38 +1234,26 @@
                         insert_data : JSON.stringify(insert_data),
                         release_time : release_time
                     };
-                } else if (save_flag ==1 || save_flag == 4) {
-                    var applyto_business = $('#applyto_business').val().trim();
-                    var parent_id = $('#orgId').val().trim();
-                    var city_ids = $('#city_ids').val().trim();
-                    var applyto_type = $('#applyto_type').val().trim();
+                } else if (save_flag ==1 || save_flag == 4) {//保存到仓库
                     var parameters = {
                         product_id : product_id,
                         product_name : product_name,
-                        financeamount_start : financeamount_start,
-                        financeamount_end : financeamount_end,
-                        downpayment_type : downpayment_type,
-                        downpayment_value : downpayment_value,
-                        interest_rate : interest_rate,
-                        term : term,
-                        material_data : material_data,
+                        policy_data : policy_data,
                         applyto_business : applyto_business,
                         parent_id : parent_id,
                         city_ids : city_ids,
                         applyto_type : applyto_type
                     };
-                } else {
+                } else {//发布
                     var parameters = {
                         product_id : product_id,
                         publish_type : 1,
                         product_name : product_name,
-                        financeamount_start : financeamount_start,
-                        financeamount_end : financeamount_end,
-                        downpayment_type : downpayment_type,
-                        downpayment_value : downpayment_value,
-                        interest_rate : interest_rate,
-                        term : term,
-                        material_data : material_data
+                        policy_data : policy_data,
+                        applyto_business : applyto_business,
+                        parent_id : parent_id,
+                        city_ids : city_ids,
+                        applyto_type : applyto_type
                     };
                 }
 
