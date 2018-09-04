@@ -21,8 +21,10 @@ exports.VIEW_MERCHANTS_SYSTEM = function(req, res, next) {
             res.redirect(markUri + '/records/manage');
         } else if (common.checkPrivilege(1490, req)) {
             res.redirect(markUri + '/loan/system');
+        } else if (common.checkPrivilege(1610, req)) {
+            res.redirect(markUri + '/merchants/level/system');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1490 | 1368 | 1367 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1490 | 1368 | 1367 | 1610 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
@@ -494,3 +496,25 @@ exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
     }, req, res, next);
 };
 
+
+// 商户-等级列表-侧导航跳转   1610
+exports.VIEW_MERCHANTS_LEVEL_SYSTEM = function(req, res, next) {
+    try {
+        if (common.checkPrivilege(1610, req)) {
+            res.redirect(markUri + '/merchants/level/list');
+        } else {
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1610  is not defined.');
+        }
+    } catch (e) {
+        LOGERROR(e.stack);
+        res.redirect(markUri + '/404');
+    }
+};
+// 商户-等级列表 1610
+exports.VIEW_MERCHANTS_LEVELLIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/supplier/level/list',
+        title : '等级列表',
+        page : './merchants/levelList'
+    }, req, res, next);
+};

@@ -1,11 +1,12 @@
 <table class="normal" id="merchantsList">
     <colgroup>
         <col style="width: 20%;" />
+        <col style="width: 12%;" />
+        <col style="width: 12%;" />
         <col style="width: 10%;" />
-        <col style="width: 15%;" />
-        <col style="width: 15%;" />
         <col style="width: 10%;" />
-        <col style="width: 15%;" />
+        <col style="width: 12%;" />
+        <col style="width: 12%;" />
         <col />
     </colgroup>
     <thead>
@@ -17,6 +18,7 @@
         <th>拥有者</th>
         <th>标签</th>
         <th>状态</th>
+        <th>等级</th>
     </tr>
     </thead>
     <tbody>
@@ -52,13 +54,18 @@
                     {{elseif (this.status === 4) }}
                         <td>流失商户</td>
                     {{/if}}
+                    {{#if (!this.grade_value || this.grade_value === '' || this.grade_value.length <= 0) }}
+                    <td>--</td>
+                    {{else}}
+                    <td title="{{this.grade_value}}">{{this.grade_value}}</td>
+                    {{/if}}
                 </tr>
             {{/each}}
         {{/if}}
         <!-- 没有数据部分 -->
         {{#if (count === 0) }}
             <tr class="no_data">
-                <td colspan="7">
+                <td colspan="8">
                     <div class="no_list_data no_merchants">
                         <div class="toast_img no_merchants_img"></div>
                         <div class="toast_text">抱歉，没有符合条件的商户哦</div>

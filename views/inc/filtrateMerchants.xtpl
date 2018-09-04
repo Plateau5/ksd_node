@@ -21,6 +21,24 @@
                 {{/if}}
             </select>
         </div>
+        {{#if (startWith(markUri + '/merchants/')) }}
+        <div class="filtrate_item select_item inline_block">
+            <div class="conditions_name inline_block" style="vertical-align: top;">拥有类型：</div>
+            <select name="own_type"  class="filtrate_select have_type" id="hadType">
+                <option value="">全部</option>
+                {{#if (own_type === 2) }}
+                <option selected value="2">公海</option>
+                {{else}}
+                <option value="2">公海</option>
+                {{/if}}
+                {{#if (own_type === 1) }}
+                <option selected value="1">私海</option>
+                {{else}}
+                <option value="1">私海</option>
+                {{/if}}
+            </select>
+        </div>
+        {{/if}}
         {{#if (cityList && cityList.length > 0) }}
         <div class="filtrate_item select_item inline_block">
             <div class="conditions_name inline_block" style="vertical-align: top;">城市：</div>
@@ -36,7 +54,7 @@
             </select>
         </div>
         {{/if}}
-        {{#if (startWith(markUri + '/merchants/'))   }}
+        {{#if (startWith(markUri + '/merchants/')) }}
         <div class="filtrate_item select_item inline_block">
             <div class="conditions_name inline_block" style="vertical-align: top;">状态：</div>
             <select name="status"  class="filtrate_select merchants_state" id="merchantsState">
@@ -48,22 +66,6 @@
                         <option value="{{this.id}}">{{this.value}}</option>
                     {{/if}}
                 {{/each}}
-            </select>
-        </div>
-        <div class="filtrate_item select_item inline_block">
-            <div class="conditions_name inline_block" style="vertical-align: top;">拥有类型：</div>
-            <select name="own_type"  class="filtrate_select have_type" id="hadType">
-                <option value="">全部</option>
-                {{#if (own_type === 2) }}
-                    <option selected value="2">公海</option>
-                {{else}}
-                    <option value="2">公海</option>
-                {{/if}}
-                {{#if (own_type === 1) }}
-                    <option selected value="1">私海</option>
-                {{else}}
-                    <option value="1">私海</option>
-                {{/if}}
             </select>
         </div>
         <div class="filtrate_item select_item inline_block">
@@ -93,6 +95,19 @@
                 {{else}}
                     <option value="2">KA渠道</option>
                 {{/if}}
+            </select>
+        </div>
+        <div class="filtrate_item select_item inline_block">
+            <div class="conditions_name inline_block" style="vertical-align: top;">商户等级：</div>
+            <select name="level"  class="filtrate_select merchants_tags" id="level">
+                <option value="">全部</option>
+                {{#each (level_list) }}
+                {{#if (this.level === root.level) }}
+                <option value="{{this.level}}" selected="selected">{{this.level_value}}</option>
+                {{else}}
+                <option value="{{this.level}}">{{this.level_value}}</option>
+                {{/if}}
+                {{/each}}
             </select>
         </div>
         {{/if}}
