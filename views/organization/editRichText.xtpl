@@ -99,21 +99,17 @@
                     $alert('GPS安装不能为空');
                 }
             } else {
+                var parameters = {
+                    id : $('#orgId').val().trim(),
+                    change_type : change_type
+                };
                 if (change_type == '4') {
-                    var parameters = {
-                        sign_contract : policy_desc
-                    };
+                    parameters.sign_contract = policy_desc;
                 } else if (change_type == '5') {
-                    var parameters = {
-                        face_sign : policy_desc
-                    };
+                    parameters.face_sign = policy_desc;
                 } else if (change_type == '6') {
-                    var parameters = {
-                        gps_install : policy_desc
-                    };
+                    parameters.gps_install = policy_desc;
                 }
-                parameters.id = $('#orgId').val().trim();
-                parameters.change_type = change_type;
                 if (old_policy_desc == '') {
                     parameters.change_version = 0;
                 } else {

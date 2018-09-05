@@ -266,149 +266,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name"><span class="require_icon">*</span>申请资料：</span>
-                            </div>
-                            <div class="column_val" style="margin-top: 20px;border: 1px solid #E4E4E4;">
-                                {{#each (material_list) }}
-                                    {{#if (this.material_datas) }}
-                                        <div class="material_list" data-id="{{this.type}}" data-histrory="1">
-                                    {{else}}
-                                        <div class="material_list" data-id="{{this.type}}" data-histrory="0">
-                                    {{/if}}
-                                        <div class="big_class">
-                                            <div class="big_class_name">{{this.type_value}}</div>
-                                            <div class="require">
-                                                <div class="form_group">
-                                                    {{#if (this.is_must === 1) }}
-                                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{this.type}}" value="1" checked="checked">
-                                                    <label for="must_send{{xindex}}" class="checked">必传</label>
-                                                    {{else}}
-                                                    <input id="must_send{{xindex}}" type="radio" class="must_send" name="must_send{{this.type}}" value="1">
-                                                    <label for="must_send{{xindex}}">必传</label>
-                                                    {{/if}}
-                                                </div>
-                                                <div class="form_group">
-                                                    {{#if (this.is_must === 0 || !this.is_must) }}
-                                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0" checked="checked">
-                                                    <label for="must_nosend{{xindex}}" class="checked">非必传</label>
-                                                    {{else}}
-                                                    <input id="must_nosend{{xindex}}" type="radio" class="must_nosend" name="must_send{{this.type}}" value="0">
-                                                    <label for="must_nosend{{xindex}}">非必传</label>
-                                                    {{/if}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="small_class">
-                                            <div class="selector_box">
-                                                <div class="form_group check_all_box">
-                                                    {{#if (this.material_datas) }}
-                                                        {{#if (this.material_datas.indexOf(',') !== -1) }}
-                                                            {{set (material_datas_arr = this.material_datas.split(',')) }}
-                                                            {{#if (material_datas_arr.length ===  this.mlist.length) }}
-                                                                <div class="form_group">
-                                                                    <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                    <label class="check_all checked">全选</label>
-                                                                </div>
-                                                                {{#each (this.mlist) }}
-                                                                <div class="form_group">
-                                                                    <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                </div>
-                                                                {{/each}}
-                                                            {{else}}
-                                                                <div class="form_group">
-                                                                    <input type="checkbox" class="" name="" value="">
-                                                                    <label class="check_all">全选</label>
-                                                                </div>
-                                                                {{#each (this.mlist) }}
-                                                                <div class="form_group">
-                                                                    {{#if (material_datas_arr.indexOf(this.material_id.toString()) !== -1) }}
-                                                                    <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                    <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                    {{else}}
-                                                                    <input type="checkbox" class="" name="" value="">
-                                                                    <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                    {{/if}}
-                                                                </div>
-                                                                {{/each}}
-                                                            {{/if}}
-                                                        {{else}}
-                                                            <div class="form_group">
-                                                                <input type="checkbox" class="" name="" value="">
-                                                                <label class="check_all">全选</label>
-                                                            </div>
-                                                            {{#each (this.mlist) }}
-                                                            <div class="form_group">
-                                                                {{#if (this.material_id.toString() === ../this.material_datas) }}
-                                                                <input type="checkbox" class="" name="" value="" checked="checked">
-                                                                <label class="small_name checked" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                {{else}}
-                                                                <input type="checkbox" class="" name="" value="">
-                                                                <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                                {{/if}}
-                                                            </div>
-                                                            {{/each}}
-                                                        {{/if}}
-                                                    {{else}}
-                                                        <div class="form_group">
-                                                            <input type="checkbox" class="" name="" value="">
-                                                            <label class="check_all">全选</label>
-                                                        </div>
-                                                        {{#each (this.mlist) }}
-                                                        <div class="form_group">
-                                                            <input type="checkbox" class="" name="" value="">
-                                                            <label class="small_name" data-id="{{this.material_id}}">{{this.material_name}}</label>
-                                                        </div>
-                                                        {{/each}}
-                                                    {{/if}}
-                                                </div>
-                                                <div class="img_md_box file_upload" style="padding-left: 0px;">
-                                                    <input type="hidden" class="file_ids" name="file_ids" value="{{this.file_ids}}">
-                                                    {{#if (this.file_ids) }}
-                                                        {{#if (this.file_ids.indexOf(',') !== -1) }}
-                                                            {{set (file_ids_arr = this.file_ids.split(',')) }}
-                                                            {{#each (file_ids_arr) }}
-                                                                <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
-                                                                    <img data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}">
-                                                                    <div class="img_md_operate_box">
-                                                                        <em class="img_md_operate_btn view" data-url="{{image_url}}{{this}}" title="查看"></em>
-                                                                        <em class="img_md_operate_btn remove_btn delete" data-id="{{this}}" title="删除"></em>
-                                                                    </div>
-                                                                </a>
-                                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                                                            {{/each}}
-                                                            {{#if (file_ids_arr.length >= 30) }}
-                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{file_ids_arr.length-1}}" style="padding: 0px;display: none;"></a>
-                                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                                                            {{else}}
-                                                                <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="{{file_ids_arr.length-1}}" style="padding: 0px;"></a>
-                                                                <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                                                            {{/if}}
-                                                        {{else}}
-                                                            <a href="javascript:;" class="img_item head_photo" data-type="imgBox">
-                                                                <img data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}">
-                                                                <div class="img_md_operate_box">
-                                                                    <em class="img_md_operate_btn view" data-url="{{image_url}}{{this.file_ids}}" title="查看"></em>
-                                                                    <em class="img_md_operate_btn remove_btn delete" data-id="{{this.file_ids}}" title="删除"></em>
-                                                                </div>
-                                                            </a>
-                                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                                                            <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="1" style="padding: 0px;"></a>
-                                                            <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                                                        {{/if}}
-                                                    {{else}}
-                                                        <a href="javascript:;" class="file_upload_layer add_img_md_btn" data-type="0" style="padding: 0px;"></a>
-                                                        <input type="file" class="file_upload_btn" value="上传图片" style="display: none" />
-                                                    {{/if}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {{/each}}
-                            </div>
-                        </div>-->
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
@@ -519,13 +376,9 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
-        var policy_list = '{{{policy_lists}}}';//编辑前政策集合
-        if (policy_list.length > 0 ) {
-            policy_list = JSON.parse(policy_list);
-        }
         var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
         var warehouse_list = '{{{reqParams.warehouse_list}}}';//仓库产品列表参数
-        var product_detail = '{{{reqParams.product_detail}}}';//残品详情页
+        var product_detail = '{{{reqParams.product_detail}}}';//产品详情页
         /**
          * 切换首付类型事件
          * @author Plateau 2018年8月8日13:20:46
@@ -668,188 +521,6 @@
         }
 
         /**
-         * 图片上传功能
-         * @author Plateau 2018年8月9日11:19:51
-         */
-        // var file_ids = [];//上传图片ids
-        // function uploadImage () {
-        //     fileUpload({
-        //         maxCount : 30,
-        //         filesSize : 5,
-        //         fileFormat : ['png', 'jpg', 'jpeg'],
-        //         needThumbnails : false,
-        //         callback : function (btn, file, success) {
-        //             onChoose(btn, file, success);
-        //         }
-        //     });
-        //     // 上传逻辑
-        //     var onChoose = function (btn, file, success) {
-        //         if (file.size > 5242880) {
-        //             $('.file_upload_btn').val('');
-        //             $alert('上传文件大于5M');
-        //             return false;
-        //         }
-        //         if (!success) {
-        //             $alert('上传文件格式不正确');
-        //             return false;
-        //         }
-        //         var type = $.trim(btn.data('type'));
-        //         var data = file;
-        //         var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名
-        //         var fileCount = btn.parents('.img_md_box').find('.img_item').length;    // 该备案字段下现有图片总数
-        //         var filingName = $.trim(btn.parents('.option_item').find('.options_name').text()).replace(/[*:：]/ig, '');   // 字段名称
-        //         var fileName = filingName + '_' + (fileCount + 1) + fileExtension;
-        //         var merchantId = $.trim($('#supplierId').val());
-        //         var form = new FormData();
-        //         form.append("file", data);
-        //         form.append("file_type", type);
-        //         form.append("supplier_id", merchantId);
-        //         form.append("file_name", fileName);     // 用于后台重命名图片物理名字
-        //         var url = contextPath + '/api/file/upload';
-        //         $.ajax({
-        //             type : "post",
-        //             url : url,
-        //             data : form,
-        //             async : false,
-        //             timeout : 300000,
-        //             processData: false,
-        //             contentType: false,
-        //             beforeSend : function () {
-        //                 //elem.loading.show();
-        //                 btn.removeClass('disabled');
-        //                 btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
-        //             },
-        //             success : function (res) {
-        //                 getSuccess(res, btn, type, fileName);
-        //             },
-        //             error : function () {
-        //                 $alert('图片上传失败，请重试');
-        //             }
-        //         });
-        //     }
-        // }
-
-        /**
-         * 图片上传成功方法
-         * @author Plateau 2018年8月9日12:59:37
-         */
-        // function getSuccess (res, btn, type, fileName) {
-        //     if (res.error_code == 0) {
-        //         var file_id_input =  btn.siblings('input[name=file_ids]');
-        //         file_id_input.data('upload_image',true);
-        //         var file_ids = [];
-        //         if (file_id_input.val().trim() == '') {
-        //             file_id_input.val(res.data[0].file_id);
-        //         } else {
-        //             file_ids.push(file_id_input.val());
-        //             file_ids.push(res.data[0].file_id);
-        //             file_id_input.val(file_ids.join(','));
-        //         }
-        //         $alert('图片上传成功',function () {
-        //             var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
-        //                 '             <img data-original="'+ res.data[0].image_url +'" src="'+ res.data[0].thumbnail +'" alt="'+ fileName +'"/>\n' +
-        //                 '             <div class="img_md_operate_box">\n' +
-        //                 '             <em class="img_md_operate_btn view" data-url="'+ res.data[0].image_url +'" title="查看"></em>\n' +
-        //                 ((type != '99') ?('<em class="img_md_operate_btn remove_btn delete" data-id="'+ res.data[0].file_id +'" title="删除"></em>') : '') +
-        //                 '             </div>\n' +
-        //                 '             </a>';
-        //             if (btn.parents('.img_md_box').find('img').length >= 29) {
-        //                 btn.hide();
-        //             }
-        //             btn.before(imgEle);
-        //             /* 赋予新图片查看的实例属性 */
-        //             var parents = btn.parents('.img_md_box');
-        //             // 销毁父元素
-        //             var img = parents.find('.img_item');
-        //             if (img.length > 1) {
-        //                 parents[0].viewer.destroy();
-        //             }
-        //             viewLargeImage(parents[0]);
-        //         });
-        //     } else {
-        //         $alert('图片上传失败，请重试');
-        //     }
-        // }
-
-        /**
-         * 删除图片
-         * @author Plateau 2018年8月9日11:19:58
-         */
-        // function deleteImages () {
-        //     var imagesParents = $('.product_policy_create');
-        //     imagesParents.on('click', '.img_md_operate_box .delete', function (e) {
-        //         var e = e || window.event;
-        //         e.stopPropagation();
-        //         e.preventDefault();
-        //         var _this = $(this);
-        //         var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
-        //         var id  = $.trim(_this.data('id'));
-        //         redefineAjax({
-        //             data : {
-        //                 file_id : id
-        //             },
-        //             url : contextPath + '/api/delete/file',
-        //             success : function (res) {
-        //                 if (res.error_code == 0) {
-        //                     file_id_input.data('upload_image',true);
-        //                     var fileNum = _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num');
-        //                     fileNum--;
-        //                     _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num', fileNum);
-        //                     if (file_id_input.val().trim().indexOf(',') !== -1) {
-        //                         var file_id_arr = file_id_input.val().trim().split(',');
-        //                         for (var i = 0,len = file_id_arr.length;i<len;i++) {
-        //                             if (file_id_arr[i] == id) {
-        //                                 file_id_arr.splice(i,1);
-        //                             }
-        //                         }
-        //                         file_id_input.val(file_id_arr.join(','));
-        //                     } else {
-        //                         file_id_input.val('');
-        //                     }
-        //                     $alert('图片删除成功', function () {
-        //                         var btn = _this.parents('.img_md_box').find('.add_img_md_btn');
-        //                         var type = $.trim(btn.data('type'));
-        //                         btn.data('type',type.number() - 1);
-        //                         if (btn.parents('.img_md_box').find('img').length <= 30) {
-        //                             btn.show();
-        //                         }
-        //                         // 获取父元素
-        //                         var parents = _this.parents('.img_md_box');
-        //                         // 销毁父元素的viewer实例
-        //                         parents[0].viewer.destroy();
-        //                         _this.parents('.img_item').remove();
-        //                         viewLargeImage(parents[0]);
-        //                     });
-        //                 } else {
-        //                     $alert(res.error_msg);
-        //                 }
-        //             },
-        //             error : function () {
-        //                 $alert('图片删除异常，请稍后重试');
-        //             }
-        //         })
-        //     })
-        // }
-        /**
-         * 查看图片跳转
-         * @author Plateau 2018年8月9日11:18:37
-         */
-        // function viewImages () {
-        //     var imagesParents = $('.product_policy_create');
-        //     imagesParents.on('click', '.img_md_operate_box .view', function (e) {
-        //         var e = e || window.event;
-        //         e.stopPropagation();
-        //         e.preventDefault();
-        //         var _this = $(this);
-        //         /*var url  = $.trim(_this.data('url'));
-        //         window.open(url);*/
-        //         var img = _this.parents('.img_md_operate_box').siblings('img');
-        //         img.click();
-        //     })
-        // }
-
-
-        /**
          * 注册保存到仓库和发布事件
          * @author  Plateau  2018年8月9日09:34:31
          * */
@@ -892,162 +563,6 @@
          * @author  Plateau  2018年8月9日09:36:58
          * */
         function submitValid (save_flag, url) {
-            // var financeamount_start = $('.financeamount_start').val().trim();
-            // var financeamount_end = $('.financeamount_end').val().trim();
-            // if (financeamount_start == '') {
-            //     $alert('请输入融资金额的最小金额');
-            //     return;
-            // }
-            // if (financeamount_end == '') {
-            //     $alert('请输入融资金额的最大金额');
-            //     return;
-            // }
-            // if (financeamount_start.number() >= financeamount_end.number()) {
-            //     $alert('请输入正确的融资金额范围');
-            //     return;
-            // }
-            //
-            // var downpayment_type = $('.downpayment_type').val().trim();
-            // if (downpayment_type == '-1') {
-            //     $alert('请选择首付类型');
-            //     return;
-            // }else if (downpayment_type == '2') {
-            //     var downpayment_money_box = $('.downpayment_money_box').find('input');
-            //     var downpayment_money_flag = false;
-            //     downpayment_money_box.each(function () {
-            //         var _this = $(this);
-            //         if (_this.val().trim() == '') {
-            //             downpayment_money_flag = true;
-            //         }
-            //     });
-            //     if (downpayment_money_flag && downpayment_money_box.length == 1) {
-            //         $alert('请输入首付金额');
-            //         return;
-            //     } else {
-            //         var downpayment_moneys = $('.downpayment_money_box input[name=downpayment_money]');
-            //         var downpayment_moneys_vals = [];
-            //         downpayment_moneys.each(function () {
-            //             var _this = $(this);
-            //             if (_this.val() != '') {
-            //                 downpayment_moneys_vals.push(_this.val().trim());
-            //             }
-            //         });
-            //         var downpayment_value = downpayment_moneys_vals.join(',');
-            //     }
-            // }else if (downpayment_type == '1') {
-            //     var rate_num = 0;
-            //     var downpayment_rate = $('.downpayment_rate label');
-            //     var downpayment_rate_vals = [];
-            //     downpayment_rate.each(function () {
-            //         var _this = $(this);
-            //         if (_this.hasClass('checked')) {
-            //             rate_num++;
-            //             downpayment_rate_vals.push(_this.data('id'));
-            //         }
-            //     });
-            //     if (rate_num == 0) {
-            //         $alert('请选择首付比例');
-            //         return;
-            //     } else {
-            //         var downpayment_value = downpayment_rate_vals.join(',');
-            //     }
-            // }
-            // var rate_box = $('.rate_box').find('input');
-            // var rate_flag = false;
-            // rate_box.each(function () {
-            //     var _this = $(this);
-            //     if (_this.val().trim() == '') {
-            //         rate_flag = true;
-            //     }
-            // });
-            // if (rate_flag && rate_box.length == 1) {
-            //     $alert('请输入费率');
-            //     return;
-            // } else {
-            //     var interest_rate = $('.rate_box input[name=interest_rate]');
-            //     var interest_rate_vals = [];
-            //     interest_rate.each(function () {
-            //         var _this = $(this);
-            //         if (_this.val() != '') {
-            //             interest_rate_vals.push(_this.val().trim());
-            //         }
-            //     });
-            //     var interest_rate = interest_rate_vals.join(',');
-            // }
-            // var term_label = $('.term label');
-            // var term_num = 0;
-            // var term_vals = [];
-            // term_label.each(function () {
-            //     var _this = $(this);
-            //     if (_this.hasClass('checked')) {
-            //         term_num++;
-            //         term_vals.push(_this.data('id'));
-            //     }
-            // });
-            // if (term_num == 0) {
-            //     $alert('请选择融资期限');
-            //     return;
-            // } else {
-            //     var term = term_vals.join(',');
-            // }
-            //
-            // var small_name = $('.small_name');
-            // var material_nums = 0;
-            // small_name.each(function () {
-            //     var _this = $(this);
-            //     if (_this.hasClass('checked')) {
-            //         material_nums++;
-            //     }
-            // });
-            // var is_must_flag = false;
-            // if (material_nums == 0) {
-            //     $alert('请选择申请资料');
-            //     return;
-            // } else {
-            //     var material_data_arr = [];
-            //     var material_list = $('.material_list');
-            //     material_list.each(function () {
-            //         var _this = $(this);
-            //         var file_ids = _this.find('.small_class .img_md_box input[name=file_ids]');
-            //         var id = _this.data('id');
-            //         var big_class = _this.find('.big_class .big_class_name').text().trim();
-            //         var must_input = _this.find('.big_class input');
-            //         var is_must = 0;
-            //         must_input.each(function () {
-            //             if (this.checked) {
-            //                 is_must = this.value;
-            //             }
-            //         });
-            //         var small_name = _this.find('.small_class .small_name');
-            //         var material_datas = [];
-            //         small_name.each(function () {
-            //             var _t = $(this);
-            //             if (_t.hasClass('checked')) {
-            //                 material_datas.push(_t.data('id'));
-            //             }
-            //         });
-            //
-            //         if (material_datas.length != 0) {
-            //             var obj = {
-            //                 data_type : id,
-            //                 is_must : is_must,
-            //                 material_datas : material_datas.join(','),
-            //                 file_ids : file_ids.val().trim()
-            //             };
-            //             material_data_arr.push(obj);
-            //         } else {
-            //             if (is_must == 1) {
-            //                 is_must_flag = true;
-            //                 $alert('请选择'+ big_class +'里面对应的资料。');
-            //                 return false;
-            //             }
-            //         }
-            //     });
-            // }
-            // if (is_must_flag) {
-            //     return false;
-            // }
-
             var submit_flag = addValid($('.policy_item').not('.default_policy').last());
             if (submit_flag) {
                 var product_id = $('#product_id').val().trim();
@@ -1060,164 +575,19 @@
                 var policy_item = $('.policy_item').not('.default_policy');
                 policy_item.each(function () {
                     var _this = $(this);
-                    var financeamount_start = _this.find('.financeamount_start').val().trim();
-                    var financeamount_end = _this.find('.financeamount_end').val().trim();
-                    var downpayment_type = _this.find('.downpayment_type').val();
-                    if (downpayment_type == '2') {
-                        var downpayment_money_box = _this.find('.downpayment_money_box').find('input');
-                        var downpayment_money_flag = false;
-                        downpayment_money_box.each(function () {
-                            var _this = $(this);
-                            if (_this.val().trim() == '') {
-                                downpayment_money_flag = true;
-                            }
-                        });
-                        if (downpayment_money_flag && downpayment_money_box.length == 1) {
-                            $alert('请输入首付金额');
-                            return;
-                        } else {
-                            var downpayment_moneys = _this.find('.downpayment_money_box input[name=downpayment_money]');
-                            var downpayment_moneys_vals = [];
-                            downpayment_moneys.each(function () {
-                                var _this = $(this);
-                                if (_this.val() != '') {
-                                    downpayment_moneys_vals.push(_this.val().trim());
-                                }
-                            });
-                            var downpayment_value = downpayment_moneys_vals.join(',');
-                        }
-                    }else if (downpayment_type == '1') {
-                        var rate_num = 0;
-                        var downpayment_rate = _this.find('.downpayment_rate label');
-                        var downpayment_rate_vals = [];
-                        downpayment_rate.each(function () {
-                            var _this = $(this);
-                            if (_this.hasClass('checked')) {
-                                rate_num++;
-                                downpayment_rate_vals.push(_this.data('id'));
-                            }
-                        });
-                        if (rate_num == 0) {
-                            $alert('请选择首付比例');
-                            return;
-                        } else {
-                            var downpayment_value = downpayment_rate_vals.join(',');
-                        }
-                    }
-                    var rate_box = _this.find('.rate_box').find('input');
-                    var rate_flag = false;
-                    rate_box.each(function () {
-                        var _this = $(this);
-                        if (_this.val().trim() == '') {
-                            rate_flag = true;
-                        }
-                    });
-                    if (rate_flag && rate_box.length == 1) {
-                        $alert('请输入费率');
-                        return;
-                    } else {
-                        var interest_rate = _this.find('.rate_box input[name=interest_rate]');
-                        var interest_rate_vals = [];
-                        interest_rate.each(function () {
-                            var _this = $(this);
-                            if (_this.val() != '') {
-                                interest_rate_vals.push(_this.val().trim());
-                            }
-                        });
-                        var interest_rate = interest_rate_vals.join(',');
-                    }
-                    var term_label = _this.find('.term label');
-                    var term_num = 0;
-                    var term_vals = [];
-                    term_label.each(function () {
-                        var _this = $(this);
-                        if (_this.hasClass('checked')) {
-                            term_num++;
-                            term_vals.push(_this.data('id'));
-                        }
-                    });
-                    if (term_num == 0) {
-                        $alert('请选择融资期限');
-                        return;
-                    } else {
-                        var term = term_vals.join(',');
-                    }
-                    var obj = {
-                        financeamount_start : financeamount_start,
-                        financeamount_end : financeamount_end,
-                        downpayment_type : downpayment_type,
-                        downpayment_value : downpayment_value,
-                        interest_rate : interest_rate,
-                        term : term
-                    };
+                    var obj = getObj(_this);
                     policy_data_arr.push(obj);
                 });
 
                 var policy_data = JSON.stringify(policy_data_arr);
                 if (save_flag ==3) {//编辑保存
-                    var update_data = [];//有更新的材料数据
-                    var insert_data = [];//有新增的材料数据
-                    var material_list = $('.material_list');
-                    material_list.each(function () {
-                        var _this = $(this);
-                        var data_type = _this.data('id');
-                        var is_histrory = _this.data('histrory');
-                        var big_class = _this.find('.big_class');
-                        if (big_class.find('input')[0].checked) {
-                            var is_must = big_class.find('input')[0].value;
-                        } else if (big_class.find('input')[1].checked) {
-                            var is_must = big_class.find('input')[1].value;
-                        }
-
-                        var small_name = _this.find('.small_class .small_name');
-                        var material_datas = [];
-                        small_name.each(function () {
-                            var s = $(this);
-                            if (s.hasClass('checked')) {
-                                material_datas.push(s.data('id'));
-                            }
-                        });
-                        var file_ids = _this.find('.img_md_box .file_ids').val().trim();
-                        var obj = {
-                            data_type : data_type,
-                            material_datas : material_datas.join(','),
-                            is_must : is_must,
-                            file_ids : file_ids
-                        };
-                        for (var i = 0, leni = policy_list.length; i < leni; i++) {
-                            if (policy_list[i].data_type == data_type) {
-                                if (material_datas.length == 0) {
-                                    obj.is_delete = 1;
-                                } else {
-                                    obj.is_delete = 0;
-                                }
-                                if (policy_list[i].is_must.toString() == is_must) {
-                                    if (policy_list[i].material_datas != material_datas.join(',')) {
-                                        update_data.push(obj);
-                                        break;
-                                    }
-                                    if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
-                                        update_data.push(obj);
-                                        break;
-                                    }
-                                } else {
-                                    update_data.push(obj);
-                                    break;
-                                }
-                            } else {
-                                if (material_datas.length != 0 && is_histrory == 0) {
-                                    insert_data.push(obj);
-                                    break;
-                                }
-                            }
-                        }
-                    });
                     var policy_id = $('#policy_id').val().trim();
                     var parent_id = $('#orgId').val().trim();
                     var applyto_business = $('#applyto_business').val().trim();
                     var city_ids = $('#city_ids').val().trim();
                     var applyto_type = $('#applyto_type').val().trim();
                     var release_time = $('#release_time').val().trim();
+                    var obj = getObj($('.base_info .policy_item').not('.default_policy'));
                     var parameters = {
                         product_id : product_id,
                         policy_id : policy_id,
@@ -1225,14 +595,12 @@
                         applyto_business : applyto_business,
                         city_ids : city_ids,
                         applyto_type : applyto_type,
-                        financeamount_start : financeamount_start,
-                        financeamount_end : financeamount_end,
-                        downpayment_type : downpayment_type,
-                        downpayment_value : downpayment_value,
-                        interest_rate : interest_rate,
-                        term : term,
-                        update_data : JSON.stringify(update_data),
-                        insert_data : JSON.stringify(insert_data),
+                        financeamount_start : obj.financeamount_start,
+                        financeamount_end : obj.financeamount_end,
+                        downpayment_type : obj.downpayment_type,
+                        downpayment_value : obj.downpayment_value,
+                        interest_rate : obj.interest_rate,
+                        term : obj.term,
                         release_time : release_time
                     };
                 } else if (save_flag ==1 || save_flag == 4) {//保存到仓库
@@ -1260,6 +628,105 @@
 
                 ajaxSubmit(url, parameters, save_flag);
             }
+        }
+        /**
+         * 获取当前对象值
+         * @author  Plateau  2018年9月5日17:20:56
+         * @param  DOM对象 ： 一条政策
+         * @return  DOM对象中的数据
+         * */
+        function getObj (_this) {
+            var financeamount_start = _this.find('.financeamount_start').val().trim();
+            var financeamount_end = _this.find('.financeamount_end').val().trim();
+            var downpayment_type = _this.find('.downpayment_type').val();
+            if (downpayment_type == '2') {
+                var downpayment_money_box = _this.find('.downpayment_money_box').find('input');
+                var downpayment_money_flag = false;
+                downpayment_money_box.each(function () {
+                    var _this = $(this);
+                    if (_this.val().trim() == '') {
+                        downpayment_money_flag = true;
+                    }
+                });
+                if (downpayment_money_flag && downpayment_money_box.length == 1) {
+                    $alert('请输入首付金额');
+                    return;
+                } else {
+                    var downpayment_moneys = _this.find('.downpayment_money_box input[name=downpayment_money]');
+                    var downpayment_moneys_vals = [];
+                    downpayment_moneys.each(function () {
+                        var _this = $(this);
+                        if (_this.val() != '') {
+                            downpayment_moneys_vals.push(_this.val().trim());
+                        }
+                    });
+                    var downpayment_value = downpayment_moneys_vals.join(',');
+                }
+            }else if (downpayment_type == '1') {
+                var rate_num = 0;
+                var downpayment_rate = _this.find('.downpayment_rate label');
+                var downpayment_rate_vals = [];
+                downpayment_rate.each(function () {
+                    var _this = $(this);
+                    if (_this.hasClass('checked')) {
+                        rate_num++;
+                        downpayment_rate_vals.push(_this.data('id'));
+                    }
+                });
+                if (rate_num == 0) {
+                    $alert('请选择首付比例');
+                    return;
+                } else {
+                    var downpayment_value = downpayment_rate_vals.join(',');
+                }
+            }
+            var rate_box = _this.find('.rate_box').find('input');
+            var rate_flag = false;
+            rate_box.each(function () {
+                var _this = $(this);
+                if (_this.val().trim() == '') {
+                    rate_flag = true;
+                }
+            });
+            if (rate_flag && rate_box.length == 1) {
+                $alert('请输入费率');
+                return;
+            } else {
+                var interest_rate = _this.find('.rate_box input[name=interest_rate]');
+                var interest_rate_vals = [];
+                interest_rate.each(function () {
+                    var _this = $(this);
+                    if (_this.val() != '') {
+                        interest_rate_vals.push(_this.val().trim());
+                    }
+                });
+                var interest_rate = interest_rate_vals.join(',');
+            }
+            var term_label = _this.find('.term label');
+            var term_num = 0;
+            var term_vals = [];
+            term_label.each(function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    term_num++;
+                    term_vals.push(_this.data('id'));
+                }
+            });
+            if (term_num == 0) {
+                $alert('请选择融资期限');
+                return;
+            } else {
+                var term = term_vals.join(',');
+            }
+            var obj = {
+                financeamount_start : financeamount_start,
+                financeamount_end : financeamount_end,
+                downpayment_type : downpayment_type,
+                downpayment_value : downpayment_value,
+                interest_rate : interest_rate,
+                term : term
+            };
+            return obj;
         }
 
         /**
@@ -1311,61 +778,6 @@
                 }
             });
         }
-
-
-
-        /**
-         * 监听是否全选
-         * @author Plateau 2018年8月9日11:41:15
-         */
-        // function monitorSelectAll () {
-        //     var singleCheck = $('.small_name');
-        //     singleCheck.on('click', function () {
-        //         var _this = $(this);
-        //         var checkAll = _this.parents('.selector_box').find('.check_all');
-        //         var categoryCheck = _this.parents('.selector_box').find('.small_name');
-        //         if (!_this.hasClass('checked')) {
-        //             var count = 0;
-        //             categoryCheck.each(function () {
-        //                 var _this = $(this);
-        //                 if (_this.hasClass('checked')) {
-        //                     count++;
-        //                 }
-        //             });
-        //             if (count == categoryCheck.length -1) {
-        //                 checkAll.addClass('checked');
-        //             } else {
-        //                 if (checkAll.hasClass('checked')) {
-        //                     checkAll.removeClass('checked');
-        //                 }
-        //             }
-        //         } else {
-        //             if (checkAll.hasClass('checked')) {
-        //                 checkAll.removeClass('checked');
-        //             }
-        //         }
-        //     });
-        // }
-        /**
-         * 全选操作
-         * @author Plateau 2018年8月10日15:53:03
-         */
-        // function checkAllClass () {
-        //     var check_all = $('.check_all');
-        //     check_all.on('click', function () {
-        //         var _this = $(this);
-        //         var small_name = _this.parents('.check_all_box').find('.small_name');
-        //         if (!_this.hasClass('checked')) {
-        //             small_name.each(function () {
-        //                 small_name.addClass('checked');
-        //             });
-        //         } else {
-        //             small_name.each(function () {
-        //                 small_name.removeClass('checked');
-        //             });
-        //         }
-        //     });
-        // }
 
         /**
          * 面包屑跳转
@@ -1577,12 +989,6 @@
             delDownpaymentMoney();//删除首付金额事件
             addRate();//添加费率事件
             delRate();//删除费率事件
-            // viewLargeImage('.img_md_box');
-            // viewImages();       // 查看大图
-            // deleteImages();     // 图片删除
-            // uploadImage();      // 图片上传注册
-            // monitorSelectAll();//监听是否全选
-            // checkAllClass();//全选操作
             bindSaveEvent();//注册保存到仓库和发布事件
             goProductList();//面包屑跳转
             addPolicy();//添加政策

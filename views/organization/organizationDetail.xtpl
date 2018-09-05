@@ -415,8 +415,16 @@
                             {{/if}}
                         </div>
                     </div>
-                    <div style="margin-top: 20px;">
-                        {{include('./../inc/empty_data')}}
+                    <div>
+                        {{#if (vo.sign_contract && vo.sign_contract !== '' && vo.sign_contract !== null && change_type === 4) }}
+                            {{vo.sign_contract}}
+                        {{elseif (vo.face_sign && vo.face_sign !== '' && vo.face_sign !== null && change_type === 5) }}
+                            {{vo.face_sign}}
+                        {{elseif (vo.gps_sign && vo.gps_sign !== '' && vo.gps_sign !== null && change_type === 6) }}
+                            {{vo.gps_sign}}
+                        {{else}}
+                            {{include('./../inc/empty_data')}}
+                        {{/if}}
                     </div>
                 </div>
                 {{#if (change_type === 7) }}

@@ -277,19 +277,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITPOLICY = function(req, res, next) 
     common.getPageData({
         url : '/api/product/toUpdate/policy',
         title : '供应商-发布新产品',
-        page : './organization/productPolicyCreate',
-        callback : function (data) {
-            data.policy_lists = JSON.stringify(data.policy_list[0].policy_list);
-            for (var i = 0, leni = data.material_list.length; i < leni; i++) {
-                for (var j = 0, lenj = data.policy_list[0].policy_list.length; j <lenj; j++) {
-                    if (data.material_list[i].type == data.policy_list[0].policy_list[j].data_type) {
-                        data.material_list[i].file_ids = data.policy_list[0].policy_list[j].file_ids;
-                        data.material_list[i].is_must = data.policy_list[0].policy_list[j].is_must;
-                        data.material_list[i].material_datas = data.policy_list[0].policy_list[j].material_datas;
-                    }
-                }
-            }
-        }
+        page : './organization/productPolicyCreate'
     }, req, res, next);
 };
 // 供应商部分-金融机构-创建机构跳转  1068   new
