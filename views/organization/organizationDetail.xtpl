@@ -293,7 +293,7 @@
                         </div>
                     </div>
                     {{/if}}
-                    {{#each(list) }}
+                    {{#each(material_list) }}
                         {{#if(this.car_type === 0) }}
                             {{#if (this.material_name) }}
                                 <div class="detail_about_txt policy_list">
@@ -348,7 +348,7 @@
                         </div>
                     </div>
                     {{/if}}
-                    {{#each(list) }}
+                    {{#each(material_list) }}
                         {{#if(this.car_type === 1) }}
                             {{#if (this.material_name) }}
                                 <div class="detail_about_txt policy_list">
@@ -433,52 +433,17 @@
                         </div>
                         <div></div>
                     </div>
+                    {{#each (file_list) }}
                     <div class="detail_annex">
                         <div class="annex_lf">
-                            <img src="{{markUri}}/static/img/file_excel.png" alt="" class="annex_icon">
+                            <img src="{{this.file_suffix_url}}" alt="" class="annex_icon">
                         </div>
                         <div class="annex_rt">
-                            <div class="annex_name nor_wrap" title="申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表.excel">申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表申请表.excel</div>
-                            <div class="annex_size">200.00KB</div>
-                        </div>
-                        <div class="remove_mask"><em class="remove_btn" data-file_id="1536028817105bbd224fd5b.png"></em></div>
-                    </div>
-                    <div class="detail_annex">
-                        <div class="annex_lf">
-                            <img src="{{markUri}}/static/img/file_img.png" alt="" class="annex_icon">
-                        </div>
-                        <div class="annex_rt">
-                            <div class="annex_name">申请表.excel</div>
-                            <div class="annex_size">200.00KB</div>
+                            <div class="annex_name nor_wrap" title="{{this.file_name}}">{{this.file_name}}</div>
+                            <div class="annex_size">{{this.file_size}}</div>
                         </div>
                     </div>
-                    <div class="detail_annex">
-                        <div class="annex_lf">
-                            <img src="{{markUri}}/static/img/file_pdf.png" alt="" class="annex_icon">
-                        </div>
-                        <div class="annex_rt">
-                            <div class="annex_name">申请表.excel</div>
-                            <div class="annex_size">200.00KB</div>
-                        </div>
-                    </div>
-                    <div class="detail_annex">
-                        <div class="annex_lf">
-                            <img src="{{markUri}}/static/img/file_ppt.png" alt="" class="annex_icon">
-                        </div>
-                        <div class="annex_rt">
-                            <div class="annex_name">申请表.excel</div>
-                            <div class="annex_size">200.00KB</div>
-                        </div>
-                    </div>
-                    <div class="detail_annex">
-                        <div class="annex_lf">
-                            <img src="{{markUri}}/static/img/file_word.png" alt="" class="annex_icon">
-                        </div>
-                        <div class="annex_rt">
-                            <div class="annex_name">申请表.excel</div>
-                            <div class="annex_size">200.00KB</div>
-                        </div>
-                    </div>
+                    {{/each}}
                 </div>
             </div>
         </div>

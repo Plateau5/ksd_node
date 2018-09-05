@@ -37,61 +37,15 @@
                         {{#each (file_list) }}
                         <div class="detail_annex">
                             <div class="annex_lf">
-                                {{#if (this.file_suffix === 'xlsx' || this.file_suffix === 'xls') }}
-                                <img src="{{markUri}}/static/img/file_excel.png" alt="" class="annex_icon">
-                                {{elseif (this.file_suffix === 'jpg' || this.file_suffix === 'jpeg' || this.file_suffix === 'png') }}
-                                <img src="{{markUri}}/static/img/file_img.png" alt="" class="annex_icon">
-                                {{elseif (this.file_suffix === 'pdf') }}
-                                <img src="{{markUri}}/static/img/file_pdf.png" alt="" class="annex_icon">
-                                {{elseif (this.file_suffix === 'ppt' || this.file_suffix === 'pptx') }}
-                                <img src="{{markUri}}/static/img/file_ppt.png" alt="" class="annex_icon">
-                                {{elseif (this.file_suffix === 'doc' || this.file_suffix === 'docx') }}
-                                <img src="{{markUri}}/static/img/file_word.png" alt="" class="annex_icon">
-                                {{/if}}
+                                <img src="{{this.file_suffix_url}}" alt="" class="annex_icon">
                             </div>
                             <div class="annex_rt">
-                                <div class="annex_name nor_wrap">{{this.file_name}}.{{this.file_suffix}}</div>
+                                <div class="annex_name nor_wrap">{{this.file_name}}</div>
                                 <div class="annex_size">{{this.file_size}}</div>
                             </div>
                             <div class="remove_mask"><em class="remove_btn" data-file_id="{{this.file_id}}"></em></div>
                         </div>
                         {{/each}}
-                        <div class="detail_annex">
-                            <div class="annex_lf">
-                                <img src="{{markUri}}/static/img/file_img.png" alt="" class="annex_icon">
-                            </div>
-                            <div class="annex_rt">
-                                <div class="annex_name">申请表.excel</div>
-                                <div class="annex_size">200.00KB</div>
-                            </div>
-                        </div>
-                        <div class="detail_annex">
-                            <div class="annex_lf">
-                                <img src="{{markUri}}/static/img/file_pdf.png" alt="" class="annex_icon">
-                            </div>
-                            <div class="annex_rt">
-                                <div class="annex_name">申请表.excel</div>
-                                <div class="annex_size">200.00KB</div>
-                            </div>
-                        </div>
-                        <div class="detail_annex">
-                            <div class="annex_lf">
-                                <img src="{{markUri}}/static/img/file_ppt.png" alt="" class="annex_icon">
-                            </div>
-                            <div class="annex_rt">
-                                <div class="annex_name">申请表.excel</div>
-                                <div class="annex_size">200.00KB</div>
-                            </div>
-                        </div>
-                        <div class="detail_annex">
-                            <div class="annex_lf">
-                                <img src="{{markUri}}/static/img/file_word.png" alt="" class="annex_icon">
-                            </div>
-                            <div class="annex_rt">
-                                <div class="annex_name">申请表.excel</div>
-                                <div class="annex_size">200.00KB</div>
-                            </div>
-                        </div>
                     </div>
                     <div class="file_upload">
                         <div class="file_upload_layer"  data-type="1"><span class="text">上传附件</span></div>
@@ -100,7 +54,7 @@
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
-                        <a href="javascript:" class="btn orange_btn confirm create_confirm">保存</a>
+                        <a href="javascript:" class="btn orange_btn confirm save_annex">保存</a>
                         <a href="javascript:;" class="btn bg_btn cancel go_orgdetail">取消</a>
                     </div>
                 </form>
@@ -116,7 +70,13 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
-        var file_ids = [];//上传图片ids
+        var file_list = '{{{file_datas}}}';
+        if (file_list.length > 0 ) {
+            var file_data = JSON.parse(file_list);
+        } else {
+            var file_data = [];//上传图片ids
+        }
+
         var imgFormat = ['png', 'jpg', 'jpeg'],       // 常见图片格式
             wordFormat = ['doc', 'docx'],     // 所有word文档后缀格式
             excelFormat = ['xls', 'xlsx'];      // 常用excel文档后缀格式。
@@ -168,22 +128,28 @@
                         $('#loading').hide();
                         if (res.error_code == 0) {
                             $('#change_version').val(1);
-                            file_ids.push(res.data[0].file_id);
+                            var obj = {
+                                file_id : res.data[0].file_id,
+                                file_size : res.data[0].file_size,
+                                file_name : res.data[0].file_name,
+                                file_suffix : res.data[0].file_suffix
+                            };
+                            file_data.push(obj);
                             if ($.inArray(fileExtension,imgFormat) != -1 ) { // 图片格式的文件
-                                result = '{{markUri}}/static/img/file_img.png';
+                                var result = '{{markUri}}/static/img/file_img.png';
                             } else if (fileExtension == 'pdf') {
-                                result = '{{markUri}}/static/img/file_pdf.png';
+                                var result = '{{markUri}}/static/img/file_pdf.png';
                             } else if ($.inArray(fileExtension, wordFormat) != -1) {
-                                result = '{{markUri}}/static/img/file_word.png';
+                                var result = '{{markUri}}/static/img/file_word.png';
                             } else if ($.inArray(fileExtension, excelFormat) != -1) {
-                                result = '{{markUri}}/static/img/file_excel.png';
+                                var result = '{{markUri}}/static/img/file_excel.png';
                             } else {
-                                result = '{{markUri}}/static/img/file_ppt.png';
+                                var result = '{{markUri}}/static/img/file_ppt.png';
                             }
 
                             var imgEle = '<div class="detail_annex">' +
                                 '<div class="annex_lf">' +
-                                    '<img src="'+ result +'" alt="" class="annex_icon">' +
+                                    '<img src="'+ res.data[0].file_suffix_url +'" alt="" class="annex_icon">' +
                                 '</div>' +
                                 '<div class="annex_rt">' +
                                     '<div class="annex_name nor_wrap">'+ fileName +'</div>' +
@@ -217,7 +183,11 @@
                 var _this = $(this);
                 _this.parents('.detail_annex').remove();
                 var id = _this.data('file_id');
-                file_ids.remove(id);
+                for (var i = 0, len = file_data.length; i < len; i++) {
+                    if (file_data[i].file_id == id) {
+                        file_data.remove(file_data[i]);
+                    }
+                }
                 if ($('.annex_box').find('.detail_annex').length < 30) {
                     $('.file_upload').show();
                 }
@@ -226,9 +196,9 @@
 
         //保存按钮
         function saveAnnex () {
-            var btn = $(".save_org");
+            var btn = $(".save_annex");
             btn.off("click").on("click", function () {
-                if (file_ids.length == 0) {
+                if (file_data.length == 0) {
                     $alert('至少上传一个附件')
                 } else {
                     ajaxSubmit();
@@ -241,10 +211,11 @@
             $.ajax({
                 type:'post',
                 timeout:5000,
-                url : contextPath + '/api/organization/create',
+                url : contextPath + '/api/organization/save/file',
                 data : {
+                    organization_id : $('#orgId').val().trim(),
                     change_version : $('#change_version').val(),
-                    file_ids : file_ids.join(',')
+                    file_data : JSON.stringify(file_data)
                 },
                 beforeSend : function () {
                     $('#loading').show();

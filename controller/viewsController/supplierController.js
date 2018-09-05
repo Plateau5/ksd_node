@@ -313,7 +313,19 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/detail',
         title : '供应商-发布新产品',
-        page : './organization/organizationDetail'
+        page : './organization/organizationDetail',
+        callback : function (data) {
+            if (data.file_list) {
+                var M_1 = 1024*1024;
+                for (var i = 0, len = data.file_list.length; i < len; i++) {
+                    if (data.file_list[i].file_size >= M_1) {
+                        data.file_list[i].file_size = (data.file_list[i].file_size/M_1).toFixed(2) + 'MB';
+                    } else {
+                        data.file_list[i].file_size = (data.file_list[i].file_size/1024).toFixed(2) + 'KB';
+                    }
+                }
+            }
+        }
     }, req, res, next);
 };
 
@@ -393,6 +405,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX = function(req, res, next)
         title : '供应商-机构详情页',
         page : './organization/editAnnex',
         callback : function (data) {
+            data.file_datas = JSON.stringify(data.file_list);
             var M_1 = 1024*1024;
             for (var i = 0, len = data.file_list.length; i < len; i++) {
                 if (data.file_list[i].file_size >= M_1) {
