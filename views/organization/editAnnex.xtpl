@@ -48,7 +48,10 @@
                         {{/each}}
                     </div>
                     <div class="file_upload">
-                        <div class="file_upload_layer"  data-type="1"><span class="text">上传附件</span></div>
+                        {{#each (file_list) }}
+                        <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
+                        {{/each}}
+                        <div class="file_upload_layer" data-file_num="{{file_list.length}}" data-type="1"><span class="text">上传附件</span></div>
                         <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
                         <input type="hidden" value="" id="fileIds" name="file_ids">
                     </div>
@@ -156,6 +159,7 @@
                                     '<div class="annex_size">'+ filesSize +'</div>' +
                                 '</div>' +
                                 '<div class="remove_mask"><em class="remove_btn" data-file_id="'+ res.data[0].file_id +'"></em></div>'+
+                                '<input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />'+
                             '</div>';
                             fileBox.append(imgEle);
                             if ($('.annex_box').find('.detail_annex').length >= 30) {
@@ -179,13 +183,18 @@
         function deleteFilesEvent () {
             var fileBox = $('.annex_box');
             fileBox.off('click').on('click', '.remove_btn', function () {
+                var file_num = $('.file_upload_layer').data('file_num');
+                file_num--;
+                $('.file_upload_layer').data('file_num', file_num);
                 $('#change_version').val(1);
                 var _this = $(this);
                 _this.parents('.detail_annex').remove();
+                _this.parents('.detail_annex').find(".file_upload_btn").eq(file_num).remove();
                 var id = _this.data('file_id');
                 for (var i = 0, len = file_data.length; i < len; i++) {
                     if (file_data[i].file_id == id) {
                         file_data.remove(file_data[i]);
+                        break;
                     }
                 }
                 if ($('.annex_box').find('.detail_annex').length < 30) {
