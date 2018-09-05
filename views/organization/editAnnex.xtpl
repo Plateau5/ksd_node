@@ -37,20 +37,20 @@
                         {{#each (file_list) }}
                         <div class="detail_annex">
                             <div class="annex_lf">
-                                {{#if (this.file_type === 'xlsx' || this.file_type === 'xls') }}
+                                {{#if (this.file_suffix === 'xlsx' || this.file_suffix === 'xls') }}
                                 <img src="{{markUri}}/static/img/file_excel.png" alt="" class="annex_icon">
-                                {{elseif (this.file_type === 'jpg' || this.file_type === 'jpeg' || this.file_type === 'png') }}
+                                {{elseif (this.file_suffix === 'jpg' || this.file_suffix === 'jpeg' || this.file_suffix === 'png') }}
                                 <img src="{{markUri}}/static/img/file_img.png" alt="" class="annex_icon">
-                                {{elseif (this.file_type === 'pdf') }}
+                                {{elseif (this.file_suffix === 'pdf') }}
                                 <img src="{{markUri}}/static/img/file_pdf.png" alt="" class="annex_icon">
-                                {{elseif (this.file_type === 'ppt' || this.file_type === 'pptx') }}
+                                {{elseif (this.file_suffix === 'ppt' || this.file_suffix === 'pptx') }}
                                 <img src="{{markUri}}/static/img/file_ppt.png" alt="" class="annex_icon">
-                                {{elseif (this.file_type === 'doc' || this.file_type === 'docx') }}
+                                {{elseif (this.file_suffix === 'doc' || this.file_suffix === 'docx') }}
                                 <img src="{{markUri}}/static/img/file_word.png" alt="" class="annex_icon">
                                 {{/if}}
                             </div>
                             <div class="annex_rt">
-                                <div class="annex_name nor_wrap">{{this.file_name}}.{{this.file_type}}</div>
+                                <div class="annex_name nor_wrap">{{this.file_name}}.{{this.file_suffix}}</div>
                                 <div class="annex_size">{{this.file_size}}</div>
                             </div>
                             <div class="remove_mask"><em class="remove_btn" data-file_id="{{this.file_id}}"></em></div>
