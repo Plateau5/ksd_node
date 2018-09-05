@@ -287,7 +287,7 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">新车</div>
                         <div class="rf_30">
-                            {{#if ((material_type === 2 && verifyCode(1505)) || (material_type === 3 && verifyCode(1506))) }}
+                            {{#if ((material_type === 1 && verifyCode(1505)) || (material_type === 2 && verifyCode(1505)) || (material_type === 3 && verifyCode(1506))) }}
                             <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="新车" data-type="0">编辑</a>
                             {{/if}}
                         </div>
@@ -342,7 +342,7 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">二手车</div>
                         <div class="rf_30">
-                            {{#if ((material_type === 2 && verifyCode(1505)) || (material_type === 3 && verifyCode(1506))) }}
+                            {{#if ((material_type === 1 && verifyCode(1505)) || (material_type === 2 && verifyCode(1505)) || (material_type === 3 && verifyCode(1506))) }}
                             <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="二手车" data-type="1">编辑</a>
                             {{/if}}
                         </div>
@@ -527,14 +527,16 @@
                     var car_type_flag = t.data('car_type');
                     var flow_type = $('#flow_type').val();
                     if (flow_type == 1) {
+                        var url = "/supplier/organization/editMaterial/incoming";
                         var str = '编辑进件资料('+car_type_flag+')';
                     } else if (flow_type == 2) {
+                        var url = "/supplier/organization/editMaterial/request";
                         var str = '编辑请款资料('+car_type_flag+')';
                     } else if (flow_type == 3) {
+                        var url = "/supplier/organization/editMaterial/placefile";
                         var str = '编辑归档资料('+car_type_flag+')';
                     }
                     var applyto_business = car_type;
-                    var url = "/supplier/organization/editMaterial";
                     var car_type = t.data('type');
                     var paras = {
                         organization_id : orgId,
@@ -545,7 +547,13 @@
                         org_name : $('.header_txt_top').text()
                     };
                 } else if (material_type == 4 || material_type == 5 || material_type == 6) {
-                    var url = "/supplier/organization/editRichText";
+                    if (material_type == 4) {
+                        var url = "/supplier/organization/editRichText/contract";
+                    } else if (material_type == 5) {
+                        var url = "/supplier/organization/editRichText/facereg";
+                    } else if (material_type == 6) {
+                        var url = "/supplier/organization/editRichText/gps";
+                    }
                     var paras = {
                         organization_id : orgId,
                         material_type : material_type,
