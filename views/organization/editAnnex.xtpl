@@ -30,6 +30,9 @@
 
             <div class="form_options">
                 <form action="" id="material_edit_form" method="post">
+                    <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="orgId">
+                    <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
+                    <input type="hidden" name="change_version" value="0" id="change_version">
                     <div class="annex_box">
                         <div class="detail_annex">
                             <div class="annex_lf">
@@ -152,6 +155,7 @@
                     success : function (res) {
                         elem.loading.hide();
                         if (res.error_code == 0) {
+                            $('#change_version').val(1);
                             file_ids.push(res.data[0].file_id);
                             $("#fileIds").val(file_ids);
                             //$alert('图片上传成功');
@@ -194,6 +198,7 @@
         function deleteFilesEvent () {
             var fileBox = $('.annex_box');
             fileBox.off('click').on('click', '.remove_btn', function () {
+                $('#change_version').val(1);
                 var _this = $(this);
                 var id = _this.data('file_id');
                 file_ids.remove(id);
@@ -201,44 +206,28 @@
         }
 
         //保存按钮
-        function saveOrg () {
+        function saveAnnex () {
             var btn = $(".save_org");
             btn.off("click").on("click", function () {
-                send_organization_form();
+                if (file_ids.length == 0) {
+                    $alert('至少上传一个附件')
+                } else {
+                    ajaxSubmit();
+                }
             });
-        }
-        //保存更新函数
-        function send_organization_form(){
-            ajaxSubmit();
         }
 
         //ajax提交參數
         function ajaxSubmit () {
-            var parameters = new FormData(document.getElementById('organization_info_create'));
-            var policy_desc = kindEditor.html();
-            parameters.append('policy_desc', policy_desc);
-            if ($('#orgId').val() == '') {
-                parameters.append('change_version', '0');
-            } else {
-                if (old_policy_desc != policy_desc) {
-                    parameters.append('change_version', '1');
-                } else {
-                    parameters.append('change_version', '0');
-                }
-            }
 
-            if ($('#orgId').val().trim() == '') {
-                var url = '/api/organization/create';
-            } else {
-                var url = '/api/organization/update';
-            }
             $.ajax({
                 type:'post',
                 timeout:5000,
-                url : contextPath + url,
-                data : parameters,
-                processData : false,      //序列化参数为String类型，默认：true。
-                contentType : false,      //内容编码，文件上传时设为FALSE
+                url : contextPath + '/api/organization/create',
+                data : {
+                    change_version : $('#change_version').val(),
+                    file_ids : file_ids.join(',')
+                },
                 beforeSend : function () {
                     $('#loading').show();
                 },
@@ -268,31 +257,25 @@
          * 取消事件
          * @author Plateau 2018年8月15日11:19:20
          * */
-        function goOrglist () {
-            var go_orglist = $('.go_orglist');
-            go_orglist.off("click").on("click", function () {
-                var organization_id = $('#orgId').val().trim()
-                if (organization_id == '') {
-                    locationTo({
-                        action : contextPath + markUri + '/supplier/organization/list'
-                    });
-                } else {
-                    locationTo({
-                        action : contextPath + markUri + '/supplier/organization/detail',
-                        param : {
-                            organization_id : organization_id,
-                            material_type : 0
-                        }
-                    });
-                }
-
+        function goOrgdetail () {
+            var go_orgdetail = $('.go_orgdetail');
+            go_orgdetail.off("click").on("click", function () {
+                var organization_id = $('#orgId').val().trim();
+                var material_type = $('#material_type').val().trim();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detail',
+                    param : {
+                        organization_id : organization_id,
+                        material_type : material_type
+                    }
+                });
             });
         }
         $(function() {
             uploadAnnex();      // 图片上传
             deleteFilesEvent();     // 删除文件监听
-            saveOrg();//保存机构
-            goOrglist();//取消事件
+            saveAnnex();//保存附件
+            goOrgdetail();//取消事件
         });
     })(jQuery,undefined);
 </script>

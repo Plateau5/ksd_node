@@ -38,8 +38,8 @@
 
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
-                    <input type="hidden" name="id" id="orgId" value="{{vo.id}}">
-                    <input type="hidden" name="material_type" id="material_type" value="{{reqParams.material_type}}">
+                    <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="orgId">
+                    <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
                     <div class="option_item" style="margin-top: 20px;">
                         <div class="column_name" style="line-height: 20px;">
                             <em class="require_icon">*</em>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="btn_box clearfix create_wf_btn_box">
                         <a href="javascript:" class="btn orange_btn confirm save_org">保存</a>
-                        <a href="javascript:;" class="btn bg_btn cancel go_orglist">取消</a>
+                        <a href="javascript:;" class="btn bg_btn cancel go_orgdetail">取消</a>
                     </div>
                 </form>
             </div>
@@ -78,100 +78,91 @@
 <script>
     (function ($) {
         var old_policy_desc = $('#approval_policy').val();
-
-
         //保存按钮
-        function saveOrg () {
+        function saveRichText () {
             var btn = $(".save_org");
             btn.off("click").on("click", function () {
-                send_organization_form();
+                ajaxSubmit();
             });
-        }
-        //保存更新函数
-        function send_organization_form(){
-            ajaxSubmit();
         }
 
         //ajax提交參數
         function ajaxSubmit () {
-            var parameters = new FormData(document.getElementById('organization_info_create'));
             var policy_desc = kindEditor.html();
-            parameters.append('policy_desc', policy_desc);
-            if ($('#orgId').val() == '') {
-                parameters.append('change_version', '0');
+            if (policy_desc == '') {
+                if ($('#material_type').val() == '4') {
+                    $alert('签约方式及合同不能为空');
+                } else if ($('#material_type').val() == '5') {
+                    $alert('面签照不能为空');
+                } else if ($('#material_type').val() == '6') {
+                    $alert('GPS安装不能为空');
+                }
             } else {
-                if (old_policy_desc != policy_desc) {
-                    parameters.append('change_version', '1');
-                } else {
+                var parameters = {
+                    policy_desc : policy_desc
+                };
+                if (old_policy_desc == '') {
                     parameters.append('change_version', '0');
-                }
-            }
-
-            if ($('#orgId').val().trim() == '') {
-                var url = '/api/organization/create';
-            } else {
-                var url = '/api/organization/update';
-            }
-            $.ajax({
-                type:'post',
-                timeout:5000,
-                url : contextPath + url,
-                data : parameters,
-                processData : false,      //序列化参数为String类型，默认：true。
-                contentType : false,      //内容编码，文件上传时设为FALSE
-                beforeSend : function () {
-                    $('#loading').show();
-                },
-                success : function (res) {
-                    $('#loading').hide();
-                    if (res.error_code == 0) {
-                        $alert('操作成功', function () {
-                            locationTo({
-                                action : contextPath + markUri + '/supplier/organization/detail',
-                                param : {
-                                    organization_id : $('#orgId').val().trim(),
-                                    material_type : $('#material_type').val()
-                                }
-                            });
-                        })
+                } else {
+                    if (old_policy_desc != policy_desc) {
+                        parameters.append('change_version', '1');
                     } else {
-                        $alert(res.error_msg);
+                        parameters.append('change_version', '0');
                     }
-                },
-                error : function () {
-                    $('#loading').hide();
-                    $alert("提交失败，请稍后重试");
                 }
-            });
+                $.ajax({
+                    type:'post',
+                    timeout:5000,
+                    url : contextPath + '/api/organization/create',
+                    data : parameters,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('操作成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/detail',
+                                    param : {
+                                        organization_id : $('#orgId').val().trim(),
+                                        material_type : $('#material_type').val().trim()
+                                    }
+                                });
+                            })
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert("提交失败，请稍后重试");
+                    }
+                });
+            }
         }
         /**
          * 取消事件
          * @author Plateau 2018年8月15日11:19:20
          * */
-        function goOrglist () {
-            var go_orglist = $('.go_orglist');
-            go_orglist.off("click").on("click", function () {
-                var organization_id = $('#orgId').val().trim()
-                if (organization_id == '') {
-                    locationTo({
-                        action : contextPath + markUri + '/supplier/organization/list'
-                    });
-                } else {
-                    locationTo({
-                        action : contextPath + markUri + '/supplier/organization/detail',
-                        param : {
-                            organization_id : organization_id,
-                            material_type : 0
-                        }
-                    });
-                }
-
+        function goOrgdetail () {
+            var go_orgdetail = $('.go_orgdetail');
+            go_orgdetail.off("click").on("click", function () {
+                var organization_id = $('#orgId').val().trim();
+                var material_type = $('#material_type').val().trim();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detail',
+                    param : {
+                        organization_id : organization_id,
+                        material_type : material_type
+                    }
+                });
             });
         }
         $(function() {
             initKindEditor('#approval_policy');//审批政策
-            saveOrg();//保存机构
-            goOrglist();//取消事件
+            saveRichText();//保存富文本
+            goOrgdetail();//取消事件
         });
     })(jQuery,undefined);
 </script>

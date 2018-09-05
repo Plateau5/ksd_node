@@ -48,6 +48,7 @@
                     <input type="hidden" value="{{reqParams.applyto_type}}" name="applyto_type" id="applyto_type">
                     <input type="hidden" value="{{policy_list[0].policy_id}}" id="policy_id">
                     <input type="hidden" value="{{reqParams.release_time}}" id="release_time">
+                    <input type="hidden" value="{{reqParams.cur_num}}" id="cur_num">
                     <div class="base_info">
                         <div class="detail_title">申请政策</div>
                         <div class="policy_item">
@@ -1409,8 +1410,9 @@
                 var _this = $(this);
                 var add_flag = addValid(_this.parents('.policy_item'));
                 if (add_flag) {
+                    var cur_num = $('#cur_num').val().trim().number();
                     var policy_item = $('.policy_item').not('.default_policy');
-                    if (policy_item.length == 9) {
+                    if ((cur_num + policy_item.length.number()) >= 9) {
                         default_policy.find('.add_policy').addClass('none');
                     } else {
                         default_policy.find('.add_policy').removeClass('none');
@@ -1440,6 +1442,11 @@
                     onConfirm : function (d) {
                         d.close();
                         _this.parents('.policy_item').remove();
+                        var cur_num = $('#cur_num').val().trim().number();
+                        var policy_item = $('.policy_item').not('.default_policy');
+                        if ((cur_num + policy_item.length.number()) <= 9) {
+                            policy_item.last().find('.add_policy').removeClass('none');
+                        }
                     },
                     onCancel : function (d) {
                         d.close();
