@@ -286,6 +286,8 @@ router.post(markUri + '/loan/turnover', merchantsCtrl.VIEW_LOAN_TURNOVER);
 router.all(markUri + '/merchants/level/system', merchantsCtrl.VIEW_MERCHANTS_LEVEL_SYSTEM);
 // 商户-等级列表  1610
 router.all(markUri + '/merchants/level/list', merchantsCtrl.VIEW_MERCHANTS_LEVELLIST);
+// 商户-新建等级  1610
+router.post(markUri + '/merchants/level/create', merchantsCtrl.VIEW_MERCHANTS_LEVELCREATE);
 
 
 

@@ -44,8 +44,8 @@
                                 <td title="{{this.level_value }}">{{this.level_value }}</td>
                                 <td title="{{this.condition_str }}" class="text_left">{{this.condition_str }}</td>
                                 <td>
-                                    <a href="javascript:;" class="edit_btn level_edit" data-id=""  data-advanceIds=""  title="编辑等级"></a>
-                                    <a href="javascript:;" class="delete_btn level_delete" title="删除等级"></a>
+                                    <a href="javascript:;" class="edit_btn level_edit" data-id="{{this.id }}"  data-advanceIds=""  title="编辑等级"></a>
+                                    <a href="javascript:;" class="delete_btn level_delete" data-id="{{this.id }}" title="删除等级"></a>
                                 </td>
                             </tr>
                         {{/each}}
@@ -65,15 +65,87 @@
     </div>
     <!-------- Part of main End -------->
 </div>
-
+<div class="loading" id="loading"></div>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
 <script>
     (function ($) {
+        /**
+         *  跳转新建等级 2018年9月5日
+         *  Created by wyt on 2018年9月5日15:46:27
+         */
+        function toLevelCreate () {
+            var Btn = $(".level_create");
+            Btn.off('click').on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + '/merchants/level/create',
+                    param : {
+                        id : 1
+                    }
+                })
+            });
+        }
+        /**
+         *  删除等级 2018年9月5日
+         *  Created by wyt on 2018年9月5日18:37:49
+         */
+        function deleteLevel () {
+            var Btn = $(".level_delete");
+            Btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = _this.data('id');
+                var data = {
+                    id : id
+                };
+                dialog('open',{
+                    closeBtn : false,
+                    title : '提醒',
+                    content : '确认删除该等级？',
+                    "button" : ["确认","取消"],
+                    "maskClose" : false,
+                    onConfirm : function (d) {
+                        d.close();
+                        onDeleteConfirm(d);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+                var onDeleteConfirm = function (d) {
+                    redefineAjax({
+                        url : contextPath + '/api/supplier/level/delete',
+                        data : data,
+                        timeout : 60000,
+                        beforeSend : function () {
+                            $('#loading').show();
+                        },
+                        success : function (res) {
+                            $('#loading').hide();
+                            if (res.error_code == 0) {
+                                $alert('操作成功', function () {
+                                    locationTo({
+                                        action : contextPath + markUri + '/merchants/level/list',
+                                        param : {
+                                        }
+                                    });
+                                })
+                            } else {
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $('#loading').hide();
+                            $alert("提交失败，请稍后重试");
+                        }
+                    });
+                }
+            });
+        }
 
         $(function() {
-
+            toLevelCreate();    //跳转新建等级
+            deleteLevel();      //删除等级等级
         });
     })(jQuery,undefined);
 </script>

@@ -518,3 +518,11 @@ exports.VIEW_MERCHANTS_LEVELLIST = function(req, res, next) {
         page : './merchants/levelList'
     }, req, res, next);
 };
+// 商户-新建等级
+exports.VIEW_MERCHANTS_LEVELCREATE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/supplier/level/toEdit',
+        title : '新建等级',
+        page : './merchants/levelEdit'
+    }, req, res, next);
+};

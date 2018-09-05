@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/orderDetails.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <title>{{title}}</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants_edit">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/merchants/level/system" class="crumbs_item">分级管理</a>
+                <a href="javascript:;" class="crumbs_item">新建等级</a>
+            </div>
+            <form method="post" id="levelCreate">
+                <div class="form_content form_options merchants_create">
+                    <div class="options_title financial_product_title">基本信息</div>
+                    <div class="option_item" id="businessType">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>商户级别：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="car_type" id="carType">
+                                <option selected="selected" value="0">A级</option>
+                                <option value="0">B级</option>
+                                <option value="0">C级</option>
+                                <option value="0">D级</option>
+                                <option value="0">E级</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">备注：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" maxlength="30" style="width:400px;" name="name"  value="" placeholder="请输入备注，30字以内"  />
+                        </div>
+                    </div>
+                    <div class="options_title financial_product_title">数据条件</div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>放款量：</span>
+                        </div>
+                        <div class="column_val loan_data_list">
+                            <div class="loan_data">
+                                <select name="car_type" id="" style="width:150px;">
+                                    <option selected="selected" value="0">单月</option>
+                                    <option value="0">近3个月</option>
+                                    <option value="0">历史累计</option>
+                                </select>
+                                <select name="car_type" id="" style="width:150px;">
+                                    <option selected="selected" value="0">大于等于</option>
+                                    <option value="0">小于</option>
+                                </select>
+                                <input type="text" class="requireTrue" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入订单数，如:10"  />
+                                &nbsp单
+                                <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
+                            </div>
+                        </div>
+                        <div class="btn_box text_left clearfix">
+                            <a href="javascript:" class="add_sm_btn" data-type="1" data-id="19127">添加条件</a>
+                        </div>
+                    </div>
+                    <div class="options_title financial_product_title">限制条件</div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">店面类型：</span>
+                        </div>
+                        <div class="column_val storeType">
+                            {{#each (store_type_list)}}
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates store_type_value" data-id="{{this.id}}" name="store_type_values" value="{{this.value}}">
+                                    <label class="paymentCheck">{{this.value}}</label>
+                                </div>
+                            {{/each}}
+                        </div>
+                        <div class="column_name">
+                            <span class="options_name">主营范围：</span>
+                        </div>
+                        <div class="column_val applytoCar">
+                            {{#each (applyto_car_list)}}
+                            <div class="form_group">
+                                <input type="checkbox" class="rates applyto_car_value" data-id="{{this.id}}" name="applyto_car_values" value="{{this.value}}">
+                                <label class="paymentCheck">{{this.value}}</label>
+                            </div>
+                            {{/each}}
+                        </div>
+                        <div class="column_name">
+                            <span class="options_name">老板户籍：</span>
+                        </div>
+                        <div class="column_val boss_census">
+                            <div class="form_group">
+                                <input type="checkbox" class="rates boss_census_value" data-id="0" name="boss_census_values" value="外省">
+                                <label class="paymentCheck">外省</label>
+                            </div>
+                            <div class="form_group">
+                                <input type="checkbox" class="rates boss_census_value" data-id="1" name="boss_census_values" value="本省">
+                                <label class="paymentCheck">本省</label>
+                            </div>
+                        </div>
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>合作时长：</span>
+                        </div>
+                        <div class="column_val loan_data_list">
+                            <div class="loan_data">
+                                <select name="car_type" style="width:150px;">
+                                    <option selected="selected"  value="0">小于</option>
+                                    <option value="1">大于等于</option>
+                                </select>
+                                <input type="text" class="requireTrue" data-text="天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入天数，如:10"  />
+                                &nbsp天
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top:50px;">
+                <a href="javascript:;" class="btn orange_btn confirm edit_confirm">保存</a>
+                <a href="{{markUri}}/merchants/level/system" class="btn bg_btn edit_cancel" data-id="">取消</a>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/js/merchants.js"></script>
+<script>
+
+    (function ($) {
+        /**
+         *  添加数据条件 2018年9月5日
+         *  Created by wyt on 2018年9月5日17:25:01
+         */
+        function addLoanData () {
+            var addBtnParents = $('.merchants_edit');   // 创建商户的主容器
+            addBtnParents.on('click', '.add_sm_btn', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var loan_data_list = $('.loan_data_list');
+                var loan_data = $('.loan_data');
+                if (loan_data.length > 0) {
+                    var linkStr = '<select name="term" class="term" style="width:80px;">\n' +
+                        '                    <option selected="selected" value="0">或</option>\n' +
+                        '                    <option value="1">且</option>\n' +
+                        '           </select>\n' +
+                        '           <div class="loan_data">\n' +
+                        '               <select name="loan_data_date" id="" style="width:150px;">\n' +
+                        '                   <option selected="selected" value="0">单月</option>\n\n' +
+                        '                   <option value="0">近3个月</option>\n' +
+                        '                   <option value="0">历史累计</option>\n' +
+                        '               </select>\n' +
+                        '                <select name="car_type" id="" style="width:150px;">\n' +
+                        '                   <option selected="selected" value="0">大于等于</option>\n' +
+                        '                   <option value="0">小于</option>\n' +
+                        '                </select>\n' +
+                        '                <input type="text" class="requireTrue" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
+                        '               &nbsp单\n' +
+                        '               <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>\n' +
+                        '              </div>';
+                } else {
+                    var linkStr = '<div class="loan_data">\n' +
+                        '               <select name="loan_data_date" id="" style="width:150px;">\n' +
+                        '                   <option selected="selected" value="0">单月</option>\n\n' +
+                        '                   <option value="0">近3个月</option>\n' +
+                        '                   <option value="0">历史累计</option>\n' +
+                        '               </select>\n' +
+                        '                <select name="car_type" id="" style="width:150px;">\n' +
+                        '                   <option selected="selected" value="0">大于等于</option>\n' +
+                        '                   <option value="0">小于</option>\n' +
+                        '                </select>\n' +
+                        '                <input type="text" class="requireTrue" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
+                        '               &nbsp单\n' +
+                        '               <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>\n' +
+                        '              </div>';
+                }
+                loan_data_list.append(linkStr);
+                if ($('.loan_data').length > 2) {
+                    $('.add_sm_btn').hide();
+                }
+            });
+        }
+
+        /**
+         *  删除数据条件 2018年9月5日
+         *  Created by wyt on 2018年9月5日17:25:01
+         */
+        function deleteLoanData () {
+            var addBtnParents = $('.merchants_edit');   // 创建商户的主容器
+            addBtnParents.on('click', '.delete_sm_btn', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var loan_data_list = $('.loan_data_list');
+                var hisLoan = _this.parents('.loan_data');
+                var term = hisLoan.prev();
+                var term1 = hisLoan.next();
+                var loanIndex = hisLoan.index();
+                if (loanIndex == 0) {
+                    hisLoan.remove();
+                    term1.remove();
+                } else {
+                    hisLoan.remove();
+                    term.remove();
+                }
+                if ($('.loan_data').length < 3) {
+                    $('.add_sm_btn').show();
+                }
+            });
+        }
+
+        $(function() {
+            addLoanData();      //添加数据条件
+            deleteLoanData();   //删除数据条件
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked"); //复选框选中
+        });
+
+    })(jQuery,undefined);
+</script>
+</html>
