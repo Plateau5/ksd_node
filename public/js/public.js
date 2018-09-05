@@ -1230,7 +1230,7 @@ function getMessagesInfo(selector) {
     };
     getMessages();
     setInterval(function () {
-        var mCount = getMessages();
+        // var mCount = getMessages();
         getMessages();
         //调用消息提醒功能
         //messageNotification("快收单", "您有"+ mCount +"条待处理事项", contextPath + "/home", contextPath + "/static/icon/kuaisd_m_logo.png");
