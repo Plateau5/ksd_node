@@ -943,7 +943,7 @@ function validateIdNum (t) {
  * @author Arley Joe 2017-11-4 17:04:00
  */
 function validatePhoneNum () {
-    var elem = $('.link_option');
+    var elem = $('body');
     var phonePattern = /^1[3|4|5|8|7]\d{9}$/;    // 手机号校验正则
     elem.on('blur', '.link_phone', function () {
         var _this = $(this);
@@ -1033,7 +1033,7 @@ function validateEmpty () {
     }
 
     // 校验手机号是否正确
-    var phones = $('.link_option .link_phone');
+    var phones = $('.option_item .link_phone');
     phones.each(function () {
         var _this = $(this);
         var checked = _this.attr('verify');

@@ -186,6 +186,26 @@
                                             </div>
                                         </li>
                                         <li class="item_row">
+                                            <div class="item_name">主营范围：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.applyto_car_value || detail.applyto_car_value === '' || detail.applyto_car_value.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.applyto_car_value}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name">商户等级：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.grade_value || detail.grade_value === '' || detail.grade_value.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.grade_value}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
                                             <div class="item_name long_text">是否与机构签约：</div>
                                             <div class="item_value">
                                                 {{#if (detail.is_sign === 1) }}
@@ -393,103 +413,145 @@
                                     </ul>
                                 </div>
                             </div>
-                            {{#if (detail.flag === 2 || detail.flag === 3 || detail.flag === 4) }}
-                                <!--账户信息-->
-                                {{#each (detail.record_data) }}
-                                    <div class="classify_item">
-                                        {{#if (root.detail.record_data.length === 1) }}
-                                            {{#if (root.detail.flag === 2 && this.is_new === 1) }}
-                                                <div class="classify_title new">账户信息</div>
-                                            {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
-                                                <div class="classify_title">账户信息</div>
-                                            {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
-                                                <!--<div class="classify_title update">账户信息</div>-->
-                                                <div class="classify_title">账户信息</div>
-                                            {{else}}
-                                                <div class="classify_title">账户信息</div>
-                                            {{/if}}
-                                        {{elseif (root.detail.record_data.length > 1) }}
-                                            {{#if (root.detail.flag === 2 && this.is_new === 1) }}
-                                                <div class="classify_title new">账户信息{{xindex + 1}}</div>
-                                            {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
-                                                <div class="classify_title">账户信息{{xindex + 1}}</div>
-                                            {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
-                                                <!--<div class="classify_title update">账户信息{{xindex + 1}}</div>-->
-                                                <div class="classify_title">账户信息</div>
-                                            {{else}}
-                                                <div class="classify_title">账户信息{{xindex + 1}}</div>
-                                            {{/if}}
-                                        {{/if}}
-                                        <div class="classify_content">
-                                            <ul class="items_list">
-                                                <li class="item_row">
-                                                    <div class="item_name">账户类型：</div>
-                                                    <div class="item_value">
-                                                        {{#if (!this.account_type || this.account_type === '' || this.account_type <= 0) }}
-                                                            --
-                                                        {{else}}
-                                                            {{this.account_type_value}}
-                                                        {{/if}}
-                                                    </div>
-                                                </li>
-                                                <li class="item_row">
-                                                    <div class="item_name">账户用途：</div>
-                                                    <div class="item_value">
-                                                        {{#if (!this.account_use_value || this.account_use_value === '' || this.account_use_value <= 0) }}
-                                                            --
-                                                        {{else}}
-                                                            {{this.account_use_value}}
-                                                        {{/if}}
-                                                    </div>
-                                                </li>
-                                                <li class="item_row">
-                                                    <div class="item_name">账户名：</div>
-                                                    <div class="item_value">
-                                                        {{#if (!this.account_name || this.account_name === '' || this.account_name <= 0) }}
-                                                            --
-                                                        {{else}}
-                                                            {{this.account_name}}
-                                                        {{/if}}
-                                                    </div>
-                                                </li>
-                                                <li class="item_row">
-                                                    <div class="item_name">开户行：</div>
-                                                    <div class="item_value">
-                                                        {{#if (!this.open_bank || this.open_bank === '' || this.open_bank <= 0) }}
-                                                            --
-                                                        {{else}}
-                                                            {{this.open_bank}}
-                                                        {{/if}}
-                                                    </div>
-                                                </li>
-                                                <li class="item_row">
-                                                    <div class="item_name">银行卡号：</div>
-                                                    <div class="item_value">
-                                                        {{#if (!this.bank_no || this.bank_no === '' || this.bank_no <= 0) }}
-                                                            --
-                                                        {{else}}
-                                                            {{this.bank_no}}
-                                                        {{/if}}
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                {{/each}}
-
-                                <!--备案信息材料图片-->
-                                <ul class="img_list" id="viewerImageList">
-                                    {{#each (fileList) }}
-                                        <li class="list_item img_item">
-                                            <a href="javascript:;" data-type="imgBox">
-                                                <img data-original="{{this.url}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
-                                            </a>
-                                            <div class="img_desc nor_wrap">{{this.file_name}}</div>
+                            {{#if (recordBasicList[1].status === 1) }}
+                            <div class="classify_item">
+                                <div class="classify_title">实际控制人信息</div>
+                                <div class="classify_content">
+                                    <ul class="items_list">
+                                        <li class="item_row">
+                                            <div class="item_name">老板姓名：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.boss_name || detail.boss_name === '' || detail.boss_name.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.boss_name}}
+                                                {{/if}}
+                                            </div>
                                         </li>
-                                    {{/each}}
-                                </ul>
+                                        <li class="item_row">
+                                            <div class="item_name">老板户籍：</div>
+                                            <div class="item_value">
+                                                {{#if (detail.boss_census === 0) }}
+                                                外省
+                                                {{elseif (detail.boss_census === 1) }}
+                                                本省
+                                                {{else}}
+                                                --
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name">手机号码：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.boss_phone || detail.boss_phone === '' || detail.boss_phone.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.boss_phone}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             {{/if}}
 
+                            {{#if (recordBasicList[0].status === 1) }}
+                                {{#if (detail.flag === 2 || detail.flag === 3 || detail.flag === 4) }}
+                                    <!--账户信息-->
+                                    {{#each (detail.record_data) }}
+                                        <div class="classify_item">
+                                            {{#if (root.detail.record_data.length === 1) }}
+                                                {{#if (root.detail.flag === 2 && this.is_new === 1) }}
+                                                    <div class="classify_title new">账户信息</div>
+                                                {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
+                                                    <div class="classify_title">账户信息</div>
+                                                {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
+                                                    <!--<div class="classify_title update">账户信息</div>-->
+                                                    <div class="classify_title">账户信息</div>
+                                                {{else}}
+                                                    <div class="classify_title">账户信息</div>
+                                                {{/if}}
+                                            {{elseif (root.detail.record_data.length > 1) }}
+                                                {{#if (root.detail.flag === 2 && this.is_new === 1) }}
+                                                    <div class="classify_title new">账户信息{{xindex + 1}}</div>
+                                                {{elseif (root.detail.flag === 2 && this.is_new === 0) }}
+                                                    <div class="classify_title">账户信息{{xindex + 1}}</div>
+                                                {{elseif (root.detail.flag === 2 && this.is_new === 2) }}
+                                                    <!--<div class="classify_title update">账户信息{{xindex + 1}}</div>-->
+                                                    <div class="classify_title">账户信息</div>
+                                                {{else}}
+                                                    <div class="classify_title">账户信息{{xindex + 1}}</div>
+                                                {{/if}}
+                                            {{/if}}
+                                            <div class="classify_content">
+                                                <ul class="items_list">
+                                                    <li class="item_row">
+                                                        <div class="item_name">账户类型：</div>
+                                                        <div class="item_value">
+                                                            {{#if (!this.account_type || this.account_type === '' || this.account_type <= 0) }}
+                                                                --
+                                                            {{else}}
+                                                                {{this.account_type_value}}
+                                                            {{/if}}
+                                                        </div>
+                                                    </li>
+                                                    <li class="item_row">
+                                                        <div class="item_name">账户用途：</div>
+                                                        <div class="item_value">
+                                                            {{#if (!this.account_use_value || this.account_use_value === '' || this.account_use_value <= 0) }}
+                                                                --
+                                                            {{else}}
+                                                                {{this.account_use_value}}
+                                                            {{/if}}
+                                                        </div>
+                                                    </li>
+                                                    <li class="item_row">
+                                                        <div class="item_name">账户名：</div>
+                                                        <div class="item_value">
+                                                            {{#if (!this.account_name || this.account_name === '' || this.account_name <= 0) }}
+                                                                --
+                                                            {{else}}
+                                                                {{this.account_name}}
+                                                            {{/if}}
+                                                        </div>
+                                                    </li>
+                                                    <li class="item_row">
+                                                        <div class="item_name">开户行：</div>
+                                                        <div class="item_value">
+                                                            {{#if (!this.open_bank || this.open_bank === '' || this.open_bank <= 0) }}
+                                                                --
+                                                            {{else}}
+                                                                {{this.open_bank}}
+                                                            {{/if}}
+                                                        </div>
+                                                    </li>
+                                                    <li class="item_row">
+                                                        <div class="item_name">银行卡号：</div>
+                                                        <div class="item_value">
+                                                            {{#if (!this.bank_no || this.bank_no === '' || this.bank_no <= 0) }}
+                                                                --
+                                                            {{else}}
+                                                                {{this.bank_no}}
+                                                            {{/if}}
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {{/each}}
+                                    <!--备案信息材料图片-->
+                                    <ul class="img_list" id="viewerImageList">
+                                        {{#each (fileList) }}
+                                            <li class="list_item img_item">
+                                                <a href="javascript:;" data-type="imgBox">
+                                                    <img data-original="{{this.url}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
+                                                </a>
+                                                <div class="img_desc nor_wrap">{{this.file_name}}</div>
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                {{/if}}
+                            {{/if}}
                         </div>
                     </div>
                     <!-- 备案信息部分 End -->

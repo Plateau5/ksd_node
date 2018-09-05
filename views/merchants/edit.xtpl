@@ -324,6 +324,41 @@
                             </ul>
                         </div>
                     </div>
+                    <!--主营范围-->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>主营范围：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="applyto_car" id="applyto_car">
+                                {{#each (main_scope) }}
+                                    {{#if (this.id === detail.applyto_car) }}
+                                    <option value="{{this.id}}" selected>{{this.value}}</option>
+                                    {{else}}
+                                    <option value="{{this.id}}">{{this.value}}</option>
+                                    {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <!--商户等级-->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">商户等级：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="level" id="level">
+                                <option value="">请选择</option>
+                                {{#each (level_list) }}
+                                {{#if (this.level === detail.grade) }}
+                                <option value="{{this.level}}" selected>{{this.level_value}}</option>
+                                {{else}}
+                                <option value="{{this.level}}">{{this.level_value}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
                     <!--商户来源-->
                     <div class="option_item" id="financeType">
                         <div class="column_name">
@@ -502,7 +537,6 @@
                 </div>
             {{/each}}
 
-
             <!--证件信息-->
             <div class="form_content form_options merchants_create">
                     <!-- 证件信息 Begin -->
@@ -537,10 +571,56 @@
                     </div>
             </div>
 
+            {{#if (recordBasicList[1].status === 1) }}
+                <!--实际控制人信息-->
+                <div class="form_content form_options merchants_create">
+                    <!-- 实际控制人信息 Begin -->
+                    <div class="options_title">实际控制人信息</div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>老板姓名：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" name="boss_name" data-text="老板姓名" id="boss_name" class="requireTrue" value="{{detail.boss_name}}" maxlength="20" placeholder="" />
+                            <span class="tips_info">(*请输入老板姓名)</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>老板户籍：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="boss_census" id="boss_census">
+                                {{#if (detail.boss_census === 0) }}
+                                <option selected value="0">外省</option>
+                                {{else}}
+                                <option value="0">外省</option>
+                                {{/if}}
+                                {{#if (detail.boss_census === 1) }}
+                                <option selected value="1">本省</option>
+                                {{else}}
+                                <option value="1">本省</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>手机号码：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="link_phone requireTrue" verify="1" data-text="老板手机号" id="boss_phone" name="boss_phone"  oninput="checkNum($(this));" maxlength="11" value="{{detail.boss_phone}}" placeholder="请输入手机号码"  />
+                            <span class="tips_info">(*请输入手机号)</span>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+
+            {{#if (recordBasicList[0].status === 1) }}
             <!--账户信息-->
-                <input type="hidden" name="updateRecordList" id="updateRecordList" value="" />
-                <input type="hidden" name="deleteRecordList"  id="deleteRecordList" value="" />
-                <input type="hidden" name="insertRecordList"  id="insertRecordList" value="" />
+            <input type="hidden" name="updateRecordList" id="updateRecordList" value="" />
+            <input type="hidden" name="deleteRecordList"  id="deleteRecordList" value="" />
+            <input type="hidden" name="insertRecordList"  id="insertRecordList" value="" />
             <input type="hidden" id="recordCount" value="{{detail.record_data.length}}">
             {{#each (detail.record_data) }}
                 <div class="form_content form_options merchants_create record_option his_record" id="recordInfo{{xindex + 1}}">
@@ -652,6 +732,7 @@
                     </div>
                 </div>
             {{/each}}
+            {{/if}}
 
             <!--备案信息图片-->
             {{#each (recordsMaterial) }}
