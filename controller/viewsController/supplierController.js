@@ -365,7 +365,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICYDETAIL = function(req, res, next) {
 // 供应商部分-金融机构-机构签约方式及合同编辑页跳转
 exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_CONTRACT = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/pigeonholeMaterial/toEdit',
+        url : '/api/organization/to/signcontract',
         title : '供应商-机构详情页',
         page : './organization/editRichText'
     }, req, res, next);
@@ -373,7 +373,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_CONTRACT = function(req, res, ne
 // 供应商部分-金融机构-机构面签照编辑页跳转
 exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_FACEREG = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/pigeonholeMaterial/toEdit',
+        url : '/api/organization/to/facesign',
         title : '供应商-机构详情页',
         page : './organization/editRichText'
     }, req, res, next);
@@ -381,7 +381,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_FACEREG = function(req, res, nex
 // 供应商部分-金融机构-机构GPS安装编辑页跳转
 exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_GPS = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/pigeonholeMaterial/toEdit',
+        url : '/api/organization/to/gpssign',
         title : '供应商-机构详情页',
         page : './organization/editRichText'
     }, req, res, next);
@@ -389,9 +389,19 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_GPS = function(req, res, next) {
 // 供应商部分-金融机构-机构附件资料编辑页跳转
 exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/pigeonholeMaterial/toEdit',
+        url : '/api/organization/to/file',
         title : '供应商-机构详情页',
-        page : './organization/editAnnex'
+        page : './organization/editAnnex',
+        callback : function (data) {
+            var M_1 = 1024*1024;
+            for (var i = 0, len = data.file_list.length; i < len; i++) {
+                if (data.file_list[i].file_size >= M_1) {
+                    data.file_list[i].file_size = (data.file_list[i].file_size/M_1).toFixed(2) + 'MB';
+                } else {
+                    data.file_list[i].file_size = (data.file_list[i].file_size/1024).toFixed(2) + 'KB';
+                }
+            }
+        }
     }, req, res, next);
 };
 // 供应商部分-金融机构-跳转复制产品
