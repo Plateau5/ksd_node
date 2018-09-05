@@ -26,11 +26,11 @@
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a href="javascript:;" class="crumbs_item go_orgdetail">{{reqParams.org_name}}</a>
                 <a href="javascript:;" class="crumbs_item">
-                    {{#if (reqParams.material_type === '4')}}
+                    {{#if (reqParams.change_type === '4')}}
                     编辑签合约方实际合同
-                    {{elseif (reqParams.material_type === '5') }}
+                    {{elseif (reqParams.change_type === '5') }}
                     编辑面签照
-                    {{elseif (reqParams.material_type === '6') }}
+                    {{elseif (reqParams.change_type === '6') }}
                     编辑GPS安装
                     {{/if}}
                 </a>
@@ -39,30 +39,22 @@
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="orgId">
-                    <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
+                    <input type="hidden" name="change_type" value="{{reqParams.change_type}}" id="change_type">
                     <div class="option_item" style="margin-top: 20px;">
                         <div class="column_name" style="line-height: 20px;">
                             <em class="require_icon">*</em>
                             <span class="options_name">
-                                {{#if (reqParams.material_type === '4') }}
+                                {{#if (reqParams.change_type === '4') }}
                                 签约方式及合同：
-                                {{elseif (reqParams.material_type === '5') }}
+                                {{elseif (reqParams.change_type === '5') }}
                                 面签照：
-                                {{elseif (reqParams.material_type === '6') }}
+                                {{elseif (reqParams.change_type === '6') }}
                                 GPS安装：
                                 {{/if}}
                             </span>
                         </div>
                         <div class="column_val">
-                            <textarea id="approval_policy" class="remark" name="" cols="30" rows="6">
-                                {{#if (reqParams.material_type === '4') }}
-                                    {{sign_contract}}
-                                {{elseif (reqParams.material_type === '5') }}
-                                    {{face_sign}}
-                                {{elseif (reqParams.material_type === '6') }}
-                                    {{gps_sign}}
-                                {{/if}}
-                            </textarea>
+                            <textarea id="approval_policy" class="remark" name="" cols="30" rows="6">{{#if (reqParams.change_type === '4') }}{{sign_contract}}{{elseif (reqParams.change_type === '5') }}{{face_sign}}{{elseif (reqParams.change_type === '6') }}{{gps_sign}}{{/if}}</textarea>
                         </div>
                     </div>
                     <div class="btn_box clearfix create_wf_btn_box">
@@ -97,31 +89,43 @@
         //ajax提交參數
         function ajaxSubmit () {
             var policy_desc = kindEditor.html();
+            var change_type = $('#change_type').val().trim();
             if (policy_desc == '') {
-                if ($('#material_type').val() == '4') {
+                if (change_type == '4') {
                     $alert('签约方式及合同不能为空');
-                } else if ($('#material_type').val() == '5') {
+                } else if (change_type == '5') {
                     $alert('面签照不能为空');
-                } else if ($('#material_type').val() == '6') {
+                } else if (change_type == '6') {
                     $alert('GPS安装不能为空');
                 }
             } else {
-                var parameters = {
-                    policy_desc : policy_desc
-                };
+                if (change_type == '4') {
+                    var parameters = {
+                        sign_contract : policy_desc
+                    };
+                } else if (change_type == '5') {
+                    var parameters = {
+                        face_sign : policy_desc
+                    };
+                } else if (change_type == '6') {
+                    var parameters = {
+                        gps_install : policy_desc
+                    };
+                }
+                parameters.change_type = change_type;
                 if (old_policy_desc == '') {
-                    parameters.append('change_version', '0');
+                    parameters.change_version = 0;
                 } else {
                     if (old_policy_desc != policy_desc) {
-                        parameters.append('change_version', '1');
+                        parameters.change_version = 1;
                     } else {
-                        parameters.append('change_version', '0');
+                        parameters.change_version = 0;
                     }
                 }
                 $.ajax({
                     type:'post',
                     timeout:5000,
-                    url : contextPath + '/api/organization/create',
+                    url : contextPath + '/api/organization/update',
                     data : parameters,
                     beforeSend : function () {
                         $('#loading').show();
@@ -134,7 +138,7 @@
                                     action : contextPath + markUri + '/supplier/organization/detail',
                                     param : {
                                         organization_id : $('#orgId').val().trim(),
-                                        material_type : $('#material_type').val().trim()
+                                        change_type : $('#change_type').val().trim()
                                     }
                                 });
                             })
@@ -157,12 +161,12 @@
             var go_orgdetail = $('.go_orgdetail');
             go_orgdetail.off("click").on("click", function () {
                 var organization_id = $('#orgId').val().trim();
-                var material_type = $('#material_type').val().trim();
+                var change_type = $('#change_type').val().trim();
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/detail',
                     param : {
                         organization_id : organization_id,
-                        material_type : material_type
+                        change_type : change_type
                     }
                 });
             });

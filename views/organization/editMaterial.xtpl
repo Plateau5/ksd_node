@@ -32,7 +32,7 @@
                 <form action="" id="material_edit_form" method="post">
                     <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="organization_id">
                     <input type="hidden" name="car_type" value="{{reqParams.car_type}}" id="car_type">
-                    <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
+                    <input type="hidden" name="change_type" value="{{reqParams.change_type}}" id="change_type">
                     {{#each (materialList) }}
                     {{#if (this.data_ids) }}
                         <div class="material_list" data-id="{{this.type}}" data-histrory="1" data-org_material_id="{{this.organization_material_id}}">
@@ -590,11 +590,11 @@
             });
             var organization_id = $('#organization_id').val().trim();
             var car_type = $('#car_type').val().trim();
-            var material_type = $('#material_type').val().trim();
+            var change_type = $('#change_type').val().trim();
             var parameters = {
                 organization_id : organization_id,
                 car_type : car_type,
-                material_type : material_type,
+                change_type : change_type,
                 update_data : JSON.stringify(update_data),
                 insert_data : JSON.stringify(insert_data)
             };
@@ -619,7 +619,7 @@
                                 action : contextPath + markUri + '/supplier/organization/detail',
                                 param : {
                                     organization_id : parameters.organization_id,
-                                    material_type : parameters.material_type
+                                    change_type : parameters.change_type
                                 }
                             });
                         })
@@ -645,7 +645,7 @@
                     action : contextPath + markUri + '/supplier/organization/detail',
                     param : {
                         organization_id : organization_id,
-                        material_type : $('#material_type').val().trim()
+                        change_type : $('#change_type').val().trim()
                     }
                 });
             });

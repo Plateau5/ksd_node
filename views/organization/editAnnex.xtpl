@@ -31,7 +31,7 @@
             <div class="form_options">
                 <form action="" id="material_edit_form" method="post">
                     <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="orgId">
-                    <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
+                    <input type="hidden" name="change_type" value="{{reqParams.change_type}}" id="change_type">
                     <input type="hidden" name="change_version" value="0" id="change_version">
                     <div class="annex_box">
                         {{#each (file_list) }}
@@ -257,7 +257,7 @@
                                 action : contextPath + markUri + '/supplier/organization/detail',
                                 param : {
                                     organization_id : $('#orgId').val().trim(),
-                                    material_type : $('#material_type').val()
+                                    change_type : $('#change_type').val()
                                 }
                             });
                         })
@@ -279,12 +279,12 @@
             var go_orgdetail = $('.go_orgdetail');
             go_orgdetail.off("click").on("click", function () {
                 var organization_id = $('#orgId').val().trim();
-                var material_type = $('#material_type').val().trim();
+                var change_type = $('#change_type').val().trim();
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/detail',
                     param : {
                         organization_id : organization_id,
-                        material_type : material_type
+                        change_type : change_type
                     }
                 });
             });

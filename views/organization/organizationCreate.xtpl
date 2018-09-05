@@ -30,6 +30,7 @@
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="id" id="orgId" value="{{vo.id}}">
+                    <input type="hidden" name="change_type" id="changeType" value="{{reqParams.change_type}}">
                     <div class="base_info">
                         <div class="detail_title">基本信息</div>
                         <div class="option_item">
@@ -921,7 +922,7 @@
                                     action : contextPath + markUri + '/supplier/organization/detail',
                                     param : {
                                         organization_id : $('#orgId').val().trim(),
-                                        material_type : 0
+                                        change_type : 0
                                     }
                                 });
                             } else {
@@ -948,7 +949,7 @@
         function goOrglist () {
             var go_orglist = $('.go_orglist');
             go_orglist.off("click").on("click", function () {
-                var organization_id = $('#orgId').val().trim()
+                var organization_id = $('#orgId').val().trim();
                 if (organization_id == '') {
                     locationTo({
                         action : contextPath + markUri + '/supplier/organization/list'
@@ -958,7 +959,7 @@
                         action : contextPath + markUri + '/supplier/organization/detail',
                         param : {
                             organization_id : organization_id,
-                            material_type : 0
+                            change_type : 0
                         }
                     });
                 }
