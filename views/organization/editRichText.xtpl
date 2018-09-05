@@ -54,7 +54,15 @@
                             </span>
                         </div>
                         <div class="column_val">
-                            <textarea id="approval_policy" class="remark" name="" cols="30" rows="6"></textarea>
+                            <textarea id="approval_policy" class="remark" name="" cols="30" rows="6">
+                                {{#if (reqParams.material_type === '4') }}
+                                    {{sign_contract}}
+                                {{elseif (reqParams.material_type === '5') }}
+                                    {{face_sign}}
+                                {{elseif (reqParams.material_type === '6') }}
+                                    {{gps_sign}}
+                                {{/if}}
+                            </textarea>
                         </div>
                     </div>
                     <div class="btn_box clearfix create_wf_btn_box">
