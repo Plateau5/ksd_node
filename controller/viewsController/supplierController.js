@@ -408,9 +408,13 @@ exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX = function(req, res, next)
 // 供应商部分-金融机构-跳转复制产品
 exports.VIEW_SUPPLIER_ORGANIZATION_COPYPRODUCT = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/pigeonholeMaterial/toEdit',
+        url : '/api/to/copy/product',
         title : '供应商-机构详情页',
-        page : './organization/copyProduct'
+        page : './organization/copyProduct',
+        callback : function (data) {
+            data.city_list = JSON.stringify(data.list_city);
+            data.condition_city_list = JSON.stringify(data.condition_city_list);
+        }
     }, req, res, next);
 };
 

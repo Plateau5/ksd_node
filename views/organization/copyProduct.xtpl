@@ -31,14 +31,15 @@
 
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
-                    <input type="hidden" name="id" id="orgId" value="{{vo.id}}">
-                    <input type="hidden" name="material_type" id="material_type" value="{{reqParams.material_type}}">
+                    <input type="hidden" name="product_id" id="productId" value="{{reqParams.product_id}}">
                     <div class="option_item" style="margin-top: 20px;">
                         <div class="column_name">
                             <em class="require_icon">*</em>
                             <span class="options_name">适用城市：</span>
                         </div>
                         <div class="column_val">
+                            <div class="selected_citys_box"></div>
+                            <input type="hidden" class="city_ids" name="city_ids"  value=""/>
                             <a href="javascript:;" class="select_city">选择城市</a>
                         </div>
                     </div>
@@ -59,72 +60,103 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
-        var old_policy_desc = $('#approval_policy').val();
-
+        var city_list = '{{{city_list}}}';//所有城市
+        if (city_list.length > 0 ) {
+            city_list = JSON.parse(city_list);
+        }
+        var condition_city_list = '{{{condition_city_list}}}';//回显城市
+        if (condition_city_list == '') {
+            condition_city_list = [];
+        } else {
+            condition_city_list = JSON.parse(condition_city_list);
+        }
+        var city_data = [];//提交城市数据
+        /**
+         * 选择城市
+         * @author  Plateau  2018年8月8日16:14:35
+         * @param city_list: 城市数据；
+         * @param condition_city_list : 回显城市数据；
+         * @param dataType数据类型：1-两级数据、2-三级数据
+         * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
+         * */
+        function getSelectedCitys () {
+            $('.select_city').citySelect({
+                data : city_list,
+                defaultData : condition_city_list,
+                dataType : 1,
+                type : 2
+            }, function (data) {
+                if (data) {
+                    var cityName = [];
+                    var str = '';
+                    for (var i = 0,leni = data.length;i < leni;i++) {
+                        str += '<div>'+ data[i].name +'：';
+                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                            city_data.push({
+                                city_id : data[i].city_list[j].id,
+                                city_name : data[i].city_list[j].name
+                            });
+                            cityName.push(data[i].city_list[j].name);
+                        }
+                        str += cityName.join('、') + '</div>';
+                    }
+                    $('.selected_citys_box').html(str);
+                }
+            });
+        }
 
         //保存按钮
         function saveOrg () {
-            var btn = $(".save_org");
-            btn.off("click").on("click", function () {
-                send_organization_form();
+            var save_publish = $(".save_publish");
+            save_publish.off("click").on("click", function () {
+                ajaxSubmit(1);
             });
-        }
-        //保存更新函数
-        function send_organization_form(){
-            ajaxSubmit();
+            var save_warehouse = $(".save_warehouse");
+            save_warehouse.off("click").on("click", function () {
+                ajaxSubmit(2);
+            });
         }
 
         //ajax提交參數
-        function ajaxSubmit () {
-            var parameters = new FormData(document.getElementById('organization_info_create'));
-            var policy_desc = kindEditor.html();
-            parameters.append('policy_desc', policy_desc);
-            if ($('#orgId').val() == '') {
-                parameters.append('change_version', '0');
+        function ajaxSubmit (validate_type) {
+            if (city_data.length == 0) {
+                $alert('适用城市不能为空');
             } else {
-                if (old_policy_desc != policy_desc) {
-                    parameters.append('change_version', '1');
-                } else {
-                    parameters.append('change_version', '0');
-                }
-            }
-
-            if ($('#orgId').val().trim() == '') {
-                var url = '/api/organization/create';
-            } else {
-                var url = '/api/organization/update';
-            }
-            $.ajax({
-                type:'post',
-                timeout:5000,
-                url : contextPath + url,
-                data : parameters,
-                processData : false,      //序列化参数为String类型，默认：true。
-                contentType : false,      //内容编码，文件上传时设为FALSE
-                beforeSend : function () {
-                    $('#loading').show();
-                },
-                success : function (res) {
-                    $('#loading').hide();
-                    if (res.error_code == 0) {
-                        $alert('操作成功', function () {
-                            locationTo({
-                                action : contextPath + markUri + '/supplier/organization/detail',
-                                param : {
-                                    organization_id : $('#orgId').val().trim(),
-                                    material_type : $('#material_type').val()
-                                }
-                            });
-                        })
-                    } else {
-                        $alert(res.error_msg);
+                var parameters = {
+                    product_id : $('#productId').val(),
+                    city_data : JSON.stringify(city_data),
+                    validate_type : validate_type
+                };
+                $.ajax({
+                    type:'post',
+                    timeout:5000,
+                    url : contextPath + '/api/copy/product/save',
+                    data : parameters,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('操作成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/detail',
+                                    param : {
+                                        organization_id : $('#orgId').val().trim(),
+                                        material_type : $('#material_type').val()
+                                    }
+                                });
+                            })
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert("提交失败，请稍后重试");
                     }
-                },
-                error : function () {
-                    $('#loading').hide();
-                    $alert("提交失败，请稍后重试");
-                }
-            });
+                });
+            }
         }
         /**
          * 取消事件
@@ -151,6 +183,7 @@
             });
         }
         $(function() {
+            getSelectedCitys();//选择城市
             saveOrg();//保存机构
             goOrglist();//取消事件
         });

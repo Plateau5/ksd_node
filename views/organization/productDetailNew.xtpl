@@ -410,9 +410,12 @@
         function copyProduct () {
             var copy_product_btn = $('.copy_product_btn');
             copy_product_btn.off('click').on('click', function () {
+                var product_id = $('#productId').val();
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/copyProduct",
-                    param : {}
+                    param : {
+                        product_id : product_id
+                    }
                 })
             });
         }
