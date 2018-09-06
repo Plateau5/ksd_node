@@ -31,12 +31,12 @@
                             <span class="options_name"><span class="require_icon">*</span>商户级别：</span>
                         </div>
                         <div class="column_val">
-                            <select name="car_type" id="carType">
-                                <option selected="selected" value="0">A级</option>
-                                <option value="0">B级</option>
-                                <option value="0">C级</option>
-                                <option value="0">D级</option>
-                                <option value="0">E级</option>
+                            <select name="level" id="level">
+                                <option selected="selected" value="1">A级</option>
+                                <option value="2">B级</option>
+                                <option value="3">C级</option>
+                                <option value="4">D级</option>
+                                <option value="5">E级</option>
                             </select>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                             <span class="options_name">备注：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" maxlength="30" style="width:400px;" name="name"  value="" placeholder="请输入备注，30字以内"  />
+                            <input type="text" maxlength="30" style="width:400px;" name="remark"  value="" placeholder="请输入备注，30字以内"  />
                         </div>
                     </div>
                     <div class="options_title financial_product_title">数据条件</div>
@@ -55,16 +55,16 @@
                         </div>
                         <div class="column_val loan_data_list">
                             <div class="loan_data">
-                                <select name="car_type" id="" style="width:150px;">
-                                    <option selected="selected" value="0">单月</option>
-                                    <option value="0">近3个月</option>
-                                    <option value="0">历史累计</option>
+                                <select class="loan_data_date" style="width:150px;">
+                                    <option selected="selected" value="1">单月</option>
+                                    <option value="2">近3个月</option>
+                                    <option value="3">历史累计</option>
                                 </select>
-                                <select name="car_type" id="" style="width:150px;">
-                                    <option selected="selected" value="0">大于等于</option>
+                                <select name="" class="loan_data_logic" style="width:150px;">
+                                    <option selected="selected" value="1">大于等于</option>
                                     <option value="0">小于</option>
                                 </select>
-                                <input type="text" class="requireTrue" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入订单数，如:10"  />
+                                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name=""  value="" placeholder="请输入订单数，如:10"  />
                                 &nbsp单
                                 <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
                             </div>
@@ -72,6 +72,8 @@
                         <div class="btn_box text_left clearfix">
                             <a href="javascript:" class="add_sm_btn" data-type="1" data-id="19127">添加条件</a>
                         </div>
+                        <input type="hidden" name="condition_logic" id="condition_logic" value="" />
+                        <input type="hidden" name="condition_str" id="condition_str" value="" />
                     </div>
                     <div class="options_title financial_product_title">限制条件</div>
                     <div class="option_item">
@@ -81,10 +83,11 @@
                         <div class="column_val storeType">
                             {{#each (store_type_list)}}
                                 <div class="form_group">
-                                    <input type="checkbox" class="rates store_type_value" data-id="{{this.id}}" name="store_type_values" value="{{this.value}}">
-                                    <label class="paymentCheck">{{this.value}}</label>
+                                    <input type="checkbox" class="rates store_type_value" data-id="{{this.id}}" value="{{this.value}}">
+                                    <label class="store_type_check" data-id="{{this.id}}">{{this.value}}</label>
                                 </div>
                             {{/each}}
+                            <input type="hidden" name="store_type" id="store_type" value="" />
                         </div>
                         <div class="column_name">
                             <span class="options_name">主营范围：</span>
@@ -92,49 +95,52 @@
                         <div class="column_val applytoCar">
                             {{#each (applyto_car_list)}}
                             <div class="form_group">
-                                <input type="checkbox" class="rates applyto_car_value" data-id="{{this.id}}" name="applyto_car_values" value="{{this.value}}">
-                                <label class="paymentCheck">{{this.value}}</label>
+                                <input type="checkbox" class="rates applyto_car_value" data-id="{{this.id}}" name="" value="{{this.value}}">
+                                <label class="applyto_car_check"  data-id="{{this.id}}">{{this.value}}</label>
                             </div>
                             {{/each}}
+                            <input type="hidden" name="applyto_car" id="applyto_car" value="" />
                         </div>
                         <div class="column_name">
                             <span class="options_name">老板户籍：</span>
                         </div>
-                        <div class="column_val boss_census">
+                        <div class="column_val bossCensus">
                             <div class="form_group">
-                                <input type="checkbox" class="rates boss_census_value" data-id="0" name="boss_census_values" value="外省">
-                                <label class="paymentCheck">外省</label>
+                                <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
+                                <label class="boss_census_check" data-id="0">外省</label>
                             </div>
                             <div class="form_group">
-                                <input type="checkbox" class="rates boss_census_value" data-id="1" name="boss_census_values" value="本省">
-                                <label class="paymentCheck">本省</label>
+                                <input type="checkbox" class="rates boss_census_value" data-id="1" name="" value="本省">
+                                <label class="boss_census_check" data-id="1">本省</label>
                             </div>
+                            <input type="hidden" name="boss_census" id="boss_census" value="" />
                         </div>
                         <div class="column_name">
                             <span class="options_name"><span class="require_icon">*</span>合作时长：</span>
                         </div>
-                        <div class="column_val loan_data_list">
-                            <div class="loan_data">
-                                <select name="car_type" style="width:150px;">
+                        <div class="column_val cooperation">
+                            <div class="coop_data">
+                                <select name="" class="coopSelect" style="width:150px;">
                                     <option selected="selected"  value="0">小于</option>
                                     <option value="1">大于等于</option>
                                 </select>
-                                <input type="text" class="requireTrue" data-text="天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入天数，如:10"  />
+                                <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="4" name="name"  value="" placeholder="请输入天数，如:10"  />
                                 &nbsp天
                             </div>
+                            <input type="hidden" name="cooperation" id="cooperation" value="" />
                         </div>
                     </div>
                 </div>
             </form>
             <div class="btn_box text_left pad_btm_50 clearfix" style="margin-top:50px;">
-                <a href="javascript:;" class="btn orange_btn confirm edit_confirm">保存</a>
+                <a href="javascript:;" class="btn orange_btn level_edit_confirm">保存</a>
                 <a href="{{markUri}}/merchants/level/system" class="btn bg_btn edit_cancel" data-id="">取消</a>
             </div>
         </div>
         <!---- Part of Main info End ---->
     </div>
-
 </div>
+<div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -156,36 +162,36 @@
                 var loan_data_list = $('.loan_data_list');
                 var loan_data = $('.loan_data');
                 if (loan_data.length > 0) {
-                    var linkStr = '<select name="term" class="term" style="width:80px;">\n' +
+                    var linkStr = '<select name="" class="condition_logic" style="width:80px;">\n' +
                         '                    <option selected="selected" value="0">或</option>\n' +
                         '                    <option value="1">且</option>\n' +
                         '           </select>\n' +
                         '           <div class="loan_data">\n' +
-                        '               <select name="loan_data_date" id="" style="width:150px;">\n' +
-                        '                   <option selected="selected" value="0">单月</option>\n\n' +
-                        '                   <option value="0">近3个月</option>\n' +
-                        '                   <option value="0">历史累计</option>\n' +
+                        '               <select name="" class="loan_data_date" style="width:150px;">\n' +
+                        '                   <option selected="selected" value="1">单月</option>\n\n' +
+                        '                   <option value="2">近3个月</option>\n' +
+                        '                   <option value="3">历史累计</option>\n' +
                         '               </select>\n' +
-                        '                <select name="car_type" id="" style="width:150px;">\n' +
-                        '                   <option selected="selected" value="0">大于等于</option>\n' +
+                        '                <select name="" class="loan_data_logic" style="width:150px;">\n' +
+                        '                   <option selected="selected" value="1">大于等于</option>\n' +
                         '                   <option value="0">小于</option>\n' +
                         '                </select>\n' +
-                        '                <input type="text" class="requireTrue" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
+                        '                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
                         '               &nbsp单\n' +
                         '               <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>\n' +
                         '              </div>';
                 } else {
                     var linkStr = '<div class="loan_data">\n' +
-                        '               <select name="loan_data_date" id="" style="width:150px;">\n' +
-                        '                   <option selected="selected" value="0">单月</option>\n\n' +
-                        '                   <option value="0">近3个月</option>\n' +
-                        '                   <option value="0">历史累计</option>\n' +
+                        '               <select name="" class="loan_data_date" style="width:150px;">\n' +
+                        '                   <option selected="selected" value="1">单月</option>\n\n' +
+                        '                   <option value="2">近3个月</option>\n' +
+                        '                   <option value="3">历史累计</option>\n' +
                         '               </select>\n' +
                         '                <select name="car_type" id="" style="width:150px;">\n' +
-                        '                   <option selected="selected" value="0">大于等于</option>\n' +
+                        '                   <option selected="selected" value="1">大于等于</option>\n' +
                         '                   <option value="0">小于</option>\n' +
                         '                </select>\n' +
-                        '                <input type="text" class="requireTrue" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="10" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
+                        '                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
                         '               &nbsp单\n' +
                         '               <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>\n' +
                         '              </div>';
@@ -226,10 +232,177 @@
             });
         }
 
+        /**
+         *  保存按钮提交逻辑 2018年9月6日
+         *  Created by wyt on 2018年9月6日10:13:56
+         */
+        function saveLevelEdit () {
+            var btn = $('.level_edit_confirm');
+            btn.off('click').on('click', function () {
+                var isVerify = levelEmpty();       //输入框非空校验
+                if (isVerify) {
+                    var data = new FormData(document.getElementById("levelCreate"));
+                    $.ajax({
+                        type:'post',
+                        url : contextPath + '/api/supplier/level/create',
+                        data : data,
+                        timeout : 6000,
+                        processData : false,      //序列化参数为String类型，默认：true。
+                        contentType : false,      //内容编码，文件上传时设为FALSE
+                        beforeSend : function () {
+                            $('#loading').show();
+                        },
+                        success : function (res) {
+                            $('#loading').hide();
+                            if (res.error_code == 0) {
+                                $alert('操作成功', function () {
+                                    locationTo({
+                                        action : contextPath + markUri + '/merchants/level/list',
+                                        param : {
+                                        }
+                                    });
+                                })
+                            } else {
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $('#loading').hide();
+                            $alert("提交失败，请稍后重试");
+                        }
+                    });
+                }
+            });
+        }
+
+        //输入框非空校验
+        function levelEmpty () {
+            var requireInput = $('.requireTrue');
+            var isVerify = null;
+            requireInput.each(function () {
+                var t = $(this);
+                var v = $.trim(t.val());
+                if (v == '') {
+                    var tipText = t.data('text');
+                    $alert(tipText + '不能为空');
+                    isVerify = false;
+                    return false;
+                } else {
+                    isVerify = true;
+                }
+            });
+            getLoanData();      //获取数据条件数据
+            isVerify = getLimitData();     //获取限制条件数据
+            return isVerify;
+        }
+
+        //获取数据条件数据
+        function getLoanData() {
+            var loan_data = $('.loan_data');
+            var condition_logic = $('.condition_logic option:selected');
+            var conditionLogicArr = [];
+            var loanDataArr = [];
+            condition_logic.each(function () {
+                var _this = $(this);
+                var v = $(this).val();
+                conditionLogicArr.push(v);
+            });
+            var record = conditionLogicArr.join(',');
+            $('#condition_logic').val(record);
+
+            loan_data.each(function (index) {
+                // console.log(index);
+                var _this = $(this);
+                var loanDataDate = _this.find('.loan_data_date option:selected').val();
+                var loanDataLogic = _this.find('.loan_data_logic option:selected').val();
+                var loanDataNum = _this.find('.loan_data_num').val();
+                var loan_data_total = loanDataDate + ',' + loanDataLogic+ ',' + loanDataNum;
+                loanDataArr.push(loan_data_total);
+            });
+            var loanPick = loanDataArr.join(';');
+            $('#condition_str').val(loanPick);
+        }
+
+
+        //获取限制条件数据
+        function getLimitData () {
+            var isVerify = null;
+            //获取店面类型选中的数据
+            var storeType = $('.store_type_check');
+            var storeTypeArr = [];
+            storeType.each(function () {
+                var _this = $(this);
+                var v = _this.data('id');
+                if (_this.hasClass('checked')) {
+                    storeTypeArr.push(v);
+                }
+            });
+            if (storeTypeArr.length == 0) {
+                $alert('请选择店面类型');
+                isVerify = false;
+                return false;
+            } else {
+                var record = storeTypeArr.join(',');
+                $('#store_type').val(record);
+                isVerify = true;
+            }
+
+            //获取主营范围选中的数据
+            var applytoCar = $('.applyto_car_check');
+            var applytoCarArr = [];
+            applytoCar.each(function () {
+                var _this = $(this);
+                var v = _this.data('id');
+                if (_this.hasClass('checked')) {
+                    applytoCarArr.push(v);
+                }
+            });
+            if (applytoCarArr.length == 0) {
+                $alert('请选择主营范围');
+                isVerify = false;
+                return false;
+            } else {
+                var record = applytoCarArr.join(',');
+                $('#applyto_car').val(record);
+                isVerify = true;
+            }
+
+            //获取老板户籍选中的数据
+            var bossCensus = $('.boss_census_check');
+            var bossCensusArr = [];
+            bossCensus.each(function () {
+                var _this = $(this);
+                var v = _this.data('id');
+                if (_this.hasClass('checked')) {
+                    bossCensusArr.push(v);
+                }
+            });
+            if (bossCensusArr.length == 0) {
+                $alert('请选择老板户籍');
+                isVerify = false;
+                return false;
+            } else {
+                var record = bossCensusArr.join(',');
+                $('#boss_census').val(record);
+                isVerify = true;
+            }
+            //获取合作时长的数据
+            var coopArr = [];
+            var coopselect = $('.coopSelect option:selected').val();
+            var coopValue = $('.coopVal').val();
+            coopArr.push(coopselect);
+            coopArr.push(coopValue);
+            var coopRecord = coopArr.join(',');
+            $('#cooperation').val(coopRecord);
+            return isVerify;
+        }
+
         $(function() {
+            numAndAmount('.only_num');
             addLoanData();      //添加数据条件
             deleteLoanData();   //删除数据条件
             resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked"); //复选框选中
+            saveLevelEdit();        //提交编辑等级
         });
 
     })(jQuery,undefined);
