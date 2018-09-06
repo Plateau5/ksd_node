@@ -34,6 +34,10 @@
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="product_id" id="productId" value="{{reqParams.product_id}}">
                     <input type="hidden" name="parent_id" id="parentId" value="{{reqParams.parent_id}}">
+                    <input type="hidden" name="product_name" id="productName" value="{{reqParams.product_name}}">
+                    <input type="hidden" name="applyto_car" id="applytoCar" value="{{reqParams.applyto_car}}">
+                    <input type="hidden" name="applyto_business" id="applytoBusiness" value="{{reqParams.applyto_business}}">
+                    <input type="hidden" name="applyto_type" id="applytoType" value="{{reqParams.applyto_type}}">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -77,6 +81,7 @@
         var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
         var product_detail = '{{{reqParams.product_detail}}}';//产品详情页
         var city_data = [];//提交城市数据
+
         /**
          * 选择城市
          * @author  Plateau  2018年8月8日16:14:35
@@ -94,10 +99,12 @@
             }, function (data) {
                 if (data) {
                     var str = '';
+                    city_data = [];
                     for (var i = 0,leni = data.length;i < leni;i++) {
                         var cityName = [];
                         str += '<div>'+ data[i].name +'：';
                         for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                            //重新设置提交数据
                             city_data.push({
                                 city_id : data[i].city_list[j].id,
                                 city_name : data[i].city_list[j].name
@@ -136,6 +143,11 @@
                 $alert('请选择城市');
             } else {
                 var parameters = {
+                    parent_id : $('#parentId').val(),
+                    product_name : $('#productName').val(),
+                    applyto_car : $('#applytoCar').val(),
+                    applyto_business : $('#applytoBusiness').val(),
+                    applyto_type : $('#applytoType').val(),
                     product_id : $('#productId').val(),
                     city_data : JSON.stringify(city_data),
                     validate_type : validate_type
