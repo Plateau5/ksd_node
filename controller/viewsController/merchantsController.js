@@ -526,3 +526,11 @@ exports.VIEW_MERCHANTS_LEVELCREATE = function(req, res, next) {
         page : './merchants/levelEdit'
     }, req, res, next);
 };
+// 商户-编辑等级
+exports.VIEW_MERCHANTS_LEVELEDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/supplier/level/toEdit',
+        title : '编辑等级',
+        page : './merchants/levelEdit'
+    }, req, res, next);
+};

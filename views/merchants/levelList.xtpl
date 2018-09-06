@@ -21,10 +21,10 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main merchants">
             <div class="crumbs_nav" style="border: none;text-align: right;">
-                <a href="javascript:;" class="level_create"><span class="create_icon">+</span><span style="vertical-align: top;margin-left:8px;">新建等级</span></a>
+                <a href="javascript:;" class="level_create"><em class="create_icon"></em>新建等级</a>
             </div>
             <div class="level_list" id="level_list">
-                <table class="normal recordsNormal">
+                <table class="normal levelNormal">
                     <colgroup>
                         <col style="width: 20%;" />
                         <col style="width: 65%;" />
@@ -42,7 +42,7 @@
                         {{#each (level_list) }}
                             <tr data-id="{{this.id }}" data-level="{{this.level }}">
                                 <td title="{{this.level_value }}">{{this.level_value }}</td>
-                                <td title="{{this.condition_str }}" class="text_left">{{this.condition_str }}</td>
+                                <td title="{{this.condition_str_value }}" class="text_left">{{this.condition_str_value }}</td>
                                 <td>
                                     <a href="javascript:;" class="edit_btn level_edit" data-id="{{this.id }}"  data-advanceIds=""  title="编辑等级"></a>
                                     <a href="javascript:;" class="delete_btn level_delete" data-id="{{this.id }}" title="删除等级"></a>
@@ -77,11 +77,33 @@
          */
         function toLevelCreate () {
             var Btn = $(".level_create");
+            var levelLen = $('.levelNormal').find('tbody tr');
+            if (levelLen.length > 4) {
+                Btn.css('background','#ccc');
+            } else {
+                Btn.off('click').on('click', function () {
+                    locationTo({
+                        action : contextPath + markUri + '/merchants/level/create',
+                        param : {
+
+                        }
+                    })
+                });
+            }
+        }
+        /**
+         *  跳转新建等级 2018年9月5日
+         *  Created by wyt on 2018年9月5日15:46:27
+         */
+        function LevelEdit () {
+            var Btn = $(".level_edit");
             Btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = _this.data('id');
                 locationTo({
-                    action : contextPath + markUri + '/merchants/level/create',
+                    action : contextPath + markUri + '/merchants/level/edit',
                     param : {
-                        id : 1
+                        id : id
                     }
                 })
             });
@@ -145,7 +167,8 @@
 
         $(function() {
             toLevelCreate();    //跳转新建等级
-            deleteLevel();      //删除等级等级
+            LevelEdit();        //编辑等级
+            deleteLevel();      //删除等级
         });
     })(jQuery,undefined);
 </script>

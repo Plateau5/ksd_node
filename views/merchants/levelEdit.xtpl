@@ -21,7 +21,7 @@
         <div id="main" class="main merchants_edit">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/merchants/level/system" class="crumbs_item">分级管理</a>
-                <a href="javascript:;" class="crumbs_item">新建等级</a>
+                <a href="javascript:;" class="crumbs_item">{{title}}</a>
             </div>
             <form method="post" id="levelCreate">
                 <div class="form_content form_options merchants_create">
@@ -32,11 +32,31 @@
                         </div>
                         <div class="column_val">
                             <select name="level" id="level">
-                                <option selected="selected" value="1">A级</option>
+                                {{#if (data.level === 1) }}
+                                <option selected value="1">A级</option>
+                                {{else}}
+                                <option value="1">A级</option>
+                                {{/if}}
+                                {{#if (data.level === 2) }}
+                                <option selected value="2">B级</option>
+                                {{else}}
                                 <option value="2">B级</option>
+                                {{/if}}
+                                {{#if (data.level === 3) }}
+                                <option selected value="3">C级</option>
+                                {{else}}
                                 <option value="3">C级</option>
+                                {{/if}}
+                                {{#if (data.level === 4) }}
+                                <option selected value="4">D级</option>
+                                {{else}}
                                 <option value="4">D级</option>
+                                {{/if}}
+                                {{#if (data.level === 5) }}
+                                <option selected value="5">E级</option>
+                                {{else}}
                                 <option value="5">E级</option>
+                                {{/if}}
                             </select>
                         </div>
                     </div>
@@ -45,7 +65,7 @@
                             <span class="options_name">备注：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" maxlength="30" style="width:400px;" name="remark"  value="" placeholder="请输入备注，30字以内"  />
+                            <input type="text" maxlength="30" style="width:400px;" name="remark"  value="{{data.remark}}" placeholder="请输入备注，30字以内"  />
                         </div>
                     </div>
                     <div class="options_title financial_product_title">数据条件</div>
@@ -82,10 +102,25 @@
                         </div>
                         <div class="column_val storeType">
                             {{#each (store_type_list)}}
-                                <div class="form_group">
-                                    <input type="checkbox" class="rates store_type_value" data-id="{{this.id}}" value="{{this.value}}">
-                                    <label class="store_type_check" data-id="{{this.id}}">{{this.value}}</label>
-                                </div>
+                                {{#if (data.store_type) }}
+                                    {{set (term1 = data.store_type.split(',')) }}
+                                    {{#if (term1.indexOf(this.id.toString()) !== -1) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates store_type_value" data-id="{{this.id}}" value="{{this.value}}">
+                                        <label class="store_type_check checked" data-id="{{this.id}}">{{this.value}}</label>
+                                    </div>
+                                    {{else}}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates store_type_value" data-id="{{this.id}}" value="{{this.value}}">
+                                        <label class="store_type_check" data-id="{{this.id}}">{{this.value}}</label>
+                                    </div>
+                                    {{/if}}
+                                {{else}}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates store_type_value" data-id="{{this.id}}" value="{{this.value}}">
+                                        <label class="store_type_check" data-id="{{this.id}}">{{this.value}}</label>
+                                    </div>
+                                {{/if}}
                             {{/each}}
                             <input type="hidden" name="store_type" id="store_type" value="" />
                         </div>
@@ -94,10 +129,25 @@
                         </div>
                         <div class="column_val applytoCar">
                             {{#each (applyto_car_list)}}
-                            <div class="form_group">
-                                <input type="checkbox" class="rates applyto_car_value" data-id="{{this.id}}" name="" value="{{this.value}}">
-                                <label class="applyto_car_check"  data-id="{{this.id}}">{{this.value}}</label>
-                            </div>
+                            {{#if (data.applyto_car) }}
+                                {{set (term2 = data.applyto_car.split(',')) }}
+                                {{#if (term2.indexOf(this.id.toString()) !== -1) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates applyto_car_value" data-id="{{this.id}}" name="" value="{{this.value}}">
+                                        <label class="applyto_car_check checked"  data-id="{{this.id}}">{{this.value}}</label>
+                                    </div>
+                                {{else}}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates applyto_car_value" data-id="{{this.id}}" name="" value="{{this.value}}">
+                                        <label class="applyto_car_check"  data-id="{{this.id}}">{{this.value}}</label>
+                                    </div>
+                                {{/if}}
+                            {{else}}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates applyto_car_value" data-id="{{this.id}}" name="" value="{{this.value}}">
+                                        <label class="applyto_car_check"  data-id="{{this.id}}">{{this.value}}</label>
+                                    </div>
+                            {{/if}}
                             {{/each}}
                             <input type="hidden" name="applyto_car" id="applyto_car" value="" />
                         </div>
@@ -105,14 +155,37 @@
                             <span class="options_name">老板户籍：</span>
                         </div>
                         <div class="column_val bossCensus">
-                            <div class="form_group">
-                                <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
-                                <label class="boss_census_check" data-id="0">外省</label>
-                            </div>
-                            <div class="form_group">
-                                <input type="checkbox" class="rates boss_census_value" data-id="1" name="" value="本省">
-                                <label class="boss_census_check" data-id="1">本省</label>
-                            </div>
+                            {{#if (data.boss_census) }}
+                                {{set (term3 = data.boss_census.split(',')) }}
+                                {{#if (term3.indexOf('0') !== -1) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
+                                        <label class="boss_census_check checked" data-id="0">外省</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="1" name="" value="本省">
+                                        <label class="boss_census_check" data-id="1">本省</label>
+                                    </div>
+                                {{elseif (term3.indexOf('1') !== -1) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
+                                        <label class="boss_census_check" data-id="0">外省</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="1" name="" value="本省">
+                                        <label class="boss_census_check checked" data-id="1">本省</label>
+                                    </div>
+                                {{/if}}
+                            {{else}}
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
+                                    <label class="boss_census_check" data-id="0">外省</label>
+                                </div>
+                                <div class="form_group">
+                                    <input type="checkbox" class="rates boss_census_value" data-id="1" name="" value="本省">
+                                    <label class="boss_census_check" data-id="1">本省</label>
+                                </div>
+                            {{/if}}
                             <input type="hidden" name="boss_census" id="boss_census" value="" />
                         </div>
                         <div class="column_name">
@@ -120,12 +193,29 @@
                         </div>
                         <div class="column_val cooperation">
                             <div class="coop_data">
-                                <select name="" class="coopSelect" style="width:150px;">
-                                    <option selected="selected"  value="0">小于</option>
-                                    <option value="1">大于等于</option>
-                                </select>
-                                <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="4" name="name"  value="" placeholder="请输入天数，如:10"  />
-                                &nbsp天
+                                {{#if (data.cooperation) }}
+                                    {{set (term4 = data.cooperation.split(',')) }}
+                                    {{#if (term4[0] === 0) }}
+                                        <select name="" class="coopSelect" style="width:150px;">
+                                            <option selected="selected" value="0">小于</option>
+                                            <option value="1">大于等于</option>
+                                        </select>
+                                    {{else}}
+                                        <select name="" class="coopSelect" style="width:150px;">
+                                            <option value="0">小于</option>
+                                            <option selected="selected" value="1">大于等于</option>
+                                        </select>
+                                    {{/if}}
+                                    <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="4" name="name"  value="{{term4[1]}}" placeholder="请输入天数，如:10"  />
+                                    &nbsp天
+                                {{else}}
+                                    <select name="" class="coopSelect" style="width:150px;">
+                                        <option selected="selected" value="0">小于</option>
+                                        <option value="1">大于等于</option>
+                                    </select>
+                                    <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="4" name="name"  value="" placeholder="请输入天数，如:10"  />
+                                    &nbsp天
+                                {{/if}}
                             </div>
                             <input type="hidden" name="cooperation" id="cooperation" value="" />
                         </div>
