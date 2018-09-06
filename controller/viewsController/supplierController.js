@@ -321,7 +321,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
 // 供应商部分-金融机构-机构进件资料编辑页跳转   new
 exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_INCOMING = function(req, res, next) {
     common.getPageData({
-        url : '/api/organization/requestMaterial/toEdit',
+        url : '/api/organization/orderMaterial/toEdit',
         title : '供应商-机构详情页',
         page : './organization/editMaterial',
         callback : function (data) {
