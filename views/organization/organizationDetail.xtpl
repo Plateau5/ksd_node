@@ -441,17 +441,21 @@
                         </div>
                         <div></div>
                     </div>
-                    {{#each (file_list) }}
-                    <div class="detail_annex">
-                        <div class="annex_lf">
-                            <img src="{{this.file_suffix_url}}" alt="" class="annex_icon">
+                    {{#if (file_list && file_list.length !== 0) }}
+                        {{#each (file_list) }}
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="{{this.file_suffix_url}}" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name nor_wrap" title="{{this.file_name}}">{{this.file_name}}</div>
+                                <div class="annex_size">{{this.file_size}}</div>
+                            </div>
                         </div>
-                        <div class="annex_rt">
-                            <div class="annex_name nor_wrap" title="{{this.file_name}}">{{this.file_name}}</div>
-                            <div class="annex_size">{{this.file_size}}</div>
-                        </div>
-                    </div>
-                    {{/each}}
+                        {{/each}}
+                    {{else}}
+                        {{include('./../inc/empty_data')}}
+                    {{/if}}
                 </div>
             </div>
         </div>

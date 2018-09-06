@@ -47,7 +47,11 @@
                         </div>
                         {{/each}}
                     </div>
+                    {{#if (file_list.length >= 30) }}
+                    <div class="file_upload" style="display: none;">
+                    {{else}}
                     <div class="file_upload">
+                    {{/if}}
                         {{#each (file_list) }}
                         <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
                         {{/each}}
