@@ -24,6 +24,7 @@
                 <a href="javascript:;" class="crumbs_item">{{title}}</a>
             </div>
             <form method="post" id="levelCreate">
+                <input type="hidden" name="id" id="level_id" value="{{reqParams.id}}" />
                 <div class="form_content form_options merchants_create">
                     <div class="options_title financial_product_title">基本信息</div>
                     <div class="option_item" id="businessType">
@@ -74,20 +75,79 @@
                             <span class="options_name"><span class="require_icon">*</span>放款量：</span>
                         </div>
                         <div class="column_val loan_data_list">
-                            <div class="loan_data">
-                                <select class="loan_data_date" style="width:150px;">
-                                    <option selected="selected" value="1">单月</option>
-                                    <option value="2">近3个月</option>
-                                    <option value="3">历史累计</option>
-                                </select>
-                                <select name="" class="loan_data_logic" style="width:150px;">
-                                    <option selected="selected" value="1">大于等于</option>
-                                    <option value="0">小于</option>
-                                </select>
-                                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name=""  value="" placeholder="请输入订单数，如:10"  />
-                                &nbsp单
-                                <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
-                            </div>
+                            {{#if (data.condition_str) }}
+                                {{set (term = data.condition_str.split(';')) }}
+                                {{#each (term)}}
+                                    {{set (str = this)}}
+                                    {{set (t = str.split(',')) }}
+                                    {{#if (data.condition_logic) }}
+                                        {{#if (xindex >= 1) }}
+                                            {{set (term0 = data.condition_logic.split(',')) }}
+                                            <select name="" class="condition_logic" style="width:80px;">
+                                                {{#if (term0[xindex - 1] === '0') }}
+                                                    <option selected="selected" value="0">或</option>
+                                                {{else}}
+                                                    <option selected="selected" value="0">或</option>
+                                                {{/if}}
+                                                {{#if (term0[xindex - 1] === '1') }}
+                                                <option selected="selected" value="1">且</option>
+                                                {{else}}
+                                                <option value="1">且</option>
+                                                {{/if}}d
+                                            </select>
+                                        {{/if}}
+                                    {{/if}}
+                                    <div class="loan_data">
+                                        <select class="loan_data_date" style="width:150px;">
+                                            {{#if (t[0] === '1') }}
+                                                <option selected="selected" value="1">单月</option>
+                                            {{else}}
+                                                <option value="1">单月</option>
+                                            {{/if}}
+                                            {{#if (t[0] === '2') }}
+                                            <option selected="selected" value="2">近3个月</option>
+                                            {{else}}
+                                            <option value="2">近3个月</option>
+                                            {{/if}}
+                                            {{#if (t[0] === '3') }}
+                                            <option selected="selected" value="3">历史累计</option>
+                                            {{else}}
+                                            <option value="3">历史累计</option>
+                                            {{/if}}
+                                        </select>
+                                        <select name="" class="loan_data_logic" style="width:150px;">
+                                            {{#if (t[1] === '1') }}
+                                                <option selected="selected" value="1">大于等于</option>
+                                            {{else}}
+                                                <option value="1">大于等于</option>
+                                            {{/if}}
+                                            {{#if (t[1] === '0') }}
+                                            <option selected="selected" value="0">小于</option>
+                                            {{else}}
+                                            <option value="0">小于</option>
+                                            {{/if}}
+                                        </select>
+                                        <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name=""  value="{{t[2]}}" placeholder="请输入订单数，如:10"  />
+                                        &nbsp单
+                                        <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
+                                    </div>
+                                {{/each}}
+                            {{else}}
+                                <div class="loan_data">
+                                    <select class="loan_data_date" style="width:150px;">
+                                        <option selected="selected" value="1">单月</option>
+                                        <option value="2">近3个月</option>
+                                        <option value="3">历史累计</option>
+                                    </select>
+                                    <select name="" class="loan_data_logic" style="width:150px;">
+                                        <option selected="selected" value="1">大于等于</option>
+                                        <option value="0">小于</option>
+                                    </select>
+                                    <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name=""  value="" placeholder="请输入订单数，如:10"  />
+                                    &nbsp单
+                                    <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
+                                </div>
+                            {{/if}}
                         </div>
                         <div class="btn_box text_left clearfix">
                             <a href="javascript:" class="add_sm_btn" data-type="1" data-id="19127">添加条件</a>
@@ -330,11 +390,19 @@
             var btn = $('.level_edit_confirm');
             btn.off('click').on('click', function () {
                 var isVerify = levelEmpty();       //输入框非空校验
-                if (isVerify) {
+                var levelId = $('#level_id');
+                var saveUrl = '';
+                if (levelId.val()) {
+                    saveUrl = contextPath + '/api/supplier/level/save'
+                } else {
+                    saveUrl = contextPath + '/api/supplier/level/create'
+                }
+                var isLoanData = getLoanData();      //获取数据条件数据
+                if (isVerify && isLoanData) {
                     var data = new FormData(document.getElementById("levelCreate"));
                     $.ajax({
                         type:'post',
-                        url : contextPath + '/api/supplier/level/create',
+                        url : saveUrl,
                         data : data,
                         timeout : 6000,
                         processData : false,      //序列化参数为String类型，默认：true。
@@ -345,7 +413,7 @@
                         success : function (res) {
                             $('#loading').hide();
                             if (res.error_code == 0) {
-                                $alert('操作成功', function () {
+                                $alert('保存成功', function () {
                                     locationTo({
                                         action : contextPath + markUri + '/merchants/level/list',
                                         param : {
@@ -381,13 +449,13 @@
                     isVerify = true;
                 }
             });
-            getLoanData();      //获取数据条件数据
             isVerify = getLimitData();     //获取限制条件数据
             return isVerify;
         }
 
         //获取数据条件数据
         function getLoanData() {
+            var isLoanData = true;
             var loan_data = $('.loan_data');
             var condition_logic = $('.condition_logic option:selected');
             var conditionLogicArr = [];
@@ -400,17 +468,41 @@
             var record = conditionLogicArr.join(',');
             $('#condition_logic').val(record);
 
-            loan_data.each(function (index) {
+            loan_data.each(function () {
                 // console.log(index);
                 var _this = $(this);
                 var loanDataDate = _this.find('.loan_data_date option:selected').val();
                 var loanDataLogic = _this.find('.loan_data_logic option:selected').val();
                 var loanDataNum = _this.find('.loan_data_num').val();
+                var loan_data1 = $('.loan_data').not($(this));
+                loan_data1.each(function () {
+                    var t = $(this);
+                    var loanDataDate1 = t.find('.loan_data_date option:selected').val();
+                    var loanDataLogic1 = t.find('.loan_data_logic option:selected').val();
+                    var loanDataNum1 = t.find('.loan_data_num').val();
+                    if (loanDataDate == loanDataDate1){
+                        if (loanDataLogic == loanDataLogic1) {
+                            $alert("单月大于等于(小于)重复存在!");
+                            isLoanData = false;
+                            return false;
+                        }
+                    }
+                    if(loanDataLogic == '1' && loanDataLogic1 != '1') {
+                        if (loanDataDate.number() < loanDataDate1.number()) {
+                            if (loanDataNum >= loanDataNum1) {
+                                $alert("放款量单数出现冲突!");
+                                isLoanData = false;
+                                return false;
+                            }
+                        }
+                    }
+                });
                 var loan_data_total = loanDataDate + ',' + loanDataLogic+ ',' + loanDataNum;
                 loanDataArr.push(loan_data_total);
             });
             var loanPick = loanDataArr.join(';');
             $('#condition_str').val(loanPick);
+            return isLoanData;
         }
 
 
