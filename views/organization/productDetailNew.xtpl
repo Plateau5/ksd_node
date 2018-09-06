@@ -411,10 +411,14 @@
             var copy_product_btn = $('.copy_product_btn');
             copy_product_btn.off('click').on('click', function () {
                 var product_id = $('#productId').val();
+                var parent_name = $('#orgName').val();
                 locationTo({
                     action : contextPath + markUri + "/supplier/organization/copyProduct",
                     param : {
-                        product_id : product_id
+                        product_id : product_id,
+                        parent_name : parent_name,
+                        publish_list : publish_list,
+                        product_detail : F.set(product_detail)
                     }
                 })
             });

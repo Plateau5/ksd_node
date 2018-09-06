@@ -6,6 +6,7 @@
     <title>产品管理</title>
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
 </head>
 <body>
@@ -25,8 +26,8 @@
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
                 <a href="javascript:;" class="crumbs_item go_publish_list">产品列表</a>
-                <a href="javascript:;" class="crumbs_item go_product_detail">{{parent_name}}</a>
-                <a href="javascript:;" class="crumbs_item">复制{{parent_name}}</a>
+                <a href="javascript:;" class="crumbs_item go_product_detail">{{reqParams.parent_name}}</a>
+                <a href="javascript:;" class="crumbs_item">复制{{reqParams.parent_name}}</a>
             </div>
 
             <div class="form_options">
@@ -58,6 +59,7 @@
 </body>
 {{include ('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script>
     (function ($) {
         var city_list = '{{{city_list}}}';//所有城市
@@ -70,6 +72,8 @@
         } else {
             condition_city_list = JSON.parse(condition_city_list);
         }
+        var publish_list = '{{{reqParams.publish_list}}}';//产品列表参数
+        var product_detail = '{{{reqParams.product_detail}}}';//产品详情页
         var city_data = [];//提交城市数据
         /**
          * 选择城市
@@ -90,7 +94,7 @@
                     var cityName = [];
                     var str = '';
                     for (var i = 0,leni = data.length;i < leni;i++) {
-                        str += '<div>'+ data[i].name +'：';
+                        str += '<div style="line-height: 30px;">'+ data[i].name +'：';
                         for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
                             city_data.push({
                                 city_id : data[i].city_list[j].id,
@@ -101,12 +105,13 @@
                         str += cityName.join('、') + '</div>';
                     }
                     $('.selected_citys_box').html(str);
+                    $('.select_city').html('重新选择');
                 }
             });
         }
 
         //保存按钮
-        function saveOrg () {
+        function saveProduct () {
             var save_publish = $(".save_publish");
             save_publish.off("click").on("click", function () {
                 ajaxSubmit(1);
@@ -140,12 +145,9 @@
                         if (res.error_code == 0) {
                             $alert('操作成功', function () {
                                 locationTo({
-                                    action : contextPath + markUri + '/supplier/organization/detail',
-                                    param : {
-                                        organization_id : $('#orgId').val().trim(),
-                                        material_type : $('#material_type').val()
-                                    }
-                                });
+                                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                                    param : F.get(publish_list)
+                                })
                             })
                         } else {
                             $alert(res.error_msg);
@@ -159,33 +161,31 @@
             }
         }
         /**
-         * 取消事件
-         * @author Plateau 2018年8月15日11:19:20
+         * 面包屑事件
+         * @author Plateau 2018年9月6日11:04:37
          * */
-        function goOrglist () {
-            var go_orglist = $('.go_orglist');
-            go_orglist.off("click").on("click", function () {
-                var organization_id = $('#orgId').val().trim()
-                if (organization_id == '') {
-                    locationTo({
-                        action : contextPath + markUri + '/supplier/organization/list'
-                    });
-                } else {
-                    locationTo({
-                        action : contextPath + markUri + '/supplier/organization/detail',
-                        param : {
-                            organization_id : organization_id,
-                            material_type : 0
-                        }
-                    });
-                }
-
+        function goList () {
+            var go_publish_list = $('.go_publish_list');
+            go_publish_list.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                    param : F.get(publish_list)
+                })
+            });
+            var go_product_detail = $('.go_product_detail');
+            go_product_detail.on('click', function () {
+                var data = F.get(product_detail);
+                data.publish_list = publish_list;
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/productDetail",
+                    param : data
+                });
             });
         }
         $(function() {
             getSelectedCitys();//选择城市
-            saveOrg();//保存机构
-            goOrglist();//取消事件
+            saveProduct();//保存机构
+            goList();//面包屑事件
         });
     })(jQuery,undefined);
 </script>
