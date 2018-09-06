@@ -413,7 +413,6 @@ exports.VIEW_SUPPLIER_ORGANIZATION_COPYPRODUCT = function(req, res, next) {
         page : './organization/copyProduct',
         callback : function (data) {
             data.city_list = JSON.stringify(data.list_city);
-            data.condition_city_list = JSON.stringify(data.condition_city_list);
         }
     }, req, res, next);
 };
