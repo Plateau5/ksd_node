@@ -33,6 +33,7 @@
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="product_id" id="productId" value="{{reqParams.product_id}}">
+                    <input type="hidden" name="parent_id" id="parentId" value="{{reqParams.parent_id}}">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -132,7 +133,7 @@
          * */
         function ajaxSubmit (validate_type) {
             if (city_data.length == 0) {
-                $alert('适用城市不能为空');
+                $alert('请选择城市');
             } else {
                 var parameters = {
                     product_id : $('#productId').val(),
@@ -150,12 +151,26 @@
                     success : function (res) {
                         $('#loading').hide();
                         if (res.error_code == 0) {
-                            $alert('操作成功', function () {
-                                locationTo({
-                                    action : contextPath + markUri + "/supplier/organization/publishedProducts",
-                                    param : F.get(publish_list)
-                                })
-                            })
+                            if (parameters.validate_type == 2) {//保存到仓库
+                                var params = {
+                                    product_id : $('#productId').val(),
+                                    parent_id : $('#parentId').val(),
+                                    publish_list : F.set(publish_list)
+                                };
+                                $alert('操作成功', function () {
+                                    locationTo({
+                                        action : contextPath + markUri + "/supplier/organization/unpublishedProducts",
+                                        param : params
+                                    })
+                                });
+                            } else {//发布列表
+                                $alert('操作成功', function () {
+                                    locationTo({
+                                        action : contextPath + markUri + "/supplier/organization/publishedProducts",
+                                        param : F.get(publish_list)
+                                    })
+                                });
+                            }
                         } else {
                             $alert(res.error_msg);
                         }
