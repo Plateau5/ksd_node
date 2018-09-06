@@ -33,7 +33,7 @@
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="product_id" id="productId" value="{{reqParams.product_id}}">
-                    <div class="option_item" style="margin-top: 20px;">
+                    <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
                             <span class="options_name">适用城市：</span>
@@ -92,9 +92,9 @@
                 type : 2
             }, function (data) {
                 if (data) {
-                    var cityName = [];
                     var str = '';
                     for (var i = 0,leni = data.length;i < leni;i++) {
+                        var cityName = [];
                         str += '<div>'+ data[i].name +'：';
                         for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
                             city_data.push({
@@ -111,7 +111,10 @@
             });
         }
 
-        //保存按钮
+        /**
+         * 保存产品事件
+         * @author Plateau 2018年9月6日15:36:24
+         * */
         function saveProduct () {
             var save_publish = $(".save_publish");
             save_publish.off("click").on("click", function () {
@@ -123,7 +126,10 @@
             });
         }
 
-        //ajax提交參數
+        /**
+         * 提交
+         * @author Plateau 2018年9月6日15:36:24
+         * */
         function ajaxSubmit (validate_type) {
             if (city_data.length == 0) {
                 $alert('适用城市不能为空');
@@ -185,7 +191,7 @@
         }
         $(function() {
             getSelectedCitys();//选择城市
-            saveProduct();//保存机构
+            saveProduct();//保存产品事件
             goList();//面包屑事件
         });
     })(jQuery,undefined);
