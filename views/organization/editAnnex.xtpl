@@ -139,7 +139,7 @@
                                     file_name : res.data[0].file_name,
                                     file_suffix : res.data[0].file_suffix
                                 };
-                                file_data.unshift(obj);
+                                file_data.push(obj);
                                 var imgEle = '<div class="detail_annex">' +
                                     '<div class="annex_lf">' +
                                     '<img src="'+ res.data[0].file_suffix_url +'" alt="" class="annex_icon">' +
@@ -151,7 +151,7 @@
                                     '<div class="remove_mask"><em class="remove_btn" data-file_id="'+ res.data[0].file_id +'"></em></div>'+
                                     '<input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />'+
                                     '</div>';
-                                fileBox.prepend(imgEle);
+                                fileBox.append(imgEle);
                                 if ($('.annex_box').find('.detail_annex').length >= 30) {
                                     $('.file_upload').hide();
                                 }
