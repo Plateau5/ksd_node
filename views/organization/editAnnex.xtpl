@@ -103,7 +103,7 @@
             var onChoose = function (btn, file, success) {
                 if (!success) {
                     $('.file_upload_btn').val('');
-                    $alert('上传文件格式不正确');
+                    $alert('上传附件格式不正确');
                     return false;
                 }
                 $('#loading').show();
@@ -145,7 +145,7 @@
                             // } else {
                             //     var result = '{{markUri}}/static/img/file_ppt.png';
                             // }
-                            $alert('图片上传成功', function () {
+                            $alert('附件上传成功', function () {
                                 $('#change_version').val(1);
                                 var obj = {
                                     file_id : res.data[0].file_id,
@@ -176,7 +176,7 @@
                     },
                     error : function () {
                         $('#loading').hide();
-                        $alert('文件上传失败，请重试');
+                        $alert('附件上传失败，请重试');
                     }
                 });
             }
