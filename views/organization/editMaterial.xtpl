@@ -278,18 +278,17 @@
          */
         function getSuccess (res, btn, type, fileName) {
             if (res.error_code == 0) {
-                var file_id_input =  btn.siblings('input[name=file_ids]');
-                file_id_input.data('upload_image',true);
-                var file_ids = [];
-                if (file_id_input.val().trim() == '') {
-                    file_id_input.val(res.data[0].file_id);
-                } else {
-                    file_ids.push(file_id_input.val());
-                    file_ids.push(res.data[0].file_id);
-                    file_id_input.val(file_ids.join(','));
-                }
-                // file_ids.push(res.file_id);
                 $alert('图片上传成功', function () {
+                    var file_id_input =  btn.siblings('input[name=file_ids]');
+                    file_id_input.data('upload_image',true);
+                    var file_ids = [];
+                    if (file_id_input.val().trim() == '') {
+                        file_id_input.val(res.data[0].file_id);
+                    } else {
+                        file_ids.push(file_id_input.val());
+                        file_ids.push(res.data[0].file_id);
+                        file_id_input.val(file_ids.join(','));
+                    }
                     var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
                         '             <img data-original="'+ res.data[0].image_url +'" src="'+ res.data[0].thumbnail +'" alt="'+ fileName +'"/>\n' +
                         '             <div class="img_md_operate_box">\n' +
