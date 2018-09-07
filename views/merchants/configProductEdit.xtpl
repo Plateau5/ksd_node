@@ -374,48 +374,48 @@
 
 
         //显示隐藏图片
-        function showMorePic () {
-            var apply_item = $('.apply_data_item');
-            apply_item.each(function () {
-                var _this = $(this);
-                var img_list_a = _this.find('.img_list a');
-                if (img_list_a.length > 6) {
-                    for (var i = 0, len = img_list_a.length; i < len; i++) {
-                        if (i > 5){
-                            img_list_a.eq(i).hide();
-                        }
-                    }
-                    _this.find('.config_show_more_pic').show();
-                } else {
-                    _this.find('.config_show_more_pic').hide();
-                    _this.find('.config_hide_more_pic').hide();
-                }
-            });
-
-            var show_more_pic = $('.config_show_more_pic');
-            show_more_pic.off('click').on('click', function () {
-                var _this = $(this);
-                var img_list_a = _this.parents('.detail_img').find('.img_list a');
-                for (var i = 0, len = img_list_a.length; i < len; i++) {
-                    img_list_a.eq(i).show();
-                }
-                _this.hide();
-                _this.siblings('.config_hide_more_pic').show();
-            });
-
-            var hide_more_pic = $('.config_hide_more_pic');
-            hide_more_pic.off('click').on('click', function () {
-                var _this = $(this);
-                var img_list_a = _this.parents('.detail_img').find('.img_list a');
-                for (var i = 0, len = img_list_a.length; i < len; i++) {
-                    if (i > 5) {
-                        img_list_a.eq(i).hide();
-                    }
-                }
-                _this.siblings('.config_show_more_pic').show();
-                _this.hide();
-            });
-        }
+        // function showMorePic () {
+        //     var apply_item = $('.apply_data_item');
+        //     apply_item.each(function () {
+        //         var _this = $(this);
+        //         var img_list_a = _this.find('.img_list a');
+        //         if (img_list_a.length > 6) {
+        //             for (var i = 0, len = img_list_a.length; i < len; i++) {
+        //                 if (i > 5){
+        //                     img_list_a.eq(i).hide();
+        //                 }
+        //             }
+        //             _this.find('.config_show_more_pic').show();
+        //         } else {
+        //             _this.find('.config_show_more_pic').hide();
+        //             _this.find('.config_hide_more_pic').hide();
+        //         }
+        //     });
+        //
+        //     var show_more_pic = $('.config_show_more_pic');
+        //     show_more_pic.off('click').on('click', function () {
+        //         var _this = $(this);
+        //         var img_list_a = _this.parents('.detail_img').find('.img_list a');
+        //         for (var i = 0, len = img_list_a.length; i < len; i++) {
+        //             img_list_a.eq(i).show();
+        //         }
+        //         _this.hide();
+        //         _this.siblings('.config_hide_more_pic').show();
+        //     });
+        //
+        //     var hide_more_pic = $('.config_hide_more_pic');
+        //     hide_more_pic.off('click').on('click', function () {
+        //         var _this = $(this);
+        //         var img_list_a = _this.parents('.detail_img').find('.img_list a');
+        //         for (var i = 0, len = img_list_a.length; i < len; i++) {
+        //             if (i > 5) {
+        //                 img_list_a.eq(i).hide();
+        //             }
+        //         }
+        //         _this.siblings('.config_show_more_pic').show();
+        //         _this.hide();
+        //     });
+        // }
         /**
          * 面包屑跳转
          * @author qi 2018年8月17日11:05:21
@@ -557,7 +557,7 @@
          */
         var target = $('.edit_cancel');
         target.off('click').on('click', function () {
-            var _this = $(this);
+            // var _this = $(this);
             locationTo({
                 action : contextPath + markUri + '/merchants/config/products/list',
                 param : {
@@ -577,8 +577,8 @@
             });
         });
         $(function() {
-            viewLargeImage('.img_list');       // 查看大图
-            showMorePic();//显示隐藏图片
+            // viewLargeImage('.img_list');       // 查看大图
+            // showMorePic();//显示隐藏图片
             saveEnable(); //保存并启用
             resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked"); //复选框选中
             toMerchantList(); //面包屑跳转

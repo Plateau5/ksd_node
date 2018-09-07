@@ -83,6 +83,7 @@
         } else {
             var file_data = [];//上传图片ids
         }
+        var delete_files = [];//删除图片ids
 
         var imgFormat = ['png', 'jpg', 'jpeg'],       // 常见图片格式
             wordFormat = ['doc', 'docx'],     // 所有word文档后缀格式
@@ -197,6 +198,7 @@
                 _this.parents('.detail_annex').remove();
                 _this.parents('.detail_annex').find(".file_upload_btn").eq(file_num).remove();
                 var id = _this.data('file_id');
+                delete_files.push(id);
                 for (var i = 0, len = file_data.length; i < len; i++) {
                     if (file_data[i].file_id == id) {
                         file_data.remove(file_data[i]);
@@ -226,7 +228,8 @@
                 data : {
                     organization_id : $('#orgId').val().trim(),
                     change_version : $('#change_version').val(),
-                    file_data : JSON.stringify(file_data)
+                    file_data : JSON.stringify(file_data),
+                    delete_files : delete_files.join(',')
                 },
                 beforeSend : function () {
                     $('#loading').show();
