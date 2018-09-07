@@ -215,7 +215,6 @@
          * 图片上传功能
          * @author Plateau 2018年8月9日11:19:51
          */
-        var file_ids = [];//上传图片ids
         function uploadImage () {
             fileUpload({
                 maxCount : 30,
@@ -327,9 +326,6 @@
                 var _this = $(this);
                 var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
                 var id  = $.trim(_this.data('id'));
-                /*var ids = [];
-                ids.push(id);
-                ids = JSON.stringify(ids);*/
                 redefineAjax({
                     data : {
                         file_id : id
@@ -338,9 +334,6 @@
                     success : function (res) {
                         if (res.error_code == 0) {
                             file_id_input.data('upload_image',true);
-                            // var fileNum = _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num');
-                            // fileNum--;
-                            // _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num', fileNum);
                             if (file_id_input.val().trim().indexOf(',') !== -1) {
                                 var file_id_arr = file_id_input.val().trim().split(',');
                                 for (var i = 0,len = file_id_arr.length;i<len;i++) {
@@ -352,11 +345,6 @@
                             } else {
                                 file_id_input.val('');
                             }
-                            // for (var i = 0,len = file_ids.length;i<len;i++) {
-                            //     if (file_ids[i] == id) {
-                            //         file_ids.splice(i,1);
-                            //     }
-                            // }
                             $alert('图片删除成功', function () {
                                 var btn = _this.parents('.img_md_box').find('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
@@ -369,12 +357,6 @@
                                 // 销毁父元素的viewer实例
                                 parents[0].viewer.destroy();
                                 _this.parents('.img_item').remove();
-                                // 删除图片后从新实例化
-                                /*var viewer = new Viewer(parents[0], {
-                                    url: 'data-original',
-                                    interval : 2000,
-                                    loop : true
-                                });*/
                                 viewLargeImage(parents[0]);
                             });
                         } else {
@@ -398,8 +380,6 @@
                 e.stopPropagation();
                 e.preventDefault();
                 var _this = $(this);
-                /*var url  = $.trim(_this.data('url'));
-                window.open(url);*/
                 var img = _this.parents('.img_md_operate_box').siblings('img');
                 img.click();
             })
