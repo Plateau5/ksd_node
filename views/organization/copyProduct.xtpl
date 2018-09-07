@@ -34,10 +34,6 @@
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="product_id" id="productId" value="{{reqParams.product_id}}">
                     <input type="hidden" name="parent_id" id="parentId" value="{{reqParams.parent_id}}">
-                    <input type="hidden" name="product_name" id="productName" value="{{reqParams.product_name}}">
-                    <input type="hidden" name="applyto_car" id="applytoCar" value="{{reqParams.applyto_car}}">
-                    <input type="hidden" name="applyto_business" id="applytoBusiness" value="{{reqParams.applyto_business}}">
-                    <input type="hidden" name="applyto_type" id="applytoType" value="{{reqParams.applyto_type}}">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -143,11 +139,6 @@
                 $alert('请选择城市');
             } else {
                 var parameters = {
-                    parent_id : $('#parentId').val(),
-                    product_name : $('#productName').val(),
-                    applyto_car : $('#applytoCar').val(),
-                    applyto_business : $('#applytoBusiness').val(),
-                    applyto_type : $('#applytoType').val(),
                     product_id : $('#productId').val(),
                     city_data : JSON.stringify(city_data),
                     validate_type : validate_type

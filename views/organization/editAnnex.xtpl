@@ -190,24 +190,35 @@
         function deleteFilesEvent () {
             var fileBox = $('.annex_box');
             fileBox.off('click').on('click', '.remove_btn', function () {
-                var file_num = $('.file_upload_layer').data('file_num');
-                file_num--;
-                $('.file_upload_layer').data('file_num', file_num);
-                $('#change_version').val(1);
                 var _this = $(this);
-                _this.parents('.detail_annex').remove();
-                _this.parents('.detail_annex').find(".file_upload_btn").eq(file_num).remove();
-                var id = _this.data('file_id');
-                delete_files.push(id);
-                for (var i = 0, len = file_data.length; i < len; i++) {
-                    if (file_data[i].file_id == id) {
-                        file_data.remove(file_data[i]);
-                        break;
+                var select_annex = _this.parents('.detail_annex').find('.annex_name').text();
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>您将删除'+ select_annex +',是否确认删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        var file_num = $('.file_upload_layer').data('file_num');
+                        file_num--;
+                        $('.file_upload_layer').data('file_num', file_num);
+                        $('#change_version').val(1);
+                        _this.parents('.detail_annex').remove();
+                        _this.parents('.detail_annex').find(".file_upload_btn").eq(file_num).remove();
+                        var id = _this.data('file_id');
+                        delete_files.push(id);
+                        for (var i = 0, len = file_data.length; i < len; i++) {
+                            if (file_data[i].file_id == id) {
+                                file_data.remove(file_data[i]);
+                                break;
+                            }
+                        }
+                        if ($('.annex_box').find('.detail_annex').length < 30) {
+                            $('.file_upload').show();
+                        }
+                    },
+                    onCancel : function (d) {
+                        d.close();
                     }
-                }
-                if ($('.annex_box').find('.detail_annex').length < 30) {
-                    $('.file_upload').show();
-                }
+                });
             });
         }
 

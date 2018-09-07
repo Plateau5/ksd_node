@@ -88,14 +88,30 @@
             </div>
             <div class="tab">
                 <ul class="tab_list inline_block">
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_normal {{#if (change_type === 0) }}active{{/if}}" data-type="0"><span></span>机构信息</li>
+                    {{/if}}
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_others {{#if (change_type === 1) }}active{{/if}}" data-type="1"><span></span>进件资料</li>
+                    {{/if}}
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_others {{#if (change_type === 4) }}active{{/if}}" data-type="4"><span></span>签约方式及合同</li>
+                    {{/if}}
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_others {{#if (change_type === 5) }}active{{/if}}" data-type="5"><span></span>面签照</li>
+                    {{/if}}
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_others {{#if (change_type === 6) }}active{{/if}}" data-type="6"><span></span>GPS安装</li>
+                    {{/if}}
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_others {{#if (change_type === 2) }}active{{/if}}" data-type="2"><span></span>请款资料</li>
+                    {{/if}}
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_others {{#if (change_type === 3) }}active{{/if}}" data-type="3"><span></span>归档资料</li>
+                    {{/if}}
+                    {{#if (verifyCode(1579)) }}
                     <li class="tab_item type_others {{#if (change_type === 7) }}active{{/if}}" data-type="7"><span></span>附件资料</li>
+                    {{/if}}
                 </ul>
             </div>
             <form action="{{markUri}}/supplier/organization/detail" method="POST" id="form_search" role="form">
@@ -307,7 +323,7 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">新车</div>
                         <div class="rf_30">
-                            {{#if ((change_type === 1 && verifyCode(1505)) || (change_type === 2 && verifyCode(1505)) || (change_type === 3 && verifyCode(1506))) }}
+                            {{#if ((change_type === 1 && verifyCode(1504)) || (change_type === 2 && verifyCode(1505)) || (change_type === 3 && verifyCode(1506))) }}
                             <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="新车" data-type="0">编辑</a>
                             {{/if}}
                         </div>
@@ -362,7 +378,7 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">二手车</div>
                         <div class="rf_30">
-                            {{#if ((change_type === 1 && verifyCode(1505)) || (change_type === 2 && verifyCode(1505)) || (change_type === 3 && verifyCode(1506))) }}
+                            {{#if ((change_type === 1 && verifyCode(1504)) || (change_type === 2 && verifyCode(1505)) || (change_type === 3 && verifyCode(1506))) }}
                             <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="二手车" data-type="1">编辑</a>
                             {{/if}}
                         </div>
@@ -679,57 +695,6 @@
                 });
             });
         }
-        /**
-         * 批量删除附件
-         * @author Plateau  2018年9月3日14:33:16
-         * */
-        function delAnnex () {
-            var del_annex = $('.del_annex');
-            del_annex.off('click').on('click', function () {
-                var detail_annex = $('.detail_annex');
-                var select_annex = [];
-                detail_annex.each(function () {
-                    var _this = $(this);
-                    if (_this.find('.annex_lf label').hasClass('checked')) {
-                        select_annex.push(_this.find('.annex_name').text());
-                    }
-                });
-                if (select_annex.length == 0) {
-                    $alert('请选择要删除的附件');
-                    return false;
-                }
-                dialog('open', {
-                    title : '删除提醒',
-                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>您将删除'+select_annex.join('、')+',是否确认删除？</span></div>',
-                    onConfirm : function (d) {
-                        d.close();
-                        $.ajax({
-                            type:'post',
-                            timeout:3000,
-                            url : contextPath + "/api/product/delete",
-                            data : {
-                                id : product_id
-                            },
-                            success : function (res) {
-                                if (res.error_code == 0) {
-                                    $alert('删除成功', function () {
-                                        window.location.reload();
-                                    });
-                                } else {
-                                    $alert(res.error_msg);
-                                }
-                            },
-                            error : function () {
-                                $alert('删除失败，请重新尝试');
-                            }
-                        });
-                    },
-                    onCancel : function (d) {
-                        d.close();
-                    }
-                });
-            });
-        }
         $(function() {
             switchTab();
             deleteOrg();
@@ -737,7 +702,6 @@
             viewLargeImage('.img_list');       // 查看大图
             showMorePic();//显示隐藏图片
             toOrgPolicy();//跳往机构政策页
-            delAnnex();//批量删除附件
         });
     })(jQuery,undefined);
 </script>
