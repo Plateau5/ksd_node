@@ -25,9 +25,9 @@
         <div id="main" class="main copy_product">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item go_publish_list">产品列表</a>
-                <a href="javascript:;" class="crumbs_item go_product_detail">{{reqParams.parent_name}}</a>
-                <a href="javascript:;" class="crumbs_item">复制{{reqParams.parent_name}}</a>
+                <a href="javascript:;" class="crumbs_item go_publish_list">产品列表({{reqParams.parent_name}})</a>
+                <a href="javascript:;" class="crumbs_item go_product_detail">{{reqParams.product_name}}</a>
+                <a href="javascript:;" class="crumbs_item">复制{{reqParams.product_name}}</a>
             </div>
 
             <div class="form_options">
@@ -154,7 +154,7 @@
                 };
                 $.ajax({
                     type:'post',
-                    timeout:5000,
+                    timeout:10000,
                     url : contextPath + '/api/copy/product/save',
                     data : parameters,
                     beforeSend : function () {
@@ -167,7 +167,7 @@
                                 var params = {
                                     product_id : $('#productId').val(),
                                     parent_id : $('#parentId').val(),
-                                    publish_list : F.set(publish_list)
+                                    publish_list : publish_list
                                 };
                                 $alert('操作成功', function () {
                                     locationTo({
