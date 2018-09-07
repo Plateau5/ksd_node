@@ -71,7 +71,7 @@
                     <div class="options_title financial_product_title">数据条件</div>
                     <div class="option_item">
                         <div class="column_name">
-                            <span class="options_name"><span class="require_icon">*</span>放款量：</span>
+                            <span class="options_name loan_name"><span class="require_icon">*</span>放款量：</span>
                         </div>
                         <div class="column_val loan_data_list" style="margin-top:10px;">
                             {{#if (data.condition_str) }}
@@ -310,6 +310,7 @@
                 var _this = $(this);
                 var loan_data_list = $('.loan_data_list');
                 var loan_data = $('.loan_data');
+                $('.loan_name').show();
                 if (loan_data.length > 0) {
                     var linkStr = '<select name="" class="condition_logic" style="width:80px;">\n' +
                         '                    <option selected="selected" value="0">或</option>\n' +
@@ -377,6 +378,9 @@
                 }
                 if ($('.loan_data').length < 3) {
                     $('.add_sm_btn').show();
+                }
+                if ($('.loan_data').length < 1) {
+                    $('.loan_name').hide();
                 }
             });
         }
