@@ -66,7 +66,7 @@
                             <span class="options_name">备注：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" maxlength="30" style="width:400px;" name="remark"  value="{{data.remark}}" placeholder="请输入备注，30字以内"  />
+                            <input type="text" maxlength="30" style="width:400px;" name="remark" autocomplete="off" value="{{data.remark}}" placeholder="请输入备注，30字以内"  />
                         </div>
                     </div>
                     <div class="options_title financial_product_title">数据条件</div>
@@ -115,7 +115,7 @@
                                             <option value="3">历史累计</option>
                                             {{/if}}
                                         </select>
-                                        <select name="" class="loan_data_logic" style="width:150px;">
+                                        <select name="" class="loan_data_logic" style="width:150px;margin-left:1px;">
                                             {{#if (t[1] === '1') }}
                                                 <option selected="selected" value="1">大于等于</option>
                                             {{else}}
@@ -127,7 +127,7 @@
                                             <option value="0">小于</option>
                                             {{/if}}
                                         </select>
-                                        <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name=""  value="{{t[2]}}" placeholder="请输入订单数，如:10"  />
+                                        <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="" autocomplete="off" value="{{t[2]}}" placeholder="请输入订单数，如:10"  />
                                         &nbsp单
                                         <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
                                     </div>
@@ -143,7 +143,7 @@
                                         <option selected="selected" value="1">大于等于</option>
                                         <option value="0">小于</option>
                                     </select>
-                                    <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name=""  value="" placeholder="请输入订单数，如:10"  />
+                                    <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="" autocomplete="off" value="" placeholder="请输入订单数，如:10"  />
                                     &nbsp单
                                     <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
                                 </div>
@@ -158,7 +158,7 @@
                     <div class="options_title financial_product_title">限制条件</div>
                     <div class="option_item">
                         <div class="column_name">
-                            <span class="options_name">店面类型：</span>
+                            <span class="options_name"><span class="require_icon">*</span>店面类型：</span>
                         </div>
                         <div class="column_val storeType">
                             {{#each (store_type_list)}}
@@ -185,7 +185,7 @@
                             <input type="hidden" name="store_type" id="store_type" value="" />
                         </div>
                         <div class="column_name">
-                            <span class="options_name">主营范围：</span>
+                            <span class="options_name"><span class="require_icon">*</span>主营范围：</span>
                         </div>
                         <div class="column_val applytoCar">
                             {{#each (applyto_car_list)}}
@@ -212,7 +212,7 @@
                             <input type="hidden" name="applyto_car" id="applyto_car" value="" />
                         </div>
                         <div class="column_name">
-                            <span class="options_name">老板户籍：</span>
+                            <span class="options_name"><span class="require_icon">*</span>老板户籍：</span>
                         </div>
                         <div class="column_val bossCensus">
                             {{#if (data.boss_census) }}
@@ -266,14 +266,14 @@
                                             <option selected="selected" value="1">大于等于</option>
                                         </select>
                                     {{/if}}
-                                    <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="4" name="name"  value="{{term4[1]}}" placeholder="请输入天数，如:10"  />
+                                    <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;margin-left:1px;" maxlength="4" name="" autocomplete="off" value="{{term4[1]}}" placeholder="请输入天数，如:10"  />
                                     &nbsp天
                                 {{else}}
                                     <select name="" class="coopSelect" style="width:150px;">
                                         <option selected="selected" value="0">小于</option>
                                         <option value="1">大于等于</option>
                                     </select>
-                                    <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;" maxlength="4" name="name"  value="" placeholder="请输入天数，如:10"  />
+                                    <input type="text" class="requireTrue coopVal only_num" data-text="合作时长天数" style="height:28px;margin-top:-3px;width:160px;margin-left:1px;" maxlength="4" name="" autocomplete="off" value="" placeholder="请输入天数，如:10"  />
                                     &nbsp天
                                 {{/if}}
                             </div>
@@ -322,11 +322,11 @@
                         '                   <option value="2">近3个月</option>\n' +
                         '                   <option value="3">历史累计</option>\n' +
                         '               </select>\n' +
-                        '                <select name="" class="loan_data_logic" style="width:150px;">\n' +
+                        '                <select name="" class="loan_data_logic" style="width:150px;margin-left:1px;">\n' +
                         '                   <option selected="selected" value="1">大于等于</option>\n' +
                         '                   <option value="0">小于</option>\n' +
                         '                </select>\n' +
-                        '                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
+                        '                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="" autocomplete="off" value="" placeholder="请输入订单数，如:10"  />\n' +
                         '               &nbsp单\n' +
                         '               <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>\n' +
                         '              </div>';
@@ -337,11 +337,11 @@
                         '                   <option value="2">近3个月</option>\n' +
                         '                   <option value="3">历史累计</option>\n' +
                         '               </select>\n' +
-                        '                <select name="car_type" id="" style="width:150px;">\n' +
+                        '                <select name="car_type" id="" style="width:150px;margin-left:1px;">\n' +
                         '                   <option selected="selected" value="1">大于等于</option>\n' +
                         '                   <option value="0">小于</option>\n' +
                         '                </select>\n' +
-                        '                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="name"  value="" placeholder="请输入订单数，如:10"  />\n' +
+                        '                <input type="text" class="requireTrue loan_data_num only_num" data-text="订单数" style="height:28px;margin-top:-3px;width:160px;" maxlength="7" name="" autocomplete="off" value="" placeholder="请输入订单数，如:10"  />\n' +
                         '               &nbsp单\n' +
                         '               <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>\n' +
                         '              </div>';
