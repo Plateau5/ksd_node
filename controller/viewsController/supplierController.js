@@ -235,12 +235,12 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAIL = function(req, res, next) {
                 data.vo.applyto_cityname = data.vo.applyto_cityname.replace(/,/g,'、');
                 for (var i = 0, len = data.policy_list.length; i < len; i++) {
                     if (data.policy_list[i].downpayment_type == 1) {
-                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'%、') + '%';
+                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'% / ') + '%';
                     } else if (data.policy_list[i].downpayment_type == 2) {
-                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'元、') + '元';
+                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'元 / ') + '元';
                     }
-                    data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/,/g,'%、') + '%';
-                    data.policy_list[i].term = data.policy_list[i].term.replace(/,/g,'、');
+                    data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/,/g,'% / ') + '%';
+                    data.policy_list[i].term = data.policy_list[i].term.replace(/,/g,' / ');
                     // for (var j = 0, lenj = data.policy_list[i].policy_list.length; j <lenj; j++) {
                     //     if (data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name) {
                     //         data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name.replace(/,/g,'、');

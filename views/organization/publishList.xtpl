@@ -8,6 +8,11 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
+    <style>
+        .org_product_list{
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -70,7 +75,7 @@
                             <th>申请人数</th>
                             <th>通过率</th>
                             <th>城市</th>
-                            <th>操作</th>
+                            <th style="text-align: center">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -277,8 +282,6 @@
             confirmBtn.off('click').on('click', function () {
                 var _this = $(this);
                 _this.off('click');
-                // $("#current_page").val(1);
-
                 listForm.submit();
             });
             cancelBtn.off('click').on('click', function () {
