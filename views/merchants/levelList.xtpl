@@ -21,7 +21,9 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main merchants">
             <div class="crumbs_nav" style="border: none;text-align: right;">
+                {{#if (verifyCode(1611)) }}
                 <a href="javascript:;" class="level_create"><em class="create_icon"></em>新建等级</a>
+                {{/if}}
             </div>
             <div class="level_list" id="level_list">
                 <table class="normal levelNormal">
@@ -44,8 +46,10 @@
                                 <td title="{{this.level_value }}">{{this.level_value }}</td>
                                 <td title="{{this.condition_str_value }}" class="text_left">{{this.condition_str_value }}</td>
                                 <td>
+                                    {{#if (root.verifyCode(1611)) }}
                                     <a href="javascript:;" class="edit_btn level_edit" data-id="{{this.id }}"  data-advanceIds=""  title="编辑等级"></a>
                                     <a href="javascript:;" class="delete_btn level_delete" data-id="{{this.id }}" title="删除等级"></a>
+                                    {{/if}}
                                 </td>
                             </tr>
                         {{/each}}
