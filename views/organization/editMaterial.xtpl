@@ -257,14 +257,16 @@
                     processData: false,
                     contentType: false,
                     beforeSend : function () {
-                        //elem.loading.show();
+                        $('#loading').show();
                         btn.removeClass('disabled');
                         btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
                     },
                     success : function (res) {
+                        $('#loading').hide();
                         getSuccess(res, btn, type, fileName);
                     },
                     error : function () {
+                        $('#loading').hide();
                         $alert('图片上传失败，请重试');
                     }
                 });

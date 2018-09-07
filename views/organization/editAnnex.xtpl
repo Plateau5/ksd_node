@@ -33,6 +33,7 @@
                     <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="orgId">
                     <input type="hidden" name="change_type" value="{{reqParams.change_type}}" id="change_type">
                     <input type="hidden" name="change_version" value="0" id="change_version">
+                    <input type="hidden" name="file_list" value="{{#if(file_list)}}{{file_list.length}}{{else}}0{{/if}}" id="file_list">
                     <div class="annex_box">
                         {{#each (file_list) }}
                         <div class="detail_annex">
@@ -210,6 +211,9 @@
         function saveAnnex () {
             var btn = $(".save_annex");
             btn.off("click").on("click", function () {
+                if ($('#file_list').val() == '0') {
+                    $('#change_version').val(0);
+                }
                 ajaxSubmit();
             });
         }
