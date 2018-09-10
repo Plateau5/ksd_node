@@ -216,22 +216,31 @@
                         <div class="column_val bossCensus">
                             {{#if (data.boss_census) }}
                                 {{set (term3 = data.boss_census.split(',')) }}
-                                {{#if (term3.indexOf('0') !== -1) }}
+                                {{#if (term3.indexOf('0') !== -1 && term3.indexOf('1') === -1) }}
                                     <div class="form_group">
                                         <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
                                         <label class="boss_census_check checked" data-id="0">外省</label>
                                     </div>
                                     <div class="form_group">
-                                        <input type="checkbox" class="rates boss_census_value" data-id="1" name="" value="本省">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="1" value="本省">
                                         <label class="boss_census_check" data-id="1">本省</label>
                                     </div>
-                                {{elseif (term3.indexOf('1') !== -1) }}
+                                {{elseif (term3.indexOf('1') !== -1 && term3.indexOf('0') === -1) }}
                                     <div class="form_group">
                                         <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
                                         <label class="boss_census_check" data-id="0">外省</label>
                                     </div>
                                     <div class="form_group">
-                                        <input type="checkbox" class="rates boss_census_value" data-id="1" name="" value="本省">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="1" value="本省">
+                                        <label class="boss_census_check checked" data-id="1">本省</label>
+                                    </div>
+                                {{elseif (term3.indexOf('1') !== -1 && term3.indexOf('0') !== -1) }}
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="0" value="外省">
+                                        <label class="boss_census_check checked" data-id="0">外省</label>
+                                    </div>
+                                    <div class="form_group">
+                                        <input type="checkbox" class="rates boss_census_value" data-id="1" value="本省">
                                         <label class="boss_census_check checked" data-id="1">本省</label>
                                     </div>
                                 {{/if}}
