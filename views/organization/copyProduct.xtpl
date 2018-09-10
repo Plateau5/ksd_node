@@ -34,6 +34,7 @@
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="product_id" id="productId" value="{{reqParams.product_id}}">
                     <input type="hidden" name="parent_id" id="parentId" value="{{reqParams.parent_id}}">
+                    <input type="hidden" name="list_size" id="listSize" value="{{size}}">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -87,32 +88,43 @@
          * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
          * */
         function getSelectedCitys () {
-            $('.select_city').citySelect({
-                data : city_list,
-                defaultData : condition_city_list,
-                dataType : 1,
-                type : 2
-            }, function (data) {
-                if (data) {
-                    var str = '';
-                    city_data = [];
-                    for (var i = 0,leni = data.length;i < leni;i++) {
-                        var cityName = [];
-                        str += '<div>'+ data[i].name +'：';
-                        for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
-                            //重新设置提交数据
-                            city_data.push({
-                                city_id : data[i].city_list[j].id,
-                                city_name : data[i].city_list[j].name
-                            });
-                            cityName.push(data[i].city_list[j].name);
+            if ($('#listSize').val() > 0) {
+                $('.select_city').citySelect({
+                    data : city_list,
+                    defaultData : condition_city_list,
+                    dataType : 1,
+                    type : 2
+                }, function (data) {
+                    if (data) {
+                        var str = '';
+                        city_data = [];
+                        for (var i = 0,leni = data.length;i < leni;i++) {
+                            var cityName = [];
+                            str += '<div>'+ data[i].name +'：';
+                            for (var j = 0,lenj = data[i].city_list.length;j < lenj;j++) {
+                                //重新设置提交数据
+                                city_data.push({
+                                    city_id : data[i].city_list[j].id,
+                                    city_name : data[i].city_list[j].name
+                                });
+                                cityName.push(data[i].city_list[j].name);
+                            }
+                            str += cityName.join('、') + '</div>';
                         }
-                        str += cityName.join('、') + '</div>';
+                        $('.selected_citys_box').html(str);
+                        $('.select_city').html('重新选择');
                     }
-                    $('.selected_citys_box').html(str);
-                    $('.select_city').html('重新选择');
-                }
-            });
+                });
+            } else {
+                $alert('暂无城市可选', function () {
+                    var data = F.get(product_detail);
+                    data.publish_list = publish_list;
+                    locationTo({
+                        action : contextPath + markUri + "/supplier/organization/productDetail",
+                        param : data
+                    });
+                })
+            }
         }
 
         /**
