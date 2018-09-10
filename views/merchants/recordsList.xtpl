@@ -83,10 +83,10 @@
                             <!-- 身份证/营业执照id：101/102 -->
                             {{#if (this.status === 2) }}
                                 <input id="filing_{{this.id}}" type="checkbox" class="" name="" data-id="{{this.id}}" value="{{this.status}}" checked="checked" />
-                                <label class="nor_wrap checked" for="filing_{{this.id}}">{{this.account_name}}</label>
+                                <label class="nor_wrap checked" title="{{this.account_name}}" for="filing_{{this.id}}">{{this.account_name}}</label>
                             {{else}}
                                 <input id="filing_{{this.id}}" type="checkbox" class="" name="" data-id="{{this.id}}" value="{{this.status}}"  />
-                                <label class="nor_wrap" for="filing_{{this.id}}">{{this.account_name}}</label>
+                                <label class="nor_wrap" title="{{this.account_name}}" for="filing_{{this.id}}">{{this.account_name}}</label>
                             {{/if}}
                         </div>
                     {{/each}}
@@ -168,7 +168,7 @@
                         var timestamp = new Date().getTime();
                         var newFieldEle = '<div class="form_group lf new_f" fid="'+ timestamp +'">\n' +
                             '                        <input id="filing_'+ timestamp +'" type="checkbox" data-id="'+ timestamp +'" class="" name="" value="'+ timestamp +'" checked="checked" />\n' +
-                            '                        <label class="nor_wrap checked" for="filing_'+ timestamp +'">'+ newField +'</label>\n' +
+                            '                        <label class="nor_wrap checked" title="'+ newField +'" for="filing_'+ timestamp +'">'+ newField +'</label>\n' +
                             '                    </div>';
                         $('#filingDesc').append(newFieldEle);
                         materials.old.push(newField);
@@ -239,17 +239,10 @@
                     var filingName = $.trim(_this.find('label').text());
                     var filingNameLen = filingName.length;
                     // if (filingKey != '101' && filingKey != '102'){  // 屏蔽掉身份证和营业执照
-                        if (filingNameLen >11) {
-                            delStr += '<div class="form_group nor_wrap lf" style="width: 160px;margin-right: 10px; font-size: 12px;text-align: left;">\n' +
-                                '               <input id="filing_'+ filingKey +'" type="checkbox" class="" name="" value="'+ filingKey +'" />\n' +
-                                '               <label class="nor_wrap" for="filing_'+ filingKey +'">'+ filingName +'</label>\n' +
-                                '      </div>';
-                        } else {
-                            delStr += '<div class="form_group nor_wrap lf" style="width: 160px;margin-right: 10px; font-size: 12px;text-align: left;">\n' +
-                                '               <input id="filing_'+ filingKey +'" type="checkbox" class="" name="" value="'+ filingKey +'" />\n' +
-                                '               <label class="nor_wrap" for="filing_'+ filingKey +'">'+ filingName +'</label>\n' +
-                                '      </div>';
-                        }
+                        delStr += '<div class="form_group nor_wrap lf" style="width: 160px;margin-right: 10px; font-size: 12px;text-align: left;">\n' +
+                            '               <input id="filing_'+ filingKey +'" type="checkbox" class="" name="" value="'+ filingKey +'" />\n' +
+                            '               <label class="nor_wrap" title="'+ filingName +'" for="filing_'+ filingKey +'">'+ filingName +'</label>\n' +
+                            '      </div>';
                     // }
                 });
                 delStr += '</div>';
