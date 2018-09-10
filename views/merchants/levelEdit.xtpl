@@ -401,7 +401,8 @@
                     saveUrl = contextPath + '/api/supplier/level/create'
                 }
                 var isLoanData = getLoanData();      //获取数据条件数据
-                if (isVerify && isLoanData) {
+                var isLimitData = getLimitData();     //获取限制条件数据
+                if (isVerify && isLoanData && isLimitData) {
                     var data = new FormData(document.getElementById("levelCreate"));
                     $.ajax({
                         type:'post',
@@ -452,7 +453,6 @@
                     isVerify = true;
                 }
             });
-            isVerify = getLimitData();     //获取限制条件数据
             return isVerify;
         }
 
@@ -517,7 +517,7 @@
 
         //获取限制条件数据
         function getLimitData () {
-            var isVerify = null;
+            var isLimitData = true;
             //获取店面类型选中的数据
             var storeType = $('.store_type_check');
             var storeTypeArr = [];
@@ -530,12 +530,11 @@
             });
             if (storeTypeArr.length == 0) {
                 $alert('请选择店面类型');
-                isVerify = false;
+                isLimitData = false;
                 return false;
             } else {
                 var record = storeTypeArr.join(',');
                 $('#store_type').val(record);
-                isVerify = true;
             }
 
             //获取主营范围选中的数据
@@ -550,12 +549,11 @@
             });
             if (applytoCarArr.length == 0) {
                 $alert('请选择主营范围');
-                isVerify = false;
+                isLimitData = false;
                 return false;
             } else {
                 var record = applytoCarArr.join(',');
                 $('#applyto_car').val(record);
-                isVerify = true;
             }
 
             //获取老板户籍选中的数据
@@ -570,12 +568,11 @@
             });
             if (bossCensusArr.length == 0) {
                 $alert('请选择老板户籍');
-                isVerify = false;
+                isLimitData = false;
                 return false;
             } else {
                 var record = bossCensusArr.join(',');
                 $('#boss_census').val(record);
-                isVerify = true;
             }
             //获取合作时长的数据
             var coopArr = [];
@@ -585,7 +582,7 @@
             coopArr.push(coopValue);
             var coopRecord = coopArr.join(',');
             $('#cooperation').val(coopRecord);
-            return isVerify;
+            return isLimitData;
         }
 
         $(function() {
