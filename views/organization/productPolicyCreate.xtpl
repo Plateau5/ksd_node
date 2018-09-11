@@ -483,10 +483,10 @@
                 var del = $('.downpayment_add_ready').length;
                 if (del == 5) {
                     var addbtn = '<span class="cursor downpayment_add_txt">添加</span>';
-                    _this.parents('.policy_item').find('.downpayment_add_ready').eq(3).find('input').attr('readonly',false);
-                    _this.parents('.policy_item').find('.downpayment_add_ready').eq(3).find('.downpayment_add_del').before(addbtn);
-                    _this.parents('.policy_item').find('.downpayment_add_ready').eq(3).find('.downpayment_add_del').remove();
-                    _this.parents('.policy_item').find('.downpayment_add_ready').eq(3).addClass('downpayment_add').removeClass('downpayment_add_ready');
+                    _this.parents('.policy_item').find('.downpayment_add_ready').not(_this.parents('.downpayment_add_ready')).last().find('input').attr('readonly',false);
+                    _this.parents('.policy_item').find('.downpayment_add_ready').not(_this.parents('.downpayment_add_ready')).last().find('.downpayment_add_del').before(addbtn);
+                    _this.parents('.policy_item').find('.downpayment_add_ready').not(_this.parents('.downpayment_add_ready')).last().find('.downpayment_add_del').remove();
+                    _this.parents('.policy_item').find('.downpayment_add_ready').not(_this.parents('.downpayment_add_ready')).last().addClass('downpayment_add').removeClass('downpayment_add_ready');
                 }
                 _this.parents('.downpayment_add_ready').remove();
             });
@@ -531,10 +531,10 @@
                 var del = _this.parents('.policy_item').find('.rate_add_ready').length;
                 if (del == 5) {
                     var addbtn = '<span class="cursor rate_add_txt">添加</span>';
-                    _this.parents('.policy_item').find('.rate_add_ready').eq(3).find('input').attr('readonly',false);
-                    _this.parents('.policy_item').find('.rate_add_ready').eq(3).find('.rate_add_del').before(addbtn);
-                    _this.parents('.policy_item').find('.rate_add_ready').eq(3).find('.rate_add_del').remove();
-                    _this.parents('.policy_item').find('.rate_add_ready').eq(3).addClass('rate_add').removeClass('rate_add_ready');
+                    _this.parents('.policy_item').find('.rate_add_ready').not(_this.parents('.rate_add_ready')).last().find('input').attr('readonly',false);
+                    _this.parents('.policy_item').find('.rate_add_ready').not(_this.parents('.rate_add_ready')).last().find('.rate_add_del').before(addbtn);
+                    _this.parents('.policy_item').find('.rate_add_ready').not(_this.parents('.rate_add_ready')).last().find('.rate_add_del').remove();
+                    _this.parents('.policy_item').find('.rate_add_ready').not(_this.parents('.rate_add_ready')).last().addClass('rate_add').removeClass('rate_add_ready');
                 }
                 _this.parents('.rate_add_ready').remove();
             });
