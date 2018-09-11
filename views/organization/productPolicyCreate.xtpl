@@ -439,7 +439,7 @@
             base_info.on("blur",".rate_valite",function(){
                 var _this = $(this);
                 var money = _this.val().trim();
-                var rate_add_ready = _this.parents('.policy_item').find('.rate_add_ready');
+                var rate_add_ready = _this.parents('.policy_item').find('.rate_add_ready').not(_this.parents('.rate_add_ready'));
                 if((money || money == 0) && rate_add_ready.length > 0){
                     for(var i = 0;i < rate_add_ready.length; i++){
                         var val = _this.parents('.policy_item').find('.rate_add_ready').eq(i).find('input').val().trim();
@@ -455,7 +455,7 @@
             base_info.on("blur",".money_valite",function(){
                 var _this = $(this);
                 var money = _this.val().trim();
-                var downpayment_add_ready = _this.parents('.policy_item').find('.downpayment_add_ready');
+                var downpayment_add_ready = _this.parents('.policy_item').find('.downpayment_add_ready').not(_this.parents('.downpayment_add_ready'));
                 if((money || money == 0) && downpayment_add_ready.length > 0){
                     for(var i = 0;i < downpayment_add_ready.length; i++){
                         var val = _this.parents('.policy_item').find('.downpayment_add_ready').eq(i).find('input').val().trim();
