@@ -71,7 +71,11 @@
                     <div class="options_title financial_product_title">数据条件</div>
                     <div class="option_item">
                         <div class="column_name">
-                            <span class="options_name loan_name"><span class="require_icon">*</span>放款量：</span>
+                            {{#if (data.condition_str === '' && data.id)}}
+                                <span class="options_name loan_name none"><span class="require_icon">*</span>放款量：</span>
+                            {{else}}
+                                <span class="options_name loan_name"><span class="require_icon">*</span>放款量：</span>
+                            {{/if}}
                         </div>
                         <div class="column_val loan_data_list" style="margin-top:10px;">
                             {{#if (data.condition_str) }}
@@ -131,6 +135,8 @@
                                         <a href="javascript:;" class="delete_sm_btn mar_left_20">删除条件</a>
                                     </div>
                                 {{/each}}
+                            {{elseif (data.condition_str === '' && data.id)}}
+
                             {{else}}
                                 <div class="loan_data">
                                     <select class="loan_data_date" style="width:150px;">
@@ -507,7 +513,7 @@
                     }
                     if(loanDataLogic == '1' && loanDataLogic1 != '1') {
                         if (loanDataDate.number() <= loanDataDate1.number()) {
-                            if (loanDataNum >= loanDataNum1) {
+                            if (loanDataNum.number() >= loanDataNum1.number()) {
                                 $alert("'放款量' " + errorTxt1 + "与" + errorTxt2 + "冲突!");
                                 isLoanData = false;
                                 return false;
