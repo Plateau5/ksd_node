@@ -934,14 +934,29 @@
             } else if (downpayment_type == '2') {
                 var downpayment_money_box = el.find('.downpayment_money_box').find('input');
                 var downpayment_money_flag = false;
+                var downpayment_money_arr = [];
                 downpayment_money_box.each(function () {
                     var _this = $(this);
                     if (_this.val().trim() == '') {
                         downpayment_money_flag = true;
+                    } else {
+                        downpayment_money_arr.push(_this.val().trim());
                     }
                 });
                 if (downpayment_money_flag && downpayment_money_box.length == 1) {
                     $alert('请输入首付金额');
+                    return false;
+                }
+                var downpayment_money_result = [];
+                for (var i = 0, len = downpayment_money_arr.length; i < len; i++) {
+                    if(downpayment_money_result.indexOf(downpayment_money_arr[i].number()) != -1) {
+
+                    } else {
+                        downpayment_money_result.push(downpayment_money_arr[i].number());
+                    }
+                }
+                if (downpayment_money_result.length != downpayment_money_arr.length) {
+                    $alert('首付金额有重复，请重新编写');
                     return false;
                 }
             } else if (downpayment_type == '1') {
@@ -962,14 +977,29 @@
             }
             var rate_box = el.find('.rate_box').find('input');
             var rate_flag = false;
+            var rate_arr = [];
             rate_box.each(function () {
                 var _this = $(this);
                 if (_this.val().trim() == '') {
                     rate_flag = true;
+                } else {
+                    rate_arr.push(_this.val().trim());
                 }
             });
             if (rate_flag && rate_box.length == 1) {
                 $alert('请输入费率');
+                return false;
+            }
+            var rate_result = [];
+            for (var i = 0, len = rate_arr.length; i < len; i++) {
+                if(rate_result.indexOf(rate_arr[i].number()) != -1) {
+
+                } else {
+                    rate_result.push(rate_arr[i].number());
+                }
+            }
+            if (rate_result.length != rate_arr.length) {
+                $alert('费率有重复，请重新编写');
                 return false;
             }
             var term_label = el.find('.term label');
@@ -1032,7 +1062,7 @@
             delDownpaymentMoney();//删除首付金额事件
             addRate();//添加费率事件
             delRate();//删除费率事件
-            blurEvent();//失去焦点事件
+            // blurEvent();//失去焦点事件
             bindSaveEvent();//注册保存到仓库和发布事件
             goProductList();//面包屑跳转
             addPolicy();//添加政策
