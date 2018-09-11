@@ -414,17 +414,6 @@
                 if(money == ''){
                     $alert('请填写首付金额');
                     return;
-                } else {
-                    var downpayment_add_ready = _this.parents('.policy_item').find('.downpayment_add_ready');
-                    if(money && downpayment_add_ready.length > 0){
-                        for(var i = 0;i < downpayment_add_ready.length; i++){
-                            var val = _this.parents('.policy_item').find('.downpayment_add_ready').eq(i).find('input').val().trim();
-                            if(money == val){
-                                $alert('此首付金额已存在,请重新输入');
-                                return;
-                            }
-                        }
-                    }
                 }
 
                 var inner = '<div class="downpayment_add_ready"><input type="text" readonly="readonly" class="money_valite" name="downpayment_money" maxlength="7" placeholder="请输入首付金额" value="' + money + '" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_del">删除</span></div>';
@@ -449,13 +438,15 @@
             var base_info = $('.base_info');
             base_info.on("blur",".rate_valite",function(){
                 var _this = $(this);
-                var money = _this.parents('.policy_item').find('.rate_add input').val().trim();
+                var money = _this.val().trim();
                 var rate_add_ready = _this.parents('.policy_item').find('.rate_add_ready');
                 if((money || money == 0) && rate_add_ready.length > 0){
                     for(var i = 0;i < rate_add_ready.length; i++){
                         var val = _this.parents('.policy_item').find('.rate_add_ready').eq(i).find('input').val().trim();
                         if(money == val){
-                            $alert('此费率已存在，请重新输入');
+                            $alert('此费率已存在，请重新输入', function () {
+                                _this.focus();
+                            });
                             return;
                         }
                     }
@@ -463,13 +454,15 @@
             });
             base_info.on("blur",".money_valite",function(){
                 var _this = $(this);
-                var money = _this.parents('.policy_item').find('.downpayment_add input').val().trim();
+                var money = _this.val().trim();
                 var downpayment_add_ready = _this.parents('.policy_item').find('.downpayment_add_ready');
                 if(money && downpayment_add_ready.length > 0){
                     for(var i = 0;i < downpayment_add_ready.length; i++){
                         var val = _this.parents('.policy_item').find('.downpayment_add_ready').eq(i).find('input').val().trim();
                         if(money == val){
-                            $alert('此首付金额已存在,请重新输入');
+                            $alert('此首付金额已存在,请重新输入', function () {
+                                _this.focus();
+                            });
                             return;
                         }
                     }
@@ -511,17 +504,6 @@
                 if(money == ''){
                     $alert('请填写当前费率');
                     return;
-                } else {
-                    var rate_add_ready = _this.parents('.policy_item').find('.rate_add_ready');
-                    if(money && rate_add_ready.length > 0){
-                        for(var i = 0;i < rate_add_ready.length; i++){
-                            var val = _this.parents('.policy_item').find('.rate_add_ready').eq(i).find('input').val().trim();
-                            if(money == val){
-                                $alert('此费率已存在，请重新输入');
-                                return;
-                            }
-                        }
-                    }
                 }
 
                 var inner = '<div class="rate_add_ready"><input type="text" readonly="readonly" class="rate_valite" maxlength="5" name="interest_rate" placeholder="请输入费率" value="' + money + '" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_del">删除</span></div>';
@@ -1001,7 +983,7 @@
             });
 
             if (policy_flag) {
-                $alert('此融资金额范围已存在！');
+                $alert(financeamount_start + '至' + financeamount_end + '融资金额范围已存在！');
                 return false;
             }
 
