@@ -144,17 +144,25 @@
                                         <div class="column_val downpayment_money_box">
                                             {{#if (policy_list[0].downpayment_value.indexOf (',') !== -1 ) }}
                                                 {{set (downpayment_value_arr = policy_list[0].downpayment_value.split(',')) }}
-                                                {{#each (downpayment_value_arr) }}
-                                                    {{#if (xindex === downpayment_value_arr.length - 1) }}
-                                                        <div class="downpayment_add">
-                                                            <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
-                                                        </div>
-                                                    {{else}}
-                                                        <div class="downpayment_add_ready">
-                                                            <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
-                                                        </div>
-                                                    {{/if}}
-                                                {{/each}}
+                                                {{#if (downpayment_value_arr.length >= 5) }}
+                                                    {{#each (downpayment_value_arr) }}
+                                                    <div class="downpayment_add_ready">
+                                                        <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
+                                                    </div>
+                                                    {{/each}}
+                                                {{else}}
+                                                    {{#each (downpayment_value_arr) }}
+                                                        {{#if (xindex === downpayment_value_arr.length - 1) }}
+                                                            <div class="downpayment_add">
+                                                                <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
+                                                            </div>
+                                                        {{else}}
+                                                            <div class="downpayment_add_ready">
+                                                                <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{this}}" maxlength="7" style="margin-right: 10px;" readonly="readonly"/><span>元</span><span class="cursor downpayment_add_del">删除</span>
+                                                            </div>
+                                                        {{/if}}
+                                                    {{/each}}
+                                                {{/if}}
                                             {{else}}
                                                 <div class="downpayment_add">
                                                     <input type="text" placeholder="请输入首付金额" name="downpayment_money" class="money_valite" value="{{policy_list[0].downpayment_value}}" maxlength="7" style="margin-right: 10px;"/><span>元</span><span class="cursor downpayment_add_txt">添加</span>
@@ -210,17 +218,25 @@
                                     {{#if (reqParams.policy_id)}}
                                         {{#if (policy_list[0].interest_rate.indexOf (',') !== -1 ) }}
                                             {{set (interest_rate_arr = policy_list[0].interest_rate.split(',')) }}
-                                            {{#each (interest_rate_arr) }}
-                                                {{#if (xindex === interest_rate_arr.length - 1) }}
-                                                <div class="rate_add">
-                                                    <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
-                                                </div>
-                                                {{else}}
+                                            {{#if (interest_rate_arr.length >= 5) }}
+                                                {{#each (interest_rate_arr) }}
                                                 <div class="rate_add_ready">
                                                     <input type="text" placeholder="请输入费率" name="interest_rate" class="rate_valite" maxlength="5" value="{{this}}" style="margin-right: 10px;" readonly="readonly"/><span>%</span><span class="cursor rate_add_del">删除</span>
                                                 </div>
-                                                {{/if}}
-                                            {{/each}}
+                                                {{/each}}
+                                            {{else}}
+                                                {{#each (interest_rate_arr) }}
+                                                    {{#if (xindex === interest_rate_arr.length - 1) }}
+                                                    <div class="rate_add">
+                                                        <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{this}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
+                                                    </div>
+                                                    {{else}}
+                                                    <div class="rate_add_ready">
+                                                        <input type="text" placeholder="请输入费率" name="interest_rate" class="rate_valite" maxlength="5" value="{{this}}" style="margin-right: 10px;" readonly="readonly"/><span>%</span><span class="cursor rate_add_del">删除</span>
+                                                    </div>
+                                                    {{/if}}
+                                                {{/each}}
+                                            {{/if}}
                                         {{else}}
                                             <div class="rate_add">
                                                 <input type="text" placeholder="请输入费率" maxlength="5" name="interest_rate" class="rate_valite" value="{{policy_list[0].interest_rate}}" style="margin-right: 10px;"/><span>%</span><span class="cursor rate_add_txt">添加</span>
