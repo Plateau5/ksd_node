@@ -977,7 +977,9 @@
                 var _this = $(this);
                 var cur_start = _this.find('.financeamount_start').val().trim().number();
                 var cur_end = _this.find('.financeamount_end').val().trim().number();
-                if (((financeamount_start.number() < cur_end && financeamount_start.number() >= cur_start) || (financeamount_end.number() < cur_end && financeamount_end.number() >= cur_start)) || (financeamount_start.number() <= cur_start && financeamount_end.number() >= cur_end)) {
+                if (financeamount_start.number() >= cur_end || financeamount_end.number() >= cur_start) {
+
+                } else {
                     policy_flag = true;
                 }
             });
