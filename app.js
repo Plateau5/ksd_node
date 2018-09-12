@@ -74,9 +74,15 @@ app.use(function (req, res, next) {
     var userInfo = {};
     var JSESSIONID = cookies.JSESSIONID;
     userInfo.JSESSIONID = JSESSIONID;
-    userInfo.uid = COMMONUTIL.decrypt(cookies.inner_logininfo);
-    userInfo.privilege = COMMONUTIL.decrypt(cookies.logininfo);
-    userInfo.companyId = COMMONUTIL.decrypt(cookies.comp_info);
+    if (cookies.inner_logininfo) {
+        userInfo.uid = COMMONUTIL.decrypt(cookies.inner_logininfo);
+    }
+    if (cookies.logininfo) {
+        userInfo.privilege = COMMONUTIL.decrypt(cookies.logininfo);
+    }
+    if (cookies.comp_info) {
+        userInfo.companyId = COMMONUTIL.decrypt(cookies.comp_info);
+    }
     global.user = userInfo;
     next();
 });
