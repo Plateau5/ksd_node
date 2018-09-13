@@ -42,7 +42,7 @@ exports.API_STATISTICS_BUSINESS_DATA = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/business',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         if (data.error_code === 0) {
@@ -58,7 +58,7 @@ exports.API_STATISTICS_CITY_DATA = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/city',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         if (data.error_code === 0) {
@@ -74,7 +74,7 @@ exports.API_STATISTICS_PRODUCT_DATA = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/product',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         if (data.error_code === 0) {
@@ -108,7 +108,7 @@ exports.VIEW_STATISTICS_PERSON_ORDER = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/person/order',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         data.uri = '/statistics/person/order';
@@ -127,7 +127,7 @@ exports.VIEW_STATISTICS_PERSON_REQUEST = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/person/request',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         data.uri = '/statistics/person/request';
@@ -145,7 +145,7 @@ exports.VIEW_STATISTICS_PERSON_PIGEONHOLE = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/person/pigeonhole',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         data.uri = '/statistics/person/pigeonhole';
@@ -163,7 +163,7 @@ exports.VIEW_STATISTICS_PERSONAL = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/personal',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         data.title = '人效统计-个人业务量';
@@ -181,7 +181,7 @@ exports.API_STATISTICS_PERSONAL_ORDER_DATA = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/personal/order',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         if (data.error_code === 0) {
@@ -197,7 +197,7 @@ exports.API_STATISTICS_PERSONAL_REQUEST_DATA = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/personal/request',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         if (data.error_code === 0) {
@@ -213,7 +213,7 @@ exports.API_STATISTICS_PERSONAL_PIGEONHOLE_DATA = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/personal/pigeonhole',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         if (data.error_code === 0) {
@@ -229,7 +229,7 @@ exports.VIEW_STATISTICS_PERSONAL_BUSINESS = function(req, res, next) {
     var body = req.body;
     common.httpRequest({
         url : apiServerPath + '/api/statistics/personal/business',
-        formData : body
+        form : body
     }, function (result) {
         var data = result;
         data.title = '人效统计-个人业务详情';

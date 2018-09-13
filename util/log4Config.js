@@ -49,7 +49,7 @@ log4js.configure({
             backups: 7
         },
         email : {
-            type: 'smtp',
+            type: '@log4js-node/smtp',
             recipients: 'qiaosl@jizhicar.com',
             sendInterval: 0,
             transport: 'SMTP',
