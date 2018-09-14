@@ -2700,7 +2700,7 @@ var F = {
         if (Object.isEmpty(o)) {
             return "";
         } else {
-            return Object.toQuerystring(o);
+            return Object.toQuerystring(F.clean(o));
         }
     },
     get : function (str) {
@@ -2708,7 +2708,7 @@ var F = {
             return {};
         } else {
             var o = {};
-            var _arr = F.clean(str).split('&');
+            var _arr = str.split('&');
             var reg = /^[0-9]*$/;
             for (var index = 0, len = _arr.length; index < len; index++) {
                 var _this = _arr[index].split('=');
