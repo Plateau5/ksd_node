@@ -2708,7 +2708,7 @@ var F = {
             return {};
         } else {
             var o = {};
-            var _arr = str.split('&');
+            var _arr = F.clean(str).split('&');
             var reg = /^[0-9]*$/;
             for (var index = 0, len = _arr.length; index < len; index++) {
                 var _this = _arr[index].split('=');
@@ -2732,6 +2732,7 @@ var F = {
                 delete obj[key];
             }
         }
+        return obj;
     }
 };
 
