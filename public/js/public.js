@@ -2726,7 +2726,7 @@ var F = {
         }
     },
     clean : function (obj) {
-        var reg = /^[\s\S]*(&)?[\s\S]*(=)?([\s\S]*$)/ig;
+        var reg = /(((^[\s\S]+)=([\s\S]+))&(([\s\S]+)=([\s\S]+$)))|((^[\s\S]+)=([\s\S]+))/ig;
         for (var key in obj) {
             if (reg.test(obj[key]) && typeof obj[key] == 'string') {
                 delete obj[key];
