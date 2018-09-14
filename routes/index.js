@@ -282,7 +282,14 @@ router.post(markUri + '/loan/batch/turnover', merchantsCtrl.VIEW_LOAN_BATCH_TURN
 router.post(markUri + '/loan/turnover', merchantsCtrl.VIEW_LOAN_TURNOVER);
 
 
-
+// 商户-放款管理-侧导航跳转 1610
+router.all(markUri + '/merchants/level/system', merchantsCtrl.VIEW_MERCHANTS_LEVEL_SYSTEM);
+// 商户-等级列表  1610
+router.all(markUri + '/merchants/level/list', merchantsCtrl.VIEW_MERCHANTS_LEVELLIST);
+// 商户-新建等级
+router.post(markUri + '/merchants/level/create', merchantsCtrl.VIEW_MERCHANTS_LEVELCREATE);
+// 商户-编辑等级
+router.post(markUri + '/merchants/level/edit', merchantsCtrl.VIEW_MERCHANTS_LEVELEDIT);
 
 
 

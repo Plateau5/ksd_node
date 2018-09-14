@@ -231,50 +231,50 @@
                             {{/each}}
                         </div>
                     </div>
-                    <div class="option_item">
-                        <div class="column_name">
-                            <span class="options_name">公司人数：</span>
-                        </div>
-                        <div class="column_val">
-                            <input type="text" id="personCount" class="" name="company_num" oninput="checkNum($(this));" value="{{detail.company_num}}" placeholder="请输入公司人数(1-1000)" maxlength="3" max="1000" min="1"  />
-                            <span>人</span>
-                            <span class="tips_info">(*请输入公司人数)</span>
-                        </div>
-                    </div>
-                    <div class="option_item">
-                        <div class="column_name">
-                            <span class="options_name">月&nbsp;销&nbsp;量&nbsp;：</span>
-                        </div>
-                        <div class="column_val">
-                            <select name="sales_month" id="monthSales">
-                                {{#if (detail.sales_month === 1) }}
-                                    <option selected value="1">0-10辆</option>
-                                {{else}}
-                                    <option value="1">0-10辆</option>
-                                {{/if}}
-                                {{#if (detail.sales_month === 2) }}
-                                    <option selected value="2">10-20辆</option>
-                                {{else}}
-                                    <option value="2">10-20辆</option>
-                                {{/if}}
-                                {{#if (detail.sales_month === 3) }}
-                                    <option selected value="3">20-40辆</option>
-                                {{else}}
-                                    <option value="3">20-40辆</option>
-                                {{/if}}
-                                {{#if (detail.sales_month === 4) }}
-                                    <option selected value="4">40-80辆</option>
-                                {{else}}
-                                    <option value="4">40-80辆</option>
-                                {{/if}}
-                                {{#if (detail.sales_month === 5) }}
-                                    <option selected value="5">80辆以上</option>
-                                {{else}}
-                                    <option value="5">80辆以上</option>
-                                {{/if}}
-                            </select>
-                        </div>
-                    </div>
+                    <!--<div class="option_item">-->
+                        <!--<div class="column_name">-->
+                            <!--<span class="options_name">公司人数：</span>-->
+                        <!--</div>-->
+                        <!--<div class="column_val">-->
+                            <!--<input type="text" id="personCount" class="" name="company_num" oninput="checkNum($(this));" value="{{detail.company_num}}" placeholder="请输入公司人数(1-1000)" maxlength="3" max="1000" min="1"  />-->
+                            <!--<span>人</span>-->
+                            <!--<span class="tips_info">(*请输入公司人数)</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="option_item">-->
+                        <!--<div class="column_name">-->
+                            <!--<span class="options_name">月&nbsp;销&nbsp;量&nbsp;：</span>-->
+                        <!--</div>-->
+                        <!--<div class="column_val">-->
+                            <!--<select name="sales_month" id="monthSales">-->
+                                <!--{{#if (detail.sales_month === 1) }}-->
+                                    <!--<option selected value="1">0-10辆</option>-->
+                                <!--{{else}}-->
+                                    <!--<option value="1">0-10辆</option>-->
+                                <!--{{/if}}-->
+                                <!--{{#if (detail.sales_month === 2) }}-->
+                                    <!--<option selected value="2">10-20辆</option>-->
+                                <!--{{else}}-->
+                                    <!--<option value="2">10-20辆</option>-->
+                                <!--{{/if}}-->
+                                <!--{{#if (detail.sales_month === 3) }}-->
+                                    <!--<option selected value="3">20-40辆</option>-->
+                                <!--{{else}}-->
+                                    <!--<option value="3">20-40辆</option>-->
+                                <!--{{/if}}-->
+                                <!--{{#if (detail.sales_month === 4) }}-->
+                                    <!--<option selected value="4">40-80辆</option>-->
+                                <!--{{else}}-->
+                                    <!--<option value="4">40-80辆</option>-->
+                                <!--{{/if}}-->
+                                <!--{{#if (detail.sales_month === 5) }}-->
+                                    <!--<option selected value="5">80辆以上</option>-->
+                                <!--{{else}}-->
+                                    <!--<option value="5">80辆以上</option>-->
+                                <!--{{/if}}-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="option_item" id="ownType">
                         <input type="hidden" name="old_own_type" value="{{detail.own_type}}">
                         <div class="column_name">
@@ -322,6 +322,41 @@
                                     </div>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                    <!--主营范围-->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>主营范围：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="applyto_car" id="applyto_car">
+                                {{#each (main_scope) }}
+                                    {{#if (this.id === detail.applyto_car) }}
+                                    <option value="{{this.id}}" selected>{{this.value}}</option>
+                                    {{else}}
+                                    <option value="{{this.id}}">{{this.value}}</option>
+                                    {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <!--商户等级-->
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">商户等级：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="level" id="level">
+                                <option value="">请选择</option>
+                                {{#each (level_list) }}
+                                {{#if (this.level === detail.grade) }}
+                                <option value="{{this.level}}" selected>{{this.level_value}}</option>
+                                {{else}}
+                                <option value="{{this.level}}">{{this.level_value}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
                         </div>
                     </div>
                     <!--商户来源-->
@@ -448,49 +483,49 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name">微&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;信：</span>
-                            </div>
-                            <div class="column_val">
-                                <input type="text" class="wechat" maxlength="30" value="{{this.wechat}}" placeholder="请输入微信号"  />
-                            </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</span>
-                            </div>
-                            <div class="column_val">
-                                <select name="gender" class="gender">
-                                    {{#if (this.gender === 1) }}
-                                        <option selected value="1">男</option>
-                                    {{else}}
-                                        <option value="1">男</option>
-                                    {{/if}}
-                                    {{#if (this.gender === 0) }}
-                                        <option selected value="0">女</option>
-                                    {{else}}
-                                        <option value="0">女</option>
-                                    {{/if}}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="option_item">
-                            <div class="column_name">
-                                <span class="options_name">生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：</span>
-                            </div>
-                            <div class="column_val">
-                                <input type="text" class="birthday wicon" name="birthday" value="{{this.birthday}}" placeholder="请选择联系人生日" readonly="readonly" />
-                            </div>
-                        </div>
-                        <div class="option_item whole_line remark_item">
-                            <div class="column_name">
-                                <span class="options_name">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span>
-                            </div>
-                            <div class="column_val">
-                                <textarea class="remark" cols="30" rows="10" maxlength="300" placeholder="请输入备注内容">{{this.remark}}</textarea>
-                            </div>
-                        </div>
+                        <!--<div class="option_item">-->
+                            <!--<div class="column_name">-->
+                                <!--<span class="options_name">微&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;信：</span>-->
+                            <!--</div>-->
+                            <!--<div class="column_val">-->
+                                <!--<input type="text" class="wechat" maxlength="30" value="{{this.wechat}}" placeholder="请输入微信号"  />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="option_item">-->
+                            <!--<div class="column_name">-->
+                                <!--<span class="options_name">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</span>-->
+                            <!--</div>-->
+                            <!--<div class="column_val">-->
+                                <!--<select name="gender" class="gender">-->
+                                    <!--{{#if (this.gender === 1) }}-->
+                                        <!--<option selected value="1">男</option>-->
+                                    <!--{{else}}-->
+                                        <!--<option value="1">男</option>-->
+                                    <!--{{/if}}-->
+                                    <!--{{#if (this.gender === 0) }}-->
+                                        <!--<option selected value="0">女</option>-->
+                                    <!--{{else}}-->
+                                        <!--<option value="0">女</option>-->
+                                    <!--{{/if}}-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="option_item">-->
+                            <!--<div class="column_name">-->
+                                <!--<span class="options_name">生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：</span>-->
+                            <!--</div>-->
+                            <!--<div class="column_val">-->
+                                <!--<input type="text" class="birthday wicon" name="birthday" value="{{this.birthday}}" placeholder="请选择联系人生日" readonly="readonly" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="option_item whole_line remark_item">-->
+                            <!--<div class="column_name">-->
+                                <!--<span class="options_name">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span>-->
+                            <!--</div>-->
+                            <!--<div class="column_val">-->
+                                <!--<textarea class="remark" cols="30" rows="10" maxlength="300" placeholder="请输入备注内容">{{this.remark}}</textarea>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     <div class="btn_box text_left clearfix">
                         {{#if (detail.link_data.length === (xindex + 1)) }}
                             <a href="javascript:" class="add_sm_btn" data-type="1" data-id="{{this.id}}">添加联系人</a>
@@ -501,7 +536,6 @@
                     </div>
                 </div>
             {{/each}}
-
 
             <!--证件信息-->
             <div class="form_content form_options merchants_create">
@@ -537,10 +571,55 @@
                     </div>
             </div>
 
+            {{#if (recordBasicList[0].status === 1) }}
+                <!--实际控制人信息-->
+                <div class="form_content form_options merchants_create">
+                    <!-- 实际控制人信息 Begin -->
+                    <div class="options_title">实际控制人信息</div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>老板姓名：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" name="boss_name" data-text="老板姓名" id="boss_name" class="requireTrue" value="{{detail.boss_name}}" maxlength="20" placeholder="" />
+                            <span class="tips_info">(*请输入老板姓名)</span>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>老板户籍：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="boss_census" id="boss_census">
+                                {{#if (detail.boss_census === 1) }}
+                                <option selected value="1">本省</option>
+                                {{else}}
+                                <option value="1">本省</option>
+                                {{/if}}
+                                {{#if (detail.boss_census === 0) }}
+                                <option selected value="0">外省</option>
+                                {{else}}
+                                <option value="0">外省</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name"><span class="require_icon">*</span>手机号码：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="link_phone requireTrue" verify="1" data-text="老板手机号" id="boss_phone" name="boss_phone"  oninput="checkNum($(this));" maxlength="11" value="{{detail.boss_phone}}" placeholder="请输入手机号码"  />
+                            <span class="tips_info">(*请输入手机号)</span>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+
             <!--账户信息-->
-                <input type="hidden" name="updateRecordList" id="updateRecordList" value="" />
-                <input type="hidden" name="deleteRecordList"  id="deleteRecordList" value="" />
-                <input type="hidden" name="insertRecordList"  id="insertRecordList" value="" />
+            <input type="hidden" name="updateRecordList" id="updateRecordList" value="" />
+            <input type="hidden" name="deleteRecordList"  id="deleteRecordList" value="" />
+            <input type="hidden" name="insertRecordList"  id="insertRecordList" value="" />
             <input type="hidden" id="recordCount" value="{{detail.record_data.length}}">
             {{#each (detail.record_data) }}
                 <div class="form_content form_options merchants_create record_option his_record" id="recordInfo{{xindex + 1}}">

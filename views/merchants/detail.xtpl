@@ -186,6 +186,26 @@
                                             </div>
                                         </li>
                                         <li class="item_row">
+                                            <div class="item_name">主营范围：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.applyto_car_value || detail.applyto_car_value === '' || detail.applyto_car_value.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.applyto_car_value}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name">商户等级：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.grade_value || detail.grade_value === '' || detail.grade_value.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.grade_value}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
                                             <div class="item_name long_text">是否与机构签约：</div>
                                             <div class="item_value">
                                                 {{#if (detail.is_sign === 1) }}
@@ -207,26 +227,26 @@
                                             </div>
                                         </li>
                                         {{/if}}
-                                        <li class="item_row">
-                                            <div class="item_name">月销量：</div>
-                                            <div class="item_value">
-                                                {{#if (!detail.sales_month_value || detail.sales_month_value === '' || detail.sales_month_value.length <= 0) }}
-                                                    --
-                                                {{else}}
-                                                    {{detail.sales_month_value}}
-                                                {{/if}}
-                                            </div>
-                                        </li>
-                                        <li class="item_row">
-                                            <div class="item_name">公司人数：</div>
-                                            <div class="item_value">
-                                                {{#if ((!detail.company_num || detail.company_num === '' || detail.company_num.length <= 0) && detail.company_num !== 0) }}
-                                                    --
-                                                {{else}}
-                                                    {{detail.company_num}} 人
-                                                {{/if}}
-                                            </div>
-                                        </li>
+                                        <!--<li class="item_row">-->
+                                            <!--<div class="item_name">月销量：</div>-->
+                                            <!--<div class="item_value">-->
+                                                <!--{{#if (!detail.sales_month_value || detail.sales_month_value === '' || detail.sales_month_value.length <= 0) }}-->
+                                                    <!--&#45;&#45;-->
+                                                <!--{{else}}-->
+                                                    <!--{{detail.sales_month_value}}-->
+                                                <!--{{/if}}-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="item_row">-->
+                                            <!--<div class="item_name">公司人数：</div>-->
+                                            <!--<div class="item_value">-->
+                                                <!--{{#if ((!detail.company_num || detail.company_num === '' || detail.company_num.length <= 0) && detail.company_num !== 0) }}-->
+                                                    <!--&#45;&#45;-->
+                                                <!--{{else}}-->
+                                                    <!--{{detail.company_num}} 人-->
+                                                <!--{{/if}}-->
+                                            <!--</div>-->
+                                        <!--</li>-->
                                         <li class="item_row">
                                             <div class="item_name">城市：</div>
                                             <div class="item_value">
@@ -329,30 +349,30 @@
                                                     {{/if}}
                                                 </div>
                                             </li>
-                                            {{#if (this.wechat) }}
-                                                <li class="item_row">
-                                                    <div class="item_name">微信：</div>
-                                                    <div class="item_value">
-                                                        {{this.wechat}}
-                                                    </div>
-                                                </li>
-                                            {{/if}}
-                                            {{#if (this.birthday) }}
-                                                <li class="item_row">
-                                                    <div class="item_name">生日：</div>
-                                                    <div class="item_value">
-                                                        {{this.birthday}}
-                                                    </div>
-                                                </li>
-                                            {{/if}}
-                                            {{#if (this.remark) }}
-                                                <li class="item_row whole_line">
-                                                    <div class="item_name">备注：</div>
-                                                    <div class="item_value">
-                                                        {{this.remark}}
-                                                    </div>
-                                                </li>
-                                            {{/if}}
+                                            <!--{{#if (this.wechat) }}-->
+                                                <!--<li class="item_row">-->
+                                                    <!--<div class="item_name">微信：</div>-->
+                                                    <!--<div class="item_value">-->
+                                                        <!--{{this.wechat}}-->
+                                                    <!--</div>-->
+                                                <!--</li>-->
+                                            <!--{{/if}}-->
+                                            <!--{{#if (this.birthday) }}-->
+                                                <!--<li class="item_row">-->
+                                                    <!--<div class="item_name">生日：</div>-->
+                                                    <!--<div class="item_value">-->
+                                                        <!--{{this.birthday}}-->
+                                                    <!--</div>-->
+                                                <!--</li>-->
+                                            <!--{{/if}}-->
+                                            <!--{{#if (this.remark) }}-->
+                                                <!--<li class="item_row whole_line">-->
+                                                    <!--<div class="item_name">备注：</div>-->
+                                                    <!--<div class="item_value">-->
+                                                        <!--{{this.remark}}-->
+                                                    <!--</div>-->
+                                                <!--</li>-->
+                                            <!--{{/if}}-->
                                         </ul>
                                     </div>
                                 </div>
@@ -393,6 +413,47 @@
                                     </ul>
                                 </div>
                             </div>
+                            {{#if (recordBasicList[0].status === 1) }}
+                            <div class="classify_item">
+                                <div class="classify_title">实际控制人信息</div>
+                                <div class="classify_content">
+                                    <ul class="items_list">
+                                        <li class="item_row">
+                                            <div class="item_name">老板姓名：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.boss_name || detail.boss_name === '' || detail.boss_name.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.boss_name}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name">老板户籍：</div>
+                                            <div class="item_value">
+                                                {{#if (detail.boss_census === 0) }}
+                                                外省
+                                                {{elseif (detail.boss_census === 1) }}
+                                                本省
+                                                {{else}}
+                                                --
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                        <li class="item_row">
+                                            <div class="item_name">手机号码：</div>
+                                            <div class="item_value">
+                                                {{#if (!detail.boss_phone || detail.boss_phone === '' || detail.boss_phone.length <= 0) }}
+                                                --
+                                                {{else}}
+                                                {{detail.boss_phone}}
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {{/if}}
                             {{#if (detail.flag === 2 || detail.flag === 3 || detail.flag === 4) }}
                                 <!--账户信息-->
                                 {{#each (detail.record_data) }}
@@ -476,7 +537,6 @@
                                         </div>
                                     </div>
                                 {{/each}}
-
                                 <!--备案信息材料图片-->
                                 <ul class="img_list" id="viewerImageList">
                                     {{#each (fileList) }}
@@ -489,7 +549,6 @@
                                     {{/each}}
                                 </ul>
                             {{/if}}
-
                         </div>
                     </div>
                     <!-- 备案信息部分 End -->

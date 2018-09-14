@@ -223,7 +223,7 @@
         <div class="slide_nav_title bold">商户</div>
         <ul class="slide_nav_bar">
             {{#if (verifyCode(1367)) }}
-                <li class="nav_item {{#if(startWith(markUri + '/merchants'))}}active{{/if}}">
+                <li class="nav_item {{#if(startWith(markUri + '/merchants') && !startWith(markUri + '/merchants/level'))}}active{{/if}}">
                     <a href="{{markUri}}/merchants/manage/system" class="">商户管理</a>
                 </li>
             {{/if}}
@@ -235,6 +235,11 @@
             {{#if (verifyCode(1490)) }}
             <li class="nav_item {{#if(startWith(markUri + '/loan'))}}active{{/if}}">
                 <a href="{{markUri}}/loan/system" class="">放款管理</a>
+            </li>
+            {{/if}}
+            {{#if (verifyCode(1610)) }}
+            <li class="nav_item {{#if(startWith(markUri + '/merchants/level'))}}active{{/if}}">
+                <a href="{{markUri}}/merchants/level/system" class="">分级管理</a>
             </li>
             {{/if}}
         </ul>

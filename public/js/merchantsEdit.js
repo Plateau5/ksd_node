@@ -238,11 +238,7 @@ function deleteLinkOrRecord () {
                         name : $.trim(t.find('.link_name').val()),
                         status : 0,
                         phone : $.trim(t.find('.link_phone').val()),
-                        position_id : $.trim(t.find('.position_id option:selected').val()),
-                        wechat : $.trim(t.find('.wechat').val()),
-                        gender : $.trim(t.find('.gender option:selected').val()),
-                        birthday : $.trim(t.find('.birthday').val()),
-                        remark : $.trim(t.find('.remark').val())
+                        position_id : $.trim(t.find('.position_id option:selected').val())
                     };
                     deleteLinkList.push(link);
                     var oldDeleteLink = $('#deleteLinkList').val();     // 已经删除的联系人
@@ -396,41 +392,6 @@ function addLinkOrRecord () {
                 '                                    <option value="7">销售主管</option>\n' +
                 '                                    <option value="9">销售专员</option>\n' +
                 '                                </select>\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '                        <div class="option_item">\n' +
-                '                            <div class="column_name">\n' +
-                '                                <span class="options_name">微&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;信：</span>\n' +
-                '                            </div>\n' +
-                '                            <div class="column_val">\n' +
-                '                                <input type="text"  class="wechat"  maxlength="30" value="" placeholder="请输入微信号"  />\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '                        <div class="option_item">\n' +
-                '                            <div class="column_name">\n' +
-                '                                <span class="options_name">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</span>\n' +
-                '                            </div>\n' +
-                '                            <div class="column_val">\n' +
-                '                                <select name=""  class="gender">\n' +
-                '                                    <option value="1" selected="selected">男</option>\n' +
-                '                                    <option value="0">女</option>\n' +
-                '                                </select>\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '                        <div class="option_item">\n' +
-                '                            <div class="column_name">\n' +
-                '                                <span class="options_name">生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：</span>\n' +
-                '                            </div>\n' +
-                '                            <div class="column_val">\n' +
-                '                                <input type="text" class="birthday new_birthday wicon" name="" value="" placeholder="请选择联系人生日" readonly="readonly" />\n' +
-                '                            </div>\n' +
-                '                        </div>\n' +
-                '                        <div class="option_item whole_line remark_item">\n' +
-                '                            <div class="column_name">\n' +
-                '                                <span class="options_name">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span>\n' +
-                '                            </div>\n' +
-                '                            <div class="column_val">\n' +
-                '                                <textarea name="" maxlength="300" cols="30" rows="10" class="remark" placeholder="请输入备注内容"></textarea>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </form>\n' +
@@ -990,7 +951,7 @@ function validateIdNum (t) {
  * @author Arley Joe 2017-11-4 17:04:00
  */
 function validatePhoneNum () {
-    var elem = $('.link_option');
+    var elem = $('body');
     var phonePattern = /^1[3|4|5|8|7]\d{9}$/;    // 手机号校验正则
     elem.on('blur', '.link_phone', function () {
         var _this = $(this);
@@ -1080,7 +1041,7 @@ function validateEmpty () {
     }
 
     // 校验手机号是否正确
-    var phones = $('.link_option .link_phone');
+    var phones = $('.option_item .link_phone');
     phones.each(function () {
         var _this = $(this);
         var checked = _this.attr('verify');
@@ -1163,11 +1124,7 @@ function getLinkOrRecordInfo () {
             name : $.trim(t.find('.link_name').val()),
             status : 1,
             phone : $.trim(t.find('.link_phone').val()),
-            position_id : $.trim(t.find('.position_id option:selected').val()),
-            wechat : $.trim(t.find('.wechat').val()),
-            gender : $.trim(t.find('.gender option:selected').val()),
-            birthday : $.trim(t.find('.birthday').val()),
-            remark : $.trim(t.find('.remark').val())
+            position_id : $.trim(t.find('.position_id option:selected').val())
         };
         insertLinkList.push(link);
     });
@@ -1182,11 +1139,7 @@ function getLinkOrRecordInfo () {
             name : $.trim(t.find('.link_name').val()),
             status : 1,
             phone : $.trim(t.find('.link_phone').val()),
-            position_id : $.trim(t.find('.position_id option:selected').val()),
-            wechat : $.trim(t.find('.wechat').val()),
-            gender : $.trim(t.find('.gender option:selected').val()),
-            birthday : $.trim(t.find('.birthday').val()),
-            remark : $.trim(t.find('.remark').val())
+            position_id : $.trim(t.find('.position_id option:selected').val())
         };
         updateLinkList.push(link);
     });

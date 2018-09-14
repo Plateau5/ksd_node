@@ -28,11 +28,11 @@
                     <a href="javascript:;" class="crumbs_item">配置备案图片信息</a>
                 </span>
                 <!-- 删除按钮 -->
-                <div class="crumbs_btn rf">
-                    {{#if (verifyCode(1376)) }}
-                        <a href="javascript:" class="delete_filing">删除字段</a>
-                    {{/if}}
-                </div>
+                <!--<div class="crumbs_btn rf">-->
+                    <!--{{#if (verifyCode(1376)) }}-->
+                        <!--<a href="javascript:" class="delete_filing">删除字段</a>-->
+                    <!--{{/if}}-->
+                <!--</div>-->
             </div>
             <div class="material_store filing_setting">
                 <div class="store_title filing_setting_title">备案配置</div>
@@ -58,27 +58,45 @@
                 </div>
             </div>
             <div class="material_store filing_material">
-                <div class="store_title filing_material_title">备案所需材料</div>
-                <div class=" material_text lf">备案信息(图片)：</div>
-                <div class="form_container material_detail lf" id="filingDesc">
+                <div class="store_title filing_material_title">基本信息</div>
+                <div class=" material_text lf">字段文本信息：</div>
+                <div class="form_container material_detail lf filingCheck" id="filingBasic">
+                    {{#each (recordBasicList) }}
+                    <div class="form_group {{#if (this.status === 1) }}checked{{/if}}" fid="{{this.id}}" style="width:100%;">
+                        {{#if (this.status === 1) }}
+                        <input id="filing_{{this.id}}" type="checkbox" class="" name="" data-id="{{this.id}}" value="{{this.status}}" checked="checked" />
+                        <label class="checked" for="filing_{{this.id}}">{{this.name}}</label>
+                        {{else}}
+                        <input id="filing_{{this.id}}" type="checkbox" class="" name="" data-id="{{this.id}}" value="{{this.status}}"  />
+                        <label class="" for="filing_{{this.id}}">{{this.name}}</label>
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="material_store filing_material">
+                <div class="store_title filing_material_title">图片材料</div>
+                <div class=" material_text lf">备案附件(图片)：</div>
+                <div class="form_container material_detail lf filingCheck" id="filingDesc">
                     {{#each (list) }}
-                        <div class="form_group lf
-                        {{#if (this.status === 2) }}checked hisChecked{{/if}}
-                        " fid="{{this.id}}">
+                        <div class="form_group lf {{#if (this.status === 2) }}checked hisChecked{{/if}}" fid="{{this.id}}">
                             <!-- 身份证/营业执照id：101/102 -->
                             {{#if (this.status === 2) }}
                                 <input id="filing_{{this.id}}" type="checkbox" class="" name="" data-id="{{this.id}}" value="{{this.status}}" checked="checked" />
-                                <label class="nor_wrap checked" for="filing_{{this.id}}">{{this.account_name}}</label>
+                                <label class="nor_wrap checked" title="{{this.account_name}}" for="filing_{{this.id}}">{{this.account_name}}</label>
                             {{else}}
                                 <input id="filing_{{this.id}}" type="checkbox" class="" name="" data-id="{{this.id}}" value="{{this.status}}"  />
-                                <label class="nor_wrap" for="filing_{{this.id}}">{{this.account_name}}</label>
+                                <label class="nor_wrap" title="{{this.account_name}}" for="filing_{{this.id}}">{{this.account_name}}</label>
                             {{/if}}
                         </div>
                     {{/each}}
                 </div>
                 <div class="add_btn_box clearfix">
                     {{#if (verifyCode(1376)) }}
-                        <a href="javascript:;" class="add_btn">新建</a>
+                        <a href="javascript:;" class="add_btn">新建字段</a>
+                    {{/if}}
+                    {{#if (verifyCode(1376)) }}
+                    <a href="javascript:" class="delete_filing">删除字段</a>
                     {{/if}}
                 </div>
             </div>
@@ -103,7 +121,9 @@
             new : [],
             delete : [],
             checked : [],
-            unchecked : []
+            unchecked : [],
+            basicChecked : [],
+            basicUnchecked : []
         };
         // 页面加载后立即获取备案信息字段
         !function () {
@@ -148,7 +168,7 @@
                         var timestamp = new Date().getTime();
                         var newFieldEle = '<div class="form_group lf new_f" fid="'+ timestamp +'">\n' +
                             '                        <input id="filing_'+ timestamp +'" type="checkbox" data-id="'+ timestamp +'" class="" name="" value="'+ timestamp +'" checked="checked" />\n' +
-                            '                        <label class="nor_wrap checked" for="filing_'+ timestamp +'">'+ newField +'</label>\n' +
+                            '                        <label class="nor_wrap checked" title="'+ newField +'" for="filing_'+ timestamp +'">'+ newField +'</label>\n' +
                             '                    </div>';
                         $('#filingDesc').append(newFieldEle);
                         materials.old.push(newField);
@@ -212,20 +232,21 @@
             // 获取全部备案信息字段
             var getAllfilings = function () {
                 var elem = $('#filingDesc .form_group').not(':hidden');
-                var delStr = '<div class="form_container delete_container" style="width: 80%;margin: 20px auto; line-height: 30px;overflow: hidden;">';
+                var delStr = '<div class="form_container delete_container" style="width: 85%;margin: 20px auto; line-height: 30px;overflow: hidden;font-size:0;">';
                 elem.each(function () {
                     var _this = $(this);
                     var filingKey = $.trim(_this.find('input[type="checkbox"]').data('id'));
                     var filingName = $.trim(_this.find('label').text());
+                    var filingNameLen = filingName.length;
                     // if (filingKey != '101' && filingKey != '102'){  // 屏蔽掉身份证和营业执照
-                        delStr += '<div class="form_group nowrap lf" style="width: 110px;margin-right: 10px; font-size: 12px;text-align: left;">\n' +
+                        delStr += '<div class="form_group nor_wrap lf" style="width: 160px;margin-right: 10px; font-size: 12px;text-align: left;">\n' +
                             '               <input id="filing_'+ filingKey +'" type="checkbox" class="" name="" value="'+ filingKey +'" />\n' +
-                            '               <label class="nor_wrap" for="filing_'+ filingKey +'">'+ filingName +'</label>\n' +
+                            '               <label class="nor_wrap" title="'+ filingName +'" for="filing_'+ filingKey +'">'+ filingName +'</label>\n' +
                             '      </div>';
                     // }
                 });
                 delStr += '</div>';
-                return delStr
+                return delStr;
             };
 
             btn.off('click').on('click', function () {
@@ -275,7 +296,7 @@
          *  2. 字段取消选中
          */
         function checkedFilings () {
-            $(document).on('click', '#filingDesc .form_group label', function () {
+            $(document).on('click', '.filingCheck .form_group label', function () {
                 var _this = $(this);
                 var parentGroup = _this.parents('.form_group');
                 if (!parentGroup.hasClass('new_f')) {
@@ -293,8 +314,10 @@
             // 获取删除数据
             var deleteElem = $('.delete_f');    // 删除的字段（含有‘delete_f’类）
             var newElem = $('.new_f');      // 新增的字段
-            var checkElem = $('.form_group.checked').not('.hisChecked');    // 新选中的字段（历史选中数据含有‘hisChecked’类）
-            var uncheckedElem = $('.form_group.hisChecked.uncheck');        // 取消选中的字段（此处为历史选中取消状态）
+            var checkElem = $('#filingDesc .form_group.checked').not('.hisChecked');    // 新选中的字段（历史选中数据含有‘hisChecked’类）
+            var uncheckedElem = $('#filingDesc .form_group.hisChecked.uncheck');        // 取消选中的字段（此处为历史选中取消状态）
+            var basicChecked = $('#filingBasic .form_group.checked');       // 文本信息选中的字段
+            var basicUnchecked = $('#filingBasic .form_group.uncheck');     // 文本信息未选中的字段
             deleteElem.each(function () {
                 var _this = $(this);
                 var id = $.trim(_this.attr('fid'));
@@ -319,6 +342,19 @@
                 var o = {id : id};
                 materials.unchecked.push(o);
             });
+            basicChecked.each(function (){
+                var _this = $(this);
+                var id = $.trim(_this.attr('fid'));
+                var o = {id : id};
+                materials.basicChecked.push(o);
+            });
+            basicUnchecked.each(function () {
+                var _this = $(this);
+                var id = $.trim(_this.attr('fid'));
+                var o = {id : id};
+                materials.basicUnchecked.push(o);
+            });
+
             var data = materials;
             return data;
         };
@@ -340,7 +376,9 @@
                     add : JSON.stringify(updataData.new),
                     delete : JSON.stringify(updataData.delete),
                     checked : JSON.stringify(updataData.checked),
-                    unchecked : JSON.stringify(updataData.unchecked)
+                    unchecked : JSON.stringify(updataData.unchecked),
+                    basic_checked : JSON.stringify(updataData.basicChecked),
+                    basic_unchecked : JSON.stringify(updataData.basicUnchecked)
                 },
                 url : contextPath + '/api/records/vindicate',
                 success : function (res) {

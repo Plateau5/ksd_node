@@ -14,7 +14,7 @@ exports.logError = function (msg, otherMsg) {
                     + "\n"
                     + "company: " + user.companyId
                     + "\n"
-                    + otherMsg;
+                    + (otherMsg ? otherMsg : '');
     if (apiServerPath.indexOf('kuaishoudan.com') !== -1) {
         logError.error(errorInfo);
     }
@@ -31,7 +31,7 @@ exports.logInfo = function (msg, otherMsg) {
                     + "\n"
                     + "company: " + user.companyId
                     + "\n"
-                    + otherMsg;
+                    + (otherMsg ? otherMsg : '');
     if (apiServerPath.indexOf('kuaishoudan.com') !== -1) {
         logInfo.info(errorInfo);
     }

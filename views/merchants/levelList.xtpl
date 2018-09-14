@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/merchants.css">
+    <title>等级列表</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main merchants">
+            <div class="crumbs_nav" style="border: none;text-align: right;">
+                {{#if (verifyCode(1611)) }}
+                <a href="javascript:;" class="level_create"><em class="create_icon"></em>新建等级</a>
+                {{/if}}
+            </div>
+            <div class="level_list" id="level_list">
+                <table class="normal levelNormal">
+                    <colgroup>
+                        <col style="width: 20%;" />
+                        <col style="width: 65%;" />
+                        <col style="width: 14%;" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>商户级别</th>
+                            <th class="text_left" style="padding: 0 2%">放款量</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#if (level_list.length > 0) }}
+                        {{#each (level_list) }}
+                            <tr data-id="{{this.id }}" data-level="{{this.level }}">
+                                <td title="{{this.level_value }}">{{this.level_value }}</td>
+                                <td title="{{this.condition_str_value }}" class="text_left">{{this.condition_str_value }}</td>
+                                <td>
+                                    {{#if (root.verifyCode(1611)) }}
+                                    <a href="javascript:;" class="edit_btn level_edit" data-id="{{this.id }}"  data-advanceIds=""  title="编辑等级"></a>
+                                    <a href="javascript:;" class="delete_btn level_delete" data-id="{{this.id }}" title="删除等级"></a>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{else}}
+                        <!-- 没有数据部分 -->
+                        <tr class="no_data">
+                            <td colspan="3">
+                                {{include('./../inc/empty_data')}}
+                            </td>
+                        </tr>
+                    {{/if}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+<div class="loading" id="loading"></div>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
+<script>
+    (function ($) {
+        /**
+         *  跳转新建等级 2018年9月5日
+         *  Created by wyt on 2018年9月5日15:46:27
+         */
+        function toLevelCreate () {
+            var Btn = $(".level_create");
+            var levelLen = $('.levelNormal').find('tbody tr');
+            if (levelLen.length > 4) {
+                Btn.css('background','#ccc');
+            } else {
+                Btn.off('click').on('click', function () {
+                    locationTo({
+                        action : contextPath + markUri + '/merchants/level/create',
+                        param : {
+
+                        }
+                    })
+                });
+            }
+        }
+        /**
+         *  跳转新建等级 2018年9月5日
+         *  Created by wyt on 2018年9月5日15:46:27
+         */
+        function LevelEdit () {
+            var Btn = $(".level_edit");
+            Btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = _this.data('id');
+                locationTo({
+                    action : contextPath + markUri + '/merchants/level/edit',
+                    param : {
+                        id : id
+                    }
+                })
+            });
+        }
+        /**
+         *  删除等级 2018年9月5日
+         *  Created by wyt on 2018年9月5日18:37:49
+         */
+        function deleteLevel () {
+            var Btn = $(".level_delete");
+            Btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = _this.data('id');
+                var data = {
+                    id : id
+                };
+                dialog('open',{
+                    closeBtn : false,
+                    title : '提醒',
+                    content : '确认删除该等级？',
+                    "button" : ["确认","取消"],
+                    "maskClose" : false,
+                    onConfirm : function (d) {
+                        d.close();
+                        onDeleteConfirm(d);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+                var onDeleteConfirm = function (d) {
+                    redefineAjax({
+                        url : contextPath + '/api/supplier/level/delete',
+                        data : data,
+                        timeout : 60000,
+                        beforeSend : function () {
+                            $('#loading').show();
+                        },
+                        success : function (res) {
+                            $('#loading').hide();
+                            if (res.error_code == 0) {
+                                $alert('操作成功', function () {
+                                    locationTo({
+                                        action : contextPath + markUri + '/merchants/level/list',
+                                        param : {
+                                        }
+                                    });
+                                })
+                            } else {
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $('#loading').hide();
+                            $alert("提交失败，请稍后重试");
+                        }
+                    });
+                }
+            });
+        }
+
+        $(function() {
+            toLevelCreate();    //跳转新建等级
+            LevelEdit();        //编辑等级
+            deleteLevel();      //删除等级
+        });
+    })(jQuery,undefined);
+</script>
+</body>
+</html>
