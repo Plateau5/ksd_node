@@ -404,12 +404,11 @@
                     }
                     curPage.val(nextPage);
                     _this.data('currentpage', nextPage).siblings('.prev').data('currentpage', nextPage);
+
+                    // 获取列表
+                    var moduleList = _this.parents('.module_list');     // 当前分页的列表
+                    getRebateListData(moduleList);
                 }
-
-                // 获取列表
-                var moduleList = _this.parents('.module_list');     // 当前分页的列表
-                getRebateListData(moduleList);
-
             });
         }
 

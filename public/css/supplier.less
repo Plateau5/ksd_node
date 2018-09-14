@@ -523,6 +523,7 @@
             padding: 10px 29px 20px 29px;
             font-size: 12px;
             line-height: 50px;
+            overflow: auto;
             .detail_about_title {
                 width: 100%;
                 height: 50px;
@@ -549,8 +550,52 @@
                     position: absolute;
                     top: 0;
                     right: 0;
+                    .grounding{
+                        display: inline-block;
+                        width: 28px;
+                        height: 28px;
+                        background: url('../img/operation_small_icon.png') no-repeat;
+                        background-position: -55px -958px;
+                        margin-right: 10px;
+                        vertical-align: middle;
+                        &:hover{
+                            background-position: -55px -982px;
+                        }
+                    }
                 }
 
+            }
+            .detail_annex{
+                float: left;
+                width:40%;
+                height:50px;
+                margin-right: 10%;
+                margin-bottom: 30px;
+                .annex_lf{
+                    float: left;
+                    width:16%;
+                    height:50px;
+                    .annex_icon{
+                        display: inline-block;
+                        width:40px;
+                        height:50px;
+                        vertical-align: bottom;
+                    }
+                }
+                .annex_rt{
+                    float: left;
+                    width:84%;
+                    .annex_name{
+                        font-size: 14px;
+                        color:#333;
+                        line-height: 25px;
+                    }
+                    .annex_size{
+                        font-size: 12px;
+                        color:#999;
+                        line-height: 25px;
+                    }
+                }
             }
             .detail_about_txt {
                 width: 100%;
@@ -765,6 +810,20 @@
 /******* 发布新产品-政策及资料页面  start *****/
 .product_policy_create{
     .form_options{
+        .policy_item{
+            position: relative;
+            margin-bottom: 40px;
+            .rf_30{
+                width:140px;
+                position: absolute;
+                top:20px;
+                right: 0;
+                z-index: 5;
+                .detail_title_btn{
+                    float: right;
+                }
+            }
+        }
         .form_group{
             margin-right: 22px;
         }
@@ -877,6 +936,15 @@
 
 /******* 产品详情页  start *****/
 .product_detail{
+    .org_detail_header{
+        .copy_product_btn{
+            padding-right: 0;
+            background-position: -53px -70px;
+            &:hover {
+                background-position: -53px -89px;
+            }
+        }
+    }
     .product_detail_box{
         .detail_about{
             margin-bottom: 30px;
@@ -1006,6 +1074,54 @@
                                 background-position: -66px -950px;
                             }
                         }
+                    }
+                }
+            }
+        }
+        .policy_list{
+            position: relative;
+            margin-bottom: 20px;
+            .detail_about_title{
+                height: 40px;
+                line-height: 40px;
+                padding-left: 15px;
+                font-size: 14px;
+                color: #333;
+                &:before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 12px;
+                    left: 0;
+                    height: 16px;
+                    border-left: 4px solid #1dc6bc;
+                }
+            }
+            table.normal {
+                table-layout: fixed;
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+                .table_header_tr {
+                    height: 60px;
+                    background-color: #fafafa;
+                    line-height: 60px;
+                    font-size: 14px;
+                    color: #333;
+                    text-align: left;
+                }
+                tr {
+                    border: 1px solid #e4e4e4;
+                    td {
+                        height: 60px;
+                        line-height: 40px;
+                        padding-left: 0;
+                        vertical-align: middle;
+                        word-break: break-all;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        text-align: left;
                     }
                 }
             }
@@ -1184,15 +1300,159 @@
 }
 /***** 单选按钮-开关效果 End ******/
 
+/***** 编辑附件 start ******/
+.edit_annex{
+    .form_options{
+        background-color: #ffffff;
+        padding:0;
+        .annex_box{
+            overflow: auto;
+            .detail_annex{
+                float: left;
+                position: relative;
+                width:40%;
+                height:50px;
+                margin-right: 10%;
+                margin-bottom: 30px;
+                .annex_lf{
+                    float: left;
+                    width:16%;
+                    height:50px;
+                    .annex_icon{
+                        display: inline-block;
+                        width:40px;
+                        height:50px;
+                        vertical-align: bottom;
+                    }
+                }
+                .annex_rt{
+                    float: left;
+                    width:84%;
+                    .annex_name{
+                        font-size: 14px;
+                        color:#333;
+                        line-height: 25px;
+                    }
+                    .annex_size{
+                        font-size: 12px;
+                        color:#999;
+                        line-height: 25px;
+                    }
+                }
+                .remove_mask {
+                    display: none;
+                    position: absolute;
+                    top:0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.4);
+                    transition: all 1s;
+                    .remove_btn {
+                        position: absolute;
+                        top: 20px;
+                        right: 10px;
+                        width: 10px;
+                        height: 10px;
+                        background: url('../img/remove_icon.png') no-repeat;
+                        cursor: pointer;
+                    }
+                }
+            }
+            .detail_annex{
+                &:hover .remove_mask{
+                    display: block;
+                }
+            }
+        }
+        .file_upload{
+            padding-left: 0;
+            .file_upload_layer{
+                height: 50px;
+                line-height: 50px;
+                padding-left: 60px;
+                &:before{
+                    display: block;
+                    position: absolute;
+                    left: 2px;
+                    top: 2px;
+                    content: '';
+                    width: 50px;
+                    height: 50px;
+                    background: url('../img/upload_file_new.png') no-repeat;
+                }
+                .text{
+                    color:#999;
+                }
+            }
+        }
+
+        .btn_box{
+            text-align: left;
+        }
+    }
+}
+
+/***** 编辑附件 End ******/
 
 
+/***** 复制产品 start ******/
+.copy_product{
+    .form_options{
+        background-color: #ffffff;
+        padding:0;
+        .option_item {
+            line-height: 40px;
+        }
+        .column_name{
+            width:11%;
+        }
+        .column_val{
+            width:89%;
+            padding-left: 0;
+        }
+        .select_city{
+            position: relative;
+            color: #1DC6BC;
+            padding-left: 20px;
+            &:before{
+                content: '';
+                position: absolute;
+                top: 1px;
+                left: -2px;
+                display: block;
+                width: 16px;
+                height: 16px;
+                background : url('../img/icon_city.png') no-repeat;
+            }
+        }
+        .create_wf_btn_box{
+            text-align: left;
+            margin-left: 11%;
+        }
+    }
+}
+/***** 复制产品 end ******/
 
-
-
-
-
-
-
+/******富文本编辑页  start*******/
+.edit_richtext{
+    .form_options {
+        background-color: #ffffff;
+        padding: 0;
+        .column_name{
+            width:12%;
+        }
+        .column_val {
+            width: 88%;
+             padding-left: 0;
+        }
+        .create_wf_btn_box{
+            text-align: left;
+            margin-left: 12%;
+        }
+    }
+}
+/******富文本编辑页  end*******/
 
 
 

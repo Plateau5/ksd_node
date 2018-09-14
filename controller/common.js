@@ -163,7 +163,7 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                         + "\n"
                         + "Method: " + options.method
                         + "\n"
-                        + "data: " + JSON.stringify(options.formData)
+                        + "data: " + JSON.stringify(options.form)
                     );
                     callback(result);
                 }
@@ -197,7 +197,7 @@ exports.httpRequest = function (opt, callback, req, res, next) {
                     + " \n "
                     + " Method: " + options.method
                     + " \n "
-                    + " data: " + JSON.stringify(options.formData)
+                    + " data: " + JSON.stringify(options.form)
                 );
             }
         } else {
@@ -232,7 +232,7 @@ exports.getPageData = function(options, req, res, next) {
     try {
         this.httpRequest({
             url : apiServerPath + options.url,
-            formData : body
+            form : body
         }, function (results) {
             data = results;
             if (data.error_code === 0) {
@@ -253,6 +253,7 @@ exports.getPageData = function(options, req, res, next) {
     } catch (err) {
         res.statusCode = 500;
         /*return res.json({success: false, message: '服务器异常'});*/
+        LOGERROR(ERRORTYPES.HttpRequest + '：' + err);
         res.redirect(markUri + '/404');
     }
 
@@ -270,14 +271,14 @@ exports.publicForApi = function(url, req, res, next) {
     try {
         this.httpRequest({
             url : apiServerPath + url,
-            formData : body
+            form : body
         }, function (result) {
             var data = result;
             res.send(data);
         }, req, res, next);
     } catch (err) {
         /*logger.error(err);*/
-        console.log(err);
+        console.err(err);
         res.statusCode = 400;
         return res.json({success: false, message: '服务器异常'});
     }

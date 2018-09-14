@@ -1,0 +1,178 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main edit_richtext">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item go_orgdetail">{{reqParams.org_name}}</a>
+                <a href="javascript:;" class="crumbs_item">
+                    {{#if (reqParams.change_type === '4')}}
+                    编辑签合约方实际合同
+                    {{elseif (reqParams.change_type === '5') }}
+                    编辑面签照
+                    {{elseif (reqParams.change_type === '6') }}
+                    编辑GPS安装
+                    {{/if}}
+                </a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="organization_info_create" method="post">
+                    <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="orgId">
+                    <input type="hidden" name="change_type" value="{{reqParams.change_type}}" id="change_type">
+                    <div class="option_item" style="margin-top: 20px;">
+                        <div class="column_name" style="line-height: 20px;">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">
+                                {{#if (reqParams.change_type === '4') }}
+                                签约方式及合同：
+                                {{elseif (reqParams.change_type === '5') }}
+                                面签照：
+                                {{elseif (reqParams.change_type === '6') }}
+                                GPS安装：
+                                {{/if}}
+                            </span>
+                        </div>
+                        <div class="column_val">
+                            <textarea id="approval_policy" class="remark" name="" cols="30" rows="6">{{#if (reqParams.change_type === '4') }}{{sign_contract}}{{elseif (reqParams.change_type === '5') }}{{face_sign}}{{elseif (reqParams.change_type === '6') }}{{gps_sign}}{{/if}}</textarea>
+                        </div>
+                    </div>
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm save_rich_text">保存</a>
+                        <a href="javascript:;" class="btn bg_btn cancel go_orgdetail">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-all.js"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="{{markUri}}/static/kindeditor/kindeditor-init.js"></script>
+<script>
+    (function ($) {
+        var old_policy_desc = $('#approval_policy').val();
+        //保存富文本
+        function saveRichText () {
+            var btn = $(".save_rich_text");
+            btn.off("click").on("click", function () {
+                ajaxSubmit();
+            });
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            var policy_desc = kindEditor.html();
+            var change_type = $('#change_type').val().trim();
+            if (policy_desc == '') {
+                if (change_type == '4') {
+                    $alert('签约方式及合同不能为空');
+                } else if (change_type == '5') {
+                    $alert('面签照不能为空');
+                } else if (change_type == '6') {
+                    $alert('GPS安装不能为空');
+                }
+            } else {
+                var parameters = {
+                    id : $('#orgId').val().trim(),
+                    change_type : change_type
+                };
+                if (change_type == '4') {
+                    parameters.sign_contract = policy_desc;
+                } else if (change_type == '5') {
+                    parameters.face_sign = policy_desc;
+                } else if (change_type == '6') {
+                    parameters.gps_install = policy_desc;
+                }
+                if (old_policy_desc == '') {
+                    parameters.change_version = 0;
+                } else {
+                    if (old_policy_desc != policy_desc) {
+                        parameters.change_version = 1;
+                    } else {
+                        parameters.change_version = 0;
+                    }
+                }
+                $.ajax({
+                    type:'post',
+                    timeout:10000,
+                    url : contextPath + '/api/organization/update',
+                    data : parameters,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('操作成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/supplier/organization/detail',
+                                    param : {
+                                        organization_id : $('#orgId').val().trim(),
+                                        change_type : $('#change_type').val().trim()
+                                    }
+                                });
+                            })
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert("提交失败，请稍后重试");
+                    }
+                });
+            }
+        }
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrgdetail () {
+            var go_orgdetail = $('.go_orgdetail');
+            go_orgdetail.off("click").on("click", function () {
+                var organization_id = $('#orgId').val().trim();
+                var change_type = $('#change_type').val().trim();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detail',
+                    param : {
+                        organization_id : organization_id,
+                        change_type : change_type
+                    }
+                });
+            });
+        }
+        $(function() {
+            initKindEditor('#approval_policy');//审批政策
+            saveRichText();//保存富文本
+            goOrgdetail();//取消事件
+        });
+    })(jQuery,undefined);
+</script>
+</html>

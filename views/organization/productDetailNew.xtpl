@@ -65,6 +65,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="rf">
+                    {{#if (verifyCode(1594) && reqParams.page_flag === '1') }}
+                    <a href="javascript:" class="detail_title_btn operation_small_icon copy_product_btn" style="float: right">复制此产品</a>
+                    {{/if}}
+                </div>
             </div>
 
             <div class="product_detail_box">
@@ -101,101 +106,72 @@
                     </div>
                     <div class="detail_about_txt">
                         <div class="detail_about_label">适用车型：</div>
-                        <div class="detail_about_data">{{vo.applyto_car}}</div>
+                        <input type="hidden" id="applyto_car" value="{{vo.applyto_car}}">
+                        <div class="detail_about_data">{{vo.applyto_car_value}}</div>
                     </div>
                 </div>
-                {{#each (policy_list) }}
-                <div class="detail_about policy_list">
-                    <div class="detail_about_title">
-                        {{#if (../policy_list.length === 1) }}
-                        <div class="detail_about_label">申请政策及资料</div>
-                        {{else}}
-                        <div class="detail_about_label">申请政策及资料{{xindex + 1}}</div>
-                        {{/if}}
-                        {{#if (reqParams.page_flag === '0') }}
-                        <div class="rf_30">
-                            {{#if (root.verifyCode(1601)) }}
-                            <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}" data-num="{{xindex + 1}}" data-release_time="{{vo.release_time}}">编辑</a>
+
+                <div class="policy_list">
+                    <div class="detail_about_title">申请政策</div>
+                    <table class="normal product_table">
+                        <colgroup style="width: 100%;">
+                            {{#if (reqParams.page_flag === '0') }}
+                            <col style="width: 5%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 15%;" />
+                            {{else}}
+                            <col style="width: 5%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 25%;" />
+                            <col style="width: 25%;" />
+                            <col style="width: 25%;" />
                             {{/if}}
-                            {{#if (../policy_list.length !== 1) }}
-                            {{#if (root.verifyCode(1607)) }}
-                            <a href="javascript:;" class="detail_title_btn delete_btn del_policy" data-policy_id="{{this.policy_id}}" style="margin-left: 10px;">删除</a>
+                        </colgroup>
+                        <thead>
+                        <tr class="table_header_tr">
+                            <th></th>
+                            <th>融资金额范围</th>
+                            <th>首付比例/金额</th>
+                            <th>费率</th>
+                            <th>融资期限</th>
+                            {{#if (reqParams.page_flag === '0') }}
+                            <th style="text-align: center;">操作</th>
                             {{/if}}
-                            {{/if}}
-                        </div>
-                        {{/if}}
-                    </div>
-                    <div class="policy_box" style="padding-bottom: 20px;">
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">融资金额范围：</div>
-                            <div class="detail_about_data">{{this.financeamount_start}}-{{this.financeamount_end}}万</div>
-                        </div>
-                        <div class="detail_about_txt">
-                            {{#if (this.downpayment_type === 1) }}
-                            <div class="detail_about_label">首付比例：</div>
-                            <div class="detail_about_data">{{this.downpayment_value}}</div>
-                            {{elseif (this.downpayment_type === 2) }}
-                            <div class="detail_about_label">首付金额：</div>
-                            <div class="detail_about_data">{{this.downpayment_value}}</div>
-                            {{/if}}
-                        </div>
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">费率：</div>
-                            <div class="detail_about_data">{{this.interest_rate}}</div>
-                        </div>
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label">融资期限：</div>
-                            <div class="detail_about_data">{{this.term}}</div>
-                        </div>
-                        <div class="detail_about_txt">
-                            <div class="detail_about_label" style="vertical-align: top;">申请资料：</div>
-                            <div class="detail_about_data">
-                                {{#each (this.policy_list) }}
-                                <div class="">
-                                    {{#if (this.is_must === 1) }}
-                                    <em class="require_icon">*</em>
-                                    {{/if}}
-                                    <span class="">{{this.type_name}}：</span>
-                                    <span class="">{{this.material_name}}</span>
-                                </div>
-                                {{#if (this.file_ids) }}
-                                <div class="detail_img">
-                                    <ul class="img_list">
-                                        {{#if (this.file_ids.indexOf(',') !== -1) }}
-                                        {{set (img_list = this.file_ids.split(',')) }}
-                                        {{#each (img_list) }}
-                                        <a href="javascript:;" target="_blank">
-                                            <div class="list_item imgDetail" title="">
-                                                <div class="detailBox img_item">
-                                                    <img class=" detailImgBox" data-original="{{image_url}}{{this}}" src="{{thumbnail_url}}{{this}}{{thumbnail_proportion}}"/>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        {{/each}}
-                                        {{else}}
-                                        <a href="javascript:;" target="_blank">
-                                            <div class="list_item imgDetail" title="">
-                                                <div class="detailBox img_item">
-                                                    <img class=" detailImgBox" data-original="{{image_url}}{{this.file_ids}}" src="{{thumbnail_url}}{{this.file_ids}}{{thumbnail_proportion}}"/>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        {{/if}}
-                                    </ul>
-                                    <a href="javascript:;" class="show_more_pic">更多图片</a>
-                                    <a href="javascript:;" class="hide_more_pic">收起图片</a>
-                                </div>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each (policy_list) }}
+                        <tr>
+                            <td></td>
+                            <td>{{this.financeamount_start}}-{{this.financeamount_end}}万</td>
+                            <td title="{{this.downpayment_value}}">{{this.downpayment_value}}</td>
+                            <td title="{{this.interest_rate}}">{{this.interest_rate}}</td>
+                            <td title="{{this.term}}">{{this.term}}</td>
+                            {{#if (reqParams.page_flag === '0') }}
+                            <td class="operate_btn" style="text-align: center;padding-left: 2%;">
+                                {{#if (root.verifyCode(1601)) }}
+                                <a href="javascript:;" class="detail_title_btn edit_btn edit_poicy" data-policy_id="{{this.policy_id}}" data-num="{{xindex + 1}}" data-release_time="{{vo.release_time}}" title="编辑"></a>
                                 {{/if}}
-                                {{/each}}
-                            </div>
-                        </div>
-                    </div>
+                                {{#if (../policy_list.length !== 1) }}
+                                {{#if (root.verifyCode(1607)) }}
+                                <a href="javascript:;" class="detail_title_btn delete_btn del_policy" data-policy_id="{{this.policy_id}}" title="删除"></a>
+                                {{/if}}
+                                {{/if}}
+                            </td>
+                            {{/if}}
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
                 </div>
-                {{/each}}
+
                 {{#if (verifyCode(1599)) }}
                 {{#if (reqParams.page_flag === '0') }}
                     {{#if (policy_list.length < 10) }}
-                    <a href="javascript:;" class="add_policy_btn"  data-release_time="{{vo.release_time}}">
+                    <a href="javascript:;" class="add_policy_btn"  data-release_time="{{vo.release_time}}" data-cur_num="{{policy_list.length}}">
                         <span style="font-size: 24px;display: inline-block;line-height: 36px;">+</span>
                         <span style="vertical-align: top;">添加申请政策及资料</span>
                     </a>
@@ -238,6 +214,7 @@
                 var city_ids = $('#city_ids').val();
                 var applyto_type = $('#applyto_type').val();
                 var release_time = $(this).data('release_time');
+                var cur_num = $(this).data('cur_num');
                 locationTo({
                     action : contextPath + markUri + '/supplier/organization/productPolicyCreate',
                     param : {
@@ -251,6 +228,7 @@
                         jump_flag : 2,
                         release_time : release_time,
                         publish_list : publish_list,
+                        cur_num : cur_num,
                         warehouse_list : warehouse_list,
                         product_detail : F.set(product_detail)
                     }
@@ -379,7 +357,7 @@
                 };
                 dialog('open', {
                     title : '删除提醒',
-                    content : '确认删除此政策？',
+                    content : '您是否确认删除此申请政策？',
                     onConfirm : function (d) {
                         delConfirm(data, d);
                     }
@@ -426,6 +404,36 @@
                 });
             });
         }
+        /**
+         * 复制产品
+         * @author Plateau  2018年9月4日17:38:35
+         * */
+        function copyProduct () {
+            var copy_product_btn = $('.copy_product_btn');
+            copy_product_btn.off('click').on('click', function () {
+                var product_id = $('#productId').val();
+                var parent_name = $('#orgName').val();
+                var product_name = $('.header_txt_top').text();
+                var applyto_car = $('#applyto_car').val();
+                var applyto_business = $('#supplier_car_type').val();
+                var applyto_type = $('#applyto_type').val();
+                var parent_id = $('#orgId').val();
+                locationTo({
+                    action : contextPath + markUri + "/supplier/organization/copyProduct",
+                    param : {
+                        product_id : product_id,
+                        parent_id : parent_id,
+                        product_name : product_name,
+                        applyto_car : applyto_car,
+                        applyto_business : applyto_business,
+                        applyto_type : applyto_type,
+                        parent_name : parent_name,
+                        publish_list : publish_list,
+                        product_detail : F.set(product_detail)
+                    }
+                })
+            });
+        }
         $(function() {
             viewLargeImage('.img_list');       // 查看大图
             showMorePic();//显示隐藏图片
@@ -434,6 +442,7 @@
             toEditPolicy();//跳转产品政策息编辑
             delPolicy();//删除政策
             goProductList();//跳往产品列表
+            copyProduct();//复制产品
         });
     })(jQuery,undefined);
 </script>

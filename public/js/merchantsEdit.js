@@ -585,12 +585,20 @@ function uploadImage () {
         filesSize : 2,
         imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
         needThumbnails : false,
-        callback : function (btn, file) {
-            onChoose(btn, file);
+        callback : function (btn, file, success) {
+            onChoose(btn, file, success);
         }
     });
     // 上传逻辑
-    var onChoose = function (btn, file) {
+    var onChoose = function (btn, file, success) {
+        if (file.size > 2097152) {
+            $alert('上传文件大于2M');
+            return false;
+        }
+        if (!success) {
+            $alert('上传文件格式不正确');
+            return false;
+        }
         var type = $.trim(btn.data('type'));
         var data = file;
         var fileExtension = data.name.substring(data.name.lastIndexOf('.'));    // 上传的文件的后缀名

@@ -30,6 +30,7 @@
             <div class="form_options">
                 <form action="" id="organization_info_create" method="post">
                     <input type="hidden" name="id" id="orgId" value="{{vo.id}}">
+                    <input type="hidden" name="change_type" id="changeType" value="{{reqParams.change_type}}">
                     <div class="base_info">
                         <div class="detail_title">基本信息</div>
                         <div class="option_item">
@@ -345,13 +346,12 @@
                                         {{/if}}
                                     </div>
                                 {{else}}
-                                    <input type="hidden" class="bei_hu" name="bei_hu" value="1">
                                     <div class="form_group mar6">
-                                        <input id="back_door_need" type="radio" checked="checked" name="back_door_need" value="1">
+                                        <input id="back_door_need" type="radio" checked="checked" name="bei_hu" value="1">
                                         <label for="back_door_need" class="checked">可以</label>
                                     </div>
                                     <div class="form_group mar6">
-                                        <input id="back_door_noneed" type="radio" name="back_door_need" value="0">
+                                        <input id="back_door_noneed" type="radio" name="bei_hu" value="0">
                                         <label for="back_door_noneed">不可以</label>
                                     </div>
                                 {{/if}}
@@ -921,7 +921,7 @@
                                     action : contextPath + markUri + '/supplier/organization/detail',
                                     param : {
                                         organization_id : $('#orgId').val().trim(),
-                                        material_type : 0
+                                        change_type : 0
                                     }
                                 });
                             } else {
@@ -948,7 +948,7 @@
         function goOrglist () {
             var go_orglist = $('.go_orglist');
             go_orglist.off("click").on("click", function () {
-                var organization_id = $('#orgId').val().trim()
+                var organization_id = $('#orgId').val().trim();
                 if (organization_id == '') {
                     locationTo({
                         action : contextPath + markUri + '/supplier/organization/list'
@@ -958,7 +958,7 @@
                         action : contextPath + markUri + '/supplier/organization/detail',
                         param : {
                             organization_id : organization_id,
-                            material_type : 0
+                            change_type : 0
                         }
                     });
                 }

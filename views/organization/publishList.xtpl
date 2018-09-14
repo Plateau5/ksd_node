@@ -25,7 +25,7 @@
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
-                <a href="javascript:;" class="crumbs_item">产品列表（{{parent_name}}）</a>
+                <a href="javascript:;" class="crumbs_item">产品列表({{parent_name}})</a>
             </div>
             <div class="filtrate">
                 <input type="hidden" name="limit" value="{{reqParams.limit}}" class="limit">
@@ -34,47 +34,7 @@
                     <input type="hidden" id="parent_id" name="parent_id" value="{{parent_id}}">
                     <input type="hidden" id="parent_name" name="parent_name" value="{{parent_name}}">
                     <input type="hidden" name="publish_list" value="{{reqParams.publish_list}}">
-                    <div class="filtrate_item date_conditions">
-                        <div class="inline_block">
-                            <div class="conditions_name inline_block filtrate_business">适用业务：</div>
-                            <select name="applyto_business" class="filtrate_select" id="filtrate_business">
-                                {{#if (condition.applyto_business === -1 || !condition.applyto_business) }}
-                                <option value="-1" selected="selected">全部</option>
-                                {{else}}
-                                <option value="-1">全部</option>
-                                {{/if}}
-                                {{#if (condition.applyto_business === 0) }}
-                                <option value="0" selected="selected">新车</option>
-                                {{else}}
-                                <option value="0">新车</option>
-                                {{/if}}
-                                {{#if (condition.applyto_business === 1) }}
-                                <option value="1" selected="selected">二手车</option>
-                                {{else}}
-                                <option value="1">二手车</option>
-                                {{/if}}
-                            </select>
-                        </div>
-                        {{#if (list_city.length > 0) }}
-                            <div class="inline_block">
-                                <div class="conditions_name inline_block filtrate_city">适用城市：</div>
-                                <select name="applyto_city" class="filtrate_select" id="filtrate_city">
-                                    {{#if (condition.applyto_city === -1 || !condition.applyto_city) }}
-                                    <option value="-1" selected="selected">全部</option>
-                                    {{else}}
-                                    <option value="-1">全部</option>
-                                    {{/if}}
-                                    {{#each (list_city) }}
-                                        {{#if (condition.applyto_city === this.id) }}
-                                        <option value="{{this.id }}" selected="selected">{{this.name}}</option>
-                                        {{else}}
-                                        <option value="{{this.id }}">{{this.name}}</option>
-                                        {{/if}}
-                                    {{/each}}
-                                </select>
-                            </div>
-                        {{/if}}
-                    </div>
+                    {{include ('./../inc/filtrateOrganization')}}
                 </form>
             </div>
             <!-- 产品操作按钮 Begin -->
@@ -92,14 +52,15 @@
             <!-- 产品操作按钮 End -->
                 <form action="{{markUri}}/supplier/organization/productMaterial" method="post" id="toProductEdit">
                     <input type="hidden" name="product_id" value="" id="product_edit_input">
-                    <table class="org_product_list">
+                    <table class="org_product_list" style="text-align: left;">
                         <colgroup style="width: 100%;">
-                            <col style="width: 20%;" />
-                            <col style="width: 15%;" />
-                            <col style="width: 15%;" />
-                            <col style="width: 15%;" />
                             <col style="width: 15%;" />
                             <col style="width: 20%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 10%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 10%;" />
+                            <col style="width: 15%;" />
                         </colgroup>
                         <thead>
                         <tr>
@@ -108,7 +69,8 @@
                             <th>费率</th>
                             <th>申请人数</th>
                             <th>通过率</th>
-                            <th>操作</th>
+                            <th>城市</th>
+                            <th style="text-align: center">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -122,20 +84,18 @@
                             {{#each (list) }}
                             <tr>
                                 <td title="{{this.product_name}}">{{this.product_name}}</td>
-                                <td>{{this.downpayment_value }}</td>
-                                <td>{{this.interest_rate}}</td>
+                                <td title="{{this.downpayment_value }}">{{this.downpayment_value }}</td>
+                                <td title="{{this.interest_rate}}">{{this.interest_rate}}</td>
                                 <td>{{this.apply_count }}</td>
                                 <td>{{this.pass_rate }}%</td>
-                                <td class="operate_btn">
+                                <td>{{this.city_name}}</td>
+                                <td class="operate_btn" style="text-align: center">
                                     {{#if (root.verifyCode(1079)) }}
                                     <a href="javascript:;" lang="{{this.product_id }}" data_num="0" title="查看" class="view view_detail"></a>
                                     {{/if}}
                                     {{#if (root.verifyCode(1087)) }}
                                     <a href="javascript:;" lang="{{this.product_id }}" data_num="0" title="下架" class="unshelve unshelves"></a>
                                     {{/if}}
-                                    <!-- {{#if (root.verifyCode(1193)) }}
-                                         <a href="javascript:;" lang="{{this.id }}" data_num="0" title="请款材料" class="edit material product_edit_material"></a>
-                                     {{/if}}-->
                                 </td>
                             </tr>
                             {{/each}}
@@ -303,14 +263,36 @@
                 }
             });
         }
+        /**
+         * 筛选清空事件
+         * @author  Plateau  2018年9月3日15:31:08
+         * */
+        function filtrateProduct () {
+            var confirmBtn = $('.organization_search_confirm');
+            var cancelBtn = $('.organization_search_cancel');
+            var listForm = $('form[role="form"]');
+            confirmBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                listForm.submit();
+            });
+            cancelBtn.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off('click');
+                listForm.find('.filtrate_text').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_select').val('-1');
+                listForm.submit();
+            });
+        }
         $(function() {
             paginationSwitch();// 分页切换
-            selectChange();
             editProductsMaterial();
             viewProductDetail();
             unshelvesProduct();
             createProduct();
             storeProduct();
+            filtrateProduct();//筛选清空事件
+            chnAndEng('.product_name', 4);//只能输入中英文和数字
         });
     })(jQuery,undefined);
 </script>

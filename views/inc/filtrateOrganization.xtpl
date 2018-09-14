@@ -1,0 +1,52 @@
+<div class="filtrate" style="margin: 25px 0;">
+    <div class="filtrate organization_filtrate">
+        <div class="filtrate_item inline_block">
+            <div class="conditions_name inline_block filtrate_business">适用业务：</div>
+            <select name="applyto_business" class="filtrate_select" id="filtrate_business" style="width:130px;">
+                {{#if (condition.applyto_business === -1 || !condition.applyto_business) }}
+                <option value="-1" selected="selected">全部</option>
+                {{else}}
+                <option value="-1">全部</option>
+                {{/if}}
+                {{#if (condition.applyto_business === 0) }}
+                <option value="0" selected="selected">新车</option>
+                {{else}}
+                <option value="0">新车</option>
+                {{/if}}
+                {{#if (condition.applyto_business === 1) }}
+                <option value="1" selected="selected">二手车</option>
+                {{else}}
+                <option value="1">二手车</option>
+                {{/if}}
+            </select>
+        </div>
+        <div class="filtrate_item inline_block">
+            {{#if (list_city.length > 0) }}
+                <div class="conditions_name inline_block filtrate_city">适用城市：</div>
+                <select name="applyto_city" class="filtrate_select" id="filtrate_city" style="width:130px;">
+                    {{#if (condition.applyto_city === -1 || !condition.applyto_city) }}
+                    <option value="-1" selected="selected">全部</option>
+                    {{else}}
+                    <option value="-1">全部</option>
+                    {{/if}}
+                    {{#each (list_city) }}
+                    {{#if (condition.applyto_city === this.id) }}
+                    <option value="{{this.id }}" selected="selected">{{this.name}}</option>
+                    {{else}}
+                    <option value="{{this.id }}">{{this.name}}</option>
+                    {{/if}}
+                    {{/each}}
+                </select>
+            {{/if}}
+        </div>
+        <div class="filtrate_item inline_block">
+            <div class="conditions_name inline_block filtrate_audit_type">产品名称：</div>
+            <input type="text" class="filtrate_text product_name" name="product_name" autocomplete="off" placeholder="请输入产品名称" value="{{condition.product_name}}" maxlength="20"/>
+        </div>
+
+        <div class="inline_block rf" style="margin-top: 14px;">
+            <a href="javascript:" class="btn bg_btn cancel organization_search_cancel">清空</a>
+            <a href="javascript:" class="btn orange_btn confirm organization_search_confirm">筛选</a>
+        </div>
+    </div>
+</div>

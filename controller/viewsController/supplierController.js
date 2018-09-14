@@ -235,17 +235,17 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTDETAIL = function(req, res, next) {
                 data.vo.applyto_cityname = data.vo.applyto_cityname.replace(/,/g,'、');
                 for (var i = 0, len = data.policy_list.length; i < len; i++) {
                     if (data.policy_list[i].downpayment_type == 1) {
-                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'%、') + '%';
+                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'% / ') + '%';
                     } else if (data.policy_list[i].downpayment_type == 2) {
-                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'元、') + '元';
+                        data.policy_list[i].downpayment_value = data.policy_list[i].downpayment_value.replace(/,/g,'元 / ') + '元';
                     }
-                    data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/,/g,'%、') + '%';
-                    data.policy_list[i].term = data.policy_list[i].term.replace(/,/g,'、');
-                    for (var j = 0, lenj = data.policy_list[i].policy_list.length; j <lenj; j++) {
-                        if (data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name) {
-                            data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name.replace(/,/g,'、');
-                        }
-                    }
+                    data.policy_list[i].interest_rate = data.policy_list[i].interest_rate.replace(/,/g,'% / ') + '%';
+                    data.policy_list[i].term = data.policy_list[i].term.replace(/,/g,' / ');
+                    // for (var j = 0, lenj = data.policy_list[i].policy_list.length; j <lenj; j++) {
+                    //     if (data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name) {
+                    //         data.policy_list[i].policy_list[j].material_name = data.policy_list[i].policy_list[j].material_name.replace(/,/g,'、');
+                    //     }
+                    // }
                 }
             }
         }
@@ -277,19 +277,7 @@ exports.VIEW_SUPPLIER_ORGANIZATION_PRODUCTEDITPOLICY = function(req, res, next) 
     common.getPageData({
         url : '/api/product/toUpdate/policy',
         title : '供应商-发布新产品',
-        page : './organization/productPolicyCreate',
-        callback : function (data) {
-            data.policy_lists = JSON.stringify(data.policy_list[0].policy_list);
-            for (var i = 0, leni = data.material_list.length; i < leni; i++) {
-                for (var j = 0, lenj = data.policy_list[0].policy_list.length; j <lenj; j++) {
-                    if (data.material_list[i].type == data.policy_list[0].policy_list[j].data_type) {
-                        data.material_list[i].file_ids = data.policy_list[0].policy_list[j].file_ids;
-                        data.material_list[i].is_must = data.policy_list[0].policy_list[j].is_must;
-                        data.material_list[i].material_datas = data.policy_list[0].policy_list[j].material_datas;
-                    }
-                }
-            }
-        }
+        page : './organization/productPolicyCreate'
     }, req, res, next);
 };
 // 供应商部分-金融机构-创建机构跳转  1068   new
@@ -313,7 +301,32 @@ exports.VIEW_SUPPLIER_ORGANIZATION_DETAIL = function(req, res, next) {
     common.getPageData({
         url : '/api/organization/detail',
         title : '供应商-发布新产品',
-        page : './organization/organizationDetail'
+        page : './organization/organizationDetail',
+        callback : function (data) {
+            if (data.file_list) {
+                var M_1 = 1024*1024;
+                for (var i = 0, len = data.file_list.length; i < len; i++) {
+                    if (data.file_list[i].file_size >= M_1) {
+                        data.file_list[i].file_size = (data.file_list[i].file_size/M_1).toFixed(2) + 'MB';
+                    } else {
+                        data.file_list[i].file_size = (data.file_list[i].file_size/1024).toFixed(2) + 'KB';
+                    }
+                }
+            }
+        }
+    }, req, res, next);
+};
+
+
+// 供应商部分-金融机构-机构进件资料编辑页跳转   new
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITMATERIAL_INCOMING = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/orderMaterial/toEdit',
+        title : '供应商-机构详情页',
+        page : './organization/editMaterial',
+        callback : function (data) {
+            data.policy_lists = JSON.stringify(data.organizationMaterialList);
+        }
     }, req, res, next);
 };
 // 供应商部分-金融机构-机构请款资料编辑页跳转  NEW
@@ -349,6 +362,60 @@ exports.VIEW_SUPPLIER_ORGANIZATION_POLICYDETAIL = function(req, res, next) {
 
 
 
+// 供应商部分-金融机构-机构签约方式及合同编辑页跳转
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_CONTRACT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/to/signcontract',
+        title : '供应商-机构详情页',
+        page : './organization/editRichText'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构面签照编辑页跳转
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_FACEREG = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/to/facesign',
+        title : '供应商-机构详情页',
+        page : './organization/editRichText'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构GPS安装编辑页跳转
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_GPS = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/to/gpssign',
+        title : '供应商-机构详情页',
+        page : './organization/editRichText'
+    }, req, res, next);
+};
+// 供应商部分-金融机构-机构附件资料编辑页跳转
+exports.VIEW_SUPPLIER_ORGANIZATION_EDITRICHTEXT_ANNEX = function(req, res, next) {
+    common.getPageData({
+        url : '/api/organization/to/file',
+        title : '供应商-机构详情页',
+        page : './organization/editAnnex',
+        callback : function (data) {
+            data.file_datas = JSON.stringify(data.file_list);
+            var M_1 = 1024*1024;
+            for (var i = 0, len = data.file_list.length; i < len; i++) {
+                if (data.file_list[i].file_size >= M_1) {
+                    data.file_list[i].file_size = (data.file_list[i].file_size/M_1).toFixed(2) + 'MB';
+                } else {
+                    data.file_list[i].file_size = (data.file_list[i].file_size/1024).toFixed(2) + 'KB';
+                }
+            }
+        }
+    }, req, res, next);
+};
+// 供应商部分-金融机构-跳转复制产品
+exports.VIEW_SUPPLIER_ORGANIZATION_COPYPRODUCT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/to/copy/product',
+        title : '供应商-机构详情页',
+        page : './organization/copyProduct',
+        callback : function (data) {
+            data.city_list = JSON.stringify(data.list_city);
+        }
+    }, req, res, next);
+};
 
 
 

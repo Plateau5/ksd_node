@@ -31,7 +31,7 @@ exports.API_FILES_DOWNLOAD = function(req, res, next) {
     try {
         common.httpRequest({
             url : apiServerPath + '/finance/file/download',
-            formData : body
+            form : body
         }, function (result) {
             var data = result;
             res.end(data);
@@ -666,7 +666,7 @@ exports.VIEW_CUSTOMER_FINANCIAL_PRINT = function(req, res, next) {
     try {
         common.httpRequest({
             url : apiServerPath + '/api/financial/print?' + searchParam,
-            formData : body
+            form : body
         }, function (result) {
             data = result;
             /*if (data.data.receipt_id !== 1) {
@@ -928,7 +928,7 @@ exports.VIEW_PRETRIAL_CREDIT = function(req, res, next) {
     try {
         common.httpRequest({
             url : apiServerPath + '/api/jizhipretrial/getReport?' + searchParam,
-            formData : body
+            form : body
         }, function (result) {
             data = result;
             var page = './customer/JZPretrialCredit';

@@ -486,11 +486,11 @@ exports.VIEW_MERCHANTS_PRODUCTS_EDIT = function(req,res,next) {
                 }
                 data.vo.terms_arr = terms_arr;
 
-                for (var i = 0, len = data.list.length; i < len; i++) {
+                /*for (var i = 0, len = data.list.length; i < len; i++) {
                     for (var j = 0, lenj = data.list[i].length; j <lenj; j++) {
                         data.list[i].list[j].material_name = data.list[i].list[j].material_name.replace(/[,]/g, '、');
                     }
-                }
+                }*/
             }
         }
     }, req, res, next);

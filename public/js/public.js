@@ -2700,7 +2700,7 @@ var F = {
         if (Object.isEmpty(o)) {
             return "";
         } else {
-            return Object.toQuerystring(o);
+            return Object.toQuerystring(F.clean(o));
         }
     },
     get : function (str) {
@@ -2724,6 +2724,15 @@ var F = {
         } else if (obj instanceof Object) {
             return obj[param];
         }
+    },
+    clean : function (obj) {
+        var reg = /(((^[\s\S]+)=([\s\S]+))&(([\s\S]+)=([\s\S]+$)))|((^[\s\S]+)=([\s\S]+))/ig;
+        for (var key in obj) {
+            if (reg.test(obj[key]) && typeof obj[key] == 'string') {
+                delete obj[key];
+            }
+        }
+        return obj;
     }
 };
 

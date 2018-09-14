@@ -32,7 +32,7 @@
                 <form action="" id="material_edit_form" method="post">
                     <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="organization_id">
                     <input type="hidden" name="car_type" value="{{reqParams.car_type}}" id="car_type">
-                    <input type="hidden" name="material_type" value="{{reqParams.material_type}}" id="material_type">
+                    <input type="hidden" name="change_type" value="{{reqParams.change_type}}" id="change_type">
                     {{#each (materialList) }}
                     {{#if (this.data_ids) }}
                         <div class="material_list" data-id="{{this.type}}" data-histrory="1" data-org_material_id="{{this.organization_material_id}}">
@@ -215,7 +215,6 @@
          * 图片上传功能
          * @author Plateau 2018年8月9日11:19:51
          */
-        var file_ids = [];//上传图片ids
         function uploadImage () {
             fileUpload({
                 maxCount : 30,
@@ -254,18 +253,20 @@
                     url : url,
                     data : form,
                     async : false,
-                    timeout : 300000,
+                    timeout : 1200000,
                     processData: false,
                     contentType: false,
                     beforeSend : function () {
-                        //elem.loading.show();
+                        $('#loading').show();
                         btn.removeClass('disabled');
                         btn.parents('.img_md_box').find('.file_upload_btn').replaceWith('<input type="file" class="file_upload_btn" name="file"  value="上传图片" style="display: none" />');
                     },
                     success : function (res) {
+                        $('#loading').hide();
                         getSuccess(res, btn, type, fileName);
                     },
                     error : function () {
+                        $('#loading').hide();
                         $alert('图片上传失败，请重试');
                     }
                 });
@@ -278,18 +279,17 @@
          */
         function getSuccess (res, btn, type, fileName) {
             if (res.error_code == 0) {
-                var file_id_input =  btn.siblings('input[name=file_ids]');
-                file_id_input.data('upload_image',true);
-                var file_ids = [];
-                if (file_id_input.val().trim() == '') {
-                    file_id_input.val(res.data[0].file_id);
-                } else {
-                    file_ids.push(file_id_input.val());
-                    file_ids.push(res.data[0].file_id);
-                    file_id_input.val(file_ids.join(','));
-                }
-                // file_ids.push(res.file_id);
                 $alert('图片上传成功', function () {
+                    var file_id_input =  btn.siblings('input[name=file_ids]');
+                    file_id_input.data('upload_image',true);
+                    var file_ids = [];
+                    if (file_id_input.val().trim() == '') {
+                        file_id_input.val(res.data[0].file_id);
+                    } else {
+                        file_ids.push(file_id_input.val());
+                        file_ids.push(res.data[0].file_id);
+                        file_id_input.val(file_ids.join(','));
+                    }
                     var imgEle = '<a href="javascript:;" class="img_item head_photo" data-type="imgBox">\n' +
                         '             <img data-original="'+ res.data[0].image_url +'" src="'+ res.data[0].thumbnail +'" alt="'+ fileName +'"/>\n' +
                         '             <div class="img_md_operate_box">\n' +
@@ -328,9 +328,6 @@
                 var _this = $(this);
                 var file_id_input =  _this.parents('.img_md_box').find('input[name=file_ids]');
                 var id  = $.trim(_this.data('id'));
-                /*var ids = [];
-                ids.push(id);
-                ids = JSON.stringify(ids);*/
                 redefineAjax({
                     data : {
                         file_id : id
@@ -339,9 +336,6 @@
                     success : function (res) {
                         if (res.error_code == 0) {
                             file_id_input.data('upload_image',true);
-                            // var fileNum = _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num');
-                            // fileNum--;
-                            // _this.parents('.img_md_box').find('.add_img_md_btn').data('file_num', fileNum);
                             if (file_id_input.val().trim().indexOf(',') !== -1) {
                                 var file_id_arr = file_id_input.val().trim().split(',');
                                 for (var i = 0,len = file_id_arr.length;i<len;i++) {
@@ -353,11 +347,6 @@
                             } else {
                                 file_id_input.val('');
                             }
-                            // for (var i = 0,len = file_ids.length;i<len;i++) {
-                            //     if (file_ids[i] == id) {
-                            //         file_ids.splice(i,1);
-                            //     }
-                            // }
                             $alert('图片删除成功', function () {
                                 var btn = _this.parents('.img_md_box').find('.add_img_md_btn');
                                 var type = $.trim(btn.data('type'));
@@ -370,12 +359,6 @@
                                 // 销毁父元素的viewer实例
                                 parents[0].viewer.destroy();
                                 _this.parents('.img_item').remove();
-                                // 删除图片后从新实例化
-                                /*var viewer = new Viewer(parents[0], {
-                                    url: 'data-original',
-                                    interval : 2000,
-                                    loop : true
-                                });*/
                                 viewLargeImage(parents[0]);
                             });
                         } else {
@@ -399,8 +382,6 @@
                 e.stopPropagation();
                 e.preventDefault();
                 var _this = $(this);
-                /*var url  = $.trim(_this.data('url'));
-                window.open(url);*/
                 var img = _this.parents('.img_md_operate_box').siblings('img');
                 img.click();
             })
@@ -558,43 +539,50 @@
                     is_must : is_must,
                     file_ids : file_ids
                 };
-                for (var i = 0, leni = policy_list.length; i < leni; i++) {
-                    if (policy_list[i].type == data_type) {
-                        obj.change_version = policy_list[i].change_version;
-                        obj.organization_material_id = organization_material_id;
-                        if (material_datas.length == 0) {
-                            obj.is_delete = 1;
-                        } else {
-                            obj.is_delete = 0;
-                        }
-                        if (policy_list[i].is_must.toString() == is_must) {
-                            if (policy_list[i].data_ids != material_datas.join(',')) {
+                if (policy_list.length > 0) {
+                    for (var i = 0, leni = policy_list.length; i < leni; i++) {
+                        if (policy_list[i].type == data_type) {
+                            obj.change_version = policy_list[i].change_version;
+                            obj.organization_material_id = organization_material_id;
+                            if (material_datas.length == 0) {
+                                obj.is_delete = 1;
+                            } else {
+                                obj.is_delete = 0;
+                            }
+                            if (policy_list[i].is_must.toString() == is_must) {
+                                if (policy_list[i].data_ids != material_datas.join(',')) {
+                                    update_data.push(obj);
+                                    break;
+                                }
+                                if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
+                                    update_data.push(obj);
+                                    break;
+                                }
+                            } else {
                                 update_data.push(obj);
                                 break;
                             }
-                            if ( _this.find('.img_md_box .file_ids').data('upload_image')) {
-                                update_data.push(obj);
+                        } else {
+                            if (material_datas.length != 0 && is_histrory == 0) {
+                                insert_data.push(obj);
                                 break;
                             }
-                        } else {
-                            update_data.push(obj);
-                            break;
-                        }
-                    } else {
-                        if (material_datas.length != 0 && is_histrory == 0) {
-                            insert_data.push(obj);
-                            break;
                         }
                     }
+                } else {
+                    if (obj.data_ids != '') {
+                        insert_data.push(obj);
+                    }
                 }
+
             });
             var organization_id = $('#organization_id').val().trim();
             var car_type = $('#car_type').val().trim();
-            var material_type = $('#material_type').val().trim();
+            var change_type = $('#change_type').val().trim();
             var parameters = {
                 organization_id : organization_id,
                 car_type : car_type,
-                material_type : material_type,
+                change_type : change_type,
                 update_data : JSON.stringify(update_data),
                 insert_data : JSON.stringify(insert_data)
             };
@@ -619,7 +607,7 @@
                                 action : contextPath + markUri + '/supplier/organization/detail',
                                 param : {
                                     organization_id : parameters.organization_id,
-                                    material_type : parameters.material_type
+                                    change_type : parameters.change_type
                                 }
                             });
                         })
@@ -645,7 +633,7 @@
                     action : contextPath + markUri + '/supplier/organization/detail',
                     param : {
                         organization_id : organization_id,
-                        material_type : $('#material_type').val().trim()
+                        change_type : $('#change_type').val().trim()
                     }
                 });
             });

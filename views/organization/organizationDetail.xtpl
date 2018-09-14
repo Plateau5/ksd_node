@@ -7,6 +7,23 @@
     {{include ("./../inc/cssSources")}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+    <style>
+        h1{
+            font-size: 2em;
+        }
+        h2{
+            font-size:1.5em;
+        }
+        h3{
+            font-size: 1.17em;
+        }
+        h4{
+            font-size:1em;
+        }
+        .rich_text_box img{
+            max-width:100%;
+        }
+    </style>
 </head>
 <body>
 <div id="wrapper" class="wrapper">
@@ -61,25 +78,30 @@
                 </div>
                 {{#if (verifyCode(1073)) }}
                 <div class="delete_org" id="delete_org" lang="{{vo.id}}">
-                    <img  style="margin-right:5px;margin-top:-2px;vertical-align: middle;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
+                    <img  style="width:14px;height: 14px;margin-right:5px;margin-top:-3px;vertical-align: middle;" src="{{markUri}}/static/img/product/delete_white_icon.png" alt="">
                     <span>删除机构</span>
                 </div>
                 {{/if}}
             </div>
             <div class="tab">
                 <ul class="tab_list inline_block">
-                    <li class="tab_item type_normal {{#if (material_type === 0) }}active{{/if}}" data-type="0"><span></span>机构信息</li>
-                    <li class="tab_item type_others {{#if (material_type === 2) }}active{{/if}}" data-type="2"><span></span>请款资料</li>
-                    <li class="tab_item type_others {{#if (material_type === 3) }}active{{/if}}" data-type="3"><span></span>归档资料</li>
+                    <li class="tab_item type_normal {{#if (change_type === 0) }}active{{/if}}" data-type="0"><span></span>机构信息</li>
+                    <li class="tab_item type_others {{#if (change_type === 1) }}active{{/if}}" data-type="1"><span></span>进件资料</li>
+                    <li class="tab_item type_others {{#if (change_type === 4) }}active{{/if}}" data-type="4"><span></span>签约方式及合同</li>
+                    <li class="tab_item type_others {{#if (change_type === 5) }}active{{/if}}" data-type="5"><span></span>面签照</li>
+                    <li class="tab_item type_others {{#if (change_type === 6) }}active{{/if}}" data-type="6"><span></span>GPS安装</li>
+                    <li class="tab_item type_others {{#if (change_type === 2) }}active{{/if}}" data-type="2"><span></span>请款资料</li>
+                    <li class="tab_item type_others {{#if (change_type === 3) }}active{{/if}}" data-type="3"><span></span>归档资料</li>
+                    <li class="tab_item type_others {{#if (change_type === 7) }}active{{/if}}" data-type="7"><span></span>附件资料</li>
                 </ul>
             </div>
             <form action="{{markUri}}/supplier/organization/detail" method="POST" id="form_search" role="form">
                 <input type="hidden" name="organization_id" value="{{vo.id}}">
-                <input type="hidden" name="material_type" value="{{material_type}}" id="flow_type">
+                <input type="hidden" name="change_type" value="{{change_type}}" id="flow_type">
             </form>
             <div class="org_detail_box">
                 <!--基本资料 start-->
-                {{#if (material_type === 0) }}
+                {{#if (change_type === 0) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
@@ -273,7 +295,7 @@
                     {{/if}}
                 </div>
 
-                {{#if (material_type === 2 || material_type === 3 ) }}
+                {{#if (change_type === 1 || change_type === 2 || change_type === 3 ) }}
                 <div class="detail_about" style="display:block">
                 {{else}}
                 <div class="detail_about" style="display:none">
@@ -282,13 +304,13 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">新车</div>
                         <div class="rf_30">
-                            {{#if (verifyCode(1505) || verifyCode(1506)) }}
+                            {{#if ((change_type === 1 && verifyCode(1504)) || (change_type === 2 && verifyCode(1505)) || (change_type === 3 && verifyCode(1506))) }}
                             <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="新车" data-type="0">编辑</a>
                             {{/if}}
                         </div>
                     </div>
                     {{/if}}
-                    {{#each(list) }}
+                    {{#each(material_list) }}
                         {{#if(this.car_type === 0) }}
                             {{#if (this.material_name) }}
                                 <div class="detail_about_txt policy_list">
@@ -337,13 +359,13 @@
                     <div class="detail_about_title">
                         <div class="detail_about_label">二手车</div>
                         <div class="rf_30">
-                            {{#if (verifyCode(1505) || verifyCode(1506)) }}
+                            {{#if ((change_type === 1 && verifyCode(1504)) || (change_type === 2 && verifyCode(1505)) || (change_type === 3 && verifyCode(1506))) }}
                             <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}" data-car_type="二手车" data-type="1">编辑</a>
                             {{/if}}
                         </div>
                     </div>
                     {{/if}}
-                    {{#each(list) }}
+                    {{#each(material_list) }}
                         {{#if(this.car_type === 1) }}
                             {{#if (this.material_name) }}
                                 <div class="detail_about_txt policy_list">
@@ -389,6 +411,69 @@
                         {{/if}}
                     {{/each}}
                 </div>
+                {{#if (change_type === 4 || change_type === 5 || change_type === 6) }}
+                <div class="detail_about" style="display:block;">
+                {{else}}
+                <div class="detail_about" style="display:none">
+                {{/if}}
+                    <div class="detail_about_title">
+                        <div class="detail_about_label">
+                            {{#if (change_type === 4) }}
+                            签约方式及合同
+                            {{elseif (change_type === 5) }}
+                            面签照
+                            {{elseif (change_type === 6) }}
+                            GPS安装
+                            {{/if}}
+                        </div>
+                        <div class="rf_30">
+                            {{#if ((change_type === 4 && verifyCode(1614)) || (change_type === 5 && verifyCode(1615)) ||(change_type === 6 && verifyCode(1616)) ) }}
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}">编辑</a>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="rich_text_box" style="width:100%;height:100%;overflow: auto;">
+                        {{#if (vo.sign_contract && vo.sign_contract !== '' && vo.sign_contract !== null && change_type === 4) }}
+                            {{{vo.sign_contract}}}
+                        {{elseif (vo.face_sign && vo.face_sign !== '' && vo.face_sign !== null && change_type === 5) }}
+                            {{{vo.face_sign}}}
+                        {{elseif (vo.gps_install && vo.gps_install !== '' && vo.gps_install !== null && change_type === 6) }}
+                            {{{vo.gps_install}}}
+                        {{else}}
+                            {{include('./../inc/empty_data')}}
+                        {{/if}}
+                    </div>
+                </div>
+                {{#if (change_type === 7) }}
+                <div class="detail_about" style="display:block">
+                {{else}}
+                <div class="detail_about" style="display:none">
+                {{/if}}
+                    <div class="detail_about_title">
+                        <div class="detail_about_label">附件资料</div>
+                        <div class="rf_30">
+                            {{#if (change_type === 7 && verifyCode(1617)) }}
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_material" lang="{{vo.id}}">编辑</a>
+                            {{/if}}
+                        </div>
+                        <div></div>
+                    </div>
+                    {{#if (file_list && file_list.length !== 0) }}
+                        {{#each (file_list) }}
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="{{this.file_suffix_url}}" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name nor_wrap" title="{{this.file_name}}">{{this.file_name}}</div>
+                                <div class="annex_size">{{this.file_size}}</div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    {{else}}
+                        {{include('./../inc/empty_data')}}
+                    {{/if}}
+                </div>
             </div>
         </div>
         <!--listCon end-->
@@ -426,29 +511,54 @@
                 var supplier_car_type = $('#supplier_car_type');
                 var car_type = $.trim(supplier_car_type.val());
                 var flow_type = $('#flow_type');
-                var material_type = $.trim(flow_type.val());
-                if (material_type == 0) {
+                var change_type = $.trim(flow_type.val());
+                if (change_type == 0) {
                     var url = "/supplier/organization/edit";//基本信息
                     var paras = {
-                        id : orgId
+                        id : orgId,
+                        change_type : change_type
                     };
-                } else {
+                } else if (change_type == 1 || change_type == 2 || change_type == 3) {
                     var car_type_flag = t.data('car_type');
                     var flow_type = $('#flow_type').val();
-                    if (flow_type == 2) {
+                    if (flow_type == 1) {
+                        var url = "/supplier/organization/editMaterial/incoming";
+                        var str = '编辑进件资料('+car_type_flag+')';
+                    } else if (flow_type == 2) {
+                        var url = "/supplier/organization/editMaterial/request";
                         var str = '编辑请款资料('+car_type_flag+')';
                     } else if (flow_type == 3) {
+                        var url = "/supplier/organization/editMaterial/placefile";
                         var str = '编辑归档资料('+car_type_flag+')';
                     }
                     var applyto_business = car_type;
-                    var url = "/supplier/organization/editMaterial";
                     var car_type = t.data('type');
                     var paras = {
                         organization_id : orgId,
                         car_type : car_type.number(),
                         applyto_business : applyto_business,
-                        material_type : material_type,
+                        change_type : change_type,
                         car_type_flag : str,
+                        org_name : $('.header_txt_top').text()
+                    };
+                } else if (change_type == 4 || change_type == 5 || change_type == 6) {
+                    if (change_type == 4) {
+                        var url = "/supplier/organization/editRichText/contract";
+                    } else if (change_type == 5) {
+                        var url = "/supplier/organization/editRichText/facereg";
+                    } else if (change_type == 6) {
+                        var url = "/supplier/organization/editRichText/gps";
+                    }
+                    var paras = {
+                        organization_id : orgId,
+                        change_type : change_type,
+                        org_name : $('.header_txt_top').text()
+                    };
+                } else if (change_type == 7) {
+                    var url = "/supplier/organization/editAnnex";
+                    var paras = {
+                        organization_id : orgId,
+                        change_type : change_type,
                         org_name : $('.header_txt_top').text()
                     };
                 }

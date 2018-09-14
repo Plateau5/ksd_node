@@ -1,0 +1,284 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品管理</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/supplier.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main edit_annex">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/supplier/organization/system" class="crumbs_item">金融机构</a>
+                <a href="javascript:;" class="crumbs_item go_orgdetail">{{reqParams.org_name}}</a>
+                <a href="javascript:;" class="crumbs_item">编辑附件资料</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="material_edit_form" method="post">
+                    <input type="hidden" name="organization_id" value="{{reqParams.organization_id}}" id="orgId">
+                    <input type="hidden" name="change_type" value="{{reqParams.change_type}}" id="change_type">
+                    <input type="hidden" name="change_version" value="0" id="change_version">
+                    <input type="hidden" name="file_list" value="{{#if(file_list)}}{{file_list.length}}{{else}}0{{/if}}" id="file_list">
+                    <div class="annex_box">
+                        {{#each (file_list) }}
+                        <div class="detail_annex">
+                            <div class="annex_lf">
+                                <img src="{{this.file_suffix_url}}" alt="" class="annex_icon">
+                            </div>
+                            <div class="annex_rt">
+                                <div class="annex_name nor_wrap">{{this.file_name}}</div>
+                                <div class="annex_size">{{this.file_size}}</div>
+                            </div>
+                            <div class="remove_mask"><em class="remove_btn" data-file_id="{{this.file_id}}"></em></div>
+                        </div>
+                        {{/each}}
+                    </div>
+                    {{#if (file_list.length >= 30) }}
+                    <div class="file_upload" style="display: none;">
+                    {{else}}
+                    <div class="file_upload">
+                    {{/if}}
+                        {{#each (file_list) }}
+                        <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
+                        {{/each}}
+                        <div class="file_upload_layer" data-file_num="{{file_list.length}}" data-type="1"><span class="text">上传附件</span></div>
+                        <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
+                        <input type="hidden" value="" id="fileIds" name="file_ids">
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm save_annex">保存</a>
+                        <a href="javascript:;" class="btn bg_btn cancel go_orgdetail">取消</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        var file_list = '{{{file_datas}}}';
+        if (file_list.length > 0 ) {
+            var file_data = JSON.parse(file_list);
+        } else {
+            var file_data = [];//上传图片ids
+        }
+        var delete_files = [];//删除图片ids
+        //上传附件
+        function uploadAnnex () {
+            fileUpload({
+                maxCount : 30,
+                filesSize : 100,
+                fileFormat : ['doc', 'docx', 'pdf', 'jpg', 'png', 'jpeg', 'xls', 'xlsx', 'ppt', 'pptx'],
+                //imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
+                needThumbnails : true, // 是否需要缩略图
+                callback : function (btn, file, success) {
+                    onChoose(btn, file, success);
+                }
+            });
+            // 上传逻辑
+            var onChoose = function (btn, file, success) {
+                if (!success) {
+                    $('.file_upload_btn').val('');
+                    $alert('上传附件格式不正确');
+                    return false;
+                }
+                $('#loading').show();
+                var data = file;
+                var filesSize = data.size;
+                if (filesSize >= 1024*1024) {
+                    filesSize = (filesSize/1024/1024).toFixed(2) + 'MB';
+                } else {
+                    filesSize = (filesSize/1024).toFixed(2) + 'KB';
+                }
+                var fileName = $.trim(data.name);   // 字段名称
+                var fileBox = $('.annex_box');
+                var form = new FormData();
+                form.append("file", data);
+                var url = contextPath + '/api/file/upload';
+                $.ajax({
+                    type : "post",
+                    url : url,
+                    data : form,
+                    async : true,
+                    timeout : 1200000,
+                    processData: false,
+                    contentType: false,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('附件上传成功', function () {
+                                $('#change_version').val(1);
+                                var obj = {
+                                    file_id : res.data[0].file_id,
+                                    file_size : res.data[0].file_size,
+                                    file_name : res.data[0].file_name,
+                                    file_suffix : res.data[0].file_suffix
+                                };
+                                file_data.push(obj);
+                                var imgEle = '<div class="detail_annex">' +
+                                    '<div class="annex_lf">' +
+                                    '<img src="'+ res.data[0].file_suffix_url +'" alt="" class="annex_icon">' +
+                                    '</div>' +
+                                    '<div class="annex_rt">' +
+                                    '<div class="annex_name nor_wrap">'+ fileName +'</div>' +
+                                    '<div class="annex_size">'+ filesSize +'</div>' +
+                                    '</div>' +
+                                    '<div class="remove_mask"><em class="remove_btn" data-file_id="'+ res.data[0].file_id +'"></em></div>'+
+                                    '<input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />'+
+                                    '</div>';
+                                fileBox.append(imgEle);
+                                if ($('.annex_box').find('.detail_annex').length >= 30) {
+                                    $('.file_upload').hide();
+                                }
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert('附件上传失败，请重试');
+                    }
+                });
+            }
+        }
+        /**
+         * 文件删除监听
+         * @author : Plateau  2018年6月22日13:39:25
+         * @desc : 二次监听文件的删除按钮，移除原始数据file_ids中的文件id.
+         */
+        function deleteFilesEvent () {
+            var fileBox = $('.annex_box');
+            fileBox.off('click').on('click', '.remove_btn', function () {
+                var _this = $(this);
+                var select_annex = _this.parents('.detail_annex').find('.annex_name').text();
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>您将删除'+ select_annex +',是否确认删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        var file_num = $('.file_upload_layer').data('file_num');
+                        file_num--;
+                        $('.file_upload_layer').data('file_num', file_num);
+                        $('#change_version').val(1);
+                        _this.parents('.detail_annex').remove();
+                        _this.parents('.detail_annex').find(".file_upload_btn").eq(file_num).remove();
+                        var id = _this.data('file_id');
+                        delete_files.push(id);
+                        for (var i = 0, len = file_data.length; i < len; i++) {
+                            if (file_data[i].file_id == id) {
+                                file_data.remove(file_data[i]);
+                                break;
+                            }
+                        }
+                        if ($('.annex_box').find('.detail_annex').length < 30) {
+                            $('.file_upload').show();
+                        }
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        //保存按钮
+        function saveAnnex () {
+            var btn = $(".save_annex");
+            btn.off("click").on("click", function () {
+                if ($('#file_list').val() == '0') {
+                    $('#change_version').val(0);
+                }
+                ajaxSubmit();
+            });
+        }
+
+        //ajax提交參數
+        function ajaxSubmit () {
+            $.ajax({
+                type:'post',
+                timeout:10000,
+                url : contextPath + '/api/organization/save/file',
+                data : {
+                    organization_id : $('#orgId').val().trim(),
+                    change_version : $('#change_version').val(),
+                    file_data : JSON.stringify(file_data),
+                    delete_files : delete_files.join(',')
+                },
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/supplier/organization/detail',
+                                param : {
+                                    organization_id : $('#orgId').val().trim(),
+                                    change_type : $('#change_type').val()
+                                }
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 取消事件
+         * @author Plateau 2018年8月15日11:19:20
+         * */
+        function goOrgdetail () {
+            var go_orgdetail = $('.go_orgdetail');
+            go_orgdetail.off("click").on("click", function () {
+                var organization_id = $('#orgId').val().trim();
+                var change_type = $('#change_type').val().trim();
+                locationTo({
+                    action : contextPath + markUri + '/supplier/organization/detail',
+                    param : {
+                        organization_id : organization_id,
+                        change_type : change_type
+                    }
+                });
+            });
+        }
+        $(function() {
+            uploadAnnex();      // 图片上传
+            deleteFilesEvent();     // 删除文件监听
+            saveAnnex();//保存附件
+            goOrgdetail();//取消事件
+        });
+    })(jQuery,undefined);
+</script>
+</html>
