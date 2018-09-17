@@ -42,12 +42,17 @@
     <!--合同资料按钮-->
     {{#if (startWith(markUri + '/customer/compact'))}}
         {{#if (url === markUri + '/customer/compact/pendingPass') }}
-            {{#if (verifyCode(1265)) }}
-            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-list_url="{{url}}" data-navigation="{{navigation}}"  data-advance_id="{{vo.advance_id}}">同意</a>
+            {{#if (vo.start_compact_time === 0) }}
+                <a href="javascript:;" class="detail_high_btn">开始审核</a>
+            {{else}}
+                {{#if (verifyCode(1265)) }}
+                <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-list_url="{{url}}" data-navigation="{{navigation}}"  data-advance_id="{{vo.advance_id}}">同意</a>
+                {{/if}}
+                {{#if (verifyCode(1264)) }}
+                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
+                {{/if}}
             {{/if}}
-            {{#if (verifyCode(1264)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
-            {{/if}}
+
         {{/if}}
     {{/if}}
 
