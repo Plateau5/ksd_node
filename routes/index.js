@@ -470,6 +470,8 @@ router.post(markUri + '/api/statistics/product', statisticsCtrl.API_STATISTICS_P
 router.get(markUri + '/statistics/person/system', statisticsCtrl.VIEW_STATISTICS_PERSON_SYSTEM);
 // 数据统计-人效统计-进件跳转
 router.all(markUri + '/statistics/person/order', statisticsCtrl.VIEW_STATISTICS_PERSON_ORDER);
+// 数据统计-人效统计-合同跳转
+router.all(markUri + '/statistics/person/compact', statisticsCtrl.VIEW_STATISTICS_PERSON_COMPACT);
 // 数据统计-人效统计-请款跳转
 router.all(markUri + '/statistics/person/request', statisticsCtrl.VIEW_STATISTICS_PERSON_REQUEST);
 // 数据统计-人效统计-归档跳转

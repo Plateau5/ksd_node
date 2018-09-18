@@ -38,6 +38,7 @@
 								{{#if (verifyCode(1354)) }}
 									<li class="tab_item incoming {{#if (status === 1) }}active{{/if}}">进件</li>
 								{{/if}}
+								<li class="tab_item compact {{#if (status === 4) }}active{{/if}}">合同</li>
 								{{#if (verifyCode(1355)) }}
 									<li class="tab_item requestpayout {{#if (status === 2) }}active{{/if}}">请款</li>
 								{{/if}}
@@ -144,7 +145,12 @@
                     _this.siblings('.tab_item').removeClass('active');
                     $('form[role="form"]').attr('action', contextPath + markUri + '/statistics/person/order');
                     $('#orderType').val('1');
-                }else if (_this.hasClass('requestpayout')) {
+                }else if (_this.hasClass('compact')) {
+                    _this.addClass('active');
+                    _this.siblings('.tab_item').removeClass('active');
+                    $('form[role="form"]').attr('action', contextPath + markUri +  '/statistics/person/compact');
+                    $('#orderType').val('4');
+                } else if (_this.hasClass('requestpayout')) {
                     _this.addClass('active');
                     _this.siblings('.tab_item').removeClass('active');
                     $('form[role="form"]').attr('action', contextPath + markUri +  '/statistics/person/request');
@@ -172,11 +178,15 @@
             var elem = $('tr.person_item');
             elem.off('click').on('click', function () {
                 var _this = $(this);
+                var queryStartDate = $('#queryStartDate').val();
+                var queryEndDate = $('#queryEndDate').val();
                 var empId = $.trim(_this.data('id'));
                 locationTo({
 					action : contextPath + markUri + '/statistics/personal',
 					param : {
-					    emp_id : empId
+					    emp_id : empId,
+                        start_date : queryStartDate,
+                        end_date : queryEndDate
 					}
 				})
 			});
@@ -184,8 +194,8 @@
 
 
         $(function() {
-            initDateStartEnd('#queryStartDate','#queryEndDate');
-            switchTab();
+            initDateStartEnd('#queryStartDate','#queryEndDate');		 // 时间插件
+            switchTab();		 // TAB标签切换触发视图更新
             dateQueryConfirm();
             goPersonSitatisticsDetail();
         });

@@ -122,6 +122,25 @@ exports.VIEW_STATISTICS_PERSON_ORDER = function(req, res, next) {
     }, req, res, next);
     //res.render('./dataStatistics/personList', { title : '数据统计-进件统计'});
 };
+// 数据统计-人效统计-合同跳转
+exports.VIEW_STATISTICS_PERSON_COMPACT = function(req, res, next) {
+    var body = req.body;
+    common.httpRequest({
+        url : apiServerPath + '/api/statistics/person/compact',
+        form : body
+    }, function (result) {
+        var data = result;
+        data.uri = '/statistics/person/compact';
+        data.title = '数据统计-人效统计';
+        data.markUri = markUri;
+        if (data.error_code === 0) {
+            res.render('./dataStatistics/personList', data);
+        } else {
+            res.render(data.error_msg);
+        }
+    }, req, res, next);
+    //res.render('./dataStatistics/personList', { title : '数据统计-进件统计'});
+};
 // 数据统计-人效统计-请款跳转
 exports.VIEW_STATISTICS_PERSON_REQUEST = function(req, res, next) {
     var body = req.body;
