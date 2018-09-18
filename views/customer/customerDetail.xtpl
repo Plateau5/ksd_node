@@ -159,7 +159,7 @@
                             <input type="checkbox" class="" name="" value="" />
                             <label class="nor_wrap">全选</label>
                         </div>
-                        {{#if (vo.status === 3 && vo.start_audit_time === 0) }}
+                        {{#if ((vo.status === 3 && vo.start_audit_time === 0) || (vo.status === 8 && vo.start_compact_time === 0)) }}
 
                         {{else}}
                             <a href="javascript:;" class="detail_high_btn download_choose" lang="{{finance_id}}" style="margin-right: 68px;">下载</a>
@@ -931,6 +931,42 @@
             });
         }
 
+        /**
+         *  合同计时 2018年9月18日
+         *  Created by wyt on 2018年9月18日10:03:22
+         */
+        function reckon_time () {
+            var financeId = $('#finance_id').val();
+            var btn = $('.reckon_time');
+            var parameters = {
+                finance_id : financeId
+            };
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var timeId = _this.data('id');
+                var timeUrl = '';
+                if (timeId == '1') {
+                    timeUrl = contextPath + '/api/compact/start';
+                } else if (timeId == '2') {
+                    timeUrl = contextPath + '/api/request/start';
+                }
+                redefineAjax({
+                    url : timeUrl,
+                    data : parameters,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            window.location.reload()
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert("操作失败，请稍后重试");
+                    }
+                });
+            });
+        }
+
 
         $(function () {
             if( queryType === 4 ){
@@ -965,7 +1001,8 @@
             resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked"); //复选框选中
             downloadChoose();  //下载按钮点击出现选择框
             selectAll();        //图片附件全选全不选
-            download_file();
+            download_file();    //图片附件下载
+            reckon_time();      //合同及时
 
 
 
