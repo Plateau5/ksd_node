@@ -193,6 +193,8 @@
     var pigeonholeUrl = '{{url}}';
     var voStatus = '{{vo.status}}';
     var voStartAuditTime = '{{vo.start_audit_time}}';
+    var startCompactTime = '{{vo.start_compact_time}}';
+    var startRequestTime = '{{vo.start_request_time}}';
     queryType = queryType.number();
     (function () {
         var currentTime = new Date().format('yyyy/MM/dd hh:mm');
@@ -979,7 +981,7 @@
             }
             toPretrialDetail();     // 跳转预审详情
             toHistoryList();        // 跳转历史订单
-            if (voStatus == 3 && voStartAuditTime == 0) {
+            if ((voStatus == 3 && voStartAuditTime == 0) || (voStatus == 8 && startCompactTime == 0) || (voStatus == 10 && startRequestTime == 0)) {
 
             } else {
                 viewLargeImage('#img_list');       // 查看大图
