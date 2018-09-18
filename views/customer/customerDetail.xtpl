@@ -689,6 +689,24 @@
             var url = contextPath + markUri + '/customer/pigeonhole/disagree';
             btnClick(btn,url);
         }
+        /**
+         * 强制归档事件
+         * @author Plateau 2018年9月18日17:29:33
+         * */
+        function forcePending () {
+            var btn = $('#forcePending');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var financeId = _this.data('id');
+                var url = contextPath + markUri + '/customer/pigeonhole/force';
+                locationTo({
+                    action : url,
+                    param : {
+                        finance_id : financeId
+                    }
+                });
+            });
+        }
         //根据单号获取物流信息
         function deliveryNumber() {
             var deliverNo =$('#deliver_no').val().trim();
@@ -865,6 +883,7 @@
             alreadyCashed();        //已回款点击逻辑
             detailAgree();//同意点击逻辑
             detailDisagree();//不同意点击逻辑
+            forcePending();//强制归档跳转
             //发送不合格通知
             $("#picture_reason").off("click").on('click', function () {
                 var finance_id = $(this).attr('lang');

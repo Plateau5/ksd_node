@@ -183,6 +183,8 @@ router.post(markUri + '/customer/pigeonhole/notifyMaterial', customerCtrl.VIEW_C
 router.post(markUri + '/customer/pigeonhole/agree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_AGREE);
 // 客户-归档管理--不同意页面
 router.post(markUri + '/customer/pigeonhole/disagree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE);
+// 客户-归档管理--强制归档页面 1626
+router.post(markUri + '/customer/pigeonhole/force', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_FORCE);
 
 // 客户-其他管理-访问路径 1330
 router.get(markUri + '/customer/otherfund/system', customerCtrl.VIEW_CUSTOMER_OTHERFUND_SYSTEM);
