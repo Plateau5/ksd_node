@@ -159,7 +159,7 @@
                             <input type="checkbox" class="" name="" value="" />
                             <label class="nor_wrap">全选</label>
                         </div>
-                        {{#if ((vo.status === 3 && vo.start_audit_time === 0) || (vo.status === 8 && vo.start_compact_time === 0)) }}
+                        {{#if ((vo.status === 3 && vo.start_audit_time === 0) || (vo.status === 8 && vo.start_compact_time === 0) || (vo.status === 10 && vo.start_request_time === 0)) }}
 
                         {{else}}
                             <a href="javascript:;" class="detail_high_btn download_choose" lang="{{finance_id}}" style="margin-right: 68px;">下载</a>
@@ -944,11 +944,16 @@
             btn.off('click').on('click', function () {
                 var _this = $(this);
                 var timeId = _this.data('id');
+                var advanceId = _this.data('advance_id');
                 var timeUrl = '';
                 if (timeId == '1') {
                     timeUrl = contextPath + '/api/compact/start';
                 } else if (timeId == '2') {
                     timeUrl = contextPath + '/api/request/start';
+                    parameters = {
+                        finance_id : financeId,
+                        advance_id : advanceId
+                    };
                 }
                 redefineAjax({
                     url : timeUrl,
