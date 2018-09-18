@@ -145,10 +145,12 @@
                                             <input type="checkbox" class="" name="" value="">
                                             <label class="order_label" data-id="{{this.file_id}}"></label>
                                         </div>
-                                        <div class="photo_supply"></div>
+                                        {{#if (material_type === 3)}}
+                                            <div class="photo_supply"></div>
+                                        {{/if}}
                                     </div>
                                     <div class="time_desc nor_wrap">{{this.file_name}}</div>
-                                    <div class="time_desc nor_wrap">09-02 15：20</div>
+                                    <div class="time_desc nor_wrap">{{this.create_time}}</div>
                                 </div>
                             </a>
                             {{/each}}
