@@ -171,7 +171,7 @@
             var vin = $('#carVin').val().trim().toUpperCase();
             var email = $.trim($('#emailAccount').text());
             var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ig;
-            if (!reg.test(email)) {
+            if (email == '' || !reg.test(email)) {
                 $alert('邮箱格式不对，请输入正确邮箱！');
                 return false;
             }
@@ -442,6 +442,7 @@
             sendEmail();
             deleteFilesEvent();     // 删除文件监听
             chnAndEng(".agree_vin",3);  //只允许输入英文、数字
+            chnAndEng(".id_num",3);  //只允许输入英文、数字
             recipientEvent();// 收件人触发事件
             serviceProtocol();//切换服务协议
         });
