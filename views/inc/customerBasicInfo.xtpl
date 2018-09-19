@@ -220,6 +220,20 @@
 						</div>
 					</li>
 					{{/if}}
+                    {{#if (vo.finance_type === 4) }}
+                        {{#if (vo.salesman) }}
+                        <li class="item_row">
+                            <div class="item_name">车商金融专员：</div>
+                            <div class="item_value">{{vo. salesman}}</div>
+                        </li>
+                        {{/if}}
+                        {{#if (vo.salesman_phone) }}
+                        <li class="item_row">
+                            <div class="item_name">车商电话：</div>
+                            <div class="item_value">{{vo. salesman_phone}}</div>
+                        </li>
+                        {{/if}}
+                    {{/if}}
 					{{#if (vo.remark) }}
                     <li class="item_row item_remark clearfix">
 						<div class="item_name">备注：</div>

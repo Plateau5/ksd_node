@@ -34,45 +34,91 @@
                 <a href="{{reqParams.list_url}}" class="crumbs_item">{{reqParams.navigation}}</a>
                 <a href="javascript:;" class="crumbs_item">邮件</a>
             </div>
-            <div class="email_content">
+            <div class="email_content form_options">
                 <form id="send_email">
                     <input type="hidden" value="{{finance_id}}" name="finance_id" id="financeId">
                     <input type="hidden" value="{{vo.account}}" id="account" name="email">
                     <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject" id="subject">
                     <input type="hidden" value="{{reqParams.dataType}}" name="dataType" id="dataType">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">主题：</span>
+                        </div>
+                        <div class="column_val">
+                            <span class="item_val" style="background: none;padding:0;">关于客户<span>{{vo.user_name}}</span>的贷款合同资料</span>
+                        </div>
+                    </div>
                     <div class="recipient" style="height:auto;">
-                        <span class="item_key">收件人：</span>
-                        <span style="background: #f5f5f5;padding-left:10px;width: 220px;height:auto;" class="item_val inline_block">
+                        <span class="item_key" style="vertical-align: top;">收件人：</span>
+                        <span style="padding-left:15px;width: 276px;height:auto;border: 1px solid #e4e4e4;" class="item_val inline_block recipient_event">
                             {{#if (vo.finance_type !== 4)}}
                                     {{vo.create_name }}
                             {{/if}}
                             {{#if (vo.account !== '' && vo.account !== null)}}
-                                【 <span id="emailAccount" class="inline_block" style="min-width: 10px;" contenteditable="true">{{vo.account}}</span> 】
+                                【 <span id="emailAccount" class="inline_block" style="min-width: 10px;max-width:100%;word-wrap:break-word;" contenteditable="true">{{vo.account}}</span> 】
                             {{else}}
                                 <span id="emailAccount" class="inline_block" style="width:100%;word-wrap:break-word;" contenteditable="true"></span>
                             {{/if}}
                         </span>
                     </div>
-
-                    <div class="recipient">
-                        <span class="item_key"><span class="need" style="color: #EA4B5F;vertical-align: middle;">*</span>车架号：</span>
-                        <span style="width: 400px;" class="item_val inline_block">
-                            <input type="text" name="vin" class="agree_vin" id="carVin" placeholder="请输入车架号" maxlength="17"  onblur="checkNumOrEng()" value="{{vo.vin }}">
-                            <span class="agree_vin_tip" style="color: #EA4B5F;"></span>
-                        </span>
-                    </div>
-                   <!-- <div class="form-item" style="height:30px;">
-                        <label>
-                            <span class="need">*</span>车架号：</label>
-                        <div style="display: inline-block;padding-left: 14px;">
-                            <input type="text" name="real_loan_amount" class="real_loan_amount" placeholder="请输入车架号">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">服务协议：</span>
                         </div>
-                    </div>-->
-
-
-                    <div class="subject">
-                        <span class="item_key">主题：</span>
-                        <span class="item_val" style="background: none;padding:0;">关于客户<span>{{vo.user_name}}</span>的贷款合同资料</span>
+                        <div class="column_val">
+                            <select name="" class="service_protocol">
+                                {{#if (vo.loan_type === 1) }}
+                                    <option value="1" selected="selected">个人版服务协议</option>
+                                {{else}}
+                                    <option value="1">个人版服务协议</option>
+                                {{/if}}
+                                {{#if (vo.loan_type === 2) }}
+                                    <option value="2" selected="selected">公户版服务协议</option>
+                                {{else}}
+                                    <option value="2">公户版服务协议</option>
+                                {{/if}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">车架号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" name="vin" class="agree_vin" id="carVin" placeholder="请输入车架号" maxlength="17"  onblur="checkNumOrEng()" value="{{vo.vin }}">
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">乙方：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="second_user" name="" maxlength="50" value="{{#if (vo.loan_type === 1) }}{{vo.user_name}}{{elseif (vo.loan_type === 2) }}{{vo.business_name}}{{/if}}"/>
+                        </div>
+                    </div>
+                    {{#if (vo.loan_type === 1) }}
+                    <div class="option_item third_user" style="display: none;">
+                    {{elseif (vo.loan_type === 2) }}
+                    <div class="option_item third_user">
+                    {{/if}}
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">丙方：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="third_party" maxlength="50" name="" value="{{#if (vo.loan_type === 2) }}{{vo.user_name}}{{/if}}"/>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">身份证号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="id_num" maxlength="18" name="" value="{{vo.id_num}}"/>
+                        </div>
                     </div>
 
                     <div class="file_upload">
@@ -126,7 +172,7 @@
             var email = $.trim($('#emailAccount').text());
             var reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ig;
             if (!reg.test(email)) {
-                $alert('邮箱格式不对，请输入正确邮箱。');
+                $alert('邮箱格式不对，请输入正确邮箱！');
                 return false;
             }
             if (vin == '' || vin.length <= 0) {
@@ -141,8 +187,22 @@
                 $alert('车架号不能大于17位');
                 return false;
             }
+            if ($('.second_user').val().trim() == '') {
+                $alert('乙方不能为空');
+                return false;
+            }
+            if ($('.service_protocol').val() == '2') {
+                if ($('.third_party').val().trim() == '') {
+                    $alert('丙方不能为空');
+                    return false;
+                }
+            }
+            if (!IDPATTERN.test($('.id_num').val().trim())) {
+                $alert('请输入正确的身份证号');
+                return false;
+            }
             if (file_ids.length <= 0) {
-                $alert('附件不能为空');
+                $alert('请上传附件！');
                 return false;
             }
             return true;
@@ -263,6 +323,12 @@
             vinE.val(vin);
             data.vin = vin;
             data.file_ids = file_ids.join(',');
+            data.loan_type = $('.service_protocol').val();
+            data.second_party = $('.second_user').val().trim();
+            if ($('.service_protocol').val() == '2') {
+                data.third_party = $('.third_party').val().trim();
+            }
+            data.id_num = $('.id_num').val().trim();
             return data;
         }
         //提交逻辑
@@ -288,11 +354,13 @@
                         elem.loading.hide();
                         var result = eval(res);
                         if (result.error_code == 0) {
-                            if($("#dataType").val()==1) {
-                                window.location.href = contextPath + markUri + "/customer/compact/pass";
-                            } else{
-                                window.location.href = contextPath + markUri + "/customer/compact/pendingPass";
-                            }
+                            $alert('操作成功', function () {
+                                if($("#dataType").val()==1) {
+                                    window.location.href = contextPath + markUri + "/customer/compact/pass";
+                                } else{
+                                    window.location.href = contextPath + markUri + "/customer/compact/pendingPass";
+                                }
+                            });
                         } else {
                             $alert(result.error_msg, function () {
                                 sendEmail();
@@ -338,11 +406,44 @@
         //
         // });
 
+        /**
+         * 收件人触发事件
+         * @author Plateau 2018年9月19日12:03:34
+         * */
+        function recipientEvent () {
+            var recipient = $('.recipient_event');
+            recipient.off("click").on("click", function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                $('#emailAccount').focus();
+            });
+        }
+        /**
+         * 切换服务协议
+         * @author Plateau 2018年9月19日13:33:40
+         * */
+        function serviceProtocol () {
+            var service_protocol = $('.service_protocol');
+            service_protocol.on('change', function () {
+                var _this = $(this);
+                $('.second_user').val('');
+                $('.third_party').val('');
+                if (_this.val() == '1') {
+                    $('.third_user').hide();
+                } else if (_this.val() == '2') {
+                    $('.third_user').show();
+                }
+            });
+        }
+
         $(function() {
             uploadAnnex();      // 图片上传
             sendEmail();
             deleteFilesEvent();     // 删除文件监听
             chnAndEng(".agree_vin",3);  //只允许输入英文、数字
+            recipientEvent();// 收件人触发事件
+            serviceProtocol();//切换服务协议
         });
     })(jQuery,undefined);
 
