@@ -31,7 +31,7 @@
                 <a href="javascript:;" class="crumbs_item">{{personal.emp_name}}</a>
             </div>
             <div class="statistics_box">
-                <div class="description_title gray_font">本月截止到今天</div>
+                <div class="description_title gray_font">{{start_date}}~{{end_date}} 数据统计</div>
                 <!-- 个人信息及总量统计 -->
                 <div class="personal_info">
                     <div class="personal_desc inline_block">
@@ -81,6 +81,18 @@
                                 </div>
                             </div>
                         {{/if}}
+                        {{#if (compactType === 1) }}
+                        <div class="count_item inline_block compact" data-status="4" data-name="{{personal.emp_name}}" data-id="{{personal.emp_id}}">
+                            <div class="name gray_font">合同</div>
+                            <div class="num">
+                                {{#if (personal.compact_count === '') }}
+                                0
+                                {{else}}
+                                {{personal.compact_count}}
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{/if}}
                         {{#if (requestType === 1) }}
                             <div class="count_item inline_block requestpayout" data-status="2" data-name="{{personal.emp_name}}" data-id="{{personal.emp_id}}">
                                 <div class="name gray_font">请款</div>
@@ -129,6 +141,28 @@
                                 </div>
                             </div>
                         </div>
+                    {{/if}}
+                    {{#if (compactType === 1) }}
+                    <div class="compact inline_block">
+                        <div class="statistics_item compact_statistics">
+                            <div class="filtrate">
+                                <div class="inline_block">
+                                    <select name="filtrate_month month_start" data-type="compactSelect" class="filtrate_select month_start" id="compactMothStart">
+
+                                    </select>
+                                </div>
+                                <div class="compare inline_block">VS</div>
+                                <div class="inline_block">
+                                    <select name="filtrate_month month_end" data-type="compactSelect" class="filtrate_select month_end" id="compactMothEnd">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="canvas_box compact_canvas" id="compact">
+
+                            </div>
+                        </div>
+                    </div>
                     {{/if}}
                     {{#if (requestType === 1) }}
                         <div class="requestpayout inline_block">
@@ -195,6 +229,7 @@
 <script>
     (function ($) {
         var  orderType = "{{ orderType }}";
+        var  compactType = "{{ compactType }}";
 		var  requestType = "{{ requestType }}";
 		var  pigeonholeType = "{{ pigeonholeType }}";
         var empId = $.trim($('#empId').val());
@@ -202,6 +237,9 @@
         var elem = {
             incoming : {
                 canvas : $('#orderIncoming')
+            },
+            compact : {
+                canvas : $('#orderCompact')
             },
             requestpayout : {
                 canvas : $('#requestpayout')
@@ -234,8 +272,8 @@
         function getMonthList () {
             var monthStart = createMonthOption(true);
             var monthEnd = createMonthOption(false);
-            $('#incomingMothStart, #requestpayoutMothStart, #pigeonholeMothStart').html(monthStart);
-            $('#incomingMothEnd, #requestpayoutMothEnd, #pigeonholeMothEnd').html(monthEnd);
+            $('#incomingMothStart, #compactMothStart, #requestpayoutMothStart, #pigeonholeMothStart').html(monthStart);
+            $('#incomingMothEnd, #compactMothEnd, #requestpayoutMothEnd, #pigeonholeMothEnd').html(monthEnd);
         }
 
         /**
@@ -372,6 +410,51 @@
             return incomingData;
         }
 
+        /**
+         * 获取个人合同统计数据
+         * @author wangyt 2018年9月19日10:58:10
+         * @param start {string} : 开始时间
+         * @param end {string} : 结束时间
+         * @param type {string} : 购车类型：新车（0）、二手车（1）
+         * @returns {json} : 返回的json数据
+         */
+        function createCompactChart (start, end) {
+            var compactData = null;
+            var data = {
+                emp_id : empId,
+                compact_date1 : start || "",
+                compact_date2 : end || ""
+            };
+            var url = contextPath + '/api/statistics/personal/compact';
+            redefineAjax({
+                url : url,
+                data : data,
+                timeout : 10000,
+                success : function (res) {
+                    if (res.error_code == 0) {
+                        compactData = formatCompactData(res);
+                        personCompactPieChart('compact', compactData);
+                        elem.compact.canvas.removeClass('onloading load_error');
+                    } else {
+                        elem.compact.canvas.removeClass('onloading').addClass('load_error');
+                        console.error(res.error_msg);
+                    }
+                },
+                error : function () {
+                    elem.compact.canvas.removeClass('onloading').addClass('load_error');
+                    console.error('Request error');
+                }
+            });
+        }
+        // 格式化个人合同统计数据
+        function formatCompactData (data) {
+            return compactData = {
+                count1 : {value: data.personCompactCount1, name : data.compact_date1 + '：' + data.personCompactCount1 + ' 单'},
+                count2 : {value: data.personCompactCount2, name : data.compact_date2 + '：' + data.personCompactCount2 + ' 单'},
+                xaxisdata : [data.compact_date1, data.compact_date2]
+            };
+        }
+
 
         /**
          * 获取个人请款统计数据
@@ -483,6 +566,8 @@
                 }
                 if (queryType == 'incomingSelect') {
                     createIncomingChart(start, end);
+                } else if (queryType == 'compactSelect') {
+                    createCompactChart(start, end);
                 } else if (queryType == 'requestpayoutSelect') {
                     createRequestpayoutChart(start, end);
                 } else if (queryType == 'pigeonholeSelect') {
@@ -504,6 +589,9 @@
             }
             if (requestType === "1") {
                 createRequestpayoutChart();
+            }
+            if (compactType === "1") {
+                createCompactChart();
             }
             if (pigeonholeType === "1") {
                 createPigeonholeChart();
