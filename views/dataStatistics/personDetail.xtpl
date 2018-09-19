@@ -221,6 +221,8 @@
 <!-- 给的Month日期值 根据start_date往上加到最新的日期end_date-->
 <input type="hidden" id="startDate" value="{{start_date}}">
 <input type="hidden" id="endDate" value="{{end_date}}">
+<input type="hidden" id="startMonth" value="{{start_month}}">
+<input type="hidden" id="endMonth" value="{{end_month}}">
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/js/echarts.min.js"></script>
@@ -289,8 +291,8 @@
          * @returns {*}
          */
         function createMonthOption (type) {
-            var starteDateEle = $('#startDate');
-            var endDateEle = $('#endDate');
+            var starteDateEle = $('#startMonth');
+            var endDateEle = $('#endMonth');
             // var selectedRender = false; // 是否已经渲染完选中状态
             var start = $.trim(starteDateEle.val());    // 最小日期（租户开通时间）
             var end = $.trim(endDateEle.val());    // 最大日期（当前月）
