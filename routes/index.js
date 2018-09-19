@@ -67,6 +67,15 @@ router.post(markUri + '/customer/loan/PAPretrial/detail', customerCtrl.VIEW_CUST
 // 客户管理-详情页-贷款管理-预审信息-个人信用报告
 router.post(markUri + '/customer/loan/JZPretrial/credit', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_CREDIT);
 
+// 客户管理-详情页-贷款管理-进件资料编辑跳转
+router.post(markUri + '/customer/loan/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+// 客户管理-详情页-合同管理-进件资料编辑跳转
+router.post(markUri + '/customer/compact/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+// 客户管理-详情页-请款管理-进件资料编辑跳转
+router.post(markUri + '/customer/requestpayout/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+// 客户管理-详情页-审批管理-进件资料编辑跳转
+router.post(markUri + '/customer/approval/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+
 
 // 客户管理-订单分配页面跳转 1022
 router.post(markUri + '/customer/loan/allot', customerCtrl.VIEW_CUSTOMER_LOAN_ALLOT);

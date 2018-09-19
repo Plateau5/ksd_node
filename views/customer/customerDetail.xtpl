@@ -191,6 +191,8 @@
     var voStartAuditTime = '{{vo.start_audit_time}}';
     queryType = queryType.number();
     (function () {
+        var description_type = '{{description_type}}';
+        var detailUrl = '{{detailUrl}}';
         var currentTime = new Date().format('yyyy/MM/dd hh:mm');
         var currentPerson = document.getElementById("currentTime");
         if (currentPerson != null || currentPerson != undefined) {
@@ -852,6 +854,43 @@
                 });
             });
         }
+        /**
+         * 进件资料编辑跳转事件
+         * @author Plateau 2018年9月19日15:19:39
+         * */
+        function editMaterial () {
+            var btn = $(".edit_material");
+            if (btn.length > 0) {
+                btn.off('click').on('click', function () {
+                    var _this = $(this);
+                    var financeId = _this.data('finance_id');
+                    var navigation = $('#navigation').val();
+                    var nodeUrl = $('#nodeUrl').val();
+                    var userName =$('#user_name').val().trim();
+                    var url = '';
+                    if (description_type == '1') {
+                        url = '/customer/loan/edit/entry';
+                    } else if (description_type == '2') {
+                        url = '/customer/compact/edit/entry';
+                    }  else if (description_type == '3') {
+                        url = '/customer/requestpayout/edit/entry';
+                    } else if (description_type == '4') {
+                        url = '/customer/approval/edit/entry';
+                    }
+                    locationTo({
+                        action : contextPath + markUri + url,
+                        param : {
+                            finance_id : financeId,
+                            url : LOCALURL,
+                            userName : userName,
+                            navigation : navigation,
+                            detailUrl : detailUrl,
+                            nodeUrl : nodeUrl
+                        }
+                    });
+                });
+            }
+        }
 
         $(function () {
             if( queryType === 4 ){
@@ -884,6 +923,7 @@
             detailAgree();//同意点击逻辑
             detailDisagree();//不同意点击逻辑
             forcePending();//强制归档跳转
+            editMaterial();//编辑进件资料跳转
             //发送不合格通知
             $("#picture_reason").off("click").on('click', function () {
                 var finance_id = $(this).attr('lang');
