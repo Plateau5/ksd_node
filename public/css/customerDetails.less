@@ -98,7 +98,7 @@
             .list_item{
                 position: relative;
                 float: left;
-                width: 124px;
+                width: 120px;
                 height: 170px;
                 margin: 20px 35px 0 0;
                 overflow: hidden;
@@ -115,15 +115,26 @@
                 }
                 .photo_checkbox{
                     padding:4px 0 0 4px;
-                    width:120px;
-                    height:90px;
+                    width:116px;
+                    height:86px;
                     position: absolute;
+                    background:#000;
+                    filter:Alpha(Opacity=60);
+                    opacity:0.6;
                     z-index:999;
                     left:0;
                     top:0;
                     input[type='checkbox'] + label{
-                        width:96px;
+                        width:92px;
                         height:86px;
+                        &:before{
+                            background-position: 0 -117px;
+                        }
+                    }
+                    input[type='checkbox'] + label.checked{
+                        &:before{
+                            background-position: 0 -133px;
+                        }
                     }
                 }
             }
