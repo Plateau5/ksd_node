@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <title>强制归档</title>
 </head>
@@ -18,9 +19,9 @@
         <!---- Part of slide nav End ---->
 
         <!---- Part of Main info Begin ---->
-        <div id="main" class="force_pending">
+        <div class="main force_pending">
             <div class="crumbs_nav">
-                <a href="javascript:;" class="crumbs_item go_list">归档管理</a>
+                <a href="{{markUri}}/customer/pigeonhole/system" class="crumbs_item">归档管理</a>
                 <a href="javascript:;" class="crumbs_item go_list">待归档</a>
                 <a href="javascript:;" class="crumbs_item go_detail">{{vo.user_name}}</a>
                 <a href="javascript:;" class="crumbs_item">强制归档</a>
@@ -43,7 +44,7 @@
                     </div>
 
                     <div class="btn_box clearfix create_wf_btn_box">
-                        <a href="javascript:" class="btn orange_btn confirm create_confirm" data-id="{{reqParams.finance_id}}">保存</a>
+                        <a href="javascript:" class="btn orange_btn confirm create_confirm" data-id="{{reqParams.finance_id}}">确认</a>
                         <a href="javascript:;" class="btn bg_btn cancel go_detail">取消</a>
                     </div>
                 </form>
@@ -59,7 +60,7 @@
 <div class="loading" id="loading"></div>
 </body>
 {{include ('./../inc/jsSources')}}
-</html>
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
 
     (function ($) {
@@ -82,7 +83,7 @@
                 });
                 var financeId = _this.data('id');
                 var parameters = {
-                    financeId : financeId,
+                    finance_id : financeId,
                     reason_id : reason_id,
                     reason : reason
                 };
@@ -112,14 +113,6 @@
                         $alert("提交失败，请稍后重试");
                     }
                 });
-                locationTo({
-                    action : url,
-                    param : {
-                        finance_id : financeId,
-                        reason_id : reason_id,
-                        reason : reason
-                    }
-                });
             });
         }
         $(function() {
@@ -127,3 +120,4 @@
         });
     })(jQuery,undefined);
 </script>
+</html>

@@ -162,10 +162,10 @@
                     <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-agree_type="1" data-url="{{markUri}}/customer/pigeonhole/agree" data-advance_id="{{vo.advance_id}}" id="customerSubmit">同意</a>
                     <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-agree_type="0" data-url="{{markUri}}/customer/pigeonhole/disagree" data-advance_id="{{vo.advance_id}}" id="customerCancel">不同意</a>
                 {{/if}}
-                {{#if (verifyCode(1626)) }}
-                    <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/force" data-advance_id="{{vo.advance_id}}" id="forcePending">强制归档</a>
-                {{/if}}
             {{/if}}
+        {{/if}}
+        {{#if (verifyCode(1513)) }}
+            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/force" data-advance_id="{{vo.advance_id}}" id="forcePending">强制归档</a>
         {{/if}}
     {{/if}}
     <!--其他款项按钮-->
