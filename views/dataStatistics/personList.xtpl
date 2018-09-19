@@ -83,6 +83,8 @@
 										<span>
 											{{#if (status === 1) }}
 												进件：
+											{{elseif (status === 4) }}
+												合同：
 											{{elseif (status === 2) }}
 												请款：
 											{{elseif (status === 3) }}
@@ -94,10 +96,8 @@
 									<td>
 										<span>人效比：</span>
 										<span>
-											{{#if (status === 1) }}
+											{{#if (status === 1 || status === 2 || status === 4) }}
 												{{this.efficient}}
-											{{elseif (status === 2) }}
-												--
 											{{elseif (status === 3) }}
 												--
 											{{/if}}
@@ -105,7 +105,7 @@
 									</td>
 									<td>
 										<span>平均用时：</span>
-										{{#if (status === 1) }}
+										{{#if (status === 1 || status === 2 || status === 4) }}
 											<span>{{this.averageTime}}</span>
 											<span>分钟</span>
 										{{else}}
