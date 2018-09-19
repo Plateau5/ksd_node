@@ -168,11 +168,15 @@
             var btn = $('.go_detail');
             btn.off('click').on('click', function () {
                 var _this = $(this);
+                var startDate = $('#start_date').val();
+                var endDate = $('#end_date').val();
                 var id = $.trim(_this.data('id'));
                 locationTo({
                     action : contextPath + markUri + '/statistics/personal',
                     param : {
-                        emp_id : id
+                        emp_id : id,
+                        start_date : startDate,
+                        end_date : endDate
                     }
                 })
             });

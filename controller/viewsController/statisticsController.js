@@ -91,12 +91,14 @@ exports.VIEW_STATISTICS_PERSON_SYSTEM = function(req, res, next) {
     try {
         if (common.checkPrivilege(1354, req)) {
             res.redirect(markUri + '/statistics/person/order');
+        } else if (common.checkPrivilege(1629, req)) {
+            res.redirect(markUri + '/statistics/person/compact');
         } else if (common.checkPrivilege(1355, req)) {
             res.redirect(markUri + '/statistics/person/request');
         } else if (common.checkPrivilege(1356, req)) {
             res.redirect(markUri + '/statistics/person/pigeonhole');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1354 | 1355 | 1356 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1354 | 1629 | 1355 | 1356 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
