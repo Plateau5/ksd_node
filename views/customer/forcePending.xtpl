@@ -21,14 +21,15 @@
         <!---- Part of Main info Begin ---->
         <div class="main force_pending">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/customer/pigeonhole/system" class="crumbs_item">归档管理</a>
-                <a href="javascript:;" class="crumbs_item go_list">待归档</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{description}}</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
                 <a href="javascript:;" class="crumbs_item go_detail">{{vo.user_name}}</a>
                 <a href="javascript:;" class="crumbs_item">强制归档</a>
             </div>
 
             <div class="form_options">
                 <form action="" id="force_form" method="post">
+                    <input type="hidden" value="{{reqParams.finance_id}}" class="finance_id">
                     <div class="option_item">
                         <div class="column_name">
                             <span class="options_name">强制归档原因：</span>
@@ -115,8 +116,24 @@
                 });
             });
         }
+        /**
+         * 取消、面包屑跳转
+         * @author Plateau 2018年9月19日17:24:39
+         * */
+        function goDetail () {
+            var go_detail = $('.go_detail');
+            go_detail.off("click").on("click", function () {
+                locationTo({
+                    action : contextPath + markUri + '/customer/pigeonhole/detail',
+                    param : {
+                        finance_id : $('.finance_id').val()
+                    }
+                });
+            });
+        }
         $(function() {
             saveEvent();//强制归档保存事件
+            goDetail();//取消、面包屑跳转
         });
     })(jQuery,undefined);
 </script>

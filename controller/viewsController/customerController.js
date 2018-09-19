@@ -780,15 +780,6 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE = function(req, res, next) {
     data.reqParams = body;
     res.render('./customer/pigeonholeAudit', data);
 };
-// 客户-归档管理--强制归档页面 1626
-exports.VIEW_CUSTOMER_PIGEONHOLE_FORCE = function(req, res, next) {
-    common.getPageData({
-        url : '/api/to/force/pigeonhole',
-        title : '归档管理-强制归档',
-        page : './customer/forcePending'
-    }, req, res, next);
-};
-
 
 // 客户-其他管理-跳转
 exports.VIEW_CUSTOMER_OTHERFUND_SYSTEM = function(req, res, next) {
@@ -1060,6 +1051,7 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DETAIL = function(req, res, next) {
                 data.materialIds = materialIds;
                 data.materialName = materialName;
             }
+            formatOrderListData(data);
         }
     }, req, res, next);
 };
@@ -1077,6 +1069,17 @@ exports.VIEW_CUSTOMER_OTHERFUND_DETAIL = function(req, res, next) {
     }, req, res, next);
 };
 
+// 客户-归档管理--强制归档页面 1626
+exports.VIEW_CUSTOMER_PIGEONHOLE_FORCE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/to/force/pigeonhole',
+        title : '归档管理-强制归档',
+        page : './customer/forcePending',
+        callback : function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
+};
 // 客户管理-详情页-进件资料编辑跳转
 exports.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY = function(req, res, next) {
     common.getPageData({

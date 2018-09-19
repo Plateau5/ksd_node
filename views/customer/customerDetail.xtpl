@@ -691,24 +691,6 @@
             var url = contextPath + markUri + '/customer/pigeonhole/disagree';
             btnClick(btn,url);
         }
-        /**
-         * 强制归档事件
-         * @author Plateau 2018年9月18日17:29:33
-         * */
-        function forcePending () {
-            var btn = $('#forcePending');
-            btn.off('click').on('click', function () {
-                var _this = $(this);
-                var financeId = _this.data('id');
-                var url = contextPath + markUri + '/customer/pigeonhole/force';
-                locationTo({
-                    action : url,
-                    param : {
-                        finance_id : financeId
-                    }
-                });
-            });
-        }
         //根据单号获取物流信息
         function deliveryNumber() {
             var deliverNo =$('#deliver_no').val().trim();
@@ -855,6 +837,34 @@
             });
         }
         /**
+         * 强制归档事件
+         * @author Plateau 2018年9月18日17:29:33
+         * */
+        function forcePending () {
+            var btn = $('#forcePending');
+            if (btn.length > 0) {
+                btn.off('click').on('click', function () {
+                    var _this = $(this);
+                    var financeId = _this.data('id');
+                    var navigation = $('#navigation').val();
+                    var nodeUrl = $('#nodeUrl').val();
+                    var userName = $('#user_name').val().trim();
+                    var url = contextPath + markUri + '/customer/pigeonhole/force';
+                    locationTo({
+                        action: url,
+                        param: {
+                            finance_id: financeId,
+                            url: pigeonholeUrl,
+                            userName: userName,
+                            navigation: navigation,
+                            detailUrl: detailUrl,
+                            nodeUrl: nodeUrl
+                        }
+                    });
+                });
+            }
+        }
+        /**
          * 进件资料编辑跳转事件
          * @author Plateau 2018年9月19日15:19:39
          * */
@@ -881,7 +891,7 @@
                         action : contextPath + markUri + url,
                         param : {
                             finance_id : financeId,
-                            url : LOCALURL,
+                            url : pigeonholeUrl,
                             userName : userName,
                             navigation : navigation,
                             detailUrl : detailUrl,

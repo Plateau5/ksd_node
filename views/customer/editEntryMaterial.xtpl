@@ -23,9 +23,9 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main edit_entery_material">
             <div class="crumbs_nav">
-                <a href="{{url}}" class="crumbs_item">{{description}}</a>
-                <a href="{{url}}" class="crumbs_item">{{reqParams.navigation}}</a>
-                <a href="javascript:;" class="crumbs_item">{{vo.user_name }}</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{description}}</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_detail">{{vo.user_name }}</a>
                 <a href="javascript:;" class="crumbs_item">编辑</a>
             </div>
             <div class="form_content form_options">
@@ -159,7 +159,7 @@
             </div>
             <div class="btn_box text_left clearfix">
                 <a href="javascript:" class="btn orange_btn confirm edit_confirm">提交</a>
-                <a href="javascript:;" class="btn bg_btn edit_cancel">取消</a>
+                <a href="javascript:;" class="btn bg_btn edit_cancel go_detail">取消</a>
             </div>
 
         </div>
@@ -268,11 +268,27 @@
                 }
             });
         }
+        /**
+         * 取消、面包屑跳转
+         * @author Plateau 2018年9月19日17:24:39
+         * */
+        function goDetail () {
+            var go_detail = $('.go_detail');
+            go_detail.off("click").on("click", function () {
+                locationTo({
+                    action : contextPath + $('.detail_url').val(),
+                    param : {
+                        finance_id : $('.finance_id').val()
+                    }
+                });
+            });
+        }
 
         $(function() {
             numAndAmount('.phone');//手机号只能输入数字
             chnAndEng(".id_num",3);  //只允许输入英文、数字
             saveEvent();//编辑保存
+            goDetail();//取消、面包屑跳转
         });
     })(jQuery,undefined);
 </script>
