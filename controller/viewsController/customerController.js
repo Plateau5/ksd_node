@@ -1126,44 +1126,79 @@ function formatOrderListData (data) {
     // 回显详情页访问路由
     if (originalUrl.indexOf( markUri + '/customer/loan') !== -1) {
         detailUrl = markUri + '/customer/loan/detail';
-        query_type = 1;
-        photo_type = 1;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 1;
+            photo_type = 1;
+        }
         description = "贷款管理";
         description_type = 1;
     } else if (originalUrl.indexOf( markUri + '/customer/compact') !== -1) {
         detailUrl =  markUri + '/customer/compact/detail';
-        query_type = 2;
-        photo_type = 2;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 2;
+            photo_type = 2;
+        }
         description = "合同管理";
         description_type = 2;
     } else if (originalUrl.indexOf( markUri + '/customer/requestpayout') !== -1) {
         detailUrl =  markUri + '/customer/requestpayout/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "请款管理";
         description_type = 3;
     } else if (originalUrl.indexOf( markUri + '/customer/approval') !== -1) {
         detailUrl =  markUri + '/customer/approval/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "审批管理";
         description_type = 4;
     } else if (originalUrl.indexOf( markUri + '/customer/financial') !== -1) {
         detailUrl =  markUri + '/customer/financial/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "回款管理";
         description_type = 5;
     } else if (originalUrl.indexOf( markUri + '/customer/pigeonhole') !== -1) {
         detailUrl =  markUri + '/customer/pigeonhole/detail';
-        query_type = 4;
-        photo_type = 4;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 4;
+            photo_type = 4;
+        }
         description = "归档管理";
         description_type = 6;
     } else if (originalUrl.indexOf( markUri + '/customer/otherfund') !== -1) {
         detailUrl =  markUri + '/customer/otherfund/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "其他款项";
         description_type = 7;
     } else {
