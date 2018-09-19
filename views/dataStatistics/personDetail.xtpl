@@ -248,11 +248,13 @@
                 canvas : $('#pigeonhole')
             }
         };
-        // 跳转个人进件、请款、归档详情页
+        // 跳转个人进件、合同、请款、归档详情页
         function toPersonalDetail () {
             var elem = $('.count_item');
             elem.off('click').on('click', function () {
                 var _this = $(this);
+                var starteDateEle = $('#startDate').val();
+                var endDateEle = $('#endDate').val();
                 var empId = $.trim(_this.data('id'));   // 员工id
                 var empName = $.trim(_this.data('name'));   // 员工id
                 var url = contextPath + markUri + '/statistics/personal/business';    // 跳转路径
@@ -263,6 +265,8 @@
                         status : statusType,
                         emp_id : empId,
                         emp_name : empName,
+                        start_date : starteDateEle,
+                        end_date : endDateEle
                     }
                 })
             });
