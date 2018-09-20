@@ -10,14 +10,14 @@
 					<a href="javascript:;" class="pretrial_title toPretrialDetail mar_left_20" data-id="{{vo.pre_id}}">查看预审信息</a>
 					{{/if}}
 				{{/if}}
-			</div>
-            {{#if (verifyCode(1627)) }}
-                {{#if (vo.status < 11) }}
-                    <div style="position: absolute;top:0;right: 0;">
-                        <a href="javascript:" class="detail_title_btn edit_btn edit_rebate_type edit_material" data-finance_id="{{finance_id}}">编辑</a>
-                    </div>
+                {{#if (verifyCode(1627)) }}
+                    {{#if (vo.status < 11) }}
+                        <div style="position: absolute;top:0;right: 0;">
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_rebate_type edit_material" data-finance_id="{{finance_id}}">编辑</a>
+                        </div>
+                    {{/if}}
                 {{/if}}
-            {{/if}}
+			</div>
 			<div class="btn_box customer_btn_box">
 				{{#if (url === markUri + '/customer/loan/passed')}}
 					{{#if (verifyCode(1522)) }}
