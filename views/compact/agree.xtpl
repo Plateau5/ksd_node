@@ -125,7 +125,6 @@
                         <div class="file_upload_layer"  data-type="1"><span class="text">上传附件</span><span class="text_tip">(最多5个附件，单个100M以内)</span></div>
                         <input type="file" class="file_upload_btn" name="file"  value="上传附件" style="display: none" />
                         <input type="hidden" value="" id="fileIds" name="file_ids">
-                        <div class="error_msg">请使用正确格式的文件</div>
                         <div class="file_box1">
                             <!--<div class="file_item">
                                 <img src="" alt="">
@@ -223,12 +222,20 @@
                 fileFormat : ['pages', 'doc', 'docx', 'dot', 'dotx', 'docm', 'dotm', 'pdf', 'bmp', 'jpg', 'png', 'jpeg', 'rar', 'zip', 'tar', 'cab', 'gif', 'svg', '7z'],
                 //imgFormat : ['png', 'jpg', 'jpeg', 'svg', 'gif', 'bmp', 'raw', 'cdr'],
                 needThumbnails : true, // 是否需要缩略图
-                callback : function (btn, file) {
-                    onChoose(btn, file);
+                callback : function (btn, file, success) {
+                    onChoose(btn, file, success);
                 }
             });
             // 上传逻辑
-            var onChoose = function (btn, file) {
+            var onChoose = function (btn, file, success) {
+                if (!success) {
+                    $alert('上传文件格式不正确');
+                    return false;
+                }
+                if (file.size > 100*1024*1024) {
+                    $alert('上传文件大于100M');
+                    return false;
+                }
                 elem.loading.show();
                 var type = $.trim(btn.data('type'));
                 var data = file;
