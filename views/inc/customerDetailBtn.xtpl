@@ -164,7 +164,7 @@
                 {{/if}}
             {{/if}}
         {{/if}}
-        {{#if (verifyCode(1626) && vo.status !== 13) }}
+        {{#if (verifyCode(1626) && url === (markUri + '/customer/pigeonhole/pending')) }}
             <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/pigeonhole/force" data-advance_id="{{vo.advance_id}}" id="forcePending">强制归档</a>
         {{/if}}
     {{/if}}
