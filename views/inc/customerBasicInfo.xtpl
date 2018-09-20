@@ -227,20 +227,18 @@
 						</div>
 					</li>
 					{{/if}}
-                    {{#if (startWith(markUri + '/customer/pigeonhole/detail')) }}
-                        {{#if (vo.finance_type === 4) }}
-                            {{#if (vo.salesman && vo.salesman !== null) }}
-                            <li class="item_row">
-                                <div class="item_name">车商金融专员：</div>
-                                <div class="item_value">{{vo. salesman}}</div>
-                            </li>
-                            {{/if}}
-                            {{#if (vo.salesman_phone && vo.salesman_phone !== null) }}
-                            <li class="item_row">
-                                <div class="item_name">车商电话：</div>
-                                <div class="item_value">{{vo. salesman_phone}}</div>
-                            </li>
-                            {{/if}}
+                    {{#if (vo.finance_type === 4) }}
+                        {{#if (vo.salesman && vo.salesman !== null) }}
+                        <li class="item_row">
+                            <div class="item_name">车商金融专员：</div>
+                            <div class="item_value">{{vo. salesman}}</div>
+                        </li>
+                        {{/if}}
+                        {{#if (vo.salesman_phone && vo.salesman_phone !== null) }}
+                        <li class="item_row">
+                            <div class="item_name">车商电话：</div>
+                            <div class="item_value">{{vo. salesman_phone}}</div>
+                        </li>
                         {{/if}}
                     {{/if}}
                     {{#if (vo.remark) }}
