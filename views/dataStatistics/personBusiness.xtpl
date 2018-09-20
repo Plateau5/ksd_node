@@ -125,7 +125,11 @@
                         <td>{{this.product_name }}</td>
                         <td>
                             {{#if (status === 1 || status === 2 || status === 4) }}
-                            {{this.timeValue}}
+                                {{#if (this.timeValue)}}
+                                    {{this.timeValue}}
+                                {{else}}
+                                    --
+                                {{/if}}
                             {{else}}
                             --
                             {{/if}}
