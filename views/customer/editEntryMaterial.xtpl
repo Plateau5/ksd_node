@@ -70,25 +70,25 @@
                                 {{else}}
                                 <option value="2">军官证</option>
                                 {{/if}}
-                                {{#if (vo.id_type === 3) }}
-                                <option value="3" selected="selected">护照</option>
-                                {{else}}
-                                <option value="3">护照</option>
-                                {{/if}}
                                 {{#if (vo.id_type === 4) }}
-                                <option value="4" selected="selected">港澳居民证</option>
+                                <option value="4" selected="selected">护照</option>
                                 {{else}}
-                                <option value="4">港澳居民证</option>
+                                <option value="4">护照</option>
                                 {{/if}}
                                 {{#if (vo.id_type === 5) }}
-                                <option value="5" selected="selected">临时身份证</option>
+                                <option value="5" selected="selected">港澳居民证</option>
                                 {{else}}
-                                <option value="5">临时身份证</option>
+                                <option value="5">港澳居民证</option>
                                 {{/if}}
                                 {{#if (vo.id_type === 6) }}
-                                <option value="6" selected="selected">台胞证</option>
+                                <option value="6" selected="selected">临时身份证</option>
                                 {{else}}
-                                <option value="6">台胞证</option>
+                                <option value="6">临时身份证</option>
+                                {{/if}}
+                                {{#if (vo.id_type === 3) }}
+                                <option value="3" selected="selected">台胞证</option>
+                                {{else}}
+                                <option value="3">台胞证</option>
                                 {{/if}}
                             </select>
                         </div>
@@ -286,7 +286,7 @@
 
         $(function() {
             numAndAmount('.phone');//手机号只能输入数字
-            chnAndEng(".id_num",3);  //只允许输入英文、数字
+            // chnAndEng(".id_num",3);  //只允许输入英文、数字
             saveEvent();//编辑保存
             goDetail();//取消、面包屑跳转
         });
