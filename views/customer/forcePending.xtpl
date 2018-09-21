@@ -30,6 +30,8 @@
             <div class="form_options">
                 <form action="" id="force_form" method="post">
                     <input type="hidden" value="{{reqParams.finance_id}}" class="finance_id">
+                    <input type="hidden" value="{{reqParams.query_type}}" class="query_type">
+                    <input type="hidden" value="{{reqParams.photo_type}}" class="photo_type">
                     <div class="option_item">
                         <div class="column_name">
                             <span class="options_name">强制归档原因：</span>
@@ -127,8 +129,8 @@
                     action : contextPath + markUri + '/customer/pigeonhole/detail',
                     param : {
                         finance_id : $('.finance_id').val(),
-                        query_type : 4,
-                        photo_type : 4
+                        query_type : $('.query_type').val(),
+                        photo_type : $('.photo_type').val()
                     }
                 });
             });
