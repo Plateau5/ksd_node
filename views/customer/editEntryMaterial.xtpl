@@ -30,6 +30,8 @@
             </div>
             <div class="form_content form_options">
                 <input type="hidden" value="{{reqParams.detailUrl}}" class="detail_url">
+                <input type="hidden" value="{{reqParams.query_type}}" class="query_type">
+                <input type="hidden" value="{{reqParams.photo_type}}" class="photo_type">
                 <form action="" id="edit_info_form" method="post">
                     <input type="hidden" value="{{reqParams.finance_id}}" class="finance_id" name="finance_id">
                     <input type="hidden" value="{{vo.loan_type}}" name="loan_type">
@@ -207,7 +209,9 @@
                             locationTo({
                                 action : contextPath + $('.detail_url').val(),
                                 param : {
-                                    finance_id : $('.finance_id').val()
+                                    finance_id : $('.finance_id').val(),
+                                    query_type : $('.query_type').val(),
+                                    photo_type : $('.photo_type').val()
                                 }
                             });
                         })
@@ -231,7 +235,9 @@
                 locationTo({
                     action : contextPath + $('.detail_url').val(),
                     param : {
-                        finance_id : $('.finance_id').val()
+                        finance_id : $('.finance_id').val(),
+                        query_type : $('.query_type').val(),
+                        photo_type : $('.photo_type').val()
                     }
                 });
             });
