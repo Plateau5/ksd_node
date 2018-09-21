@@ -163,12 +163,12 @@
                 $alert('证件类型不能为空');
                 return false;
             }
+            var id_num = $('.id_num').val().trim();
+            if (id_num == '') {
+                $alert('证件号不能为空');
+                return false;
+            }
             if ($('.id_type').val() == '1') {
-                var id_num = $('.id_num').val().trim();
-                if (id_num == '') {
-                    $alert('证件号不能为空');
-                    return false;
-                }
                 if (!IDPATTERN.test(id_num)) {
                     $alert('请输入正确的身份证号');
                     return false;
