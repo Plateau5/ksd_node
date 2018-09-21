@@ -1522,6 +1522,7 @@ function pageChange (e, firstLetter) {
         CustomerArchivedEnd && $("#"+id).append('<input type="hidden" id="end_pigeonhole_time" name="end_pigeonhole_time" value="'+ CustomerArchivedEnd + '" />');
         pigeonholeStatus && $("#"+id).append('<input type="hidden" id="pigeonholeStatus" name="pigeonhole_status" value="'+ pigeonholeStatus +'" />');
         createName && $("#"+id).append('<input type="hidden" id="createName" name="create_name" value="'+ createName + '" />');
+        target.off('click');
         $("#"+id).submit();
     }
 }
