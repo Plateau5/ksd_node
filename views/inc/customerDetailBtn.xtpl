@@ -46,6 +46,11 @@
                 {{#if (verifyCode(1624)) }}
                     <a href="javascript:;" class="detail_high_btn reckon_time" data-id="1" data-advance_id="">开始审核</a>
                 {{/if}}
+
+            {{elseif (vo.start_compact_time !== 0 && present_id !== vo.compact_service_id)}}
+                {{#if (verifyCode(1624)) }}
+                    <a href="javascript:;" class="detail_high_btn reckon_time" data-id="1" data-advance_id="">开始审核</a>
+                {{/if}}
             {{else}}
                 {{#if (verifyCode(1265)) }}
                 <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-list_url="{{url}}" data-navigation="{{navigation}}"  data-advance_id="{{vo.advance_id}}">同意</a>
