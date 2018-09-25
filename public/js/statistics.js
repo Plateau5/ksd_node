@@ -553,6 +553,77 @@ function personIncomingLineChart (target, data) {
 
 
 /**
+ * 合同统计饼图
+ * @param target
+ * @param data
+ */
+function personCompactPieChart (target, data) {
+    var pieChart = echarts.init(document.getElementById(target));
+    pieChart.showLoading({
+        text : '数据获取中……',
+        maskColor: 'rgba(0, 0, 0, 0.8)',
+        effect: '',
+        color: '#ffffff',
+        textColor: '#fff'
+    });
+    var option = {
+        title : {
+            text: '合同统计(单)',
+            x: 10,
+            y : 0,
+            textStyle: {
+                fontSize: 14,
+                fontWeight: 'normal',
+                color: '#535e4a'          // 主标题文字颜色
+            }
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} ({d}%)"
+        },
+        /*legend: {
+            x : 'right',
+            y : 'top',
+            data:data.xaxisdata
+        },*/
+        toolbox: {
+            show : true,
+            right: 20,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
+                // restore : {show: false},
+                saveAsImage : {show: true}
+            }
+        },
+        color : [
+            '#1ec7ca', '#b6a1e0'
+        ],
+        calculable : true,
+        series : [
+            {
+                name:'合同统计',
+                type:'pie',
+                radius : [30, 80],
+                center : ['50%', '50%'],
+                roseType : 'radius',
+                data : [
+                    data.count2,
+                    data.count1
+                ]
+            }
+        ]
+    };
+
+    pieChart.setOption(option);
+    pieChart.hideLoading();
+}
+
+/**
  * 请款统计饼图
  * @param target
  * @param data

@@ -29,6 +29,8 @@
                         进件统计
                     {{elseif (status === 2) }}
                         请款统计
+                    {{elseif (status === 4) }}
+                        合同统计
                     {{else}}
                         归档统计
                     {{/if}}
@@ -53,7 +55,7 @@
                         <span class="error_msg"></span>
                     </div>
                     <div class="filtrate_item">
-                        {{#if (status === 1) }}
+                        {{#if (status === 1 || status === 2 || status === 4) }}
                     	    <div class="conditions_name inline_block">区间筛选：</div>
 			            	<div class="inline_block sub_item">
 	                            <select name="timeType" data-type="timeType" class="filtrate_select" id="personalOrderDateStart">
@@ -122,8 +124,12 @@
                         </td>
                         <td>{{this.product_name }}</td>
                         <td>
-                            {{#if (status === 1) }}
-                            {{this.timeValue}}
+                            {{#if (status === 1 || status === 2 || status === 4) }}
+                                {{#if (this.timeValue && this.timeValue !== '')}}
+                                    {{this.timeValue}}
+                                {{else}}
+                                    --
+                                {{/if}}
                             {{else}}
                             --
                             {{/if}}
@@ -166,11 +172,15 @@
             var btn = $('.go_detail');
             btn.off('click').on('click', function () {
                 var _this = $(this);
+                var startDate = $('#start_date').val();
+                var endDate = $('#end_date').val();
                 var id = $.trim(_this.data('id'));
                 locationTo({
                     action : contextPath + markUri + '/statistics/personal',
                     param : {
-                        emp_id : id
+                        emp_id : id,
+                        start_date : startDate,
+                        end_date : endDate
                     }
                 })
             });

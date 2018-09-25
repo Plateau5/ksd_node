@@ -91,12 +91,14 @@ exports.VIEW_STATISTICS_PERSON_SYSTEM = function(req, res, next) {
     try {
         if (common.checkPrivilege(1354, req)) {
             res.redirect(markUri + '/statistics/person/order');
+        } else if (common.checkPrivilege(1629, req)) {
+            res.redirect(markUri + '/statistics/person/compact');
         } else if (common.checkPrivilege(1355, req)) {
             res.redirect(markUri + '/statistics/person/request');
         } else if (common.checkPrivilege(1356, req)) {
             res.redirect(markUri + '/statistics/person/pigeonhole');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1354 | 1355 | 1356 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1354 | 1629 | 1355 | 1356 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
@@ -112,6 +114,25 @@ exports.VIEW_STATISTICS_PERSON_ORDER = function(req, res, next) {
     }, function (result) {
         var data = result;
         data.uri = '/statistics/person/order';
+        data.title = '数据统计-人效统计';
+        data.markUri = markUri;
+        if (data.error_code === 0) {
+            res.render('./dataStatistics/personList', data);
+        } else {
+            res.render(data.error_msg);
+        }
+    }, req, res, next);
+    //res.render('./dataStatistics/personList', { title : '数据统计-进件统计'});
+};
+// 数据统计-人效统计-合同跳转
+exports.VIEW_STATISTICS_PERSON_COMPACT = function(req, res, next) {
+    var body = req.body;
+    common.httpRequest({
+        url : apiServerPath + '/api/statistics/person/compact',
+        form : body
+    }, function (result) {
+        var data = result;
+        data.uri = '/statistics/person/compact';
         data.title = '数据统计-人效统计';
         data.markUri = markUri;
         if (data.error_code === 0) {
