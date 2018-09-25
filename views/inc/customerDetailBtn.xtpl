@@ -42,11 +42,22 @@
     <!--合同资料按钮-->
     {{#if (startWith(markUri + '/customer/compact'))}}
         {{#if (url === markUri + '/customer/compact/pendingPass') }}
-            {{#if (verifyCode(1265)) }}
-            <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-list_url="{{url}}" data-navigation="{{navigation}}"  data-advance_id="{{vo.advance_id}}">同意</a>
-            {{/if}}
-            {{#if (verifyCode(1264)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
+            {{#if (vo.start_compact_time === 0) }}
+                {{#if (verifyCode(1624)) }}
+                    <a href="javascript:;" class="detail_high_btn reckon_time" data-id="1" data-advance_id="">开始审核</a>
+                {{/if}}
+
+            {{elseif (vo.start_compact_time !== 0 && present_id !== vo.compact_service_id)}}
+                {{#if (verifyCode(1624)) }}
+                    <a href="javascript:;" class="detail_high_btn reckon_time" data-id="1" data-advance_id="">开始审核</a>
+                {{/if}}
+            {{else}}
+                {{#if (verifyCode(1265)) }}
+                <a href="javascript:;" class="detail_high_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/agree" data-list_url="{{url}}" data-navigation="{{navigation}}"  data-advance_id="{{vo.advance_id}}">同意</a>
+                {{/if}}
+                {{#if (verifyCode(1264)) }}
+                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/compact/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
+                {{/if}}
             {{/if}}
         {{/if}}
     {{/if}}
@@ -55,14 +66,20 @@
     {{#if (startWith(markUri + '/customer/requestpayout'))}}
         {{#if (vo.receipt_id === 1) }}
             {{#if (url === markUri + '/customer/requestpayout/pendingAudit' && vo.advance_status === 10 && vo.present_id === present_id) }}
-                {{#if (verifyCode(1115)) }}
-                <a href="javascript:;" class="detail_high_btn go_forward_check" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/agree" data-advance_id="{{vo.advance_id}}">同意</a>
-                {{/if}}
-                {{#if (verifyCode(1116)) }}
-                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=2" data-advance_id="{{vo.advance_id}}">不同意</a>
-                {{/if}}
-                {{#if (verifyCode(1184)) }}
-                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
+                {{#if (vo.start_request_time === 0) }}
+                    {{#if (verifyCode(1625)) }}
+                        <a href="javascript:;" class="detail_high_btn reckon_time" data-id="2" data-advance_id="{{vo.advance_id}}">开始审核</a>
+                    {{/if}}
+                {{else}}
+                    {{#if (verifyCode(1115)) }}
+                        <a href="javascript:;" class="detail_high_btn go_forward_check" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/agree" data-advance_id="{{vo.advance_id}}">同意</a>
+                    {{/if}}
+                    {{#if (verifyCode(1116)) }}
+                        <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=2" data-advance_id="{{vo.advance_id}}">不同意</a>
+                    {{/if}}
+                    {{#if (verifyCode(1184)) }}
+                        <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
+                    {{/if}}
                 {{/if}}
             {{/if}}
 
@@ -73,9 +90,15 @@
             {{/if}}
 
             {{#if (url === markUri +  '/customer/requestpayout/pendingDispose') }}
-                {{#if (verifyCode(1220)) }}
-                <a href="javascript:;" class="detail_high_btn affirm_submit_thirdparty" lang="{{finance_id}}" type="1" data-advance_id="{{vo.advance_id}}">确认提交</a>
-                <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=1" data-advance_id="{{vo.advance_id}}">不同意</a>
+                {{#if (vo.start_request_time === 0) }}
+                    {{#if (verifyCode(1625)) }}
+                        <a href="javascript:;" class="detail_high_btn reckon_time" data-id="2" data-advance_id="{{vo.advance_id}}">开始审核</a>
+                    {{/if}}
+                {{else}}
+                    {{#if (verifyCode(1220)) }}
+                        <a href="javascript:;" class="detail_high_btn affirm_submit_thirdparty" lang="{{finance_id}}" type="1" data-advance_id="{{vo.advance_id}}">同意</a>
+                        <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/requestpayout/disagree?type=1" data-advance_id="{{vo.advance_id}}">不同意</a>
+                    {{/if}}
                 {{/if}}
             {{/if}}
 
@@ -96,20 +119,26 @@
     <!--审批管理按钮-->
     {{#if (startWith(markUri + '/customer/approval'))}}
         {{#if (vo.present_id === present_id && vo.receipt_id === 1) }}
-            {{#if (vo.risk_type === 3 && vo.is_OperationCommit === 0) }}
+            {{#if (vo.start_request_time === 0) }}
                 {{#if (verifyCode(1221)) }}
-                <a href="javascript:;" class="detail_high_btn affirm_submit_event" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">确认提交</a>
+                    <a href="javascript:;" class="detail_high_btn reckon_time" data-id="2" data-advance_id="{{vo.advance_id}}">开始审核</a>
                 {{/if}}
             {{else}}
-                {{#if (verifyCode(1169)) }}
-                <a href="javascript:;" class="detail_high_btn go_forward_check" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/agree" data-advance_id="{{vo.advance_id}}">同意</a>
+                {{#if (vo.risk_type === 3 && vo.is_OperationCommit === 0) }}
+                    {{#if (verifyCode(1221)) }}
+                        <a href="javascript:;" class="detail_high_btn affirm_submit_event" lang="{{finance_id}}" data-advance_id="{{vo.advance_id}}">确认提交</a>
+                    {{/if}}
+                {{else}}
+                    {{#if (verifyCode(1169)) }}
+                        <a href="javascript:;" class="detail_high_btn go_forward_check" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/agree" data-advance_id="{{vo.advance_id}}">同意</a>
+                    {{/if}}
                 {{/if}}
-            {{/if}}
-            {{#if (verifyCode(1168)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
-            {{/if}}
-            {{#if (verifyCode(1185)) }}
-            <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
+                {{#if (verifyCode(1168)) }}
+                    <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/disagree" data-advance_id="{{vo.advance_id}}">不同意</a>
+                {{/if}}
+                {{#if (verifyCode(1185)) }}
+                    <a href="javascript:;" class="detail_low_btn go_forward" data-id="{{finance_id}}" data-url="{{markUri}}/customer/approval/transfer" data-advance_id="{{vo.advance_id}}">转交他人</a>
+                {{/if}}
             {{/if}}
         {{/if}}
     {{/if}}

@@ -53,8 +53,14 @@
                         {{#if (vo.status >= 5 && vo.status !== 6 && vo.status !== 7) }}
                             <li class="tab_item type_others {{#if (query_type === 2) }}active{{/if}}" data-queryType="2"><span></span>合同资料</li>
                         {{/if}}
-                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
-                            <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                        {{#if (url === markUri + '/customer/otherfund/pendingAudit') }}
+                            {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
+                                <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                            {{/if}}
+                        {{else}}
+                            {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
+                                <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                            {{/if}}
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
                             <li class="tab_item type_others {{#if (query_type === 4) }}active{{/if}}" data-queryType="4"><span></span>归档资料</li>
@@ -123,8 +129,14 @@
                         {{#if (vo.status >= 5 && vo.status !== 6 && vo.status !== 7) }}
                             <li class="tab_item type_others {{#if (photo_type === 2) }}active{{/if}}" data-photoType="2"><span></span>合同附件</li>
                         {{/if}}
-                        {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
-                            <li class="tab_item type_others {{#if (photo_type === 3) }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
+                        {{#if (url === markUri + '/customer/otherfund/pendingAudit') }}
+                            {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
+                                <li class="tab_item type_others {{#if (photo_type === 3) }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
+                            {{/if}}
+                        {{else}}
+                            {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
+                                <li class="tab_item type_others {{#if (photo_type === 3) }}active{{/if}}" data-photoType="3"><span></span>请款附件</li>
+                            {{/if}}
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
                             <li class="tab_item type_others {{#if (photo_type === 4) }}active{{/if}}" data-photoType="4"><span></span>归档附件</li>
@@ -138,29 +150,35 @@
                         <ul class="img_list" id="img_list">
                             {{#each (file_list) }}
                             <a href="javascript:;" target="_blank">
-                                <div class="list_item imgDetail" style="margin-top:0;" title="">
+                                <div class="list_item imgDetail" style="margin-top:0;" title="{{this.file_name}}">
                                     <div class="detailBox img_item">
                                         <img class=" detailImgBox" data-original="{{this.thumbnail}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
+                                        <div class="form_group photo_checkbox dis_none">
+                                            <input type="checkbox" class="" name="" value="">
+                                            <label class="order_label" data-id="{{this.file_id}}"></label>
+                                        </div>
+                                        {{#if (material_type === 3)}}
+                                            <div class="photo_supply"></div>
+                                        {{/if}}
                                     </div>
-                                    <div class="img_desc nor_wrap">{{this.file_name}}</div>
+                                    <div class="time_desc nor_wrap">{{this.file_name}}</div>
+                                    <div class="time_desc nor_wrap">{{this.create_time}}</div>
                                 </div>
                             </a>
                             {{/each}}
                         </ul>
                     </div>
-                    <div class="detail_footer">
-                        {{#if (vo.status === 3 && vo.start_audit_time === 0) }}
+                    <div class="detail_footer detail_inline_footer" style="margin:10px 0 0;">
+                        <div id="checkedAll" class="form_group inline_block dis_none" style="float: left;margin-left:20px;">
+                            <input type="checkbox" class="" name="" value="" />
+                            <label class="nor_wrap">全选</label>
+                        </div>
+                        {{#if ((url === (markUri + '/customer/loan/alreadyAllot') && vo.start_audit_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time !== 0 && present_id !== vo.compact_service_id) || (url === (markUri + '/customer/requestpayout/pendingDispose') && vo.start_request_time === 0) || (url === (markUri + '/customer/requestpayout/pendingAudit') && vo.start_request_time === 0) || (url === (markUri + '/customer/approval/pendingAudit') && vo.start_request_time === 0)) }}
 
                         {{else}}
-                            {{#if (photo_type === 1)}}
-                                <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="1" lang="{{finance_id}}">全部下载</a>
-                            {{elseif (photo_type === 2)}}
-                                <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="4" lang="{{finance_id}}">全部下载</a>
-                            {{elseif (photo_type === 4)}}
-                                <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="5" lang="{{finance_id}}">全部下载</a>
-                            {{else}}
-                                <a href="javascript:" class="customer_detail_download detail_high_btn download_file" alt="2" lang="{{finance_id}}">全部下载</a>
-                            {{/if}}
+                            <a href="javascript:;" class="detail_high_btn download_choose" lang="{{finance_id}}" style="margin-right: 68px;">下载</a>
+                            <a href="javascript:;" class="detail_high_btn download_file" lang="{{finance_id}}" style="display: none">下载选中</a>
+                            <a href="javascript:;" class="detail_low_btn download_cancel" lang="{{finance_id}}" style="display: none">取消</a>
                         {{/if}}
                     </div>
                     {{else}}
@@ -189,6 +207,8 @@
     var pigeonholeUrl = '{{url}}';
     var voStatus = '{{vo.status}}';
     var voStartAuditTime = '{{vo.start_audit_time}}';
+    var startCompactTime = '{{vo.start_compact_time}}';
+    var startRequestTime = '{{vo.start_request_time}}';
     queryType = queryType.number();
     (function () {
         var currentTime = new Date().format('yyyy/MM/dd hh:mm');
@@ -835,13 +855,147 @@
             });
         }
 
+        /**
+         *  下载按钮点击出现选择框 2018年9月17日
+         *  Created by wyt on 2018年9月17日15:32:30
+         */
+        function downloadChoose() {
+            var download_choose = $('.download_choose');
+            var photo_checkbox = $('.photo_checkbox');
+            var checkedAll = $('#checkedAll');
+            var download_file = $('.download_file');
+            var download_cancel = $('.download_cancel');
+            download_choose.off('click').on('click', function () {
+                photo_checkbox.show();
+                checkedAll.show();
+                download_file.show();
+                download_cancel.show();
+                download_choose.hide();
+            });
+            //图片附件取消按钮点击
+            download_cancel.off('click').on('click', function () {
+                photo_checkbox.hide();
+                checkedAll.hide();
+                download_file.hide();
+                download_cancel.hide();
+                download_choose.show();
+            });
+        }
+        /**
+         *  全选全不选 2018年9月17日
+         *  Created by wyt on 2018年9月17日15:48:21
+         */
+        function selectAll () {
+            var checkedAllLabel = $("#checkedAll");
+            var orderList = $('.list_item');
+            var orderLabel = orderList.find('.photo_checkbox label.order_label');     // 每个图片的复选按钮
+            checkedAllLabel.on('click', function () {
+                var _this = $(this);
+                if(_this.hasClass('checked')){
+                    orderLabel.removeClass('checked');
+                    _this.removeClass('checked');
+                }else{
+                    orderLabel.addClass('checked');
+                    _this.addClass('checked');
+                }
+            });
+        }
+
+        function verifyIsCheckAll () {
+            var verify = false;
+            var orderLabel = $('.list_item').find('.photo_checkbox label.order_label');     // 每个图片的复选按钮
+            orderLabel.each(function () {
+                var _this = $(this);
+                if (_this.hasClass('checked')) {
+                    verify = true;
+                    return false;
+                }
+            });
+            return verify;
+        }
+
+        /**
+         *  下载选中图片 2018年9月17日
+         *  Created by wyt on 2018年9月17日16:12:42
+         */
+        function download_file () {
+            var btn = $('.download_file');
+            btn.off('click').on('click', function () {
+                var verify = verifyIsCheckAll();
+                if (!verify) {
+                    $alert('请勾选图片!');
+                    return false;
+                }
+                var userNmae = $("#user_name").val();
+                var photoType = $('.order_label');
+                var photoTypeArr = [];
+                photoType.each(function () {
+                    var _this = $(this);
+                    var v = _this.data('id');
+                    if (_this.hasClass('checked')) {
+                        photoTypeArr.push(v);
+                    }
+                });
+                var photoDownload = photoTypeArr.join(',');
+                locationTo({
+                    action : 'http://download.zhihjf.cn/finance/file/download',
+                    param : {
+                        user_name : userNmae,
+                        data : photoDownload
+                    }
+                });
+            });
+        }
+
+        /**
+         *  合同计时 2018年9月18日
+         *  Created by wyt on 2018年9月18日10:03:22
+         */
+        function reckon_time () {
+            var financeId = $('#finance_id').val();
+            var btn = $('.reckon_time');
+            var parameters = {
+                finance_id : financeId
+            };
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var timeId = _this.data('id');
+                var advanceId = _this.data('advance_id');
+                var timeUrl = '';
+                if (timeId == '1') {
+                    timeUrl = contextPath + '/api/compact/start';
+                } else if (timeId == '2') {
+                    timeUrl = contextPath + '/api/request/start';
+                    parameters = {
+                        finance_id : financeId,
+                        advance_id : advanceId
+                    };
+                }
+                redefineAjax({
+                    url : timeUrl,
+                    data : parameters,
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            window.location.reload()
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert("操作失败，请稍后重试");
+                    }
+                });
+            });
+        }
+
+
         $(function () {
             if( queryType === 4 ){
                 deliveryNumber(); // 根据单号获取物流信息
             }
             toPretrialDetail();     // 跳转预审详情
             toHistoryList();        // 跳转历史订单
-            if (voStatus == 3 && voStartAuditTime == 0) {
+            if ((voStatus == 3 && voStartAuditTime == 0) || (voStatus == 8 && startCompactTime == 0) || (voStatus == 10 && startRequestTime == 0)) {
 
             } else {
                 viewLargeImage('#img_list');       // 查看大图
@@ -865,6 +1019,16 @@
             alreadyCashed();        //已回款点击逻辑
             detailAgree();//同意点击逻辑
             detailDisagree();//不同意点击逻辑
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked"); //复选框选中
+            downloadChoose();  //下载按钮点击出现选择框
+            selectAll();        //图片附件全选全不选
+            download_file();    //图片附件下载
+            reckon_time();      //合同及时
+
+
+
+
+
             //发送不合格通知
             $("#picture_reason").off("click").on('click', function () {
                 var finance_id = $(this).attr('lang');
@@ -873,18 +1037,18 @@
             });
 
             //下载
-            $(".download_file").off("click").on('click', function () {
-                var material_type = $(this).attr('alt');
-                $('#material_type').val(material_type);
-                $('#finance_download').submit();
-            });
+            // $(".download_file").off("click").on('click', function () {
+            //     var material_type = $(this).attr('alt');
+            //     $('#material_type').val(material_type);
+            //     $('#finance_download').submit();
+            // });
 
             if($(".detail_inline_footer").find("a").length === 0){
                 $(".detail_inline_footer").css("border-top","none");
             }
         });
         //重新通知结果
-            function  renewSendResult (selector, opt) {
+        function  renewSendResult (selector, opt) {
             var options = {};
             if (opt) {
                 options = $.extend({}, opt);
@@ -902,7 +1066,7 @@
                     param : options
                 });
             });
-        };
+        }
         //重新发送合同
         function  renewSendContractClick (selector, opt) {
             var options = {};
