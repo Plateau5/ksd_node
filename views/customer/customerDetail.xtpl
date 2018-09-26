@@ -1123,7 +1123,8 @@
             pageJump(".go_forward",{
                 detailUrl : detailUrl,
                 query_type : $('#query_type').val(),
-                photo_type : $('#photo_type').val()
+                photo_type : $('#photo_type').val(),
+                navigation : $('#navigation').val()
             });   //同意不同意按钮跳转
             complementDatumEvent();   // 补全资料按钮跳转
             affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
@@ -1196,6 +1197,9 @@
                 options.dataType = dataType;
                 options.list_url = list_url;
                 options.navigation = navigation;
+                options.detailUrl = detailUrl;
+                options.query_type = $('#query_type').val();
+                options.photo_type = $('#photo_type').val();
                 locationTo({
                     action : url,
                     param : options

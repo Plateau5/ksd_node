@@ -40,6 +40,7 @@
                     <input type="hidden" value="{{reqParams.detailUrl}}" class="detail_url">
                     <input type="hidden" value="{{reqParams.query_type}}" class="query_type">
                     <input type="hidden" value="{{reqParams.photo_type}}" class="photo_type">
+                    <input type="hidden" id="navigation" value="{{reqParams.navigation}}">
                     <input type="hidden" value="{{vo.account}}" id="account" name="email">
                     <input type="hidden" value="关于客户{{vo.user_name}}的贷款合同资料" name="subject" id="subject">
                     <input type="hidden" value="{{reqParams.dataType}}" name="dataType" id="dataType">
@@ -461,7 +462,8 @@
                     param : {
                         finance_id : $('#financeId').val(),
                         query_type : $('.query_type').val(),
-                        photo_type : $('.photo_type').val()
+                        photo_type : $('.photo_type').val(),
+                        navigation : $('#navigation').val()
                     }
                 });
             });
