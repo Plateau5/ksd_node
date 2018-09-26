@@ -1082,7 +1082,11 @@
             goDockingPADetail();    //跳转查看对接详情页
             pageJumpCheck(".go_forward_check");
             renewSendContractClick(".renew_send_contract");   //重新发送合同按钮跳转
-            pageJump(".go_forward");   //同意不同意按钮跳转
+            pageJump(".go_forward",{
+                detailUrl : detailUrl,
+                query_type : $('#query_type').val(),
+                photo_type : $('#photo_type').val()
+            });   //同意不同意按钮跳转
             complementDatumEvent();   // 补全资料按钮跳转
             affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
             requestpayoutPassed();     //请款通过按钮的点击逻辑
