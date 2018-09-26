@@ -171,7 +171,7 @@
                     <div class="detail_footer detail_inline_footer" style="margin:10px 0 0;">
                         <div id="checkedAll" class="form_group inline_block dis_none" style="float: left;margin-left:20px;">
                             <input type="checkbox" class="" name="" value="" />
-                            <label class="nor_wrap">全选</label>
+                            <label class="nor_wrap check_all">全选</label>
                         </div>
                         {{#if ((url === (markUri + '/customer/loan/alreadyAllot') && vo.start_audit_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time !== 0 && present_id !== vo.compact_service_id) || (url === (markUri + '/customer/requestpayout/pendingDispose') && vo.start_request_time === 0) || (url === (markUri + '/customer/requestpayout/pendingAudit') && vo.start_request_time === 0) || (url === (markUri + '/customer/approval/pendingAudit') && vo.start_request_time === 0)) }}
 
@@ -945,6 +945,10 @@
             });
             //图片附件取消按钮点击
             download_cancel.off('click').on('click', function () {
+                var checkAll = $('#checkedAll').find('.check_all');
+                var categoryCheck = $('.photo_checkbox').find('.order_label');
+                checkAll.removeClass('checked');
+                categoryCheck.removeClass('checked');
                 photo_checkbox.hide();
                 checkedAll.hide();
                 download_file.hide();
@@ -952,15 +956,49 @@
                 download_choose.show();
             });
         }
+
+        /**
+         * 监听是否全选
+         * Created by wyt on 2018年9月26日
+         */
+        function monitorSelectAll () {
+            var singleCheck = $('.order_label');
+            singleCheck.on('click', function () {
+                var _this = $(this);
+                var checkAll = $('#checkedAll').find('.check_all');
+                var categoryCheck = $('.photo_checkbox').find('.order_label');
+                if (!_this.hasClass('checked')) {
+                    var count = 0;
+                    categoryCheck.each(function () {
+                        var _this = $(this);
+                        if (_this.hasClass('checked')) {
+                            count++;
+                        }
+                    });
+                    if (count == categoryCheck.length -1) {
+                        checkAll.addClass('checked');
+                    } else {
+                        if (checkAll.hasClass('checked')) {
+                            checkAll.removeClass('checked');
+                        }
+                    }
+                } else {
+                    if (checkAll.hasClass('checked')) {
+                        checkAll.removeClass('checked');
+                    }
+                }
+            });
+        }
+
         /**
          *  全选全不选 2018年9月17日
          *  Created by wyt on 2018年9月17日15:48:21
          */
         function selectAll () {
-            var checkedAllLabel = $("#checkedAll");
-            var orderList = $('.list_item');
-            var orderLabel = orderList.find('.photo_checkbox label.order_label');     // 每个图片的复选按钮
+            var checkedAllLabel = $("#checkedAll").find('label.check_all');
             checkedAllLabel.on('click', function () {
+                var orderList = $('.list_item');
+                var orderLabel = orderList.find('.photo_checkbox label.order_label');     // 每个图片的复选按钮
                 var _this = $(this);
                 if(_this.hasClass('checked')){
                     orderLabel.removeClass('checked');
@@ -1094,8 +1132,9 @@
             alreadyCashed();        //已回款点击逻辑
             detailAgree();//同意点击逻辑
             detailDisagree();//不同意点击逻辑
-            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked"); //复选框选中
+            resetCheckboxAndRadioNew('checkbox', ".photo_checkbox label", ".checked"); //复选框选中
             downloadChoose();  //下载按钮点击出现选择框
+            monitorSelectAll(); //监听是否全选
             selectAll();        //图片附件全选全不选
             download_file();    //图片附件下载
             reckon_time();      //合同及时
