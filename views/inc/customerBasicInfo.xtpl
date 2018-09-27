@@ -10,6 +10,13 @@
 					<a href="javascript:;" class="pretrial_title toPretrialDetail mar_left_20" data-id="{{vo.pre_id}}">查看预审信息</a>
 					{{/if}}
 				{{/if}}
+                {{#if (verifyCode(1627)) }}
+                    {{#if (vo.status < 11) }}
+                        <div style="position: absolute;top:0;right: 0;">
+                            <a href="javascript:" class="detail_title_btn edit_btn edit_rebate_type edit_material" data-finance_id="{{finance_id}}">编辑</a>
+                        </div>
+                    {{/if}}
+                {{/if}}
 			</div>
 			<div class="btn_box customer_btn_box">
 				{{#if (url === markUri + '/customer/loan/passed')}}
@@ -29,7 +36,7 @@
 						<div class="item_name">客户：</div>
 						<!--<div class="item_value">{{vo.user_name}}</div>-->
 						<div class="item_value">
-							<a href="javascript:" data-name="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="{{#if (vo.order_count > 0 && vo.customer_id !== 0)}}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0 && vo.customer_id !== 0)}}{{vo.order_count}}{{/if}}</em></a>
+							<a href="javascript:" data-name="{{vo.user_name}}" title="{{vo.user_name}}" data-finance_id="{{finance_id}}" data-id="{{vo.customer_id}}" class="nowrap {{#if (vo.order_count > 0 && vo.customer_id !== 0)}}customer_name{{/if}}">{{vo.user_name}}<em class="count_num">{{#if (vo.order_count > 0 && vo.customer_id !== 0)}}{{vo.order_count}}{{/if}}</em></a>
 						</div>
 					</li>
 					{{/if}}
@@ -220,12 +227,26 @@
 						</div>
 					</li>
 					{{/if}}
-					{{#if (vo.remark) }}
+                    {{#if (vo.finance_type === 4) }}
+                        {{#if (vo.salesman && vo.salesman !== null) }}
+                        <li class="item_row">
+                            <div class="item_name">车商金融专员：</div>
+                            <div class="item_value">{{vo. salesman}}</div>
+                        </li>
+                        {{/if}}
+                        {{#if (vo.salesman_phone && vo.salesman_phone !== null) }}
+                        <li class="item_row">
+                            <div class="item_name">车商电话：</div>
+                            <div class="item_value">{{vo. salesman_phone}}</div>
+                        </li>
+                        {{/if}}
+                    {{/if}}
+                    {{#if (vo.remark) }}
                     <li class="item_row item_remark clearfix">
-						<div class="item_name">备注：</div>
-						<div class="item_value">{{vo.remark}}</div>
+                        <div class="item_name">备注：</div>
+                        <div class="item_value">{{vo.remark}}</div>
                     </li>
-					{{/if}}
+                    {{/if}}
 				</ul>
 			</div>
 

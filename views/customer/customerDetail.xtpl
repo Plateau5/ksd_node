@@ -55,11 +55,11 @@
                         {{/if}}
                         {{#if (url === markUri + '/customer/otherfund/pendingAudit') }}
                             {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status >= 9) ) }}
-                                <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                            <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
                             {{/if}}
                         {{else}}
                             {{#if ( (vo.status >= 5 && vo.compact_type === 0) || (vo.status > 9) ) }}
-                                <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
+                            <li class="tab_item type_others {{#if (query_type === 3) }}active{{/if}}" data-queryType="3"><span></span>请款资料</li>
                             {{/if}}
                         {{/if}}
                         {{#if (vo.status > 10 ) }}
@@ -171,7 +171,7 @@
                     <div class="detail_footer detail_inline_footer" style="margin:10px 0 0;">
                         <div id="checkedAll" class="form_group inline_block dis_none" style="float: left;margin-left:20px;">
                             <input type="checkbox" class="" name="" value="" />
-                            <label class="nor_wrap">全选</label>
+                            <label class="nor_wrap check_all">全选</label>
                         </div>
                         {{#if ((url === (markUri + '/customer/loan/alreadyAllot') && vo.start_audit_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time !== 0 && present_id !== vo.compact_service_id) || (url === (markUri + '/customer/requestpayout/pendingDispose') && vo.start_request_time === 0) || (url === (markUri + '/customer/requestpayout/pendingAudit') && vo.start_request_time === 0) || (url === (markUri + '/customer/approval/pendingAudit') && vo.start_request_time === 0)) }}
 
@@ -211,6 +211,8 @@
     var startRequestTime = '{{vo.start_request_time}}';
     queryType = queryType.number();
     (function () {
+        var description_type = '{{description_type}}';
+        var detailUrl = '{{detailUrl}}';
         var currentTime = new Date().format('yyyy/MM/dd hh:mm');
         var currentPerson = document.getElementById("currentTime");
         if (currentPerson != null || currentPerson != undefined) {
@@ -854,6 +856,75 @@
                 });
             });
         }
+        /**
+         * 强制归档事件
+         * @author Plateau 2018年9月18日17:29:33
+         * */
+        function forcePending () {
+            var btn = $('#forcePending');
+            if (btn.length > 0) {
+                btn.off('click').on('click', function () {
+                    var _this = $(this);
+                    var financeId = _this.data('id');
+                    var navigation = $('#navigation').val();
+                    var nodeUrl = $('#nodeUrl').val();
+                    var userName = $('#user_name').val().trim();
+                    var url = contextPath + markUri + '/customer/pigeonhole/force';
+                    locationTo({
+                        action: url,
+                        param: {
+                            finance_id: financeId,
+                            url: pigeonholeUrl,
+                            userName: userName,
+                            navigation: navigation,
+                            detailUrl: detailUrl,
+                            nodeUrl: nodeUrl,
+                            query_type : $('#query_type').val(),
+                            photo_type : $('#photo_type').val()
+                        }
+                    });
+                });
+            }
+        }
+        /**
+         * 进件资料编辑跳转事件
+         * @author Plateau 2018年9月19日15:19:39
+         * */
+        function editMaterial () {
+            var btn = $(".edit_material");
+            if (btn.length > 0) {
+                btn.off('click').on('click', function () {
+                    var _this = $(this);
+                    var financeId = _this.data('finance_id');
+                    var navigation = $('#navigation').val();
+                    var nodeUrl = $('#nodeUrl').val();
+                    var userName =$('#user_name').val().trim();
+                    var url = '';
+                    if (description_type == '1') {
+                        url = '/customer/loan/edit/entry';
+                    } else if (description_type == '2') {
+                        url = '/customer/compact/edit/entry';
+                    }  else if (description_type == '3') {
+                        url = '/customer/requestpayout/edit/entry';
+                    } else if (description_type == '4') {
+                        url = '/customer/approval/edit/entry';
+                    }
+                    locationTo({
+                        action : contextPath + markUri + url,
+                        param : {
+                            finance_id : financeId,
+                            url : pigeonholeUrl,
+                            userName : userName,
+                            navigation : navigation,
+                            detailUrl : detailUrl,
+                            nodeUrl : nodeUrl,
+                            query_type : $('#query_type').val(),
+                            photo_type : $('#photo_type').val()
+                        }
+                    });
+                });
+            }
+        }
 
         /**
          *  下载按钮点击出现选择框 2018年9月17日
@@ -874,6 +945,10 @@
             });
             //图片附件取消按钮点击
             download_cancel.off('click').on('click', function () {
+                var checkAll = $('#checkedAll').find('.check_all');
+                var categoryCheck = $('.photo_checkbox').find('.order_label');
+                checkAll.removeClass('checked');
+                categoryCheck.removeClass('checked');
                 photo_checkbox.hide();
                 checkedAll.hide();
                 download_file.hide();
@@ -881,15 +956,49 @@
                 download_choose.show();
             });
         }
+
+        /**
+         * 监听是否全选
+         * Created by wyt on 2018年9月26日
+         */
+        function monitorSelectAll () {
+            var singleCheck = $('.order_label');
+            singleCheck.on('click', function () {
+                var _this = $(this);
+                var checkAll = $('#checkedAll').find('.check_all');
+                var categoryCheck = $('.photo_checkbox').find('.order_label');
+                if (!_this.hasClass('checked')) {
+                    var count = 0;
+                    categoryCheck.each(function () {
+                        var _this = $(this);
+                        if (_this.hasClass('checked')) {
+                            count++;
+                        }
+                    });
+                    if (count == categoryCheck.length -1) {
+                        checkAll.addClass('checked');
+                    } else {
+                        if (checkAll.hasClass('checked')) {
+                            checkAll.removeClass('checked');
+                        }
+                    }
+                } else {
+                    if (checkAll.hasClass('checked')) {
+                        checkAll.removeClass('checked');
+                    }
+                }
+            });
+        }
+
         /**
          *  全选全不选 2018年9月17日
          *  Created by wyt on 2018年9月17日15:48:21
          */
         function selectAll () {
-            var checkedAllLabel = $("#checkedAll");
-            var orderList = $('.list_item');
-            var orderLabel = orderList.find('.photo_checkbox label.order_label');     // 每个图片的复选按钮
+            var checkedAllLabel = $("#checkedAll").find('label.check_all');
             checkedAllLabel.on('click', function () {
+                var orderList = $('.list_item');
+                var orderLabel = orderList.find('.photo_checkbox label.order_label');     // 每个图片的复选按钮
                 var _this = $(this);
                 if(_this.hasClass('checked')){
                     orderLabel.removeClass('checked');
@@ -995,7 +1104,7 @@
             }
             toPretrialDetail();     // 跳转预审详情
             toHistoryList();        // 跳转历史订单
-            if ((voStatus == 3 && voStartAuditTime == 0) || (voStatus == 8 && startCompactTime == 0) || (voStatus == 10 && startRequestTime == 0)) {
+            if ((pigeonholeUrl == markUri + '/customer/loan/alreadyAllot' && voStartAuditTime == 0) || (pigeonholeUrl == markUri + '/customer/compact/pendingPass' && startCompactTime == 0) || (pigeonholeUrl == markUri + '/customer/requestpayout/pendingDispose' && startRequestTime == 0)  || (pigeonholeUrl == markUri + '/customer/requestpayout/pendingAudit' && startRequestTime == 0) || (pigeonholeUrl == markUri + '/customer/approval/pendingAudit' && startRequestTime == 0)) {
 
             } else {
                 viewLargeImage('#img_list');       // 查看大图
@@ -1011,7 +1120,12 @@
             goDockingPADetail();    //跳转查看对接详情页
             pageJumpCheck(".go_forward_check");
             renewSendContractClick(".renew_send_contract");   //重新发送合同按钮跳转
-            pageJump(".go_forward");   //同意不同意按钮跳转
+            pageJump(".go_forward",{
+                detailUrl : detailUrl,
+                query_type : $('#query_type').val(),
+                photo_type : $('#photo_type').val(),
+                navigation : $('#navigation').val()
+            });   //同意不同意按钮跳转
             complementDatumEvent();   // 补全资料按钮跳转
             affirmSubmitThirdparty();    //确认提交按钮的点击逻辑
             requestpayoutPassed();     //请款通过按钮的点击逻辑
@@ -1019,16 +1133,14 @@
             alreadyCashed();        //已回款点击逻辑
             detailAgree();//同意点击逻辑
             detailDisagree();//不同意点击逻辑
-            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked"); //复选框选中
+            resetCheckboxAndRadioNew('checkbox', ".photo_checkbox label", ".checked"); //复选框选中
             downloadChoose();  //下载按钮点击出现选择框
+            monitorSelectAll(); //监听是否全选
             selectAll();        //图片附件全选全不选
             download_file();    //图片附件下载
             reckon_time();      //合同及时
-
-
-
-
-
+            forcePending();//强制归档跳转
+            editMaterial();//编辑进件资料跳转
             //发送不合格通知
             $("#picture_reason").off("click").on('click', function () {
                 var finance_id = $(this).attr('lang');
@@ -1036,12 +1148,12 @@
                 $("#picture_reason_form").submit();
             });
 
-            //下载
-            // $(".download_file").off("click").on('click', function () {
-            //     var material_type = $(this).attr('alt');
-            //     $('#material_type').val(material_type);
-            //     $('#finance_download').submit();
-            // });
+            /*//下载
+             $(".download_file").off("click").on('click', function () {
+                 var material_type = $(this).attr('alt');
+                 $('#material_type').val(material_type);
+                 $('#finance_download').submit();
+             });*/
 
             if($(".detail_inline_footer").find("a").length === 0){
                 $(".detail_inline_footer").css("border-top","none");
@@ -1085,6 +1197,9 @@
                 options.dataType = dataType;
                 options.list_url = list_url;
                 options.navigation = navigation;
+                options.detailUrl = detailUrl;
+                options.query_type = $('#query_type').val();
+                options.photo_type = $('#photo_type').val();
                 locationTo({
                     action : url,
                     param : options

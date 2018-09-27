@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
+    <title>强制归档</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div class="main force_pending">
+            <div class="crumbs_nav">
+                <a href="{{reqParams.url}}" class="crumbs_item">{{description}}</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_detail">{{vo.user_name}}</a>
+                <a href="javascript:;" class="crumbs_item">强制归档</a>
+            </div>
+
+            <div class="form_options">
+                <form action="" id="force_form" method="post">
+                    <input type="hidden" value="{{reqParams.finance_id}}" class="finance_id">
+                    <input type="hidden" value="{{reqParams.query_type}}" class="query_type">
+                    <input type="hidden" value="{{reqParams.photo_type}}" class="photo_type">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">强制归档原因：</span>
+                        </div>
+                        <div class="column_val pigeonhole_reason">
+                            {{#each (list) }}
+                            <div class="form_group mar6">
+                                <input id="reason{{xindex}}" type="radio" {{#if(this.id===10)}}checked="checked"{{/if}} name="reason" value="{{this.id}}">
+                                <label for="reason{{xindex}}" class="{{#if(this.id===10)}}checked{{/if}}">{{this.value}}</label>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+
+                    <div class="btn_box clearfix create_wf_btn_box">
+                        <a href="javascript:" class="btn orange_btn confirm create_confirm" data-id="{{reqParams.finance_id}}">确认</a>
+                        <a href="javascript:;" class="btn bg_btn cancel go_detail">取消</a>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+
+</div>
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+
+    (function ($) {
+        /**
+         * 强制归档保存事件
+         * @author Plateau 2018年9月18日17:42:03
+         * */
+        function saveEvent () {
+            var btn = $('.create_confirm');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var pigeonhole_reason = $('.pigeonhole_reason input');
+                var reason_id = '';
+                var reason = '';
+                pigeonhole_reason.each(function () {
+                    if (this.checked) {
+                        reason_id = $(this).val();
+                        reason = $(this).siblings('label').text();
+                    }
+                });
+                var financeId = _this.data('id');
+                var parameters = {
+                    finance_id : financeId,
+                    reason_id : reason_id,
+                    reason : reason
+                };
+                $.ajax({
+                    type:'post',
+                    timeout:5000,
+                    url : contextPath + "/api/requestPayout/pigeonhole",
+                    data : parameters,
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('操作成功', function () {
+                                locationTo({
+                                    action : contextPath + markUri + '/customer/pigeonhole/pending',
+                                    param : {}
+                                });
+                            })
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert("提交失败，请稍后重试");
+                    }
+                });
+            });
+        }
+        /**
+         * 取消、面包屑跳转
+         * @author Plateau 2018年9月19日17:24:39
+         * */
+        function goDetail () {
+            var go_detail = $('.go_detail');
+            go_detail.off("click").on("click", function () {
+                locationTo({
+                    action : contextPath + markUri + '/customer/pigeonhole/detail',
+                    param : {
+                        finance_id : $('.finance_id').val(),
+                        query_type : $('.query_type').val(),
+                        photo_type : $('.photo_type').val()
+                    }
+                });
+            });
+        }
+        $(function() {
+            saveEvent();//强制归档保存事件
+            goDetail();//取消、面包屑跳转
+        });
+    })(jQuery,undefined);
+</script>
+</html>
