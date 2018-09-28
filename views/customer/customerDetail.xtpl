@@ -869,6 +869,7 @@
                     var navigation = $('#navigation').val();
                     var nodeUrl = $('#nodeUrl').val();
                     var userName = $('#user_name').val().trim();
+                    var advance_id = $('#advance_id').val();
                     var url = contextPath + markUri + '/customer/pigeonhole/force';
                     locationTo({
                         action: url,
@@ -880,7 +881,8 @@
                             detailUrl: detailUrl,
                             nodeUrl: nodeUrl,
                             query_type : $('#query_type').val(),
-                            photo_type : $('#photo_type').val()
+                            photo_type : $('#photo_type').val(),
+                            advance_id : advance_id
                         }
                     });
                 });
@@ -909,6 +911,7 @@
                     } else if (description_type == '4') {
                         url = '/customer/approval/edit/entry';
                     }
+                    var advance_id = $('#advance_id').val();
                     locationTo({
                         action : contextPath + markUri + url,
                         param : {
@@ -919,7 +922,8 @@
                             detailUrl : detailUrl,
                             nodeUrl : nodeUrl,
                             query_type : $('#query_type').val(),
-                            photo_type : $('#photo_type').val()
+                            photo_type : $('#photo_type').val(),
+                            advance_id : advance_id
                         }
                     });
                 });
