@@ -6,6 +6,258 @@
  * Created by Arley on 2016/12/14.
  */
 /*** Basic configuration variables ***/
+.remark_dialog {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10000;
+  box-sizing: content-box;
+}
+.remark_dialog .main_dialog {
+  width: 800px;
+  height: 500px;
+  left: 250px;
+  top: 50px;
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 10001;
+  min-width: 600px;
+  padding: 15px 80px 40px 80px;
+  border-radius: 8px;
+  background: #FFFFFF;
+}
+.remark_dialog .main_dialog .close_remark {
+  position: absolute;
+  width: 40px;
+  top: 10px;
+  right: 10px;
+  height: 40px;
+  background: url("../img/finance/close.png") center center no-repeat;
+  cursor: pointer;
+}
+.remark_dialog .main_dialog .dialog_header {
+  margin-top: 10px;
+  height: 40px;
+  line-height: 40px;
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.remark_dialog .main_dialog .txt_remark {
+  width: 97%;
+  margin-top: 10px;
+  height: 80px;
+}
+.remark_dialog .main_dialog .txt_remark_btn {
+  margin-top: 10px;
+}
+.remark_dialog .main_dialog .txt_remark_btn a {
+  text-align: center;
+  display: block;
+  color: #fff;
+  width: 110px;
+  height: 30px;
+  line-height: 30px;
+  background: #1DC6BC;
+  border-radius: 2px;
+  float: right;
+}
+.remark_dialog .main_dialog .txt_remark_btn a:hover {
+  background: #0B9C94;
+  color: #FFF;
+}
+.remark_dialog .main_dialog .his_remark_title {
+  margin-top: 10px;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #E4E4E4;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main {
+  margin-top: 18px;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main .remark_time {
+  color: #666666;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main .remark_main_cont {
+  margin-top: 6px;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main .remark_main_cont:after {
+  clear: both;
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main .remark_main_cont .remark_main_msg {
+  float: left;
+  width: 84%;
+  line-height: 20px;
+  color: #333;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main .remark_main_cont .remark_main_btn {
+  float: right;
+  width: 15%;
+  height: 24px;
+  line-height: 20px;
+  text-align: right;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main .remark_main_cont .remark_main_btn a {
+  margin-left: 2px;
+  color: #1DC6BC;
+}
+.remark_dialog .main_dialog .his_remark_content ul .remark_main .remark_main_cont .remark_main_btn a:hover {
+  color: #0B9C94;
+}
+.tags {
+  margin-top: 10px;
+  position: relative;
+  height: auto;
+  line-height: 40px;
+  padding-left: 50px;
+}
+.tags .tags_title {
+  position: absolute;
+  left: 0;
+  width: 50px;
+}
+.tags:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.tags .tags_manage {
+  width: 80%;
+}
+.tags .tags_manage .tags_list {
+  padding-left: 5px;
+}
+.tags .tags_manage .tags_list .tag {
+  position: relative;
+  height: 30px;
+  color: #000;
+  font-weight: 400;
+  line-height: 30px;
+  padding: 0 10px 0 10px;
+  margin: 4px 10px 10px 0;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: 1px solid #DCDCDC;
+  transition: all 0.2s;
+}
+.tags .tags_manage .tags_list .tag:hover {
+  background: #DCDCDC;
+  padding-right: 20px;
+}
+.tags .tags_manage .tags_list .tag:hover .delete_btn {
+  display: block;
+}
+.tags .tags_manage .tags_list .delete_btn {
+  z-index: 100;
+  display: none;
+  content: '';
+  position: absolute;
+  right: 5px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  background-image: url("../img/close_icon.png");
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  background-size: cover;
+  cursor: pointer;
+}
+.tags .tags_manage .tags_list .tag_manage_btn {
+  position: relative;
+  padding-left: 30px;
+  color: #1DC6BC;
+  cursor: pointer;
+}
+.tags .tags_manage .tags_list .tag_manage_btn:hover {
+  color: #0B9C94;
+}
+.tags .tags_manage .tags_list .tag_manage_btn:before {
+  position: absolute;
+  top: 37px;
+  right: 8px;
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #F6F6F6;
+  border-top: 1px solid #DCDCDC;
+  border-right: 1px solid #DCDCDC;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.tags .tags_manage .tags_list .tag_manage_btn .coursetype_box {
+  display: block;
+  position: absolute;
+  top: 42px;
+  left: -40px;
+  z-index: 1003;
+  width: 360px;
+  max-height: 300px;
+  overflow: auto;
+  background-color: #fff;
+  box-shadow: 0 6px 10px 0 rgba(48, 60, 72, 0.12);
+  border-top: 1px solid #F6F6F6;
+  /*定义滚动条轨道 内阴影+圆角*/
+  /*定义滑块 内阴影+圆角*/
+}
+.tags .tags_manage .tags_list .tag_manage_btn .coursetype_box::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+}
+.tags .tags_manage .tags_list .tag_manage_btn .coursetype_box::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.tags .tags_manage .tags_list .tag_manage_btn .coursetype_box::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px #fff;
+  background-color: #f5f5f5;
+}
+.tags .tags_manage .tags_list .tag_manage_btn .coursetype_box .coursetype_div .one_level {
+  line-height: 34px;
+  background-color: #F6F6F6;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 20px;
+}
+.tags .tags_manage .tags_list .tag_manage_btn .coursetype_box .coursetype_div .coursetype_item > a {
+  display: block;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 26px;
+  font-size: 12px;
+  color: #333;
+}
+.tags .tags_manage .tags_list .tag_manage_btn .coursetype_box .coursetype_div .coursetype_item > a:hover {
+  background: rgba(29, 198, 188, 0.12);
+}
+.tags .tag_remark {
+  color: #1DC6BC;
+  margin-top: 2px;
+  height: 34px;
+  width: 78px;
+  line-height: 36px;
+  text-align: center;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: 1px solid #1DC6BC;
+  cursor: pointer;
+}
 .tab {
   width: 100%;
   margin-top: 40px;
