@@ -408,6 +408,8 @@ router.post(markUri + '/question/customer/historyRecord', questionCtrl.VIEW_QUES
 router.all(markUri + '/question/merchants/list', questionCtrl.VIEW_QUESTION_MERCHANTS_LIST);
 // 问题管理-商户问题历史记录 1393
 router.post(markUri + '/question/merchants/historyRecord', questionCtrl.VIEW_QUESTION_MERCHANTS_HISRECORD);
+// 业务-标签管理 1644
+router.all(markUri + '/label/list', questionCtrl.VIEW_LABEL_LIST);
 
 
 

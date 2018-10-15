@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/questions.css">
+    <title>业务-标签管理</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+        <!---- Part of Main info Begin ---->
+
+        <div id="main" class="main questions_list">
+            <!--无数据时-->
+            {{#if (count === 0) }}
+                <div class="no_list_data no_merchants">
+                    <div class="toast_img"></div>
+                    <div class="toast_text">抱歉，目前暂无标签分类</div>
+                    {{#if (verifyCode(1638)) }}
+                        <div class="new_classify_box">
+                            <input type="text" value="" id="new_classify" placeholder="请创建标签分类：如请款岗-缺少资料等" maxlength="20" />
+                            <div class="error_msg" style="height: 30px; line-height: 30px;"></div>
+                        </div>
+                        <div class="new_btn_box" style="height: 60px;line-height:60px;">
+                            <a href="javascript:;" class="btn blue_btn add_btn create_classify">新建标签</a>
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
+            <!--有数据时-->
+            {{#if (count > 0) }}
+                {{#if (verifyCode(1638)) }}
+                    <div class="new_btn_box text_right" style="height: 50px;line-height: 50px;margin-bottom: 15px;">
+                        <a href="javascript:" class="btn blue_btn add_btn" id="createClassify"><em></em>新建标签</a>
+                    </div>
+                {{/if}}
+                {{#each (list) }}
+                    <div class="modules">
+                        <div class="modules_title">
+                            <span>{{this.parent_name}}</span>
+                            <div class="btn_box" style="width: 600px;text-align: right;">
+                                {{#if (root.verifyCode(1641)) }}
+                                    <a href="javascript:" class="detail_title_btn create_btn" data-parent_id="{{this.parent_id}}">新建子标签</a>
+                                {{/if}}
+                                {{#if (root.verifyCode(1639)) }}
+                                    <a href="javascript:" class="detail_title_btn edit_btn edit_classify_btn" data-name="{{this.parent_name}}" data-id="{{this.parent_id}}">编辑</a>
+                                {{/if}}
+                                {{#if (root.verifyCode(1640)) }}
+                                    <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除</a>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            <ul class="questions_list">
+                                {{#if (this.child_list.length > 0) }}
+                                    {{#each (this.child_list) }}
+                                        <li class="list_item">
+                                            <span>{{this.title }}</span>
+                                            <div class="question_btns">
+                                                {{#if (root.verifyCode(1642)) }}
+                                                    <em class="question_btn edit_btn edit_question_btn" title="编辑" data-parent_id="{{../parent_id}}" data-name="{{this.title}}" data-id="{{this.id}}"></em>
+                                                {{/if}}
+                                                {{#if (root.verifyCode(1644)) }}
+                                                    <em class="question_btn remove_btn" title="删除" data-parent_id="{{../parent_id}}" data-id="{{this.id}}"></em>
+                                                {{/if}}
+                                            </div>
+                                        </li>
+                                    {{/each}}
+                                {{/if}}
+                                {{#if (this.child_list.length <= 0) }}
+                                    <div class="question_list_detail_txt_null">目前暂无数据!</div>
+                                {{/if}}
+                            </ul>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/if}}
+        </div>
+
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+        // 新建分类
+        function createClassify () {
+            // 有数据时间的新建
+            var btn = $('#createClassify');
+            btn.off('click').on('click', function (){
+                dialog('open', {
+                    title : '新建标签',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="newClassify" placeholder="请创建标签分类：如请款岗-缺少资料等" maxlength="20" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#newClassify').val());
+                        onCreate(newClassify, d);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            // 无数据时间的新建
+            var addBtn = $('.create_classify');
+            addBtn.off('click').on('click', function (){
+                var newName = $.trim($('#new_classify').val());
+                onCreate(newName);
+            });
+
+
+            var onCreate = function (newName, d) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').show().text('(标签分类名称不能为空)');
+                    $('.new_classify_box .error_msg').show().text('(标签分类名称不能为空)');
+                } else {
+                    var data = {
+                        classify_value : newName
+                    };
+                    var url = contextPath + '/label/classify/create';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d && d.close();
+                                $alert('标签分类创建成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d && d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('标签分类创建失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#newClassify, #new_classify', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(标签分类名称不能为空)');
+                    $('.new_classify_box .error_msg').show().text('(标签分类名称不能为空)');
+                } else {
+                    $('#createErrorTips').hide();
+                    $('.new_classify_box .error_msg').hide();
+                }
+            });
+        }
+
+        /* 删除标签分类 */
+        function deleteClassify () {
+            var btn = $('.delete_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var classifyId = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后此标签将不可恢复</span><br><span>确认继续删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        redefineAjax({
+                            url : contextPath + '/label/classify/delete',
+                            data : {
+                                id : classifyId
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('标签分类删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('标签分类删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        /*编辑分类*/
+        function renameClassify () {
+            var btn = $('.edit_classify_btn');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var name = $.trim(_this.data('name'));
+                var id = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '编辑',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="renameClassify" value="'+ name +'" placeholder="请编辑标签分类：如请款岗-缺少资料等" maxlength="20" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#renameClassify').val());
+                        onCreate(d, newClassify, id);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, newName, id) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').show().text('(标签分类名称不能为空)');
+                } else {
+                    var data = {
+                        id : id,
+                        classify_value : newName
+                    };
+                    var url = contextPath + '/label/classify/update';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d.close();
+                                $alert('标签分类编辑成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('标签分类编辑失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#renameClassify', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(标签分类名称不能为空)');
+                } else {
+                    $('#createErrorTips').hide();
+                }
+            });
+        }
+
+        /*新建子标签*/
+        function createLabelDetail () {
+            var btn = $('.create_btn');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var parentId = $.trim(_this.data('parent_id'));
+                dialog('open', {
+                    title : '新建子标签',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="newQuestion" placeholder="最多可输入30个字" maxlength="30" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newQuestion = $.trim($('#newQuestion').val());
+                        onCreate(d, newQuestion, parentId);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, title, parentId) {
+                if (title == '' || title.length == 0) {
+                    $('#createErrorTips').show().text('(子标签名称不能为空)');
+                } else {
+                    var data = {
+                        parent_id : parentId,
+                        title : title,
+                        content : ''
+                    };
+                    var url = contextPath + '/label/create';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d.close();
+                                $alert('子标签创建成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('子标签创建失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#newQuestion', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(子标签名称不能为空)');
+                }
+            });
+        }
+
+        /*删除子标签*/
+        function deleteLabel () {
+            var btn = $('.remove_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后此子标签将不可恢复</span><br><span>确认继续删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        redefineAjax({
+                            url : contextPath + '/label/delete',
+                            data : {
+                                label_id : id
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('子标签删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('子标签删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+
+            });
+        }
+
+        /*编辑子标签*/
+        function renameLabel () {
+            var btn = $('.edit_question_btn');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var name = $.trim(_this.data('name'));
+                var id = $.trim(_this.data('id'));
+                var pid = $.trim(_this.data('parent_id'));
+                dialog('open', {
+                    title : '编辑',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="renameQuestion" value="'+ name +'" placeholder="最多可输入30个字" maxlength="30" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#renameQuestion').val());
+                        onCreate(d, newClassify, id, pid);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, newName, id, pid) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').show().text('(子标签名称不能为空)');
+                } else {
+                    var data = {
+                        id : id,
+                        title : newName,
+                        parent_id : pid
+                    };
+                    var url = contextPath + '/label/update';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d.close();
+                                $alert('子标签编辑成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('子标签编辑失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#renameQuestion', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(子标签名称不能为空)');
+                }
+            });
+        }
+
+        $(function() {
+            createClassify();   // 新建标签
+            deleteClassify();   // 删除标签分类
+            createLabelDetail();     // 新建子标签
+            deleteLabel();     // 删除子标签
+            renameClassify();   // 编辑分类
+            renameLabel();   // 编辑子标签
+        });
+    })(jQuery,undefined);
+</script>
+</html>
