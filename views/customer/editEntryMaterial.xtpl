@@ -1,0 +1,257 @@
+<!--新建机构页-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>进件资料</title>
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main edit_entery_material">
+            <div class="crumbs_nav">
+                <a href="{{reqParams.url}}" class="crumbs_item">{{description}}</a>
+                <a href="{{reqParams.url}}" class="crumbs_item">{{reqParams.navigation}}</a>
+                <a href="javascript:;" class="crumbs_item go_detail">{{vo.user_name }}</a>
+                <a href="javascript:;" class="crumbs_item">编辑</a>
+            </div>
+            <div class="form_content form_options">
+                <input type="hidden" value="{{reqParams.detailUrl}}" class="detail_url">
+                <input type="hidden" value="{{reqParams.query_type}}" class="query_type">
+                <input type="hidden" value="{{reqParams.photo_type}}" class="photo_type">
+                <input type="hidden" value="{{reqParams.advance_id}}" class="advance_id">
+                <form action="" id="edit_info_form" method="post">
+                    <input type="hidden" value="{{reqParams.finance_id}}" class="finance_id" name="finance_id">
+                    <input type="hidden" value="{{vo.loan_type}}" name="loan_type">
+                    <!-- 基本信息 End -->
+                    <div class="options_title">客户信息</div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">姓名：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="user_name" name="user_name" value="{{vo.user_name}}" maxlength="50"/>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">手机：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="phone" name="phone" value="{{vo.phone}}" maxlength="11"/>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">证件类型：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="id_type" class="id_type">
+                                {{#each (id_type_data) }}
+                                    {{#if (../vo.id_type === this.id ) }}
+                                        <option value="{{this.id}}" selected="selected">{{this.value}}</option>
+                                    {{else}}
+                                        <option value="{{this.id}}">{{this.value}}</option>
+                                    {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">证件号码：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="id_num" name="id_num" value="{{vo.id_num}}" maxlength=""/>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">户籍地址：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="address" name="address" value="{{vo.address}}"/>
+                        </div>
+                    </div>
+                    <input type="hidden" value="{{vo.loan_type}}" class="loan_type">
+                    <!-- 基本信息 End -->
+                    <!-- 职业信息 Begin -->
+                    {{#if (vo.loan_type === 2) }}
+                    <div class="options_title">进件信息</div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">企业名称：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="business_name" name="business_name" value="{{vo.business_name}}" />
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">营业执照号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="business_license" name="business_license" value="{{vo.business_license}}" maxlength="20"/>
+                        </div>
+                    </div>
+                    {{/if}}
+                    <!-- 职业信息 End -->
+                </form>
+            </div>
+            <div class="btn_box text_left clearfix">
+                <a href="javascript:" class="btn orange_btn confirm edit_confirm">提交</a>
+                <a href="javascript:;" class="btn bg_btn edit_cancel go_detail">取消</a>
+            </div>
+
+        </div>
+        <!--listCon end-->
+    </div>
+</div>
+<!--container end-->
+<div class="loading" id="loading"></div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script>
+    (function ($) {
+        /**
+         * 保存事件
+         * @author Plateau 2018年9月19日16:52:16
+         * */
+        function saveEvent () {
+            var btn = $('.edit_confirm');
+            btn.off('click').on('click', function () {
+                submitValid();
+            });
+        }
+        /**
+         * 校验
+         * @author Plateau 2018年9月19日16:52:20
+         * */
+        function submitValid () {
+            if ($('.user_name').val().trim() == '') {
+                $alert('姓名不能为空');
+                return false;
+            }
+            var phone = $('.phone').val().trim();
+            if (phone == '') {
+                $alert('手机不能为空');
+                return false;
+            } if (!PHONEPATTERN.test(phone)) {
+                $alert('请输入正确的手机号');
+                return false;
+            }
+            if ($('.id_type').val() == '') {
+                $alert('证件类型不能为空');
+                return false;
+            }
+            var id_num = $('.id_num').val().trim();
+            if (id_num == '') {
+                $alert('证件号不能为空');
+                return false;
+            }
+            if ($('.id_type').val() == '1') {
+                if (!IDPATTERN.test(id_num)) {
+                    $alert('请输入正确的身份证号');
+                    return false;
+                }
+            }
+            if ($('.loan_type').val() == '2') {
+                if ($('.business_name').val().trim() == '') {
+                    $alert('企业名称不能为空');
+                    return false;
+                }
+                if ($('.business_license').val().trim() == '') {
+                    $alert('营业执照号不能为空');
+                    return false;
+                }
+            }
+            submitAjax();
+        }
+        /**
+         * 提交
+         * @author Plateau 2018年9月19日16:52:52
+         * */
+        function submitAjax () {
+            var parameters = new FormData(document.getElementById('edit_info_form'));
+            $.ajax({
+                type:'post',
+                timeout:5000,
+                url : contextPath + '/api/finance/web/update',
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            locationTo({
+                                action : contextPath + $('.detail_url').val(),
+                                param : {
+                                    finance_id : $('.finance_id').val(),
+                                    query_type : $('.query_type').val(),
+                                    photo_type : $('.photo_type').val(),
+                                    advance_id : $('.advance_id').val()
+                                }
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                }
+            });
+        }
+        /**
+         * 取消、面包屑跳转
+         * @author Plateau 2018年9月19日17:24:39
+         * */
+        function goDetail () {
+            var go_detail = $('.go_detail');
+            go_detail.off("click").on("click", function () {
+                locationTo({
+                    action : contextPath + $('.detail_url').val(),
+                    param : {
+                        finance_id : $('.finance_id').val(),
+                        query_type : $('.query_type').val(),
+                        photo_type : $('.photo_type').val(),
+                        advance_id : $('.advance_id').val()
+                    }
+                });
+            });
+        }
+
+        $(function() {
+            numAndAmount('.phone');//手机号只能输入数字
+            // chnAndEng(".id_num",3);  //只允许输入英文、数字
+            saveEvent();//编辑保存
+            goDetail();//取消、面包屑跳转
+        });
+    })(jQuery,undefined);
+</script>
+</html>

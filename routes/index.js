@@ -67,6 +67,15 @@ router.post(markUri + '/customer/loan/PAPretrial/detail', customerCtrl.VIEW_CUST
 // 客户管理-详情页-贷款管理-预审信息-个人信用报告
 router.post(markUri + '/customer/loan/JZPretrial/credit', customerCtrl.VIEW_CUSTOMER_JZPRETRIAL_CREDIT);
 
+// 客户管理-详情页-贷款管理-进件资料编辑跳转
+router.post(markUri + '/customer/loan/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+// 客户管理-详情页-合同管理-进件资料编辑跳转
+router.post(markUri + '/customer/compact/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+// 客户管理-详情页-请款管理-进件资料编辑跳转
+router.post(markUri + '/customer/requestpayout/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+// 客户管理-详情页-审批管理-进件资料编辑跳转
+router.post(markUri + '/customer/approval/edit/entry', customerCtrl.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY);
+
 
 // 客户管理-订单分配页面跳转 1022
 router.post(markUri + '/customer/loan/allot', customerCtrl.VIEW_CUSTOMER_LOAN_ALLOT);
@@ -183,6 +192,8 @@ router.post(markUri + '/customer/pigeonhole/notifyMaterial', customerCtrl.VIEW_C
 router.post(markUri + '/customer/pigeonhole/agree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_AGREE);
 // 客户-归档管理--不同意页面
 router.post(markUri + '/customer/pigeonhole/disagree', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE);
+// 客户-归档管理--强制归档页面 1626
+router.post(markUri + '/customer/pigeonhole/force', customerCtrl.VIEW_CUSTOMER_PIGEONHOLE_FORCE);
 
 // 客户-其他管理-访问路径 1330
 router.get(markUri + '/customer/otherfund/system', customerCtrl.VIEW_CUSTOMER_OTHERFUND_SYSTEM);
@@ -470,6 +481,8 @@ router.post(markUri + '/api/statistics/product', statisticsCtrl.API_STATISTICS_P
 router.get(markUri + '/statistics/person/system', statisticsCtrl.VIEW_STATISTICS_PERSON_SYSTEM);
 // 数据统计-人效统计-进件跳转
 router.all(markUri + '/statistics/person/order', statisticsCtrl.VIEW_STATISTICS_PERSON_ORDER);
+// 数据统计-人效统计-合同跳转
+router.all(markUri + '/statistics/person/compact', statisticsCtrl.VIEW_STATISTICS_PERSON_COMPACT);
 // 数据统计-人效统计-请款跳转
 router.all(markUri + '/statistics/person/request', statisticsCtrl.VIEW_STATISTICS_PERSON_REQUEST);
 // 数据统计-人效统计-归档跳转

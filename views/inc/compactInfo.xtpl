@@ -26,6 +26,17 @@
 						<div class="item_value">否</div>
 					{{/if}}
 				</li>
+				{{#if (vo.compact_type === 1 && vo.compact_url !== '' && vo.compact_url !== '0') }}
+				<li class="item_row">
+					<div class="item_name">合同附件：</div>
+					<div class="item_value long_text">
+						{{set (compactUrl = vo.compact_url.split(',')) }}
+						{{#each (compactUrl)}}
+							<a href="https://loan-file.oss-cn-beijing.aliyuncs.com/{{this}}" class="compact_title">合同{{xindex + 1}}</a>
+						{{/each}}
+					</div>
+				</li>
+				{{/if}}
 			</ul>
 		</div>
 		<div class="classify_title">GPS信息</div>

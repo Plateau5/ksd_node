@@ -781,7 +781,6 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DISAGREE = function(req, res, next) {
     res.render('./customer/pigeonholeAudit', data);
 };
 
-
 // 客户-其他管理-跳转
 exports.VIEW_CUSTOMER_OTHERFUND_SYSTEM = function(req, res, next) {
     try {
@@ -967,6 +966,7 @@ exports.VIEW_CUSTOMER_LOAN_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
+            formatOrderListData(data);
         }
     }, req, res, next);
 };
@@ -980,6 +980,7 @@ exports.VIEW_CUSTOMER_COMPACT_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
+            formatOrderListData(data);
         }
     }, req, res, next);
 };
@@ -993,6 +994,7 @@ exports.VIEW_CUSTOMER_REQUESTPAYOUT_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
+            formatOrderListData(data);
         }
     }, req, res, next);
 };
@@ -1006,6 +1008,7 @@ exports.VIEW_CUSTOMER_APPROVAL_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
+            formatOrderListData(data);
         }
     }, req, res, next);
 };
@@ -1048,6 +1051,7 @@ exports.VIEW_CUSTOMER_PIGEONHOLE_DETAIL = function(req, res, next) {
                 data.materialIds = materialIds;
                 data.materialName = materialName;
             }
+            formatOrderListData(data);
         }
     }, req, res, next);
 };
@@ -1061,6 +1065,29 @@ exports.VIEW_CUSTOMER_OTHERFUND_DETAIL = function(req, res, next) {
         page : './customer/customerDetail',
         callback : function (data) {
             data.vo.thousandRate = thousandRate(data);
+        }
+    }, req, res, next);
+};
+
+// 客户-归档管理--强制归档页面 1626
+exports.VIEW_CUSTOMER_PIGEONHOLE_FORCE = function(req, res, next) {
+    common.getPageData({
+        url : '/api/to/force/pigeonhole',
+        title : '归档管理-强制归档',
+        page : './customer/forcePending',
+        callback : function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
+};
+// 客户管理-详情页-进件资料编辑跳转
+exports.VIEW_CUSTOMER_DETAIL_EDIT_ENTRY = function(req, res, next) {
+    common.getPageData({
+        url : '/api/finance/to/edit',
+        title : '进件资料编辑',
+        page : './customer/editEntryMaterial',
+        callback : function (data) {
+            formatOrderListData(data);
         }
     }, req, res, next);
 };
@@ -1094,43 +1121,86 @@ function formatOrderListData (data) {
     var query_type = "";
     var photo_type = "";
     var description = "";
+    var description_type = '';//进件资料编辑路由跳转
     var originalUrl = data.originUrl;
     // 回显详情页访问路由
     if (originalUrl.indexOf( markUri + '/customer/loan') !== -1) {
         detailUrl = markUri + '/customer/loan/detail';
-        query_type = 1;
-        photo_type = 1;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 1;
+            photo_type = 1;
+        }
         description = "贷款管理";
+        description_type = 1;
     } else if (originalUrl.indexOf( markUri + '/customer/compact') !== -1) {
         detailUrl =  markUri + '/customer/compact/detail';
-        query_type = 2;
-        photo_type = 2;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 2;
+            photo_type = 2;
+        }
         description = "合同管理";
+        description_type = 2;
     } else if (originalUrl.indexOf( markUri + '/customer/requestpayout') !== -1) {
         detailUrl =  markUri + '/customer/requestpayout/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "请款管理";
+        description_type = 3;
     } else if (originalUrl.indexOf( markUri + '/customer/approval') !== -1) {
         detailUrl =  markUri + '/customer/approval/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "审批管理";
+        description_type = 4;
     } else if (originalUrl.indexOf( markUri + '/customer/financial') !== -1) {
         detailUrl =  markUri + '/customer/financial/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "回款管理";
+        description_type = 5;
     } else if (originalUrl.indexOf( markUri + '/customer/pigeonhole') !== -1) {
         detailUrl =  markUri + '/customer/pigeonhole/detail';
-        query_type = 4;
-        photo_type = 4;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 4;
+            photo_type = 4;
+        }
         description = "归档管理";
+        description_type = 6;
     } else if (originalUrl.indexOf( markUri + '/customer/otherfund') !== -1) {
         detailUrl =  markUri + '/customer/otherfund/detail';
-        query_type = 3;
-        photo_type = 3;
+        if (data.query_type) {
+            query_type = data.query_type;
+            photo_type = data.photo_type;
+        } else {
+            query_type = 3;
+            photo_type = 3;
+        }
         description = "其他款项";
+        description_type = 7;
     } else {
         throw new Error(ERRORTYPES.Route + '："' + data.originUrl + '" is not defined.');
     }
@@ -1138,6 +1208,7 @@ function formatOrderListData (data) {
     data.query_type = query_type;
     data.photo_type = photo_type;
     data.description = description;
+    data.description_type = description_type;
 };
 
 
