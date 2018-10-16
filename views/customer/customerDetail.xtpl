@@ -46,8 +46,6 @@
                 <a href="javascript:;" class="crumbs_item">查看资料</a>
             </div>
 
-
-
             <div class="tags">
                 <div class="tags_title lf">标&nbsp;&nbsp;&nbsp;签：</div>
                 <div class="tags_manage lf">
@@ -88,7 +86,6 @@
                 </div>
                 <div class="rf tag_remark">备注</div>
             </div>
-
 
             <!-- 详情tab部分 开始 -->
             <div class="details_content">
@@ -247,6 +244,7 @@
     <!-------- Part of footer End -------->
 </div>
 <div class="mask" style="display: none;"></div>
+<!-------- 备注弹出层 -------->
 <div class="remark_dialog">
     <div class="main_dialog">
         <div class="close_remark"></div>
@@ -343,7 +341,6 @@
                 })
             });
         }
-
 
         /*提交按钮的点击逻辑*/
         function affirmSubmitEvent () {
@@ -1382,10 +1379,11 @@
                     url : contextPath + '/remark/update',
                     success : function (res){
                         if (res.error_code == 0) {
-                            console.log(res);
-                            editBtn.show();
-                            _this.hide();
-                            remarkMainMsg.attr("contenteditable","false");
+                            $alert("保存成功",function(){
+                                editBtn.show();
+                                _this.hide();
+                                remarkMainMsg.attr("contenteditable","false");
+                            });
                         } else {
                             $alert(res.error_msg);
                         }
@@ -1394,7 +1392,6 @@
                         $alert('备注编辑失败，请重新尝试');
                     }
                 })
-
             });
         }
 
@@ -1411,6 +1408,10 @@
                             coursetype_box.html('');
                             // console.log(res);
                             var list = res.list;
+                            if(list.length == 0){
+                                $alert('目前暂无标签');
+                                return false;
+                            }
                             for (var i = 0;i<list.length;i++){
                                 var childList = list[i].child_list;
                                 var tagDetail ="";
@@ -1527,8 +1528,6 @@
 
             });
         }
-
-
 
 
         $(function () {
