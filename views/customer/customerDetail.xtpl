@@ -52,93 +52,36 @@
                 <div class="tags_title lf">标&nbsp;&nbsp;&nbsp;签：</div>
                 <div class="tags_manage lf">
                     <ul class="tags_list lf" id="customerTags">
-                        <li class="tag nowrap lf" data-id="">
-                            <span>123</span>
+                        {{#each (labelList) }}
+                        <li class="tag nowrap lf" data-id="{{this.id}}">
+                            <span>{{this.title}}</span>
                             <em class="delete_btn"></em>
                         </li>
-                        <li class="tag nowrap lf" data-id="">
-                            <span>缺少发票撒大大</span>
-                            <em class="delete_btn"></em>
-                        </li>
-                        <li class="tag nowrap lf" data-id="">
-                            <span>缺少发票撒大大</span>
-                            <em class="delete_btn"></em>
-                        </li>
-                        <li class="tag nowrap lf" data-id="">
-                            <span>缺少发票撒大大</span>
-                            <em class="delete_btn"></em>
-                        </li>
+                        {{/each}}
                         <!--<li class="tag nowrap lf" data-id="">-->
-                            <!--<span>缺少发票撒缺少发票撒大大缺少发票撒大大大大</span>-->
+                            <!--<span>缺少发票撒大大</span>-->
                             <!--<em class="delete_btn"></em>-->
                         <!--</li>-->
-                        <li class="tag nowrap lf" data-id="">
-                            <span>缺少发票撒大大</span>
-                            <em class="delete_btn"></em>
-                        </li>
-                        <li class="tag nowrap lf" data-id="">
-                            <span>123</span>
-                            <em class="delete_btn"></em>
-                        </li>
+
                         <!--标签管理按钮-->
                         <li class="tag_manage_btn lf">
                             <input type="hidden" name="name"/><!--标签名字-->
-                            <span style="user-select: none;">添加</span>
+                            <span style="user-select: none;" class="add_tags_btn">添加</span>
                             <div class="coursetype_box">
-                                <div class="coursetype_div">
-                                    <div class="one_level" data-id="10">新车产品资料</div>
-                                    <ul class="coursetype_ul">
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="37">创格</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="36">汇通</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="28">先锋</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="27">安吉</a>
-                                        </li>
-                                        <li class="coursetype_item nor_wrap">
-                                            <a href="javascript:;" class="nor_wrap" title="" data-id="22">平安缺少发票撒大大缺少发票撒大少发票撒大大缺少发票撒大大发票撒</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="21">东标</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="coursetype_div">
-                                    <div class="one_level" data-id="9">培训资料</div>
-                                    <ul class="coursetype_ul">
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="16">小组长训练营</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="15">城市经理分享</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="14">签约指导</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="13">极致大讲堂</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="coursetype_div">
-                                    <div class="one_level" data-id="8">极致学院</div>
-                                    <ul class="coursetype_ul">
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="46">员工职业化塑造</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="45">贷前业务流程</a>
-                                        </li>
-                                        <li class="coursetype_item">
-                                            <a href="javascript:;" data-id="44">边界认知与法律底线</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <!--<div class="coursetype_div">-->
+                                    <!--<div class="one_level" data-id="10">新车产品资料</div>-->
+                                    <!--<ul class="coursetype_ul">-->
+                                        <!--<li class="coursetype_item">-->
+                                            <!--<a href="javascript:;" data-id="37">创格</a>-->
+                                        <!--</li>-->
+                                        <!--<li class="coursetype_item nor_wrap">-->
+                                            <!--<a href="javascript:;" class="nor_wrap" title="" data-id="22">平安缺少发票撒大大缺少发票撒大少发票撒大大缺少发票撒大大发票撒</a>-->
+                                        <!--</li>-->
+                                        <!--<li class="coursetype_item">-->
+                                            <!--<a href="javascript:;" data-id="21">东标</a>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
                             </div>
                         </li>
                     </ul>
@@ -179,6 +122,7 @@
                 <input type="hidden" name="jizhi_preId" value="{{vo.jizhi_preId}}" id="JZpreId">
                 <input type="hidden" name="pre_id" value="{{vo.pre_id}}" id="PApreId">
                 <input id="finance_type" value="{{reqParams.finance_type}}" name="finance_type" type="hidden">
+                <input type="hidden" name="status" value="{{vo.status}}" id="orderStatus">
 
                 <!--本次提交材料-->
                 <input type="hidden" id="materialIds" value="{{haveMaterial.material_ids }}">
@@ -311,11 +255,11 @@
             <textarea class="txt_remark" name="" maxlength="200" placeholder="请输入备注"></textarea>
         </div>
         <div class="txt_remark_btn clearfix">
-            <a href="javascript:;">添加</a>
+            <a href="javascript:;" class="create_remark_btn">添加</a>
         </div>
         <div class="his_remark_title">历史备注</div>
         <div class="his_remark_content">
-            <ul>
+            <ul class="his_remark_list">
                 <li class="remark_main">
                     <div class="remark_main_title"><span>张三</span><span class="mar_left_20 remark_time"> 2018-10-15 17:39:56</span></div>
                     <div class="remark_main_cont">
@@ -331,6 +275,17 @@
                     <div class="remark_main_title"><span>张三</span><span class="mar_left_20 remark_time"> 2018-10-15 17:39:56</span></div>
                     <div class="remark_main_cont">
                         <div class="remark_main_msg">此客户资质太差，骗贷风险极高此客户资质太差，骗贷风险极高此客户资质太差，骗贷风险极高此客户 资质太差，骗贷风险极高</div>
+                        <div class="remark_main_btn">
+                            <a href="javascript:;">编辑</a>
+                            <a href="javascript:;">保存</a>
+                            <a href="javascript:;">删除</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="remark_main">
+                    <div class="remark_main_title"><span>张三</span><span class="mar_left_20 remark_time"> 2018-10-15 17:39:56</span></div>
+                    <div class="remark_main_cont">
+                        <div class="remark_main_msg" contenteditable="true">此客户资质太差，骗贷风险极高此客户资质太差，骗贷风险极高此客户资质太差，骗贷风险极高此客户 资质太差，骗贷风险极高</div>
                         <div class="remark_main_btn">
                             <!--<a href="javascript:;">编辑</a>-->
                             <a href="javascript:;">保存</a>
@@ -1261,9 +1216,319 @@
             var btn = $('.tag_remark');
             btn.off('click').on('click', function () {
                 var remarkDialog = $('.remark_dialog');
-                remarkDialog.show();
+                var financeId = $('#finance_id').val();
+                redefineAjax({
+                    data : {
+                        finance_id : financeId,
+                    },
+                    url : contextPath + '/remark/list',
+                    success : function (res){
+                        if (res.error_code == 0) {
+                            $('.txt_remark').val('');
+                            var hisRemarkList = $('.his_remark_list');
+                            hisRemarkList.html('');
+                            var list = res.list;
+                            for (var i = 0;i<list.length;i++){
+                                var hisRemark = '<li class="remark_main">\n' +
+                                    '              <div class="remark_main_title"><span>'+ list[i].create_name +'</span><span class="mar_left_20 remark_time">'+ list[i].create_time +'</span></div>' +
+                                    '              <div class="remark_main_cont">' +
+                                    '                   <div class="remark_main_msg"  contenteditable="false">'+ list[i].content +'</div>' +
+                                    '                   <div class="remark_main_btn">' +
+                                    '                       <a href="javascript:;" data-id="'+ list[i].id +'" class="edit_main_btn">编辑</a>' +
+                                    '                       <a href="javascript:;" data-id="'+ list[i].id +'" class="save_main_btn dis_none">保存</a>' +
+                                    '                       <a href="javascript:;" data-id="'+ list[i].id +'" class="delete_main_btn">删除</a>' +
+                                    '                   </div>' +
+                                    '              </div>' +
+                                    '        </li>';
+                                 hisRemarkList.append(hisRemark);
+                            }
+                            remarkDialog.show();
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('备注获取失败，请重新尝试');
+                    }
+                })
             });
         }
+
+        //添加备注信息
+        function createRemark () {
+            var btn = $('.create_remark_btn');
+            btn.off('click').on('click', function () {
+                var content = $('.txt_remark').val().trim();
+                var financeId = $('#finance_id').val();
+                var hisRemarkList = $('.his_remark_list');
+                var status = $('#orderStatus').val();
+                if (content == '') {
+                    $alert('请输入备注');
+                    return false;
+                }
+                redefineAjax({
+                    data : {
+                        finance_id : financeId,
+                        content : content,
+                        flag : status
+                    },
+                    url : contextPath + '/remark/create',
+                    success : function (res){
+                        if (res.error_code == 0) {
+                            // console.log(res);
+                            $('.txt_remark').val('');
+                            var hisRemark = '<li class="remark_main">\n' +
+                                '              <div class="remark_main_title"><span>'+ res.list[0].create_name +'</span><span class="mar_left_20 remark_time">'+ res.list[0].create_time +'</span></div>' +
+                                '              <div class="remark_main_cont">' +
+                                '                   <div class="remark_main_msg">'+ res.list[0].content +'</div>' +
+                                '                   <div class="remark_main_btn">' +
+                                '                       <a href="javascript:;" data-id="'+ res.list[0].id +'" class="edit_main_btn">编辑</a>' +
+                                '                       <a href="javascript:;" data-id="'+ res.list[0].id +'" class="save_main_btn dis_none">保存</a>' +
+                                '                       <a href="javascript:;" data-id="'+ res.list[0].id +'" class="delete_main_btn">删除</a>' +
+                                '                   </div>' +
+                                '              </div>' +
+                                '        </li>';
+                            hisRemarkList.prepend(hisRemark);
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('备注添加失败，请重新尝试');
+                    }
+                });
+            });
+        }
+
+        //删除备注信息
+        function deleteRemark () {
+            var body = $('body');
+            body.on('click', '.delete_main_btn',function(e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                var _this = $(this);
+                var id = _this.data('id');
+                var financeId = $('#finance_id').val();
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后将不可见，确认删除此备注？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        redefineAjax({
+                            data : {
+                                finance_id : financeId,
+                                id : id
+                            },
+                            url : contextPath + '/remark/delete',
+                            success : function (res){
+                                if (res.error_code == 0) {
+                                    var li = _this.parents('.remark_main');
+                                    li.remove();
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('备注删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        //编辑备注信息
+        function editRemark () {
+            var body = $('body');
+            body.on('click', '.edit_main_btn',function(e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                var _this = $(this);
+                var saveBtn = _this.next();
+                var remarkMainMsg = _this.parent().siblings('.remark_main_msg');
+                var t = remarkMainMsg.html();
+                _this.hide();
+                saveBtn.show();
+                remarkMainMsg.attr("contenteditable","true");
+                remarkMainMsg.focus();
+                remarkMainMsg.html('');
+                remarkMainMsg.html(t);
+
+            });
+        }
+
+        //保存备注信息
+        function saveRemark () {
+            var body = $('body');
+            body.on('click', '.save_main_btn',function(e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                var _this = $(this);
+                var id = _this.data('id');
+                var editBtn = _this.prev();
+                var remarkMainMsg = _this.parent().siblings('.remark_main_msg');
+                var content = remarkMainMsg.html();
+                redefineAjax({
+                    data : {
+                        content : content,
+                        id : id
+                    },
+                    url : contextPath + '/remark/update',
+                    success : function (res){
+                        if (res.error_code == 0) {
+                            console.log(res);
+                            editBtn.show();
+                            _this.hide();
+                            remarkMainMsg.attr("contenteditable","false");
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('备注编辑失败，请重新尝试');
+                    }
+                })
+
+            });
+        }
+
+        //点击添加标签按钮
+        function addBtnClick () {
+            var btn = $('.add_tags_btn');
+            btn.off('click').on('click', function () {
+                var coursetype_box = $('.coursetype_box');
+                redefineAjax({
+                    data : {},
+                    url : contextPath + '/label/list',
+                    success : function (res){
+                        if (res.error_code == 0) {
+                            coursetype_box.html('');
+                            // console.log(res);
+                            var list = res.list;
+                            for (var i = 0;i<list.length;i++){
+                                var childList = list[i].child_list;
+                                var tagDetail ="";
+                                for (var j = 0;j<childList.length;j++) {
+                                    tagDetail += '<li class="coursetype_item"><a href="javascript:;" class="add_label_btn" data-id="'+ childList[j].id +'">'+ childList[j].title +'</a></li>';
+                                }
+                                var tagList = '<div class="coursetype_div">\n' +
+                                    '              <div class="one_level" data-id="'+ list[i].parent_id +'">'+ list[i].parent_name +'</div>' +
+                                    '              <ul class="coursetype_ul">' +
+                                    tagDetail +
+                                    '              </ul>' +
+                                    '        </div>';
+                                coursetype_box.append(tagList);
+                                coursetype_box.show();
+                            }
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('标签列表获取失败，请重新尝试');
+                    }
+                });
+            });
+
+            // 点击页面其他区域时间关闭标签选择弹出层
+            $(document).on('click', function (e) {
+                var e = e || window.event;
+                var tag_manage_btn = $('.tag_manage_btn');
+                var coursetype_box = $('.coursetype_box');
+                var btn = $('.add_tags_btn');
+                e.stopPropagation();
+                if(!tag_manage_btn.is(e.target) && tag_manage_btn.has(e.target).length === 0){
+                    coursetype_box.hide();//隐藏div
+                }
+            });
+        }
+
+        function addTagsBtn () {
+            var body = $('body');
+            body.on('click', '.add_label_btn',function(e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                var _this = $(this);
+                var id = _this.data('id');
+                var tagNmae = _this.text();
+                var financeId = $('#finance_id').val();
+                var tag = $('.tag');
+                var flag = true;
+                tag.each(function(){
+                    var tagId = $(this).data('id');
+                    if (tagId == id) {
+                        $alert('该标签已存在，请选择其他标签');
+                        flag = false;
+                    }
+                });
+                if(flag){
+                    redefineAjax({
+                        data : {
+                            finance_id : financeId,
+                            id : id
+                        },
+                        url : contextPath + '/label/add ',
+                        success : function (res){
+                            if (res.error_code == 0) {
+                                console.log(res);
+                                var tag_manage_btn = $('.tag_manage_btn ');
+                                var coursetype_box = $(".coursetype_box");
+                                coursetype_box.hide();
+                                var tagDetail = '<li class="tag nowrap lf" data-id="'+ id +'"><span>'+ tagNmae +'</span><em class="delete_btn"></em></li>';
+                                tag_manage_btn.before(tagDetail);
+                            } else {
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('标签添加失败，请重新尝试');
+                        }
+                    });
+                }
+            });
+        }
+
+        function deleteTagsBtn () {
+            var body = $('body');
+            body.on('click', '.delete_btn',function(e) {
+                var ev = e || window.event;
+                ev.stopPropagation();
+                ev.preventDefault();
+                var _this = $(this);
+                var id = _this.parent().data('id');
+                var financeId = $('#finance_id').val();
+                redefineAjax({
+                    data : {
+                        finance_id : financeId,
+                        id : id
+                    },
+                    url : contextPath + '/label/remove ',
+                    success : function (res){
+                        if (res.error_code == 0) {
+                            // console.log(res);
+                            $alert('删除成功',function(){
+                                _this.parent().remove();
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('标签删除失败，请重新尝试');
+                    }
+                })
+
+            });
+        }
+
+
 
 
         $(function () {
@@ -1311,6 +1576,13 @@
             editMaterial();//编辑进件资料跳转
             getRemark();  //获取备注
             closeRemark(); //关闭备注
+            createRemark(); //添加备注信息
+            deleteRemark(); //删除备注信息
+            editRemark();   //编辑备注信息
+            saveRemark(); //保存备注信息
+            addBtnClick(); //点击添加标签按钮
+            addTagsBtn(); //添加标签
+            deleteTagsBtn();//删除标签
             //发送不合格通知
             $("#picture_reason").off("click").on('click', function () {
                 var finance_id = $(this).attr('lang');

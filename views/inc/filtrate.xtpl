@@ -61,19 +61,24 @@
         </div>
         {{/if}}
         <!-- 请款客服已通过列表页筛选条件 Begin -->
-        <!--{{#if(startWith(markUri + '/customer/requestpayout/pass'))}}-->
-        <!--<div class="filtrate_item inline_block">-->
-            <!--<div class="conditions_name inline_block filtrate_requestpayout_type">类型筛选：</div>-->
-            <!--<select name="already_request" class="filtrate_select req_type_select customer_select" id="request_type">-->
-                <!--<option value="">全部</option>-->
-                <!--{{#if (condition.already_request === 0) }}-->
-                <!--<option value="0">未请款</option>-->
-                <!--{{elseif (condition.already_request === 1) }}-->
-                <!--<option value="1">已请款</option>-->
-                <!--{{/if}}-->
-            <!--</select>-->
-        <!--</div>-->
-        <!--{{/if}}-->
+        {{#if(startWith(markUri + '/customer/requestpayout/pass'))}}
+        <div class="filtrate_item inline_block">
+            <div class="conditions_name inline_block filtrate_requestpayout_type">状态筛选：</div>
+            <select name="advance_status" class="filtrate_select req_type_select customer_select" id="request_type">
+                <option value="">全部</option>
+                {{#if (condition.advance_status === 9) }}
+                <option value="9" selected>已放款</option>
+                {{else}}
+                <option value="9">已放款</option>
+                {{/if}}
+                {{#if (condition.advance_status === 10) }}
+                <option value="10" selected>已回款</option>
+                {{else}}
+                <option value="10">已回款</option>
+                {{/if}}
+            </select>
+        </div>
+        {{/if}}
         <!-- 请款客服已通过列表页筛选条件 End -->
         <!-- 客服主管已通过列表页筛选条件 Begin -->
         {{#if(startWith(markUri + '/customer/loan/passed'))}}
@@ -232,6 +237,28 @@
                 </div>
             </div>
         </div>
+
+        {{#if(startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/pigeonhole'))}}
+            {{#if(startWith(markUri + '/customer/loan/pendingAllot'))}}
+            {{else}}
+                <div class="filtrate_item inline_block">
+                    <div class="conditions_name inline_block filtrate_city">标签：</div>
+                    <select name="label_id" class="filtrate_select city_select customer_select" id="label_id" style="width: 130px;">
+                        <option value="">全部</option>
+                        {{#each (labelList) }}
+                            {{set (labelList = this) }}
+                            {{#each (labelList.child_list)}}
+                                {{#if (this.id === condition.label_id) }}
+                                    <option value="{{this.id}}" selected>{{labelList.parent_name}}-{{this.title}}</option>
+                                {{else}}
+                                    <option value="{{this.id}}">{{labelList.parent_name}}-{{this.title}}</option>
+                                {{/if}}
+                            {{/each}}
+                        {{/each}}
+                    </select>
+                </div>
+            {{/if}}
+        {{/if}}
         <!--<div class="filtrate_item first_letter_conditions">-->
             <!--<div class="conditions_name  inline_block lf">姓名筛选：</div>-->
             <!--<div class="filtrate_box  inline_block">-->
