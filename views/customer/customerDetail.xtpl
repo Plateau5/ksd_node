@@ -45,47 +45,50 @@
                 <a href="javascript:;" class="crumbs_item">{{vo.user_name }}</a>
                 <a href="javascript:;" class="crumbs_item">查看资料</a>
             </div>
-
-            <div class="tags">
-                <div class="tags_title lf">标&nbsp;&nbsp;&nbsp;签：</div>
-                <div class="tags_manage lf">
-                    <ul class="tags_list lf" id="customerTags">
-                        {{#each (labelList) }}
-                        <li class="tag nowrap lf" data-id="{{this.id}}">
-                            <span>{{this.title}}</span>
-                            <em class="delete_btn"></em>
-                        </li>
-                        {{/each}}
-                        <!--<li class="tag nowrap lf" data-id="">-->
+            {{#if (url === markUri + '/customer/loan/pendingAllot' || url === markUri + '/customer/otherfund/pendingAudit' || url === markUri + '/customer/otherfund/pass' || url === markUri + '/customer/otherfund/unpass')}}
+            {{else}}
+                <div class="tags">
+                    <div class="tags_title lf">标&nbsp;&nbsp;&nbsp;签：</div>
+                    <div class="tags_manage lf">
+                        <ul class="tags_list lf" id="customerTags">
+                            {{#each (labelList) }}
+                            <li class="tag nowrap lf" data-id="{{this.id}}">
+                                <span>{{this.title}}</span>
+                                <em class="delete_btn"></em>
+                            </li>
+                            {{/each}}
+                            <!--<li class="tag nowrap lf" data-id="">-->
                             <!--<span>缺少发票撒大大</span>-->
                             <!--<em class="delete_btn"></em>-->
-                        <!--</li>-->
+                            <!--</li>-->
 
-                        <!--标签管理按钮-->
-                        <li class="tag_manage_btn lf">
-                            <input type="hidden" name="name"/><!--标签名字-->
-                            <span style="user-select: none;" class="add_tags_btn">添加</span>
-                            <div class="coursetype_box">
-                                <!--<div class="coursetype_div">-->
+                            <!--标签管理按钮-->
+                            <li class="tag_manage_btn lf">
+                                <input type="hidden" name="name"/><!--标签名字-->
+                                <span style="user-select: none;" class="add_tags_btn">添加</span>
+                                <div class="coursetype_box">
+                                    <!--<div class="coursetype_div">-->
                                     <!--<div class="one_level" data-id="10">新车产品资料</div>-->
                                     <!--<ul class="coursetype_ul">-->
-                                        <!--<li class="coursetype_item">-->
-                                            <!--<a href="javascript:;" data-id="37">创格</a>-->
-                                        <!--</li>-->
-                                        <!--<li class="coursetype_item nor_wrap">-->
-                                            <!--<a href="javascript:;" class="nor_wrap" title="" data-id="22">平安缺少发票撒大大缺少发票撒大少发票撒大大缺少发票撒大大发票撒</a>-->
-                                        <!--</li>-->
-                                        <!--<li class="coursetype_item">-->
-                                            <!--<a href="javascript:;" data-id="21">东标</a>-->
-                                        <!--</li>-->
+                                    <!--<li class="coursetype_item">-->
+                                    <!--<a href="javascript:;" data-id="37">创格</a>-->
+                                    <!--</li>-->
+                                    <!--<li class="coursetype_item nor_wrap">-->
+                                    <!--<a href="javascript:;" class="nor_wrap" title="" data-id="22">平安缺少发票撒大大缺少发票撒大少发票撒大大缺少发票撒大大发票撒</a>-->
+                                    <!--</li>-->
+                                    <!--<li class="coursetype_item">-->
+                                    <!--<a href="javascript:;" data-id="21">东标</a>-->
+                                    <!--</li>-->
                                     <!--</ul>-->
-                                <!--</div>-->
-                            </div>
-                        </li>
-                    </ul>
+                                    <!--</div>-->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="rf tag_remark">备注</div>
                 </div>
-                <div class="rf tag_remark">备注</div>
-            </div>
+            {{/if}}
+
 
             <!-- 详情tab部分 开始 -->
             <div class="details_content">
