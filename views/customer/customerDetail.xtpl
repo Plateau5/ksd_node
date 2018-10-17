@@ -1373,7 +1373,12 @@
                 var id = _this.data('id');
                 var editBtn = _this.prev();
                 var remarkMainMsg = _this.parent().siblings('.remark_main_msg');
-                var content = remarkMainMsg.text();
+                var content = remarkMainMsg.text().trim();
+                if (content == '') {
+                    $alert('请输入备注');
+                    return false;
+                }
+
                 redefineAjax({
                     data : {
                         content : content,
