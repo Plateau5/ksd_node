@@ -1377,6 +1377,9 @@
                 if (content == '') {
                     $alert('请输入备注');
                     return false;
+                } else if (content.length > 200){
+                    $alert('备注内容不能超过200个字');
+                    return false;
                 }
 
                 redefineAjax({
