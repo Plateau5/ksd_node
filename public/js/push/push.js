@@ -1,7 +1,8 @@
 $(function($){
 //	warm();
-	windowInFocus();
-	getMessagesInfo('#header_messages');
+    windowInFocus();
+    getMessagesInfo('#header_messages');
+    workStatus();//工作状态切换
 });
 
 
@@ -20,39 +21,39 @@ function warm() {
 
 
 var Cookie = {
-	    set : function (name, value, expiredays, path, callback) {
-	        var exdate = new Date();
-	        exdate.setDate(exdate.getDate() + expiredays);
-	        document.cookie = name + "=" + escape(value) + ((expiredays==null) ? "" : ";expires=" + exdate.toGMTString()) + ";" + ((path==null) ? "" : "path=" + escape(path));
-	        if (typeof callback == "function") {
-	            callback && callback();
-	        }
-	    },
-	    del : function (name, callback) {
-	        var exp = new Date();
-	        exp.setTime(exp.getTime() - 1);
-	        var cval = getCookie(name);
-	        if(cval != null) {
-	            document.cookie= name + "="+ cval +";expires="+exp.toGMTString();
-	        }
-	        if (typeof callback == "function") {
-	            callback && callback();
-	        }
-	    },
-	    get : function (name, callback) {
-	        if (document.cookie.length > 0) {
-	            var arr,
-	                    reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-	            if(arr = document.cookie.match(reg))
-	                return arr[2];
-	            else
-	                return null;
-	        }
-	        if (typeof callback == "function") {
-	            callback && callback();
-	        }
-	    }
-	};
+    set : function (name, value, expiredays, path, callback) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + expiredays);
+        document.cookie = name + "=" + escape(value) + ((expiredays==null) ? "" : ";expires=" + exdate.toGMTString()) + ";" + ((path==null) ? "" : "path=" + escape(path));
+        if (typeof callback == "function") {
+            callback && callback();
+        }
+    },
+    del : function (name, callback) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval = getCookie(name);
+        if(cval != null) {
+            document.cookie= name + "="+ cval +";expires="+exp.toGMTString();
+        }
+        if (typeof callback == "function") {
+            callback && callback();
+        }
+    },
+    get : function (name, callback) {
+        if (document.cookie.length > 0) {
+            var arr,
+                reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if(arr = document.cookie.match(reg))
+                return arr[2];
+            else
+                return null;
+        }
+        if (typeof callback == "function") {
+            callback && callback();
+        }
+    }
+};
 
 /**
  * 判断当前窗口是否为USER屏幕最前端视口
@@ -64,13 +65,13 @@ var Cookie = {
  */
 var WINDOWFOCUS = true; //该全局变量用于保存当前页面是否在屏幕最前端（即：未最小化或是未切换任务栏）
 function windowInFocus () {
-	$(window).on("focus", function () {
-		WINDOWFOCUS = true;
-	});
-	$(window).on("blur", function () {
-		WINDOWFOCUS = false;
-	});
-	return true;
+    $(window).on("focus", function () {
+        WINDOWFOCUS = true;
+    });
+    $(window).on("blur", function () {
+        WINDOWFOCUS = false;
+    });
+    return true;
 }
 
 /**
@@ -80,71 +81,78 @@ function windowInFocus () {
  */
 
 function getMessagesInfo(selector) {
-	if (!selector) {
-		return;
-	} else if (typeof selector != 'string') {
-		console.log("The parameters of 'selector''s type must be a string.");
-		return;
-	}
-	var cookieValue = Cookie.get("logininfo");
-	var getMessages = function () {
-		var newMessage = 0;
-		$.post(contextPath+"/api/message/getNotice?query_type=1",function(datas){
-			var data = eval(datas);
-			if (data.error_code == 0) {
-				$("#header_image_url").attr("src",data.image_url);
-				$("#header_username").html(data.name);
-				$("#id_center").show();
-				//if (data.cookie != cookieValue) {
-					//alert("登录失效，请重新登录");
-					//window.location.href = contextPath + "/login/logout";
-				//} else {
-					if (data.other_count > 0) {
-						newMessage = data.other_count;
-						$(selector).addClass('active');
-						$(".message_count").find("span").text(data.other_count).end().show();
-					} else if(data.other_count =='0'){
+    if (!selector) {
+        return;
+    } else if (typeof selector != 'string') {
+        console.log("The parameters of 'selector''s type must be a string.");
+        return;
+    }
+    var cookieValue = Cookie.get("logininfo");
+    var getMessages = function () {
+        var newMessage = 0;
+        $.post(contextPath+"/api/message/getNotice?query_type=1",function(datas){
+            var data = eval(datas);
+            if (data.error_code == 0) {
+                if (data.work_status == 1) {
+                    $('.work_status').addClass('work_active');
+                    $('.work_setting .working').addClass('active');
+                } else {
+                    $('.work_status').addClass('rest_active');
+                    $('.work_setting .resting').addClass('active');
+                }
+                $("#header_image_url").attr("src",data.image_url);
+                $("#header_username").html(data.name);
+                $("#id_center").show();
+                //if (data.cookie != cookieValue) {
+                //alert("登录失效，请重新登录");
+                //window.location.href = contextPath + "/login/logout";
+                //} else {
+                if (data.other_count > 0) {
+                    newMessage = data.other_count;
+                    $(selector).addClass('active');
+                    $(".message_count").find("span").text(data.other_count).end().show();
+                }else if(data.other_count =='0'){
+                    $(selector).removeClass('active');
+                    $(".message_count ").hide().find("span").text("");
+                    $(".message_tip").hide().find(".count").text("");
+                }
+                if(data.count > '0'){
+                    /*newMessage = data.count;
+                    $(selector).addClass('active');
+                    $(".message_count").find("span").text(data.count).end().show();*/
+                    // $(".message_tip").show().find(".count").text(data.count);
+                    //五秒钟后隐藏页面提示框。
+                    var timer = setTimeout(function () {
+                        $(".message_tip").hide();
+                        clearTimeout(timer);
+                    }, 5000);
+                    //当前页面处于屏幕最前端视口时不弹出桌面提示
+                    if (!WINDOWFOCUS) {
+                        messageNotification("快收单", "您有"+ data.count +"条待处理事项", contextPath + "/home", contextPath + "/static/icon/kuaisd_m_logo.png");
+                    }
+                }/*else if(data.count =='0'){
                         $(selector).removeClass('active');
                         $(".message_count ").hide().find("span").text("");
                         $(".message_tip").hide().find(".count").text("");
-                    }
-					if(data.count > '0'){
-						/*newMessage = data.count;
-						$(selector).addClass('active');
-						$(".message_count").find("span").text(data.count).end().show();*/
-						// $(".message_tip").show().find(".count").text(data.count);
-						//五秒钟后隐藏页面提示框。
-						var timer = setTimeout(function () {
-							$(".message_tip").hide();
-							clearTimeout(timer);
-						}, 5000);
-						//当前页面处于屏幕最前端视口时不弹出桌面提示
-						if (!WINDOWFOCUS) {
-							messageNotification("快收单", "您有"+ data.count +"条待处理事项", contextPath + "/home", contextPath + "/static/icon/kuaisd_m_logo.png");
-						}
-					}/*else if(data.count =='0'){
-						$(selector).removeClass('active');
-						$(".message_count ").hide().find("span").text("");
-						// $(".message_tip").hide().find(".count").text("");
-					}*/
-				//}
-			} else if (data.error_code == 800||data.error_code == 1000 || data.error_code == 802|| data.error_code == 804) {
-				alert("登录失效，请重新登录");
-				window.location.href = contextPath + "/login/logout";
-			} else {
-				// alert(data.error_msg);
-				console.log(data.error_msg);
-			}
-		});
-		return newMessage;
-	};
-	getMessages();
-	setInterval(function () {
-		//var mCount = getMessages();
-		getMessages();
-		//调用消息提醒功能
-		//messageNotification("快收单", "您有"+ mCount +"条待处理事项", contextPath + "/home", contextPath + "/static/icon/kuaisd_m_logo.png");
-	}, 300000);
+                    }*/
+                //}
+            } else if (data.error_code == 800||data.error_code == 1000 || data.error_code == 802|| data.error_code == 804) {
+                alert("登录失效，请重新登录");
+                window.location.href = contextPath + "/login/logout";
+            } else {
+                // alert(data.error_msg);
+                console.log(data.error_msg);
+            }
+        });
+        return newMessage;
+    };
+    getMessages();
+    setInterval(function () {
+        // var mCount = getMessages();
+        getMessages();
+        //调用消息提醒功能
+        //messageNotification("快收单", "您有"+ mCount +"条待处理事项", contextPath + "/home", contextPath + "/static/icon/kuaisd_m_logo.png");
+    }, 300000);
 }
 
 /**
@@ -157,113 +165,113 @@ function getMessagesInfo(selector) {
  *  @returns {*}
  */
 function messageNotification (title, showDetailInfo, href, icon) {
-	if (!!title) {
-		if (typeof title != 'string') {
-			throw new Error("The parameter of 'title''s type must be a string.");
-			return;
-		}
-	} else {
-		throw new Error("The parameter of 'title' is not defined.");
-	}
+    if (!!title) {
+        if (typeof title != 'string') {
+            throw new Error("The parameter of 'title''s type must be a string.");
+            return;
+        }
+    } else {
+        throw new Error("The parameter of 'title' is not defined.");
+    }
 
-	if (!!showDetailInfo) {
-		if (typeof showDetailInfo != 'string') {
-			throw new Error("The parameter of 'showDetailInfo''s type must be a string.");
-			return;
-		}
-	} else {
-		throw new Error("The parameter of 'showDetailInfo' is not defined.");
-	}
+    if (!!showDetailInfo) {
+        if (typeof showDetailInfo != 'string') {
+            throw new Error("The parameter of 'showDetailInfo''s type must be a string.");
+            return;
+        }
+    } else {
+        throw new Error("The parameter of 'showDetailInfo' is not defined.");
+    }
 
-	if (!!href) {
-		if (typeof href != 'string') {
-			throw new Error("The parameter of 'href''s type must be a string.");
-			return;
-		}
-	} else {
-		throw new Error("The parameter of 'href' is not defined.");
-	}
+    if (!!href) {
+        if (typeof href != 'string') {
+            throw new Error("The parameter of 'href''s type must be a string.");
+            return;
+        }
+    } else {
+        throw new Error("The parameter of 'href' is not defined.");
+    }
 
-	if (!!icon) {
-		if (typeof icon != 'string') {
-			throw new Error("The parameter of 'icon''s type must be a string.");
-			return;
-		}
-	} else {
-		throw new Error("The parameter of 'icon' is not defined.");
-	}
+    if (!!icon) {
+        if (typeof icon != 'string') {
+            throw new Error("The parameter of 'icon''s type must be a string.");
+            return;
+        }
+    } else {
+        throw new Error("The parameter of 'icon' is not defined.");
+    }
 
-	var NotificationHandler = {
-		isNotificationSupported: 'Notification' in window,
-		isPermissionGranted: function() {
-			return Notification.permission === 'granted';
-		},
-		requestPermission: function() {
-			if (!this.isNotificationSupported) {
-				//console.log('the current browser does not support Notification API');
-				alert("该浏览器目前不支持消息推送，请更换Chrome浏览器打开");
-				return;
-			}
+    var NotificationHandler = {
+        isNotificationSupported: 'Notification' in window,
+        isPermissionGranted: function() {
+            return Notification.permission === 'granted';
+        },
+        requestPermission: function() {
+            if (!this.isNotificationSupported) {
+                //console.log('the current browser does not support Notification API');
+                alert("该浏览器目前不支持消息推送，请更换Chrome浏览器打开");
+                return;
+            }
 
-			Notification.requestPermission(function(status) {
-				//status是授权状态，如果用户允许显示桌面通知，则status为'granted'
-				//permission只读属性
-				//var permission = Notification.permission;
-				//default 用户没有接收或拒绝授权 不能显示通知
-				//granted 用户接受授权 允许显示通知
-				//denied  用户拒绝授权 不允许显示通知
-			});
-		},
-		showNotification: function() {
-			if (!this.isNotificationSupported) {
-				//console.log('the current browser does not support Notification API');
-				alert("该浏览器目前不支持消息推送，请更换Chrome浏览器打开");
-				return;
-			}
-			if (!this.isPermissionGranted()) {
-				//console.log('the current page has not been granted for notification');
-				this.requestPermission();
-			}
+            Notification.requestPermission(function(status) {
+                //status是授权状态，如果用户允许显示桌面通知，则status为'granted'
+                //permission只读属性
+                //var permission = Notification.permission;
+                //default 用户没有接收或拒绝授权 不能显示通知
+                //granted 用户接受授权 允许显示通知
+                //denied  用户拒绝授权 不允许显示通知
+            });
+        },
+        showNotification: function() {
+            if (!this.isNotificationSupported) {
+                //console.log('the current browser does not support Notification API');
+                alert("该浏览器目前不支持消息推送，请更换Chrome浏览器打开");
+                return;
+            }
+            if (!this.isPermissionGranted()) {
+                //console.log('the current page has not been granted for notification');
+                this.requestPermission();
+            }
 
-			var n = new Notification(title, {
-				tag : 1,
-				renotify : true,
-				requireInteraction : true,
-				icon: icon,
-				body: showDetailInfo
-			});
+            var n = new Notification(title, {
+                tag : 1,
+                renotify : true,
+                requireInteraction : true,
+                icon: icon,
+                body: showDetailInfo
+            });
 
-			//onshow函数在消息框显示时会被调用
-			//可以做一些数据记录及定时操作等
-			/*n.onshow = function() {
-			 //5秒后关闭消息框
-			 setTimeout(function() {
-			 n.close();
-			 }, 5000);
-			 };*/
+            //onshow函数在消息框显示时会被调用
+            //可以做一些数据记录及定时操作等
+            /*n.onshow = function() {
+             //5秒后关闭消息框
+             setTimeout(function() {
+             n.close();
+             }, 5000);
+             };*/
 
-			//消息框被点击时被调用
-			//可以打开相关的视图，同时关闭该消息框等操作
-			n.onclick = function() {
-				window.location.href = href;
-				n.close();
-			};
+            //消息框被点击时被调用
+            //可以打开相关的视图，同时关闭该消息框等操作
+            n.onclick = function() {
+                window.location.href = href;
+                n.close();
+            };
 
-			//当有错误发生时会onerror函数会被调用
-			//如果没有granted授权，创建Notification对象实例时，也会执行onerror函数
-			n.onerror = function() {
-				console.log('Notification encounters an error.');
-				//do something useful
-			};
+            //当有错误发生时会onerror函数会被调用
+            //如果没有granted授权，创建Notification对象实例时，也会执行onerror函数
+            n.onerror = function() {
+                console.log('Notification encounters an error.');
+                //do something useful
+            };
 
-			//一个消息框关闭时onclose函数会被调用
-			/*n.onclose = function() {
-			 //do something useful
-			 };*/
-		}
-	};
+            //一个消息框关闭时onclose函数会被调用
+            /*n.onclose = function() {
+             //do something useful
+             };*/
+        }
+    };
 
-	return NotificationHandler.showNotification();
+    return NotificationHandler.showNotification();
 }
 
 /**
@@ -277,28 +285,28 @@ function messageNotification (title, showDetailInfo, href, icon) {
  */
 
 function bindEvents (type, selector, callback) {
-	if (!type || !selector) {
-		console.log("The parameters of 'type' or 'selector' is not defined.")
-		return false;
-	} else {
-		if (typeof type != "string") {
-			console.log("The parameters of 'selector''s type must be a string.");
-			return false;
-		}
-		if (typeof selector != "string") {
-			console.log("The parameters of 'selector''s type must be a string.");
-			return false;
-		}
-	}
-	if (!!callback && typeof callback != 'function') {
-		console.log("The parameters of 'callback' is not defined or it's type is not a function.");
-	}
-	//input.trigger('input propertychange');
-	var ele = $(selector);
-	ele.off(type).on(type, function (e) {
-		var e = e || window.event;
-		callback && callback(e);
-	});
+    if (!type || !selector) {
+        console.log("The parameters of 'type' or 'selector' is not defined.")
+        return false;
+    } else {
+        if (typeof type != "string") {
+            console.log("The parameters of 'selector''s type must be a string.");
+            return false;
+        }
+        if (typeof selector != "string") {
+            console.log("The parameters of 'selector''s type must be a string.");
+            return false;
+        }
+    }
+    if (!!callback && typeof callback != 'function') {
+        console.log("The parameters of 'callback' is not defined or it's type is not a function.");
+    }
+    //input.trigger('input propertychange');
+    var ele = $(selector);
+    ele.off(type).on(type, function (e) {
+        var e = e || window.event;
+        callback && callback(e);
+    });
 }
 
 /**
@@ -308,25 +316,23 @@ function bindEvents (type, selector, callback) {
  * @param opt {Object} 额外传递的参数
  */
 function  pageJump (selector, opt) {
-	var options = {};
-	if (opt) {
-		options = $.extend({}, opt);
-	}
-	var btn = $(selector);
-	btn.off("click").on("click", function () {
-		var target = $(this);
-		var financeId = $.trim(target.data("id"));
-		var workflowId = $.trim(target.data("flow_id"));
-		var advanceId = $.trim(target.data("advance_id"));
-		var url = $.trim(target.data("url"));
-		financeId && (options.finance_id = financeId);
-		workflowId && (options.id = workflowId);
-        advanceId && (options.advance_id = advanceId);
-		locationTo({
-			action : url,
-			param : options
-		});
-	});
+    var options = {};
+    if (opt) {
+        options = $.extend({}, opt);
+    }
+    var btn = $(selector);
+    btn.off("click").on("click", function () {
+        var target = $(this);
+        var financeId = $.trim(target.data("id"));
+        var workflowId = $.trim(target.data("flow_id"));
+        var url = $.trim(target.data("url"));
+        financeId && (options.finance_id = financeId);
+        workflowId && (options.id = workflowId);
+        locationTo({
+            action : url,
+            param : options
+        });
+    });
 }
 
 /**
@@ -337,96 +343,117 @@ function  pageJump (selector, opt) {
 function viewLargeImage (selector) {
     var selectorName = selector || '#viewerImageList';
     var galley = $(selectorName);
-
     galley.each(function (i, t) {
-        // var imgItem = $(this).find('.img_item');
-        var imgItem = $(this).find('img');
-        if (imgItem.length > 0) {
-            var viewer = new Viewer(t, {
-                url: 'data-original',
-                interval : 2000,
-                loop : true,
-                toolbar: {
-                    zoomIn : true,
-                    zoomOut : true,
-                    oneToOne: true,
-                    reset : true,
-                    prev: function() {
-                        viewer.prev(true);
-                    },
-                    play: true,
-                    next: function() {
-                        viewer.next(true);
-                    },
-                    rotateLeft : true,
-                    rotateRight : true,
-                    flipHorizontal : true,
-                    flipVertical : true,
-                    download: function() {
-                        var a = document.createElement('a');
-                        a.href = viewer.image.src;
-                        a.download = viewer.image.alt;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                    }
+        var viewer = new Viewer(t, {
+            url: 'data-original',
+            interval : 2000,
+            loop : true,
+            toolbar: {
+                zoomIn : true,
+                zoomOut : true,
+                oneToOne: true,
+                reset : true,
+                prev: function() {
+                    viewer.prev(true);
+                },
+                play: true,
+                next: function() {
+                    viewer.next(true);
+                },
+                rotateLeft : true,
+                rotateRight : true,
+                flipHorizontal : true,
+                flipVertical : true,
+                download: function() {
+                    var a = document.createElement('a');
+                    a.href = viewer.image.src;
+                    a.download = viewer.image.alt;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
                 }
-            });
-        }
+            }
+        });
     });
 }
-Array.prototype.indexOf = function(val) {
-    for (var i = 0; i < this.length; i++) {
-        if (this[i] == val) return i;
-    }
-    return -1;
-};
-Array.prototype.remove = function(val) {
-    var index = this.indexOf(val);
-    if (index > -1) {
-        this.splice(index, 1);
-    }
-};
-String.prototype.number = function () {
-    return Number(this);
-};
-String.prototype.trim = function () {
-    return $.trim(this);
-};
-Number.prototype.number = function() {
-    return Number(this);
-};
 /**
- * 金额整数校验
- * @author QI 2018年7月6日18:12:22
- * @desc : 数字最大值校验
- * @param: obj {Object} 当前对象
- * @return  *
+ *  主导航的工作状态切换
+ *  @author Plateau  2018年10月16日13:43:23
  */
-
-var MAXINTEGER = 7;
-
-function checkMoney(obj){
-    //先把非数字的都替换掉，除了数字和.
-    obj.value = obj.value.replace(/[^\d.]/g,"");
-
-    //保证只有出现一个.而没有多个.
-    obj.value = obj.value.replace(/\.{2,}/g,".");
-
-    //必须保证第一个为数字而不是.
-    obj.value = obj.value.replace(/^\./g,"");
-
-    //保证.只出现一次，而不能出现两次以上
-    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-
-    //只能输入两个小数
-    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
-
-    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
-        obj.value= parseFloat(obj.value);
-    }
-    if(obj.value>9999999.99){
-        obj.value = obj.value.slice(0,MAXINTEGER);
-        return;
-    }
+function workStatus () {
+    var work_status = $('.work_status');
+    work_status.off("click").on("click", function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
+        var _this = $(this).find('.work_setting');
+        if (_this.is(':hidden')) {
+            _this.show();
+        } else {
+            _this.hide();
+        }
+        $(document).on('click',function (e) {
+            var ev = e || window.event;
+            ev.stopPropagation();
+            var target = $(ev.target);
+            var parent = target.parents('.work_setting');
+            if (target.hasClass('work_setting')) {
+                return false;
+            } else if (parent.length <= 0) {
+                _this.hide();
+                return true;
+            } else {
+                return true;
+            }
+        });
+    });
+    var setting_item = work_status.find('.setting_item');
+    setting_item.each(function () {
+        var _this = $(this);
+        _this.off("click").on("click", function (e) {
+            var ev = e || window.event;
+            ev.stopPropagation();
+            ev.preventDefault();
+            if (_this.find('a').hasClass('active')) {
+                return false;
+            }
+            if (_this.find('a').hasClass('working')) {
+                var work_status = 1;
+            } else {
+                var work_status = 0;
+            }
+            $.ajax({
+                type : "post",
+                url : contextPath + '/api/employee/workstatus ',
+                data : {
+                    work_status : work_status
+                },
+                async : true,
+                timeout : 50000,
+                success : function (res) {
+                    $('.work_setting').hide();
+                    if (res.error_code == 0) {
+                        _this.parents('.work_setting').find('a').removeClass('active');
+                        _this.find('a').addClass('active');
+                        if (work_status == 1) {
+                            if (_this.parents('.work_status').hasClass('rest_active')) {
+                                _this.parents('.work_status').removeClass('rest_active');
+                            }
+                            _this.parents('.work_status').addClass('work_active');
+                        } else {
+                            if (_this.parents('.work_status').hasClass('work_active')) {
+                                _this.parents('.work_status').removeClass('work_active');
+                            }
+                            _this.parents('.work_status').addClass('rest_active');
+                        }
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $alert('切换失败，请重试');
+                }
+            });
+        });
+    });
 }

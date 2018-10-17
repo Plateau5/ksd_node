@@ -1275,7 +1275,7 @@ function workStatus () {
             }
         });
     });
-    var setting_item = $('.setting_item');
+    var setting_item = work_status.find('.setting_item');
     setting_item.each(function () {
         var _this = $(this);
         _this.off("click").on("click", function (e) {
