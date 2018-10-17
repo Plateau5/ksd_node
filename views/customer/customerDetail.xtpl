@@ -169,16 +169,19 @@
                         </ul>
                     </div>
                     <div class="detail_footer detail_inline_footer" style="margin:10px 0 0;">
-                        <div id="checkedAll" class="form_group inline_block dis_none" style="float: left;margin-left:20px;">
+                        <div id="checkedAll" class="form_group inline_block dis_none" style="float: left;margin-left:20px;height: 66px;line-height: 72px;">
                             <input type="checkbox" class="" name="" value="" />
                             <label class="nor_wrap check_all">全选</label>
                         </div>
-                        <select name="thumbnail" class="thumbnail_select" style="width:130px;">
-                            <option value="" selected="selected">原图</option>
-                            <option value="@1500w.jpg">大图</option>
-                            <option value="@1000w.jpg">中图</option>
-                            <option value="@800w.jpg">小图</option>
-                        </select>
+                        <div id="thumbnailBox" class="filtrate" style="float: left;display: none;margin-left: 18px;">
+                            <select name="thumbnail" class="thumbnail_select filtrate_select" style="width:130px;">
+                                <option value="" selected="selected">原图</option>
+                                <option value="@1500w.jpg">大图</option>
+                                <option value="@1000w.jpg">中图</option>
+                                <option value="@800w.jpg">小图</option>
+                            </select>
+                        </div>
+
                         {{#if ((url === (markUri + '/customer/loan/alreadyAllot') && vo.start_audit_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time !== 0 && present_id !== vo.compact_service_id) || (url === (markUri + '/customer/requestpayout/pendingDispose') && vo.start_request_time === 0) || (url === (markUri + '/customer/requestpayout/pendingAudit') && vo.start_request_time === 0) || (url === (markUri + '/customer/approval/pendingAudit') && vo.start_request_time === 0)) }}
 
                         {{else}}
@@ -946,12 +949,14 @@
             var checkedAll = $('#checkedAll');
             var download_file = $('.download_file');
             var download_cancel = $('.download_cancel');
+            var thumbnailBox = $('#thumbnailBox');
             download_choose.off('click').on('click', function () {
                 photo_checkbox.show();
                 checkedAll.show();
                 download_file.show();
                 download_cancel.show();
                 download_choose.hide();
+                thumbnailBox.show();
             });
             //图片附件取消按钮点击
             download_cancel.off('click').on('click', function () {
@@ -964,6 +969,7 @@
                 download_file.hide();
                 download_cancel.hide();
                 download_choose.show();
+                thumbnailBox.hide();
             });
         }
 
