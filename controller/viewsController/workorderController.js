@@ -64,6 +64,7 @@ exports.VIEW_WORKORDER_CONFIGURATION_TOEDIT = function(req, res, next) {
         page : './workorder/workconfigCreate',
         callback : function (data) {
             data.list = JSON.stringify(data.employeeList);
+            data.reqParamsStr = JSON.stringify(data.reqParams);
         }
     }, req, res, next);
 };

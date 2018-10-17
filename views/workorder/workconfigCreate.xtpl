@@ -22,7 +22,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main pad_btm_100 course_create">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">工单配置</a>
+                <a href="{{markUri}}/workorder/configuration/system" class="crumbs_item">工单配置</a>
                 <a href="javascript:;" class="crumbs_item">{{#if (reqParams.id) }}编辑{{else}}新建{{/if}}{{reqParams.order_name}}配置</a>
             </div>
             <div class="form_options create_options">
@@ -34,7 +34,7 @@
                             <span class="options_name">负责人：</span>
                         </div>
                         <div class="column_val internal_teacher">
-                            <input type="hidden" name="emp_ids" id="lecturer_ids" value="{{detail.emp_ids}}">
+                            <input type="hidden" name="emp_ids" id="principal_ids" value="{{detail.emp_ids}}">
                             <input type="hidden" name="emp_name" id="emp_names" value="{{detail.emp_name}}">
                             <ul class="person_list">
                                 {{#each (emp_condition_list) }}
@@ -125,7 +125,7 @@
                 </form>
                 <div class="btn_box clearfix create_wf_btn_box">
                     <a href="javascript:" class="btn orange_btn confirm create_confirm">确认</a>
-                    <a href="{{markUri}}/school/course/lists/home" class="new_cancle">取消</a>
+                    <a href="{{markUri}}/school/course/lists/home" class="new_cancle go_work_list">取消</a>
                 </div>
             </div>
         </div>
@@ -147,18 +147,25 @@
     if (emp_list.length > 0 ) {
         emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
     }
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
     (function ($) {
-        /***************************授课讲师  start****************************/
+        /***************************负责人 start****************************/
         //负责人ids、names
         if (emp_ids != '') {
-            var lecturer_ids = emp_ids;
+            var principal_ids = emp_ids;
             var emp_names = emp_name;
         } else {
-            var lecturer_ids = [];
+            var principal_ids = [];
             var emp_names = [];
         }
-        //添加负责人
-        function addTeacher () {
+        /**
+         * 添加负责人
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function addPrincipal () {
             var setObj = {
                 "btn" : $("#addOwnPersonBtn"),
                 "sBox" : $(".search_box"),
@@ -221,13 +228,13 @@
                             setObj.input.val("");
                             setObj.resBox.html("");
                             setObj.sBox.hide();
-                            for (var i = 0, len = lecturer_ids.length;i < len;i++) {
-                                if (lecturer_ids[i] == lId) {
+                            for (var i = 0, len = principal_ids.length;i < len;i++) {
+                                if (principal_ids[i] == lId) {
                                     $alert('此负责人已添加');
                                     return false;
                                 }
                             }
-                            lecturer_ids.push(lId);
+                            principal_ids.push(lId);
                             emp_names.push(pName);
 
                             // 创建拥有者展示数据
@@ -283,7 +290,7 @@
             searchManagers();
         }
 
-        //判断授课讲师最多20人
+        //判断负责人最多20人
         function getTeachers () {
             var person_list = $('.person_list');
             var nums = person_list.find('.person').length;
@@ -294,14 +301,14 @@
             }
         }
 
-        //删除授课讲师
-        function deleteTeacher () {
+        //删除负责人
+        function deletePrincipal () {
             var delBtnParent = $('.person_list');   // 拥有者数据列表元素
             delBtnParent.off('click').on('click', '.delete_btn', function () {
                 var _this = $(this);
-                for (var i = 0, len = lecturer_ids.length;i < len;i++) {
-                    if (lecturer_ids[i] == _this.data('id')) {
-                        lecturer_ids.splice(i,1);
+                for (var i = 0, len = principal_ids.length;i < len;i++) {
+                    if (principal_ids[i] == _this.data('id')) {
+                        principal_ids.splice(i,1);
                         emp_names.splice(i, 1);
                     }
                 }
@@ -311,21 +318,27 @@
         }
 
 
-        /***************************授课讲师  end****************************/
+        /***************************负责人  end****************************/
 
-        //保存提交课程
-        function saveCourse () {
+        /**
+         * 保存提交工单
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function saveWorkorder () {
             var btn = $('.create_confirm');
             btn.off('click').on('click', function () {
-                saveCourseForm();
+                saveWorkForm();
             });
         }
-        //保存校验
-        function saveCourseForm () {
-            var teacher_name = $('#lecturer_ids');
-            teacher_name.val(lecturer_ids.join(','));
+        /**
+         * 保存校验
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function saveWorkForm () {
+            var principal_ids = $('#principal_ids');
+            principal_ids.val(principal_ids.join(','));
             $('#emp_names').val(emp_names.join(','));
-            if (teacher_name.val() == '') {
+            if (principal_ids.val() == '') {
                 $alert('请添加负责人');
                 return;
             }
@@ -334,6 +347,8 @@
             if (order_name.val() == '') {
                 $alert('请填写名称');
                 return;
+            } else {
+                order_name.val(order_name.val().trim());
             }
 
             var org_name = $('.org_name');
@@ -352,6 +367,8 @@
             if (money_config.val() == '') {
                 $alert('请选择金额');
                 return;
+            } else {
+                money_config.val(money_config.val().trim());
             }
 
             ajaxSubmit();
@@ -392,29 +409,44 @@
                         })
                     } else {
                         $alert(res.error_msg, function () {
-                            saveCourse();
+                            saveWorkorder();
                         });
                     }
                 },
                 error : function () {
                     $('#loading').hide();
                     $alert("提交失败，请稍后重试");
-                    saveCourse();
+                    saveWorkorder();
                 }
+            });
+        }
+
+        /**
+         * 面包屑跳转
+         * @author  Plateau  2018年10月17日18:38:14
+         * */
+        function goWorkList () {
+            var btn = $('.go_work_list');
+            btn.off('click').on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/list",
+                    param : reqParamsStr
+                })
             });
         }
 
         $(function() {
             resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
-            numAndAmount('.money_config',{//控制融资金额范围输入框只能输入数字和小数
+            numAndAmount('.money_config',{//控制融资金额范围输入框只能输入三位整数
                 type : 0,
                 maxInteger : 3,
                 maxDecimal : 0,
                 addDecimal : 1
             });
-            addTeacher();//添加授课讲师
-            deleteTeacher();//删除授课讲师
-            saveCourse();//保存提交课程
+            addPrincipal();//添加负责人
+            deletePrincipal();//删除负责人
+            saveWorkorder();//保存提交工单
+            goWorkList();//面包屑跳转
         });
     })(jQuery,undefined);
 </script>

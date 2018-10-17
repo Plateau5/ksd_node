@@ -94,7 +94,10 @@
 {{include ('./../inc/jsSources')}}
 <script>
     (function ($) {
-        //列表页tab切换
+        /**
+         * 列表页tab切换
+         * @author Plateau  2018年10月17日18:26:15
+         * */
         function searchQueryType(tab_item) {
             var btn = $(tab_item);
             btn.off("click").on('click', function () {
@@ -109,8 +112,11 @@
                 })
             });
         }
-        //新建配置跳转
-        function create() {
+        /**
+         * 新建配置跳转
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function createConfig() {
             var btn = $('.create_config');
             btn.off("click").on('click', function () {
                 var order_type = '';
@@ -135,8 +141,11 @@
                 })
             });
         }
-        //编辑跳转
-        function brandEdit() {
+        /**
+         * 编辑跳转
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function orderToEdit() {
             var btn = $('.order_edit');
             btn.off("click").on('click', function () {
                 var _this = $(this);
@@ -174,7 +183,10 @@
                 })
             });
         }
-        //删除工单
+        /**
+         * 删除工单
+         * @author Plateau  2018年10月17日18:26:15
+         * */
         function delOrder () {
             var btn = $('.del_order');
             btn.off("click").on('click', function () {
@@ -215,8 +227,8 @@
         $(function() {
             searchQueryType('#order_tab .tab_item'); //列表页tab切换
             paginationSwitch();     // 分页切换
-            create(); //新建跳转
-            brandEdit();//编辑跳转
+            createConfig(); //新建跳转
+            orderToEdit();//编辑跳转
             delOrder();//删除工单
         });
     })(jQuery,undefined);
