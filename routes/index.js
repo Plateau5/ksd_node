@@ -20,6 +20,7 @@ var dockingCtrl = require('../controller/viewsController/dockingController');
 var schoolCtrl = require('../controller/viewsController/schoolController');
 var carModelCtrl = require('../controller/viewsController/carModelController');
 var testCtrl = require('../controller/viewsController/testController');
+var workorderCtrl = require('../controller/viewsController/workorderController');
 
 var markUri = '/ksd';
 
@@ -399,6 +400,17 @@ router.post(markUri + '/car/series/edit', carModelCtrl.VIEW_CAR_SERIES_EDIT);
 router.post(markUri + '/car/model/create', carModelCtrl.VIEW_CAR_MODEL_CREATE);
 //业务-车型库车型编辑 1566
 router.post(markUri + '/car/model/edit', carModelCtrl.VIEW_CAR_MODEL_EDIT);
+
+
+//业务-工单配置侧导航跳转
+router.all(markUri + '/workorder/configuration/system', workorderCtrl.VIEW_WORKORDER_CONFIGURATION_SYSTEM);
+//业务-工单配置-进件工单
+router.all(markUri + '/workorder/configuration/incoming', workorderCtrl.VIEW_WORKORDER_CONFIGURATION_INCOMING);
+//业务-工单配置-合同工单
+router.all(markUri + '/workorder/configuration/compact', workorderCtrl.VIEW_WORKORDER_CONFIGURATION_COMPACT);
+//业务-工单配置-进件工单-新建跳转
+router.post(markUri + '/workorder/configuration/tocreate', workorderCtrl.VIEW_WORKORDER_CONFIGURATION_TOCREATE);
+
 
 // 问题管理-客户问题列表 1092
 router.all(markUri + '/question/customer/list', questionCtrl.VIEW_QUESTION_CUSTOMER_LIST);

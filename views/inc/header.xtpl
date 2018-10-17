@@ -24,7 +24,7 @@
                 </li>
             {{/if}}
             {{#if (verifyCode(1312)) }}
-                <li class="nav_item {{#if(startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps' + ' || ' + markUri + '/car'))}}active{{/if}}">
+                <li class="nav_item {{#if(startWith(markUri + '/workorder' + ' || ' + markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps' + ' || ' + markUri + '/car'))}}active{{/if}}">
                     <a href="{{markUri}}/business/system" class="">业务</a>
                 </li>
             {{/if}}
@@ -48,9 +48,15 @@
             {{/if}}
         </ul>
         <ul class="login rf inline_block"  id="id_center"  style="display: none;">
+            <li class="work_status">
+                <img id="header_image_url" src="{{markUri}}/img/header/perImg.png" class="character_photo" />
+                <ul class="work_setting">
+                    <li class="setting_item"><a href="javascript:;" class="working">工作中</a></li>
+                    <li class="setting_item"><a href="javascript:;" class="resting">休息中</a></li>
+                </ul>
+            </li>
             <li class="characters">
                 <a href="javascript:">
-                    <img id="header_image_url" src="{{markUri}}/img/header/perImg.png" class="character_photo" />
                     <span id="header_username" class="header_username"></span>
                 </a>
                 <ul class="user_setting">
