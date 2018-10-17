@@ -1090,6 +1090,13 @@ function validateEmpty () {
         isVerify = false;
     }
 
+    // 校验主营范围是否选择
+    var appleyToCar = $('#applyto_car option:selected').val().number();
+    if (appleyToCar === 0) {
+        $alert("请选择主营范围！");
+        isVerify = false;
+    }
+
     return isVerify;
 }
 
