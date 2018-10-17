@@ -25,6 +25,11 @@
                 <input type="hidden" name="current_page" value="{{current_page}}" id="current_page">
                 {{include('./../inc/filtrate')}}
             </form>
+            {{#if (originUrl.indexOf( markUri + '/customer/loan/alreadyAllot') !== -1 || originUrl.indexOf( markUri + '/customer/compact/alreadyPass') !== -1) }}
+            <div style="height:40px;margin:20px 46px 0 0;">
+                <a href="javascript:" class="btn orange_btn immediately_order" style="float: right">立刻接单</a>
+            </div>
+            {{/if}}
             <div class="business_list">
                 <form action="{{detailUrl}}" method="post" id="to_order_detail">
                     <input type="hidden" name="active" value="active">
@@ -209,6 +214,34 @@
                 resBox.hide();
             })
         };
+
+        //立刻接单
+        function immediatelyOrder () {
+            var btn = $('.immediately_order');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                $.ajax({
+                    type:'post',
+                    timeout:3000,
+                    url : contextPath + "/api/product/delete",
+                    data : {
+                        id : product_id
+                    },
+                    success : function (res) {
+                        if (res.error_code == 0) {
+                            $alert('删除成功', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $alert('删除失败，请重新尝试');
+                    }
+                });
+            });
+        }
         $(function() {
             //时间筛选 2018年5月8日15:39:35
             datePicker('#filtrate_date',{
@@ -227,6 +260,7 @@
             paginationSwitch();     // 分页切换
             delName (); // 删除订单所属人
             initDateStartEnd('#start_pigeonhole_time','#end_pigeonhole_time');  //日期筛选
+            immediatelyOrder();//立刻接单
         });
     })(jQuery,undefined);
 </script>

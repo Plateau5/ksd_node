@@ -227,8 +227,20 @@ exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {
         res.redirect(markUri + '/404');
     }
 };
-// 客户-合同管理-待出合同
+// 客户-合同管理-待分配 1261
 exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
+    common.getPageData({
+        url : '/api/compact/pendingPass/list',
+        title : '合同管理-待出合同',
+        page : './customer/customerList',
+        callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
+            formatOrderListData(data);
+        }
+    }, req, res, next);
+};
+// 客户-合同管理-已分配
+exports.VIEW_CUSTOMER_COMPACT_ALREADYPASS = function(req, res, next) {
     common.getPageData({
         url : '/api/compact/pendingPass/list',
         title : '合同管理-待出合同',

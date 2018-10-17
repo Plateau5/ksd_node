@@ -90,8 +90,10 @@ router.post(markUri + '/customer/loan/renewNotifyResult', customerCtrl.VIEW_CUST
 
 // 客户-合同管理-访问路径 1260
 router.get(markUri + '/customer/compact/system', customerCtrl.VIEW_CUSTOMER_COMPACT_SYSTEM);
-// 客户-合同管理-待出合同 1261
+// 客户-合同管理-待分配 1261
 router.all(markUri + '/customer/compact/pendingPass', customerCtrl.VIEW_CUSTOMER_COMPACT_PENDINGPASS);
+// 客户-合同管理-已分配
+router.all(markUri + '/customer/compact/alreadyPass', customerCtrl.VIEW_CUSTOMER_COMPACT_ALREADYPASS);
 // 客户管理-详情页-合同管理 1268
 router.post(markUri + '/customer/compact/detail', customerCtrl.VIEW_CUSTOMER_COMPACT_DETAIL);
 // 客户-合同管理-同意页面 1264

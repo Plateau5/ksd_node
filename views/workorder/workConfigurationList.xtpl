@@ -71,7 +71,7 @@
                             {{#if (root.verifyCode(1555)) }}
                             <td class="operate_btn">
                                 <a href="javascript:;" title="编辑" data-id ="{{this.id}}" data-name ="{{this.name}}" data-organization_ids ="{{this.organization_ids}}" data-amount="{{this.amount}}" data-emp_ids="{{this.emp_ids}}" data-emp_name="{{this.emp_name}}" class="edit order_edit"></a>
-                                <a href="javascript:;" title="删除" class="delete" data-id="{{this.id}}"></a>
+                                <a href="javascript:;" title="删除" class="delete del_order" data-id="{{this.id}}"></a>
                             </td>
                             {{/if}}
                         </tr>
@@ -174,11 +174,50 @@
                 })
             });
         }
+        //删除工单
+        function delOrder () {
+            var btn = $('.del_order');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var product_id = _this.data('id');
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>你确定删除么？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        $.ajax({
+                            type:'post',
+                            timeout:3000,
+                            url : contextPath + "/api/product/delete",
+                            data : {
+                                id : product_id
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
         $(function() {
             searchQueryType('#order_tab .tab_item'); //列表页tab切换
             paginationSwitch();     // 分页切换
             create(); //新建跳转
             brandEdit();//编辑跳转
+            delOrder();//删除工单
         });
     })(jQuery,undefined);
 </script>
