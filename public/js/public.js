@@ -1282,6 +1282,9 @@ function workStatus () {
             var ev = e || window.event;
             ev.stopPropagation();
             ev.preventDefault();
+            if (_this.find('a').hasClass('active')) {
+                return false;
+            }
             if (_this.find('a').hasClass('working')) {
                 var work_status = 1;
             } else {

@@ -23,33 +23,33 @@
         <div id="main" class="main pad_btm_100 course_create">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/school/course/lists/system" class="crumbs_item">工单配置</a>
-                <a href="javascript:;" class="crumbs_item">进件新建配置</a>
+                <a href="javascript:;" class="crumbs_item">{{#if (reqParams.id) }}编辑{{else}}新建{{/if}}{{reqParams.order_name}}配置</a>
             </div>
             <div class="form_options create_options">
                 <form action="" id="order_create_form" method="post">
-                    <input type="hidden" value="" name="id" class="order_id">
+                    <input type="hidden" value="{{reqParams.id}}" name="id" class="order_id">
                     <input type="hidden" value="{{reqParams.order_type}}" name="order_type" class="order_type">
                     <div class="option_item">
                         <div class="column_name">
                             <span class="options_name">负责人：</span>
                         </div>
                         <div class="column_val internal_teacher">
-                            <input type="hidden" name="emp_ids" id="lecturer_ids" value="{{toEdit.lecturer_ids}}">
-                            <input type="hidden" name="emp_name" id="emp_names" value="{{toEdit.lecturer_ids}}">
+                            <input type="hidden" name="emp_ids" id="lecturer_ids" value="{{detail.emp_ids}}">
+                            <input type="hidden" name="emp_name" id="emp_names" value="{{detail.emp_name}}">
                             <ul class="person_list">
-                                {{#each (toEdit.data) }}
+                                {{#each (emp_condition_list) }}
                                 <li class="person" data-id="{{this.id}}">{{this.name}}<em class="delete_btn" data-id="{{this.id}}"></em></li>
                                 {{/each}}
                                 <!-- 下面为添加按钮 -->
-                                {{#if (toEdit.already_teacher) }}
-                                {{#if (toEdit.already_teacher.length < 10) }}
-                                <li class="choose_box inline_block">
+                                {{#if (emp_condition_list) }}
+                                    {{#if (emp_condition_list.length < 20) }}
+                                    <li class="choose_box inline_block">
                                     {{else}}
-                                <li class="choose_box inline_block" style="display: none;">
+                                    <li class="choose_box inline_block" style="display: none;">
                                     {{/if}}
-                                    {{else}}
+                                {{else}}
                                 <li class="choose_box inline_block">
-                                    {{/if}}
+                                {{/if}}
                                     <em class="add_city_btn" id="addOwnPersonBtn"></em>
                                     <div class="search_box" style="display: none;">
                                         <div class="search_input">
@@ -68,7 +68,7 @@
                             <span class="options_name">名称：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="order_name" name="name" placeholder="请输入名称" value="{{toEdit.name}}" maxlength="50"/>
+                            <input type="text" class="order_name" name="name" placeholder="请输入名称" value="{{detail.name}}" maxlength="50"/>
                         </div>
                     </div>
                     <div class="option_item">
@@ -76,12 +76,41 @@
                             <span class="options_name">机构设置：</span>
                         </div>
                         <div class="column_val">
-                            {{#each (org_list) }}
-                            <div class="form_group">
-                                <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}"/>
-                                <label>{{this.name}}</label>
-                            </div>
-                            {{/each}}
+                            {{#if (detail) }}
+                                {{#if (detail.organization_ids.indexOf(',') !== -1) }}
+                                    {{set (org_id = detail.organization_ids.split(',')) }}
+                                    {{#each (org_list) }}
+                                    <div class="form_group">
+                                        {{#if (org_id.indexOf(this.id.toString()) !== -1) }}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}" checked="checked"/>
+                                        <label class="checked">{{this.name}}</label>
+                                        {{else}}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}"/>
+                                        <label>{{this.name}}</label>
+                                        {{/if}}
+                                    </div>
+                                    {{/each}}
+                                {{else}}
+                                    {{#each (org_list) }}
+                                    <div class="form_group">
+                                        {{#if (detail.organization_ids === this.id.toString()) }}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}" checked="checked"/>
+                                        <label class="checked">{{this.name}}</label>
+                                        {{else}}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}"/>
+                                        <label>{{this.name}}</label>
+                                        {{/if}}
+                                    </div>
+                                    {{/each}}
+                                {{/if}}
+                            {{else}}
+                                {{#each (org_list) }}
+                                <div class="form_group">
+                                    <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}"/>
+                                    <label>{{this.name}}</label>
+                                </div>
+                                {{/each}}
+                            {{/if}}
                         </div>
                     </div>
                     <div class="option_item">
@@ -89,7 +118,7 @@
                             <span class="options_name">金额配置：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" class="money_config" name="amount" placeholder="请输入最高金额限制(整数)" value="{{toEdit.name}}" maxlength="3"/>
+                            <input type="text" class="money_config" name="amount" placeholder="请输入最高金额限制(整数)" value="{{detail.amount}}" maxlength="3"/>
                             <span style="display: inline-block;margin-left: 10px">万</span>
                         </div>
                     </div>
@@ -110,28 +139,27 @@
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script>
-    var toEditTeachers = '{{toEdit.lecturer_ids}}';//授课讲师
-    toEditTeachers = toEditTeachers.split(',');
+    var emp_ids = '{{detail.emp_ids}}';//负责人
+    emp_ids = emp_ids.split(',');
+    var emp_name = '{{detail.emp_name}}';//负责人
+    emp_name = emp_name.split(',');
     var emp_list = '{{list}}';
     if (emp_list.length > 0 ) {
         emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
     }
     (function ($) {
-
-
         /***************************授课讲师  start****************************/
-        //授课讲师ids
-        if (toEditTeachers != '') {
-            var lecturer_ids = toEditTeachers;
+        //负责人ids、names
+        if (emp_ids != '') {
+            var lecturer_ids = emp_ids;
+            var emp_names = emp_name;
         } else {
             var lecturer_ids = [];
             var emp_names = [];
         }
-        //添加授课讲师
+        //添加负责人
         function addTeacher () {
             var setObj = {
-                "depName" : $(".department_name"),
-                "mName" : $(".manager_name .p_name"),
                 "btn" : $("#addOwnPersonBtn"),
                 "sBox" : $(".search_box"),
                 "input" : $(".m_search "),
@@ -255,11 +283,11 @@
             searchManagers();
         }
 
-        //判断授课讲师最多10人
+        //判断授课讲师最多20人
         function getTeachers () {
             var person_list = $('.person_list');
             var nums = person_list.find('.person').length;
-            if (nums == 10) {
+            if (nums == 20) {
                 $('.choose_box').hide();
             } else {
                 $('.choose_box').show();

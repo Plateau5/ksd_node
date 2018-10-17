@@ -28,7 +28,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main">
             <div class="tab">
-                <ul class="tab_list inline_block" id="car_tab">
+                <ul class="tab_list inline_block" id="order_tab">
                     {{#if (verifyCode(1563)) }}
                     <li class="tab_item type_normal {{#if (startWith(markUri + '/workorder/configuration/incoming')) }}active{{/if}}" data-type="1" data-url="{{markUri}}/workorder/configuration/incoming" style="border-left:0px;"><span></span>进件工单</li>
                     {{/if}}
@@ -70,7 +70,8 @@
                             <td>{{this.emp_name}}</td>
                             {{#if (root.verifyCode(1555)) }}
                             <td class="operate_btn">
-                                <a href="javascript:;" title="编辑" data-brand_id ="{{this.id}}" data-brand_name ="{{this.name}}" data-brand_url ="{{this.url}}"  class="edit brandEdit"></a>
+                                <a href="javascript:;" title="编辑" data-id ="{{this.id}}" data-name ="{{this.name}}" data-organization_ids ="{{this.organization_ids}}" data-amount="{{this.amount}}" data-emp_ids="{{this.emp_ids}}" data-emp_name="{{this.emp_name}}" class="edit order_edit"></a>
+                                <a href="javascript:;" title="删除" class="delete" data-id="{{this.id}}"></a>
                             </td>
                             {{/if}}
                         </tr>
@@ -79,7 +80,6 @@
                         </tbody>
                     </table>
                 {{/if}}
-
                 <!--分页部分 Begin-->
                 {{include('./../inc/paginations')}}
                 <!--分页部分 End-->
@@ -121,93 +121,64 @@
                         order_type = _this.data('type');
                     }
                 });
+                if (order_type == 1) {
+                    var order_name = '进件';
+                } else if (order_type == 2) {
+                    var order_name = '合同';
+                }
                 locationTo({
                     action : contextPath + markUri +'/workorder/configuration/tocreate',
                     param : {
-                        order_type : order_type
+                        order_type : order_type,
+                        order_name : order_name
                     }
                 })
             });
         }
-        //品牌编辑
+        //编辑跳转
         function brandEdit() {
-            var btn = $('.brandEdit');
+            var btn = $('.order_edit');
             btn.off("click").on('click', function () {
                 var _this = $(this);
-                var brandId = _this.data("brand_id");
-                var brandName = _this.data("brand_name");
-                var brandUrl = _this.data("brand_url");
-                var crumbsName =_this.attr("title");
-                var currentPage = $(".current_page").val();
-                locationTo({
-                    action : contextPath + markUri + "/car/brand/edit",
-                    param : {
-                        brand_id : brandId,
-                        brand_name : brandName,
-                        url : brandUrl,
-                        crumbsName : crumbsName,
-                        current_page : currentPage
+                var id = _this.data("id");
+                var name = _this.data("name");
+                var organization_ids = _this.data("organization_ids");
+                var amount =_this.data("amount");
+                var emp_ids = _this.data('emp_ids');
+                var emp_name = _this.data('emp_name');
+                var order_type = '';
+                var tab_item = $('.tab_item');
+                tab_item.each(function () {
+                    var _this = $(this);
+                    if (_this.hasClass('active')) {
+                        order_type = _this.data('type');
                     }
-                })
-            });
-        }
-        //车系编辑
-        function seriesEdit() {
-            var btn = $('.seriesEdit');
-            btn.off("click").on('click', function () {
-                var _this = $(this);
-                var brandId = _this.data("brand_id");
-                var seriesId = _this.data("series_id");
-                var seriesName = _this.data("series_name");
-                var crumbsName =_this.attr("title");
-                var currentPage = $(".current_page").val();
+                });
+                if (order_type == 1) {
+                    var order_name = '进件';
+                } else if (order_type == 2) {
+                    var order_name = '合同';
+                }
                 locationTo({
-                    action : contextPath + markUri + "/car/series/edit",
+                    action : contextPath + markUri + "/workorder/configuration/toedit",
                     param : {
-                        brand_id : brandId,
-                        series_id : seriesId,
-                        series_name : seriesName,
-                        crumbsName : crumbsName,
-                        current_page : currentPage
-                    }
-                })
-            });
-        }
-        //车型编辑
-        function modelEdit() {
-            var btn = $('.modelEdit');
-            btn.off("click").on('click', function () {
-                var _this = $(this);
-                var brandId = _this.data("brand_id");
-                var seriesId = _this.data("series_id");
-                var modelId = _this.data("model_id");
-                var modelName = _this.data("model_name");
-                var crumbsName =_this.attr("title");
-                var searchType = $(".select_txt").data("id");
-                var searchValue = $("#searchPlaceholder").val();
-                var currentPage = $(".current_page").val();
-                locationTo({
-                    action : contextPath + markUri + "/car/model/edit",
-                    param : {
-                        series_id : seriesId,
-                        brand_id : brandId,
-                        model_id : modelId,
-                        model_name : modelName,
-                        crumbsName : crumbsName,
-                        search_type : searchType,
-                        search_value : searchValue,
-                        current_page : currentPage
+                        id : id,
+                        name : name,
+                        organization_ids : organization_ids,
+                        amount : amount,
+                        emp_ids : emp_ids,
+                        emp_name : emp_name,
+                        order_type : order_type,
+                        order_name : order_name
                     }
                 })
             });
         }
         $(function() {
-            searchQueryType('#car_tab .tab_item'); //列表页tab切换
+            searchQueryType('#order_tab .tab_item'); //列表页tab切换
             paginationSwitch();     // 分页切换
             create(); //新建跳转
-            modelEdit();//车型编辑
-            seriesEdit();//车系编辑
-            brandEdit();//品牌编辑
+            brandEdit();//编辑跳转
         });
     })(jQuery,undefined);
 </script>

@@ -44,11 +44,23 @@ exports.VIEW_WORKORDER_CONFIGURATION_COMPACT = function(req, res, next) {
     }, req, res, next);
 };
 
-// 业务-进件工单-新建跳转
+//业务-工单配置-新建跳转
 exports.VIEW_WORKORDER_CONFIGURATION_TOCREATE = function(req, res, next) {
     common.getPageData({
         url : '/api/workorder/to/createfinance',
         title : '工单新增',
+        page : './workorder/workconfigCreate',
+        callback : function (data) {
+            data.list = JSON.stringify(data.employeeList);
+        }
+    }, req, res, next);
+};
+
+//业务-工单配置-编辑跳转
+exports.VIEW_WORKORDER_CONFIGURATION_TOEDIT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/workorder/to/updatefinance',
+        title : '工单编辑',
         page : './workorder/workconfigCreate',
         callback : function (data) {
             data.list = JSON.stringify(data.employeeList);
