@@ -1406,7 +1406,7 @@
                     success : function (res){
                         if (res.error_code == 0) {
                             coursetype_box.html('');
-                            // console.log(res);
+                            console.log(res);
                             var list = res.list;
                             if(list.length == 0){
                                 $alert('目前暂无标签');
@@ -1414,19 +1414,28 @@
                             }
                             for (var i = 0;i<list.length;i++){
                                 var childList = list[i].child_list;
-                                var tagDetail ="";
+                                var tagDetail ='';
+                                var tagList = '';
                                 for (var j = 0;j<childList.length;j++) {
                                     tagDetail += '<li class="coursetype_item"><a href="javascript:;" class="add_label_btn" data-id="'+ childList[j].id +'">'+ childList[j].title +'</a></li>';
                                 }
-                                var tagList = '<div class="coursetype_div">\n' +
-                                    '              <div class="one_level" data-id="'+ list[i].parent_id +'">'+ list[i].parent_name +'</div>' +
-                                    '              <ul class="coursetype_ul">' +
-                                    tagDetail +
-                                    '              </ul>' +
-                                    '        </div>';
+                                if (childList == '') {
+                                    tagList = '';
+                                } else {
+                                    tagList = '<div class="coursetype_div">\n' +
+                                        '              <div class="one_level" data-id="'+ list[i].parent_id +'">'+ list[i].parent_name +'</div>' +
+                                        '              <ul class="coursetype_ul">' +
+                                        tagDetail +
+                                        '              </ul>' +
+                                        '        </div>';
+                                }
                                 coursetype_box.append(tagList);
-                                coursetype_box.show();
                             }
+                            if(coursetype_box.html() == ''){
+                                $alert('目前暂无标签');
+                                return false;
+                            }
+                            coursetype_box.show();
                         } else {
                             $alert(res.error_msg);
                         }
