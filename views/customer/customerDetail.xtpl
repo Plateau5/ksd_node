@@ -1471,6 +1471,8 @@
                 var financeId = $('#finance_id').val();
                 var tag = $('.tag');
                 var flag = true;
+                var coursetype_box = $(".coursetype_box");
+                coursetype_box.hide();
                 tag.each(function(){
                     var tagId = $(this).data('id');
                     if (tagId == id) {
@@ -1489,8 +1491,6 @@
                             if (res.error_code == 0) {
                                 console.log(res);
                                 var tag_manage_btn = $('.tag_manage_btn ');
-                                var coursetype_box = $(".coursetype_box");
-                                coursetype_box.hide();
                                 var tagDetail = '<li class="tag nowrap lf" data-id="'+ id +'"><span>'+ tagNmae +'</span><em class="delete_btn"></em></li>';
                                 tag_manage_btn.before(tagDetail);
                             } else {
