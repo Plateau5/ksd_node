@@ -104,7 +104,12 @@ $(function(){
     
     //分配成功
     $("#success_allot").click(function(){
-    	window.location.href= contextPath + markUri + "/customer/loan/pendingAllot";
+        if ($('.list_url').val().indexOf( markUri + '/customer/loan/pendingAllot') != -1) {
+            window.location.href= contextPath + markUri + "/customer/loan/pendingAllot";
+        } else {
+            window.location.href= contextPath + markUri + "/customer/compact/pendingPass";
+        }
+
     });
 
 });
