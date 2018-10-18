@@ -13,7 +13,7 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
 // 业务管理-主导航节点跳转
 exports.VIEW_BUSINESS_SYSTEM = function(req, res, next) {
     try {
-        if (common.checkPrivilege(1130, req)) {     //工单配置
+        if (common.checkPrivilege(1658, req) || common.checkPrivilege(1659, req)) {     //工单配置
             res.redirect(markUri + '/workorder/configuration/system');
         } else if (common.checkPrivilege(1130, req)) {     //审批流
             res.redirect(markUri + '/workflow/list');

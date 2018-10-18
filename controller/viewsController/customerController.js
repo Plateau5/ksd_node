@@ -230,7 +230,7 @@ exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {
 // 客户-合同管理-待分配 1261
 exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
     common.getPageData({
-        url : '/api/compact/pendingPass/list',
+        url : '/api/compact/allot/list',
         title : '合同管理-待出合同',
         page : './customer/customerList',
         callback : function (data) {

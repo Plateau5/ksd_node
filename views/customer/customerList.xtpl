@@ -25,7 +25,7 @@
                 <input type="hidden" name="current_page" value="{{current_page}}" id="current_page">
                 {{include('./../inc/filtrate')}}
             </form>
-            {{#if (originUrl.indexOf( markUri + '/customer/loan/alreadyAllot') !== -1 || originUrl.indexOf( markUri + '/customer/compact/alreadyPass') !== -1) }}
+            {{#if ((verifyCode(1660) && originUrl.indexOf( markUri + '/customer/loan/alreadyAllot') !== -1) || (verifyCode(1664) && originUrl.indexOf( markUri + '/customer/compact/alreadyPass') !== -1)) }}
             <div style="height:40px;margin:20px 46px 0 0;">
                 <a href="javascript:" class="btn orange_btn immediately_order" style="float: right">立刻接单</a>
             </div>
@@ -219,10 +219,15 @@
         function immediatelyOrder () {
             var btn = $('.immediately_order');
             btn.off("click").on('click', function () {
+                if ($('#form_search').attr('action').indexOf( markUri + '/customer/loan/alreadyAllot') != -1) {
+                    var url = "/api/finance/receive/order";
+                } else {
+                    var url = '/api/compact/receive/order';
+                }
                 $.ajax({
                     type:'post',
                     timeout:3000,
-                    url : contextPath + "/api/finance/receive/order",
+                    url : contextPath + url,
                     data : {},
                     success : function (res) {
                         if (res.error_code == 0) {

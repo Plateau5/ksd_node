@@ -42,14 +42,15 @@
     <!--合同资料按钮-->
     {{#if (startWith(markUri + '/customer/compact'))}}
         {{#if (url === markUri + '/customer/compact/pendingPass') }}
-            {{#if (verifyCode(1031)) }}
-                <a href="javascript:;" class="detail_high_btn toAllot" lang="{{finance_id}}">分配任务</a>
+            {{#if (verifyCode(1662)) }}
+            <a href="javascript:;" class="detail_high_btn toAllot" lang="{{finance_id}}">分配任务</a>
             {{/if}}
+        {{/if}}
+        {{#if (url === markUri + '/customer/compact/alreadyPass') }}
             {{#if (vo.start_compact_time === 0) }}
                 {{#if (verifyCode(1624)) }}
                     <a href="javascript:;" class="detail_high_btn reckon_time" data-id="1" data-advance_id="">开始审核</a>
                 {{/if}}
-
             {{elseif (vo.start_compact_time !== 0 && present_id !== vo.compact_service_id)}}
                 {{#if (verifyCode(1624)) }}
                     <a href="javascript:;" class="detail_high_btn reckon_time" data-id="1" data-advance_id="">开始审核</a>

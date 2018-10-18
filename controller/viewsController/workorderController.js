@@ -13,12 +13,12 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
 //业务-工单配置侧导航跳转
 exports.VIEW_WORKORDER_CONFIGURATION_SYSTEM = function(req, res, next) {
     try {
-        if (common.checkPrivilege(1563, req)) {
+        if (common.checkPrivilege(1658, req)) {
             res.redirect(markUri + '/workorder/configuration/incoming');
-        } else if (common.checkPrivilege(1558, req)) {
+        } else if (common.checkPrivilege(1659, req)) {
             res.redirect(markUri + '/workorder/configuration/compact');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1529 | 1543 | 1536 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1658 | 1659 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);

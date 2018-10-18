@@ -30,20 +30,22 @@
         <div id="main" class="main">
             <div class="tab">
                 <ul class="tab_list inline_block" id="order_tab">
-                    {{#if (verifyCode(1563)) }}
+                    {{#if (verifyCode(1658)) }}
                     <li class="tab_item type_normal {{#if (startWith(markUri + '/workorder/configuration/incoming')) }}active{{/if}}" data-type="1" data-url="{{markUri}}/workorder/configuration/incoming" style="border-left:0px;"><span></span>进件工单</li>
                     {{/if}}
-                    {{#if (verifyCode(1558)) }}
+                    {{#if (verifyCode(1659)) }}
                     <li class="tab_item type_others {{#if (startWith(markUri + '/workorder/configuration/compact')) }}active{{/if}}" data-type="2" data-url="{{markUri}}/workorder/configuration/compact"><span></span>合同工单</li>
                     {{/if}}
                 </ul>
             </div>
             <div class="list_item carModelList">
+                {{#if (verifyCode(1654)) }}
                 <div class="create_item">
                     <div class="inline_block rf">
                         <a href="javascript:;" class="btn blue_btn add_btn create_config"><em></em>新建配置</a>
                     </div>
                 </div>
+                {{/if}}
                 <!-- 没有数据部分 -->
                 {{#if (count === 0) }}
                     {{include('./../inc/empty_data')}}
@@ -58,9 +60,7 @@
                         <tr>
                             <th>名称</th>
                             <th>负责人</th>
-                            {{#if (verifyCode(1555)) }}
                             <th>操作设置</th>
-                            {{/if}}
                         </tr>
                         </thead>
                         <tbody>
@@ -69,12 +69,14 @@
                         <tr data-id="{{this.id}}">
                             <td title="{{this.name}}">{{this.name}}</td>
                             <td title="{{this.emp_name}}">{{this.emp_name}}</td>
-                            {{#if (root.verifyCode(1555)) }}
                             <td class="operate_btn">
+                                {{#if (root.verifyCode(1656)) }}
                                 <a href="javascript:;" title="编辑" data-id ="{{this.id}}" data-name ="{{this.name}}" data-organization_ids ="{{this.organization_ids}}" data-amount="{{this.amount}}" data-emp_ids="{{this.emp_ids}}" data-emp_name="{{this.emp_name}}" class="edit order_edit"></a>
+                                {{/if}}
+                                {{#if (root.verifyCode(1657)) }}
                                 <a href="javascript:;" title="删除" class="delete del_order" data-id="{{this.id}}"></a>
+                                {{/if}}
                             </td>
-                            {{/if}}
                         </tr>
                         {{/each}}
                         {{/if}}
