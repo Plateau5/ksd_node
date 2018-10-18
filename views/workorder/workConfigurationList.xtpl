@@ -191,7 +191,7 @@
             var btn = $('.del_order');
             btn.off("click").on('click', function () {
                 var _this = $(this);
-                var product_id = _this.data('id');
+                var order_id = _this.data('id');
                 dialog('open', {
                     title : '删除提醒',
                     content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>你确定删除么？</span></div>',
@@ -200,9 +200,9 @@
                         $.ajax({
                             type:'post',
                             timeout:3000,
-                            url : contextPath + "/api/product/delete",
+                            url : contextPath + "/api/workorder/delete",
                             data : {
-                                id : product_id
+                                id : order_id
                             },
                             success : function (res) {
                                 if (res.error_code == 0) {

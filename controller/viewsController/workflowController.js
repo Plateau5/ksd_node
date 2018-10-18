@@ -13,7 +13,9 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
 // 业务管理-主导航节点跳转
 exports.VIEW_BUSINESS_SYSTEM = function(req, res, next) {
     try {
-        if (common.checkPrivilege(1130, req)) {     //审批流
+        if (common.checkPrivilege(1130, req)) {     //工单配置
+            res.redirect(markUri + '/workorder/configuration/system');
+        } else if (common.checkPrivilege(1130, req)) {     //审批流
             res.redirect(markUri + '/workflow/list');
         } else if (common.checkPrivilege(1092, req)) {
             res.redirect(markUri + '/question/customer/list');  // 客户问题列表
