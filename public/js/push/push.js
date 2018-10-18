@@ -415,6 +415,7 @@ function workStatus () {
             ev.stopPropagation();
             ev.preventDefault();
             if (_this.find('a').hasClass('active')) {
+                $('.work_setting').hide();
                 return false;
             }
             if (_this.find('a').hasClass('working')) {
