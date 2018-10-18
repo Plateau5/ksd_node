@@ -125,7 +125,7 @@
                 </form>
                 <div class="btn_box clearfix create_wf_btn_box">
                     <a href="javascript:" class="btn orange_btn confirm create_confirm">确认</a>
-                    <a href="{{markUri}}/school/course/lists/home" class="new_cancle go_work_list">取消</a>
+                    <a href="javascript:" class="new_cancle go_work_list">取消</a>
                 </div>
             </div>
         </div>
@@ -428,8 +428,13 @@
         function goWorkList () {
             var btn = $('.go_work_list');
             btn.off('click').on('click', function () {
+                if ($('.order_type').val() == '1') {
+                    var url = '/workorder/configuration/incoming';
+                } else if ($('.order_type').val() == '2') {
+                    var url = '/workorder/configuration/compact';
+                }
                 locationTo({
-                    action : contextPath + markUri + "/gps/list",
+                    action : contextPath + markUri + url,
                     param : reqParamsStr
                 })
             });
