@@ -38,7 +38,7 @@
                     {{/if}}
                 </ul>
             </div>
-            <form action="{{markUri}}/workorder/configuration/incoming" method="post" role='form'>
+            <form action="{{#if (startWith(markUri + '/workorder/configuration/incoming')) }}{{markUri}}/workorder/configuration/incoming{{else}}{{markUri}}/workorder/configuration/compact{{/if}}" method="post" role='form'>
                 <input type="hidden" name="limit" value="{{limit}}" class="limit">
                 <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
             </form>

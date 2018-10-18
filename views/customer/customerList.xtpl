@@ -71,6 +71,7 @@
     <!-------- Part of footer End -------->
 </div>
 <div class="mask" style="display: none;"></div>
+<div class="loading" id="loading" style="z-index: 10003"></div>
 </body>
 {{include ('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
@@ -228,10 +229,14 @@
                 }
                 $.ajax({
                     type:'post',
-                    timeout:3000,
+                    timeout:50000,
                     url : contextPath + url,
                     data : {},
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
                     success : function (res) {
+                        $('#loading').hide();
                         if (res.error_code == 0) {
                             $alert('接单成功！', function () {
                                 window.location.reload();
@@ -241,6 +246,7 @@
                         }
                     },
                     error : function () {
+                        $('#loading').hide();
                         $alert('接单失败，请重新尝试');
                     }
                 });
