@@ -34,7 +34,7 @@ exports.VIEW_BUSINESS_SYSTEM = function(req, res, next) {
         } else if (common.checkPrivilege(1554, req)) {
             res.redirect(markUri + '/car/system');  // 车型库
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1130 | 1092 | 1365 | 1298 | 1280 | 1357 | 1554  is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1658 | 1659 | 1130 | 1092 | 1365 | 1298 | 1280 | 1357 | 1554  is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
