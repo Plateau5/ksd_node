@@ -54,7 +54,11 @@ $(function(){
 
     //确认分配
     $("#delQDBtn").click(function(){
-    	var url = contextPath + "/api/finance/allot";
+        if ($('.list_url').val().indexOf( markUri + '/customer/loan/pendingAllot') != -1) {
+            var url = contextPath + "/api/finance/allot";
+        } else {
+            var url = contextPath + "/api/compact/allot";
+        }
     	var audit_id = $("#audit_id").val();
     	var audit_name = $("#audit_name").val();
     	var finance_id = $("#finance_id").val();

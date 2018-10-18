@@ -227,7 +227,7 @@ exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {
         res.redirect(markUri + '/404');
     }
 };
-// 客户-合同管理-待分配 1261
+// 客户-合同管理-待分配  1661
 exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
     common.getPageData({
         url : '/api/compact/allot/list',
@@ -239,7 +239,7 @@ exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
         }
     }, req, res, next);
 };
-// 客户-合同管理-已分配
+// 客户-合同管理-已分配 1261
 exports.VIEW_CUSTOMER_COMPACT_ALREADYPASS = function(req, res, next) {
     common.getPageData({
         url : '/api/compact/pendingPass/list',
@@ -251,7 +251,17 @@ exports.VIEW_CUSTOMER_COMPACT_ALREADYPASS = function(req, res, next) {
         }
     }, req, res, next);
 };
-
+// 客户-合同管理-订单分配页面跳转 1662
+exports.VIEW_CUSTOMER_COMPACT_ALLOT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/compact/to/allot',
+        title : '客户-订单分配',
+        page : './customer/allotEmp',
+        callback : function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
+};
 // 客户-合同管理-同意页面 1264
 exports.VIEW_CUSTOMER_COMPACT_AGREE = function(req, res, next) {
     common.getPageData({

@@ -586,10 +586,16 @@
         function detailAllot() {
             $(".toAllot").off("click").on('click', function () {
                 var finance_id = $(this).attr('lang');
+                if ($('#nodeUrl').val().indexOf( markUri + '/customer/loan/pendingAllot') != -1) {
+                    var url = '/customer/loan/allot';//贷款分配
+                } else {
+                    var url = '/customer/compact/allot';//合同分配
+                }
                 locationTo({
-                    action : contextPath + markUri + '/customer/loan/allot',
+                    action : contextPath + markUri + url,
                     param : {
-                        finance_id : finance_id
+                        finance_id : finance_id,
+                        url : $('#nodeUrl').val()
                     }
                 });
             });
