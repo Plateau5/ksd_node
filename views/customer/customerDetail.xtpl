@@ -155,7 +155,7 @@
                                         <img class=" detailImgBox" data-original="{{this.thumbnail}}" src="{{this.thumbnail_120_90}}" alt="{{this.file_name}}"/>
                                         <div class="form_group photo_checkbox dis_none">
                                             <input type="checkbox" class="" name="" value="">
-                                            <label class="order_label" data-id="{{this.file_id}}"></label>
+                                            <label class="order_label" data-name="{{this.file_name}}" data-id="{{this.file_id}}"></label>
                                         </div>
                                         {{#if (material_type === 3)}}
                                             <div class="photo_supply"></div>
@@ -1056,9 +1056,11 @@
                 var photoTypeArr = [];
                 photoType.each(function () {
                     var _this = $(this);
-                    var v = _this.data('id');
+                    var fileId = _this.data('id').toString().trim();
+                    var fileName = _this.data('name').trim();
+                    var file = fileId + '=' + fileName;
                     if (_this.hasClass('checked')) {
-                        photoTypeArr.push(v);
+                        photoTypeArr.push(file);
                     }
                 });
                 var photoDownload = photoTypeArr.join(',');
