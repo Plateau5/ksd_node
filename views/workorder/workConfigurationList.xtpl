@@ -38,6 +38,10 @@
                     {{/if}}
                 </ul>
             </div>
+            <form action="{{markUri}}/workorder/configuration/incoming" method="post" role='form'>
+                <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+            </form>
             <div class="list_item carModelList">
                 {{#if (verifyCode(1654)) }}
                 <div class="create_item">
@@ -52,7 +56,7 @@
                 {{else}}
                     <table class="normal carModel_list">
                         <colgroup style="width: 100%;">
-                            {{#if (!root.verifyCode(1656) && !root.verifyCode(1657)) }}
+                            {{#if (!verifyCode(1656) && !verifyCode(1657)) }}
                                 <col style="width: 50%;" />
                                 <col style="width: 50%;" />
                             {{else}}
@@ -69,7 +73,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{#if (count > 0) }}
                         {{#each (list) }}
                         <tr data-id="{{this.id}}">
                             <td title="{{this.name}}">{{this.name}}</td>
@@ -87,12 +90,13 @@
                             {{/if}}
                         </tr>
                         {{/each}}
-                        {{/if}}
                         </tbody>
                     </table>
                 {{/if}}
                 <!--分页部分 Begin-->
-                {{include('./../inc/paginations')}}
+                <div class="clearfix">
+                    {{include('./../inc/paginations')}}
+                </div>
                 <!--分页部分 End-->
             </div>
 
