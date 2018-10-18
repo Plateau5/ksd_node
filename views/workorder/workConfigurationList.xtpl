@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/carModel.css">
     <title>业务-工单配置</title>
     <style>
@@ -66,8 +67,8 @@
                         {{#if (count > 0) }}
                         {{#each (list) }}
                         <tr data-id="{{this.id}}">
-                            <td>{{this.name}}</td>
-                            <td>{{this.emp_name}}</td>
+                            <td title="{{this.name}}">{{this.name}}</td>
+                            <td title="{{this.emp_name}}">{{this.emp_name}}</td>
                             {{#if (root.verifyCode(1555)) }}
                             <td class="operate_btn">
                                 <a href="javascript:;" title="编辑" data-id ="{{this.id}}" data-name ="{{this.name}}" data-organization_ids ="{{this.organization_ids}}" data-amount="{{this.amount}}" data-emp_ids="{{this.emp_ids}}" data-emp_name="{{this.emp_name}}" class="edit order_edit"></a>
@@ -92,6 +93,7 @@
 </div>
 </body>
 {{include ('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script>
     (function ($) {
         /**

@@ -219,17 +219,14 @@
         function immediatelyOrder () {
             var btn = $('.immediately_order');
             btn.off("click").on('click', function () {
-                var _this = $(this);
                 $.ajax({
                     type:'post',
                     timeout:3000,
-                    url : contextPath + "/api/product/delete",
-                    data : {
-                        id : product_id
-                    },
+                    url : contextPath + "/api/finance/receive/order",
+                    data : {},
                     success : function (res) {
                         if (res.error_code == 0) {
-                            $alert('删除成功', function () {
+                            $alert('接单成功！', function () {
                                 window.location.reload();
                             });
                         } else {
@@ -237,7 +234,7 @@
                         }
                     },
                     error : function () {
-                        $alert('删除失败，请重新尝试');
+                        $alert('接单失败，请重新尝试');
                     }
                 });
             });
