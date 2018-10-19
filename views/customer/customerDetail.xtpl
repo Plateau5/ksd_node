@@ -182,7 +182,7 @@
                             </select>
                         </div>
 
-                        {{#if ((url === (markUri + '/customer/loan/alreadyAllot') && vo.start_audit_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time !== 0 && present_id !== vo.compact_service_id) || (url === (markUri + '/customer/requestpayout/pendingDispose') && vo.start_request_time === 0) || (url === (markUri + '/customer/requestpayout/pendingAudit') && vo.start_request_time === 0) || (url === (markUri + '/customer/approval/pendingAudit') && vo.start_request_time === 0)) }}
+                        {{#if ((url === (markUri + '/customer/loan/alreadyAllot') && vo.start_audit_time === 0) || (url === (markUri + '/customer/compact/pendingPass') && vo.start_compact_time === 0) || (url === (markUri + '/customer/compact/alreadyPass') && vo.start_compact_time === 0) || (url === (markUri + '/customer/compact/alreadyPass') && vo.start_compact_time !== 0 && present_id !== vo.compact_service_id) || (url === (markUri + '/customer/requestpayout/pendingDispose') && vo.start_request_time === 0) || (url === (markUri + '/customer/requestpayout/pendingAudit') && vo.start_request_time === 0) || (url === (markUri + '/customer/approval/pendingAudit') && vo.start_request_time === 0)) }}
 
                         {{else}}
                             <a href="javascript:;" class="detail_high_btn download_choose" lang="{{finance_id}}" style="margin-right: 68px;">下载</a>
@@ -1130,7 +1130,7 @@
             }
             toPretrialDetail();     // 跳转预审详情
             toHistoryList();        // 跳转历史订单
-            if ((pigeonholeUrl == markUri + '/customer/loan/alreadyAllot' && voStartAuditTime == 0) || (pigeonholeUrl == markUri + '/customer/compact/pendingPass' && startCompactTime == 0) || (pigeonholeUrl == markUri + '/customer/requestpayout/pendingDispose' && startRequestTime == 0)  || (pigeonholeUrl == markUri + '/customer/requestpayout/pendingAudit' && startRequestTime == 0) || (pigeonholeUrl == markUri + '/customer/approval/pendingAudit' && startRequestTime == 0)) {
+            if ((pigeonholeUrl == markUri + '/customer/loan/alreadyAllot' && voStartAuditTime == 0) || (pigeonholeUrl == markUri + '/customer/compact/pendingPass' && startCompactTime == 0) || (pigeonholeUrl == markUri + '/customer/compact/alreadyPass' && startCompactTime == 0) || (pigeonholeUrl == markUri + '/customer/requestpayout/pendingDispose' && startRequestTime == 0)  || (pigeonholeUrl == markUri + '/customer/requestpayout/pendingAudit' && startRequestTime == 0) || (pigeonholeUrl == markUri + '/customer/approval/pendingAudit' && startRequestTime == 0)) {
 
             } else {
                 viewLargeImage('#img_list');       // 查看大图
