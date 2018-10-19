@@ -213,8 +213,10 @@ exports.VIEW_CUSTOMER_LOAN_RENEWNOTIFYRESULT = function(req, res, next) {
 // 客户-合同管理-跳转
 exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {
     try {
-        if (common.checkPrivilege(1261, req)) {
+        if (common.checkPrivilege(1661, req)) {
             res.redirect(markUri + '/customer/compact/pendingPass');
+        } else if (common.checkPrivilege(1261, req)) {
+            res.redirect(markUri + '/customer/compact/alreadyPass');
         } else if (common.checkPrivilege(1262, req)) {
             res.redirect(markUri + '/customer/compact/pass');
         } else if (common.checkPrivilege(1263, req)) {
