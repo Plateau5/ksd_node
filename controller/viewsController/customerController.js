@@ -222,7 +222,7 @@ exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {
         } else if (common.checkPrivilege(1263, req)) {
             res.redirect(markUri + '/customer/compact/unpass');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1261 | 1262 | 1263 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1661 | 1261 | 1262 | 1263 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
