@@ -45,3 +45,12 @@ exports.VIEW_QUESTION_MERCHANTS_HISRECORD = function(req, res, next) {
         page : './question/merchantsHis'
     }, req, res, next);
 };
+
+// 标签管理列表页 1644
+exports.VIEW_LABEL_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/label/list',
+        title : '标签管理',
+        page : './question/labelList'
+    }, req, res, next);
+};
