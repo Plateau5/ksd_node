@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/school.css">
+    <title>工单配置</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide na End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main pad_btm_100 course_create">
+            <div class="crumbs_nav">
+                <a href="{{markUri}}/workorder/configuration/system" class="crumbs_item">工单配置</a>
+                <a href="javascript:;" class="crumbs_item">{{#if (reqParams.id) }}编辑{{else}}新建{{/if}}{{reqParams.order_name}}配置</a>
+            </div>
+            <div class="form_options create_options">
+                <form action="" id="order_create_form" method="post">
+                    <input type="hidden" value="{{reqParams.id}}" name="id" class="order_id">
+                    <input type="hidden" value="{{reqParams.order_type}}" name="order_type" class="order_type">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">负责人：</span>
+                        </div>
+                        <div class="column_val internal_teacher">
+                            <input type="hidden" name="emp_ids" id="principal_ids" value="{{detail.emp_ids}}">
+                            <input type="hidden" name="emp_name" id="emp_names" value="{{detail.emp_name}}">
+                            <ul class="person_list">
+                                {{#each (emp_condition_list) }}
+                                <li class="person" data-id="{{this.id}}">{{this.name}}<em class="delete_btn" data-id="{{this.id}}"></em></li>
+                                {{/each}}
+                                <!-- 下面为添加按钮 -->
+                                {{#if (emp_condition_list) }}
+                                    {{#if (emp_condition_list.length < 20) }}
+                                    <li class="choose_box inline_block">
+                                    {{else}}
+                                    <li class="choose_box inline_block" style="display: none;">
+                                    {{/if}}
+                                {{else}}
+                                <li class="choose_box inline_block">
+                                {{/if}}
+                                    <em class="add_city_btn" id="addOwnPersonBtn"></em>
+                                    <div class="search_box" style="display: none;">
+                                        <div class="search_input">
+                                            <input class="m_search" type="text" />
+                                        </div>
+                                        <ul class="search_result">
+
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">名称：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="order_name" name="name" placeholder="请输入名称" value="{{detail.name}}" maxlength="50"/>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">机构设置：</span>
+                        </div>
+                        <div class="column_val">
+                            {{#if (detail) }}
+                                {{#if (detail.organization_ids.indexOf(',') !== -1) }}
+                                    {{set (org_id = detail.organization_ids.split(',')) }}
+                                    {{#each (org_list) }}
+                                    <div class="form_group">
+                                        {{#if (org_id.indexOf(this.id.toString()) !== -1) }}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}" checked="checked"/>
+                                        <label class="checked">{{this.name}}</label>
+                                        {{else}}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}"/>
+                                        <label>{{this.name}}</label>
+                                        {{/if}}
+                                    </div>
+                                    {{/each}}
+                                {{else}}
+                                    {{#each (org_list) }}
+                                    <div class="form_group">
+                                        {{#if (detail.organization_ids === this.id.toString()) }}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}" checked="checked"/>
+                                        <label class="checked">{{this.name}}</label>
+                                        {{else}}
+                                        <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}"/>
+                                        <label>{{this.name}}</label>
+                                        {{/if}}
+                                    </div>
+                                    {{/each}}
+                                {{/if}}
+                            {{else}}
+                                {{#each (org_list) }}
+                                <div class="form_group">
+                                    <input type="checkbox" class="org_name" name="organization_ids"  value="{{this.id}}"/>
+                                    <label>{{this.name}}</label>
+                                </div>
+                                {{/each}}
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">金额限制：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" class="money_config" name="amount" placeholder="请输入最高金额限制(整数)" value="{{detail.amount}}" maxlength="3"/>
+                            <span style="display: inline-block;margin-left: 10px">万</span>
+                        </div>
+                    </div>
+                </form>
+                <div class="btn_box clearfix create_wf_btn_box">
+                    <a href="javascript:" class="btn orange_btn confirm create_confirm">确认</a>
+                    <a href="javascript:" class="new_cancle go_work_list">取消</a>
+                </div>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+<div class="mask" style="display: none;"></div>
+<div class="loading" id="loading" style="z-index: 10003"></div>
+</body>
+{{include('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    var emp_ids = '{{detail.emp_ids}}';//负责人
+    emp_ids = emp_ids.split(',');
+    var emp_name = '{{detail.emp_name}}';//负责人
+    emp_name = emp_name.split(',');
+    var emp_list = '{{list}}';
+    if (emp_list.length > 0 ) {
+        emp_list = JSON.parse(emp_list.replace(/&quot;/ig, '"'));
+    }
+    var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+    if (reqParamsStr.length > 0 ) {
+        reqParamsStr = JSON.parse(reqParamsStr);
+    }
+    (function ($) {
+        /***************************负责人 start****************************/
+        //负责人ids、names
+        if (emp_ids != '') {
+            var principal_ids = emp_ids;
+            var emp_names = emp_name;
+        } else {
+            var principal_ids = [];
+            var emp_names = [];
+        }
+        /**
+         * 添加负责人
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function addPrincipal () {
+            var setObj = {
+                "btn" : $("#addOwnPersonBtn"),
+                "sBox" : $(".search_box"),
+                "input" : $(".m_search "),
+                "resBox" : $(".search_result"),
+                "personList" : $('.person_list')
+            };
+            //负责人的模糊查询功能
+            function searchManagers () {
+                setObj.btn.off("click").on("click", function (e) {
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    setObj.sBox.show();
+                    setObj.input.focus();
+                    setObj.input.on('input',function(e){
+                        var ev = e || window.event;
+                        ev.stopPropagation();
+                        var val = $.trim($(this).val());
+                        setObj.resBox.html('');
+                        if (val) {
+                            setObj.resBox.show();
+                            var queryObj = fuzzyQuery(emp_list);
+                            showSearchResult(queryObj);
+                            selectedCreate();
+                        } else{
+                            setObj.resBox.hide();
+                        }
+                    });
+                    // 注册点击其他区域关闭弹出层
+                    $(document).on('click',function (e) {
+                        var ev = e || window.event;
+                        ev.stopPropagation();
+                        var target = $(ev.target);
+                        var parent = target.parents('.search_box');
+                        if (target.hasClass('search_box')) {
+                            return false;
+                        } else if (parent.length <= 0) {
+                            setObj.sBox.hide().find('.search_result').html('').end().find('.m_search').val('');
+                            setObj.resBox.hide();
+                            return true;
+                        } else {
+                            return true;
+                        }
+                    });
+                });
+                // 订单所属人选中逻辑
+                var selectedCreate = function () {
+                    var item = setObj.resBox.find(".res_item");
+                    item.each(function () {
+                        var t = $(this);
+                        t.off("click").on("click", function (e) {
+                            var e = e || window.event;
+                            e.stopPropagation();
+                            var _this = $(this);
+                            var leaderEle = _this.find(".name"),
+                                pName = leaderEle.text(),
+                                lId = _this.data("id");
+
+                            setObj.input.val("");
+                            setObj.resBox.html("");
+                            setObj.sBox.hide();
+                            for (var i = 0, len = principal_ids.length;i < len;i++) {
+                                if (principal_ids[i] == lId) {
+                                    $alert('此负责人已添加');
+                                    return false;
+                                }
+                            }
+                            principal_ids.push(lId);
+                            emp_names.push(pName);
+
+                            // 创建拥有者展示数据
+                            var ownStr = '<li class="person" data-id="'+ lId +'">'+ pName +'<em class="delete_btn" data-id="'+ lId +'"></em></li>';
+                            setObj.personList.find('.choose_box').before(ownStr);
+                            $('.person_list').find('.tips_info').hide();
+                            getTeachers();
+                        });
+                    });
+                }
+            }
+            //模糊查询逻辑
+            function fuzzyQuery (res) {
+                var queryStr = $.trim(setObj.input.val()),
+                    queryArr = queryStr.split(""),
+                    data = res,
+                    resArr;
+                if(queryStr) {
+                    for (var i = 0, len = queryArr.length; i < len; i++) {
+                        resArr = [];
+                        for (var k = 0; k < data.length; k++) {
+                            if (data[k].name.indexOf(queryArr[i]) != -1) {
+                                resArr.push(data[k]);
+                            }
+                        }
+                        data = resArr;
+                    }
+                }
+                return resArr;
+            }
+            //创建模糊查询结果展示并绑定事件
+            function showSearchResult (res) {
+                var html = [];
+                if (res == undefined || res.length == 0 || res.length == undefined) {
+                    return $('.search_result').html('<li style="text-align: center;color:#999;line-height: 60px;">暂无数据</li>');
+                } else {
+                    for (var i = 0, len = res.length; i < len; i++) {
+                        if (res[i].account) {
+                            var tel_account = res[i].account;
+                        } else if (res[i].phone) {
+                            var tel_account = res[i].phone;
+                        }
+                        var str = '';
+                        str = '<li class="res_item"  data-id="' + res[i].id + '" data-name="' + res[i].name + '" data-email="'+ res[i].account + '" title="' + tel_account + '">\
+                                <span class="name nowrap">' + res[i].name + '</span>\
+                                <span class="p_dep nowrap">' + (tel_account ? tel_account : '没有匹配到任何结果') + '</span>\
+                            </li>';
+                        html.push(str);
+                        $('.search_result').html(html.join(""));
+                    }
+                }
+            }
+            searchManagers();
+        }
+
+        //判断负责人最多20人
+        function getTeachers () {
+            var person_list = $('.person_list');
+            var nums = person_list.find('.person').length;
+            if (nums == 20) {
+                $('.choose_box').hide();
+            } else {
+                $('.choose_box').show();
+            }
+        }
+
+        //删除负责人
+        function deletePrincipal () {
+            var delBtnParent = $('.person_list');   // 拥有者数据列表元素
+            delBtnParent.off('click').on('click', '.delete_btn', function () {
+                var _this = $(this);
+                for (var i = 0, len = principal_ids.length;i < len;i++) {
+                    if (principal_ids[i] == _this.data('id')) {
+                        principal_ids.splice(i,1);
+                        emp_names.splice(i, 1);
+                    }
+                }
+                _this.parents('.person').remove();
+                getTeachers();
+            });
+        }
+
+
+        /***************************负责人  end****************************/
+
+        /**
+         * 保存提交工单
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function saveWorkorder () {
+            var btn = $('.create_confirm');
+            btn.off('click').on('click', function () {
+                saveWorkForm();
+            });
+        }
+        /**
+         * 保存校验
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function saveWorkForm () {
+            var principal_id = $('#principal_ids');
+            principal_id.val(principal_ids.join(','));
+            $('#emp_names').val(emp_names.join(','));
+            if (principal_id.val() == '') {
+                $alert('请添加负责人');
+                return;
+            }
+
+            var order_name = $('.order_name');
+            if (order_name.val() == '') {
+                $alert('请填写名称');
+                return;
+            } else {
+                order_name.val(order_name.val().trim());
+            }
+
+            var org_name = $('.org_name');
+            var org_num = 0;
+            org_name.each(function () {
+                if (this.checked) {
+                    org_num++;
+                }
+            });
+            if (org_num == 0) {
+                $alert('请选择机构');
+                return;
+            }
+
+            var money_config = $('.money_config');
+            if (money_config.val() == '') {
+                $alert('请填写金额');
+                return;
+            } else {
+                money_config.val(money_config.val().trim());
+            }
+
+            ajaxSubmit();
+        }
+        //ajax提交參數
+        function ajaxSubmit () {
+            var order_id = $('.order_id');
+            if (order_id.val() == '') {
+                var url = contextPath + "/api/workorder/create/finance";
+            } else {
+                var url = contextPath + "/api/workorder/update/finance";
+            }
+            var parameters = new FormData(document.getElementById('order_create_form'));
+            $.ajax({
+                type:'post',
+                timeout:50000,
+                url : url,
+                data : parameters,
+                processData : false,      //序列化参数为String类型，默认：true。
+                contentType : false,      //内容编码，文件上传时设为FALSE
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('操作成功', function () {
+                            var order_type = $('.order_type').val();
+                            if (order_type == '1') {
+                                var url = '/workorder/configuration/incoming';
+                            } else if (order_type == '2') {
+                                var url = '/workorder/configuration/compact';
+                            }
+                            locationTo({
+                                action : contextPath + markUri + url,
+                                param : {}
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            saveWorkorder();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    saveWorkorder();
+                }
+            });
+        }
+
+        /**
+         * 面包屑跳转
+         * @author  Plateau  2018年10月17日18:38:14
+         * */
+        function goWorkList () {
+            var btn = $('.go_work_list');
+            btn.off('click').on('click', function () {
+                if ($('.order_type').val() == '1') {
+                    var url = '/workorder/configuration/incoming';
+                } else if ($('.order_type').val() == '2') {
+                    var url = '/workorder/configuration/compact';
+                }
+                locationTo({
+                    action : contextPath + markUri + url,
+                    param : reqParamsStr
+                })
+            });
+        }
+
+        $(function() {
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
+            numAndAmount('.money_config',{//控制融资金额范围输入框只能输入三位整数
+                type : 0,
+                maxInteger : 3,
+                maxDecimal : 0,
+                addDecimal : 1
+            });
+            addPrincipal();//添加负责人
+            deletePrincipal();//删除负责人
+            saveWorkorder();//保存提交工单
+            goWorkList();//面包屑跳转
+        });
+    })(jQuery,undefined);
+</script>
+</html>

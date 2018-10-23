@@ -31,13 +31,13 @@
         <div class="" style="padding-bottom:50px;padding-left:180px;">
             <div class="listConHeader inviteCon">
                 <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/customer/loan/pendingAllot">待分配</a></li>
+                    <li class="inline colorB"><a class="TS" href="{{reqParams.url}}">待分配</a></li>
                     <li class="inline before"><a href="javascript:;" style="cursor:default">分配任务</a></li>
                 </ul>
             </div>
             <!--form start-->
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 allotEmp">
-
+                <input type="hidden" value="{{reqParams.url}}" class="list_url">
                 <div class="allotEmpBox cursor">
                     {{#each (list) }}
                 		<div class="personBox cursor">
@@ -50,8 +50,7 @@
 	                        </div>
 	                        <div class="personName">{{this.name}}</div>
 	                        <div class="personJob" >
-	                            <span>{{this.count}}</span>
-	                           	 个贷款申请
+	                            已有<span>{{this.count}}</span>个
 	                        </div>
 	                        <div class="personJob_address">
 	                           	 所属区域：

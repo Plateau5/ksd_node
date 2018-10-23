@@ -531,23 +531,90 @@ table.normal{
                 color: #FFFFFF;
             }
         }
+        .work_status{
+          width:40px;
+          position: relative;
+          cursor: pointer;
+          &:after{
+            display: block;
+            position: absolute;
+            bottom: 14px;
+            right: 6px;
+            content: '';
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+          }
+          .character_photo{
+            display: inline-block;
+            position: absolute;
+            left: 4px;
+            top: (@header-height - 24)/2;
+            //content: "";
+            width: 24px;
+            height: 24px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            //background: url("../img/header-nav-icon.png") no-repeat 0 0;
+          }
+          .work_setting{
+            display: none;
+            position: absolute;
+            bottom: -40px;
+            left:-48px;
+            width:80px;
+            padding:4px 0;
+            background-color: #fff;
+            border: 1px solid #EDEDED;
+            border-radius:2px;
+            z-index: 100000;
+            .setting_item{
+              width:80px;
+              height: 20px;
+              line-height: 20px;
+              a{
+                position: relative;
+                display: inline-block;
+                width:60px;
+                height:100%;
+                padding-left: 20px;
+                color: #333;
+                text-align: center;
+                font-size: 12px;
+                &:before{
+                  display: block;
+                  position: absolute;
+                  top: 4px;
+                  left: 6px;
+                  content: '';
+                  width: 14px;
+                  height: 14px;
+                  border-radius: 50%;
+                }
+              }
+              .active{
+                background-color: #E5FCFB;
+              }
+              .working:before{
+                background-color: #1DC6BC;
+              }
+              .resting:before{
+                background-color: #DCDCDC;
+              }
+            }
+          }
+        }
+        .work_active:after{
+          background: #1DC6BC;
+        }
+        .rest_active:after{
+          background: #DCDCDC;
+        }
         .characters{
             max-width: 45px;
-            padding: 0 35px;
+            padding: 0 35px 0 0;
             position: relative;
-            .character_photo{
-                display: inline-block;
-                position: absolute;
-                left: 4px;
-                top: (@header-height - 24)/2;
-                //content: "";
-                width: 24px;
-                height: 24px;
-                -webkit-border-radius: 50%;
-                -moz-border-radius: 50%;
-                border-radius: 50%;
-                //background: url("../img/header-nav-icon.png") no-repeat 0 0;
-            }
             a{
                 text-align: left;
                 overflow: hidden;
@@ -588,7 +655,7 @@ table.normal{
                 display: none;
                 position: absolute;
                 top: @header-height + 8;
-                left: 6px;
+                left: 0px;
                 z-index: 100000;
                 width: 100px;
                 height: auto;

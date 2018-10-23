@@ -62,10 +62,15 @@
         </li>
     </ul>
 </div>
-{{ elseif (startWith(markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/label' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps' + ' || ' + markUri + '/car')) }}
+{{ elseif (startWith(markUri + '/workorder' + ' || ' + markUri + '/business' + ' || ' + markUri + '/workflow' + ' || ' + markUri + '/label' + ' || ' + markUri + '/question' + ' || ' + markUri + '/administrative' + ' || ' + markUri + '/gps' + ' || ' + markUri + '/car')) }}
 <div class="contacts slide_nav">
     <div class="slide_nav_title bold">业务</div>
     <ul class="slide_nav_bar">
+        {{#if (verifyCode(1658) || verifyCode(1659)) }}
+        <li class="nav_item {{#if(startWith(markUri + '/workorder/configuration'))}}active{{/if}}">
+            <a href="{{markUri}}/workorder/configuration/system" class="">工单配置</a>
+        </li>
+        {{/if}}
         {{#if (verifyCode(1130)) }}
             <li class="nav_item {{#if(startWith(markUri + '/workflow'))}}active{{/if}}">
                 <a href="{{markUri}}/workflow/list" class="">审批流程</a>

@@ -13,7 +13,9 @@ var ERRORTYPES = require('./../../util/ErrorTypesConf'); // 自定义错误类�
 // 业务管理-主导航节点跳转
 exports.VIEW_BUSINESS_SYSTEM = function(req, res, next) {
     try {
-        if (common.checkPrivilege(1130, req)) {     //审批流
+        if (common.checkPrivilege(1658, req) || common.checkPrivilege(1659, req)) {     //工单配置
+            res.redirect(markUri + '/workorder/configuration/system');
+        } else if (common.checkPrivilege(1130, req)) {     //审批流
             res.redirect(markUri + '/workflow/list');
         } else if (common.checkPrivilege(1644, req)) {
             res.redirect(markUri + '/label/list');  // 标签管理列表
@@ -34,7 +36,7 @@ exports.VIEW_BUSINESS_SYSTEM = function(req, res, next) {
         } else if (common.checkPrivilege(1554, req)) {
             res.redirect(markUri + '/car/system');  // 车型库
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1130 | 1644 | 1092 | 1365 | 1298 | 1280 | 1357 | 1554  is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1658 | 1659 | 1644 | 1130 | 1092 | 1365 | 1298 | 1280 | 1357 | 1554  is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);

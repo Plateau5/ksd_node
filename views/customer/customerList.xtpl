@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
     <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
     <title>{{title}}</title>
@@ -25,6 +26,11 @@
                 <input type="hidden" name="current_page" value="{{current_page}}" id="current_page">
                 {{include('./../inc/filtrate')}}
             </form>
+            {{#if ((verifyCode(1660) && originUrl.indexOf( markUri + '/customer/loan/alreadyAllot') !== -1) || (verifyCode(1664) && originUrl.indexOf( markUri + '/customer/compact/alreadyPass') !== -1)) }}
+            <div style="height:40px;margin:20px 46px 0 0;">
+                <a href="javascript:" class="btn orange_btn immediately_order" style="float: right">立刻接单</a>
+            </div>
+            {{/if}}
             <div class="business_list">
                 <form action="{{detailUrl}}" method="post" id="to_order_detail">
                     <input type="hidden" name="active" value="active">
@@ -65,8 +71,10 @@
     <!-------- Part of footer End -------->
 </div>
 <div class="mask" style="display: none;"></div>
+<div class="loading" id="loading" style="z-index: 10003"></div>
 </body>
 {{include ('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
 <script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
 <script src="{{markUri}}/static/js/customerService.js"></script>
 </html>
@@ -209,6 +217,41 @@
                 resBox.hide();
             })
         };
+
+        //立刻接单
+        function immediatelyOrder () {
+            var btn = $('.immediately_order');
+            btn.off("click").on('click', function () {
+                if ($('#form_search').attr('action').indexOf( markUri + '/customer/loan/alreadyAllot') != -1) {
+                    var url = "/api/finance/receive/order";
+                } else {
+                    var url = '/api/compact/receive/order';
+                }
+                $.ajax({
+                    type:'post',
+                    timeout:50000,
+                    url : contextPath + url,
+                    data : {},
+                    beforeSend : function () {
+                        $('#loading').show();
+                    },
+                    success : function (res) {
+                        $('#loading').hide();
+                        if (res.error_code == 0) {
+                            $alert('接单成功！', function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            $alert(res.error_msg);
+                        }
+                    },
+                    error : function () {
+                        $('#loading').hide();
+                        $alert('接单失败，请重新尝试');
+                    }
+                });
+            });
+        }
         $(function() {
             //时间筛选 2018年5月8日15:39:35
             datePicker('#filtrate_date',{
@@ -227,6 +270,7 @@
             paginationSwitch();     // 分页切换
             delName (); // 删除订单所属人
             initDateStartEnd('#start_pigeonhole_time','#end_pigeonhole_time');  //日期筛选
+            immediatelyOrder();//立刻接单
         });
     })(jQuery,undefined);
 </script>

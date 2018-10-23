@@ -1182,6 +1182,13 @@ function getMessagesInfo(selector) {
         $.post(contextPath+"/api/message/getNotice?query_type=1",function(datas){
             var data = eval(datas);
             if (data.error_code == 0) {
+                if (data.work_status == 1) {
+                    $('.work_status').addClass('work_active');
+                    $('.work_setting .working').addClass('active');
+                } else {
+                    $('.work_status').addClass('rest_active');
+                    $('.work_setting .resting').addClass('active');
+                }
                 $("#header_image_url").attr("src",data.image_url);
                 $("#header_username").html(data.name);
                 $("#id_center").show();
@@ -1236,6 +1243,91 @@ function getMessagesInfo(selector) {
         //messageNotification("快收单", "您有"+ mCount +"条待处理事项", contextPath + "/home", contextPath + "/static/icon/kuaisd_m_logo.png");
     }, 300000);
 }
+
+/**
+ *  主导航的工作状态切换
+ *  @author Plateau  2018年10月16日13:43:23
+ */
+function workStatus () {
+    var work_status = $('.work_status');
+    work_status.off("click").on("click", function (e) {
+        var ev = e || window.event;
+        ev.stopPropagation();
+        ev.preventDefault();
+        var _this = $(this).find('.work_setting');
+        if (_this.is(':hidden')) {
+            _this.show();
+        } else {
+            _this.hide();
+        }
+        $(document).on('click',function (e) {
+            var ev = e || window.event;
+            ev.stopPropagation();
+            var target = $(ev.target);
+            var parent = target.parents('.work_setting');
+            if (target.hasClass('work_setting')) {
+                return false;
+            } else if (parent.length <= 0) {
+                _this.hide();
+                return true;
+            } else {
+                return true;
+            }
+        });
+    });
+    var setting_item = work_status.find('.setting_item');
+    setting_item.each(function () {
+        var _this = $(this);
+        _this.off("click").on("click", function (e) {
+            var ev = e || window.event;
+            ev.stopPropagation();
+            ev.preventDefault();
+            if (_this.find('a').hasClass('active')) {
+                $('.work_setting').hide();
+                return false;
+            }
+            if (_this.find('a').hasClass('working')) {
+                var work_status = 1;
+            } else {
+                var work_status = 0;
+            }
+            $.ajax({
+                type : "post",
+                url : contextPath + '/api/employee/workstatus ',
+                data : {
+                    work_status : work_status
+                },
+                async : true,
+                timeout : 50000,
+                success : function (res) {
+                    $('.work_setting').hide();
+                    if (res.error_code == 0) {
+                        _this.parents('.work_setting').find('a').removeClass('active');
+                        _this.find('a').addClass('active');
+                        if (work_status == 1) {
+                            if (_this.parents('.work_status').hasClass('rest_active')) {
+                                _this.parents('.work_status').removeClass('rest_active');
+                            }
+                            _this.parents('.work_status').addClass('work_active');
+                        } else {
+                            if (_this.parents('.work_status').hasClass('work_active')) {
+                                _this.parents('.work_status').removeClass('work_active');
+                            }
+                            _this.parents('.work_status').addClass('rest_active');
+                        }
+                    } else {
+                        $alert(res.error_msg);
+                    }
+                },
+                error : function () {
+                    $alert('切换失败，请重试');
+                }
+            });
+        });
+    });
+}
+
+
 
 /**
  *  桌面消息提醒功能
@@ -1495,6 +1587,7 @@ function pageChange (e, firstLetter) {
         var CustomerArchivedEnd = $("#end_pigeonhole_time").val() || '';   // 客户-归档时间结束
         var pigeonholeStatus = $("select#pigeonholeStatus option:selected").val();   // 客户-状态筛选
         var createName = $("#createName").val();   // 客户-订单所属人
+        var level = $("#level").val();   // 客户-订单所属人
 
 
         label_id && $("#"+id).append('<input type="hidden" id="label_id" name="label_id" value="'+ label_id + '" />');
@@ -1522,6 +1615,7 @@ function pageChange (e, firstLetter) {
         CustomerArchivedEnd && $("#"+id).append('<input type="hidden" id="end_pigeonhole_time" name="end_pigeonhole_time" value="'+ CustomerArchivedEnd + '" />');
         pigeonholeStatus && $("#"+id).append('<input type="hidden" id="pigeonholeStatus" name="pigeonhole_status" value="'+ pigeonholeStatus +'" />');
         createName && $("#"+id).append('<input type="hidden" id="createName" name="create_name" value="'+ createName + '" />');
+        level && $("#"+id).append('<input type="hidden" id="level" name="level" value="'+ level + '" />');
         target.off('click');
         $("#"+id).submit();
     }
@@ -2655,6 +2749,7 @@ $(function () {
     customerListMask(); // 禁用订单多次点击跳转
     windowInFocus();    // 判断当前标签页的活动状态
     getMessagesInfo('#header_messages');
+    workStatus();//工作状态切换
     switcher(".nav_item", ".active");
     filtrateChoose("click", ".category_item", "active", function () {});
     /*filtrateChoose("click", ".conditions_item", "active" , function () {

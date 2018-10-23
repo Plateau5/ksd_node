@@ -1,0 +1,254 @@
+<!-- 业务车型库列表页面 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/carModel.css">
+    <title>业务-工单配置</title>
+    <style>
+        .carModelList table.normal tr.no_data:hover{
+            background: none;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main">
+            <div class="tab">
+                <ul class="tab_list inline_block" id="order_tab">
+                    {{#if (verifyCode(1658)) }}
+                    <li class="tab_item type_normal {{#if (startWith(markUri + '/workorder/configuration/incoming')) }}active{{/if}}" data-type="1" data-url="{{markUri}}/workorder/configuration/incoming" style="border-left:0px;"><span></span>进件工单</li>
+                    {{/if}}
+                    {{#if (verifyCode(1659)) }}
+                    <li class="tab_item type_others {{#if (startWith(markUri + '/workorder/configuration/compact')) }}active{{/if}}" data-type="2" data-url="{{markUri}}/workorder/configuration/compact"><span></span>合同工单</li>
+                    {{/if}}
+                </ul>
+            </div>
+            <form action="{{#if (startWith(markUri + '/workorder/configuration/incoming')) }}{{markUri}}/workorder/configuration/incoming{{else}}{{markUri}}/workorder/configuration/compact{{/if}}" method="post" role='form'>
+                <input type="hidden" name="limit" value="{{limit}}" class="limit">
+                <input type="hidden" name="current_page" value="{{current_page}}" class="currentPage">
+            </form>
+            <div class="list_item carModelList">
+                {{#if (verifyCode(1654)) }}
+                <div class="create_item">
+                    <div class="inline_block rf">
+                        <a href="javascript:;" class="btn blue_btn add_btn create_config"><em></em>新建配置</a>
+                    </div>
+                </div>
+                {{/if}}
+                <!-- 没有数据部分 -->
+                {{#if (count === 0) }}
+                    {{include('./../inc/empty_data')}}
+                {{else}}
+                    <table class="normal carModel_list">
+                        <colgroup style="width: 100%;">
+                            {{#if (!verifyCode(1656) && !verifyCode(1657)) }}
+                                <col style="width: 50%;" />
+                                <col style="width: 50%;" />
+                            {{else}}
+                                <col style="width: 35%;" />
+                                <col style="width: 45%;" />
+                                <col style="width: 20%;" />
+                            {{/if}}
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>负责人</th>
+                            <th>操作设置</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each (list) }}
+                        <tr data-id="{{this.id}}">
+                            <td title="{{this.name}}">{{this.name}}</td>
+                            <td title="{{this.emp_name}}">{{this.emp_name}}</td>
+                            {{#if (!root.verifyCode(1656) && !root.verifyCode(1657)) }}
+                            {{else}}
+                            <td class="operate_btn">
+                                {{#if (root.verifyCode(1656)) }}
+                                <a href="javascript:;" title="编辑" data-id ="{{this.id}}" data-name ="{{this.name}}" data-organization_ids ="{{this.organization_ids}}" data-amount="{{this.amount}}" data-emp_ids="{{this.emp_ids}}" data-emp_name="{{this.emp_name}}" class="edit order_edit"></a>
+                                {{/if}}
+                                {{#if (root.verifyCode(1657)) }}
+                                <a href="javascript:;" title="删除" class="delete del_order" data-id="{{this.id}}"></a>
+                                {{/if}}
+                            </td>
+                            {{/if}}
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                {{/if}}
+                <!--分页部分 Begin-->
+                <div class="clearfix">
+                    {{include('./../inc/paginations')}}
+                </div>
+                <!--分页部分 End-->
+            </div>
+
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+        /**
+         * 列表页tab切换
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function searchQueryType(tab_item) {
+            var btn = $(tab_item);
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var localUrl = _this.attr("data-url");
+                var dataType = _this.attr("data-type");
+                locationTo({
+                    action : contextPath + localUrl,
+                    param : {
+                        data_type : dataType
+                    }
+                })
+            });
+        }
+        /**
+         * 新建配置跳转
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function createConfig() {
+            var btn = $('.create_config');
+            btn.off("click").on('click', function () {
+                var order_type = '';
+                var tab_item = $('.tab_item');
+                tab_item.each(function () {
+                    var _this = $(this);
+                    if (_this.hasClass('active')) {
+                        order_type = _this.data('type');
+                    }
+                });
+                if (order_type == 1) {
+                    var order_name = '进件';
+                } else if (order_type == 2) {
+                    var order_name = '合同';
+                }
+                locationTo({
+                    action : contextPath + markUri +'/workorder/configuration/tocreate',
+                    param : {
+                        order_type : order_type,
+                        order_name : order_name
+                    }
+                })
+            });
+        }
+        /**
+         * 编辑跳转
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function orderToEdit() {
+            var btn = $('.order_edit');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var id = _this.data("id");
+                var name = _this.data("name");
+                var organization_ids = _this.data("organization_ids");
+                var amount =_this.data("amount");
+                var emp_ids = _this.data('emp_ids');
+                var emp_name = _this.data('emp_name');
+                var order_type = '';
+                var tab_item = $('.tab_item');
+                tab_item.each(function () {
+                    var _this = $(this);
+                    if (_this.hasClass('active')) {
+                        order_type = _this.data('type');
+                    }
+                });
+                if (order_type == 1) {
+                    var order_name = '进件';
+                } else if (order_type == 2) {
+                    var order_name = '合同';
+                }
+                locationTo({
+                    action : contextPath + markUri + "/workorder/configuration/toedit",
+                    param : {
+                        id : id,
+                        name : name,
+                        organization_ids : organization_ids,
+                        amount : amount,
+                        emp_ids : emp_ids,
+                        emp_name : emp_name,
+                        order_type : order_type,
+                        order_name : order_name,
+                        limit : $('.limit').val(),
+                        current_page : $('.currentPage').val()
+                    }
+                })
+            });
+        }
+        /**
+         * 删除工单
+         * @author Plateau  2018年10月17日18:26:15
+         * */
+        function delOrder () {
+            var btn = $('.del_order');
+            btn.off("click").on('click', function () {
+                var _this = $(this);
+                var order_id = _this.data('id');
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>你确定删除么？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        $.ajax({
+                            type:'post',
+                            timeout:3000,
+                            url : contextPath + "/api/workorder/delete",
+                            data : {
+                                id : order_id
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+        $(function() {
+            searchQueryType('#order_tab .tab_item'); //列表页tab切换
+            paginationSwitch();     // 分页切换
+            createConfig(); //新建跳转
+            orderToEdit();//编辑跳转
+            delOrder();//删除工单
+        });
+    })(jQuery,undefined);
+</script>
+</html>

@@ -35,10 +35,15 @@
     <!-- 客服主管、普通客服主操作分类 End -->
     <!-- 合同客服主操作分类 Begin -->
     {{#if (active === 'compact') }}
-        {{#if (verifyCode(1261)) }}
+        {{#if (verifyCode(1661)) }}
             <a href="{{markUri}}/customer/compact/pendingPass" class="category_item wait_assign
                 {{#if (startWith(markUri + '/customer/compact/pendingPass')) }}active{{/if}}
-            ">待出合同<!-- <span class="count_num">({{countvo.wait_check}})</span>--></a>
+            ">待分配<!-- <span class="count_num">({{countvo.wait_check}})</span>--></a>
+        {{/if}}
+        {{#if (verifyCode(1261)) }}
+            <a href="{{markUri}}/customer/compact/alreadyPass" class="category_item assigned
+                {{#if (startWith(markUri + '/customer/compact/alreadyPass')) }}active{{/if}}
+            ">已分配</a>
         {{/if}}
         {{#if (verifyCode(1262)) }}
             <a href="{{markUri}}/customer/compact/pass" class="category_item passed

@@ -213,22 +213,36 @@ exports.VIEW_CUSTOMER_LOAN_RENEWNOTIFYRESULT = function(req, res, next) {
 // 客户-合同管理-跳转
 exports.VIEW_CUSTOMER_COMPACT_SYSTEM = function(req, res, next) {
     try {
-        if (common.checkPrivilege(1261, req)) {
+        if (common.checkPrivilege(1661, req)) {
             res.redirect(markUri + '/customer/compact/pendingPass');
+        } else if (common.checkPrivilege(1261, req)) {
+            res.redirect(markUri + '/customer/compact/alreadyPass');
         } else if (common.checkPrivilege(1262, req)) {
             res.redirect(markUri + '/customer/compact/pass');
         } else if (common.checkPrivilege(1263, req)) {
             res.redirect(markUri + '/customer/compact/unpass');
         } else {
-            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1261 | 1262 | 1263 is not defined.');
+            throw new Error(ERRORTYPES.CheckPrivilege + ': The code 1661 | 1261 | 1262 | 1263 is not defined.');
         }
     } catch (e) {
         LOGERROR(e.stack);
         res.redirect(markUri + '/404');
     }
 };
-// 客户-合同管理-待出合同
+// 客户-合同管理-待分配  1661
 exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
+    common.getPageData({
+        url : '/api/compact/allot/list',
+        title : '合同管理-待出合同',
+        page : './customer/customerList',
+        callback : function (data) {
+            data.emp_list = JSON.stringify(data.emp_list);
+            formatOrderListData(data);
+        }
+    }, req, res, next);
+};
+// 客户-合同管理-已分配 1261
+exports.VIEW_CUSTOMER_COMPACT_ALREADYPASS = function(req, res, next) {
     common.getPageData({
         url : '/api/compact/pendingPass/list',
         title : '合同管理-待出合同',
@@ -239,7 +253,17 @@ exports.VIEW_CUSTOMER_COMPACT_PENDINGPASS = function(req, res, next) {
         }
     }, req, res, next);
 };
-
+// 客户-合同管理-订单分配页面跳转 1662
+exports.VIEW_CUSTOMER_COMPACT_ALLOT = function(req, res, next) {
+    common.getPageData({
+        url : '/api/compact/to/allot',
+        title : '客户-订单分配',
+        page : './customer/allotEmp',
+        callback : function (data) {
+            formatOrderListData(data);
+        }
+    }, req, res, next);
+};
 // 客户-合同管理-同意页面 1264
 exports.VIEW_CUSTOMER_COMPACT_AGREE = function(req, res, next) {
     common.getPageData({
