@@ -1587,6 +1587,7 @@ function pageChange (e, firstLetter) {
         var CustomerArchivedEnd = $("#end_pigeonhole_time").val() || '';   // 客户-归档时间结束
         var pigeonholeStatus = $("select#pigeonholeStatus option:selected").val();   // 客户-状态筛选
         var createName = $("#createName").val();   // 客户-订单所属人
+        var level = $("#level").val();   // 客户-订单所属人
 
 
         label_id && $("#"+id).append('<input type="hidden" id="label_id" name="label_id" value="'+ label_id + '" />');
@@ -1614,6 +1615,7 @@ function pageChange (e, firstLetter) {
         CustomerArchivedEnd && $("#"+id).append('<input type="hidden" id="end_pigeonhole_time" name="end_pigeonhole_time" value="'+ CustomerArchivedEnd + '" />');
         pigeonholeStatus && $("#"+id).append('<input type="hidden" id="pigeonholeStatus" name="pigeonhole_status" value="'+ pigeonholeStatus +'" />');
         createName && $("#"+id).append('<input type="hidden" id="createName" name="create_name" value="'+ createName + '" />');
+        level && $("#"+id).append('<input type="hidden" id="level" name="level" value="'+ level + '" />');
         target.off('click');
         $("#"+id).submit();
     }
