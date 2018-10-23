@@ -317,6 +317,9 @@
          *  Created by wyt on 2018年9月5日17:25:01
          */
         function addLoanData () {
+            if ($('.loan_data').length > 2) {
+                $('.add_sm_btn').hide();
+            }
             var addBtnParents = $('.merchants_edit');   // 创建商户的主容器
             addBtnParents.on('click', '.add_sm_btn', function (e) {
                 var e = e || window.event;
