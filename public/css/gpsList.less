@@ -169,6 +169,90 @@
                 }
             }
         }
+        .table_content{
+            overflow: auto;
+            border: 1px solid #E0E0E0;
+            .table_title{
+                width:100%;
+                overflow: auto;
+                background-color: rgba(245,245,245,0.5);
+                li{
+                    float: left;
+                    width:13%;
+                    height:48px;
+                    line-height: 48px;
+                    color:#333;
+                    font-size: 14px;
+                    &:first-child{
+                        width:5%;
+                    }
+                    &:last-child{
+                        width:17%;
+                    }
+                }
+            }
+            .table_body{
+                overflow: auto;
+                width:100%;
+                border-top: 1px solid #E0E0E0;
+                .body_item{
+                    float: left;
+                    width:13%;
+                    height:48px;
+                    line-height: 48px;
+                    color:#333;
+                    font-size: 12px;
+                    &:first-child{
+                        position: relative;
+                        width:5%;
+                        .expend_triangle{
+                            width: 0;
+                            height: 0;
+                            border-top: 5px solid transparent;
+                            border-left: 10px solid #535E6A;
+                            border-bottom: 5px solid transparent;
+                            position: absolute;
+                            top:20px;
+                            left:30px;
+                        }
+                        .collapse_triangle{
+                            width: 0;
+                            height: 0;
+                            border-right: 5px solid transparent;
+                            border-left: 5px solid transparent;
+                            border-top: 10px solid #535E6A;
+                            position: absolute;
+                            top:20px;
+                            left:30px;
+                        }
+                    }
+                    &:last-child{
+                        width:17%;
+                    }
+                    .go_forward{
+                        margin-right: 10px;
+                        color:#1DC6BC;
+                        &:hover{
+                            color:#0B9C94;
+                        }
+                    }
+                }
+                .detail_infos{
+                    display: none;
+                    overflow: auto;
+                    padding:18px 50px;
+                    .option_item{
+                        width:33%;
+                        line-height: 30px;
+                        float: left;
+                        .column_name, .column_val{
+                            width:auto;
+                            padding:0;
+                        }
+                    }
+                }
+            }
+        }
     }
     /****************gps列表 end*********************/
 
@@ -181,6 +265,7 @@
         .new_btn_box{
             float: right;
         }
+
     }
 
     /****************gps申请列表 start*********************/
@@ -214,14 +299,25 @@
         tr {
             height: 50px;
             line-height: 50px;
+            text-align: left;
         }
         thead {
             tr {
                 background: @th-bg-color;
+                th{
+                    padding:0 2%;
+                }
             }
         }
         tbody {
             tr {
+                .go_forward{
+                    margin-right: 10px;
+                    color:#1DC6BC;
+                    &:hover{
+                        color:#0B9C94;
+                    }
+                }
                 .edit {
                     display: inline-block;
                     width: 28px;
@@ -233,7 +329,7 @@
                         background-position: 0 -686px;
                     }
                 }
-                .untie {
+                /*.untie {
                     display: inline-block;
                     width: 28px;
                     height: 28px;
@@ -243,7 +339,7 @@
                     &:hover {
                         background-position: -55px -1030px;
                     }
-                }
+                }*/
                 .delete {
                     display: inline-block;
                     width: 28px;

@@ -56,126 +56,104 @@
                     </div>
                 </div>
                 {{#if (verifyCode(1579)) }}
-                <table class="normal">
-                    <colgroup style="width: 100%;">
-                        <col style="width: 16%;" />
-                        <col style="width: 8%;" />
-                        <col style="width: 9%;" />
-                        <col style="width: 9%;" />
-                        <col style="width: 9%;" />
-                        <col style="width: 9%;" />
-                        <col style="width: 9%;" />
-                        <col style="width: 9%;" />
-                        <col style="width: 9%;" />
-                        <col />
-                    </colgroup>
-                    <tr>
-                        <th>SN码</th>
-                        <th>类型</th>
-                        <th>机构</th>
-                        <th>标签</th>
-                        <th>入库日期</th>
-                        <th>城市</th>
-                        <th>使用人</th>
-                        <th>领用日期</th>
-                        <th>关联客户</th>
-                        <th>操作</th>
-                    </tr>
-                    {{#if (count === 0) }}
-                        <tr>
-                            <td colspan="10" class="no_hover">
-                                {{include('./../inc/empty_data')}}
-                            </td>
-                        </tr>
-                    {{else}}
-                        {{#each (list) }}
-                        <tr>
-                            <td title="{{this.sn_code}}">
-                                {{#if (this.sn_code)}}
-                                    {{this.sn_code}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="">
-                                {{#if (this.type === 1) }}
-                                    有线
-                                {{elseif(this.type === 0)}}
-                                    无线
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="{{this.warehouse_name}}">
-                                {{#if (this.warehouse_name)}}
-                                    {{this.warehouse_name}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="{{this.label_name}}">
-                                {{#if (this.label_name)}}
-                                    {{this.label_name}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="{{this.create_time}}">
-                                {{#if (this.create_time)}}
-                                    {{this.create_time}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="{{this.city_name}}">
-                                {{#if (this.city_name)}}
-                                    {{this.city_name}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="{{this.use_name}}">
-                                {{#if (this.use_name)}}
-                                    {{this.use_name}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="{{this.delivery_time}}">
-                                {{#if (this.delivery_time)}}
-                                    {{this.delivery_time}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td title="{{this.user_name}}">
-                                {{#if (this.user_name)}}
-                                    {{this.user_name}}
-                                {{else}}
-                                    - -
-                                {{/if}}
-                            </td>
-                            <td class="operate_btn">
-                                {{#if (root.verifyCode(1581)) }}
-                                    {{#if (this.status !== 4 && this.status !== 2) }}
-                                        <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit edit"></a>
-                                    {{/if}}
-                                {{/if}}
-                                {{#if (root.verifyCode(1586)) }}
-                                    {{#if (this.status === 3) }}
-                                        <a href="javascript:;" title="解绑" data-id="{{this.id}}" data-status="{{this.status}}" class="untie"></a>
-                                    {{/if}}
-                                {{/if}}
-                                {{#if (root.verifyCode(1288)) }}
-                                    {{#if (this.status === 1) }}
-                                        <a href="javascript:;" title="删除" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsdel delete"></a>
-                                    {{/if}}
-                                {{/if}}
-                            </td>
-                        </tr>
-                        {{/each}}
-                    {{/if}}
-                </table>
+                <div class="table_content">
+                    <ul class="table_title">
+                        <li></li>
+                        <li>SN码</li>
+                        <li>类型</li>
+                        <li>机构</li>
+                        <li>标签</li>
+                        <li>省市</li>
+                        <li>入库日期</li>
+                        <li>操作</li>
+                    </ul>
+                    {{#each (list) }}
+                    <div class="table_body">
+                        <div class="body_item triangle_btn">
+                            <div class="expend_triangle"></div>
+                        </div>
+                        <div class="body_item" title="{{this.sn_code}}">
+                            {{#if (this.sn_code)}}
+                            {{this.sn_code}}
+                            {{else}}
+                            - -
+                            {{/if}}
+                        </div>
+                        <div class="body_item">
+                            {{#if (this.type === 1) }}
+                            有线
+                            {{elseif(this.type === 0)}}
+                            无线
+                            {{else}}
+                            - -
+                            {{/if}}
+                        </div>
+                        <div class="body_item" title="{{this.warehouse_name}}">
+                            {{#if (this.warehouse_name)}}
+                            {{this.warehouse_name}}
+                            {{else}}
+                            - -
+                            {{/if}}
+                        </div>
+                        <div class="body_item" title="{{this.label_name}}">
+                            {{#if (this.label_name)}}
+                            {{this.label_name}}
+                            {{else}}
+                            - -
+                            {{/if}}
+                        </div>
+                        <div class="body_item" title="{{this.city_name}}">
+                            {{#if (this.city_name)}}
+                            {{this.city_name}}
+                            {{else}}
+                            - -
+                            {{/if}}
+                        </div>
+                        <div class="body_item" title="{{this.create_time}}">
+                            {{#if (this.create_time)}}
+                            {{this.create_time}}
+                            {{else}}
+                            - -
+                            {{/if}}
+                        </div>
+                        <div class="body_item" class="operate_btn">
+                            {{#if (root.verifyCode(1581)) }}
+                            {{#if (this.status !== 4 && this.status !== 2) }}
+                            <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit go_forward">编辑</a>
+                            {{/if}}
+                            {{/if}}
+                            {{#if (root.verifyCode(1586)) }}
+                            {{#if (this.status === 3) }}
+                            <a href="javascript:;" title="解绑" data-id="{{this.id}}" data-status="{{this.status}}" class="untie go_forward">取消解绑</a>
+                            {{/if}}
+                            {{/if}}
+                            {{#if (root.verifyCode(1288)) }}
+                            {{#if (this.status === 1) }}
+                            <a href="javascript:;" title="删除" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsdel go_forward">删除</a>
+                            {{/if}}
+                            {{/if}}
+                        </div>
+                        <div class="detail_infos clearfix form_options">
+                            <div class="option_item">
+                                <div class="column_name">领用人：</div>
+                                <div class="column_val">111</div>
+                            </div>
+                            <div class="option_item">
+                                <div class="column_name">领用日期：</div>
+                                <div class="column_val">222</div>
+                            </div>
+                            <div class="option_item">
+                                <div class="column_name">关联客户：</div>
+                                <div class="column_val">333</div>
+                            </div>
+                            <div class="option_item">
+                                <div class="column_name">原因：</div>
+                                <div class="column_val">444</div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
                 {{/if}}
             </div>
             {{/if}}
@@ -199,17 +177,20 @@
                 {{#if (verifyCode(1280)) }}
                 <table class="normal">
                     <colgroup style="width: 100%;">
+                        <col style="width: 30%;" />
+                        <col style="width: 30%;" />
                         <col style="width: 25%;" />
-                        <col style="width: 30%;" />
-                        <col style="width: 30%;" />
                         <col />
                     </colgroup>
+                    <thead>
                     <tr>
                         <th>机构</th>
                         <th>库存量</th>
                         <th>预警库存</th>
                         <th>操作</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {{#if (count === 0) }}
                         <tr>
                             <td colspan="4" class="no_hover">
@@ -241,16 +222,20 @@
                                 {{/if}}
                             </td>
                             <td class="operate_btn">
+                                {{#if (root.verifyCode(1277)) }}
+                                <a href="javascript:;" data-id="{{this.id}}" class="look_store go_forward">查看</a>
+                                {{/if}}
                                 {{#if (root.verifyCode(1282)) }}
-                                <a href="javascript:;" data-id="{{this.id}}" title="编辑" class="edit_store edit go_forward"></a>
+                                <a href="javascript:;" data-id="{{this.id}}" class="edit_store go_forward">编辑</a>
                                 {{/if}}
                                 {{#if (root.verifyCode(1277)) }}
-                                <a href="javascript:;" data-id="{{this.id}}" title="删除" class="delete_store delete go_forward"></a>
+                                <a href="javascript:;" data-id="{{this.id}}" class="delete_store go_forward">删除</a>
                                 {{/if}}
                             </td>
                         </tr>
                         {{/each}}
                     {{/if}}
+                    </tbody>
                 </table>
                 {{/if}}
             </div>
@@ -284,6 +269,7 @@
                         <col style="width: 20%;" />
                         <col />
                     </colgroup>
+                    <thead>
                     <tr>
                         <th>申请人</th>
                         <th>申请时间</th>
@@ -291,6 +277,8 @@
                         <th>处理人</th>
                         <th>操作</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {{#if (count === 0) }}
                         <tr>
                             <td colspan="5" class="no_hover">
@@ -348,6 +336,7 @@
                         </tr>
                         {{/each}}
                     {{/if}}
+                    </tbody>
                 </table>
                 {{/if}}
             </div>
@@ -685,6 +674,24 @@
                 });
             });
         }
+        /**
+         * 展开折叠事件
+         * @author  Plateau  2018年10月29日17:23:46
+         * */
+        function triangleEvent () {
+            var btn = $(".triangle_btn");
+            btn.off("click").on("click", function () {
+                var _this = $(this);
+                if (_this.siblings('.detail_infos').is(':hidden')) {
+                    _this.siblings('.detail_infos').show();
+                    _this.find('div').removeClass('expend_triangle').addClass('collapse_triangle');
+                } else {
+                    _this.siblings('.detail_infos').hide();
+                    _this.find('div').removeClass('collapse_triangle').addClass('expend_triangle');
+                }
+            });
+        }
+
         /**************************GPS列表页  end**********************************/
 
         /**************************仓库管理列表页  start**********************************/
@@ -699,6 +706,25 @@
                 locationTo({
                     action : contextPath + markUri + "/gps/warehouse/create",
                     param : reqParamsStr
+                });
+            });
+        }
+        /**
+         * 跳转仓库详情页
+         * @author  Plateau  2018年10月29日15:22:33
+         * */
+        function goWarehouseDetail () {
+            var btn = $(".look_store");
+            btn.off("click").on("click", function () {
+                var t = $(this);
+                var id = $.trim(t.data("id"));
+                var params = {
+                    warehouse_id : id
+                };
+                var data = Object.extend(reqParamsStr, params);
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/detail",
+                    param : data
                 });
             });
         }
@@ -904,8 +930,10 @@
             goGpsEdit();//跳转编辑gps
             GPSUntie();//GPS解绑逻辑
             deleteSN();//删除SN码
+            triangleEvent();//展开折叠事件
 
             goCreateWarehouse();//跳转新建仓库
+            goWarehouseDetail();//跳转仓库详情页
             showOrgProducts();//编辑仓库跳转
             deleteOrg();//删除仓库
 

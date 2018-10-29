@@ -151,7 +151,7 @@ exports.VIEW_GPS_CREATE = function(req, res, next) {
 };
 // GPS仓库-GPS仓库详情页跳转 1311
 exports.VIEW_GPS_DETAIL = function(req, res, next) {
-    common.getPageData({
+   /* common.getPageData({
         url : '/api/gps/warehouse/toDetail',
         title : '仓库管理-GPS仓库详情',
         page : './gps/warehouseDetail',
@@ -160,7 +160,14 @@ exports.VIEW_GPS_DETAIL = function(req, res, next) {
                 data.reqParamsStr = JSON.stringify(data.reqParams);
             }
         }
-    }, req, res, next);
+    }, req, res, next);*/
+    var data = {};
+    data.title = '仓库管理-新建行政仓库';
+    data.originUrl = req.originalUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    res.render('./gps/warehouseDetail', data);
 };
 // GPS仓库-编辑GPS仓库页跳转 1282
 exports.VIEW_GPS_EDIT = function(req, res, next) {
