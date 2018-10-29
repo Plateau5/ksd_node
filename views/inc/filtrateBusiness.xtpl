@@ -25,7 +25,17 @@
         </div>
         <div class="select_city_div inline_block">
             <div class="conditions_name inline_block">城市：</div>
-            <input type="hidden" name="city_ids" class="city_ids filtrate_input" value="{{condition.city_ids}}" >
+            <select name="city_ids" class="filtrate_select">
+                <option value="">全部</option>
+                {{#each(label_list) }}
+                {{#if (this.id === ../condition.label_id) }}
+                <option value="{{this.id}}" selected>{{this.warehouse_name}}</option>
+                {{else}}
+                <option value="{{this.id}}">{{this.warehouse_name}}</option>
+                {{/if}}
+                {{/each}}
+            </select>
+            <!--<input type="hidden" name="city_ids" class="city_ids filtrate_input" value="{{condition.city_ids}}" >
             {{#if (condition.city_ids) }}
                 {{#if (condition.city_ids.indexOf(',') !== -1) }}
                     {{set (cityArrs = condition.city_ids.split(',')) }}
@@ -35,7 +45,7 @@
                 {{/if}}
             {{else}}
                 <input type="text" class="select_city_input cursor filtrate_input" name=""  value="全部" readonly/>
-            {{/if}}
+            {{/if}}-->
         </div>
         <div class="inline_block">
             <div class="conditions_name inline_block">类型：</div>
