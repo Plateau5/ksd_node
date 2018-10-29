@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include ("./../inc/cssSources")}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/questions.css">
+    <title>业务-GPS问题</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include ('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include ('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+
+
+
+        <!---- Part of Main info Begin ---->
+
+        <div id="main" class="main questions_list">
+            <!--无数据时-->
+            {{#if (count === 0) }}
+            <div class="no_list_data no_merchants">
+                <div class="toast_img"></div>
+                <div class="toast_text">抱歉，目前暂无问题分类</div>
+                {{#if (verifyCode(1093)) }}
+                <div class="new_classify_box">
+                    <input type="text" value="" id="new_classify" placeholder="请创建问题分类：如客户资质问题" maxlength="20" />
+                    <div class="error_msg" style="height: 30px; line-height: 30px;"></div>
+                </div>
+                <div class="new_btn_box" style="height: 60px;line-height:60px;">
+                    <a href="javascript:;" class="btn blue_btn add_btn create_classify">新建分类</a>
+                </div>
+                {{/if}}
+            </div>
+            {{/if}}
+            <!--有数据时-->
+            {{#if (count > 0) }}
+            {{#if (verifyCode(1093)) }}
+            <div class="new_btn_box text_right" style="height: 50px;line-height: 50px;margin-bottom: 15px;">
+                <a href="javascript:" class="btn blue_btn add_btn" id="createClassify"><em></em>新建分类</a>
+            </div>
+            {{/if}}
+            {{#each (list) }}
+            <div class="modules">
+                <div class="modules_title">
+                    <span>{{this.parent_name}}</span>
+                    <div class="btn_box" style="width: 600px;text-align: right;">
+                        {{#if (root.verifyCode(1095)) }}
+                        <a href="javascript:" class="detail_title_btn create_btn" data-parent_id="{{this.parent_id}}">新建问题</a>
+                        {{/if}}
+                        {{#if (root.verifyCode(1094)) }}
+                        <a href="javascript:" class="detail_title_btn edit_btn edit_classify_btn" data-name="{{this.parent_name}}" data-id="{{this.parent_id}}">重命名</a>
+                        {{/if}}
+                        {{#if (root.verifyCode(1271)) }}
+                        <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除分类</a>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="content">
+                    <ul class="questions_list">
+                        {{#if (this.child_list.length > 0) }}
+                        {{#each (this.child_list) }}
+                        <li class="list_item">
+                            <span>{{this.title }}</span>
+                            <div class="question_btns">
+                                {{#if (root.verifyCode(1096)) }}
+                                <em class="question_btn edit_btn edit_question_btn" title="重命名" data-parent_id="{{../parent_id}}" data-name="{{this.title}}" data-id="{{this.id}}"></em>
+                                {{/if}}
+                                {{#if (root.verifyCode(1096)) }}
+                                <em class="question_btn history_btn" title="修改记录" data-id="{{this.id}}"></em>
+                                {{/if}}
+                                {{#if (root.verifyCode(1096)) }}
+                                <em class="question_btn remove_btn" title="删除" data-parent_id="{{../parent_id}}" data-id="{{this.id}}"></em>
+                                {{/if}}
+                            </div>
+                        </li>
+                        {{/each}}
+                        {{/if}}
+                        {{#if (this.child_list.length <= 0) }}
+                        <div class="question_list_detail_txt_null">目前暂无数据!</div>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+            {{/each}}
+            {{/if}}
+        </div>
+
+        <!---- Part of Main info End ---->
+    </div>
+</div>
+</body>
+{{include ('./../inc/jsSources')}}
+<script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script>
+    (function ($) {
+        // 新建分类
+        function createClassify () {
+            // 有数据时间的新建
+            var btn = $('#createClassify');
+            btn.off('click').on('click', function (){
+                dialog('open', {
+                    title : '新建分类',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="newClassify" placeholder="请输入分类名称 如：商户资质问题" maxlength="20" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#newClassify').val());
+                        onCreate(newClassify, d);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            // 无数据时间的新建
+            var addBtn = $('.create_classify');
+            addBtn.off('click').on('click', function (){
+                var newName = $.trim($('#new_classify').val());
+                onCreate(newName);
+            });
+
+
+            var onCreate = function (newName, d) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').show().text('(问题分类名称不能为空)');
+                    $('.new_classify_box .error_msg').show().text('(问题分类名称不能为空)');
+                } else {
+                    var data = {
+                        classify_value : newName
+                    };
+                    var url = contextPath + '/api/question/classify/create';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d && d.close();
+                                $alert('问题分类新建成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d && d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('分类创建失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#newClassify, #new_classify', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(问题分类名称不能为空)');
+                    $('.new_classify_box .error_msg').show().text('(问题分类名称不能为空)');
+                }
+            });
+        }
+
+        /* 删除问题分类 */
+        function deleteClassify () {
+            var btn = $('.delete_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var classifyId = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后此分类将不可恢复</span><br><span>确认继续删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        redefineAjax({
+                            url : contextPath + '/api/question/classify/delete',
+                            data : {
+                                id : classifyId
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('问题分类删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('问题分类删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+        }
+
+        /*重命名分类*/
+        function renameClassify () {
+            var btn = $('.edit_classify_btn');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var name = $.trim(_this.data('name'));
+                var id = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '重命名',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="renameClassify" value="'+ name +'" placeholder="请输入分类名称 如：商户资质问题" maxlength="20" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#renameClassify').val());
+                        onCreate(d, newClassify, id);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, newName, id) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').show().text('(问题分类名称不能为空)');
+                } else {
+                    var data = {
+                        id : id,
+                        classify_value : newName
+                    };
+                    var url = contextPath + '/api/question/classify/update';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d.close();
+                                $alert('问题分类重命名成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('分类重命名失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#renameClassify', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(问题分类名称不能为空)');
+                }
+            });
+        }
+
+        /*新建问题*/
+        function createQuestionDetail () {
+            var btn = $('.create_btn');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var parentId = $.trim(_this.data('parent_id'));
+                dialog('open', {
+                    title : '新建问题',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="newQuestion" placeholder="最多可输入30个字" maxlength="30" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newQuestion = $.trim($('#newQuestion').val());
+                        onCreate(d, newQuestion, parentId);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, title, parentId) {
+                if (title == '' || title.length == 0) {
+                    $('#createErrorTips').show().text('(问题名称不能为空)');
+                } else {
+                    var data = {
+                        parent_id : parentId,
+                        title : title,
+                        content : ''
+                    };
+                    var url = contextPath + '/api/question/create';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d.close();
+                                $alert('问题新建成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('问题创建失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#newQuestion', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(问题名称不能为空)');
+                }
+            });
+        }
+
+        /*删除问题*/
+        function deleteQuestion () {
+            var btn = $('.remove_btn');
+            btn.off('click').on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                dialog('open', {
+                    title : '删除提醒',
+                    content : '<div style="padding: 20px 0 20px;line-height:30px;font-size: 14px;"><span>删除后此问题将不可恢复</span><br><span>确认继续删除？</span></div>',
+                    onConfirm : function (d) {
+                        d.close();
+                        redefineAjax({
+                            url : contextPath + '/api/question/delete',
+                            data : {
+                                question_id : id
+                            },
+                            success : function (res) {
+                                if (res.error_code == 0) {
+                                    $alert('问题删除成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $alert('问题删除失败，请重新尝试');
+                            }
+                        });
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+
+            });
+        }
+
+        /*重命名问题*/
+        function renameQuestion () {
+            var btn = $('.edit_question_btn');
+            btn.off('click').on('click', function (){
+                var _this = $(this);
+                var name = $.trim(_this.data('name'));
+                var id = $.trim(_this.data('id'));
+                var pid = $.trim(_this.data('parent_id'));
+                dialog('open', {
+                    title : '重命名',
+                    content : '<input type="text" name="" style="width: 230px;\n' +
+                    '                height: 30px;\n' +
+                    '                border: 1px solid #e4e4e4;\n' +
+                    '                text-indent: .8em;" class="new_field" id="renameQuestion" value="'+ name +'" placeholder="最多可输入30个字" maxlength="30" />' +
+                    '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
+                    maskClose : false,
+                    onConfirm : function (d) {
+                        var newClassify = $.trim($('#renameQuestion').val());
+                        onCreate(d, newClassify, id, pid);
+                    },
+                    onCancel : function (d) {
+                        d.close();
+                    }
+                });
+            });
+
+            var onCreate = function (d, newName, id, pid) {
+                if (newName == '' || newName.length == 0) {
+                    $('#createErrorTips').show().text('(问题分类名称不能为空)');
+                } else {
+                    var data = {
+                        id : id,
+                        title : newName,
+                        parent_id : pid
+                    };
+                    var url = contextPath + '/api/question/update';
+                    redefineAjax({
+                        url : url,
+                        data : data,
+                        success : function (res) {
+                            if (res.error_code == 0) {
+                                d.close();
+                                $alert('问题重命名成功', function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                d.close();
+                                $alert(res.error_msg);
+                            }
+                        },
+                        error : function () {
+                            $alert('问题重命名失败，请重新尝试');
+                        }
+                    });
+                }
+            };
+            // 输入框的输入监听
+            $('body').on('blur', '#renameQuestion', function () {
+                var _this = $(this);
+                var val = $.trim(_this.val());
+                if (val == '' || val.length == 0) {
+                    $('#createErrorTips').show().text('(问题名称不能为空)');
+                }
+            });
+        }
+
+        /*跳转历史记录*/
+        function toHistory () {
+            var btn = $('.history_btn');
+            btn.on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                locationTo({
+                    action : contextPath + markUri + '/question/customer/historyRecord',
+                    param : {
+                        question_id : id,
+                        question_type : '0'
+                    }
+                })
+            });
+        }
+
+
+        $(function() {
+            createClassify();   // 创建问题分类
+            deleteClassify();   // 删除问题分类
+            createQuestionDetail();     // 创建问题详情
+            deleteQuestion();     // 删除问题
+            renameClassify();   // 重命名分类
+            renameQuestion();   // 重命名问题
+            toHistory();    // 跳转历史记录页面
+        });
+    })(jQuery,undefined);
+</script>
+</html>

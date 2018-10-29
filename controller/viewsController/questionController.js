@@ -54,3 +54,13 @@ exports.VIEW_LABEL_LIST = function(req, res, next) {
         page : './question/labelList'
     }, req, res, next);
 };
+
+
+// 客户问题列表页
+exports.VIEW_QUESTION_GPS_LIST = function(req, res, next) {
+    common.getPageData({
+        url : '/api/question/getList',
+        title : 'GPS问题列表',
+        page : './question/gpsQuestion'
+    }, req, res, next);
+};
