@@ -6,6 +6,7 @@
     {{include('./../inc/cssSources')}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
     <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/jedate/skin/jedate.css"/>
     <link rel="stylesheet" href="{{markUri}}/static/css/gpsList.css">
     <title>GPS管理-GPS列表</title>
 </head>
@@ -44,7 +45,7 @@
                 </form>
                 {{/if}}
                 <div class="detail_btn_box left">
-                    <!--<span class="total_count" data-count="{{count}}">共{{count}}条数据</span>-->
+                    <span class="total_count" data-count="{{count}}">共{{count}}条数据</span>
                     <div class="rf" style="width:150px;">
                         {{#if (verifyCode(1583)) }}
                         <a href="javascript:" id="download_btn" class="detail_title_btn export_btn rf">导出</a>
@@ -182,10 +183,18 @@
             <div class="warehouse_list">
                 <form action="{{markUri}}/gps/warehouse/list" method="post" role="form">
                 </form>
-                <div class="new_btn_box">
-                    {{#if (verifyCode(1281)) }}
-                    <a href="javascript:;" class="detail_title_btn create_btn create_warehouse" style="line-height: 90px;">新建仓库</a>
-                    {{/if}}
+                <div class="filtrate">
+                    <div class="province_sel">
+                        <span>城市：</span>
+                        <select class="filtrate_select">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                    <div class="new_btn_box">
+                        {{#if (verifyCode(1281)) }}
+                        <a href="javascript:;" class="detail_title_btn create_btn create_warehouse">新建仓库</a>
+                        {{/if}}
+                    </div>
                 </div>
                 {{#if (verifyCode(1280)) }}
                 <table class="normal">
@@ -354,6 +363,7 @@
 </body>
 {{include('./../inc/jsSources')}}
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/jedate/jquery.jedate.min.js"></script>
 <script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script>
     var city_list = '{{{city_list}}}';//所有城市
@@ -873,6 +883,16 @@
         /**************************GPS申请列表页  end**********************************/
 
         $(function() {
+            //时间筛选 2018年5月8日15:39:35
+            datePicker('.filtrate_date',{
+                ishmsVal : false,
+                maxDate : $.nowDate({DD:0}),
+                choosefun : function () {return false;},
+                okfun : function () {return false;},
+                clearfun : function () {
+                    $('#filtrate_date').val('');
+                }
+            });
             switchTab('#gps_tab .tab_item');//标签页切换
             getSelectedCitys();//筛选条件中的城市
             fuzzySearch(); //模糊查询订单所属人

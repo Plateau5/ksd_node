@@ -4,13 +4,13 @@
         {{#each (list) }}
             <li class="list_item"  lang="{{this.finance_id}}" data-advance_id="{{advance_id}}" data-finance_type="{{this.finance_type}}">
                 {{#if(root.startWith(markUri + '/customer/loan' + ' || ' + markUri + '/customer/compact' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/requestpayout' + ' || ' + markUri + '/customer/approval' + ' || ' + markUri + '/customer/financial' + ' || ' + markUri + '/customer/otherfund'))}}
-                <div class="create_date">进件时间：{{this.create_time }} / {{this.city_name}}</div>
+                <div class="create_date">{{this.create_time }} / {{this.city_name}}</div>
                 {{/if}}
                 {{#if ( root.startWith(markUri + '/customer/pigeonhole/pending')) }}
-                <div class="create_date">放款时间：{{this.loan_time }} / {{this.city_name}}</div>
+                <div class="create_date">{{this.loan_time }} / {{this.city_name}}</div>
                 {{/if}}
                 {{#if ( root.startWith(markUri + '/customer/pigeonhole/archived')) }}
-                <div class="create_date">归档时间：{{this.pigeonhole_time }} / {{this.city_name}}</div>
+                <div class="create_date">{{this.pigeonhole_time }} / {{this.city_name}}</div>
                 {{/if}}
                 <div class="list_item_detail">
                     <div class="shake_box">

@@ -81,8 +81,34 @@
             </div>
         </div>
         <div class="sn_div inline_block">
+            <div class="conditions_name inline_block">入库时间：</div>
+            <input type="text" id="queryStartDate" readonly class="filtrate_date" name="time_start" value="{{condition.time_start}}" placeholder="请选择入库日期"/>
+            <span class="inline_block"> — </span>
+            <input type="text" id="queryEndDate" readonly class="filtrate_date" name="time_end" value="{{condition.time_end}}" placeholder="请选择出库日期"/>
+        </div>
+        <div class="sn_div inline_block">
+            <div class="conditions_name inline_block">出库时间：</div>
+            <input type="text" id="queryStartDate" readonly class="filtrate_date" name="time_start" value="{{condition.time_start}}" placeholder="请选择入库日期"/>
+            <span class="inline_block"> — </span>
+            <input type="text" id="queryEndDate" readonly class="filtrate_date" name="time_end" value="{{condition.time_end}}" placeholder="请选择出库日期"/>
+        </div>
+
+        <div class="sn_div inline_block">
             <div class="conditions_name inline_block">SN码：</div>
             <input type="text" class="sn_input cursor filtrate_input" name="sn_code"  value="{{condition.sn_code}}" placeholder="" maxlength="20"/>
+        </div>
+        <div class="sn_div inline_block">
+            <div class="conditions_name inline_block">机构：</div>
+            <select name="label_id" class="filtrate_select">
+                <option value="">全部</option>
+                {{#each(label_list) }}
+                {{#if (this.id === ../condition.label_id) }}
+                <option value="{{this.id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
+                {{else}}
+                <option value="{{this.id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+                {{/if}}
+                {{/each}}
+            </select>
         </div>
 
         <div class="btn_box text_right">
