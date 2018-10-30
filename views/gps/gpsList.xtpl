@@ -191,7 +191,7 @@
                 <div class="filtrate">
                     <form action="{{markUri}}/gps/warehouse/list" id="warehouseForm" method="post" role="form">
                         <div class="province_sel">
-                            <span>城市：</span>
+                            <span>省份：</span>
                             <select class="filtrate_select" name="province_id">
                                 <option value="">全部</option>
                                 {{#each (provinceList) }}
@@ -277,7 +277,7 @@
                             </td>
                             <td class="operate_btn">
                                 {{#if (root.verifyCode(1672)) }}
-                                <a href="javascript:;" data-id="{{this.id}}" class="look_store go_forward">查看</a>
+                                <a href="javascript:;" data-id="{{this.id}}" class="look_store go_forward" data-warehouse_name="{{this.name}}">查看</a>
                                 {{/if}}
                                 {{#if (root.verifyCode(1282)) }}
                                 <a href="javascript:;" data-id="{{this.id}}" class="edit_store go_forward">编辑</a>
@@ -765,8 +765,10 @@
             btn.off("click").on("click", function () {
                 var t = $(this);
                 var id = $.trim(t.data("id"));
+                var warehouse_name = $.trim(t.data('warehouse_name'));
                 var params = {
-                    warehouse_id : id
+                    warehouse_id : id,
+                    warehouse_name : warehouse_name
                 };
                 var data = Object.extend(reqParamsStr, params);
                 locationTo({

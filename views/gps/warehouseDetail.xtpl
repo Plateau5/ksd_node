@@ -24,19 +24,28 @@
         <div id="main" class="main warehouse_details">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">GPS仓库</a>
-                <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">{{warehouse_name}}</a>
+                <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">{{reqParams.warehouse_name}}</a>
                 <a href="javascript:;" class="crumbs_item">仓库详情</a>
             </div>
             <form action="{{markUri}}/gps/warehouse/detail" method="post" id="form_search" role="form">
                 <input type="hidden" name="warehouse_id" value="{{reqParams.warehouse_id}}">
+                <input type="hidden" name="warehouse_name" value="{{reqParams.warehouse_name}}">
                 <div class="warehouse_filter">
                     <ul>
                         <li>
                             <span>类型：</span>
                             <select name="type" class="filtrate_select">
                                 <option value="">全部</option>
+                                {{#if (condition.type === 1) }}
+                                <option value="1" selected>有线</option>
+                                {{else}}
                                 <option value="1">有线</option>
+                                {{/if}}
+                                {{#if (condition.type === 0) }}
+                                <option value="0" selected>无线</option>
+                                {{else}}
                                 <option value="0">无线</option>
+                                {{/if}}
                             </select>
                         </li>
                         <li>
@@ -57,10 +66,10 @@
                             <select name="label_id" class="filtrate_select">
                                 <option value="">全部</option>
                                 {{#each (labelList) }}
-                                {{#if (this.id === ../condition.province_id) }}
-                                <option value="{{this.id}}" selected>{{this.name}}</option>
+                                {{#if (this.id === ../condition.label_id) }}
+                                <option value="{{this.id}}" selected>{{this.label_name}}</option>
                                 {{else}}
-                                <option value="{{this.id}}">{{this.name}}</option>
+                                <option value="{{this.id}}">{{this.label_name}}</option>
                                 {{/if}}
                                 {{/each}}
                             </select>
@@ -104,6 +113,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                {{#if (list.length !== 0) }}
                 {{#each (list) }}
                 <tr>
                     <td>
@@ -149,6 +159,13 @@
                     </td>
                 </tr>
                 {{/each}}
+                {{else}}
+                <tr>
+                    <td colspan="6" class="no_hover">
+                        {{include('./../inc/empty_data')}}
+                    </td>
+                </tr>
+                {{/if}}
                 </tbody>
             </table>
             {{include('./../inc/paginations')}}
