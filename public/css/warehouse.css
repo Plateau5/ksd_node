@@ -291,8 +291,8 @@
 .disagree .delete_icon,
 .administrative_storage .delete_icon {
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 10px;
+  right: 10px;
   display: none;
   width: 10px;
   height: 10px;
@@ -331,13 +331,15 @@
 .gps_put_in,
 .express,
 .to_face,
-.administrative_storage {
+.administrative_storage,
+.apply_detail {
   line-height: 30px;
 }
 .gps_put_in .row_item,
 .express .row_item,
 .to_face .row_item,
-.administrative_storage .row_item {
+.administrative_storage .row_item,
+.apply_detail .row_item {
   margin-bottom: 10px;
   height: auto;
   overflow: hidden;
@@ -345,14 +347,16 @@
 .gps_put_in .form_group,
 .express .form_group,
 .to_face .form_group,
-.administrative_storage .form_group {
+.administrative_storage .form_group,
+.apply_detail .form_group {
   float: left;
   width: 80px;
 }
 .gps_put_in select,
 .express select,
 .to_face select,
-.administrative_storage select {
+.administrative_storage select,
+.apply_detail select {
   width: 160px;
   height: 30px;
   line-height: 30px;
@@ -361,13 +365,15 @@
 .gps_put_in .sn_code_box,
 .express .sn_code_box,
 .to_face .sn_code_box,
-.administrative_storage .sn_code_box {
+.administrative_storage .sn_code_box,
+.apply_detail .sn_code_box {
   line-height: 30px;
 }
 .gps_put_in .sn_code_box .sn_code_list,
 .express .sn_code_box .sn_code_list,
 .to_face .sn_code_box .sn_code_list,
-.administrative_storage .sn_code_box .sn_code_list {
+.administrative_storage .sn_code_box .sn_code_list,
+.apply_detail .sn_code_box .sn_code_list {
   padding-top: 4px;
   overflow: hidden;
 }
@@ -375,10 +381,12 @@
 .express .sn_code_box .sn_code_list .sn,
 .to_face .sn_code_box .sn_code_list .sn,
 .administrative_storage .sn_code_box .sn_code_list .sn,
+.apply_detail .sn_code_box .sn_code_list .sn,
 .gps_put_in .sn_code_box .sn_code_list .new_sn,
 .express .sn_code_box .sn_code_list .new_sn,
 .to_face .sn_code_box .sn_code_list .new_sn,
-.administrative_storage .sn_code_box .sn_code_list .new_sn {
+.administrative_storage .sn_code_box .sn_code_list .new_sn,
+.apply_detail .sn_code_box .sn_code_list .new_sn {
   position: relative;
   float: left;
   width: 180px;
@@ -395,29 +403,40 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.gps_put_in .sn_code_box .sn_code_list .sn,
+.express .sn_code_box .sn_code_list .sn,
+.to_face .sn_code_box .sn_code_list .sn,
+.administrative_storage .sn_code_box .sn_code_list .sn,
+.apply_detail .sn_code_box .sn_code_list .sn {
+  border-radius: 12px;
+}
 .gps_put_in .sn_code_box .sn_code_list .sn:hover,
 .express .sn_code_box .sn_code_list .sn:hover,
 .to_face .sn_code_box .sn_code_list .sn:hover,
-.administrative_storage .sn_code_box .sn_code_list .sn:hover {
+.administrative_storage .sn_code_box .sn_code_list .sn:hover,
+.apply_detail .sn_code_box .sn_code_list .sn:hover {
   background: #1DC6BC;
   color: #FFFFFF;
 }
 .gps_put_in .sn_code_box .sn_code_list .sn:hover .delete_icon,
 .express .sn_code_box .sn_code_list .sn:hover .delete_icon,
 .to_face .sn_code_box .sn_code_list .sn:hover .delete_icon,
-.administrative_storage .sn_code_box .sn_code_list .sn:hover .delete_icon {
+.administrative_storage .sn_code_box .sn_code_list .sn:hover .delete_icon,
+.apply_detail .sn_code_box .sn_code_list .sn:hover .delete_icon {
   display: inline-block;
 }
 .gps_put_in .sn_code_box .sn_code_list .new_sn,
 .express .sn_code_box .sn_code_list .new_sn,
 .to_face .sn_code_box .sn_code_list .new_sn,
-.administrative_storage .sn_code_box .sn_code_list .new_sn {
+.administrative_storage .sn_code_box .sn_code_list .new_sn,
+.apply_detail .sn_code_box .sn_code_list .new_sn {
   background: none;
 }
 .gps_put_in .sn_code_box .sn_code_list .new_sn .new_sn_input,
 .express .sn_code_box .sn_code_list .new_sn .new_sn_input,
 .to_face .sn_code_box .sn_code_list .new_sn .new_sn_input,
-.administrative_storage .sn_code_box .sn_code_list .new_sn .new_sn_input {
+.administrative_storage .sn_code_box .sn_code_list .new_sn .new_sn_input,
+.apply_detail .sn_code_box .sn_code_list .new_sn .new_sn_input {
   width: 98%;
   height: 24px;
   text-indent: 1em;
@@ -431,22 +450,26 @@
 .gps_put_in .sn_code_box .sn_code_list .add_sn_btn,
 .express .sn_code_box .sn_code_list .add_sn_btn,
 .to_face .sn_code_box .sn_code_list .add_sn_btn,
-.administrative_storage .sn_code_box .sn_code_list .add_sn_btn {
+.administrative_storage .sn_code_box .sn_code_list .add_sn_btn,
+.apply_detail .sn_code_box .sn_code_list .add_sn_btn {
   float: left;
-  width: 20px;
-  height: 20px;
-  margin-top: 3px;
-  background: url('../img/add_circle_icon.png') no-repeat;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
+  /*width: 20px;
+                height: 20px;
+                margin-top: 3px;
+                background: url('../img/add_circle_icon.png') no-repeat;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+                border-radius: 50%;*/
   cursor: pointer;
+  color: #1DC6BC;
+  margin-right: 24px;
 }
 .gps_put_in .sn_code_box .sn_code_list .add_sn_btn:hover,
 .express .sn_code_box .sn_code_list .add_sn_btn:hover,
 .to_face .sn_code_box .sn_code_list .add_sn_btn:hover,
-.administrative_storage .sn_code_box .sn_code_list .add_sn_btn:hover {
-  background: url('../img/add_circle_icon_h.png') no-repeat;
+.administrative_storage .sn_code_box .sn_code_list .add_sn_btn:hover,
+.apply_detail .sn_code_box .sn_code_list .add_sn_btn:hover {
+  /* background: url('../img/add_circle_icon_h.png') no-repeat;*/
 }
 /**
 * 修改城市样式 start
@@ -509,6 +532,30 @@
   font-weight: normal !important;
   font-size: 12px !important;
   color: #333 !important;
+}
+.apply_detail .new_sn_input {
+  border: 1px solid #E4E4E4 !important;
+}
+.apply_detail .sn {
+  background-color: #E2E2E2 !important;
+}
+.apply_detail .sn:hover {
+  background-color: #1DC6BC !important;
+}
+.apply_detail .delete_icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: none;
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background-image: url('../img/close_icon.png');
+  -webkit-background-size: cover;
+  background-size: cover;
+  cursor: pointer;
 }
 /************ 修改城市样式 end*************/
 .express .express_num,

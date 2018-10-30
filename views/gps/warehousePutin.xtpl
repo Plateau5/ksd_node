@@ -70,7 +70,8 @@
                                 <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN码" value="" />
                             </li>
                             <!-- 添加按钮 -->
-                            <li class="add_sn_btn"></li>
+                            <li class="add_sn_btn">添加</li>
+                            <li><a href="javascript:;" style="color:#1DC6BC;">批量入库</a></li>
                         </ul>
                     </div>
                 </div>
@@ -245,6 +246,10 @@
                 var sn = $.trim(_this.find('span').text().replace(/\s/ig,''));
                 snArr.push(sn);
             });
+            var new_sn_input = $('#new_sn_input').val().trim();
+            if (new_sn_input != '') {
+                snArr.push(new_sn_input);
+            }
             data.sn_codes = snArr.join(',');
             data.city_id = $.trim(city);
             data.label_id = tagId;
@@ -362,6 +367,7 @@
         }
 
         $(function () {
+            chnAndEng('.new_sn_input', 3);//只能输入中英文和数字
             addSN();
             createSNCode();
             deleteSNCode();

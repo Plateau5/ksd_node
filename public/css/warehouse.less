@@ -145,8 +145,8 @@
     }
     .delete_icon{
         position: absolute;
-        top: 2px;
-        right: 2px;
+        top: 10px;
+        right: 10px;
         display: none;
         width: 10px;
         height: 10px;
@@ -169,7 +169,7 @@
         }
     }
 }
-.gps_put_in,.express,.to_face,.administrative_storage{
+.gps_put_in,.express,.to_face,.administrative_storage,.apply_detail{
     line-height: 30px;
     .row_item{
         margin-bottom: 10px;
@@ -208,6 +208,9 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+            .sn{
+                border-radius: 12px;
+            }
             .sn:hover{
                 background: @active-color;
                 color: #FFFFFF;
@@ -231,16 +234,18 @@
             }
             .add_sn_btn{
                 float: left;
-                width: 20px;
+                /*width: 20px;
                 height: 20px;
                 margin-top: 3px;
                 background: url('../img/add_circle_icon.png') no-repeat;
                 -webkit-border-radius: 50%;
                 -moz-border-radius: 50%;
-                border-radius: 50%;
+                border-radius: 50%;*/
                 cursor: pointer;
+                color:#1DC6BC;
+                margin-right: 24px;
                 &:hover{
-                    background: url('../img/add_circle_icon_h.png') no-repeat;
+                   /* background: url('../img/add_circle_icon_h.png') no-repeat;*/
                 }
             }
         }
@@ -310,6 +315,30 @@
         font-weight: normal !important;
         font-size: 12px !important;
         color:#333 !important;
+    }
+    .new_sn_input{
+        border: 1px solid #E4E4E4 !important;
+    }
+    .sn{
+        background-color: #E2E2E2 !important;
+        &:hover{
+            background-color: #1DC6BC !important;
+        }
+    }
+    .delete_icon{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: none;
+        width: 10px;
+        height: 10px;
+        -webkit-border-radius: @normal-radius;
+        -moz-border-radius: @normal-radius;
+        border-radius: @normal-radius;
+        background-image: url('../img/close_icon.png');
+        -webkit-background-size: cover;
+        background-size: cover;
+        cursor: pointer;
     }
 }
 /************ 修改城市样式 end*************/
