@@ -50,9 +50,6 @@
                         {{#if (verifyCode(1583)) }}
                         <a href="javascript:" id="download_btn" class="detail_title_btn export_btn rf">导出</a>
                         {{/if}}
-                        {{#if (verifyCode(1283)) }}
-                        <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn rf">入库</a>
-                        {{/if}}
                     </div>
                 </div>
                 {{#if (verifyCode(1579)) }}
@@ -279,7 +276,7 @@
                                 {{/if}}
                             </td>
                             <td class="operate_btn">
-                                {{#if (root.verifyCode(1277)) }}
+                                {{#if (root.verifyCode(1672)) }}
                                 <a href="javascript:;" data-id="{{this.id}}" class="look_store go_forward">查看</a>
                                 {{/if}}
                                 {{#if (root.verifyCode(1282)) }}
@@ -645,25 +642,7 @@
                 }
             });
         }
-        /**
-         * 跳转新增入库页面
-         * @author  Plateau  2018年7月23日17:09:59
-         * */
-        function goPutIn () {
-            var btn = $('.storage_btn');
-            btn.on('click', function () {
-                var _this = $(this);
-                var id = $.trim(_this.data('id'));
-                var params = {
-                    warehouse_id : id
-                };
-                var data = Object.extend(reqParamsStr, params);
-                locationTo({
-                    action : contextPath + markUri + '/gps/warehouse/putin',
-                    param : data
-                })
-            });
-        }
+
         /**
          * 跳转编辑gps页面
          * @author  Plateau  2018年7月23日17:48:11
@@ -998,7 +977,6 @@
             delName (); // 删除订单所属人
             searchGps();//筛选清空事件
             resDownload();//下载请求
-            goPutIn();//跳转新增入库
             goGpsEdit();//跳转编辑gps
             GPSUntie();//GPS解绑逻辑
             deleteSN();//删除SN码

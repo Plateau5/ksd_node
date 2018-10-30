@@ -460,6 +460,8 @@ router.post(markUri + '/gps/warehouse/detail', warehouseCtrl.VIEW_GPS_DETAIL);
 router.post(markUri + '/gps/warehouse/edit', warehouseCtrl.VIEW_GPS_EDIT);
 // GPS仓库-GPS仓库-新增入库页跳转 1283
 router.post(markUri + '/gps/warehouse/putin', warehouseCtrl.VIEW_GPS_PUTIN);
+// GPS仓库-GPS仓库-调拨跳转
+router.post(markUri + '/gps/warehouse/transfer', warehouseCtrl.VIEW_GPS_TRANSFER);
 // GPS仓库-GPS仓库-申请单详情页页跳转 1289
 router.post(markUri + '/gps/apply/detail', warehouseCtrl.VIEW_GPS_APPLY_DETAIL);
 // GPS仓库-GPS仓库-申请单确认发送点击跳转 1293

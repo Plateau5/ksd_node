@@ -1,0 +1,239 @@
+<!--GPS仓库编辑-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{include('./../inc/cssSources')}}
+    <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
+    <link rel="stylesheet" href="{{markUri}}/static/citySelect/citySelect.css"/>
+    <link rel="stylesheet" href="{{markUri}}/static/css/gpsList.css">
+    <title>GPS管理-调拨</title>
+</head>
+<body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
+
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
+
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main gps_transfer">
+            <div class="crumbs_nav">
+                <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
+                <a href="javascript:;" class="crumbs_item">修改</a>
+            </div>
+            <div class="form_options create_options">
+                <form action="" class="gps_edit">
+                    <input type="hidden" value="{{reqParams.id}}" id="pgs_id">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">转出省市：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">转入省市：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item external_teacher">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">SN码：</span>
+                        </div>
+                        <div class="column_val sn_code_box">
+                            <ul class="sn_code_list">
+                                <li class="new_sn">
+                                    <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN码" value="" />
+                                </li>
+                                <!-- 添加按钮 -->
+                                <li class="add_sn_btn">添加</li>
+                                <li><a href="javascript:;" style="color:#1DC6BC;">批量入库</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">快递公司：</span>
+                        </div>
+                        <div class="column_val">
+                            <select name="" id="">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <span class="options_name">快递单号：</span>
+                        </div>
+                        <div class="column_val">
+                            <input type="text" placeholder="请输入" class="express_order">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="btn_box clearfix create_wf_btn_box">
+                <a href="javascript:;" class="btn orange_btn confirm create_confirm">确认</a>
+                <a href="javascript:;" class="btn bg_btn create_cancel go_gps_list">取消</a>
+            </div>
+        </div>
+        <!---- Part of Main info End ---->
+    </div>
+    <!-------- Part of main End -------->
+
+</div>
+</body>
+{{include('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
+<script>
+    (function ($) {
+
+        /**
+         * 注册类型点击事件
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function selectType () {
+            var typeInput = $('.gps_type .edit_status');
+            typeInput.off("click").on("click", function () {
+                var _this = $(this);
+                var v = _this.val().trim().number();
+                $('.gps_status').val(v);
+            });
+        }
+        /**
+         * 注册提交点击事件
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function bindSubmitEvent () {
+            var btn = $('.create_confirm');
+            btn.off('click').on('click', function () {
+                submitValid();
+            });
+        }
+        /**
+         * 提交校验
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function submitValid () {
+            var city_id = $('.city_id');
+            var gps_status = $('.gps_status');
+            if (reqParamsStr.gps_status == 3) {
+                var select_label = $('.label_id').val();
+                var warehouse_id = $('.gps_warehouse_id').val();
+                var org_id = $('.organization_id').val();
+            } else {
+                var label_id = $('#selectTag').find('option:selected');
+                var select_label = label_id.val();
+                var warehouse_id = label_id.data('warehouse_id');
+                var org_id = label_id.data('org_id');
+            }
+            var sn_txt = $('.sn_txt');
+            if (city_id.val() == '') {
+                $alert('请选择城市');
+                return false;
+            }
+            if (gps_status.val() == '') {
+                $alert('请选择类型')
+                return false;
+            }
+            if (select_label == '') {
+                $alert('请选择标签');
+                return false;
+            }
+            if (sn_txt.val() == '') {
+                $alert('请填写SN码');
+                return false;
+            }
+            var reg = /^[a-zA-Z0-9]{1,}$/;
+            if (!reg.test(sn_txt.val())) {
+                $alert('SN码只能为英文及数字');
+                return false;
+            }
+
+            var parameters = {
+                id : $('#pgs_id').val(),
+                city_id : city_id.val(),
+                type : gps_status.val(),
+                label_id : select_label,
+                gps_warehouse_id : warehouse_id,
+                organization_id : org_id,
+                sn_code : sn_txt.val()
+            };
+            ajaxSubmit(parameters);
+        }
+        /**
+         * ajax提交參數
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function ajaxSubmit (parameters) {
+            var url = contextPath + "/api/gps/inwarehouse/update";
+            $.ajax({
+                type:'post',
+                timeout:50000,
+                url : url,
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('修改成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/gps/list',
+                                param : reqParamsStr
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            bindSubmitEvent();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    bindSubmitEvent();
+                }
+            });
+        }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年7月25日12:48:45
+         * */
+        function goGpsList () {
+            var btn = $('.go_gps_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/list",
+                    param : reqParamsStr
+                })
+            });
+        }
+
+        $(function () {
+            selectType();//注册类型点击事件
+            bindSubmitEvent();//注册提交点击事件
+            goGpsList();//面包屑跳转
+        })
+
+    })(jQuery,undefined);
+</script>
+</html>

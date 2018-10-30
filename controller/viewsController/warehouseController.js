@@ -163,8 +163,8 @@ exports.VIEW_GPS_CREATE = function(req, res, next) {
 };
 // GPS仓库-GPS仓库详情页跳转 1311
 exports.VIEW_GPS_DETAIL = function(req, res, next) {
-   /* common.getPageData({
-        url : '/api/gps/warehouse/toDetail',
+    common.getPageData({
+        url : '/api/gps/warehouse/detail',
         title : '仓库管理-GPS仓库详情',
         page : './gps/warehouseDetail',
         callback : function (data) {
@@ -172,14 +172,7 @@ exports.VIEW_GPS_DETAIL = function(req, res, next) {
                 data.reqParamsStr = JSON.stringify(data.reqParams);
             }
         }
-    }, req, res, next);*/
-    var data = {};
-    data.title = '仓库管理-新建行政仓库';
-    data.originUrl = req.originalUrl;
-    data.markUri = markUri;
-    data.apiServerPath = apiServerPath;
-    data.domain = domain;
-    res.render('./gps/warehouseDetail', data);
+    }, req, res, next);
 };
 // GPS仓库-编辑GPS仓库页跳转 1282
 exports.VIEW_GPS_EDIT = function(req, res, next) {
@@ -207,6 +200,26 @@ exports.VIEW_GPS_PUTIN = function(req, res, next) {
             }
         }
     }, req, res, next);
+};
+// GPS仓库-GPS仓库-调拨跳转
+exports.VIEW_GPS_TRANSFER = function(req, res, next) {
+   /* common.getPageData({
+        url : '/api/gps/warehouse/toPutIn',
+        title : '仓库管理-GPS入库',
+        page : './gps/gpsTransfer',
+        callback : function (data) {
+            if (data) {
+
+            }
+        }
+    }, req, res, next);*/
+    var data = {};
+    data.title = '仓库管理-新建行政仓库';
+    data.originUrl = req.originalUrl;
+    data.markUri = markUri;
+    data.apiServerPath = apiServerPath;
+    data.domain = domain;
+    res.render('./gps/gpsTransfer', data);
 };
 // GPS仓库-GPS仓库-申请单详情页页跳转 1289
 exports.VIEW_GPS_APPLY_DETAIL = function(req, res, next) {

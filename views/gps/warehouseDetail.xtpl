@@ -28,29 +28,20 @@
                 <a href="javascript:;" class="crumbs_item">仓库详情</a>
             </div>
             <form action="{{markUri}}/gps/warehouse/detail" method="post" id="form_search" role="form">
-                <input type="hidden" name="warehouse_id" value="{{warehouse_id}}">
-                <input type="hidden" name="warehouse_name" value="{{warehouse_name}}">
-                <input type="hidden" name="creator" value="{{creator}}">
-                <input type="hidden" name="create_time" value="{{create_time}}">
-                <input type="hidden" name="inWarehouse" id="inWarehouse" value="{{condition.inWarehouse}}">
+                <input type="hidden" name="warehouse_id" value="{{reqParams.warehouse_id}}">
                 <div class="warehouse_filter">
                     <ul>
                         <li>
                             <span>类型：</span>
-                            <select name="" class="filtrate_select">
+                            <select name="type" class="filtrate_select">
                                 <option value="">全部</option>
-                                {{#each (provinceList) }}
-                                {{#if (this.id === ../condition.province_id) }}
-                                <option value="{{this.id}}" selected>{{this.name}}</option>
-                                {{else}}
-                                <option value="{{this.id}}">{{this.name}}</option>
-                                {{/if}}
-                                {{/each}}
+                                <option value="1">有线</option>
+                                <option value="0">无线</option>
                             </select>
                         </li>
                         <li>
                             <span>省份：</span>
-                            <select name="" class="filtrate_select">
+                            <select name="province_id" class="filtrate_select">
                                 <option value="">全部</option>
                                 {{#each (provinceList) }}
                                 {{#if (this.id === ../condition.province_id) }}
@@ -63,9 +54,9 @@
                         </li>
                         <li>
                             <span>标签：</span>
-                            <select name="" class="filtrate_select">
+                            <select name="label_id" class="filtrate_select">
                                 <option value="">全部</option>
-                                {{#each (provinceList) }}
+                                {{#each (labelList) }}
                                 {{#if (this.id === ../condition.province_id) }}
                                 <option value="{{this.id}}" selected>{{this.name}}</option>
                                 {{else}}
@@ -76,7 +67,7 @@
                         </li>
                         <li class="sn_code_box">
                             <span>SN码：</span>
-                            <input type="text" placeholder="请输入SN码" class="filtrate_input sn_code" name="">
+                            <input type="text" placeholder="请输入SN码" class="filtrate_input sn_code" name="sn_code">
                             <input type="text" class="search_btn">
                         </li>
                     </ul>
@@ -113,17 +104,51 @@
                 </tr>
                 </thead>
                 <tbody>
+                {{#each (list) }}
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td>
-                        <a href="javascript:;" class="edit_sn" data-id="">编辑</a>
-                        <a href="javascript:;" class="del_sn" data-id="">删除</a>
+                        {{#if (this.sn_code)}}
+                        {{this.sn_code}}
+                        {{else}}
+                        - -
+                        {{/if}}
+                    </td>
+                    <td>
+                        {{#if (this.type === 1) }}
+                        有线
+                        {{elseif(this.type === 0)}}
+                        无线
+                        {{else}}
+                        - -
+                        {{/if}}
+                    </td>
+                    <td>
+                        {{#if (this.label_name)}}
+                        {{this.label_name}}
+                        {{else}}
+                        - -
+                        {{/if}}
+                    </td>
+                    <td>
+                        {{#if (this.create_time)}}
+                        {{this.create_time}}
+                        {{else}}
+                        - -
+                        {{/if}}
+                    </td>
+                    <td>
+                        {{#if (this.province_name)}}
+                        {{this.province_name}}
+                        {{else}}
+                        - -
+                        {{/if}}
+                    </td>
+                    <td>
+                        <a href="javascript:;" class="edit_sn" data-id="{{this.id}}">编辑</a>
+                        <a href="javascript:;" class="del_sn" data-id="{{this.id}}">删除</a>
                     </td>
                 </tr>
+                {{/each}}
                 </tbody>
             </table>
             {{include('./../inc/paginations')}}
@@ -141,7 +166,10 @@
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
-
+        /**
+         * 跳转编辑页
+         * @author  Plateau  2018年7月23日17:09:59
+         * */
         function toEdit () {
             var btn = $(".edit_sn");
             btn.off("click").on("click", function () {
@@ -159,7 +187,10 @@
                 })
             });
         }
-
+        /**
+         * 删除sn码
+         * @author  Plateau  2018年7月23日17:09:59
+         * */
         function delSn () {
             var btn = $('.del_sn');
             btn.off('click').on('click', function () {
@@ -215,12 +246,46 @@
                 listForm.submit();
             });
         }
-
+        /**
+         * 跳转新增入库页面
+         * @author  Plateau  2018年7月23日17:09:59
+         * */
+        function goPutIn () {
+            var btn = $('.storage_btn');
+            btn.on('click', function () {
+                var _this = $(this);
+                var id = $.trim(_this.data('id'));
+                var params = {
+                    warehouse_id : id
+                };
+                var data = Object.extend(reqParamsStr, params);
+                locationTo({
+                    action : contextPath + markUri + '/gps/warehouse/putin',
+                    param : data
+                })
+            });
+        }
+        /**
+         * 跳转调拨页面
+         * @author  Plateau  2018年10月30日17:28:02
+         * */
+        function toTransfer () {
+            var btn = $('.transfer_btn');
+            btn.on('click', function () {
+                var _this = $(this);
+                locationTo({
+                    action : contextPath + markUri + '/gps/warehouse/transfer',
+                    param : {}
+                })
+            });
+        }
         $(function () {
             chnAndEng('.sn_code', 3);//只能输入中英文和数字
             toEdit();//编辑跳转
             delSn();//删除SN码
             filterEvent();//筛选事件
+            goPutIn();//跳转新增入库页面
+            toTransfer();//跳转调页面
         })
     })(jQuery,undefined);
 </script>
