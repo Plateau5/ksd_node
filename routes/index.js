@@ -428,7 +428,7 @@ router.all(markUri + '/question/merchants/list', questionCtrl.VIEW_QUESTION_MERC
 router.post(markUri + '/question/merchants/historyRecord', questionCtrl.VIEW_QUESTION_MERCHANTS_HISRECORD);
 // 业务-标签管理 1644
 router.all(markUri + '/label/list', questionCtrl.VIEW_LABEL_LIST);
-// 问题管理-GPS问题列表
+// 问题管理-GPS问题列表  1671
 router.all(markUri + '/question/gps/list', questionCtrl.VIEW_QUESTION_GPS_LIST);
 
 

@@ -56,7 +56,7 @@ exports.VIEW_LABEL_LIST = function(req, res, next) {
 };
 
 
-// 客户问题列表页
+// 客户问题列表页   1671
 exports.VIEW_QUESTION_GPS_LIST = function(req, res, next) {
     common.getPageData({
         url : '/api/question/getGPSList',
