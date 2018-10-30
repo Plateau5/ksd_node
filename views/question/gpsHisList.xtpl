@@ -1,0 +1,54 @@
+<!-- 历史记录 -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户问题-历史记录</title>
+    {{include ("./../inc/metaData")}}
+    <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/question/his_list.css">
+    <script src="{{markUri}}/static/js/question/his_list.js"></script>
+</head>
+<body>
+
+{{include ('./../inc/header')}}
+
+<!--container start-->
+
+<div class="container minWidth">
+    <div class="row section">
+        <!--navLeft start-->
+        {{include ('./../inc/sideNav')}}
+
+        <!--navLeft end-->
+
+
+        <!--listCon start-->
+        <div class=" listCon relative">
+            <div class="listConHeader inviteCon" style="line-height: normal;margin-top:32px;">
+                <ul>
+                    <li class="inline colorB"><a class="TS" href="{{markUri}}/question/gps/list">GPS问题</a></li>
+                    <li class="inline before"><a href="javascript:window.history.back();">{{vo.title}}</a></li>
+                    <li class="inline before"><a href="javascript:;" style="cursor:default">历史记录</a></li>
+                </ul>
+            </div>
+            <div class="inviteForm inviteConB formMT">
+                <input type="hidden" id="question_id" value="{{question_id}}">
+                <input type="hidden" value="{{question_type}}" id="questionType" />
+                <div class="his_list">
+
+                </div>
+
+            </div>
+        </div>
+
+        <!--listCon end-->
+
+    </div>
+
+
+</div>
+
+<!--container end-->
+
+</body>

@@ -430,6 +430,8 @@ router.post(markUri + '/question/merchants/historyRecord', questionCtrl.VIEW_QUE
 router.all(markUri + '/label/list', questionCtrl.VIEW_LABEL_LIST);
 // 问题管理-GPS问题列表  1671
 router.all(markUri + '/question/gps/list', questionCtrl.VIEW_QUESTION_GPS_LIST);
+// 问题管理-GPS问题历史记录
+router.post(markUri + '/question/gps/historyRecord', questionCtrl.VIEW_QUESTION_GPS_HISRECORD);
 
 
 

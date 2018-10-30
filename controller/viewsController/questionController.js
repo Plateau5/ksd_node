@@ -64,3 +64,11 @@ exports.VIEW_QUESTION_GPS_LIST = function(req, res, next) {
         page : './question/gpsQuestion'
     }, req, res, next);
 };
+// 问题管理-GPS问题历史记录
+exports.VIEW_QUESTION_GPS_HISRECORD = function(req, res, next) {
+    common.getPageData({
+        url : '/api/question/his',
+        title : '历史记录',
+        page : './question/gpsHisList'
+    }, req, res, next);
+};
