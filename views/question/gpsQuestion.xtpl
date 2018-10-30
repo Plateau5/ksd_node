@@ -30,9 +30,9 @@
             <div class="no_list_data no_merchants">
                 <div class="toast_img"></div>
                 <div class="toast_text">抱歉，目前暂无问题分类</div>
-                {{#if (verifyCode(1093)) }}
+                {{#if (verifyCode(1665)) }}
                 <div class="new_classify_box">
-                    <input type="text" value="" id="new_classify" placeholder="请创建问题分类：如客户资质问题" maxlength="20" />
+                    <input type="text" value="" id="new_classify" placeholder="请创建问题分类" maxlength="20" />
                     <div class="error_msg" style="height: 30px; line-height: 30px;"></div>
                 </div>
                 <div class="new_btn_box" style="height: 60px;line-height:60px;">
@@ -43,7 +43,7 @@
             {{/if}}
             <!--有数据时-->
             {{#if (count > 0) }}
-            {{#if (verifyCode(1093)) }}
+            {{#if (verifyCode(1665)) }}
             <div class="new_btn_box text_right" style="height: 50px;line-height: 50px;margin-bottom: 15px;">
                 <a href="javascript:" class="btn blue_btn add_btn" id="createClassify"><em></em>新建分类</a>
             </div>
@@ -53,13 +53,13 @@
                 <div class="modules_title">
                     <span>{{this.parent_name}}</span>
                     <div class="btn_box" style="width: 600px;text-align: right;">
-                        {{#if (root.verifyCode(1095)) }}
+                        {{#if (root.verifyCode(1668)) }}
                         <a href="javascript:" class="detail_title_btn create_btn" data-parent_id="{{this.parent_id}}">新建问题</a>
                         {{/if}}
-                        {{#if (root.verifyCode(1094)) }}
+                        {{#if (root.verifyCode(1666)) }}
                         <a href="javascript:" class="detail_title_btn edit_btn edit_classify_btn" data-name="{{this.parent_name}}" data-id="{{this.parent_id}}">重命名</a>
                         {{/if}}
-                        {{#if (root.verifyCode(1271)) }}
+                        {{#if (root.verifyCode(1667)) }}
                         <a href="javascript:" class="detail_title_btn delete_btn" data-id="{{this.parent_id}}">删除分类</a>
                         {{/if}}
                     </div>
@@ -72,13 +72,13 @@
                         <li class="list_item">
                             <span>{{this.title }}</span>
                             <div class="question_btns">
-                                {{#if (root.verifyCode(1096)) }}
+                                {{#if (root.verifyCode(1669)) }}
                                 <em class="question_btn edit_btn edit_question_btn" title="重命名" data-parent_id="{{../parent_id}}" data-name="{{this.title}}" data-id="{{this.id}}"></em>
                                 {{/if}}
                                 {{#if (root.verifyCode(1096)) }}
                                 <em class="question_btn history_btn" title="修改记录" data-id="{{this.id}}"></em>
                                 {{/if}}
-                                {{#if (root.verifyCode(1096)) }}
+                                {{#if (root.verifyCode(1670)) }}
                                 <em class="question_btn remove_btn" title="删除" data-parent_id="{{../parent_id}}" data-id="{{this.id}}"></em>
                                 {{/if}}
                             </div>
@@ -113,7 +113,7 @@
                     content : '<input type="text" name="" style="width: 230px;\n' +
                     '                height: 30px;\n' +
                     '                border: 1px solid #e4e4e4;\n' +
-                    '                text-indent: .8em;" class="new_field" id="newClassify" placeholder="请输入分类名称 如：商户资质问题" maxlength="20" />' +
+                    '                text-indent: .8em;" class="new_field" id="newClassify" placeholder="请输入分类名称" maxlength="20" />' +
                     '<div class="error_msg" style="height: 20px; line-height:20px;font-size: 12px;padding-left: 184px;" id="createErrorTips"></div>',
                     maskClose : false,
                     onConfirm : function (d) {
@@ -142,7 +142,7 @@
                     var data = {
                         classify_value : newName
                     };
-                    var url = contextPath + '/api/question/classify/create';
+                    var url = contextPath + '/api/question/gpsClassify/create';
                     redefineAjax({
                         url : url,
                         data : data,
@@ -186,7 +186,7 @@
                     onConfirm : function (d) {
                         d.close();
                         redefineAjax({
-                            url : contextPath + '/api/question/classify/delete',
+                            url : contextPath + '/api/question/gpsClassify/delete',
                             data : {
                                 id : classifyId
                             },
@@ -244,7 +244,7 @@
                         id : id,
                         classify_value : newName
                     };
-                    var url = contextPath + '/api/question/classify/update';
+                    var url = contextPath + '/api/question/gpsClassify/update';
                     redefineAjax({
                         url : url,
                         data : data,
@@ -308,7 +308,7 @@
                         title : title,
                         content : ''
                     };
-                    var url = contextPath + '/api/question/create';
+                    var url = contextPath + '/api/question/gps/create';
                     redefineAjax({
                         url : url,
                         data : data,
@@ -351,7 +351,7 @@
                     onConfirm : function (d) {
                         d.close();
                         redefineAjax({
-                            url : contextPath + '/api/question/delete',
+                            url : contextPath + '/api/question/gps/delete',
                             data : {
                                 question_id : id
                             },
@@ -412,7 +412,7 @@
                         title : newName,
                         parent_id : pid
                     };
-                    var url = contextPath + '/api/question/update';
+                    var url = contextPath + '/api/question/gps/update';
                     redefineAjax({
                         url : url,
                         data : data,
