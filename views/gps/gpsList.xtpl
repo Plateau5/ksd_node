@@ -191,15 +191,22 @@
             {{/if}}
             {{#if (startWith(markUri + '/gps/warehouse/list')) }}
             <div class="warehouse_list">
-                <form action="{{markUri}}/gps/warehouse/list" method="post" role="form">
-                </form>
                 <div class="filtrate">
-                    <div class="province_sel">
-                        <span>城市：</span>
-                        <select class="filtrate_select">
-                            <option value="">全部</option>
-                        </select>
-                    </div>
+                    <form action="{{markUri}}/gps/warehouse/list" id="warehouseForm" method="post" role="form">
+                        <div class="province_sel">
+                            <span>城市：</span>
+                            <select class="filtrate_select" name="province_id">
+                                <option value="">全部</option>
+                                {{#each (provinceList) }}
+                                {{#if (this.id === ../condition.province_id) }}
+                                <option value="{{this.id}}" selected>{{this.name}}</option>
+                                {{else}}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                    </form>
                     <div class="new_btn_box">
                         {{#if (verifyCode(1281)) }}
                         <a href="javascript:;" class="detail_title_btn create_btn create_warehouse">新建仓库</a>
@@ -209,15 +216,19 @@
                 {{#if (verifyCode(1280)) }}
                 <table class="normal">
                     <colgroup style="width: 100%;">
-                        <col style="width: 30%;" />
-                        <col style="width: 30%;" />
-                        <col style="width: 25%;" />
+                        <col style="width: 17%;" />
+                        <col style="width: 17%;" />
+                        <col style="width: 17%;" />
+                        <col style="width: 17%;" />
+                        <col style="width: 17%;" />
                         <col />
                     </colgroup>
                     <thead>
                     <tr>
                         <th>机构</th>
                         <th>库存量</th>
+                        <th>有线</th>
+                        <th>无线</th>
                         <th>预警库存</th>
                         <th>操作</th>
                     </tr>
@@ -244,6 +255,20 @@
                                     {{this.inventory}}
                                 {{else}}
                                     - -
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{#if (this.wire_count || this.wire_count === 0) }}
+                                {{this.wire_count}}
+                                {{else}}
+                                - -
+                                {{/if}}
+                            </td>
+                            <td>
+                                {{#if (this.wireless_count || this.wireless_count === 0) }}
+                                {{this.wireless_count}}
+                                {{else}}
+                                - -
                                 {{/if}}
                             </td>
                             <td title="">
@@ -729,6 +754,17 @@
         /**************************仓库管理列表页  start**********************************/
 
         /**
+        * 仓库列表筛选
+        * @author  Plateau  2018年10月30日15:46:04
+        * */
+        function togProvince () {
+            var btn = $(".province_sel").find('.filtrate_select');
+            btn.change(function(){
+                $('#warehouseForm').submit();
+            });
+        }
+
+        /**
          * 跳转新建仓库
          * @author  Plateau  2018年7月25日13:48:32
          * */
@@ -891,7 +927,11 @@
             var btn = $('.untie');
             btn.off("click").on("click", function () {
                 var gps_id = $(this).data('id');
-                dialog("open", {
+                locationTo({
+                    action : contextPath + markUri + "/gps/list/unbind",
+                    param : {}
+                });
+                /*dialog("open", {
                     closeBtn : false,
                     "title" : "提醒",
                     "button" : ["确认","取消"],
@@ -904,7 +944,7 @@
                     onCancel : function (d) {
                         d.close();
                     }
-                });
+                });*/
             });
         }
 
@@ -964,6 +1004,7 @@
             deleteSN();//删除SN码
             triangleEvent();//展开折叠事件
 
+            togProvince();//仓库列表筛选
             goCreateWarehouse();//跳转新建仓库
             goWarehouseDetail();//跳转仓库详情页
             showOrgProducts();//编辑仓库跳转

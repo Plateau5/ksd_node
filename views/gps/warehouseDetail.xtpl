@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     {{include('./../inc/cssSources')}}
-    <link rel="stylesheet" href="{{markUri}}/static/css/customerService.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/manufacturing.css">
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/warehouse.css">
+    <link rel="stylesheet" href="{{markUri}}/static/css/gpsList.css">
     <title>GPS管理-查看详情</title>
 </head>
 <body>
@@ -23,10 +21,11 @@
         <!---- Part of slide nav End ---->
 
         <!---- Part of Main info Begin ---->
-        <div id="main" class="main org_product">
+        <div id="main" class="main warehouse_details">
             <div class="crumbs_nav">
                 <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">GPS仓库</a>
-                <a href="javascript:;" class="crumbs_item">{{warehouse_name}}的仓库</a>
+                <a href="{{markUri}}/gps/warehouse/list" class="crumbs_item">{{warehouse_name}}</a>
+                <a href="javascript:;" class="crumbs_item">仓库详情</a>
             </div>
             <form action="{{markUri}}/gps/warehouse/detail" method="post" id="form_search" role="form">
                 <input type="hidden" name="warehouse_id" value="{{warehouse_id}}">
@@ -34,194 +33,100 @@
                 <input type="hidden" name="creator" value="{{creator}}">
                 <input type="hidden" name="create_time" value="{{create_time}}">
                 <input type="hidden" name="inWarehouse" id="inWarehouse" value="{{condition.inWarehouse}}">
+                <div class="warehouse_filter">
+                    <ul>
+                        <li>
+                            <span>类型：</span>
+                            <select name="" class="filtrate_select">
+                                <option value="">全部</option>
+                                {{#each (provinceList) }}
+                                {{#if (this.id === ../condition.province_id) }}
+                                <option value="{{this.id}}" selected>{{this.name}}</option>
+                                {{else}}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
+                        </li>
+                        <li>
+                            <span>省份：</span>
+                            <select name="" class="filtrate_select">
+                                <option value="">全部</option>
+                                {{#each (provinceList) }}
+                                {{#if (this.id === ../condition.province_id) }}
+                                <option value="{{this.id}}" selected>{{this.name}}</option>
+                                {{else}}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
+                        </li>
+                        <li>
+                            <span>标签：</span>
+                            <select name="" class="filtrate_select">
+                                <option value="">全部</option>
+                                {{#each (provinceList) }}
+                                {{#if (this.id === ../condition.province_id) }}
+                                <option value="{{this.id}}" selected>{{this.name}}</option>
+                                {{else}}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
+                        </li>
+                        <li class="sn_code_box">
+                            <span>SN码：</span>
+                            <input type="text" placeholder="请输入SN码" class="filtrate_input sn_code" name="">
+                            <em class="search_btn"></em>
+                        </li>
+                    </ul>
+                </div>
             </form>
-            <div class="gps_details">
-                <div class="warehouse_info">
-                    <div class="name"><em class="name_icon"></em><span>{{warehouse_name}}</span></div>
-                    <div class="create_info nowrap">
-                        <span class="create_time">{{create_time}}</span>
-                        <span class="founder nowrap">创建人：<samp title="${vo.create_name}">{{creator}}</samp></span>
-                    </div>
-                </div>
-                <div class="sn_details">
-                    <div class="tab">
-                        <ul class="tab_list inline_block">
-                            <li class="tab_item not_out {{#if (condition.inWarehouse === 0 || !condition.inWarehouse) }}active{{/if}}">未出库</li>
-                            <li class="tab_item already_out {{#if (condition.inWarehouse === 1) }}active{{/if}}">已出库</li>
-                        </ul>
-                        {{#if (verifyCode(1283)) }}
-	                        <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn create_btn create_put_in">新增入库</a>
-                        {{/if}}
-                    </div>
-                    <div class="filtrate">
-                        <div class="filtrate_item date_conditions">
-                            <div class="inline_block">
-                                <div class="conditions_name inline_block gps_type">类型：</div>
-                                <select name="gps_type" class="filtrate_select" id="gps_type">
-                                    <option value="">全部</option>
-                                    {{#if (condition.type === 0) }}
-                                        <option value="0" selected>无线</option>
-                                    {{else}}
-                                        <option value="0">无线</option>
-                                    {{/if}}
-                                    {{#if (condition.type === 1) }}
-                                        <option value="1" selected>有线</option>
-                                    {{else}}
-                                        <option value="1">有线</option>
-                                    {{/if}}
-                                </select>
-                            </div>
-                            <div class="inline_block">
-                                <div class="conditions_name inline_block filtrate_tags">标签：</div>
-                                <select name="label_id" class="filtrate_select" id="filtrate_tags">
-                                    <option value="">全部</option>
-                                    {{#each (label_list) }}
-                                        {{#if (this.id === condition.label_id) }}
-                                            <option value="{{this.id}}" selected="selected">{{this.name}}</option>
-                                        {{else}}
-                                            <option value="{{this.id}}">{{this.name}}</option>
-                                        {{/if}}
-									{{/each}}
-                                </select>
-                            </div>
-                            {{#if (city_count > 1) }}
-	                            <div class="inline_block">
-	                                <div class="conditions_name inline_block filtrate_city">城市：</div>
-	                                <select name="city_id" class="filtrate_select" id="filtrate_city">
-	                                    <option value="">全部</option>
-                                        {{#each (city_list) }}
-                                            {{#if (this.id === condition.city_id) }}
-                                                <option value="{{this.id}}" selected="selected">{{this.name}}</option>
-                                            {{else}}
-                                                <option value="{{this.id}}">{{this.name}}</option>
-                                            {{/if}}
-										{{/each}}
-	                                </select>
-	                            </div>
-                            {{/if}}
-                        </div>
-                    </div>
-                    <!-- 未出库列表 -->
-                    {{#if (condition.inWarehouse === 0) }}
-                    <table class="sn_list not_out_list" style="display:table;">
-                    {{else}}
-                    <table class="sn_list not_out_list" style="display:none;">
+            <div class="btn_box">
+                <div class="rf" style="width:150px;">
+                    {{#if (verifyCode(1583)) }}
+                    <a href="javascript:" id="download_btn" class="detail_title_btn transfer_btn rf">调拨</a>
                     {{/if}}
-                        <colgroup style="width: 100%;">
-                            <col style="width: 22%;" />
-                            <col style="width: 22%;" />
-                            <col style="width: 22%;" />
-                            <col style="width: 22%;" />
-                            <col />
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>SN码</th>
-                            <th>类型</th>
-                            <th>标签</th>
-                            <th>入库日期</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {{#each (gps_list) }}
-								<tr>
-									<td>{{this.sn_code}}</td>
-									<td>
-                                        {{#if (this.type === 0) }}
-										    无线
-                                        {{else}}
-                                            有线
-                                        {{/if}}
-									</td>
-									<td>{{this.label_name}}</td>
-									<td>{{this.putin_time}}</td>
-									<td>
-                               			<em  data-id="{{this.id}}" class="delete_sn_btn"></em>
-                                    </td>
-								</tr>
-							{{/each}}
-                        </tbody>
-                    </table>
-                    
-                    <!-- 已出库列表 -->
-                        {{#if (condition.inWarehouse === 1) }}
-                    <table class="sn_list not_out_list" style="display:table;">
-                        {{else}}
-                        <table class="sn_list not_out_list" style="display:none;">
-                        {{/if}}
-                        <colgroup style="width: 100%;">
-                            <col style="width: 18%;" />
-                            <col style="width: 13%;" />
-                            <col style="width: 13%;" />
-                            <col style="width: 13%;" />
-                            <col style="width: 13%;" />
-                            <col style="width: 18%;" />
-                            <col />
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>SN码</th>
-                            <th>类型</th>
-                            <th>领用人</th>
-                            <th>标签</th>
-                            <th>关联客户</th>
-                            <th>领用日期</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {{#each (gps_list) }}
-								<tr>
-									<td>
-                                        <span class="inline">
-                                            <span>{{this.sn_code}}</span>
-                                            {{#if (this.remark) }}
-	                                            <em class="text_remark">
-	                                                <span class="desc">{{this.remark}}</span>
-	                                            </em>
-                                            {{/if}}
-                                        </span>
-                                    </td>
-									<td>
-                                        {{#if (this.type === 0) }}
-                                            无线
-                                        {{else}}
-                                            有线
-                                        {{/if}}
-                                    </td>
-									<td>{{this.use_name}}</td>
-									<td>{{this.label_name}}</td>
-									<td>
-                                        {{#if (this.user_name) }}
-                                            {{this.user_name}}
-                                        {{else}}
-                                            - -
-                                        {{/if}}
-                                    </td>
-									<td>{{this.delivery_time}}</td>
-									<td>
-                                        {{#if (root.verifyCode(1288)) }}
-										<em class="delete_sn_btn" data-id="{{this.id}}"></em>
-									    {{/if}}
-									</td>
-								</tr>
-							{{/each}}
-						</tbody>
-                    </table>
-                    {{#if (count === 0) }}
-						{{include('./../inc/empty_data')}}
-					{{/if}}
+                    {{#if (verifyCode(1283)) }}
+                    <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn rf">入库</a>
+                    {{/if}}
                 </div>
-                <!--分页部分 Begin-->
-
-                        {{include('./../inc/pagination')}}
-
-                <!--分页部分 End-->
             </div>
-
-
-
+            
+            <table class="normal">
+                <colgroup style="width: 100%;">
+                    <col style="width: 17%;" />
+                    <col style="width: 17%;" />
+                    <col style="width: 17%;" />
+                    <col style="width: 17%;" />
+                    <col style="width: 17%;" />
+                    <col />
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>SN码</th>
+                    <th>类型</th>
+                    <th>标签（品牌）</th>
+                    <th>入库日期</th>
+                    <th>省市</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="javascript:;" class="edit_sn" data-id="">编辑</a>
+                        <a href="javascript:;" class="del_sn" data-id="">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {{include('./../inc/paginations')}}
         </div>
         <!---- Part of Main info End ---->
     </div>
@@ -233,66 +138,47 @@
 </div>
 </body>
 {{include('./../inc/jsSources')}}
-<script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
-        var pageType = {{{condition.inWarehouse}}};//{{condition.inWarehouse}}
-        // 跳转新增入库页面
-        function goPutIn () {
-            var btn = $('.create_put_in');
-            btn.on('click', function () {
+
+        function toEdit () {
+            var btn = $(".edit_sn");
+            btn.off("click").on("click", function () {
                 var _this = $(this);
-                var id = $.trim(_this.data('id'));
+                var id = _this.data('id');
+                var status = _this.data('status');
+                var params = {
+                    id : id,
+                    gps_status : status//编辑页根据已出库状态判断修改
+                };
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
-                    action : contextPath + markUri + '/gps/warehouse/putin',
-                    param : {
-                        warehouse_id : id
-                    }
+                    action : contextPath + markUri + '/gps/edit',
+                    param : data
                 })
             });
         }
-        //已出库未出库视图切换
-        function switchTab () {
-            var btn = $('.tab_item');
-            btn.on('click', function () {
-                var _this = $(this);
-                if (_this.hasClass('not_out')) {
-                    _this.addClass('active');
-                    _this.siblings('.already_out').removeClass('active');
-                    $('#inWarehouse').val('0');
-                    /*$('.not_out_list').css('display', 'table');
-                    $('.already_out_list').css('display', 'none');*/
-                } else {
-                    _this.addClass('active');
-                    _this.siblings('.not_out').removeClass('active');
-                    $('#inWarehouse').val('1');
-                    /*$('.not_out_list').css('display', 'none');
-                    $('.already_out_list').css('display', 'table');*/
-                }
-                $('form[role="form"]').submit();
-            });
-        }
-        //删除SN码逻辑
-        function deleteSN () {
-            var btn = $('.delete_sn_btn');
+
+        function delSn () {
+            var btn = $('.del_sn');
             btn.off('click').on('click', function () {
                 var id = $.trim($(this).data('id'));
                 var url = contextPath + '/api/gps/delete';
                 var data = {
                     gps_id : id
                 };
-                var delTipMsg = '';
-                if (pageType === 0) {
-                    delTipMsg = '确认删除该记录？';
-                } else if (pageType === 1) {
-                    delTipMsg = '确认删除该记录？删除后领用人将无法使用该GPS。';
-                } else {
-                    delTipMsg = '确认删除该记录？';
-                }
+                // var delTipMsg = '';
+                // if (pageType === 0) {
+                //     delTipMsg = '确认删除该记录？';
+                // } else if (pageType === 1) {
+                //     delTipMsg = '确认删除该记录？删除后领用人将无法使用该GPS。';
+                // } else {
+                //     delTipMsg = '确认删除该记录？';
+                // }
                 dialog('open', {
                     title : '删除提醒',
-                    content : delTipMsg,
+                    content : '确认删除该记录？',
                     onConfirm : function (d) {
                         d.close();
                         $ajax('post', url, data, function(res) {
@@ -317,14 +203,25 @@
             });
         }
 
+        //筛选事件
+        function filterEvent () {
+            var filtrate_select = $('.filtrate_select');
+            var listForm = $('form[role="form"]');
+            filtrate_select.change(function(){
+                listForm.submit();
+            });
+            var filtrate_input = $('.search_btn');
+            filtrate_input.off('click').on('click', function () {
+                listForm.submit();
+            });
+        }
 
         $(function () {
-            goPutIn();
-            selectChange();
-            switchTab();
-            deleteSN();
+            chnAndEng('.sn_code', 3);//只能输入中英文和数字
+            toEdit();//编辑跳转
+            delSn();//删除SN码
+            filterEvent();//筛选事件
         })
-
     })(jQuery,undefined);
 </script>
 </html>

@@ -148,16 +148,7 @@
                     overflow: hidden;
                 }
             }
-            .storage_btn {
-                &:before {
-                    background-position: -64px -714px;
-                }
-                &:hover {
-                    &:before {
-                        background-position: -64px -734px;
-                    }
-                }
-            }
+
             .export_btn {
                 &:before {
                     background-position: -64px -882px;
@@ -296,73 +287,73 @@
     }
     /****************gps申请列表 end*********************/
 
-    table.normal {
-        //margin-top: 5px;
+}
+table.normal {
+    //margin-top: 5px;
+    tr {
+        height: 50px;
+        line-height: 50px;
+        text-align: left;
+    }
+    thead {
         tr {
-            height: 50px;
-            line-height: 50px;
-            text-align: left;
-        }
-        thead {
-            tr {
-                background: @th-bg-color;
-                th{
-                    padding:0 2%;
-                }
+            background: @th-bg-color;
+            th{
+                padding:0 2%;
             }
         }
-        tbody {
-            tr {
-                .go_forward{
-                    margin-right: 10px;
-                    color:#1DC6BC;
-                    &:hover{
-                        color:#0B9C94;
-                    }
+    }
+    tbody {
+        tr {
+            .go_forward{
+                margin-right: 10px;
+                color:#1DC6BC;
+                &:hover{
+                    color:#0B9C94;
                 }
-                .edit {
-                    display: inline-block;
-                    width: 28px;
-                    height: 28px;
-                    background: url('../img/operation_small_icon.png') no-repeat;
-                    background-position: 0 -662px;
-                    vertical-align: middle;
-                    &:hover {
-                        background-position: 0 -686px;
-                    }
+            }
+            .edit {
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                background: url('../img/operation_small_icon.png') no-repeat;
+                background-position: 0 -662px;
+                vertical-align: middle;
+                &:hover {
+                    background-position: 0 -686px;
                 }
-                /*.untie {
-                    display: inline-block;
-                    width: 28px;
-                    height: 28px;
-                    background: url('../img/operation_small_icon.png') no-repeat;
-                    background-position: -55px -1006px;
-                    vertical-align: middle;
-                    &:hover {
-                        background-position: -55px -1030px;
-                    }
-                }*/
-                .delete {
-                    display: inline-block;
-                    width: 28px;
-                    height: 28px;
-                    background: url('../img/operation_small_icon.png') no-repeat;
-                    background-position: -54px 0;
-                    vertical-align: middle;
-                    &:hover {
-                        background-position: -54px -24px;
-                    }
+            }
+            /*.untie {
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                background: url('../img/operation_small_icon.png') no-repeat;
+                background-position: -55px -1006px;
+                vertical-align: middle;
+                &:hover {
+                    background-position: -55px -1030px;
                 }
-                .view {
-                    display: inline-block;
-                    width: 28px;
-                    height: 28px;
-                    background: url('../img/operation_small_icon.png') no-repeat;
-                    background-position: 0 -614px;
-                    vertical-align: middle;
-                    &:hover {
-                        background-position: 0 -638px;
-                    }
+            }*/
+            .delete {
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                background: url('../img/operation_small_icon.png') no-repeat;
+                background-position: -54px 0;
+                vertical-align: middle;
+                &:hover {
+                    background-position: -54px -24px;
+                }
+            }
+            .view {
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                background: url('../img/operation_small_icon.png') no-repeat;
+                background-position: 0 -614px;
+                vertical-align: middle;
+                &:hover {
+                    background-position: 0 -638px;
                 }
             }
         }
@@ -433,3 +424,88 @@
 
 /*********************处理详情  end***********************/
 
+
+/*********************仓库详情  start***********************/
+.warehouse_details{
+    .warehouse_filter{
+        width:100%;
+        padding:18px 0;
+        overflow: auto;
+        ul{
+            width:100%;
+            overflow: auto;
+            li{
+                float: left;
+                width:20%;
+                select, input{
+                    width:130px;
+                    height:30px;
+                    line-height: 30px;
+                    border: 1px solid #D9D9D9;
+                    text-indent: 0.5em;
+                }
+            }
+        }
+        .sn_code_box{
+            position: relative;
+            .search_btn{
+                position: absolute;
+                right: 36px;
+                top: 10px;
+                display: block;
+                content: '';
+                width: 11px;
+                height: 11px;
+                background: url('../img/manager_search_icon.png') no-repeat;
+            }
+        }
+    }
+    .btn_box{
+        margin-top: 0;
+        margin-bottom: 14px;
+        height:20px;
+        line-height: 20px;
+        .detail_title_btn {
+            padding: 0px 5px 2px 30px;
+            &:before {
+                content: '';
+                position: absolute;
+                top: 2px;
+                left: 10px;
+                display: block;
+                width: 16px;
+                height: 16px;
+                background: url('../img/operation_small_icon.png') no-repeat;
+                overflow: hidden;
+            }
+        }
+        .storage_btn {
+            &:before {
+                background-position: -64px -714px;
+            }
+            &:hover {
+                &:before {
+                    background-position: -64px -734px;
+                }
+            }
+        }
+        .transfer_btn{
+            &:before {
+                background-position: -64px -1058px;
+            }
+            &:hover {
+                &:before {
+                    background-position: -64px -1078px;
+                }
+            }
+        }
+    }
+    .edit_sn, .del_sn{
+        color:#1DC6BC;
+    }
+    .edit_sn{
+        margin-right: 18px;
+    }
+}
+
+/*********************仓库详情  end***********************/

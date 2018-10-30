@@ -447,6 +447,8 @@ router.all(markUri + '/gps/apply/list', warehouseCtrl.VIEW_APPLY_LIST);
 router.post(markUri + '/gps/edit', warehouseCtrl.VIEW_EDIT);
 //业务-GPS处理结果跳转 1584
 router.post(markUri + '/gps/apply/result', warehouseCtrl.VIEW_GPS_APPLY_RESULT);
+//业务-GPS列表解绑跳转
+router.post(markUri + '/gps/list/unbind', warehouseCtrl.VIEW_GPS_LIST_UNBIND);
 
 /*// GPS仓库列表页跳转 1280
 router.all(markUri + '/gps/warehouse/list', warehouseCtrl.VIEW_GPS_LIST);*/

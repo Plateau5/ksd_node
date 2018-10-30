@@ -120,7 +120,19 @@ exports.VIEW_GPS_APPLY_RESULT = function(req, res, next) {
         }
     }, req, res, next);
 };
-
+//业务-GPS列表解绑跳转
+exports.VIEW_GPS_LIST_UNBIND = function(req, res, next) {
+    common.getPageData({
+        url : '/api/gps/apply/list',
+        title : '仓库管理-GPS仓库列表',
+        page : './gps/unbind',
+        callback : function (data) {
+            if (data) {
+                data.reqParamsStr = JSON.stringify(data.reqParams);
+            }
+        }
+    }, req, res, next);
+};
 
 
 

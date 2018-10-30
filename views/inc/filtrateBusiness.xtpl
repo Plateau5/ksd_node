@@ -25,10 +25,10 @@
         </div>
         <div class="select_city_div inline_block">
             <div class="conditions_name inline_block">城市：</div>
-            <select name="city_ids" class="filtrate_select">
+            <select name="province_id" class="filtrate_select">
                 <option value="">全部</option>
                 {{#each(provinceList) }}
-                {{#if (this.id.toString() === ../condition.city_ids) }}
+                {{#if (this.id === ../condition.province_id) }}
                 <option value="{{this.id}}" selected>{{this.name}}</option>
                 {{else}}
                 <option value="{{this.id}}">{{this.name}}</option>
@@ -67,11 +67,11 @@
             <div class="conditions_name inline_block">机构：</div>
             <select name="organization_id" class="filtrate_select">
                 <option value="">全部</option>
-                {{#each(label_list) }}
-                    {{#if (this.id === ../condition.label_id) }}
-                    <option value="{{this.id}}" selected>{{this.warehouse_name}}</option>
+                {{#each(organizationList) }}
+                    {{#if (this.id === ../condition.organization_id) }}
+                    <option value="{{this.id}}" selected>{{this.name}}</option>
                     {{else}}
-                    <option value="{{this.id}}">{{this.warehouse_name}}</option>
+                    <option value="{{this.id}}">{{this.name}}</option>
                     {{/if}}
                 {{/each}}
             </select>
@@ -94,15 +94,15 @@
         </div>
         <div class="sn_div inline_block">
             <div class="conditions_name inline_block">入库时间：</div>
-            <input type="text" id="queryStartDate" readonly class="filtrate_date" name="create_start_date" value="{{condition.time_start}}" placeholder="请选择开始日期"/>
+            <input type="text"  readonly class="filtrate_date" name="create_start_date" value="{{condition.create_start_date}}" placeholder="请选择开始日期"/>
             <span class="inline_block"> — </span>
-            <input type="text" id="queryEndDate" readonly class="filtrate_date" name="create_end_date" value="{{condition.time_end}}" placeholder="请选择结束日期"/>
+            <input type="text" readonly class="filtrate_date" name="create_end_date" value="{{condition.create_end_date}}" placeholder="请选择结束日期"/>
         </div>
         <div class="sn_div inline_block">
             <div class="conditions_name inline_block">出库时间：</div>
-            <input type="text" id="queryStartDate" readonly class="filtrate_date" name="delivery_start_date" value="{{condition.time_start}}" placeholder="请选择开始日期"/>
+            <input type="text" readonly class="filtrate_date" name="delivery_start_date" value="{{condition.delivery_start_date}}" placeholder="请选择开始日期"/>
             <span class="inline_block"> — </span>
-            <input type="text" id="queryEndDate" readonly class="filtrate_date" name="delivery_end_date" value="{{condition.time_end}}" placeholder="请选择结束日期"/>
+            <input type="text" readonly class="filtrate_date" name="delivery_end_date" value="{{condition.delivery_end_date}}" placeholder="请选择结束日期"/>
         </div>
 
         <div class="sn_div inline_block">
