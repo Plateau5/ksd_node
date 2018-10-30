@@ -27,11 +27,11 @@
             <div class="conditions_name inline_block">城市：</div>
             <select name="city_ids" class="filtrate_select">
                 <option value="">全部</option>
-                {{#each(label_list) }}
-                {{#if (this.id === ../condition.label_id) }}
-                <option value="{{this.id}}" selected>{{this.warehouse_name}}</option>
+                {{#each(provinceList) }}
+                {{#if (this.id.toString() === ../condition.city_ids) }}
+                <option value="{{this.id}}" selected>{{this.name}}</option>
                 {{else}}
-                <option value="{{this.id}}">{{this.warehouse_name}}</option>
+                <option value="{{this.id}}">{{this.name}}</option>
                 {{/if}}
                 {{/each}}
             </select>

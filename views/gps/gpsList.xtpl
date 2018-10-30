@@ -74,7 +74,7 @@
                     {{else}}
                     {{#each (list) }}
                     <div class="table_body">
-                        <div class="body_item triangle_btn">
+                        <div class="body_item {{#if (this.use_name || this.delivery_time || this.user_name || this.reason) }}triangle_btn{{/if}}">
                             <div class="expend_triangle"></div>
                         </div>
                         <div class="body_item" title="{{this.sn_code}}">
@@ -107,9 +107,9 @@
                             - -
                             {{/if}}
                         </div>
-                        <div class="body_item" title="{{this.city_name}}">
-                            {{#if (this.city_name)}}
-                            {{this.city_name}}
+                        <div class="body_item" title="{{this.province_name}}">
+                            {{#if (this.province_name)}}
+                            {{this.province_name}}
                             {{else}}
                             - -
                             {{/if}}
@@ -138,24 +138,50 @@
                             {{/if}}
                             {{/if}}
                         </div>
+                        {{#if (this.use_name || this.delivery_time || this.user_name || this.reason) }}
                         <div class="detail_infos clearfix form_options">
                             <div class="option_item">
                                 <div class="column_name">领用人：</div>
-                                <div class="column_val">111</div>
+                                <div class="column_val nor_wrap" title="{{this.use_name}}">
+                                    {{#if (this.use_name)}}
+                                    {{this.use_name}}
+                                    {{else}}
+                                    - -
+                                    {{/if}}
+                                </div>
                             </div>
                             <div class="option_item">
                                 <div class="column_name">领用日期：</div>
-                                <div class="column_val">222</div>
+                                <div class="column_val">
+                                    {{#if (this.delivery_time)}}
+                                    {{this.delivery_time}}
+                                    {{else}}
+                                    - -
+                                    {{/if}}
+                                </div>
                             </div>
                             <div class="option_item">
                                 <div class="column_name">关联客户：</div>
-                                <div class="column_val">333</div>
+                                <div class="column_val">
+                                    {{#if (this.user_name)}}
+                                    {{this.user_name}}
+                                    {{else}}
+                                    - -
+                                    {{/if}}
+                                </div>
                             </div>
                             <div class="option_item">
                                 <div class="column_name">原因：</div>
-                                <div class="column_val">444</div>
+                                <div class="column_val">
+                                    {{#if (this.reason)}}
+                                    {{this.reason}}
+                                    {{else}}
+                                    - -
+                                    {{/if}}
+                                </div>
                             </div>
                         </div>
+                        {{/if}}
                     </div>
                     {{/each}}
                     {{/if}}
