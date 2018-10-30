@@ -36,8 +36,18 @@
                             <span class="options_name">城市：</span>
                         </div>
                         <div class="column_val select_city_div">
-                            <input type="hidden" class="city_id" name="city_id"  value="{{vo.city_id}}"/>
-                            <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" placeholder="请选择城市" readonly/>
+                          <!--  <input type="hidden" class="city_id" name="city_id"  value="{{vo.city_id}}"/>
+                            <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" placeholder="请选择城市" readonly/>-->
+                            <select name="province_id" class="filtrate_select">
+                                <option value="">全部</option>
+                                {{#each (provinceList) }}
+                                {{#if (this.id === ../condition.province_id) }}
+                                <option value="{{this.id}}" selected>{{this.name}}</option>
+                                {{else}}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/if}}
+                                {{/each}}
+                            </select>
                         </div>
                     </div>
                     <div class="option_item">
