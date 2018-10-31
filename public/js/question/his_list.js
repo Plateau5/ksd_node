@@ -7,7 +7,7 @@ $(function(){
     } else if (questionType == '1') {
         var url=contextPath + "/api/merquestion/getHisList";
     } else if (questionType == '2') {
-        var url=contextPath + "/api/merquestion/getHisList";
+        var url=contextPath + "/api/question/gpsHis";
     }
     var eq;
     $.ajax({

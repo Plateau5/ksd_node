@@ -191,13 +191,18 @@
             var applyId = $.trim($('#applyId').val());
             var receiveType = $.trim($('#receiveType').val());
             var applicant = $.trim($('#applicant').val());
+            var gps_ids = [];
+            var sn = $('.sn');
+            sn.each(function () {
+                var _this = $(this);
+                gps_ids.push(_this.find('span').text());
+            });
             btn.off('click').on('click', function () {
                 var params = {
                     gps_apply_id : applyId,
                     receive_type : receiveType,
                     applicant : applicant,
-                    gps_ids : finalResult.join(','),
-                    delGps_ids : delResult.join(',')
+                    gps_ids : gps_ids.join(',')
                 };
                 var data = Object.extend(reqParamsStr, params);
                 locationTo({
