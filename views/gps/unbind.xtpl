@@ -24,11 +24,12 @@
         <div id="main" class="main gps_unbind">
             <div class="crumbs_nav">
                 <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
-                <a href="javascript:;" class="crumbs_item">取消绑定</a>
+                <a href="javascript:;" class="crumbs_item">{{#if (reqParams.bind_type) }}取消绑定{{else}}删除{{/if}}</a>
             </div>
             <div class="form_options create_options">
                 <form action="" class="gps_edit">
-                    <input type="hidden" value="{{reqParams.type}}" id="pgs_type">
+                    <input type="hidden" value="{{reqParams.bind_type}}" id="pgs_type">
+                    <input type="hidden" value="{{reqParams.gps_id}}" id="gps_id">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -51,7 +52,7 @@
                             {{#each (questionList[0].child_list) }}
                             <div class="form_group">
                                 <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.id}}" />
-                                <label for="org_feature{{xindex}}">{{this.tile}}</label>
+                                <label for="org_feature{{xindex}}">{{this.title}}</label>
                             </div>
                             {{/each}}
                         </div>
@@ -139,6 +140,7 @@
                     question_ids.push(_this.find('input').val());
                 }
             });
+            var gps_id = $('#gps_id').val();
             var parameters = {
                 gps_id : gps_id,
                 type : $('#pgs_type').val(),
@@ -146,11 +148,15 @@
                 question_ids : question_ids.join(',')
             };
             if ($('#pgs_type').val() == 1) {
-                $.alert('确认与此客户解除绑定？', function () {
+                $alert('确认与此客户解除绑定？', function () {
                     ajaxSubmit(parameters);
                 })
             } else if ($('#pgs_type').val() == 2) {
-                $.alert('确认与此贷前解除绑定？', function () {
+                $alert('确认与此贷前解除绑定？', function () {
+                    ajaxSubmit(parameters);
+                })
+            } else {
+                $alert('确认删除此GPS？', function () {
                     ajaxSubmit(parameters);
                 })
             }
@@ -160,7 +166,11 @@
          * @author  Plateau  2018年7月24日17:24:54
          * */
         function ajaxSubmit (parameters) {
-            var url = contextPath + "/api/gps/untie";
+            if (parameters.type) {
+                var url = contextPath + "/api/gps/untie";
+            } else {
+                var url = contextPath + '/api/gps/delete';
+            }
             $.ajax({
                 type:'post',
                 timeout:50000,

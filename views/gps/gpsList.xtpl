@@ -605,6 +605,7 @@
                 var _this = $(this);
                 _this.off('click');
                 listForm.find('.filtrate_input').not('input[name="current_page"]').val('');
+                listForm.find('.filtrate_date').val('');
                 listForm.find('.filtrate_select').val('');
                 listForm.submit();
             });
@@ -654,43 +655,15 @@
          * */
         function deleteSN () {
             var btn = $('.gpsdel');
-            btn.off('click').on('click', function () {
+            btn.off("click").on("click", function () {
                 var id = $.trim($(this).data('id'));
-                var url = contextPath + '/api/gps/delete';
-                var data = {
+                var params = {
                     gps_id : id
                 };
-                // var delTipMsg = '';
-                // if (pageType === 0) {
-                //     delTipMsg = '确认删除该记录？';
-                // } else if (pageType === 1) {
-                //     delTipMsg = '确认删除该记录？删除后领用人将无法使用该GPS。';
-                // } else {
-                //     delTipMsg = '确认删除该记录？';
-                // }
-                dialog('open', {
-                    title : '删除提醒',
-                    content : '确认删除该记录？',
-                    onConfirm : function (d) {
-                        d.close();
-                        $ajax('post', url, data, function(res) {
-                            if (res.error_code == 0) {
-                                $alert('删除成功', function () {
-                                    window.location.reload();
-                                });
-                            } else if (res.error_code == 1022) {
-                                $alert(res.error_msg);
-                            } else {
-                                $alert('网络异常，请稍后重试');
-                                console.info(res.error_msg);
-                            }
-                        }, function () {
-                            $alert('网络异常，请稍后重试');
-                        });
-                    },
-                    onCancel : function (d) {
-                        d.close();
-                    }
+                var data = Object.extend(reqParamsStr, params);
+                locationTo({
+                    action : contextPath + markUri + "/gps/list/unbind",
+                    param : data
                 });
             });
         }
@@ -893,14 +866,19 @@
             btn.off("click").on("click", function () {
                 var user_name = $(this).data('user_name');
                 if (user_name) {
-                    var type = 1;
-                } else
-                    var type = 2;
+                    var bind_type = 1;
+                } else{
+                    var bind_type = 2;
+                }
+                var gps_id = $(this).data('id');
+                var params = {
+                    gps_id : gps_id,
+                    bind_type : bind_type
+                };
+                var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + "/gps/list/unbind",
-                    param : {
-                        type : type
-                    }
+                    param : data
                 });
             });
         }
