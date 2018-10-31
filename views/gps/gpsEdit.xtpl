@@ -33,15 +33,15 @@
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
-                            <span class="options_name">城市：</span>
+                            <span class="options_name">省市：</span>
                         </div>
                         <div class="column_val select_city_div">
                           <!--  <input type="hidden" class="city_id" name="city_id"  value="{{vo.city_id}}"/>
                             <input type="text" class="select_city_input cursor" name=""  value="{{cityName}}" placeholder="请选择城市" readonly/>-->
-                            <select name="province_id" class="filtrate_select">
+                            <select name="province_id" class="filtrate_select city_id">
                                 <option value="">全部</option>
                                 {{#each (provinceList) }}
-                                {{#if (this.id === ../condition.province_id) }}
+                                {{#if (this.id === ../vo.province_id) }}
                                 <option value="{{this.id}}" selected>{{this.name}}</option>
                                 {{else}}
                                 <option value="{{this.id}}">{{this.name}}</option>
@@ -142,44 +142,10 @@
 <script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script>
     (function ($) {
-        var city_list = '{{{city_list}}}';//所有城市
-        if (city_list.length > 0 ) {
-            city_list = JSON.parse(city_list);
-        }
-        var condition_city_list = '{{{condition_city_list}}}';//回显城市
-        if (condition_city_list.length > 0 ) {
-            condition_city_list = JSON.parse(condition_city_list);
-        }
 
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         if (reqParamsStr.length > 0 ) {
             reqParamsStr = JSON.parse(reqParamsStr);
-        }
-        /**
-         * 筛选条件中的选择城市
-         * @author  Plateau  2018年7月24日15:53:48
-         * @param city_list: 城市数据；
-         * @param condition_city_list : 回显城市数据；
-         * @param dataType数据类型：1-两级数据、2-三级数据
-         * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
-         * */
-        function getSelectedCity () {
-            $('.select_city_input').citySelect({
-                data : city_list,
-                defaultData : condition_city_list,
-                dataType : 1,
-                type : 1
-            }, function (data) {
-                if (data) {
-                    if (data.length != 0) {
-                        $('.city_id').val(data[0].city_list[0].id);
-                        $('.select_city_input').val(data[0].city_list[0].name);
-                    } else {
-                        $('.city_id').val('');
-                        $('.select_city_input').val('');
-                    }
-                }
-            });
         }
         /**
          * 注册类型点击事件
@@ -222,7 +188,7 @@
             }
             var sn_txt = $('.sn_txt');
             if (city_id.val() == '') {
-                $alert('请选择城市');
+                $alert('请选择省市');
                 return false;
             }
             if (gps_status.val() == '') {
@@ -245,7 +211,7 @@
 
             var parameters = {
                 id : $('#pgs_id').val(),
-                city_id : city_id.val(),
+                province_id : city_id.val(),
                 type : gps_status.val(),
                 label_id : select_label,
                 gps_warehouse_id : warehouse_id,
@@ -305,7 +271,6 @@
         }
 
         $(function () {
-            getSelectedCity();//获取选中城市
             selectType();//注册类型点击事件
             bindSubmitEvent();//注册提交点击事件
             goGpsList();//面包屑跳转

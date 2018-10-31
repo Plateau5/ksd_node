@@ -123,12 +123,13 @@ exports.VIEW_GPS_APPLY_RESULT = function(req, res, next) {
 //业务-GPS列表解绑跳转
 exports.VIEW_GPS_LIST_UNBIND = function(req, res, next) {
     common.getPageData({
-        url : '/api/gps/apply/list',
+        url : '/api/gps/reason',
         title : '仓库管理-GPS仓库列表',
         page : './gps/unbind',
         callback : function (data) {
             if (data) {
                 data.reqParamsStr = JSON.stringify(data.reqParams);
+                data.question_list = JSON.stringify(data.questionList);
             }
         }
     }, req, res, next);
@@ -203,23 +204,16 @@ exports.VIEW_GPS_PUTIN = function(req, res, next) {
 };
 // GPS仓库-GPS仓库-调拨跳转
 exports.VIEW_GPS_TRANSFER = function(req, res, next) {
-   /* common.getPageData({
-        url : '/api/gps/warehouse/toPutIn',
+    common.getPageData({
+        url : '/api/gps/warehouse/toAllot',
         title : '仓库管理-GPS入库',
         page : './gps/gpsTransfer',
         callback : function (data) {
             if (data) {
-
+                data.reqParamsStr = JSON.stringify(data.reqParams);
             }
         }
-    }, req, res, next);*/
-    var data = {};
-    data.title = '仓库管理-新建行政仓库';
-    data.originUrl = req.originalUrl;
-    data.markUri = markUri;
-    data.apiServerPath = apiServerPath;
-    data.domain = domain;
-    res.render('./gps/gpsTransfer', data);
+    }, req, res, next);
 };
 // GPS仓库-GPS仓库-申请单详情页页跳转 1289
 exports.VIEW_GPS_APPLY_DETAIL = function(req, res, next) {

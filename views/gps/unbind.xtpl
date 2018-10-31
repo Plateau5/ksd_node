@@ -1,109 +1,209 @@
-<!-- 不同意 -->
-<!doctype html>
+<!--GPS仓库编辑-->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {{include ("./../inc/metaData")}}
+    {{include('./../inc/cssSources')}}
     <link rel="stylesheet" href="{{markUri}}/static/dialog/dialog-layer.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/employee/listCon.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/finance/imgUnpass.css"/>
-    <link rel="stylesheet" href="{{markUri}}/static/css/question/edit.css">
-    <link rel="stylesheet" href="{{markUri}}/static/css/requestpayout/disagree.css">
-    <title>GPS解绑</title>
+    <link rel="stylesheet" href="{{markUri}}/static/css/gpsList.css">
+    <title>GPS管理-GPS仓库编辑</title>
 </head>
-<style>
-    body{overflow-x:hidden;}
-    .form-item{margin-left:12px;}
-</style>
 <body>
+<div id="wrapper" class="wrapper">
+    <!-------- Part of header Begin -------->
+    {{include('./../inc/header')}}
+    <!-------- Part of header End -------->
 
-{{include ('./../inc/header')}}
+    <!-------- Part of main Begin -------->
+    <div id="section" class="section normal_width">
+        <!---- Part of slide nav Begin ---->
+        {{include('./../inc/sideNav')}}
+        <!---- Part of slide nav End ---->
 
-<!--container start-->
-
-<div class="container minWidth">
-    <div class="row section">
-        <!--navLeft start-->
-        {{include ('./../inc/sideNav')}}
-
-        <!--navLeft end-->
-
-
-        <!--listCon start-->
-        <div class=" listCon relative">
-            <div class="listConHeader inviteCon" style="line-height: normal;padding-left:12px;margin-top:32px;">
-                <ul>
-                    <li class="inline colorB"><a class="TS" href="{{markUri}}/customer/requestpayout/system">请款管理</a></li>
-                    <li class="inline before"><a href="{{url}}">{{navigation}}</a></li>
-                    <li class="inline before"><a href="javascript:window.history.back();">{{vo.user_name}}</a></li>
-                    <li class="inline before"><a href="javascript:;" style="cursor:default">不同意</a></li>
-                </ul>
+        <!---- Part of Main info Begin ---->
+        <div id="main" class="main gps_unbind">
+            <div class="crumbs_nav">
+                <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
+                <a href="javascript:;" class="crumbs_item">取消绑定</a>
             </div>
-            <!--inviteCon end-->
-            <form class="formML" id="select_info" enctype="multipart/form-data" method="post">
-                <input type="hidden" name="finance_id" value="{{finance_id}}">
-                <input type="hidden" name="request_status" value="{{vo.request_status}}">
-                <input type="hidden" id="select_question_ids" name="question_ids" value="">
-                <input type="hidden" id="select_reason" name="reason" value="">
-                <input type="hidden" name="advance_id" value="{{vo.advance_id}}">
-                <div class="form-item" style="height:30px;">
-                    <label>
-                        <span class="need">*</span>问题分类：</label>
-                    <div>
-                        <select name="parent_id" id="question_classify_name">
-                            {{#each (list) }}
-                                <option value="{{this.id }}">{{this.value}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label>
-                        <span class="need">*</span>问题详情：</label>
-                    <div class="question_container">
-                        {{#if (child_list.length <= 0) }}
-                            <div class="question_container_prom">该分类暂无问题详情，请重新选择问题分类</div>
-                        {{/if}}
-                        {{#each (child_list) }}
-                            <div class="question-con-box">
-                                <div class="check">
-                                    <div class="check_img icon_uncheck" data_id="{{this.id }}"></div>
-                                    <span>{{this.value}}</span>
-                                </div>
-                                <!--<p class="question-con">${bean.content}</p>-->
-                                <input type="hidden" class="question-val" value="{{this.content}}">
-                            </div>
-                        {{/each}}
-                    </div>
-                    <!--<div class="error_prom"></div>-->
-                </div>
-                <div class="error_prom" style="margin-left: 0;"></div>
-
-                {{#if (verifyCode(1119)) }}
-                    <div class="form-item" style="margin-left: 0;margin-top:40px;padding-left: 96px;">
-                        <div class="create_btn" style="margin-left: 0;">
-                            <input type="button" class="create_sub" data-advance_id="{{vo.advance_id}}" id="disagree_sub" value="确认" data-url="{{url}}"  style="margin:0;"/>
-                            <a href="javascript:window.history.back();">
-                                <input type="button" class="cancel_btn" value="取消">
-                            </a>
+            <div class="form_options create_options">
+                <form action="" class="gps_edit">
+                    <input type="hidden" value="{{reqParams.type}}" id="pgs_type">
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">问题分类：</span>
+                        </div>
+                        <div class="column_val select_city_div">
+                            <select name="province_id" class="filtrate_select" id="question_classify">
+                                {{#each (questionList) }}
+                                <option value="{{this.parent_id}}">{{this.parent_name}}</option>
+                                {{/each}}
+                            </select>
                         </div>
                     </div>
-                {{/if}}
-            </form>
+                    <div class="option_item">
+                        <div class="column_name">
+                            <em class="require_icon">*</em>
+                            <span class="options_name">问题详情：</span>
+                        </div>
+                        <div class="column_val" id="question_detail">
+                            {{#each (questionList[0].child_list) }}
+                            <div class="form_group">
+                                <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.id}}" />
+                                <label for="org_feature{{xindex}}">{{this.tile}}</label>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="btn_box clearfix create_wf_btn_box">
+                <a href="javascript:;" class="btn orange_btn confirm create_confirm">确认</a>
+                <a href="javascript:;" class="btn bg_btn create_cancel go_gps_list">取消</a>
+            </div>
         </div>
-
-        <!--listCon end-->
-
+        <!---- Part of Main info End ---->
     </div>
-
+    <!-------- Part of main End -------->
 
 </div>
-
-<!--container end-->
-<div id="loading" class="loading" style="display: none;"></div>
 </body>
-<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript"></script>
+{{include('./../inc/jsSources')}}
+<script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
 <script>
+    (function ($) {
 
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0 ) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
+
+        var question_list = '{{{question_list}}}';
+        if (question_list.length > 0 ) {
+            question_list = JSON.parse(question_list);
+        }
+
+        //切换问题分类
+        function togQuestionClassify () {
+            var select = $('#question_classify');
+            select.on('change', function () {
+                var question_detail = $('#question_detail');
+                var html = '';
+                for (var i = 0, len = question_list.length;i < len; i++) {
+                    if (question_list[i].parent_id == select.val()) {
+                        for (var j = 0, lenj = question_list[i].child_list.length; j < lenj;j++) {
+                            html += '<div class="form_group">' +
+                                    '   <input id="org_feature'+j+'" type="checkbox" class="org_feature"  value="'+ question_list[i].child_list[j].id +'" />' +
+                                    '   <label for="org_feature'+j+'">'+ question_list[i].child_list[j].title +'</label>' +
+                                    '</div>';
+                        }
+                    }
+                }
+                question_detail.html(html);
+            });
+        }
+
+        /**
+         * 注册类型点击事件
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function selectType () {
+            var typeInput = $('.gps_type .edit_status');
+            typeInput.off("click").on("click", function () {
+                var _this = $(this);
+                var v = _this.val().trim().number();
+                $('.gps_status').val(v);
+            });
+        }
+        /**
+         * 注册提交点击事件
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function bindSubmitEvent () {
+            var btn = $('.create_confirm');
+            btn.off('click').on('click', function () {
+                submitValid();
+            });
+        }
+        /**
+         * 提交校验
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function submitValid () {
+            var question_ids = [];
+            var question_detail = $('#question_detail').find('.form_group');
+            question_detail.each(function () {
+                var _this = $(this);
+                if (_this.find('label').hasClass('checked')) {
+                    question_ids.push(_this.find('input').val());
+                }
+            });
+            var parameters = {
+                type : $('#pgs_type').val(),
+                question_classify_id : $('#question_classify').val(),
+                question_ids : question_ids.join(',')
+            };
+            ajaxSubmit(parameters);
+        }
+        /**
+         * ajax提交參數
+         * @author  Plateau  2018年7月24日17:24:54
+         * */
+        function ajaxSubmit (parameters) {
+            var url = contextPath + "/api/gps/apply/list";
+            $.ajax({
+                type:'post',
+                timeout:50000,
+                url : url,
+                data : parameters,
+                beforeSend : function () {
+                    $('#loading').show();
+                },
+                success : function (res) {
+                    $('#loading').hide();
+                    if (res.error_code == 0) {
+                        $alert('修改成功', function () {
+                            locationTo({
+                                action : contextPath + markUri + '/gps/list',
+                                param : reqParamsStr
+                            });
+                        })
+                    } else {
+                        $alert(res.error_msg, function () {
+                            bindSubmitEvent();
+                        });
+                    }
+                },
+                error : function () {
+                    $('#loading').hide();
+                    $alert("提交失败，请稍后重试");
+                    bindSubmitEvent();
+                }
+            });
+        }
+        /**
+         * 面包屑跳转
+         * @author Plateau  2018年7月25日12:48:45
+         * */
+        function goGpsList () {
+            var btn = $('.go_gps_list');
+            btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/list",
+                    param : reqParamsStr
+                })
+            });
+        }
+
+        $(function () {
+            resetCheckboxAndRadioNew('checkbox', ".form_group label", ".checked");
+            togQuestionClassify();
+            selectType();//注册类型点击事件
+            bindSubmitEvent();//注册提交点击事件
+            goGpsList();//面包屑跳转
+        })
+
+    })(jQuery,undefined);
 </script>
 </html>

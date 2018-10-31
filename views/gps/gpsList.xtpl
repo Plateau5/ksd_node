@@ -124,9 +124,9 @@
                             <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit go_forward">编辑</a>
                             {{/if}}
                             {{/if}}
-                            {{#if (root.verifyCode(1586)) }}
+                            {{#if (root.verifyCode(1674)) }}
                             {{#if (this.status === 3) }}
-                            <a href="javascript:;" title="解绑" data-id="{{this.id}}" data-status="{{this.status}}" class="untie go_forward">取消解绑</a>
+                            <a href="javascript:;" title="解绑" data-id="{{this.id}}" data-status="{{this.status}}" data-user_name="{{this.user_name}}" class="untie go_forward">取消解绑</a>
                             {{/if}}
                             {{/if}}
                             {{#if (root.verifyCode(1288)) }}
@@ -907,10 +907,16 @@
         function GPSUntie () {
             var btn = $('.untie');
             btn.off("click").on("click", function () {
-                var gps_id = $(this).data('id');
+                var user_name = $(this).data('user_name');
+                if (user_name) {
+                    var type = 1;
+                } else
+                    var type = 2;
                 locationTo({
                     action : contextPath + markUri + "/gps/list/unbind",
-                    param : {}
+                    param : {
+                        type : type
+                    }
                 });
                 /*dialog("open", {
                     closeBtn : false,

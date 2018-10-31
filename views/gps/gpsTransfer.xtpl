@@ -36,8 +36,11 @@
                             <span class="options_name">转出省市：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" id="">
+                            <select name="out_province_id" id="out_province_id">
                                 <option value="">请选择</option>
+                                {{#each (provinceList) }}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -47,8 +50,11 @@
                             <span class="options_name">转入省市：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" id="">
+                            <select name="in_province_id" id="in_province_id">
                                 <option value="">请选择</option>
+                                {{#each (provinceList) }}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -60,7 +66,7 @@
                         <div class="column_val sn_code_box">
                             <ul class="sn_code_list">
                                 <li class="new_sn">
-                                    <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN码" value="" />
+                                    <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN码" value="" name="sn_codes"/>
                                 </li>
                                 <!-- 添加按钮 -->
                                 <li class="add_sn_btn">添加</li>
@@ -73,8 +79,11 @@
                             <span class="options_name">快递公司：</span>
                         </div>
                         <div class="column_val">
-                            <select name="" id="">
+                            <select name="express_id" id="express_id">
                                 <option value="">请选择</option>
+                                {{#each (expressList) }}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                                {{/each}}
                             </select>
                         </div>
                     </div>
@@ -83,7 +92,7 @@
                             <span class="options_name">快递单号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" placeholder="请输入" class="express_order">
+                            <input type="text" placeholder="请输入" class="express_order" name="express_code">
                         </div>
                     </div>
                 </form>
@@ -132,49 +141,39 @@
          * @author  Plateau  2018年7月24日17:24:54
          * */
         function submitValid () {
-            var city_id = $('.city_id');
-            var gps_status = $('.gps_status');
-            if (reqParamsStr.gps_status == 3) {
-                var select_label = $('.label_id').val();
-                var warehouse_id = $('.gps_warehouse_id').val();
-                var org_id = $('.organization_id').val();
-            } else {
-                var label_id = $('#selectTag').find('option:selected');
-                var select_label = label_id.val();
-                var warehouse_id = label_id.data('warehouse_id');
-                var org_id = label_id.data('org_id');
-            }
-            var sn_txt = $('.sn_txt');
-            if (city_id.val() == '') {
-                $alert('请选择城市');
+            var out_province_id = $('#out_province_id').val();
+            var in_province_id = $('#in_province_id').val();
+            if (out_province_id == '') {
+                $alert('请选择转出省市');
                 return false;
             }
-            if (gps_status.val() == '') {
-                $alert('请选择类型')
+            if (in_province_id == '') {
+                $alert('请选择转入省市')
                 return false;
             }
-            if (select_label == '') {
-                $alert('请选择标签');
-                return false;
-            }
-            if (sn_txt.val() == '') {
+            var sn_code = $('.sn_code_list').find('.sn');
+            var new_sn_input = $('.new_sn_input').val().trim();
+            var sn_codes = [];
+            if (sn_code.length == 0 && new_sn_input == '') {
                 $alert('请填写SN码');
                 return false;
+            } else {
+                sn_code.each(function () {
+                    var _this = $(this);
+                    sn_codes.push(_this.find('span').text());
+                });
+                if (new_sn_input != '') {
+                    sn_codes.push(new_sn_input);
+                }
             }
-            var reg = /^[a-zA-Z0-9]{1,}$/;
-            if (!reg.test(sn_txt.val())) {
-                $alert('SN码只能为英文及数字');
-                return false;
-            }
-
+            var express_id = $('#express_id').val();
+            var express_code = $('#express_code').val().trim();
             var parameters = {
-                id : $('#pgs_id').val(),
-                city_id : city_id.val(),
-                type : gps_status.val(),
-                label_id : select_label,
-                gps_warehouse_id : warehouse_id,
-                organization_id : org_id,
-                sn_code : sn_txt.val()
+                out_province_id : out_province_id,
+                in_province_id : in_province_id,
+                sn_codes : sn_codes.join(','),
+                express_id : express_id,
+                express_code : express_code
             };
             ajaxSubmit(parameters);
         }
@@ -183,7 +182,7 @@
          * @author  Plateau  2018年7月24日17:24:54
          * */
         function ajaxSubmit (parameters) {
-            var url = contextPath + "/api/gps/inwarehouse/update";
+            var url = contextPath + "/api/gps/warehouse/allot";
             $.ajax({
                 type:'post',
                 timeout:50000,
@@ -195,7 +194,7 @@
                 success : function (res) {
                     $('#loading').hide();
                     if (res.error_code == 0) {
-                        $alert('修改成功', function () {
+                        $alert('操作成功', function () {
                             locationTo({
                                 action : contextPath + markUri + '/gps/list',
                                 param : reqParamsStr
