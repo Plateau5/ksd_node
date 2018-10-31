@@ -30,6 +30,7 @@
             <div class="form_options create_options">
                 <form action="" class="gps_edit">
                     <input type="hidden" value="{{reqParams.id}}" id="pgs_id">
+                    <input type="hidden" value="{{reqParams.warehouse_id}}" id="warehouse_id">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -171,7 +172,9 @@
             }
             var express_id = $('#express_id').val();
             var express_code = $('.express_order').val().trim();
+            var warehouse_id = $('#warehouse_id').val();
             var parameters = {
+                warehouse_id : warehouse_id,
                 out_province_id : out_province_id,
                 in_province_id : in_province_id,
                 sn_codes : sn_codes.join(','),
