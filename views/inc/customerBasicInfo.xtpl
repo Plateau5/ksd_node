@@ -204,7 +204,7 @@
 
                             <div class="merchant_slidedown_arrow_detail_shoptype" style="padding-bottom: 30px;">
                                 <div class="merchant_slidedown_arrow_detail_shoptype_label">商户等级：</div>
-                                <div id="merchants_level" class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt">1111</div>
+                                <div id="merchants_level" class="merchant_slidedown_arrow_detail_shoptype_txt merchant_label_txt"></div>
                             </div>
 
 							<div id="imgDetail_merchant" class="imgDetail imgDetail_merchant" style="padding-left: 20px;">
@@ -300,6 +300,11 @@
 										} else {
                                             $('#merchant_status').html('--');
 										}
+                                        if (data.supplierDetail.grade) {
+                                            $('#merchants_level').html(data.supplierDetail.grade);
+                                        } else {
+                                            $('#merchants_level').html('--');
+                                        }
                                         if(data.supplierDetail.label_name){
                                             if(data.supplierDetail.label_name.indexOf(",")!=-1){
                                                 data.label_names = data.supplierDetail.label_name.split(",");
