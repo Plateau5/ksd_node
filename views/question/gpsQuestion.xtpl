@@ -79,7 +79,9 @@
                                 <em class="question_btn history_btn" title="修改记录" data-id="{{this.id}}"></em>
                                 {{/if}}
                                 {{#if (root.verifyCode(1670)) }}
+                                {{#if (../this.child_list.length !== 1) }}
                                 <em class="question_btn remove_btn" title="删除" data-parent_id="{{../parent_id}}" data-id="{{this.id}}"></em>
+                                {{/if}}
                                 {{/if}}
                             </div>
                         </li>

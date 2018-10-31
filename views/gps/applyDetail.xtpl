@@ -90,17 +90,22 @@
                                         <div class="item_val">{{this.inventory}}</div><!-- 低于预警值时添加：'warning_text'这个class -->
                                     </li>
                                 </ul>
-                                <div class="row_item" style="padding: 0 0 30px 60px;">
+                                <div class="row_item" style="padding: 0 0 30px 60px;overflow: visible;">
                                     <div class="row_title" style="width:auto;">SN码：</div>
                                     <div class="row_val sn_code_box" style="padding-left: 0;">
-                                        <ul class="sn_code_list">
-                                            <li class="new_sn" style="width:230px;">
-                                                <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN码" value="" style="padding: 2px;text-indent: 0.5em;"/>
+                                        <ul class="sn_code_list" style="overflow: visible;">
+                                            <li class="new_sn order_search_box" style="width:230px;overflow: visible;">
+                                                <em class="del_icon"></em>
+                                                <input type="text" id="new_sn_input" class="new_sn_input" data-label_id="{{this.label_id}}" data-organization_id="{{this.organization_id}}" data-type="{{this.type}}" data-province_id="{{this.province_id}}" maxlength="20" placeholder="SN码" value="" style="padding: 2px;text-indent: 0.5em;"/>
+                                                <ul class="all_sncode search_list" style="overflow: scroll;">
+
+                                                </ul>
                                             </li>
                                             <!-- 添加按钮 -->
                                             <li class="add_sn_btn">添加</li>
                                         </ul>
                                     </div>
+
                                 </div>
                                 <!--{{#if (this.gpsVOs.length !==0) }}
                                     <div class="check_sn form_options">
@@ -135,6 +140,7 @@
 </body>
 {{include('./../inc/jsSources')}}
 <script type="text/javascript" src="{{markUri}}/static/dialog/dialog-layer.js"></script>
+<script src="{{markUri}}/static/js/jsonsql-0.1.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/customerService.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
@@ -142,6 +148,10 @@
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         if (reqParamsStr.length > 0 ) {
             reqParamsStr = JSON.parse(reqParamsStr);
+        }
+        var code_list = '{{{gpsList}}}';//搜索SN表数据
+        if (code_list.length > 0 ){
+            code_list = JSON.parse(code_list);
         }
         var finalResult = [];
         var delResult = [];
@@ -378,7 +388,48 @@
                 createdSN.remove(thisTag);
             })
         }
-
+        //搜索SN码
+        function searchSnCode () {
+            $('.new_sn_input').on('input',function(e){
+                var ev = e || window.event;
+                ev.stopPropagation();
+                var val = $.trim($(this).val());
+                var resList = $(this).siblings(".search_list");
+                resList.html('');
+                if (val) {
+                    resList.show();
+                    var organization_id = $(this).data('organization_id');
+                    var label_id = $(this).data('label_id');
+                    var type = $(this).data('type');
+                    var province_id = $(this).data('province_id');
+                    var html = getCode(organization_id, label_id, type, province_id,val, code_list);
+                    resList.html(html);
+                } else{
+                    resList.hide();
+                }
+            });
+        }
+        //获取SN码
+        function getCode (organization_id, label_id, type, province_id,val, code_list) {
+            var code_list = jsonsql.query('select * from json where (organization_id==' + organization_id + '&&label_id=='+ label_id +'&&type==' + type + '&&province_id==' + province_id + ')', code_list);
+            var optStr = '';
+            for (var i = 0, len = code_list.length; i < len; i++) {
+                if (code_list[i].sn_code.indexOf(val) != -1) {
+                    optStr += '<li><a href="javascript:;" class="code_select">' + code_list[i].sn_code + '</a></li>'
+                }
+            }
+            return optStr;
+        }
+        //选择code码
+        function selectCode () {
+            var search_list = $('.search_list');
+            search_list.on("click",".code_select",function(){
+                var _this = $(this);
+                var val = _this.text();
+                _this.parents('.search_list').siblings('.new_sn_input').val(val);
+                _this.parents('.search_list').hide();
+            });
+        }
 
         $(function () {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
@@ -392,6 +443,8 @@
             addSN();
             createSNCode();
             deleteSNCode();
+            searchSnCode();//搜索SN码
+            selectCode();//选择code码
         })
     })(jQuery,undefined);
 </script>

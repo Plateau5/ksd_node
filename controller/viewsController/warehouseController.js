@@ -224,6 +224,7 @@ exports.VIEW_GPS_APPLY_DETAIL = function(req, res, next) {
         callback : function (data) {
             if (data) {
                 data.reqParamsStr = JSON.stringify(data.reqParams);
+                data.gpsList = JSON.stringify(data.gpsList);
             }
         }
     }, req, res, next);
