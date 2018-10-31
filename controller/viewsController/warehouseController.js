@@ -87,22 +87,22 @@ exports.VIEW_EDIT = function(req, res, next) {
         page : './gps/gpsEdit',
         callback : function (data) {
             if (data) {
-                if (data.condition_city_list) {
+               /* if (data.condition_city_list) {
                     if (data.condition_city_list.length != 0) {
                         data.cityName = data.condition_city_list[0].city_list[0].name;
                     }
                 }
                 data.city_list = JSON.stringify(data.city_list);
-                data.condition_city_list = JSON.stringify(data.condition_city_list);
+                data.condition_city_list = JSON.stringify(data.condition_city_list);*/
                 data.reqParamsStr = JSON.stringify(data.reqParams);
-                if (data.vo.label_id) {
+                /*if (data.vo.label_id) {
                     for (var i = 0, len = data.label_list.length; i < len; i++) {
                         if (data.label_list[i].id == data.vo.label_id) {
                             data.vo.label_name = data.label_list[i].warehouse_name + data.label_list[i].label_name;
                             break;
                         }
                     }
-                }
+                }*/
             }
         }
     }, req, res, next);

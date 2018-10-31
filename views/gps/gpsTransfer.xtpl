@@ -92,7 +92,7 @@
                             <span class="options_name">快递单号：</span>
                         </div>
                         <div class="column_val">
-                            <input type="text" placeholder="请输入" class="express_order" name="express_code">
+                            <input type="text" placeholder="请输入" class="express_order" name="express_code" maxlength="30">
                         </div>
                     </div>
                 </form>
@@ -113,7 +113,10 @@
 <script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script>
     (function ($) {
-
+        var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
+        if (reqParamsStr.length > 0) {
+            reqParamsStr = JSON.parse(reqParamsStr);
+        }
         /**
          * 注册类型点击事件
          * @author  Plateau  2018年7月24日17:24:54
@@ -167,7 +170,7 @@
                 }
             }
             var express_id = $('#express_id').val();
-            var express_code = $('#express_code').val().trim();
+            var express_code = $('.express_order').val().trim();
             var parameters = {
                 out_province_id : out_province_id,
                 in_province_id : in_province_id,
@@ -228,6 +231,7 @@
         }
 
         $(function () {
+            chnAndEng('.express_order',3);//快递单号
             selectType();//注册类型点击事件
             bindSubmitEvent();//注册提交点击事件
             goGpsList();//面包屑跳转

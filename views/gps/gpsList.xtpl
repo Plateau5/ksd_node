@@ -137,46 +137,30 @@
                         </div>
                         {{#if (this.use_name || this.delivery_time || this.user_name || this.reason) }}
                         <div class="detail_infos clearfix form_options">
+                            {{#if (this.use_name)}}
                             <div class="option_item">
                                 <div class="column_name">领用人：</div>
-                                <div class="column_val nor_wrap" title="{{this.use_name}}">
-                                    {{#if (this.use_name)}}
-                                    {{this.use_name}}
-                                    {{else}}
-                                    - -
-                                    {{/if}}
-                                </div>
+                                <div class="column_val nor_wrap" title="{{this.use_name}}">{{this.use_name}}</div>
                             </div>
+                            {{/if}}
+                            {{#if (this.delivery_time)}}
                             <div class="option_item">
                                 <div class="column_name">领用日期：</div>
-                                <div class="column_val">
-                                    {{#if (this.delivery_time)}}
-                                    {{this.delivery_time}}
-                                    {{else}}
-                                    - -
-                                    {{/if}}
-                                </div>
+                                <div class="column_val">{{this.delivery_time}}</div>
                             </div>
+                            {{/if}}
+                            {{#if (this.user_name)}}
                             <div class="option_item">
                                 <div class="column_name">关联客户：</div>
-                                <div class="column_val">
-                                    {{#if (this.user_name)}}
-                                    {{this.user_name}}
-                                    {{else}}
-                                    - -
-                                    {{/if}}
-                                </div>
+                                <div class="column_val">{{this.user_name}}</div>
                             </div>
+                            {{/if}}
+                            {{#if (this.reason)}}
                             <div class="option_item">
                                 <div class="column_name">原因：</div>
-                                <div class="column_val">
-                                    {{#if (this.reason)}}
-                                    {{this.reason}}
-                                    {{else}}
-                                    - -
-                                    {{/if}}
-                                </div>
+                                <div class="column_val">{{this.reason}}</div>
                             </div>
+                            {{/if}}
                         </div>
                         {{/if}}
                     </div>
@@ -918,53 +902,9 @@
                         type : type
                     }
                 });
-                /*dialog("open", {
-                    closeBtn : false,
-                    "title" : "提醒",
-                    "button" : ["确认","取消"],
-                    "content" : "您确定解绑么？",
-                    "maskClose" : false,
-                    onConfirm : function (d) {
-                        d.close();
-                        untieSubmit(gps_id);
-                    },
-                    onCancel : function (d) {
-                        d.close();
-                    }
-                });*/
             });
         }
 
-        /**
-         * GPS解绑点击确认
-         * @author  Wyt  2018年8月14日13:10:55
-         * */
-        function untieSubmit (id) {
-            var gpsId = id;
-            redefineAjax({
-                url : contextPath + '/api/gps/untie',
-                data : {
-                    gps_id : gpsId
-                },
-                beforeSend : function () {
-                    $('#loading').show();
-                },
-                success : function (res) {
-                    $('#loading').hide();
-                    if (res.error_code == 0) {
-                        $alert('解绑成功', function () {
-                            window.location.reload();
-                        })
-                    } else {
-                        $alert(res.error_msg);
-                    }
-                },
-                error : function () {
-                    $('#loading').hide();
-                    $alert("解绑失败，请稍后重试");
-                }
-            });
-        }
         /**************************GPS申请列表页  end**********************************/
 
         $(function() {
