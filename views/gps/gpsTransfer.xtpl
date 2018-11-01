@@ -25,7 +25,8 @@
         <div id="main" class="main gps_transfer">
             <div class="crumbs_nav">
                 <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
-                <a href="javascript:;" class="crumbs_item">修改</a>
+                <a href="javascript:;" class="go_warehouse_detail crumbs_item">仓库详情({{reqParams.warehouse_name}})</a>
+                <a href="javascript:;" class="crumbs_item">调拨</a>
             </div>
             <div class="form_options create_options">
                 <form action="" class="gps_edit">
@@ -66,8 +67,12 @@
                         </div>
                         <div class="column_val sn_code_box">
                             <ul class="sn_code_list">
-                                <li class="new_sn">
+                                <li class="new_sn order_search_box">
+                                    <em class="del_icon"></em>
                                     <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="SN码" value="" name="sn_codes"/>
+                                    <ul class="all_sncode search_list" style="overflow: scroll;">
+
+                                    </ul>
                                 </li>
                                 <!-- 添加按钮 -->
                                 <li class="add_sn_btn">添加</li>
@@ -117,6 +122,10 @@
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         if (reqParamsStr.length > 0) {
             reqParamsStr = JSON.parse(reqParamsStr);
+        }
+        var code_list = '{{{gpsList}}}';//搜索SN表数据
+        if (code_list.length > 0 ){
+            code_list = JSON.parse(code_list);
         }
         /**
          * 注册类型点击事件
@@ -232,6 +241,77 @@
                     param : reqParamsStr
                 })
             });
+            var go_warehouse_detail = $('.go_warehouse_detail');
+            go_warehouse_detail.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/detail",
+                    param : reqParamsStr
+                })
+            });
+        }
+
+        //搜索SN码
+        function searchSnCode () {
+            $('.new_sn_input').on('input',function(e){
+                var ev = e || window.event;
+                ev.stopPropagation();
+                var val = $.trim($(this).val());
+                var resList = $(this).siblings(".search_list");
+                resList.html('');
+                if (val) {
+                    resList.show();
+                    var province_id = $('#out_province_id').val();
+                    var html = getCode(province_id, val, code_list);
+                    if (html == '') {
+                        html = '<li>暂无数据</li>';
+                    }
+                    resList.html(html);
+                } else{
+                    resList.hide();
+                }
+                $(document).on('click',function (e) {
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var target = $(ev.target);
+                    var parent = target.parents('.search_list');
+                    if (target.hasClass('search_list')) {
+                        return false;
+                    } else if (parent.length <= 0) {
+                        resList.hide();
+                        return true;
+                    } else {
+                        return true;
+                    }
+                })
+            });
+        }
+        //获取SN码
+        function getCode (province_id, val, code_list) {
+            var code_list = jsonsql.query('select * from json where (province_id==' + province_id + ')', code_list);
+            var optStr = '';
+            for (var i = 0, len = code_list.length; i < len; i++) {
+                if (code_list[i].sn_code.indexOf(val) != -1) {
+                    optStr += '<li><a href="javascript:;" class="code_select">' + code_list[i].sn_code + '</a></li>'
+                }
+            }
+            return optStr;
+        }
+        //选择code码
+        function selectCode () {
+            var search_list = $('.search_list');
+            search_list.on("click",".code_select",function(){
+                var _this = $(this);
+                var val = _this.text();
+                _this.parents('.search_list').siblings('.new_sn_input').val(val);
+                _this.parents('.search_list').hide();
+            });
+        }
+        //删除SN码
+        function delSn () {
+            $('.del_icon').off('click').on('click', function () {
+                var _this = $(this);
+                _this.siblings('.new_sn_input').val('');
+            })
         }
 
         $(function () {
@@ -239,6 +319,10 @@
             selectType();//注册类型点击事件
             bindSubmitEvent();//注册提交点击事件
             goGpsList();//面包屑跳转
+
+            searchSnCode();//搜索SN码
+            selectCode();//选择code码
+            delSn();//删除SN码
         })
 
     })(jQuery,undefined);

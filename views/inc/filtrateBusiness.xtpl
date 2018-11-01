@@ -4,25 +4,25 @@
             <div class="conditions_name inline_block">库存状态：</div>
             <select name="status" class="filtrate_select">
                 <option value="">全部</option>
-                {{#if (condition.status === 1) }}
-                <option value="1" selected>已出库</option>
-                {{else}}
-                <option value="1">已出库</option>
-                {{/if}}
-                {{#if (condition.status === 2) }}
-                <option value="2" selected>已激活</option>
-                {{else}}
-                <option value="2">已激活</option>
-                {{/if}}
                 {{#if (condition.status === 3) }}
-                <option value="3" selected>未出库</option>
+                <option value="3" selected>已出库</option>
                 {{else}}
-                <option value="3">未出库</option>
+                <option value="3">已出库</option>
                 {{/if}}
                 {{#if (condition.status === 4) }}
-                <option value="4" selected>已删除</option>
+                <option value="4" selected>已激活</option>
                 {{else}}
-                <option value="4">已删除</option>
+                <option value="4">已激活</option>
+                {{/if}}
+                {{#if (condition.status === 1) }}
+                <option value="1" selected>未出库</option>
+                {{else}}
+                <option value="1">未出库</option>
+                {{/if}}
+                {{#if (condition.status === 0) }}
+                <option value="0" selected>已删除</option>
+                {{else}}
+                <option value="0">已删除</option>
                 {{/if}}
             </select>
         </div>

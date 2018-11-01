@@ -211,6 +211,7 @@ exports.VIEW_GPS_TRANSFER = function(req, res, next) {
         callback : function (data) {
             if (data) {
                 data.reqParamsStr = JSON.stringify(data.reqParams);
+                data.gpsList = JSON.stringify(data.gpsList);
             }
         }
     }, req, res, next);
