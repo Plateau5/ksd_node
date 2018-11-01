@@ -106,7 +106,11 @@
                         </div>
                         <div class="body_item" title="{{this.province_name}}">
                             {{#if (this.province_name)}}
-                            {{this.province_name}}
+                                {{#if (this.city_name) }}
+                                    {{this.province_name}}-{{this.city_name}}
+                                {{else}}
+                                    {{this.province_name}}
+                                {{/if}}
                             {{else}}
                             - -
                             {{/if}}

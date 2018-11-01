@@ -26,7 +26,7 @@
         <!---- Part of Main info Begin ---->
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
-                <a href="{{markUri}}/gps/list" class="crumbs_item">GPS仓库</a>
+                <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
                 <a href="javascript:;" class="go_warehouse_detail crumbs_item">仓库详情({{reqParams.warehouse_name}})</a>
                 <a href="javascript:;" class="crumbs_item">入库</a>
             </div>
@@ -118,10 +118,6 @@
 <script type="text/javascript" src="{{markUri}}/static/citySelect/citySelect.js"></script>
 <script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
-    var city_list = '{{{city_list}}}';//所有城市
-    if (city_list.length > 0 ) {
-        city_list = JSON.parse(city_list);
-    }
     (function ($) {
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
         if (reqParamsStr.length > 0 ) {
@@ -318,8 +314,8 @@
                         if (res.error_code == 0) {
                             $alert('此次入库'+snArr.length+'个GPS', function () {
                                 locationTo({
-                                    action : contextPath + markUri + '/gps/list',
-                                    param : {}
+                                    action : contextPath + markUri + '/gps/warehouse/detail',
+                                    param : reqParamsStr
                                 });
                             })
                         } else {
@@ -337,39 +333,21 @@
                 return;
             }
         }
-        /**
-         * 筛选条件中的选择城市
-         * @author  Plateau  2018年7月23日17:25:12
-         * @param city_list: 城市数据；
-         * @param condition_city_list : 回显城市数据；
-         * @param dataType数据类型：1-两级数据、2-三级数据
-         * @param type调用类型 : 1|'single'-单选，2|'multiple'-复选
-         * */
-        function getSelectedCity () {
-            $('.select_city_input').citySelect({
-                data : city_list,
-                defaultData : [],
-                dataType : 1,
-                type : 1
-            }, function (data) {
-                if (data) {
-                    if (data.length != 0) {
-                        $('.city_id').val(data[0].city_list[0].id);
-                        $('.select_city_input').val(data[0].city_list[0].name);
-                    } else {
-                        $('.city_id').val('');
-                        $('.select_city_input').val('');
-                    }
-                }
-            });
-        }
+
         /**
          * GPS入库-取消跳转
          * @author Plateau  2018年7月30日14:02:25
          * */
         function goGpsList () {
-            var btn = $('.go_warehouse_detail');
+            var btn = $('.go_gps_list');
             btn.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/list",
+                    param : reqParamsStr
+                })
+            });
+            var go_warehouse_detail = $('.go_warehouse_detail');
+            go_warehouse_detail.on('click', function () {
                 locationTo({
                     action : contextPath + markUri + "/gps/warehouse/detail",
                     param : reqParamsStr
@@ -439,7 +417,6 @@
             createSNCode();
             deleteSNCode();
             bindSubmitEvent();
-            getSelectedCity()//获取选中城市
             goGpsList();//GPS入库-取消跳转
             uploadAnnex();
         })

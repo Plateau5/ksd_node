@@ -24,6 +24,7 @@
         <div id="main" class="main gps_editinfo">
             <div class="crumbs_nav">
                 <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
+                {{#if (reqParams.warehouse_id) }} <a href="javascript:;" class="go_warehouse_detail crumbs_item">仓库详情({{reqParams.warehouse_name}})</a>{{/if}}
                 <a href="javascript:;" class="crumbs_item">修改</a>
             </div>
             <div class="form_options create_options">
@@ -127,7 +128,7 @@
             </div>
             <div class="btn_box clearfix create_wf_btn_box">
                 <a href="javascript:;" class="btn orange_btn confirm create_confirm">确认</a>
-                <a href="javascript:;" class="btn bg_btn create_cancel go_gps_list">取消</a>
+                <a href="javascript:;" class="btn bg_btn create_cancel {{#if (reqParams.warehouse_id) }}go_warehouse_detail{{else}}go_gps_list{{/if}}">取消</a>
             </div>
         </div>
         <!---- Part of Main info End ---->
@@ -263,6 +264,13 @@
             btn.on('click', function () {
                 locationTo({
                     action : contextPath + markUri + "/gps/list",
+                    param : reqParamsStr
+                })
+            });
+            var go_warehouse_detail = $('.go_warehouse_detail');
+            go_warehouse_detail.on('click', function () {
+                locationTo({
+                    action : contextPath + markUri + "/gps/warehouse/detail",
                     param : reqParamsStr
                 })
             });

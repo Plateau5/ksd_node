@@ -209,8 +209,13 @@
         function goGpsList () {
             var btn = $('.go_gps_list');
             btn.on('click', function () {
+                if (reqParamsStr.warehouse_id) {
+                    var url = "/gps/warehouse/detail";
+                } else {
+                    var url = "/gps/list";
+                }
                 locationTo({
-                    action : contextPath + markUri + "/gps/list",
+                    action : contextPath + markUri + url,
                     param : reqParamsStr
                 })
             });

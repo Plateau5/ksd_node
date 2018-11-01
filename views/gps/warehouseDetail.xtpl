@@ -27,7 +27,7 @@
                 <a href="javascript:;" class="crumbs_item">仓库详情({{reqParams.warehouse_name}})</a>
             </div>
             <form action="{{markUri}}/gps/warehouse/detail" method="post" id="form_search" role="form">
-                <input type="hidden" name="warehouse_id" value="{{reqParams.warehouse_id}}">
+                <input type="hidden" name="warehouse_id" value="{{reqParams.warehouse_id}}" id="warehouse_id">
                 <input type="hidden" name="warehouse_name" value="{{reqParams.warehouse_name}}" id="warehouse_name">
                 <div class="warehouse_filter">
                     <ul>
@@ -87,7 +87,7 @@
                     <a href="javascript:" id="download_btn" class="detail_title_btn transfer_btn rf" data-warehouse_id="{{reqParams.warehouse_id}}">调拨</a>
                     {{/if}}
                     {{#if (verifyCode(1283)) }}
-                    <a href="javascript:" data-id="{{warehouse_id}}" class="detail_title_btn storage_btn rf">入库</a>
+                    <a href="javascript:" data-id="{{reqParams.warehouse_id}}" class="detail_title_btn storage_btn rf">入库</a>
                     {{/if}}
                 </div>
             </div>
@@ -215,41 +215,13 @@
             var btn = $('.del_sn');
             btn.off('click').on('click', function () {
                 var id = $.trim($(this).data('id'));
-                var url = contextPath + '/api/gps/delete';
-                var data = {
+                var params = {
                     gps_id : id
                 };
-                // var delTipMsg = '';
-                // if (pageType === 0) {
-                //     delTipMsg = '确认删除该记录？';
-                // } else if (pageType === 1) {
-                //     delTipMsg = '确认删除该记录？删除后领用人将无法使用该GPS。';
-                // } else {
-                //     delTipMsg = '确认删除该记录？';
-                // }
-                dialog('open', {
-                    title : '删除提醒',
-                    content : '确认删除该记录？',
-                    onConfirm : function (d) {
-                        d.close();
-                        $ajax('post', url, data, function(res) {
-                            if (res.error_code == 0) {
-                                $alert('删除成功', function () {
-                                    window.location.reload();
-                                });
-                            } else if (res.error_code == 1022) {
-                                $alert(res.error_msg);
-                            } else {
-                                $alert('网络异常，请稍后重试');
-                                console.info(res.error_msg);
-                            }
-                        }, function () {
-                            $alert('网络异常，请稍后重试');
-                        });
-                    },
-                    onCancel : function (d) {
-                        d.close();
-                    }
+                var data = Object.extend(reqParamsStr, params);
+                locationTo({
+                    action : contextPath + markUri + "/gps/list/unbind",
+                    param : data
                 });
             });
         }
