@@ -126,7 +126,7 @@
                             {{/if}}
                             {{#if (root.verifyCode(1674)) }}
                             {{#if (this.status === 3 || this.status === 4) }}
-                            <a href="javascript:;" title="取消解绑" data-id="{{this.id}}" data-status="{{this.status}}" data-user_name="{{this.user_name}}" class="untie go_forward">取消解绑</a>
+                            <a href="javascript:;" title="取消解绑" data-id="{{this.id}}" data-status="{{this.status}}" data-user_name="{{this.user_name}}" data-use_name="{{this.use_name}}" class="untie go_forward">取消解绑</a>
                             {{/if}}
                             {{/if}}
                             {{#if (root.verifyCode(1288)) }}
@@ -867,17 +867,20 @@
         function GPSUntie () {
             var btn = $('.untie');
             btn.off("click").on("click", function () {
-                var user_name = $(this).data('user_name');
-                if (user_name) {
-                    var bind_type = 1;
-                } else{
-                    var bind_type = 2;
-                }
+                var user_name = $(this).data('user_name');//关联客户
+                var use_name = $(this).data('use_name');//贷前
                 var gps_id = $(this).data('id');
                 var params = {
-                    gps_id : gps_id,
-                    bind_type : bind_type
+                    gps_id : gps_id
                 };
+                if (user_name) {
+                    var bind_type = 1;
+                    params.user_name = user_name;
+                } else{
+                    var bind_type = 2;
+                    params.user_name = use_name;
+                }
+                params.bind_type = bind_type;
                 var data = Object.extend(reqParamsStr, params);
                 locationTo({
                     action : contextPath + markUri + "/gps/list/unbind",

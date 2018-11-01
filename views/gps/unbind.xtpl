@@ -30,6 +30,7 @@
                 <form action="" class="gps_edit">
                     <input type="hidden" value="{{reqParams.bind_type}}" id="pgs_type">
                     <input type="hidden" value="{{reqParams.gps_id}}" id="gps_id">
+                    <input type="hidden" value="{{reqParams.user_name}}" id="user_name">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -148,15 +149,15 @@
                 question_ids : question_ids.join(',')
             };
             if ($('#pgs_type').val() == 1) {
-                $alert('确认与此客户解除绑定？', function () {
+                $alert('确认将此gps与客户-' + $('#user_name').val() + '解绑？', function () {
                     ajaxSubmit(parameters);
                 })
             } else if ($('#pgs_type').val() == 2) {
-                $alert('确认与此贷前解除绑定？', function () {
+                $alert('确认将此gps与贷前-'+ $('#user_name').val() + '解绑？', function () {
                     ajaxSubmit(parameters);
                 })
             } else {
-                $alert('确认删除此GPS？', function () {
+                $alert('确认将此gps删除？', function () {
                     ajaxSubmit(parameters);
                 })
             }
