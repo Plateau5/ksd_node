@@ -76,7 +76,7 @@
                                 <!-- 添加按钮 -->
                                 <li class="add_sn_btn">添加</li>
                                 <li class="file_upload">
-                                    <a href="javascript:;" style="color:#1DC6BC;" class="batch_putin file_upload_layer">批量入库</a>
+                                    <a href="javascript:;" style="color:#1DC6BC;" class="batch_putin file_upload_layer">批量出库</a>
                                     <input type="file" class="batch_putin_file file_upload_btn" style="display: none;">
                                 </li>
                             </ul>
@@ -266,7 +266,7 @@
                     var province_id = $('#out_province_id').val();
                     var html = getCode(province_id, val, code_list);
                     if (html == '') {
-                        html = '<li>暂无数据</li>';
+                        html = '<li style="text-align: center">未查到此SN码</li>';
                     }
                     resList.html(html);
                 } else{
