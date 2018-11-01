@@ -266,7 +266,11 @@
                 if (val) {
                     resList.show();
                     var province_id = $('#out_province_id').val();
-                    var html = getCode(province_id, val, code_list);
+                    if (province_id == '') {
+                        var html = '<li style="text-align: center">未查到此SN码</li>';
+                    } else {
+                        var html = getCode(province_id, val, code_list);
+                    }
                     if (html == '') {
                         html = '<li style="text-align: center">未查到此SN码</li>';
                     }
