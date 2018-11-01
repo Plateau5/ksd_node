@@ -69,7 +69,7 @@
                                 <li class="new_sn order_search_box" style="margin-top: 12px;">
                                     <em class="del_icon"></em>
                                     <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="请输入" value="" name="sn_codes"/>
-                                    <ul class="all_sncode search_list" style="overflow: scroll;">
+                                    <ul class="all_sncode search_list" style="overflow: auto;">
 
                                     </ul>
                                 </li>
@@ -117,7 +117,9 @@
 </div>
 </body>
 {{include('./../inc/jsSources')}}
+<script src="{{markUri}}/static/js/jsonsql-0.1.js" type="text/javascript" charset="UTF-8"></script>
 <script src="{{markUri}}/static/dialog/dialog-layer.js" type="text/javascript" charset="UTF-8"></script>
+<script src="{{markUri}}/static/js/warehouse.js" type="text/javascript" charset="UTF-8"></script>
 <script>
     (function ($) {
         var reqParamsStr = '{{{reqParamsStr}}}';  // 列表页获取数据参数
@@ -370,6 +372,111 @@
             }
         }
 
+        var elem = {
+            addBtn : $('.add_sn_btn'),
+            snList : $('.sn_code_list'),
+            newSN : $('#new_sn_input'),
+            submitBtn : $('.submit_btn')
+        };
+        var createdSN = [];
+        var reg = /^[a-zA-Z0-9]{1,}$/;
+        //SN码添加逻辑
+        function addSN() {
+            elem.addBtn.off('click').on('click', function () {
+                var _this = $(this);
+                var i = '<li class="new_sn">\
+                            <input type="text" id="new_sn_input" class="new_sn_input" autofocus="autofocus" maxlength="20" placeholder="SN码" value="" />\
+                        </li>';
+                var a = elem.snList.find('.new_sn');
+                if (a.length <= 0) {
+                    elem.addBtn.before(i);
+                } else {
+                    var v = $.trim(a.find('#new_sn_input').val());
+                    if (v) {
+                        if (createdSN.length >= 500) {
+                            $alert('最多可添加500个');
+                            return false;
+                        } else {
+                            var str = '<li class="sn">\
+                                    <span>'+ v +'</span>\
+                                    <em class="delete_icon"></em>\
+                                </li>';
+                            if (!reg.test(v)) {
+                                $alert('SN码只能为英文及数字', function () {
+                                    a.find('#new_sn_input').focus();
+                                });
+                                return false;
+                            }
+                            v = v.toLowerCase();
+                            var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
+                            if (!isRepeat) {
+                                createdSN.push(v);
+                                a.before(str);
+                                a.find('.new_sn_input').val('').focus();
+                            } else {
+                                a.find('.new_sn_input').val('').focus();
+                            }
+                        }
+                    } else {
+                        a.find('.new_sn_input').focus();
+                    }
+                }
+            });
+        }
+        //SN码的创建逻辑
+        function createSNCode () {
+            elem.snList.off('input keyup').on('input keyup', '.new_sn_input', function (e) {
+                var e = e || window.event;
+                var _this = $(this);
+                var v = $.trim(_this.val());
+                if (v) {
+                    var str = '<li class="sn">\
+                                    <span>'+ v +'</span>\
+                                    <em class="delete_icon"></em>\
+                                </li>';
+                    if (e.which == 13) {
+                        if (createdSN.length >= 500) {
+                            $alert('最多可添加500个');
+                            return false;
+                        } else {
+                            if (!reg.test(v)) {
+                                $alert('SN码只能为英文和数字', function () {
+                                    _this.focus();
+                                });
+                                return false;
+                            }
+                            v = v.toLowerCase();
+                            var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
+                            if (!isRepeat) {
+                                createdSN.push(v);
+                                _this.parents('.new_sn').before(str);
+                                _this.val('').focus();
+                            } else {
+                                _this.parents('.new_sn').find('.new_sn_input').val('').focus();
+                            }
+                            //_this.parents('.new_sn').before(str).remove();
+                        }
+                    }
+                } else {
+                    _this.focus();
+                }
+            });
+        }
+
+        //SN码删除逻辑
+        function  deleteSNCode () {
+            elem.snList.on('click', '.delete_icon', function (e) {
+                var e = e || window.event;
+                e.stopPropagation();
+                e.preventDefault();
+                var _this = $(this);
+                var p = _this.parents('.sn');
+                var thisTag = $.trim(p.text());
+                p.remove();
+                createdSN.remove(thisTag);
+            })
+        }
+
         $(function () {
             chnAndEng('.new_sn_input',3);//判断sn码
             chnAndEng('.express_order',3);//快递单号
@@ -381,6 +488,10 @@
             selectCode();//选择code码
             delSn();//删除SN码
             uploadAnnex();//批量出库
+
+            addSN();
+            createSNCode();
+            deleteSNCode();
         })
 
     })(jQuery,undefined);

@@ -773,15 +773,16 @@
                         warehouse_id : warehouse_id
                     };
                     if ($(this).data('inventory') == 0) {
-
+                        $alert('当前仓库还有库存，请先清理掉库存再删除');
+                    } else {
+                        dialog('open', {
+                            title : '删除提醒',
+                            content : '<div style="padding: 40px 0 20px;line-height:30px;"><span>删除后所有记录将不可恢复，确认删除？</span></div>',
+                            onConfirm : function (d) {
+                                delConfirm(data, d);
+                            }
+                        })
                     }
-                    dialog('open', {
-                        title : '删除提醒',
-                        content : '<div style="padding: 40px 0 20px;line-height:30px;"><span>删除后所有记录将不可恢复，确认删除？</span></div>',
-                        onConfirm : function (d) {
-                            delConfirm(data, d);
-                        }
-                    })
                 });
             });
             //确定删除
