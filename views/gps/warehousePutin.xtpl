@@ -33,7 +33,7 @@
 
             <div class="gps_put_in">
                 <div class="row_item">
-                    <div class="row_title"><em class="require_icon">*</em>省市：</div>
+                    <div class="row_title"><em class="require_icon">*</em>城市：</div>
                     <div class="row_val select_city_div" id="storeCity">
                         <!--<input type="hidden" class="city_id" name="city_id"  value=""/>
                         <input type="text" class="select_city_input cursor" name=""  value="" placeholder="请选择城市" readonly/>-->
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="row_item">
-                    <div class="row_title"><em class="require_icon">*</em>标签：</div>
+                    <div class="row_title"><em class="require_icon">*</em>标签(品牌)：</div>
                     <div class="row_val">
                         <select name="" id="selectTag">
                             <option value="">全部</option>
@@ -233,6 +233,7 @@
         }
 
         //获取提交数据
+        var snArr = [];
         function getData () {
             var data = {};
             var city = $('#province_id').val();
@@ -250,7 +251,7 @@
                 var type = '';
             }
             // var type = $.trim($('#selectType option:selected').val());
-            var snArr = [];
+            snArr = [];
             elem.snList.find('.sn').each(function () {
                 var _this = $(this);
                 var sn = $.trim(_this.find('span').text().replace(/\s/ig,''));
@@ -315,7 +316,7 @@
                     success : function (res) {
                         $('#loading').hide();
                         if (res.error_code == 0) {
-                            $alert('入库成功', function () {
+                            $alert('此次入库'+snArr.length+'个GPS', function () {
                                 locationTo({
                                     action : contextPath + markUri + '/gps/list',
                                     param : {}

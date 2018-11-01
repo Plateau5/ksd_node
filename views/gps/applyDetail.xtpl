@@ -411,10 +411,27 @@
                     var type = $(this).data('type');
                     var province_id = $(this).data('province_id');
                     var html = getCode(organization_id, label_id, type, province_id,val, code_list);
+                    if (html == '') {
+                        html = '<li>暂无数据</li>';
+                    }
                     resList.html(html);
                 } else{
                     resList.hide();
                 }
+                $(document).on('click',function (e) {
+                    var ev = e || window.event;
+                    ev.stopPropagation();
+                    var target = $(ev.target);
+                    var parent = target.parents('.search_list');
+                    if (target.hasClass('search_list')) {
+                        return false;
+                    } else if (parent.length <= 0) {
+                        resList.hide();
+                        return true;
+                    } else {
+                        return true;
+                    }
+                })
             });
         }
         //获取SN码
@@ -438,6 +455,13 @@
                 _this.parents('.search_list').hide();
             });
         }
+        //删除SN码
+        function delSn () {
+            $('.del_icon').off('click').on('click', function () {
+                var _this = $(this);
+                _this.siblings('.new_sn_input').val('');
+            })
+        };
 
         $(function () {
             resetCheckboxAndRadio('checkbox', ".form_group label", ".checked");
@@ -453,6 +477,7 @@
             deleteSNCode();
             searchSnCode();//搜索SN码
             selectCode();//选择code码
+            delSn();//删除SN码
         })
     })(jQuery,undefined);
 </script>

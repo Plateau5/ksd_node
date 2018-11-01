@@ -71,7 +71,7 @@
                                 </li>
                                 <!-- 添加按钮 -->
                                 <li class="add_sn_btn">添加</li>
-                                <li><a href="javascript:;" style="color:#1DC6BC;">批量入库</a></li>
+                                <li><a href="javascript:;" style="color:#1DC6BC;">批量出库</a></li>
                             </ul>
                         </div>
                     </div>
@@ -144,6 +144,7 @@
          * 提交校验
          * @author  Plateau  2018年7月24日17:24:54
          * */
+        var sn_codes = [];
         function submitValid () {
             var out_province_id = $('#out_province_id').val();
             var in_province_id = $('#in_province_id').val();
@@ -157,7 +158,7 @@
             }
             var sn_code = $('.sn_code_list').find('.sn');
             var new_sn_input = $('.new_sn_input').val().trim();
-            var sn_codes = [];
+            sn_codes = [];
             if (sn_code.length == 0 && new_sn_input == '') {
                 $alert('请填写SN码');
                 return false;
@@ -200,7 +201,7 @@
                 success : function (res) {
                     $('#loading').hide();
                     if (res.error_code == 0) {
-                        $alert('操作成功', function () {
+                        $alert('此次出库'+sn_codes.length+'个GPS', function () {
                             locationTo({
                                 action : contextPath + markUri + '/gps/list',
                                 param : reqParamsStr
