@@ -371,7 +371,7 @@
                                 {{/if}}
                                 {{#if (root.verifyCode(1584)) }}
                                 {{#if (../condition.status === 1) }}
-                                <a href="javascript:;" data-id="{{this.id}}" title="查看" class="applyDetail view go_forward"></a>
+                                <a href="javascript:;" data-id="{{this.id}}" title="查看" class="applyDetail view go_forward" data-apply_type="{{this.apply_type}}"></a>
                                 {{/if}}
                                 {{/if}}
                             </td>
@@ -853,9 +853,11 @@
                 var t = $(this);
                 var id = $.trim(t.data("id")).number();
                 var status = $.trim($('.apply_type').val());
+                var apply_type = t.data('apply_type');
                 var params = {
                     gps_apply_id : id,
-                    status : status
+                    status : status,
+                    apply_type : apply_type
                 };
                 var data = Object.extend(reqParamsStr, params);
                 locationTo({

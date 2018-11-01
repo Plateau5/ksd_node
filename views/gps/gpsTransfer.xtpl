@@ -68,7 +68,7 @@
                             <ul class="sn_code_list">
                                 <li class="new_sn order_search_box" style="margin-top: 12px;">
                                     <em class="del_icon"></em>
-                                    <input type="text" id="new_sn_input" class="new_sn_input" maxlength="20" placeholder="请输入" value="" name="sn_codes"/>
+                                    <input type="text" id="new_sn_input" class="new_sn_input ssss" maxlength="20" placeholder="请输入" value="" name="sn_codes"/>
                                     <ul class="all_sncode search_list" style="overflow: auto;">
 
                                     </ul>
@@ -264,6 +264,7 @@
                 var resList = $(this).siblings(".search_list");
                 resList.html('');
                 if (val) {
+                    val = val.replace(/[^a-zA-Z\d]/g,'');
                     resList.show();
                     var province_id = $('#out_province_id').val();
                     if (province_id == '') {
@@ -484,7 +485,6 @@
         }
 
         $(function () {
-            chnAndEng('.new_sn_input',3);//判断sn码
             chnAndEng('.express_order',3);//快递单号
             selectType();//注册类型点击事件
             bindSubmitEvent();//注册提交点击事件
