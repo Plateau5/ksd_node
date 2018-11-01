@@ -84,7 +84,7 @@
             </form>
             <div class="btn_box">
                 <div class="rf" style="width:150px;">
-                    {{#if (verifyCode(1283)) }}<!--1675-->
+                    {{#if (verifyCode(1675)) }}
                     <a href="javascript:" id="download_btn" class="detail_title_btn transfer_btn rf" data-warehouse_id="{{reqParams.warehouse_id}}">调拨</a>
                     {{/if}}
                     {{#if (verifyCode(1283)) }}
@@ -154,8 +154,12 @@
                         {{/if}}
                     </td>
                     <td>
+                        {{#if (root.verifyCode(1581)) }}
                         <a href="javascript:;" class="edit_sn" data-id="{{this.id}}">编辑</a>
+                        {{/if}}
+                        {{#if (root.verifyCode(1288)) }}
                         <a href="javascript:;" class="del_sn" data-id="{{this.id}}">删除</a>
+                        {{/if}}
                     </td>
                 </tr>
                 {{/each}}
