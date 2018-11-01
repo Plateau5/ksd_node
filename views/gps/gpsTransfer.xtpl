@@ -260,11 +260,11 @@
             $('.new_sn_input').on('input',function(e){
                 var ev = e || window.event;
                 ev.stopPropagation();
+                $(this).val($(this).val().replace(/[^a-zA-Z\d]/g,''));
                 var val = $.trim($(this).val());
                 var resList = $(this).siblings(".search_list");
                 resList.html('');
                 if (val) {
-                    val = val.replace(/[^a-zA-Z\d]/g,'');
                     resList.show();
                     var province_id = $('#out_province_id').val();
                     if (province_id == '') {
