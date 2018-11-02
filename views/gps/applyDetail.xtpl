@@ -320,6 +320,10 @@
                             });
                             return false;
                         }
+                        if (_this.siblings('.order_search_box').find('.search_list').find('a').length == 0) {
+                            $alert('未查到此SN码');
+                            return false;
+                        }
                         v = v.toLowerCase();
                         var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
                         if (!isRepeat) {
@@ -329,7 +333,7 @@
                         } else {
                             a.find('.new_sn_input').val('').focus();
                         }
-                        if (createdSN.length >=  _this.parents('.apply_list').find('.gps_count').text()) {
+                        if (_this.parents('.sn_code_list').find('.sn').length >=  _this.parents('.apply_list').find('.gps_count').text()) {
                             _this.parents('.sn_code_list').find('.add_sn_btn').hide();
                             _this.parents('.sn_code_list').find('.order_search_box').hide();
                             return false;
@@ -358,6 +362,10 @@
                             });
                             return false;
                         }
+                        if (_this.siblings('.order_search_box').find('.search_list').find('a').length == 0) {
+                            $alert('未查到此SN码');
+                            return false;
+                        }
                         v = v.toLowerCase();
                         var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
                         if (!isRepeat) {
@@ -367,7 +375,7 @@
                         } else {
                             _this.parents('.new_sn').find('.new_sn_input').val('').focus();
                         }
-                        if (createdSN.length >= _this.parents('.apply_list').find('.gps_count').text()) {
+                        if (_this.parents('.sn_code_list').find('.sn').length >= _this.parents('.apply_list').find('.gps_count').text()) {
                             _this.parents('.sn_code_list').find('.add_sn_btn').hide();
                             _this.parents('.sn_code_list').find('.order_search_box').hide();
                             return false;
