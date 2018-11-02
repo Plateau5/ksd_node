@@ -451,7 +451,6 @@
         }
         //获取SN码
         function getCode (organization_id, label_id, type, province_id,val, code_list) {
-            console.log(code_list);
             var code_list = jsonsql.query('select * from json where (organization_id==' + organization_id + '&&label_id=='+ label_id +'&&type==' + type + '&&province_id==' + province_id + ')', code_list);
             var optStr = '';
             for (var i = 0, len = code_list.length; i < len; i++) {
