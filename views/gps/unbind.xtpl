@@ -31,7 +31,7 @@
                     <input type="hidden" value="{{reqParams.bind_type}}" id="pgs_type">
                     <input type="hidden" value="{{reqParams.gps_id}}" id="gps_id">
                     <input type="hidden" value="{{reqParams.user_name}}" id="user_name">
-                    <input type="hidden" value="{{reqParams.sn_code}}" id="sn_code">
+                    <input type="hidden" value="{{reqParams.sn_codes}}" id="sn_code">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -209,8 +209,13 @@
                     $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('操作成功', function () {
+                            if (reqParamsStr.warehouse_id) {
+                                var url = "/gps/warehouse/detail";
+                            } else {
+                                var url = "/gps/list";
+                            }
                             locationTo({
-                                action : contextPath + markUri + '/gps/list',
+                                action : contextPath + markUri + url,
                                 param : reqParamsStr
                             });
                         })

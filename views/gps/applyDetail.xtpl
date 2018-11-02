@@ -188,23 +188,23 @@
         //确认发送事件
         function bindSendEvent () {
             var btn = $('.send_btn');
-            var applyId = $.trim($('#applyId').val());
-            var receiveType = $.trim($('#receiveType').val());
-            var applicant = $.trim($('#applicant').val());
-            var gps_ids = [];
-            var sn = $('.sn');
-            sn.each(function () {
-                var _this = $(this);
-                gps_ids.push(_this.find('span').text().trim());
-            });
-            var new_sn_input = $('.new_sn_input');
-            new_sn_input.each(function () {
-                var _t = $(this);
-                if (_t.val().trim() !== '') {
-                    gps_ids.push(_t.val().trim());
-                }
-            });
             btn.off('click').on('click', function () {
+                var applyId = $.trim($('#applyId').val());
+                var receiveType = $.trim($('#receiveType').val());
+                var applicant = $.trim($('#applicant').val());
+                var gps_ids = [];
+                var sn = $('.sn');
+                sn.each(function () {
+                    var _this = $(this);
+                    gps_ids.push(_this.find('span').text().trim());
+                });
+                var new_sn_input = $('.new_sn_input');
+                new_sn_input.each(function () {
+                    var _t = $(this);
+                    if (_t.val().trim() !== '') {
+                        gps_ids.push(_t.val().trim());
+                    }
+                });
                 var params = {
                     gps_apply_id : applyId,
                     receive_type : receiveType,
