@@ -102,7 +102,7 @@
                                                 </ul>
                                             </li>
                                             <!-- 添加按钮 -->
-                                            <li class="add_sn_btn">添加</li>
+                                           <!-- <li class="add_sn_btn">添加</li>-->
                                         </ul>
                                     </div>
 
@@ -202,7 +202,12 @@
                 new_sn_input.each(function () {
                     var _t = $(this);
                     if (_t.val().trim() !== '') {
-                        gps_ids.push(_t.val().trim());
+                        if (gps_ids.indexOf(_t.val().trim()) != -1) {
+                            $alert('有重复sn码');
+                            return false;
+                        } else {
+                            gps_ids.push(_t.val().trim());
+                        }
                     }
                 });
                 var params = {
@@ -302,85 +307,45 @@
             newSN : $('#new_sn_input'),
             submitBtn : $('.submit_btn')
         };
-        var createdSN = [];
         var reg = /^[a-zA-Z0-9]{1,}$/;
-        //SN码添加逻辑
-        function addSN() {
-            elem.addBtn.off('click').on('click', function () {
-                var _this = $(this);
-                var i = '<li class="new_sn">\
-                            <input type="text" id="new_sn_input" class="new_sn_input" autofocus="autofocus" maxlength="20" placeholder="SN码" value="" />\
-                        </li>';
-                var a = _this.parents('.sn_code_list').find('.new_sn');
-                if (a.length <= 0) {
-                    elem.addBtn.before(i);
-                } else {
-                    var v = $.trim(a.find('#new_sn_input').val());
-                    if (v) {
-                        var str = '<li class="sn">\
-                                    <span>'+ v +'</span>\
-                                    <em class="delete_icon"></em>\
-                                </li>';
-                        if (!reg.test(v)) {
-                            $alert('SN码只能为英文及数字', function () {
-                                a.find('#new_sn_input').focus();
-                            });
-                            return false;
-                        }
-                        if (_this.siblings('.order_search_box').find('.search_list').find('a').length == 0) {
-                            $alert('未查到此SN码');
-                            return false;
-                        }
-                        v = v.toLowerCase();
-                        var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
-                        if (!isRepeat) {
-                            createdSN.push(v);
-                            a.before(str);
-                            a.find('.new_sn_input').val('').focus();
-                        } else {
-                            a.find('.new_sn_input').val('').focus();
-                        }
-                        if (_this.parents('.sn_code_list').find('.sn').length >=  _this.parents('.apply_list').find('.gps_count').text()) {
-                            _this.parents('.sn_code_list').find('.add_sn_btn').hide();
-                            _this.parents('.sn_code_list').find('.order_search_box').hide();
-                            return false;
-                        }
-                    } else {
-                        a.find('.new_sn_input').focus();
-                    }
-                }
-            });
-        }
         //SN码的创建逻辑
         function createSNCode () {
             elem.snList.off('input keyup').on('input keyup', '.new_sn_input', function (e) {
                 var e = e || window.event;
                 var _this = $(this);
-                var v = $.trim(_this.val());
-                if (v) {
+                var new_sn = _this.siblings('.search_list ').find('li').eq(0).find('a').text();
+                if (new_sn) {
                     var str = '<li class="sn">\
-                                    <span>'+ v +'</span>\
+                                    <span>'+ new_sn +'</span>\
                                     <em class="delete_icon"></em>\
                                 </li>';
                     if (e.which == 13) {
-                        if (!reg.test(v)) {
+                        if (!reg.test(new_sn)) {
                             $alert('SN码只能为英文和数字', function () {
                                 _this.focus();
                             });
                             return false;
                         }
-                        if (_this.siblings('.order_search_box').find('.search_list').find('a').length == 0) {
+                        if (_this.siblings('.search_list').find('a').length == 0) {
                             $alert('未查到此SN码');
                             return false;
                         }
-                        v = v.toLowerCase();
-                        var isRepeat = checkRepeat(v, createdSN, '该SN码已存在，请输入其它SN码');
+
+                        var sns = [];
+                        var sn_code_list = _this.parents('.sn_code_list').find('.sn');
+                        sn_code_list.each(function () {
+                            var _t = $(this);
+                            sns.push(_t.find('span').text());
+                        });
+
+                        new_sn = new_sn.toLowerCase();
+                        var isRepeat = checkRepeat(new_sn, sns, '该SN码已存在，请输入其它SN码');
                         if (!isRepeat) {
-                            createdSN.push(v);
                             _this.parents('.new_sn').before(str);
+                            _this.siblings('.search_list').hide();
                             _this.val('').focus();
                         } else {
-                            _this.parents('.new_sn').find('.new_sn_input').val('').focus();
+                            _this.focus();
                         }
                         if (_this.parents('.sn_code_list').find('.sn').length >= _this.parents('.apply_list').find('.gps_count').text()) {
                             _this.parents('.sn_code_list').find('.add_sn_btn').hide();
@@ -402,13 +367,11 @@
                 e.preventDefault();
                 var _this = $(this);
                 var p = _this.parents('.sn');
-                var thisTag = $.trim(p.text());
                 if (_this.parents('.sn_code_list').find('.sn').length <=  _this.parents('.apply_list').find('.gps_count').text()) {
                     _this.parents('.sn_code_list').find('.add_sn_btn').show();
                     _this.parents('.sn_code_list').find('.order_search_box').show();
                 }
                 p.remove();
-                createdSN.remove(thisTag);
             })
         }
         //搜索SN码
@@ -464,10 +427,34 @@
         function selectCode () {
             var search_list = $('.search_list');
             search_list.on("click",".code_select",function(){
+                var sns = [];
                 var _this = $(this);
                 var val = _this.text();
-                _this.parents('.search_list').siblings('.new_sn_input').val(val);
-                _this.parents('.search_list').hide();
+                var a = _this.parents('.sn_code_list').find('.new_sn');
+
+                var sn_code_list = _this.parents('.sn_code_list').find('.sn');
+                sn_code_list.each(function () {
+                    var _t = $(this);
+                    sns.push(_t.find('span').text());
+                });
+
+                var isRepeat = checkRepeat(val, sns, '该SN码已存在，请输入其它SN码');
+                if (!isRepeat) {
+                    var str = '<li class="sn">\
+                                    <span>'+ val +'</span>\
+                                    <em class="delete_icon"></em>\
+                                </li>';
+                    a.before(str);
+                    _this.parents('.search_list').siblings('.new_sn_input').val('');
+                    _this.parents('.search_list').hide();
+                } else {
+                    _this.focus();
+                }
+                if (_this.parents('.sn_code_list').find('.sn').length >= _this.parents('.apply_list').find('.gps_count').text()) {
+                    _this.parents('.sn_code_list').find('.add_sn_btn').hide();
+                    _this.parents('.sn_code_list').find('.order_search_box').hide();
+                    return false;
+                }
             });
         }
         //删除SN码
@@ -487,7 +474,7 @@
             goApplyList();//GPS仓库-面包屑跳转
 
             chnAndEng('.new_sn_input', 3);//只能输入中英文和数字
-            addSN();
+            // addSN();
             createSNCode();
             deleteSNCode();
             searchSnCode();//搜索SN码
