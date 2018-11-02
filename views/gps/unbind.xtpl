@@ -50,6 +50,9 @@
                             <span class="options_name">问题详情：</span>
                         </div>
                         <div class="column_val" id="question_detail">
+                            {{#if (questionList[0].child_list.length <= 0) }}
+                            <div class="question_container_prom" style="color:red;">该分类暂无问题详情，请重新选择问题分类</div>
+                            {{/if}}
                             {{#each (questionList[0].child_list) }}
                             <div class="form_group">
                                 <input id="org_feature{{xindex}}" type="checkbox" class="org_feature"  value="{{this.id}}" />
@@ -102,6 +105,9 @@
                         }
                     }
                 }
+                if (html == '') {
+                    html = ' <div class="question_container_prom" style="color:red;">该分类暂无问题详情，请重新选择问题分类</div>';
+                }
                 question_detail.html(html);
             });
         }
@@ -148,6 +154,18 @@
                 question_classify_id : $('#question_classify').val(),
                 question_ids : question_ids.join(',')
             };
+            if ($('#question_classify').val() == '') {
+                $alert('请选择问题分类');
+                return false;
+            }
+            if ($('.question_container_prom').length > 0) {
+                $alert('该分类暂无问题详情，请重新选择问题分类');
+                return false;
+            }
+            if (question_ids.length == 0) {
+                $alert('请选择问题详情');
+                return false;
+            }
             if ($('#pgs_type').val() == 1) {
                 var content = '确认将此gps与客户-' + $('#user_name').val() + '解绑？';
             } else if ($('#pgs_type').val() == 2) {
