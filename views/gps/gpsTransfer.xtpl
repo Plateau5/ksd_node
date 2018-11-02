@@ -404,6 +404,10 @@
                             $alert('最多可添加500个');
                             return false;
                         } else {
+                            if (_this.siblings('.order_search_box').find('.search_list').find('a').length == 0) {
+                                $alert('未查到此SN码');
+                                return false;
+                            }
                             var str = '<li class="sn">\
                                     <span>'+ v +'</span>\
                                     <em class="delete_icon"></em>\
@@ -446,6 +450,10 @@
                             $alert('最多可添加500个');
                             return false;
                         } else {
+                            if (_this.siblings('.order_search_box').find('.search_list').find('a').length == 0) {
+                                $alert('未查到此SN码');
+                                return false;
+                            }
                             if (!reg.test(v)) {
                                 $alert('SN码只能为英文和数字', function () {
                                     _this.focus();
