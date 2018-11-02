@@ -271,7 +271,7 @@
         //校验必选项
         function verifyChecked () {
             var data = getData();
-            if (data.city_id == '') {
+            if (data.province_id == '') {
                 $alert('请先选择省市');
                 return false;
             }
@@ -360,7 +360,7 @@
         //批量入库
         function uploadAnnex () {
             fileUpload({
-                maxCount : 1,
+                maxCount : 1000,
                 filesSize : 1000,
                 fileFormat : ['xls', 'xlsx'],
                 needThumbnails : false, // 是否需要缩略图
@@ -393,6 +393,7 @@
                     },
                     success : function (res) {
                         $('#loading').hide();
+                        $('.file_upload_btn').val('');
                         if (res.error_code == 0) {
                             if (res.data) {
                                 var html = '';
@@ -406,6 +407,7 @@
                         }
                     },
                     error : function () {
+                        $('.file_upload_btn').val('');
                         $('#loading').hide();
                         $alert('操作失败，请重试');
                     }

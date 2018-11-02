@@ -31,6 +31,7 @@
                     <input type="hidden" value="{{reqParams.bind_type}}" id="pgs_type">
                     <input type="hidden" value="{{reqParams.gps_id}}" id="gps_id">
                     <input type="hidden" value="{{reqParams.user_name}}" id="user_name">
+                    <input type="hidden" value="{{reqParams.sn_code}}" id="sn_code">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -148,8 +149,10 @@
                 }
             });
             var gps_id = $('#gps_id').val();
+            var sn_code = $('#sn_code').val();
             var parameters = {
                 gps_id : gps_id,
+                sn_code : sn_code,
                 type : $('#pgs_type').val(),
                 question_classify_id : $('#question_classify').val(),
                 question_ids : question_ids.join(',')

@@ -130,7 +130,7 @@
                             {{/if}}
                             {{#if (root.verifyCode(1674)) }}
                             {{#if (this.status === 3 || this.status === 4) }}
-                            <a href="javascript:;" title="取消绑定" data-id="{{this.id}}" data-status="{{this.status}}" data-user_name="{{this.user_name}}" data-use_name="{{this.use_name}}" class="untie go_forward">取消绑定</a>
+                            <a href="javascript:;" title="取消绑定" data-id="{{this.id}}" data-status="{{this.status}}" data-user_name="{{this.user_name}}" data-use_name="{{this.use_name}}" data-sn_code="{{this.sn_code}}" class="untie go_forward">取消绑定</a>
                             {{/if}}
                             {{/if}}
                             {{#if (root.verifyCode(1288)) }}
@@ -876,8 +876,10 @@
                 var user_name = $(this).data('user_name');//关联客户
                 var use_name = $(this).data('use_name');//贷前
                 var gps_id = $(this).data('id');
+                var sn_code = $(this).data('sn_code');
                 var params = {
-                    gps_id : gps_id
+                    gps_id : gps_id,
+                    sn_code : sn_code
                 };
                 if (user_name) {
                     var bind_type = 1;

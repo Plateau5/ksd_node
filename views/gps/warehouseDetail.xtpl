@@ -76,7 +76,7 @@
                         </li>
                         <li class="sn_code_box">
                             <span>SN码：</span>
-                            <input type="text" placeholder="请输入SN码" class="filtrate_input sn_code" name="sn_code">
+                            <input type="text" placeholder="请输入SN码" class="filtrate_input sn_code" name="sn_code" value="{{condition.sn_code}}">
                             <input type="text" class="search_btn">
                         </li>
                     </ul>
@@ -92,7 +92,7 @@
                     {{/if}}
                 </div>
             </div>
-            
+            <input type="hidden" value="{{list.length}}" class="total_count">
             <table class="normal">
                 <colgroup style="width: 100%;">
                     <col style="width: 17%;" />
@@ -269,16 +269,20 @@
         function toTransfer () {
             var btn = $('.transfer_btn');
             btn.on('click', function () {
-                var _this = $(this);
-                var warehouse_id = _this.data('warehouse_id');
-                var warehouse_name = $('#warehouse_name').val();
-                locationTo({
-                    action : contextPath + markUri + '/gps/warehouse/transfer',
-                    param : {
-                        warehouse_id : warehouse_id,
-                        warehouse_name : warehouse_name
-                    }
-                })
+                if ($('.total_count').val() == 0) {
+                    $alert('请先入库再进行调拨');
+                } else {
+                    var _this = $(this);
+                    var warehouse_id = _this.data('warehouse_id');
+                    var warehouse_name = $('#warehouse_name').val();
+                    locationTo({
+                        action : contextPath + markUri + '/gps/warehouse/transfer',
+                        param : {
+                            warehouse_id : warehouse_id,
+                            warehouse_name : warehouse_name
+                        }
+                    })
+                }
             });
         }
         $(function () {
