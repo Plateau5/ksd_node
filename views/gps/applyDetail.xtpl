@@ -196,19 +196,7 @@
                 var sn = $('.sn');
                 sn.each(function () {
                     var _this = $(this);
-                    gps_ids.push(_this.find('span').text().trim());
-                });
-                var new_sn_input = $('.new_sn_input');
-                new_sn_input.each(function () {
-                    var _t = $(this);
-                    if (_t.val().trim() !== '') {
-                        if (gps_ids.indexOf(_t.val().trim()) != -1) {
-                            $alert('有重复sn码');
-                            return false;
-                        } else {
-                            gps_ids.push(_t.val().trim());
-                        }
-                    }
+                    gps_ids.push(_this.data('id'));
                 });
                 var params = {
                     gps_apply_id : applyId,
@@ -414,11 +402,12 @@
         }
         //获取SN码
         function getCode (organization_id, label_id, type, province_id,val, code_list) {
+            console.log(code_list);
             var code_list_result = jsonsql.query('select * from json where (organization_id==' + organization_id + '&&label_id=='+ label_id +'&&type==' + type + '&&province_id==' + province_id + ')', code_list);
             var optStr = '';
             for (var i = 0, len = code_list_result.length; i < len; i++) {
                 if (code_list_result[i].sn_code.indexOf(val) != -1) {
-                    optStr += '<li><a href="javascript:;" class="code_select">' + code_list_result[i].sn_code + '</a></li>'
+                    optStr += '<li><a href="javascript:;" class="code_select" data-id="' + code_list_result[i].id + '">' + code_list_result[i].sn_code + '</a></li>'
                 }
             }
             return optStr;
@@ -439,8 +428,9 @@
                 });
 
                 var isRepeat = checkRepeat(val, sns, '该SN码已存在，请输入其它SN码');
+                var sn_id = _this.data('id');
                 if (!isRepeat) {
-                    var str = '<li class="sn">\
+                    var str = '<li class="sn" data-id="'+sn_id+'">\
                                     <span>'+ val +'</span>\
                                     <em class="delete_icon"></em>\
                                 </li>';
