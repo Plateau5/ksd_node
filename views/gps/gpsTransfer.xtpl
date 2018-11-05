@@ -86,6 +86,7 @@
                     </div>
                     <div class="option_item">
                         <div class="column_name">
+                            <em class="require_icon">*</em>
                             <span class="options_name">快递公司：</span>
                         </div>
                         <div class="column_val">
@@ -99,6 +100,7 @@
                     </div>
                     <div class="option_item">
                         <div class="column_name">
+                            <em class="require_icon">*</em>
                             <span class="options_name">快递单号：</span>
                         </div>
                         <div class="column_val">
@@ -191,7 +193,15 @@
                 }
             }
             var express_id = $('#express_id').val();
+            if (express_id == '') {
+                $alert('请选择快递公司');
+                return false;
+            }
             var express_code = $('.express_order').val().trim();
+            if (express_code == '') {
+                $alert('请输入快递单号');
+                return false;
+            }
             var warehouse_id = $('#warehouse_id').val();
             var parameters = {
                 warehouse_id : warehouse_id,
@@ -262,12 +272,28 @@
 
         //搜索SN码
         function searchSnCode () {
-            $('.new_sn_input').on('input',function(e){
+            var body = $('body');
+            var flag = true;
+            body.on('compositionstart','.new_sn_input',function(){
+                flag = false;
+            });
+            body.on('compositionend','.new_sn_input',function(){
+                flag = true;
+            });
+            body.on('input', '.new_sn_input',function(e){
                 var ev = e || window.event;
                 ev.stopPropagation();
-                $(this).val($(this).val().replace(/[^a-zA-Z\d]/g,''));
-                var val = $.trim($(this).val());
-                var resList = $(this).siblings(".search_list");
+                ev.preventDefault();
+                var _this = $(this);
+                var value = _this.val();
+                setTimeout(function(){
+                    if(flag){
+                        value = value.replace(/[^a-zA-Z\d]/g,'');
+                        _this.val(value);
+                    }
+                },0);
+                var val = $.trim(_this.val());
+                var resList = _this.siblings(".search_list");
                 resList.html('');
                 if (val) {
                     resList.show();
@@ -385,16 +411,17 @@
                         $('#loading').hide();
                         if (res.error_code == 0) {
                             if (res.data) {
-                                var repeat = false;
+                                var repeat = '';
                                 var html = '';
                                 for (var i = 0, len = res.data.length;i < len; i++) {
                                     if (createdSN.indexOf(res.data[i]) != -1) {
-                                        repeat = true;
+                                        repeat = i + ";" + res.data[i];
+                                        break;
                                     }
                                     html += '<li class="sn"><span>'+res.data[i]+'</span><em class="delete_icon"></em></li>';
                                 }
-                                if (repeat) {
-                                    $alert('上传的sn码与已有sn码有重复');
+                                if (repeat != '') {
+                                    $alert('第 ' + (repeat.split(';')[0].number() + 2) + ' 行"SN码:' + repeat.split(';')[1] + '"数据重复');
                                 } else {
                                     createdSN = createdSN.concat(res.data);
                                     $('.sn_code_list').prepend(html);
