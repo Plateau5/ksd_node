@@ -24,12 +24,13 @@
         <div id="main" class="main gps_editinfo">
             <div class="crumbs_nav">
                 <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
-                {{#if (reqParams.warehouse_id) }} <a href="javascript:;" class="go_warehouse_detail crumbs_item">仓库详情({{reqParams.warehouse_name}})</a>{{/if}}
+                {{#if (reqParams.warehouse_name) }} <a href="javascript:;" class="go_warehouse_detail crumbs_item">仓库详情({{reqParams.warehouse_name}})</a>{{/if}}
                 <a href="javascript:;" class="crumbs_item">修改</a>
             </div>
             <div class="form_options create_options">
                 <form action="" class="gps_edit">
                     <input type="hidden" value="{{reqParams.id}}" id="pgs_id">
+                    <input type="hidden" value="{{reqParams.warehouse_id}}" id="warehouse_id">
                     <div class="option_item">
                         <div class="column_name">
                             <em class="require_icon">*</em>
@@ -101,9 +102,9 @@
                                     <option value="">请选择</option>
                                     {{#each (label_list) }}
                                         {{#if (this.id === vo.label_id) }}
-                                        <option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}" selected>{{this.warehouse_name}}{{this.label_name}}</option>
+                                        <option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}" selected>{{this.label_name}}</option>
                                         {{else}}
-                                        <option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+                                        <option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}">{{this.label_name}}</option>
                                         {{/if}}
                                     {{/each}}
                                 </select>
@@ -128,7 +129,7 @@
             </div>
             <div class="btn_box clearfix create_wf_btn_box">
                 <a href="javascript:;" class="btn orange_btn confirm create_confirm">确认</a>
-                <a href="javascript:;" class="btn bg_btn create_cancel {{#if (reqParams.warehouse_id) }}go_warehouse_detail{{else}}go_gps_list{{/if}}">取消</a>
+                <a href="javascript:;" class="btn bg_btn create_cancel {{#if (reqParams.warehouse_name) }}go_warehouse_detail{{else}}go_gps_list{{/if}}">取消</a>
             </div>
         </div>
         <!---- Part of Main info End ---->
@@ -182,7 +183,7 @@
             } else {
                 var label_id = $('#selectTag').find('option:selected');
                 var select_label = label_id.val();
-                var warehouse_id = label_id.data('warehouse_id');
+                var warehouse_id = $('#warehouse_id').val();
                 var org_id = label_id.data('org_id');
             }
             var sn_txt = $('.sn_txt');

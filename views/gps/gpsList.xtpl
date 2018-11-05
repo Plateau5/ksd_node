@@ -125,7 +125,7 @@
                         <div class="body_item" class="operate_btn">
                             {{#if (root.verifyCode(1581)) }}
                             {{#if (this.status === 1) }}
-                            <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" class="gpsEdit go_forward">编辑</a>
+                            <a href="javascript:;" title="编辑" data-id="{{this.id}}" data-status="{{this.status}}" data-warehouse_id="{{this.warehouse_id}}" class="gpsEdit go_forward">编辑</a>
                             {{/if}}
                             {{/if}}
                             {{#if (root.verifyCode(1674)) }}
@@ -642,9 +642,11 @@
                 var _this = $(this);
                 var id = _this.data('id');
                 var status = _this.data('status');
+                var warehouse_id = _this.data('warehouse_id');
                 var params = {
                     id : id,
-                    gps_status : status//编辑页根据已出库状态判断修改
+                    gps_status : status,//编辑页根据已出库状态判断修改
+                    warehouse_id : warehouse_id
                 };
                 var data = Object.extend(reqParamsStr, params);
                 locationTo({

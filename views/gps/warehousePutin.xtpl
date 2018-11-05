@@ -32,6 +32,7 @@
             </div>
 
             <div class="gps_put_in">
+                <input type="hidden" value="{{reqParams.warehouse_id}}" id="warehouse_id">
                 <div class="row_item">
                     <div class="row_title"><em class="require_icon">*</em>城市：</div>
                     <div class="row_val select_city_div" id="storeCity">
@@ -64,7 +65,7 @@
                         <select name="" id="selectTag">
                             <option value="">全部</option>
                             {{#each (label_list) }}
-								<option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}">{{this.warehouse_name}}{{this.label_name}}</option>
+								<option value="{{this.id}}" data-warehouse_id="{{this.gps_warehouse_id}}" data-org_id="{{this.organization_id}}">{{this.label_name}}</option>
 							{{/each}}
                         </select>
                     </div>
@@ -237,7 +238,7 @@
             var city = $('#province_id').val();
             var selectTag = $('#selectTag').find('option:selected');
             var tagId = $.trim(selectTag.val());
-            var warehouse_id = $.trim(selectTag.data('warehouse_id'));
+            var warehouse_id = $('#warehouse_id').val();
             var org_id = $.trim(selectTag.data('org_id'));
             var haveLine = $('#haveLine');
             var nohaveLine = $('#nohaveLine');
