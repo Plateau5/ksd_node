@@ -723,22 +723,40 @@
                             '           <span class="item_value">'+ result.legalPersonName +'</span>' +
                             '       </li>';
                     }
-                    if (result.regCapital && result.regCapital != '') {
-                        htmlStr += '<li class="detail_item">' +
-                            '           <span class="item_name">注册资本：</span>' +
-                            '           <span class="item_value">'+ result.regCapital +'</span>' +
-                            '       </li>';
-                    }
-                    if (result.fromTime && result.toTime && result.fromTime != '' && result.toTime != '') {
-                        htmlStr += '<li class="detail_item">' +
-                            '           <span class="item_name">经营期限：</span>' +
-                            '           <span class="item_value">'+ result.fromTime +' - '+ result.toTime +'</span>' +
-                            '       </li>';
-                    }
                     if (result.regLocation && result.regLocation != '') {
                         htmlStr += '<li class="detail_item">' +
                             '           <span class="item_name">注册地址：</span>' +
                             '           <span class="item_value">'+ result.regLocation +'</span>' +
+                            '       </li>';
+                    }
+                    if (result.regCapital && result.regCapital != '') {
+                        htmlStr += '<li class="detail_item">' +
+                            '           <span class="item_name">注册资金：</span>' +
+                            '           <span class="item_value">'+ result.regCapital +'</span>' +
+                            '       </li>';
+                    }
+                    if (result.estiblishTime && result.estiblishTime != '') {
+                        htmlStr += '<li class="detail_item">' +
+                            '           <span class="item_name">注册时间：</span>' +
+                            '           <span class="item_value">'+ result.estiblishTime +'</span>' +
+                            '       </li>';
+                    }
+                    if (result.fromTime && result.fromTime != '') {
+                        htmlStr += '<li class="detail_item">' +
+                            '           <span class="item_name">营业期限开始时间：</span>' +
+                            '           <span class="item_value">'+ result.fromTime +'</span>' +
+                            '       </li>';
+                    }
+                    if (result.toTime && result.toTime != '') {
+                        htmlStr += '<li class="detail_item">' +
+                            '           <span class="item_name">营业时间结束时间：</span>' +
+                            '           <span class="item_value">'+ result.toTime +'</span>' +
+                            '       </li>';
+                    }
+                    if (result.shareholder && result.shareholder != '') {
+                        htmlStr += '<li class="detail_item">' +
+                            '           <span class="item_name">股东名：</span>' +
+                            '           <span class="item_value">'+ result.shareholder +'</span>' +
                             '       </li>';
                     }
                     if (result.businessScope && result.businessScope != '') {
@@ -747,10 +765,16 @@
                             '           <span class="item_value">'+ result.businessScope +'</span>' +
                             '       </li>';
                     }
-                    if (result.comAbnoInfo && result.comAbnoInfo != '') {
+                    if (result.comAbnoInfo_des && result.comAbnoInfo_des != '') {
                         htmlStr += '<li class="detail_item">' +
-                            '           <span class="item_name">经营异常数量：</span>' +
-                            '           <span class="item_value">'+ result.comAbnoInfo +'</span>' +
+                            '           <span class="item_name">列入经营异常名录原因：</span>' +
+                            '           <span class="item_value">'+ result.comAbnoInfo_des +'</span>' +
+                            '       </li>';
+                    }
+                    if (result.legal_dispute && result.legal_dispute != '') {
+                        htmlStr += '<li class="detail_item">' +
+                            '           <span class="item_name">法律纠纷：</span>' +
+                            '           <span class="item_value">'+ result.legal_dispute +'</span>' +
                             '       </li>';
                     }
                     htmlStr += '</ul></div>';
