@@ -303,7 +303,8 @@
                 var _this = $(this);
                 var new_sn = _this.siblings('.search_list ').find('li').eq(0).find('a').text();
                 if (new_sn) {
-                    var str = '<li class="sn">\
+                    var sn_id = _this.siblings('.search_list ').find('li').eq(0).find('a').data('id');
+                    var str = '<li class="sn" data-id="'+sn_id+'">\
                                     <span>'+ new_sn +'</span>\
                                     <em class="delete_icon"></em>\
                                 </li>';
