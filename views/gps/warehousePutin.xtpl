@@ -33,6 +33,7 @@
 
             <div class="gps_put_in">
                 <input type="hidden" value="{{reqParams.warehouse_id}}" id="warehouse_id">
+                <input type="hidden" value="{{vo.warehouse_name}}" id="warehouse_name">
                 <div class="row_item">
                     <div class="row_title"><em class="require_icon">*</em>城市：</div>
                     <div class="row_val select_city_div" id="storeCity">
@@ -349,6 +350,7 @@
             });
             var go_warehouse_detail = $('.go_warehouse_detail');
             go_warehouse_detail.on('click', function () {
+                reqParamsStr.warehouse_name = $('#warehouse_name').val();
                 locationTo({
                     action : contextPath + markUri + "/gps/warehouse/detail",
                     param : reqParamsStr
