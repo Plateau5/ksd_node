@@ -308,6 +308,10 @@
                                     <em class="delete_icon"></em>\
                                 </li>';
                     if (e.which == 13) {
+                        if (_this.siblings('.search_list').is(':hidden')) {
+                            $alert('未查到此SN码');
+                            return false;
+                        }
                         if (!reg.test(new_sn)) {
                             $alert('SN码只能为英文和数字', function () {
                                 _this.focus();
