@@ -371,7 +371,8 @@
                     if (fileValue == undefined) {
                         return false;
                     }
-                    if (fileValue.name.split('.')[1] == 'xls' || fileValue.name.split('.')[1] == 'xlsx') {
+                    var file_name = fileValue.name.split('.');
+                    if (file_name[file_name.length-1] == 'xls' || file_name[file_name.length-1] == 'xlsx') {
                         var data = fileValue;
                         var form = new FormData();
                         form.append("file", data);
@@ -405,7 +406,8 @@
                                             $alert('第 ' + (repeat.split(';')[0].number() + 2) + ' 行"SN码:' + repeat.split(';')[1] + '"数据重复');
                                         } else {
                                             createdSN = createdSN.concat(res.data);
-                                            $('.sn_code_list').prepend(html);
+                                            $('.new_sn_input').parents('.new_sn').before(html);
+                                            // $('.sn_code_list').prepend(html);
                                         }
                                     }
                                 } else {

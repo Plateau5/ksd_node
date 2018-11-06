@@ -283,17 +283,23 @@
                 ev.stopPropagation();
                 ev.preventDefault();
                 var _this = $(this);
-                var value = _this.val();
+               /* var value = _this.val();
                 setTimeout(function(){
                     if(flag){
                         value = value.replace(/[^a-zA-Z\d]/g,'');
                         _this.val(value);
                     }
-                },0);
+                },0);*/
                 var val = $.trim(_this.val());
                 var resList = _this.siblings(".search_list");
                 resList.html('');
                 if (val) {
+                    /*if (!reg.test(v)) {
+                        $alert('SN码只能为英文及数字', function () {
+                            a.find('#new_sn_input').focus();
+                        });
+                        return false;
+                    }*/
                     resList.show();
                     var province_id = $('#out_province_id').val();
                     if (province_id == '') {
@@ -386,7 +392,8 @@
                     if (fileValue == undefined) {
                         return false;
                     }
-                    if (fileValue.name.split('.')[1] == 'xls' || fileValue.name.split('.')[1] == 'xlsx') {
+                    var file_name = fileValue.name.split('.');
+                    if (file_name[file_name.length-1] == 'xls' || file_name[file_name.length-1] == 'xlsx') {
                         var data = fileValue;
                         var form = new FormData();
                         form.append("file", data);
@@ -420,7 +427,8 @@
                                             $alert('第 ' + (repeat.split(';')[0].number() + 2) + ' 行"SN码:' + repeat.split(';')[1] + '"数据重复');
                                         } else {
                                             createdSN = createdSN.concat(res.data);
-                                            $('.sn_code_list').prepend(html);
+                                            $('.new_sn_input').parents('.new_sn').before(html);
+                                            // $('.sn_code_list').prepend(html);
                                         }
                                     }
                                 } else {
