@@ -375,7 +375,76 @@
         }
         //批量出库
         function uploadAnnex () {
-            fileUpload({
+            var batch_putin = $('.batch_putin');
+            var batch_putin_file = $('.batch_putin_file');
+            batch_putin.off('click').on('click', function () {
+                batch_putin_file.click();
+            });
+            batch_putin_file.off('click').on('click', function () {
+                var _this = $(this);
+                _this.off("change").on("change", function () {
+                    var targetFile = $(this);
+                    var fileValue = targetFile[0].files[0];
+                    console.log(fileValue);
+                    if (fileValue == undefined) {
+                        return false;
+                    }
+                    if (fileValue.name.split('.')[1] == 'xls' || fileValue.name.split('.')[1] == 'xlsx') {
+                        var data = fileValue;
+                        var form = new FormData();
+                        form.append("file", data);
+                        var url = contextPath + '/api/gps/excel/read';
+                        $.ajax({
+                            type : "post",
+                            url : url,
+                            data : form,
+                            async : false,
+                            timeout : 1200000,
+                            processData: false,
+                            contentType: false,
+                            beforeSend : function () {
+                                $('#loading').show();
+                            },
+                            success : function (res) {
+                                $('#loading').hide();
+                                _this.val('');
+                                if (res.error_code == 0) {
+                                    if (res.data) {
+                                        var repeat = '';
+                                        var html = '';
+                                        for (var i = 0, len = res.data.length;i < len; i++) {
+                                            if (createdSN.indexOf(res.data[i]) != -1) {
+                                                repeat = i + ";" + res.data[i];
+                                                break;
+                                            }
+                                            html += '<li class="sn"><span>'+res.data[i]+'</span><em class="delete_icon"></em></li>';
+                                        }
+                                        if (repeat != '') {
+                                            $alert('第 ' + (repeat.split(';')[0].number() + 2) + ' 行"SN码:' + repeat.split(';')[1] + '"数据重复');
+                                        } else {
+                                            createdSN = createdSN.concat(res.data);
+                                            $('.sn_code_list').prepend(html);
+                                        }
+                                    }
+                                } else {
+                                    $alert(res.error_msg);
+                                }
+                            },
+                            error : function () {
+                                $('.file_upload_btn').val('');
+                                $('#loading').hide();
+                                $alert('操作失败，请重试');
+                            }
+                        });
+                    } else {
+                        $alert('上传附件格式不正确');
+                    }
+                });
+            });
+
+
+
+            /*fileUpload({
                 maxCount : 1000,
                 filesSize : 1000,
                 fileFormat : ['xls', 'xlsx'],
@@ -436,7 +505,7 @@
                         $alert('操作失败，请重试');
                     }
                 });
-            }
+            }*/
         }
 
         var elem = {
