@@ -275,12 +275,14 @@
                     var _this = $(this);
                     var warehouse_id = _this.data('warehouse_id');
                     var warehouse_name = $('#warehouse_name').val();
+                    var params = {
+                        warehouse_id : warehouse_id,
+                        warehouse_name : warehouse_name
+                    };
+                    var data = Object.extend(reqParamsStr, params);
                     locationTo({
                         action : contextPath + markUri + '/gps/warehouse/transfer',
-                        param : {
-                            warehouse_id : warehouse_id,
-                            warehouse_name : warehouse_name
-                        }
+                        param : data
                     })
                 }
             });

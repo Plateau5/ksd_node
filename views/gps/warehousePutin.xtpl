@@ -27,9 +27,7 @@
         <div id="main" class="main org_product">
             <div class="crumbs_nav">
                 <a href="javascript:;" class="go_gps_list crumbs_item">GPS仓库</a>
-                {{#if (reqParams.warehouse_name) }}
-                <a href="javascript:;" class="go_warehouse_detail crumbs_item">仓库详情({{reqParams.warehouse_name}})</a>
-                {{/if}}
+                <a href="javascript:;" class="go_warehouse_detail crumbs_item">仓库详情({{vo.warehouse_name}})</a>
                 <a href="javascript:;" class="crumbs_item">入库</a>
             </div>
 
@@ -92,7 +90,7 @@
                     {{#if (verifyCode(1279)) }}
                     <a href="javascript:;" class="btn orange_btn confirm submit_btn">确认</a>
                     {{/if}}
-                    <a href="javascript:;" class="btn bg_btn cancel {{#if (reqParams.warehouse_name) }}go_warehouse_detail{{else}}go_gps_list{{/if}}">取消</a>
+                    <a href="javascript:;" class="btn bg_btn cancel go_warehouse_detail">取消</a>
                 </div>
             </div>
 
@@ -492,7 +490,7 @@
         }
 
         $(function () {
-            chnAndEng('.new_sn_input', 3);//只能输入中英文和数字
+            // chnAndEng('.new_sn_input', 3);//只能输入中英文和数字
             addSN();
             createSNCode();
             deleteSNCode();

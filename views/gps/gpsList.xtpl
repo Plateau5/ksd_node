@@ -729,14 +729,17 @@
                 var t = $(this);
                 var id = $.trim(t.data("id"));
                 var warehouse_name = $.trim(t.data('warehouse_name'));
-                var params = {
+                /*var params = {
                     warehouse_id : id,
                     warehouse_name : warehouse_name
                 };
-                var data = Object.extend(reqParamsStr, params);
+                var data = Object.extend(reqParamsStr, params);*/
                 locationTo({
                     action : contextPath + markUri + "/gps/warehouse/detail",
-                    param : data
+                    param : {
+                        warehouse_id : id,
+                        warehouse_name : warehouse_name
+                    }
                 });
             });
         }

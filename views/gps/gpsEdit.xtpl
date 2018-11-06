@@ -238,8 +238,13 @@
                     $('#loading').hide();
                     if (res.error_code == 0) {
                         $alert('修改成功', function () {
+                            if (reqParamsStr.warehouse_name) {
+                                var url = "/gps/warehouse/detail";
+                            } else {
+                                var url = '/gps/list';
+                            }
                             locationTo({
-                                action : contextPath + markUri + '/gps/list',
+                                action : contextPath + markUri + url,
                                 param : reqParamsStr
                             });
                         })
