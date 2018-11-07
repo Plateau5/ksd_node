@@ -382,13 +382,13 @@
                 ev.stopPropagation();
                 ev.preventDefault();
                 var _this = $(this);
-                var value = _this.val();
+                /*var value = _this.val();
                 setTimeout(function(){
                     if(flag){
                         value = value.replace(/[^a-zA-Z\d]/g,'');
                         _this.val(value);
                     }
-                },0);
+                },0);*/
                 var val = $.trim(_this.val());
                 var resList = _this.siblings(".search_list");
                 resList.html('');
@@ -520,7 +520,7 @@
             getChangeSN();//更换SN码
             goApplyList();//GPS仓库-面包屑跳转
 
-            chnAndEng('.new_sn_input', 3);//只能输入中英文和数字
+            // chnAndEng('.new_sn_input', 3);//只能输入中英文和数字
             // addSN();
             createSNCode();
             deleteSNCode();
